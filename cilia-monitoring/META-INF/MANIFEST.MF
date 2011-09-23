@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: cilia-monitoring
+Bundle-SymbolicName: cilia-monitoring;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: cilia.monitoring.Activator
+Bundle-Vendor: LIG/Adele
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.views;bundle-version="3.5.1",
+ cilia-core;bundle-version="1.1.2",
+ org.eclipse.zest.core;bundle-version="1.2.0",
+ org.eclipse.zest.layouts;bundle-version="1.1.0",
+ cilia-workbench-common;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

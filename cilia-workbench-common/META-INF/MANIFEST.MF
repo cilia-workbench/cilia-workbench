@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Cilia-workbench-common
+Bundle-SymbolicName: cilia-workbench-common;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: cilia_workbench_common.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: cilia_workbench_common
