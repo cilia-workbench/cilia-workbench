@@ -1,4 +1,4 @@
-package cilia.monitoring;
+package fr.liglab.adele.cilia.workbench.monitoring;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -13,7 +13,7 @@ import fr.liglab.adele.cilia.management.monitoring.MonitoredApplication;
 public class Activator extends AbstractUIPlugin {
 
 	/** Plug-in id */
-	public static final String PLUGIN_ID = "cilia.workbench.monitoring"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "fr.liglab.adele.cilia.workbench.monitoring"; //$NON-NLS-1$
 	
 	/** The Instance itself. */
 	private static Activator plugin;

@@ -1,4 +1,4 @@
-package cilia.monitoring;
+package fr.liglab.adele.cilia.workbench.monitoring;
 
 import org.eclipse.ui.IStartup;
 import org.osgi.framework.Bundle;

@@ -1,4 +1,4 @@
-package cilia_workbench_common;
+package fr.liglab.adele.cilia.workbench.common;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "cilia-workbench-common"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "fr.liglab.adele.cilia.workbench.common"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

@@ -22,18 +22,18 @@ import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.HorizontalTreeLayoutAlgorithm;
 
-import cilia.monitoring.CiliaUtil;
 
 import fr.liglab.adele.cilia.AdapterReadOnly;
 import fr.liglab.adele.cilia.ChainReadOnly;
 import fr.liglab.adele.cilia.CiliaContextReadOnly;
 import fr.liglab.adele.cilia.MediatorReadOnly;
+import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.TopologyView;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.GraphContentProvider;
 
 public class ChainView extends ViewPart implements IZoomableWorkbenchPart, ISelectionListener {
 
-	public static final String ID = "cilia.monitoring.topologyview.chainview";
+	public static final String ID = "fr.liglab.adele.cilia.workbench.monitoring.topologyview.chainview";
 	private GraphViewer viewer;
 
 	public ChainView() {

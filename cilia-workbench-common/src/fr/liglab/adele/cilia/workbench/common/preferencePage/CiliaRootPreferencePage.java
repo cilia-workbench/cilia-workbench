@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.workbench.preferencePage;
+package fr.liglab.adele.cilia.workbench.common.preferencePage;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;

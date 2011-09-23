@@ -14,7 +14,7 @@ public class VariablesSourceProvider extends AbstractSourceProvider {
 	/**
 	 * The name of the reload required variable.
 	 */
-	public final static String RELOAD_REQUIRED_VARIABLE = "fr.liglab.adele.cilia.monitoring.topologyview.reloadRequired";
+	public final static String RELOAD_REQUIRED_VARIABLE = "fr.liglab.adele.cilia.workbench.monitoring.topologyview.reloadRequired";
 
 	/**
 	 * The enabled state value.

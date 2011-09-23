@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: cilia-workbench-monitoring
-Bundle-SymbolicName: cilia-workbench-monitoring;singleton:=true
+Bundle-Name: Cilia workbench monitoring
+Bundle-SymbolicName: fr.liglab.adele.cilia.workbench.monitoring;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: cilia.monitoring.Activator
+Bundle-Activator: fr.liglab.adele.cilia.workbench.monitoring.Activator
 Bundle-Vendor: LIG/Adele
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -11,6 +11,6 @@ Require-Bundle: org.eclipse.ui,
  cilia-core;bundle-version="1.1.2",
  org.eclipse.zest.core;bundle-version="1.2.0",
  org.eclipse.zest.layouts;bundle-version="1.1.0",
- cilia-workbench-common;bundle-version="1.0.0"
+ fr.liglab.adele.cilia.workbench.common;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

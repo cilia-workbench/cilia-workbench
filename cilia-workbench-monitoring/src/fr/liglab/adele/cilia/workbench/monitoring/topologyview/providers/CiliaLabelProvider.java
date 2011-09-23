@@ -15,7 +15,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 import org.osgi.framework.Bundle;
 
-import cilia.monitoring.Activator;
 import fr.liglab.adele.cilia.AdapterReadOnly;
 import fr.liglab.adele.cilia.BindingReadOnly;
 import fr.liglab.adele.cilia.ChainReadOnly;
@@ -23,6 +22,7 @@ import fr.liglab.adele.cilia.CiliaContextReadOnly;
 import fr.liglab.adele.cilia.MediatorReadOnly;
 import fr.liglab.adele.cilia.management.monitoring.MonitoredApplication;
 import fr.liglab.adele.cilia.model.PatternType;
+import fr.liglab.adele.cilia.workbench.monitoring.Activator;
 
 /**
  * Label provider for the tree viewer.
@@ -91,7 +91,7 @@ public class CiliaLabelProvider extends LabelProvider {
 			Bundle bundle = Activator.getDefault().getBundle();
 			URL url = FileLocator.find(bundle, new Path(imageName), null);
 			try {
-				url = new URL("platform:/plugin/cilia-workbench-common/" + imageName);
+				url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imageName);
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}

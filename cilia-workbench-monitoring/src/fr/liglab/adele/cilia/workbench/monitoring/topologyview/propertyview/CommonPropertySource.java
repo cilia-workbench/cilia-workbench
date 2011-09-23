@@ -7,10 +7,10 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
-import cilia.monitoring.CiliaUtil;
 
 import fr.liglab.adele.cilia.management.monitoring.RuntimePerformance;
 import fr.liglab.adele.cilia.management.monitoring.StateVariableSet;
+import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 
 /**
  * A high level abstract class, used to handle Cilia PropertySource.

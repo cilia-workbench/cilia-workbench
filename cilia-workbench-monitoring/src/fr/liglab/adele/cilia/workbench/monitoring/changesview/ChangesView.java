@@ -12,10 +12,10 @@ import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
-import cilia.monitoring.CiliaUtil;
 
 import fr.liglab.adele.cilia.management.BookMark;
 import fr.liglab.adele.cilia.management.monitoring.ChangeSet;
+import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.TopologyView;
 
 public class ChangesView extends ViewPart implements ISelectionListener {

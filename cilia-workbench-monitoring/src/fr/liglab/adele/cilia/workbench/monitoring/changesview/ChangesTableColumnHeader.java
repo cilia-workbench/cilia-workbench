@@ -5,8 +5,8 @@ import java.text.SimpleDateFormat;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 
-import cilia.monitoring.CiliaUtil;
 import fr.liglab.adele.cilia.management.BookMark;
+import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 
 public enum ChangesTableColumnHeader {
 

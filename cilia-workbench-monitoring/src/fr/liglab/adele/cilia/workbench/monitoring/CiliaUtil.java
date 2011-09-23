@@ -1,4 +1,4 @@
-package cilia.monitoring;
+package fr.liglab.adele.cilia.workbench.monitoring;
 
 import fr.liglab.adele.cilia.AdapterReadOnly;
 import fr.liglab.adele.cilia.ChainReadOnly;

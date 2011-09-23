@@ -20,11 +20,11 @@ import org.eclipse.ui.handlers.RegistryToggleState;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.services.ISourceProviderService;
 
-import cilia.monitoring.Activator;
-import cilia.monitoring.CiliaUtil;
 
 import fr.liglab.adele.cilia.event.CiliaFrameworkEvent;
 import fr.liglab.adele.cilia.management.monitoring.MonitoredApplication;
+import fr.liglab.adele.cilia.workbench.monitoring.Activator;
+import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.TreeContentProvider;
 
@@ -34,7 +34,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.TreeCon
 public class TopologyView extends ViewPart implements CiliaFrameworkEvent {
 
 	/** View Id used in the plugin.xml */
-	public final static String viewId = "cilia.monitoring.topologyview";
+	public final static String viewId = "fr.liglab.adele.cilia.workbench.monitoring.topologyview";
 
 	/** Main viewer */
 	private TreeViewer viewer;
@@ -193,7 +193,7 @@ public class TopologyView extends ViewPart implements CiliaFrameworkEvent {
 	 */
 	private boolean getAutoReloadValue() {
 		ICommandService service = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
-		Command command = service.getCommand("cilia.monitoring.command.toggleAutoreload");
+		Command command = service.getCommand("fr.liglab.adele.cilia.workbench.monitoring.command.toggleAutoreload");
 		State state = command.getState(RegistryToggleState.STATE_ID);
 		if (state == null)
 			throw new RuntimeException("The command does not have a toggle state"); //$NON-NLS-1$
