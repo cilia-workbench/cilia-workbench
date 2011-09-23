@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: cilia-monitoring
+Bundle-Name: cilia-workbench-monitoring
 Bundle-SymbolicName: cilia-workbench-monitoring;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: cilia.monitoring.Activator
