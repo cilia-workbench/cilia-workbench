@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: cilia-monitoring
-Bundle-SymbolicName: cilia-monitoring;singleton:=true
+Bundle-SymbolicName: cilia-workbench-monitoring;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: cilia.monitoring.Activator
 Bundle-Vendor: LIG/Adele
