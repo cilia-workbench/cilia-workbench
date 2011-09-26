@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.metadataparser;
+package fr.liglab.adele.cilia.workbench.designer.metadataparser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +45,33 @@ public class IPojo {
 				}
 			}
 		}
+	}
+	
+	public List<MediatorComponent> getMediatorComponents() {
+		return mediatorComponents;
+	}
+
+	public List<Processor> getProcessors() {
+		return processors;
+	}
+
+	public List<Scheduler> getSchedulers() {
+		return schedulers;
+	}
+
+	public List<Dispatcher> getDispatchers() {
+		return dispatchers;
+	}
+
+	public List<Collector> getCollectors() {
+		return collectors;
+	}
+
+	public List<Sender> getSenders() {
+		return senders;
+	}
+
+	public List<Adapter> getAdapters() {
+		return adapters;
 	}
 }

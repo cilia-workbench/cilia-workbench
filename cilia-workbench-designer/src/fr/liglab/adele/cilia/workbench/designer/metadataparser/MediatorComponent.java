@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.metadataparser;
+package fr.liglab.adele.cilia.workbench.designer.metadataparser;
 
 import org.w3c.dom.Node;
 
@@ -31,5 +31,10 @@ public class MediatorComponent {
 		if (dispatcherNode == null)
 			throw new MetadataException("dispatcher element not found");
 		XMLutil.setAttribute(dispatcherNode, "name", this, "dispatcherName");
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 }

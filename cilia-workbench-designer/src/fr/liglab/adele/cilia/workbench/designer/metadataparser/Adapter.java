@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.metadataparser;
+package fr.liglab.adele.cilia.workbench.designer.metadataparser;
 
 import org.w3c.dom.Node;
 
@@ -28,5 +28,14 @@ public class Adapter {
 		if (subNode == null)
 			throw new MetadataException(subNodeName + " element not found");
 		XMLutil.setAttribute(subNode, "type", this, "elementType");
+	}
+	
+	public String getPattern() {
+		return pattern;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 }

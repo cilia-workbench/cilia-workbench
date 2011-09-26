@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.metadataparser;
+package fr.liglab.adele.cilia.workbench.designer.metadataparser;
 
 
 
@@ -24,5 +24,10 @@ public class Processor {
 			throw new MetadataException("method element not found");
 		XMLutil.setAttribute(methodNode, "name", this, "methodName");
 		XMLutil.setAttribute(methodNode, "data.type", this, "methodDataType");
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 }

@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.metadataparser;
+package fr.liglab.adele.cilia.workbench.designer.metadataparser;
 
 import org.w3c.dom.Node;
 
@@ -14,4 +14,8 @@ public class Dispatcher {
 		XMLutil.setAttribute(null, node, "namespace", this, "namespace");
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
 }

@@ -1,14 +1,10 @@
 package fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers;
 
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -16,12 +12,10 @@ import org.eclipse.zest.core.viewers.EntityConnectionData;
 import org.osgi.framework.Bundle;
 
 import fr.liglab.adele.cilia.AdapterReadOnly;
-import fr.liglab.adele.cilia.BindingReadOnly;
 import fr.liglab.adele.cilia.ChainReadOnly;
 import fr.liglab.adele.cilia.CiliaContextReadOnly;
 import fr.liglab.adele.cilia.MediatorReadOnly;
 import fr.liglab.adele.cilia.management.monitoring.MonitoredApplication;
-import fr.liglab.adele.cilia.model.PatternType;
 import fr.liglab.adele.cilia.workbench.monitoring.Activator;
 
 /**
@@ -75,31 +69,28 @@ public class CiliaLabelProvider extends LabelProvider {
 			int out = adapter.getOutBindings() == null ? 0 : adapter.getOutBindings().length;
 
 			if (in == 0 && out != 0)
-				imageName = "icons/16/start.png";
+				imageName = "icons/16/inAdapter.png";
 			else if (in != 0 && out == 0)
-				imageName = "icons/16/stop.png";
+				imageName = "icons/16/outAdapter.png";
 			else
-				imageName = "icons/16/middle.png";
+				imageName = "icons/16/mediator.png";
 		} else if (obj instanceof MediatorReadOnly)
-			imageName = "icons/16/middle.png";
+			imageName = "icons/16/mediator.png";
 		else if (obj instanceof EntityConnectionData) {
 			imageName = null;
 		} else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
-
-		if (imageName != null) {
-			Bundle bundle = Activator.getDefault().getBundle();
-			URL url = FileLocator.find(bundle, new Path(imageName), null);
-			try {
-				url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imageName);
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-			ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
-
-			return imageDesc.createImage();
-		} else {
-			return null;
+		
+	
+		Bundle bundle = Activator.getDefault().getBundle();
+		URL url = FileLocator.find(bundle, new Path(imageName), null);
+		try {
+			url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imageName);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
+		ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
+
+		return imageDesc.createImage();
 	}
 }
