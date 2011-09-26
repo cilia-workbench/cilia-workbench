@@ -5,7 +5,7 @@
          point="org.eclipse.ui.preferencePages">
       <page
             class="fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage"
-            id="fr.liglab.adele.cilia.workbench.preferencePage.CiliaRootPreferencePage"
+            id="fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage"
             name="CILIA workbench">
       </page>
    </extension>
