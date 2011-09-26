@@ -16,8 +16,6 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage
 	
 	public CiliaDesignerPreferencePage() {
 		super(GRID);
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Preferences for Cilia Workbench Designer.");
 	}
 	
 	public void createFieldEditors() {
@@ -29,5 +27,7 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
 	public void init(IWorkbench workbench) {
+		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+		setDescription("Preferences for Cilia Workbench Designer.");
 	}
 }

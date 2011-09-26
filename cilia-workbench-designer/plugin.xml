@@ -10,5 +10,47 @@
             name="Cilia Designer">
       </page>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="fr.liglab.adele.cilia.workbench.designer.rootCategory"
+            class="fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView"
+            icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
+            id="fr.liglab.adele.cilia.workbench.designer.repositoryview"
+            name="Repository view"
+            restorable="true">
+      </view>
+      <category
+            id="fr.liglab.adele.cilia.workbench.designer.rootCategory"
+            name="CILIA Designer">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="fr.liglab.adele.cilia.workbench.designer.repositoryview.reload"
+            name="Reload repository">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.repositoryview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.repositoryview.reload"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
+               label="Reload repository"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.repositoryview.ReloadHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.repositoryview.reload">
+      </handler>
+   </extension>
 
 </plugin>

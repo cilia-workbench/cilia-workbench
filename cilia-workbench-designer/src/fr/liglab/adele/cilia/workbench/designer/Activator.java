@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "cilia-workbench-designer"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "fr.liglab.adele.cilia.workbench.designer"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

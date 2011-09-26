@@ -1,10 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Cilia-workbench-designer
-Bundle-SymbolicName: cilia-workbench-designer;singleton:=true
+Bundle-SymbolicName: fr.liglab.adele.cilia.workbench.designer;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.liglab.adele.cilia.workbench.designer.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.ui.views;bundle-version="3.6.0",
+ fr.liglab.adele.cilia.workbench.common;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

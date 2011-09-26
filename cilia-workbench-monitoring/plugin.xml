@@ -93,7 +93,7 @@
          </command>
          <command
                commandId="fr.liglab.adele.cilia.workbench.monitoring.command.reloadModel"
-               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/reload.svg"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/svg/reload.svg"
                label="Reload model"
                style="push">
          </command>
