@@ -17,7 +17,7 @@
             class="fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView"
             icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
             id="fr.liglab.adele.cilia.workbench.designer.repositoryview"
-            name="Repository view"
+            name="Repository"
             restorable="true">
       </view>
       <category
