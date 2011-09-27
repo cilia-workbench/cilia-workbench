@@ -1,3 +1,17 @@
+/*
+ * Copyright Adele Team LIG (http://www-adele.imag.fr/)
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package fr.liglab.adele.cilia.workbench.designer.preferencePage;
 
 import org.eclipse.jface.preference.*;
@@ -11,13 +25,22 @@ import fr.liglab.adele.cilia.workbench.designer.Activator;
 public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
 
+	/** The Constant REPOSITORY_PATH, used for field identification in the page */
 	public static final String REPOSITORY_PATH = "repositoryPath";
 	
+	/** Page header. */
+	public static final String HEADER = "Preferences for Cilia Workbench Designer.";
 	
+	/**
+	 * Instantiates a new Cilia designer preference page.
+	 */
 	public CiliaDesignerPreferencePage() {
 		super(GRID);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
+	 */
 	public void createFieldEditors() {
 		addField(new DirectoryFieldEditor(REPOSITORY_PATH, 
 				"&Repository path:", getFieldEditorParent()));
@@ -28,6 +51,6 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage
 	 */
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Preferences for Cilia Workbench Designer.");
+		setDescription(HEADER);
 	}
 }
