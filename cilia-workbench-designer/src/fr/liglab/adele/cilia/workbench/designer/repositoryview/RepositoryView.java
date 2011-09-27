@@ -81,17 +81,16 @@ public class RepositoryView extends ViewPart {
 
 		// Viewer
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		viewer.setContentProvider(new MetadataContentProvider(model));
 		viewer.setLabelProvider(new MetadataLabelProvider());
-		viewer.setInput(model);
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		// viewer.setAutoExpandLevel(2);
 
 		// Label
 		messageArea = new Label(parent, SWT.WRAP);
-		messageArea.setText(computeMessageAreaText());
 		messageArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
+		// Populates view
+		refresh();
+		
 		// Selection provider
 		getSite().setSelectionProvider(viewer);
 
@@ -100,7 +99,7 @@ public class RepositoryView extends ViewPart {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 				if (event.getProperty() == CiliaDesignerPreferencePage.REPOSITORY_PATH) {
-					reload();
+					refresh();
 				}
 			}
 		});
@@ -144,9 +143,9 @@ public class RepositoryView extends ViewPart {
 	}
 
 	/**
-	 * Reload viewer.
+	 * Refresh viewer.
 	 */
-	public void reload() {
+	public void refresh() {
 		messageArea.setText(computeMessageAreaText());
 
 		File dir = new File(getRepositoryDirectory());

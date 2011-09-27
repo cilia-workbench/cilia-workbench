@@ -31,7 +31,7 @@ public class ReloadHandler extends AbstractHandler {
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		getRepositoryView(event).reload();
+		getRepositoryView(event).refresh();
 		return null;
 	}
 	
