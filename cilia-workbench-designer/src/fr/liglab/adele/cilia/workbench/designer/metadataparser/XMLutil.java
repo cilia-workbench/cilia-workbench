@@ -10,13 +10,18 @@ import org.w3c.dom.NodeList;
 
 public class XMLutil {
 
-	public static boolean setAttribute(Node node, String attrName, Object object,
+	public static boolean setRequiredAttribute(Node node, String attrName, Object object,
 			String fieldName) throws MetadataException {
 		return setAttributeInternal(true, null, node, attrName, object, fieldName);
 	}
 	
-	public static boolean setAttribute(String defaultValue, Node node, String attrName, Object object,
+	public static boolean setOptionalAttribute(Node node, String attrName, Object object,
 			String fieldName) throws MetadataException {
+		return setOptionalAttribute(node, attrName, object, fieldName, null);
+	}
+
+	public static boolean setOptionalAttribute(Node node, String attrName, Object object,
+			String fieldName, String defaultValue) throws MetadataException {
 		return setAttributeInternal(false, defaultValue, node, attrName, object, fieldName);
 	}
 	

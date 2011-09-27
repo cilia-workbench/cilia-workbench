@@ -9,9 +9,9 @@ public class Sender {
 	private String namespace;
 	
 	public Sender(Node node) throws MetadataException {
-		XMLutil.setAttribute(node, "name", this, "name");
-		XMLutil.setAttribute(node, "classname", this, "classname");
-		XMLutil.setAttribute(null, node, "namespace", this, "namespace");
+		XMLutil.setRequiredAttribute(node, "name", this, "name");
+		XMLutil.setRequiredAttribute(node, "classname", this, "classname");
+		XMLutil.setOptionalAttribute(node, "namespace", this, "namespace");
 	}
 	
 	@Override

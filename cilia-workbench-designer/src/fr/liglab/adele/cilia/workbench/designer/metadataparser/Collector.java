@@ -9,9 +9,9 @@ public class Collector {
 	private String namespace;
 	
 	public Collector(Node node) throws MetadataException {
-		XMLutil.setAttribute(node, "name", this, "name");
-		XMLutil.setAttribute(node, "classname", this, "classname");
-		XMLutil.setAttribute(null, node, "namespace", this, "namespace");
+		XMLutil.setRequiredAttribute(node, "name", this, "name");
+		XMLutil.setRequiredAttribute(node, "classname", this, "classname");
+		XMLutil.setOptionalAttribute(node, "namespace", this, "namespace");
 	}
 
 	@Override

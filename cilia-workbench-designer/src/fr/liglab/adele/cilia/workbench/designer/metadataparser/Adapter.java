@@ -13,8 +13,8 @@ public class Adapter {
 	
 	public Adapter(Node node) throws MetadataException {
 		
-		XMLutil.setAttribute(node, "name", this, "name");
-		XMLutil.setAttribute(node, "pattern", this, "pattern");
+		XMLutil.setRequiredAttribute(node, "name", this, "name");
+		XMLutil.setRequiredAttribute(node, "pattern", this, "pattern");
 
 		String subNodeName ;
 		if (pattern.equals("in-only"))
@@ -27,7 +27,7 @@ public class Adapter {
 		Node subNode = XMLutil.findChild(node, subNodeName);
 		if (subNode == null)
 			throw new MetadataException(subNodeName + " element not found");
-		XMLutil.setAttribute(subNode, "type", this, "elementType");
+		XMLutil.setRequiredAttribute(subNode, "type", this, "elementType");
 	}
 	
 	public String getPattern() {
