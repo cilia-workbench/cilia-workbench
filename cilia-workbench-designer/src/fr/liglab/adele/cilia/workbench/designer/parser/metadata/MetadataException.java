@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.workbench.designer.metadataparser;
+package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
 
 public class MetadataException extends Exception {
 

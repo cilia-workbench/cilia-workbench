@@ -1,6 +1,8 @@
-package fr.liglab.adele.cilia.workbench.designer.metadataparser;
+package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
 
 import org.w3c.dom.Node;
+
+import fr.liglab.adele.cilia.workbench.designer.parser.XMLutil;
 
 public class MediatorComponent {
 

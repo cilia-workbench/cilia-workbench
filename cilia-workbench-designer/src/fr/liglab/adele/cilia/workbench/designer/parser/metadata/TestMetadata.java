@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.workbench.designer.metadataparser;
+package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

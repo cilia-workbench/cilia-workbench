@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.workbench.designer.metadataparser;
+package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
 
 import java.util.ArrayList;
 import java.util.List;

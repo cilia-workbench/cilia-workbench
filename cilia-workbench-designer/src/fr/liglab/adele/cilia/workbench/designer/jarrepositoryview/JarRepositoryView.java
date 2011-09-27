@@ -34,7 +34,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.EditorsUI;
 
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.Bundle;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
 

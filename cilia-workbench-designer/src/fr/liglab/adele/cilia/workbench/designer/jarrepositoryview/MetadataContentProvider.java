@@ -15,33 +15,23 @@
 package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.Viewer;
-
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.Adapter;
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.Bundle;
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.Collector;
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.Dispatcher;
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.IPojo;
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.Processor;
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.Scheduler;
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.Sender;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Collector;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Dispatcher;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.IPojo;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Processor;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Scheduler;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Sender;
+import fr.liglab.adele.cilia.workbench.designer.repositoryview.ContentProvider;
 
 /**
  * MetadataContentProvider.
  */
-public class MetadataContentProvider implements ITreeContentProvider {
+public class MetadataContentProvider extends ContentProvider {
 
-	/** Maps to get the children from the parent. */
-	Map<Object, List<Object>> children = new HashMap<Object, List<Object>>();
-	
-	/** Map to get the parent from a child. */
-	Map<Object, Object> parent = new HashMap<Object, Object>();
 	
 	/**
 	 * Initialize maps from model.
@@ -99,54 +89,5 @@ public class MetadataContentProvider implements ITreeContentProvider {
 				children.put(a, new ArrayList<Object>());
 			}
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
-	 */
-	@Override
-	public Object getParent(Object element) {
-		return parent.get(element);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
-	 */
-	@Override
-	public Object[] getChildren(Object parentElement) {
-		List<Object> a = children.get(parentElement);
-		if (a == null)
-			return new Object[0];
-		return a.toArray();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
-	 */
-	@Override
-	public boolean hasChildren(Object element) {
-		return (getChildren(element).length != 0);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.Object)
-	 */
-	@Override
-	public Object[] getElements(Object inputElement) {
-		return getChildren(inputElement);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-	 */
-	@Override
-	public void dispose() {
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
-	 */
-	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 }

@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.workbench.designer.metadataparser;
+package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -17,29 +17,29 @@ import org.xml.sax.SAXException;
 
 public class Bundle {
 
-	private String bundleName;
+	private String filePath;
 	private IPojo metadata;
 
-	public Bundle(String bundleName) throws Exception {
-		this.bundleName = bundleName;
+	public Bundle(String filePath) throws Exception {
+		this.filePath = filePath;
 
-		InputStream is = inputStreamFromFile(bundleName);
+		InputStream is = inputStreamFromFile(filePath);
 		
 		DocumentBuilderFactory fabrique = DocumentBuilderFactory.newInstance();
 		DocumentBuilder constructeur;
 		try {
 			constructeur = fabrique.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			throw new MetadataException("Can't get document builder " + bundleName, e);
+			throw new MetadataException("Can't get document builder " + filePath, e);
 		}
 
 		Document document;
 		try {
 			document = constructeur.parse(is);
 		} catch (SAXException e) {
-			throw new MetadataException("Can't parse document " + bundleName, e);
+			throw new MetadataException("Can't parse document " + filePath, e);
 		} catch (IOException e) {
-			throw new MetadataException("Can't parse document " + bundleName, e);
+			throw new MetadataException("Can't parse document " + filePath, e);
 		}
 
 		// Parsing
@@ -48,44 +48,44 @@ public class Bundle {
 		if (nodes != null && nodes.getLength() == 1 && nodes.item(0).getNodeName().equalsIgnoreCase("ipojo"))
 			metadata = new IPojo(nodes.item(0));
 		else
-			throw new MetadataException("Can't find ipojo root in " + bundleName);
+			throw new MetadataException("Can't find ipojo root in " + filePath);
 	}
 
-	public static InputStream inputStreamFromFile(String fileName) throws MetadataException {
+	public static InputStream inputStreamFromFile(String filePath) throws MetadataException {
 		// Jar file
 		JarFile file;
 		try {
-			file = new JarFile(fileName);
+			file = new JarFile(filePath);
 		} catch (IOException e) {
-			throw new MetadataException("Can't open jar file " + fileName, e);
+			throw new MetadataException("Can't open jar file " + filePath, e);
 		}
 
 		// Metadata
 		ZipEntry entry = file.getEntry("metadata.xml");
 		if (entry == null)
-			throw new MetadataException("Metadata not found in " + fileName);
+			throw new MetadataException("Metadata not found in " + filePath);
 
 		BufferedInputStream is;
 		try {
 			is = new BufferedInputStream(file.getInputStream(entry));
 		} catch (IOException e) {
-			throw new MetadataException("Can't access metadata from file " + fileName, e);
+			throw new MetadataException("Can't access metadata from file " + filePath, e);
 		}
 
 		return is;
 	}
 	
 	public String getBundleName() {
-		return bundleName;
+		return filePath;
 	}
 	
 	@Override
 	public String toString() {
-		int index = bundleName.lastIndexOf(File.separator, bundleName.length());
+		int index = filePath.lastIndexOf(File.separator, filePath.length());
 		if (index == -1)
-			return bundleName;
+			return filePath;
 		else
-			return bundleName.substring(index + 1);
+			return filePath.substring(index + 1);
 	}
 
 	public IPojo getMetadata() {

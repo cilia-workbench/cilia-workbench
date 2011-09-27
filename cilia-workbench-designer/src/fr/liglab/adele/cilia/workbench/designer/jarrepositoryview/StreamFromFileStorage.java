@@ -21,8 +21,8 @@ import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.Bundle;
-import fr.liglab.adele.cilia.workbench.designer.metadataparser.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 
 /**
  * The Class StreamFromFileStorage.
