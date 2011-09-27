@@ -33,6 +33,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
@@ -108,28 +111,7 @@ public class RepositoryView extends ViewPart {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
-
-				ISelectionService selServ = getSite().getWorkbenchWindow().getSelectionService();
-				ISelection sel = selServ.getSelection();
-				if (sel != null && sel instanceof TreeSelection) {
-					TreeSelection ts = (TreeSelection) sel;
-					Object element = ts.getFirstElement();
-					if (element instanceof Bundle) {
-						Bundle bundle = (Bundle) element;
-						String name = bundle.getBundleName();
-						IStorage storage = new StreamFromFileStorage(name);
-						IStorageEditorInput input = new StringInput(storage);
-						
-						IWorkbenchPage page = getViewSite().getPage();
-						
-						try {
-							page.openEditor(input, EditorsUI.DEFAULT_TEXT_EDITOR_ID);
-						} catch (PartInitException e) {
-							e.printStackTrace();
-						}
-
-					}
-				}
+				openMetadataInEditor();
 			}
 		});
 	}
@@ -193,5 +175,52 @@ public class RepositoryView extends ViewPart {
 			return messageAreaPrefix + "not available";
 		else
 			return messageAreaPrefix + dir;
+	}
+	
+	/**
+	 * Opens an editor with the content of the related metadata.
+	 * Does'nt open an editor twice. Only bring to top the second time.
+	 */
+	private void openMetadataInEditor() {
+		ISelectionService selServ = getSite().getWorkbenchWindow().getSelectionService();
+		ISelection sel = selServ.getSelection();
+		if (sel != null && sel instanceof TreeSelection) {
+			TreeSelection ts = (TreeSelection) sel;
+			Object element = ts.getFirstElement();
+			if (element instanceof Bundle) {
+				Bundle bundle = (Bundle) element;
+				String bundleName = bundle.getBundleName();
+				
+				IWorkbenchPage page = getViewSite().getPage();
+				
+				IEditorReference[] refs = page.getEditorReferences();				
+				for (IEditorReference ref : refs) {
+					try {
+						IEditorInput input = ref.getEditorInput();
+						if (input instanceof StringInput) {
+							StringInput si = (StringInput) input;
+							String viewName = si.getName();
+							if (bundle.toString().equals(viewName)) {
+								IEditorPart editor = page.findEditor(input);
+								page.bringToTop(editor);
+								return;
+							}
+						}
+					} catch (PartInitException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				
+				IStorage storage = new StreamFromFileStorage(bundleName);
+				IStorageEditorInput input = new StringInput(storage);
+				try {
+					page.openEditor(input, EditorsUI.DEFAULT_TEXT_EDITOR_ID);
+				} catch (PartInitException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}		
 	}
 }
