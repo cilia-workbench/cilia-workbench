@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.repositoryview;
+package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -41,8 +41,8 @@ public class ReloadHandler extends AbstractHandler {
 	 * @param event the handler event
 	 * @return the RepositoryView
 	 */
-	protected RepositoryView getRepositoryView(ExecutionEvent event) {
-		String viewId = RepositoryView.viewId;		
-		return (RepositoryView) ViewUtil.findViewWithId(event, viewId);
+	protected JarRepositoryView getRepositoryView(ExecutionEvent event) {
+		String viewId = JarRepositoryView.viewId;		
+		return (JarRepositoryView) ViewUtil.findViewWithId(event, viewId);
 	}
 }

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.repositoryview;
+package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -50,10 +50,10 @@ import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPref
 /**
  * The Class RepositoryView.
  */
-public class RepositoryView extends ViewPart {
+public class JarRepositoryView extends ViewPart {
 
 	/** The Constant viewId. */
-	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.repositoryview";
+	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.jarrepositoryview";
 
 	/** Main viewer. */
 	private TreeViewer viewer;
@@ -70,7 +70,7 @@ public class RepositoryView extends ViewPart {
 	/**
 	 * Instantiates a new repository view.
 	 */
-	public RepositoryView() {
+	public JarRepositoryView() {
 	}
 
 	/* (non-Javadoc)

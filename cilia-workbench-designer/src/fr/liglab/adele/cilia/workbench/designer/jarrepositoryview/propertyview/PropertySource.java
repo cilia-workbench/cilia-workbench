@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.repositoryview.propertyview;
+package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

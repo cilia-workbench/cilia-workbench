@@ -14,10 +14,10 @@
          point="org.eclipse.ui.views">
       <view
             category="fr.liglab.adele.cilia.workbench.designer.rootCategory"
-            class="fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView"
+            class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.JarRepositoryView"
             icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
-            id="fr.liglab.adele.cilia.workbench.designer.repositoryview"
-            name="Repository"
+            id="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview"
+            name="Jar repository"
             restorable="true">
       </view>
       <category
@@ -28,19 +28,19 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            id="fr.liglab.adele.cilia.workbench.designer.repositoryview.reload"
-            name="Reload repository">
+            id="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.reload"
+            name="Reload Jar repository">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.repositoryview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.jarrepositoryview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.repositoryview.reload"
+               commandId="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.reload"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
-               label="Reload repository"
+               label="Reload Jar repository"
                style="push">
          </command>
       </menuContribution>
@@ -48,34 +48,34 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="fr.liglab.adele.cilia.workbench.designer.repositoryview.ReloadHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.repositoryview.reload">
+            class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.ReloadHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.reload">
       </handler>
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">
-      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Adapter" class="fr.liglab.adele.cilia.workbench.designer.repositoryview.propertyview.PropertiesAdapter">
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Adapter" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Bundle" class="fr.liglab.adele.cilia.workbench.designer.repositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Bundle" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Collector" class="fr.liglab.adele.cilia.workbench.designer.repositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Collector" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Dispatcher" class="fr.liglab.adele.cilia.workbench.designer.repositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Dispatcher" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.MediatorComponent" class="fr.liglab.adele.cilia.workbench.designer.repositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.MediatorComponent" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Processor" class="fr.liglab.adele.cilia.workbench.designer.repositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Processor" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Scheduler" class="fr.liglab.adele.cilia.workbench.designer.repositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Scheduler" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
       
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Sender" class="fr.liglab.adele.cilia.workbench.designer.repositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.Sender" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>      
    </extension>
