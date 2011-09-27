@@ -39,6 +39,10 @@
             id="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.reload"
             name="Reload Jar repository">
       </command>
+      <command
+            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.reload"
+            name="Reload Dscilia repository">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -52,12 +56,26 @@
                style="push">
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.reload"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
+               label="Reload Dscilia repository"
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
             class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.ReloadHandler"
             commandId="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.reload">
+      </handler>
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.ReloadHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.reload">
       </handler>
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">

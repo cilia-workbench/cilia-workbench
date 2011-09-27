@@ -80,7 +80,7 @@ public class JarRepositoryView extends RepositoryView {
 	/**
 	 * Refresh viewer.
 	 */
-	protected void refresh() {
+	public void refresh() {
 		super.refresh();
 
 		File dir = new File(getRepositoryDirectory());

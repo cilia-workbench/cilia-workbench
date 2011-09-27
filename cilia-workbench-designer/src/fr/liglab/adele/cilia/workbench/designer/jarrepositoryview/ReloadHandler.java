@@ -41,7 +41,7 @@ public class ReloadHandler extends AbstractHandler {
 	 * @param event the handler event
 	 * @return the RepositoryView
 	 */
-	protected JarRepositoryView getRepositoryView(ExecutionEvent event) {
+	private JarRepositoryView getRepositoryView(ExecutionEvent event) {
 		String viewId = JarRepositoryView.viewId;		
 		return (JarRepositoryView) ViewUtil.findViewWithId(event, viewId);
 	}
