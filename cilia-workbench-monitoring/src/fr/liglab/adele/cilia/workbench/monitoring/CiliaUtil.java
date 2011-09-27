@@ -1,3 +1,17 @@
+/*
+ * Copyright Adele Team LIG (http://www-adele.imag.fr/)
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package fr.liglab.adele.cilia.workbench.monitoring;
 
 import fr.liglab.adele.cilia.AdapterReadOnly;
@@ -7,10 +21,11 @@ import fr.liglab.adele.cilia.MediatorReadOnly;
 import fr.liglab.adele.cilia.management.monitoring.MonitoredApplication;
 
 /**
- * A few static methods, for common processing on Cila model objects.
+ * A few static methods, for common processing on Cilia model objects.
  */
 public abstract class CiliaUtil {
 
+	/** The Constant DATE_FORMAT. */
 	public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 	/**
@@ -81,6 +96,12 @@ public abstract class CiliaUtil {
 		return getMediatorParent(ccro, mediator.getId());
 	}
 
+	/**
+	 * Gets the monitored element.
+	 *
+	 * @param source the source
+	 * @return the monitored element
+	 */
 	public static Object getMonitoredElement(Object source) {
 
 		MonitoredApplication monitoredApp = Activator.getMonitoredApplication();

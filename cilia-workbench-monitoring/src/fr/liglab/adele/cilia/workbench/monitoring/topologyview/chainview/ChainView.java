@@ -1,3 +1,17 @@
+/*
+ * Copyright Adele Team LIG (http://www-adele.imag.fr/)
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package fr.liglab.adele.cilia.workbench.monitoring.topologyview.chainview;
 
 import java.util.ArrayList;
@@ -31,33 +45,41 @@ import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.TopologyView;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.GraphContentProvider;
 
+/**
+ * The Class ChainView.
+ */
 public class ChainView extends ViewPart implements IZoomableWorkbenchPart, ISelectionListener {
 
+	/** The View ID. */
 	public static final String ID = "fr.liglab.adele.cilia.workbench.monitoring.topologyview.chainview";
+	
+	/** The viewer. */
 	private GraphViewer viewer;
 
 	public ChainView() {
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
 
-		// Selection service notification
+		// Registers the instance in the selection service 
 		ISelectionService s = getSite().getWorkbenchWindow().getSelectionService();
 		s.addSelectionListener(TopologyView.viewId, this);
 
 		viewer = new GraphViewer(parent, SWT.BORDER);
 
-		// connexion style must be set at the beginning
+		// Connection style MUST be set at the beginning
 		viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED);
-
-		// pour obtenir les noeuds atteignables à partir du noeud courant
+ 
 		viewer.setContentProvider(new GraphContentProvider());
 
-		// content provider
+		// Content provider
 		viewer.setLabelProvider(new NodeElement(null));
 
-		// Model : retourne une liste de noeuds
+		// Model : a nod list
 		viewer.setInput(new Object[0]);
 
 		// Layout
@@ -70,6 +92,11 @@ public class ChainView extends ViewPart implements IZoomableWorkbenchPart, ISele
 		getSite().setSelectionProvider(viewer);
 	}
 
+	/**
+	 * Sets the viewer layout.
+	 *
+	 * @return the layout algorithm
+	 */
 	private LayoutAlgorithm setLayout() {
 		LayoutAlgorithm layout;
 		// layout = new
@@ -91,6 +118,9 @@ public class ChainView extends ViewPart implements IZoomableWorkbenchPart, ISele
 	public void setFocus() {
 	}
 
+	/**
+	 * Fill tool bar.
+	 */
 	private void fillToolBar() {
 		ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
 		IActionBars bars = getViewSite().getActionBars();
@@ -98,11 +128,19 @@ public class ChainView extends ViewPart implements IZoomableWorkbenchPart, ISele
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.zest.core.viewers.IZoomableWorkbenchPart#getZoomableViewer()
+	 */
 	@Override
 	public AbstractZoomableViewer getZoomableViewer() {
 		return viewer;
 	}
 
+	/**
+	 * Sets the model.
+	 *
+	 * @param chain the new model
+	 */
 	private void setModel(ChainReadOnly chain) {
 		List<Object> list = new ArrayList<Object>();
 
@@ -122,6 +160,9 @@ public class ChainView extends ViewPart implements IZoomableWorkbenchPart, ISele
 
 	
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	 */
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 

@@ -1,3 +1,17 @@
+/*
+ * Copyright Adele Team LIG (http://www-adele.imag.fr/)
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package fr.liglab.adele.cilia.workbench.monitoring.topologyview;
 
 import java.text.SimpleDateFormat;
@@ -36,20 +50,21 @@ public class TopologyView extends ViewPart implements CiliaFrameworkEvent {
 	/** View Id used in the plugin.xml */
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.monitoring.topologyview";
 
-	/** Main viewer */
+	/** Main viewer. */
 	private TreeViewer viewer;
 
-	/** Model used by the viewer */
+	/** Model used by the viewer. */
 	private MonitoredApplication model = null;
 
-	/** Message area used to display last model reload date */
+	/** Message area used to display last model reload date. */
 	private Label messageArea;
+	
+	/** The message area prefix. */
 	private final String messageAreaPrefix = "Last model update: ";
+	
+	/** The defaultmessage area text. */
 	private final String defaultmessageAreaText = messageAreaPrefix + "not available";
 
-	/**
-	 * Constructor
-	 */
 	public TopologyView() {
 	}
 
@@ -177,6 +192,10 @@ public class TopologyView extends ViewPart implements CiliaFrameworkEvent {
 
 	/**
 	 * Callback used by Cilia notification.
+	 *
+	 * @param chainId the chain id
+	 * @param mediatorId the mediator id
+	 * @param evtNumber the evt number
 	 */
 	@Override
 	public void event(String chainId, String mediatorId, int evtNumber) {
