@@ -24,6 +24,14 @@
             id="fr.liglab.adele.cilia.workbench.designer.rootCategory"
             name="CILIA Designer">
       </category>
+      <view
+            category="fr.liglab.adele.cilia.workbench.designer.rootCategory"
+            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaRepositoryView"
+            icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
+            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview"
+            name="Dscilia repository"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.commands">

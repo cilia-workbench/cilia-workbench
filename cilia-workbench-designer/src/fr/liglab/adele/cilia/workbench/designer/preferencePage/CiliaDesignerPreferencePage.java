@@ -26,7 +26,9 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
 
 	/** The Constant REPOSITORY_PATH, used for field identification in the page */
-	public static final String REPOSITORY_PATH = "repositoryPath";
+	public static final String JAR_REPOSITORY_PATH = "jarRepositoryPath";
+	
+	public static final String DSCILIA_REPOSITORY_PATH = "dsciliaRepositoryPath";
 	
 	/** Page header. */
 	public static final String HEADER = "Preferences for Cilia Workbench Designer.";
@@ -42,8 +44,10 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
 	 */
 	public void createFieldEditors() {
-		addField(new DirectoryFieldEditor(REPOSITORY_PATH, 
-				"&Repository path:", getFieldEditorParent()));
+		addField(new DirectoryFieldEditor(JAR_REPOSITORY_PATH, 
+				"&Jar repository path:", getFieldEditorParent()));
+		addField(new DirectoryFieldEditor(DSCILIA_REPOSITORY_PATH, 
+				"&Dscilia repository path:", getFieldEditorParent()));
 	}
 
 	/* (non-Javadoc)

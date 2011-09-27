@@ -20,19 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IStorage;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -41,28 +33,18 @@ import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.EditorsUI;
-import org.eclipse.ui.part.ViewPart;
 
-import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.metadataparser.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
+import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
 
 /**
  * The Class RepositoryView.
  */
-public class JarRepositoryView extends ViewPart {
+public class JarRepositoryView extends RepositoryView {
 
 	/** The Constant viewId. */
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.jarrepositoryview";
-
-	/** Main viewer. */
-	private TreeViewer viewer;
-
-	/** Message area used to display last model reload date. */
-	private Label messageArea;
-	
-	/** The message area prefix. */
-	private final String messageAreaPrefix = "Repository directory: ";
 
 	/** The model. */
 	private Bundle[] model = new Bundle[0];
@@ -73,39 +55,18 @@ public class JarRepositoryView extends ViewPart {
 	public JarRepositoryView() {
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		// Global layout
-		GridLayout layout = new GridLayout(1, false);
-		parent.setLayout(layout);
-
-		// Viewer
-		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		viewer.setLabelProvider(new MetadataLabelProvider());
-		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-		// Label
-		messageArea = new Label(parent, SWT.WRAP);
-		messageArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-
-		// Populates view
-		refresh();
+		super.createPartControl(parent);
 		
-		// Selection provider
-		getSite().setSelectionProvider(viewer);
-
-		// View update on property modification
-		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty() == CiliaDesignerPreferencePage.REPOSITORY_PATH) {
-					refresh();
-				}
-			}
-		});
+		viewer.setLabelProvider(new MetadataLabelProvider());
 
 		// TreeViewer listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
@@ -116,19 +77,11 @@ public class JarRepositoryView extends ViewPart {
 		});
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
-	 */
-	@Override
-	public void setFocus() {
-		viewer.getControl().setFocus();
-	}
-
 	/**
 	 * Refresh viewer.
 	 */
-	public void refresh() {
-		messageArea.setText(computeMessageAreaText());
+	protected void refresh() {
+		super.refresh();
 
 		File dir = new File(getRepositoryDirectory());
 		File[] list = dir.listFiles(new FilenameFilter() {
@@ -139,12 +92,14 @@ public class JarRepositoryView extends ViewPart {
 		});
 
 		List<Bundle> bundles = new ArrayList<Bundle>();
-		for (File jar : list) {
-			try {
-				String path = jar.getPath();
-				bundles.add(new Bundle(path));
-			} catch (Exception e) {
-				e.printStackTrace();
+		if (list != null) {
+			for (File jar : list) {
+				try {
+					String path = jar.getPath();
+					bundles.add(new Bundle(path));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -155,31 +110,8 @@ public class JarRepositoryView extends ViewPart {
 	}
 
 	/**
-	 * Gets the repository directory.
-	 *
-	 * @return the repository directory
-	 */
-	private String getRepositoryDirectory() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		return store.getString(CiliaDesignerPreferencePage.REPOSITORY_PATH);
-	}
-
-	/**
-	 * Computes the message area text.
-	 *
-	 * @return the message area text
-	 */
-	private String computeMessageAreaText() {
-		String dir = getRepositoryDirectory();
-		if (dir == null || dir.length() == 0)
-			return messageAreaPrefix + "not available";
-		else
-			return messageAreaPrefix + dir;
-	}
-	
-	/**
-	 * Opens an editor with the content of the related metadata.
-	 * Does'nt open an editor twice. Only bring to top the second time.
+	 * Opens an editor with the content of the related metadata. Does'nt open an
+	 * editor twice. Only bring to top the second time.
 	 */
 	private void openMetadataInEditor() {
 		ISelectionService selServ = getSite().getWorkbenchWindow().getSelectionService();
@@ -190,10 +122,10 @@ public class JarRepositoryView extends ViewPart {
 			if (element instanceof Bundle) {
 				Bundle bundle = (Bundle) element;
 				String bundleName = bundle.getBundleName();
-				
+
 				IWorkbenchPage page = getViewSite().getPage();
-				
-				IEditorReference[] refs = page.getEditorReferences();				
+
+				IEditorReference[] refs = page.getEditorReferences();
 				for (IEditorReference ref : refs) {
 					try {
 						IEditorInput input = ref.getEditorInput();
@@ -210,8 +142,7 @@ public class JarRepositoryView extends ViewPart {
 						e.printStackTrace();
 					}
 				}
-				
-				
+
 				IStorage storage = new StreamFromFileStorage(bundleName);
 				IStorageEditorInput input = new StringInput(storage);
 				try {
@@ -221,6 +152,11 @@ public class JarRepositoryView extends ViewPart {
 				}
 
 			}
-		}		
+		}
+	}
+	
+	@Override
+	protected String getRepositoryPropertyPath() {
+		return CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH;
 	}
 }
