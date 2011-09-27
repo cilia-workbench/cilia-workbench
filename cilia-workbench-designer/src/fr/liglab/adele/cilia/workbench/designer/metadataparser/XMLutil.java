@@ -8,6 +8,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+
 public class XMLutil {
 
 	public static boolean setRequiredAttribute(Node node, String attrName, Object object,
@@ -187,128 +188,5 @@ public class XMLutil {
 			return "DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC";
 
 		throw new Exception("Unknown value : " + nodeType);
-	}
-	
-//	public XMLelement(Node node) throws MetadataException {
-//
-//		// Attributes
-//		NamedNodeMap attrs = node.getAttributes();
-//		if (attrs != null) {
-//			for (int i = 0; i < attrs.getLength(); i++) {
-//				Node attr = attrs.item(i);
-//				String fullname = attr.getNodeName().toLowerCase();
-//				String name = computeName(fullname);
-//				String namespace = computeNamespace(fullname);
-//				String value = attr.getNodeValue();
-//
-//				// Filer...
-//				if (!namespace.equals("xmlns")) {
-//
-//					Exception exception = null;
-//					try {
-//						Field field = this.getClass().getDeclaredField(name);
-//						field.setAccessible(true);
-//						field.set(this, value);
-//					} catch (SecurityException e) {
-//						exception = e;
-//					} catch (NoSuchFieldException e) {
-//						exception = e;
-//					} catch (IllegalArgumentException e) {
-//						exception = e;
-//					} catch (DOMException e) {
-//						exception = e;
-//					} catch (IllegalAccessException e) {
-//						exception = e;
-//					}
-//
-//					if (exception != null)
-//						throw new MetadataException("Can't find and set field "
-//								+ name + " with value " + value, exception);
-//				}
-//			}
-//		}
-//
-//		// Nodes elements
-//		NodeList childs = node.getChildNodes();
-//		if (childs != null) {
-//			for (int i = 0; i < childs.getLength(); i++) {
-//				Node child = childs.item(i);
-//				String localName = child.getNodeName();
-//
-//				if (child.getNodeType() == Node.ELEMENT_NODE) {
-//					Field field = findField(child);
-//
-//					Type type = field.getGenericType();
-//					if (type instanceof ParameterizedType) {
-//						ParameterizedType pType = (ParameterizedType) type;
-//						Type rawType = pType.getRawType();
-//
-//						if (rawType.equals(List.class)) {
-//							try {
-//								field.setAccessible(true);
-//								List list = (List) field.get(this);
-//
-//								Class clazz = (Class) pType
-//										.getActualTypeArguments()[0];
-//								Constructor construct = clazz
-//										.getConstructor(Node.class);
-//
-//								Object a = construct.newInstance(node);
-//
-//								System.out.println("Type args: "
-//										+ pType.getActualTypeArguments()[0]);
-//
-//							} catch (IllegalArgumentException e) {
-//								e.printStackTrace();
-//							} catch (IllegalAccessException e) {
-//								e.printStackTrace();
-//							} catch (SecurityException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//
-//							} catch (NoSuchMethodException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							} catch (InstantiationException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							} catch (InvocationTargetException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-//
-//						}
-//
-//						System.out.println();
-//
-//					} else {
-//						System.out.println("Type: " + field.getType());
-//					}
-//
-//					System.out.println("found !");
-//				}
-//			}
-//		}
-//	}
-	
-	
-//	private Field findField(Node node) throws MetadataException {
-//
-//		String nodename = node.getNodeName().toLowerCase();
-//
-//		Field fields[] = this.getClass().getDeclaredFields();
-//
-//		for (Field field : fields) {
-//			String name = field.getName();
-//
-//			if (name.equals(nodename))
-//				return field;
-//
-//			if (name.equals(nodename + "s"))
-//				return field;
-//		}
-//
-//		throw new MetadataException("field " + nodename + " not found.");
-//	}
-
+	}	
 }

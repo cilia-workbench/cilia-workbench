@@ -24,9 +24,10 @@ public class IPojo {
 		if (childs != null) {
 			for (int i = 0; i < childs.getLength(); i++) {
 				Node child = childs.item(i);
-				String nodeName = child.getNodeName().toLowerCase();
-
+				
 				if (child.getNodeType() == Node.ELEMENT_NODE) {
+				
+					String nodeName = child.getNodeName().toLowerCase();
 					
 					if (nodeName.equals("processor"))
 						processors.add(new Processor(child));
