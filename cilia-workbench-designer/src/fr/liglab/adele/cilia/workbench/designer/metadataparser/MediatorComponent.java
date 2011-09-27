@@ -7,9 +7,9 @@ public class MediatorComponent {
 	private String name;
 	private String category;
 	
-	private String internal_schedulerName;
-	private String internal_processorName;
-	private String internal_dispatcherName;
+	private String schedulerName;
+	private String processorName;
+	private String dispatcherName;
 	
 	
 	public MediatorComponent(Node node) throws MetadataException {
@@ -20,17 +20,17 @@ public class MediatorComponent {
 		Node schedulerNode = XMLutil.findChild(node, "scheduler");
 		if (schedulerNode == null)
 			throw new MetadataException("scheduler element not found");
-		XMLutil.setAttribute(schedulerNode, "name", this, "internal_schedulerName");
+		XMLutil.setAttribute(schedulerNode, "name", this, "schedulerName");
 		
 		Node processorNode = XMLutil.findChild(node, "processor");
 		if (processorNode == null)
 			throw new MetadataException("processor element not found");
-		XMLutil.setAttribute(processorNode, "name", this, "internal_processorName");
+		XMLutil.setAttribute(processorNode, "name", this, "processorName");
 		
 		Node dispatcherNode = XMLutil.findChild(node, "dispatcher");
 		if (dispatcherNode == null)
 			throw new MetadataException("dispatcher element not found");
-		XMLutil.setAttribute(dispatcherNode, "name", this, "internal_dispatcherName");
+		XMLutil.setAttribute(dispatcherNode, "name", this, "dispatcherName");
 	}
 	
 	@Override

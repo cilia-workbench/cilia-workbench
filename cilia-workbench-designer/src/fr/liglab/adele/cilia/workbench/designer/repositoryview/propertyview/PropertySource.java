@@ -44,23 +44,8 @@ public class PropertySource implements IPropertySource {
 			Class<?> type = field.getType();
 			if (type.equals(String.class)) {
 				String name = field.getName();
-				
-				int index = name.indexOf("_");
-				String displayName;
-				String categoryName;
-				if (index == -1) {
-					displayName = name;
-					categoryName = PROPERTIES_CATEGORY;
-				}
-				else {
-					displayName = name.substring(index+1);
-					categoryName = name.substring(0, index);
-					categoryName = categoryName.substring(0, 1).toUpperCase() + categoryName.substring(1);
-				}
-				
-				PropertyDescriptor descriptor = new PropertyDescriptor(name, displayName);
-				descriptor.setCategory(categoryName);
-				
+				PropertyDescriptor descriptor = new PropertyDescriptor(name, name);
+				descriptor.setCategory(PROPERTIES_CATEGORY);
 				list.add(descriptor);
 			}
 		}
