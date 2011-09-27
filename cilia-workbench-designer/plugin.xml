@@ -52,5 +52,15 @@
             commandId="fr.liglab.adele.cilia.workbench.designer.repositoryview.reload">
       </handler>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="fr.liglab.adele.cilia.workbench.designer.metadataparser.MediatorComponent"
+            class="fr.liglab.adele.cilia.workbench.designer.repositoryview.propertyview.PropertiesAdapter">
+         <adapter
+               type="org.eclipse.ui.views.properties.IPropertySource">
+         </adapter>
+      </factory>
+   </extension>
 
 </plugin>
