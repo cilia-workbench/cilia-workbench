@@ -51,7 +51,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.GraphCo
 public class ChainView extends ViewPart implements IZoomableWorkbenchPart, ISelectionListener {
 
 	/** The View ID. */
-	public static final String ID = "fr.liglab.adele.cilia.workbench.monitoring.topologyview.chainview";
+	public static final String viewId = "fr.liglab.adele.cilia.workbench.monitoring.topologyview.chainview";
 	
 	/** The viewer. */
 	private GraphViewer viewer;

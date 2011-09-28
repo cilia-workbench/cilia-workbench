@@ -37,6 +37,8 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.TopologyView;
  */
 public class ChangesView extends ViewPart implements ISelectionListener {
 
+	public static final String viewId = "fr.liglab.adele.cilia.workbench.monitoring.changesview";
+	
 	/** Main viewer. */
 	private TableViewer viewer;
 	

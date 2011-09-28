@@ -117,4 +117,12 @@
          
          
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="fr.liglab.adele.cilia.workbench.designer.perspective.DefaultPerspective"
+            id="fr.liglab.adele.cilia.workbench.designer.perspective.defaultperspective"
+            name="Cilia designer">
+      </perspective>
+   </extension>
 </plugin>

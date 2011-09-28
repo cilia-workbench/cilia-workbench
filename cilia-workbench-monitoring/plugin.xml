@@ -134,5 +134,13 @@
             commandId="fr.liglab.adele.cilia.workbench.monitoring.command.toggleAutoreload">
       </handler>
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="fr.liglab.adele.cilia.workbench.monitoring.perspective.DefaultPerspective"
+            id="fr.liglab.adele.cilia.workbench.monitoring.perspective.defaultperspective"
+            name="Cilia monitoring">
+      </perspective>
+   </extension>
 
 </plugin>
