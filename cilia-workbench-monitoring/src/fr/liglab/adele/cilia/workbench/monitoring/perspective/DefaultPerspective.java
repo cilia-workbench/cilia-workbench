@@ -14,6 +14,7 @@ public class DefaultPerspective implements IPerspectiveFactory {
 	public void createInitialLayout(IPageLayout layout) {
 		// Editors are placed for free.
 		String editorArea = layout.getEditorArea();
+		layout.setEditorAreaVisible(false);
 
 		// Left folder
 		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, (float) 0.20, editorArea);
@@ -21,14 +22,14 @@ public class DefaultPerspective implements IPerspectiveFactory {
 				
 		
 		// Top folder
-		IFolderLayout top = layout.createFolder("top", IPageLayout.TOP, (float) 0.20, editorArea);
+		IFolderLayout top = layout.createFolder("top", IPageLayout.TOP, (float) 0.30, editorArea);
 		top.addView(ChainView.viewId);
 		
 		// Bottom folder
-		IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, (float) 0.70, editorArea);
+		IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, (float) 0.50, editorArea);
 		bottom.addView(IPageLayout.ID_PROP_SHEET);
 		
-		IFolderLayout bottom2 = layout.createFolder("bottom2", IPageLayout.BOTTOM, (float) 0.70, editorArea);
+		IFolderLayout bottom2 = layout.createFolder("bottom2", IPageLayout.BOTTOM, (float) 0.25, editorArea);
 		bottom2.addView(ChangesView.viewId);
 	}
 }
