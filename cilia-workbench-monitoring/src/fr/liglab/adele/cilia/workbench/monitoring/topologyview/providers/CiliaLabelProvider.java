@@ -94,17 +94,19 @@ public class CiliaLabelProvider extends LabelProvider {
 			imageName = null;
 		} else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
-		
-	
-		Bundle bundle = Activator.getDefault().getBundle();
-		URL url = FileLocator.find(bundle, new Path(imageName), null);
-		try {
-			url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imageName);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
 
-		return imageDesc.createImage();
+		if (imageName != null) {
+			Bundle bundle = Activator.getDefault().getBundle();
+			URL url = FileLocator.find(bundle, new Path(imageName), null);
+			try {
+				url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imageName);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+			ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
+
+			return imageDesc.createImage();
+		} else
+			return null;
 	}
 }
