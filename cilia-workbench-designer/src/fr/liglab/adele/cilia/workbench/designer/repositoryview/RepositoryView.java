@@ -3,12 +3,15 @@ package fr.liglab.adele.cilia.workbench.designer.repositoryview;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.part.ViewPart;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
@@ -89,6 +92,17 @@ public abstract class RepositoryView extends ViewPart {
 	
 	protected void refresh() {
 		messageArea.setText(computeMessageAreaText());
+	}
+	
+	protected Object getFirstSelectedElement() {
+		ISelectionService selServ = getSite().getWorkbenchWindow().getSelectionService();
+		ISelection sel = selServ.getSelection();
+		if (sel != null && sel instanceof TreeSelection) {
+			TreeSelection ts = (TreeSelection) sel;
+			return ts.getFirstElement();
+		}
+		
+		return null;
 	}
 	
 	protected abstract String getRepositoryPropertyPath();

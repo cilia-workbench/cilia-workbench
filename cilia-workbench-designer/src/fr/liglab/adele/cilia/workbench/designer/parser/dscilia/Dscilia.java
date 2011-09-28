@@ -66,6 +66,10 @@ public class Dscilia {
 		return chains;
 	}
 	
+	public String getFilePath() {
+		return filePath;
+	}
+	
 	@Override
 	public String toString() {
 		int index = filePath.lastIndexOf(File.separator, filePath.length());

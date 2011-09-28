@@ -22,13 +22,10 @@ import java.util.List;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -65,7 +62,7 @@ public class JarRepositoryView extends RepositoryView {
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
-		
+
 		viewer.setLabelProvider(new MetadataLabelProvider());
 
 		// TreeViewer listener
@@ -114,47 +111,42 @@ public class JarRepositoryView extends RepositoryView {
 	 * editor twice. Only bring to top the second time.
 	 */
 	private void openMetadataInEditor() {
-		ISelectionService selServ = getSite().getWorkbenchWindow().getSelectionService();
-		ISelection sel = selServ.getSelection();
-		if (sel != null && sel instanceof TreeSelection) {
-			TreeSelection ts = (TreeSelection) sel;
-			Object element = ts.getFirstElement();
-			if (element instanceof Bundle) {
-				Bundle bundle = (Bundle) element;
-				String bundleName = bundle.getBundleName();
 
-				IWorkbenchPage page = getViewSite().getPage();
+		Object element = getFirstSelectedElement();
+		if (element != null && element instanceof Bundle) {
+			Bundle bundle = (Bundle) element;
+			String bundleName = bundle.getBundleName();
 
-				IEditorReference[] refs = page.getEditorReferences();
-				for (IEditorReference ref : refs) {
-					try {
-						IEditorInput input = ref.getEditorInput();
-						if (input instanceof StringInput) {
-							StringInput si = (StringInput) input;
-							String viewName = si.getName();
-							if (bundle.toString().equals(viewName)) {
-								IEditorPart editor = page.findEditor(input);
-								page.bringToTop(editor);
-								return;
-							}
-						}
-					} catch (PartInitException e) {
-						e.printStackTrace();
-					}
-				}
+			IWorkbenchPage page = getViewSite().getPage();
 
-				IStorage storage = new StreamFromFileStorage(bundleName);
-				IStorageEditorInput input = new StringInput(storage);
+			IEditorReference[] refs = page.getEditorReferences();
+			for (IEditorReference ref : refs) {
 				try {
-					page.openEditor(input, EditorsUI.DEFAULT_TEXT_EDITOR_ID);
+					IEditorInput input = ref.getEditorInput();
+					if (input instanceof StringInput) {
+						StringInput si = (StringInput) input;
+						String viewName = si.getName();
+						if (bundle.toString().equals(viewName)) {
+							IEditorPart editor = page.findEditor(input);
+							page.bringToTop(editor);
+							return;
+						}
+					}
 				} catch (PartInitException e) {
 					e.printStackTrace();
 				}
+			}
 
+			IStorage storage = new StreamFromFileStorage(bundleName);
+			IStorageEditorInput input = new StringInput(storage);
+			try {
+				page.openEditor(input, EditorsUI.DEFAULT_TEXT_EDITOR_ID);
+			} catch (PartInitException e) {
+				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	@Override
 	protected String getRepositoryPropertyPath() {
 		return CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH;

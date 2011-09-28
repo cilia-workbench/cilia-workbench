@@ -105,4 +105,16 @@
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>      
    </extension>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+         
+         
+         
+	<file-association
+       content-type="org.eclipse.core.runtime.xml"
+       file-extensions="dscilia"/>
+         
+         
+         
+   </extension>
 </plugin>
