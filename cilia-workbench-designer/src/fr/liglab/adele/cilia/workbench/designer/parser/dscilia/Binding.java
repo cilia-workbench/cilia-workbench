@@ -22,4 +22,20 @@ public class Binding {
 		XMLutil.setRequiredAttribute(node, "from", this, "from");
 		XMLutil.setRequiredAttribute(node, "to", this, "to");
 	}
+
+	public String getSourceId() {
+		return getId(from);
+	}
+	
+	public String getDestinationId() {
+		return getId(to);
+	}
+	
+	private String getId(String name) {
+		int index = name.indexOf(":");
+		if (index == -1)
+			return name;
+		String retval = name.substring(0, index);
+		return retval;
+	}
 }

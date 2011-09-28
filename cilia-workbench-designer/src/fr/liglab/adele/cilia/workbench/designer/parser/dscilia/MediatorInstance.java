@@ -14,4 +14,8 @@ public class MediatorInstance {
 		XMLutil.setRequiredAttribute(node, "id", this, "id");
 		XMLutil.setRequiredAttribute(node, "type", this, "type");
 	}
+	
+	public String getId() {
+		return id;
+	}
 }

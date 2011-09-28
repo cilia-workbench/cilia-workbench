@@ -32,6 +32,14 @@
             name="Dscilia repository"
             restorable="true">
       </view>
+      <view
+            category="fr.liglab.adele.cilia.workbench.designer.rootCategory"
+            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.ChainDesignerView"
+            icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chain.png"
+            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview"
+            name="Chain Designer"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
