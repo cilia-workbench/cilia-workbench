@@ -23,12 +23,15 @@ import org.eclipse.core.resources.IStorage;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IEditorRegistry;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
@@ -140,7 +143,9 @@ public class JarRepositoryView extends RepositoryView {
 			IStorage storage = new StreamFromFileStorage(bundleName);
 			IStorageEditorInput input = new StringInput(storage);
 			try {
-				page.openEditor(input, EditorsUI.DEFAULT_TEXT_EDITOR_ID);
+				IEditorRegistry registry = PlatformUI.getWorkbench().getEditorRegistry();
+				IEditorDescriptor ed = registry.getDefaultEditor(".xml");
+				page.openEditor(input, ed != null ? ed.getId() : EditorsUI.DEFAULT_TEXT_EDITOR_ID);
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			}
