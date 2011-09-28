@@ -67,7 +67,8 @@ public class JarRepositoryView extends RepositoryView {
 		super.createPartControl(parent);
 
 		viewer.setLabelProvider(new MetadataLabelProvider());
-
+		viewer.setAutoExpandLevel(2);
+		
 		// TreeViewer listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			@Override

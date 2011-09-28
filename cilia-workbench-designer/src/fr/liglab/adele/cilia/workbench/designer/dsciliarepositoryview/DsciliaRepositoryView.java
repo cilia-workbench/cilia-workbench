@@ -12,9 +12,14 @@ import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.EditorPart;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Dscilia;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
@@ -33,6 +38,7 @@ public class DsciliaRepositoryView extends RepositoryView {
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 		viewer.setLabelProvider(new DsciliaLabelProvider());
+		viewer.setAutoExpandLevel(2);
 
 		// TreeViewer listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
@@ -41,6 +47,29 @@ public class DsciliaRepositoryView extends RepositoryView {
 				openEditor(event);
 			}
 		});
+
+		// Linking already opened editors
+		IEditorReference[] ref = getViewSite().getPage().getEditorReferences();
+		for (IEditorReference editor : ref) {
+			if (editor.getTitle().toLowerCase().endsWith(".dscilia")) {
+				addDirtyListener(editor.getPart(true));
+			}
+		}
+	}
+
+	private void addDirtyListener(IWorkbenchPart editor) {
+		if (editor != null) {
+			editor.addPropertyListener(new IPropertyListener() {
+				@Override
+				public void propertyChanged(Object source, int propId) {
+					if (propId == IEditorPart.PROP_DIRTY && source instanceof EditorPart) {
+						EditorPart editor = (EditorPart) source;
+						if (editor.isDirty() == false)
+							refresh();
+					}
+				}
+			});
+		}
 	}
 
 	private void openEditor(DoubleClickEvent event) {
@@ -52,7 +81,8 @@ public class DsciliaRepositoryView extends RepositoryView {
 			try {
 				fileStore = EFS.getLocalFileSystem().getStore(new URI(dscilia.getFilePath()));
 				IWorkbenchPage page = getViewSite().getPage();
-				IDE.openEditorOnFileStore(page, fileStore);
+				IEditorPart editor = IDE.openEditorOnFileStore(page, fileStore);
+				addDirtyListener(editor);
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			} catch (URISyntaxException e) {
