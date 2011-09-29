@@ -14,15 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.widgets.Composite;
@@ -41,11 +34,13 @@ import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IJarRepositoryListener;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
  * The Class RepositoryView.
  */
-public class JarRepositoryView extends RepositoryView {
+public class JarRepositoryView extends RepositoryView implements IJarRepositoryListener {
 
 	/** The Constant viewId. */
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.jarrepositoryview";
@@ -72,7 +67,7 @@ public class JarRepositoryView extends RepositoryView {
 
 		viewer.setLabelProvider(new MetadataLabelProvider());
 		viewer.setAutoExpandLevel(2);
-		
+
 		// TreeViewer listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			@Override
@@ -80,16 +75,7 @@ public class JarRepositoryView extends RepositoryView {
 				openMetadataInEditor();
 			}
 		});
-		
-		// View update on property modification
-		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty() == getRepositoryPropertyPath()) {
-					refresh();
-				}
-			}
-		});
+		JarRepoService.getInstance().registerListener(this);
 	}
 
 	/**
@@ -97,28 +83,7 @@ public class JarRepositoryView extends RepositoryView {
 	 */
 	public void refresh() {
 		super.refresh();
-
-		File dir = new File(getRepositoryDirectory());
-		File[] list = dir.listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".jar");
-			}
-		});
-
-		List<Bundle> bundles = new ArrayList<Bundle>();
-		if (list != null) {
-			for (File jar : list) {
-				try {
-					String path = jar.getPath();
-					bundles.add(new Bundle(path));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		model = bundles.toArray(new Bundle[0]);
+		model = JarRepoService.getInstance().getModel();
 		viewer.setContentProvider(new MetadataContentProvider(model));
 		viewer.setInput(model);
 		viewer.refresh();
@@ -170,7 +135,7 @@ public class JarRepositoryView extends RepositoryView {
 	protected String getRepositoryPropertyPath() {
 		return CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH;
 	}
-	
+
 	/**
 	 * Gets the repository directory.
 	 * 
@@ -179,5 +144,10 @@ public class JarRepositoryView extends RepositoryView {
 	protected String getRepositoryDirectory() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		return store.getString(getRepositoryPropertyPath());
+	}
+
+	@Override
+	public void repositoryContentUpdated() {
+		refresh();
 	}
 }

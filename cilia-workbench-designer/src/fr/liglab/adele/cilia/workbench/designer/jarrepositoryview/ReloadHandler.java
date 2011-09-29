@@ -17,32 +17,23 @@ package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-
-import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
-
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
  * The Class ReloadHandler.
  */
 public class ReloadHandler extends AbstractHandler {
-		
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		getRepositoryView(event).refresh();
+		JarRepoService.getInstance().updateModel();
 		return null;
-	}
-	
-	/**
-	 * Gets the Repository View.
-	 * 
-	 * @param event the handler event
-	 * @return the RepositoryView
-	 */
-	private JarRepositoryView getRepositoryView(ExecutionEvent event) {
-		String viewId = JarRepositoryView.viewId;		
-		return (JarRepositoryView) ViewUtil.findViewWithId(event, viewId);
 	}
 }

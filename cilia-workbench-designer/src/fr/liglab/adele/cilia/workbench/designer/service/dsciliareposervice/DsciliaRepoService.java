@@ -122,7 +122,7 @@ public class DsciliaRepoService {
 		Changeset[] changes = merge(elements);
 
 		// Sends notifications
-		notify(changes);
+		notifyListeners(changes);
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class DsciliaRepoService {
 	 * @param changes
 	 *            the change set table.
 	 */
-	private void notify(Changeset[] changes) {
+	private void notifyListeners(Changeset[] changes) {
 		for (IDSciliaRepositoryListener listener : listeners) {
 			listener.repositoryChange(changes);
 		}
