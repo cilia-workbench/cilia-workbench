@@ -4,6 +4,8 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.XMLutil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
 public class MediatorInstance {
 
@@ -17,5 +19,16 @@ public class MediatorInstance {
 	
 	public String getId() {
 		return id;
+	}
+
+	public Changeset[] merge(MediatorInstance newInstance) {
+		if (type.equals(newInstance.type))
+			return new Changeset[0];
+		else {
+			type = newInstance.type;
+			Changeset[] retval = new Changeset[1];
+			retval[0]=new Changeset(Operation.UPDATE, this);
+			return retval;
+		}
 	}
 }

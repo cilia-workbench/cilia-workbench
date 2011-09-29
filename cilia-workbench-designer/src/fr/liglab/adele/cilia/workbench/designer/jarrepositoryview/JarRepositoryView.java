@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IStorage;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.widgets.Composite;
@@ -34,6 +37,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 
+import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
@@ -74,6 +78,16 @@ public class JarRepositoryView extends RepositoryView {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				openMetadataInEditor();
+			}
+		});
+		
+		// View update on property modification
+		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if (event.getProperty() == getRepositoryPropertyPath()) {
+					refresh();
+				}
 			}
 		});
 	}
@@ -153,8 +167,17 @@ public class JarRepositoryView extends RepositoryView {
 		}
 	}
 
-	@Override
 	protected String getRepositoryPropertyPath() {
 		return CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH;
+	}
+	
+	/**
+	 * Gets the repository directory.
+	 * 
+	 * @return the repository directory
+	 */
+	protected String getRepositoryDirectory() {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		return store.getString(getRepositoryPropertyPath());
 	}
 }

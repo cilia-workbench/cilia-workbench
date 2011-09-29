@@ -1,8 +1,19 @@
+/*
+ * Copyright Adele Team LIG (http://www-adele.imag.fr/)
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package fr.liglab.adele.cilia.workbench.designer.repositoryview;
 
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -14,8 +25,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.part.ViewPart;
 
-import fr.liglab.adele.cilia.workbench.designer.Activator;
-
+/**
+ * RepositoryView.
+ */
 public abstract class RepositoryView extends ViewPart {
 
 	/** Main viewer. */
@@ -27,6 +39,9 @@ public abstract class RepositoryView extends ViewPart {
 	/** The message area prefix. */
 	protected final String messageAreaPrefix = "Repository directory: ";
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	public void createPartControl(Composite parent) {
 		// Global layout
 		GridLayout layout = new GridLayout(1, false);
@@ -45,16 +60,6 @@ public abstract class RepositoryView extends ViewPart {
 
 		// Selection provider
 		getSite().setSelectionProvider(viewer);
-		
-		// View update on property modification
-		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty() == getRepositoryPropertyPath()) {
-					refresh();
-				}
-			}
-		});
 	}
 
 	/*
@@ -72,10 +77,7 @@ public abstract class RepositoryView extends ViewPart {
 	 * 
 	 * @return the repository directory
 	 */
-	protected String getRepositoryDirectory() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		return store.getString(getRepositoryPropertyPath());
-	}
+	protected abstract String getRepositoryDirectory();
 
 	/**
 	 * Computes the message area text.
@@ -90,10 +92,17 @@ public abstract class RepositoryView extends ViewPart {
 			return messageAreaPrefix + dir;
 	}
 	
+	/**
+	 * refreshes the viewer.
+	 */
 	protected void refresh() {
 		messageArea.setText(computeMessageAreaText());
 	}
 	
+	/**
+	 * Gets the first element selected in the viewer.
+	 * @return the element, or null if not found.
+	 */
 	protected Object getFirstSelectedElement() {
 		ISelectionService selServ = getSite().getWorkbenchWindow().getSelectionService();
 		ISelection sel = selServ.getSelection();
@@ -104,6 +113,4 @@ public abstract class RepositoryView extends ViewPart {
 		
 		return null;
 	}
-	
-	protected abstract String getRepositoryPropertyPath();
 }

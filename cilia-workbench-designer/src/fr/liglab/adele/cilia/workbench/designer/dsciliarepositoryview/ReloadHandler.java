@@ -5,6 +5,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
 public class ReloadHandler extends AbstractHandler {
 
@@ -18,6 +19,7 @@ public class ReloadHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		getRepositoryView(event).refresh();
+		DsciliaRepoService.getInstance().updateModel();
 		return null;
 	}
 

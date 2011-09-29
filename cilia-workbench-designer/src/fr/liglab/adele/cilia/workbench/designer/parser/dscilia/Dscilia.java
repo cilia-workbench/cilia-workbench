@@ -3,6 +3,8 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +17,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
 public class Dscilia {
 	private String filePath;
@@ -77,5 +81,41 @@ public class Dscilia {
 			return filePath;
 		else
 			return filePath.substring(index + 1);
+	}
+
+	public Changeset[] merge(Dscilia newInstance) {
+		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+		
+		for (Iterator<Chain> itr = chains.iterator(); itr.hasNext();) {
+			Chain old = itr.next();
+			String id = old.getId();
+			Chain updated = pullChain(newInstance, id);
+			if (updated == null) {
+				itr.remove();
+				retval.add(new Changeset(Operation.REMOVE, old));
+			}
+			else {
+				for (Changeset c : old.merge(updated))
+					retval.add(c);
+			}
+		}
+
+		for (Chain c : newInstance.getChains()) {
+			chains.add(c);
+			retval.add(new Changeset(Operation.ADD, c));
+		}
+				
+		return retval.toArray(new Changeset[0]);
+	}
+
+	private Chain pullChain(Dscilia newInstance, String id) {
+		for (Iterator<Chain> itr = newInstance.getChains().iterator(); itr.hasNext();) {
+			Chain element = itr.next();
+			if (element.getId().equals(id)) {
+				itr.remove();
+				return element;
+			}
+		}
+		return null;
 	}
 }

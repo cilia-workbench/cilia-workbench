@@ -1,17 +1,10 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.XMLutil;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Collector;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Dispatcher;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Scheduler;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Sender;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 
 public class Binding {
 
@@ -37,5 +30,9 @@ public class Binding {
 			return name;
 		String retval = name.substring(0, index);
 		return retval;
+	}
+
+	public Changeset[] merge(Binding newInstance) {
+		return new Changeset[0];
 	}
 }

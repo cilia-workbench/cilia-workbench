@@ -4,7 +4,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISelectionService;
-import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPart;
 
 import fr.liglab.adele.cilia.workbench.common.view.GraphView;
@@ -39,6 +38,7 @@ public class ChainDesignerView extends GraphView {
 		contentProvider.setModel(chain);
 		viewer.setInput(chain.getElements());
 		viewer.refresh();
+		setPartName(chain.getId());
 	}
 	
 	@Override
