@@ -103,7 +103,7 @@ public abstract class RepositoryView extends ViewPart {
 	 * Gets the first element selected in the viewer.
 	 * @return the element, or null if not found.
 	 */
-	protected Object getFirstSelectedElement() {
+	public Object getFirstSelectedElement() {
 		ISelectionService selServ = getSite().getWorkbenchWindow().getSelectionService();
 		ISelection sel = selServ.getSelection();
 		if (sel != null && sel instanceof TreeSelection) {

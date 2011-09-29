@@ -51,6 +51,14 @@
             id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.reload"
             name="Reload Dscilia repository">
       </command>
+      <command
+            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createFile"
+            name="Create Dscilia file">
+      </command>
+      <command
+            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteFile"
+            name="Delete Dscilia file">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -74,6 +82,26 @@
                style="push">
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createFile"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/fileCreate.png"
+               label="Create Dscilia file"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteFile"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/fileDelete.png"
+               label="Delete Dscilia file"
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -84,6 +112,14 @@
       <handler
             class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.ReloadHandler"
             commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.reload">
+      </handler>
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.CreateFileHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createFile">
+      </handler>
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DeleteFileHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteFile">
       </handler>
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">

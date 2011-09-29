@@ -14,12 +14,16 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -47,6 +51,8 @@ public class DsciliaRepoService {
 
 	/** Listeners. */
 	private List<IDSciliaRepositoryListener> listeners = new ArrayList<IDSciliaRepositoryListener>();
+
+	private final String ext = ".dscilia";
 
 	/**
 	 * Gets the singleton instance.
@@ -81,14 +87,14 @@ public class DsciliaRepoService {
 
 	/**
 	 * Gets the repository path on the file system.
-	 *
+	 * 
 	 * @return the repository path
 	 */
 	public String getRepositoryPath() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		return store.getString(PREFERENCE_PATH_KEY);
 	}
-	
+
 	/**
 	 * Updates the model and sends notifications.
 	 */
@@ -99,7 +105,7 @@ public class DsciliaRepoService {
 		File[] list = dir.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".dscilia");
+				return name.toLowerCase().endsWith(ext);
 			}
 		});
 
@@ -124,7 +130,7 @@ public class DsciliaRepoService {
 		// Sends notifications
 		notifyListeners(changes);
 	}
-	
+
 	/**
 	 * Notifies listeners with given change set table.
 	 * 
@@ -139,19 +145,20 @@ public class DsciliaRepoService {
 
 	/**
 	 * Register listener.
-	 *
-	 * @param listener the listener
+	 * 
+	 * @param listener
+	 *            the listener
 	 */
 	public void registerListener(IDSciliaRepositoryListener listener) {
 		if (listener != null && !listeners.contains(listener))
 			listeners.add(listener);
 	}
-	
-	
+
 	/**
 	 * Unregister listener.
-	 *
-	 * @param listener the listener
+	 * 
+	 * @param listener
+	 *            the listener
 	 * @return true, if successful
 	 */
 	public boolean unregisterListener(IDSciliaRepositoryListener listener) {
@@ -160,8 +167,7 @@ public class DsciliaRepoService {
 		else
 			return false;
 	}
-	
-	
+
 	public Changeset[] merge(List<RepoElement> repoElements) {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
@@ -196,5 +202,80 @@ public class DsciliaRepoService {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Tests if a dscilia can be created with the given fileName.
+	 * This method follows {@link IInputValidator#isValid(String)} API.
+	 * @param newText file name to be tested
+	 * @return null if the name is valid, an error message (including "") 
+	 * otherwise.
+	 */
+	public String isNewFileNameAllowed(String newText) {
+		final String baseName = canonizeFileName(newText);
+		if (baseName.toLowerCase().endsWith(ext) && baseName.length() > ext.length()) {
+			File dir = new File(getRepositoryPath());
+			File[] list = dir.listFiles(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return name.equalsIgnoreCase(baseName);
+				}
+			});
+			if (list.length != 0)
+				return "File already exists";
+			else
+				return null;
+		} else
+			return "File name must end with .dscilia";
+	}
+
+	/**
+	 * Creates a dscilia file in the repository with the given file name.
+	 * @param fileName
+	 * @return
+	 */
+	public boolean createFile(String fileName) {
+		if (isNewFileNameAllowed(fileName) != null)
+			return false;
+		
+		String repoPath = getRepositoryPath();
+		String path;
+		if (repoPath.endsWith(File.separator))
+			path = repoPath + canonizeFileName(fileName);
+		else
+			path = repoPath + File.separator + canonizeFileName(fileName);
+		
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(path));
+			out.write("<cilia>\n");
+			out.write("</cilia>");
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		updateModel();
+		return true;	
+	}
+
+	/**
+	 * Before file creation, a method for name canonization.
+	 * @param fileName
+	 * @return the name canonized.
+	 */
+	private String canonizeFileName(String fileName) {
+		return fileName.trim();
+	}
+
+	/**
+	 * Delete an element in the file system repository.
+	 * @param element 
+	 */
+	public boolean deleteRepoElement(RepoElement element) {
+		File file = new File(element.getFilePath());
+		boolean retval = file.delete();
+		updateModel();
+		return retval;
 	}
 }
