@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 
+import fr.liglab.adele.cilia.workbench.common.sourceprovider.SourceProviderUtil;
 import fr.liglab.adele.cilia.workbench.common.view.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaRepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
@@ -54,6 +55,7 @@ public class ChainDesignerView extends GraphView implements IDSciliaRepositoryLi
 			viewer.setInput(new Object[0]);
 			setPartName(DEFAULT_PART_NAME);
 		}
+		SourceProviderUtil.setToggleVariable(VariablesSourceProvider.VARIABLE_NAME, chain != null);
 		viewer.refresh();
 		this.model = chain;
 	}

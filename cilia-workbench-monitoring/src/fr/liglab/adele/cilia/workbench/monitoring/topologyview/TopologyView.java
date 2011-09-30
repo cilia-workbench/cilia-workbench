@@ -27,16 +27,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.ISourceProvider;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.RegistryToggleState;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ui.services.ISourceProviderService;
-
 
 import fr.liglab.adele.cilia.event.CiliaFrameworkEvent;
 import fr.liglab.adele.cilia.management.monitoring.MonitoredApplication;
+import fr.liglab.adele.cilia.workbench.common.sourceprovider.SourceProviderUtil;
 import fr.liglab.adele.cilia.workbench.monitoring.Activator;
 import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.CiliaLabelProvider;
@@ -176,18 +174,7 @@ public class TopologyView extends ViewPart implements CiliaFrameworkEvent {
 	 *            the new value.
 	 */
 	private void updateReloadRequiredVariable(boolean newValue) {
-		
-		ISourceProviderService sourceProviderService = (ISourceProviderService) getSite().getService(ISourceProviderService.class);
-		if (sourceProviderService != null) {
-			ISourceProvider provider = sourceProviderService
-					.getSourceProvider(VariablesSourceProvider.RELOAD_REQUIRED_VARIABLE);
-			if (provider instanceof VariablesSourceProvider) {
-				((VariablesSourceProvider) provider).setReloadRequired(newValue);
-			} else {
-				throw new RuntimeException("Provider is not instance of VariablesSourceProvider");
-			}
-		} else
-			throw new RuntimeException("Can't retrieve sourceProviderService");
+		SourceProviderUtil.setToggleVariable(VariablesSourceProvider.RELOAD_REQUIRED_VARIABLE, newValue);
 	}
 
 	/**

@@ -32,6 +32,7 @@ public class ReloadHandler extends AbstractHandler {
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
 	 * .ExecutionEvent)
 	 */
+	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		DsciliaRepoService.getInstance().updateModel();

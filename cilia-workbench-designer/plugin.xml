@@ -263,26 +263,74 @@
       <handler
             class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.CreateMediatorHandler"
             commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createMediator">
+         <enabledWhen>
+            <with
+                  variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+               <equals
+                     value="enable">
+               </equals>
+            </with>
+         </enabledWhen>
       </handler>
       <handler
             class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.DeleteMediatorHandler"
             commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteMediator">
+         <enabledWhen>
+            <with
+                  variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+               <equals
+                     value="enable">
+               </equals>
+            </with>
+         </enabledWhen>
       </handler>
       <handler
             class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.CreateAdapterHandler"
             commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createAdapter">
+         <enabledWhen>
+            <with
+                  variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+               <equals
+                     value="enable">
+               </equals>
+            </with>
+         </enabledWhen>
       </handler>
       <handler
             class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.DeleteAdapterHandler"
             commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteAdapter">
+         <enabledWhen>
+            <with
+                  variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+               <equals
+                     value="enable">
+               </equals>
+            </with>
+         </enabledWhen>
       </handler>
             <handler
             class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.CreateBindingHandler"
             commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createBinding">
+               <enabledWhen>
+                  <with
+                        variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+                     <equals
+                           value="enable">
+                     </equals>
+                  </with>
+               </enabledWhen>
       </handler>
       <handler
             class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.DeleteBindingHandler"
             commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteBinding">
+         <enabledWhen>
+            <with
+                  variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+               <equals
+                     value="enable">
+               </equals>
+            </with>
+         </enabledWhen>
       </handler>
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">
@@ -330,5 +378,15 @@
             id="fr.liglab.adele.cilia.workbench.designer.perspective.defaultperspective"
             name="Cilia designer">
       </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.services">
+      <sourceProvider
+            provider="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.VariablesSourceProvider">
+         <variable
+               name="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable"
+               priorityLevel="workbench">
+         </variable>
+      </sourceProvider>
    </extension>
 </plugin>
