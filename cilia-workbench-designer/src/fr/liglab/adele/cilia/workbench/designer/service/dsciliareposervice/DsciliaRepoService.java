@@ -27,8 +27,10 @@ import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.viewers.IContentProvider;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
+import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Dscilia;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
@@ -55,6 +57,8 @@ public class DsciliaRepoService {
 	private List<IDSciliaRepositoryListener> listeners = new ArrayList<IDSciliaRepositoryListener>();
 
 	private final String ext = ".dscilia";
+
+	private DsciliaContentProvider contentProvider = null;
 
 	/**
 	 * Gets the singleton instance.
@@ -129,6 +133,9 @@ public class DsciliaRepoService {
 		// Updates existing model with computed model
 		Changeset[] changes = merge(elements);
 
+		// update content provider
+		contentProvider = new DsciliaContentProvider(repo);
+		
 		// Sends notifications
 		notifyListeners(changes);
 	}
@@ -334,5 +341,21 @@ public class DsciliaRepoService {
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void deleteChain(Chain chain) {
+		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
+		if (repo == null)
+			return;
+		try {
+			repo.getDscilia().deleteChain(chain.getId());
+			updateModel();
+		} catch (MetadataException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public IContentProvider getContentProvider() {
+		return contentProvider;
 	}
 }

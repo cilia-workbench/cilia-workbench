@@ -34,7 +34,7 @@ public class DeleteFileHandler extends CommonHandler {
 		Object object = getFirstSelectedElementInRepositoryView(event);
 		if (object != null && object instanceof RepoElement) {
 			RepoElement repo = (RepoElement) object;
-			boolean result = MessageDialog.openConfirm(getShell(event), "Confirmation required", "Do you want to delete " + repo.getFilePath());
+			boolean result = MessageDialog.openConfirm(getShell(event), "Confirmation required", "Do you want to delete " + repo.getFilePath() + "?");
 			if (result == true)
 				DsciliaRepoService.getInstance().deleteRepoElement(repo);
 		} else {

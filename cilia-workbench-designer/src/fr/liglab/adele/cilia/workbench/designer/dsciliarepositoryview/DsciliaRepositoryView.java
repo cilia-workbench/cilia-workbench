@@ -16,6 +16,8 @@ package fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
@@ -48,7 +50,7 @@ public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRep
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview";
 
 	/** The view internal model. */
-	private RepoElement[] model = new RepoElement[0];
+	private List<RepoElement> model = new ArrayList<RepoElement>();
 
 	public DsciliaRepositoryView() {
 	}
@@ -180,8 +182,8 @@ public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRep
 	@Override
 	protected void refresh() {
 		super.refresh();
-		model = DsciliaRepoService.getInstance().getModel().toArray(new RepoElement[0]);
-		viewer.setContentProvider(new DsciliaContentProvider(model));
+		model = DsciliaRepoService.getInstance().getModel();
+		viewer.setContentProvider(DsciliaRepoService.getInstance().getContentProvider());
 		viewer.setInput(model);
 		viewer.refresh();
 	}

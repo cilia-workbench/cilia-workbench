@@ -19,6 +19,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -90,6 +91,10 @@ public class Dscilia {
 		root.appendChild(child);
 
 		// Write it back to file system
+		writeDOM(document);
+	}
+
+	private void writeDOM(Document document) throws MetadataException {
 		Source source = new DOMSource(document);
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		try {
@@ -102,6 +107,33 @@ public class Dscilia {
 		}
 	}
 
+	public void deleteChain(String id) throws MetadataException {
+		// Finding target node
+		Document document = getDocument();
+		Node root = getCiliaNode(document);
+		NodeList list = root.getChildNodes();
+		Node target = null;
+		for (int i=0; i<list.getLength() && target == null; i++) {
+			Node current = list.item(i);
+			if (current.getNodeName().equalsIgnoreCase("chain")) {
+				NamedNodeMap attrs = current.getAttributes();
+				for (int j=0; j<attrs.getLength() && target == null; j++) {
+					Node attr = attrs.item(j);
+					String name = attr.getNodeName();
+					String value = attr.getNodeValue();
+					if (name.equalsIgnoreCase("id") && value.equals(id))
+						target = current;
+				}
+					
+			}
+		}
+		
+		if (target != null) {
+			root.removeChild(target);
+			writeDOM(document);
+		}
+	}	
+	
 	public List<Chain> getChains() {
 		return chains;
 	}

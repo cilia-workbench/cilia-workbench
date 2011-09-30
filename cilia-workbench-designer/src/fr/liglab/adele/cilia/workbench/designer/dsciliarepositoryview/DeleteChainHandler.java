@@ -14,21 +14,32 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview;
 
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.dialogs.MessageDialog;
+
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
 /**
  * DeleteChainHandler.
  */
-public class DeleteChainHandler extends AbstractHandler {
+public class DeleteChainHandler extends CommonHandler {
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		// TODO Auto-generated method stub
+		Object object = getFirstSelectedElementInRepositoryView(event);
+		if (object != null && object instanceof Chain) {
+			Chain chain = (Chain) object;
+			boolean result = MessageDialog.openConfirm(getShell(event), "Confirmation required", "Do you want to delete " + chain.getId() + "?");
+			if (result == true)
+				DsciliaRepoService.getInstance().deleteChain(chain);
+		} else {
+			MessageDialog.openError(getShell(event), "Error", "You must select a chain first.");
+		}
 		return null;
 	}
 }
