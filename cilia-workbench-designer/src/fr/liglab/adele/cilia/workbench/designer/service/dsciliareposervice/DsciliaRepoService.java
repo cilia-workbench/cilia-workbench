@@ -28,6 +28,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+
+import com.google.common.base.Preconditions;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaContentProvider;
@@ -199,6 +202,11 @@ public class DsciliaRepoService {
 			retval.add(new Changeset(Operation.ADD, r));
 		}
 
+		// path update
+		for (Changeset c : retval)
+			c.pushPathElement(this);
+		
+		
 		return retval.toArray(new Changeset[0]);
 	}
 
@@ -355,7 +363,19 @@ public class DsciliaRepoService {
 		}
 	}
 
-	public IContentProvider getContentProvider() {
+	public ITreeContentProvider getContentProvider() {
 		return contentProvider;
+	}
+	
+	public RepoElement getRepoElement(Object object) {
+		Preconditions.checkNotNull(object);
+		
+		if (object instanceof RepoElement)
+			return (RepoElement) object;
+		Object parent = getContentProvider().getParent(object);
+		if (parent != null)
+			return getRepoElement(parent);
+		else
+			return null;
 	}
 }

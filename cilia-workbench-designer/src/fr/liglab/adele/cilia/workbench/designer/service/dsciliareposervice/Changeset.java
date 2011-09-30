@@ -14,6 +14,9 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a modification on a repository.
  */
@@ -37,6 +40,9 @@ public class Changeset {
 	/** The object. */
 	private final Object object;
 
+	/** The path to join the object in the complete model */
+	private final List<Object> path = new ArrayList<Object>();
+	
 	/**
 	 * Instantiates a new changeset.
 	 * 
@@ -48,6 +54,7 @@ public class Changeset {
 	public Changeset(Operation operation, Object object) {
 		this.operation = operation;
 		this.object = object;
+		this.path.add(object);
 	}
 
 	/**
@@ -66,5 +73,18 @@ public class Changeset {
 	 */
 	public Operation getOperation() {
 		return operation;
+	}
+	
+	/**
+	 * Gets the path.
+	 *
+	 * @return the path
+	 */
+	public List<Object> getPath() {
+		return path;
+	}
+	
+	public void pushPathElement(Object element) {
+		path.add(element);
 	}
 }

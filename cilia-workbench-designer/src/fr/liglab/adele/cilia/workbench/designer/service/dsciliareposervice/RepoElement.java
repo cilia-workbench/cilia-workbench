@@ -25,18 +25,20 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chang
  * RepoElement.
  */
 public class RepoElement {
-		
+
 	/** The dscilia. */
 	Dscilia dscilia;
 
 	/** The path on the file system. */
 	String path;
-	
+
 	/**
 	 * Instantiates a new repo element.
-	 *
-	 * @param path the path
-	 * @param dscilia the dscilia
+	 * 
+	 * @param path
+	 *            the path
+	 * @param dscilia
+	 *            the dscilia
 	 */
 	public RepoElement(String path, Dscilia dscilia) {
 		this.path = path;
@@ -45,7 +47,7 @@ public class RepoElement {
 
 	/**
 	 * Gets the dscilia.
-	 *
+	 * 
 	 * @return the dscilia
 	 */
 	public Dscilia getDscilia() {
@@ -54,26 +56,32 @@ public class RepoElement {
 
 	/**
 	 * Gets the file path.
-	 *
+	 * 
 	 * @return the file path
 	 */
 	public String getFilePath() {
 		return path;
 	}
-	
+
 	/**
 	 * Merge.
-	 *
-	 * @param newInstance the new instance
+	 * 
+	 * @param newInstance
+	 *            the new instance
 	 * @return the changeset[]
 	 */
 	public Changeset[] merge(RepoElement newInstance) {
-		if (dscilia == null && newInstance.getDscilia() == null)
-			return new Changeset[0];
-		else if (dscilia != null && newInstance.getDscilia() != null)
-			return dscilia.merge(newInstance.getDscilia());
+		
+		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+		
+		if (dscilia == null && newInstance.getDscilia() == null) {
+			// do nothing
+		}
+		else if (dscilia != null && newInstance.getDscilia() != null) {
+			for (Changeset c : dscilia.merge(newInstance.getDscilia()))
+				retval.add(c);
+		}
 		else {
-			ArrayList<Changeset> retval = new ArrayList<Changeset>();
 			retval.add(new Changeset(Operation.UPDATE, this));
 
 			// DScilia becomes invalid
@@ -89,12 +97,18 @@ public class RepoElement {
 				for (Chain c : dscilia.getChains())
 					retval.add(new Changeset(Operation.ADD, c));
 			}
-
-			return retval.toArray(new Changeset[0]);
 		}
+
+		// path update
+		for (Changeset c : retval)
+			c.pushPathElement(this);
+
+		return retval.toArray(new Changeset[0]);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

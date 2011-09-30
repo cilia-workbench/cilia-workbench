@@ -7,11 +7,11 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
 
-public class ContentProvider extends ArrayContentProvider implements IGraphEntityContentProvider {
+public class ChainGraphContentProvider extends ArrayContentProvider implements IGraphEntityContentProvider {
 
 	private Chain model = null;
 
-	public ContentProvider() {
+	public ChainGraphContentProvider() {
 	}
 
 	@Override

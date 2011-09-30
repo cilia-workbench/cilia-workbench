@@ -9,38 +9,55 @@ import org.eclipse.ui.IWorkbenchPart;
 import fr.liglab.adele.cilia.workbench.common.view.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaRepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDSciliaRepositoryListener;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
-
-public class ChainDesignerView extends GraphView {
+public class ChainDesignerView extends GraphView implements IDSciliaRepositoryListener {
 
 	/** The View ID. */
-	public static final String viewId ="fr.liglab.adele.cilia.workbench.designer.chaindesignerview"; 
+	public static final String viewId = "fr.liglab.adele.cilia.workbench.designer.chaindesignerview";
 
-	private ContentProvider contentProvider = new ContentProvider();
-	
+	private ChainGraphContentProvider contentProvider = new ChainGraphContentProvider();
+
+	private Chain model;
+
+	private final String DEFAULT_PART_NAME = "Chain Viewer";
+
 	public ChainDesignerView() {
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
-		
-		// Registers the instance in the selection service 
+
+		// Registers the instance in the selection service
 		ISelectionService s = getSite().getWorkbenchWindow().getSelectionService();
 		s.addSelectionListener(DsciliaRepositoryView.viewId, this);
-		
+
+		setPartName(DEFAULT_PART_NAME);
 		viewer.setContentProvider(contentProvider);
 		viewer.setLabelProvider(new GraphLabelProvider());
 		viewer.setInput(new Object[0]);
+
+		DsciliaRepoService.getInstance().registerListener(this);
 	}
 
 	private void setModel(Chain chain) {
 		contentProvider.setModel(chain);
-		viewer.setInput(chain.getElements());
+		if (chain != null) {
+			viewer.setInput(chain.getElements());
+			setPartName(chain.getId());
+		} else {
+			viewer.setInput(new Object[0]);
+			setPartName(DEFAULT_PART_NAME);
+		}
 		viewer.refresh();
-		setPartName(chain.getId());
+		this.model = chain;
 	}
-	
+
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (selection instanceof TreeSelection) {
@@ -50,6 +67,46 @@ public class ChainDesignerView extends GraphView {
 			if (element instanceof Chain) {
 				Chain chain = (Chain) element;
 				setModel(chain);
+			}
+		}
+	}
+
+	@Override
+	public void repositoryChange(Changeset[] changes) {
+		// if model = null, no need to check anything...
+		if (model != null) {
+			DsciliaRepoService srv = DsciliaRepoService.getInstance();
+
+			boolean needUpdate = false; 
+			for (Changeset change : changes) {
+
+				// Repository removed
+				if (change.getObject() instanceof RepoElement && change.getOperation() == Operation.REMOVE) {
+					RepoElement curRepo = srv.getRepoElement(model);
+					if (curRepo == change.getObject()) { // pointer equality
+						setModel(null);
+						return;
+					}
+				}
+				
+				// Chain removed 
+				if (change.getObject() instanceof Chain && change.getOperation() == Operation.REMOVE) {
+					if (model == change.getObject()) { // pointer equality
+						setModel(null);
+						return;
+					}
+				}
+				
+				// Chain content modified
+				if (change.getPath().contains(model) && model != change.getObject()) {
+					if (change.getOperation() == Operation.REMOVE || change.getOperation() == Operation.ADD)
+						needUpdate = true;
+				}
+			}
+			
+			if (needUpdate == true) {
+				//viewer.refresh();
+				setModel(model);
 			}
 		}
 	}

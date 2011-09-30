@@ -166,6 +166,10 @@ public class Chain {
 			retval.add(new Changeset(Operation.ADD, b));
 		}
 						
+		// path update
+		for (Changeset c : retval)
+			c.pushPathElement(this);
+
 		return retval.toArray(new Changeset[0]);
 	}
 

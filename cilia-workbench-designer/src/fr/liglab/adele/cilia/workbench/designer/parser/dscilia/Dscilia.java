@@ -172,6 +172,10 @@ public class Dscilia {
 			retval.add(new Changeset(Operation.ADD, c));
 		}
 
+		// path update
+		for (Changeset c : retval)
+			c.pushPathElement(this);
+		
 		return retval.toArray(new Changeset[0]);
 	}
 
