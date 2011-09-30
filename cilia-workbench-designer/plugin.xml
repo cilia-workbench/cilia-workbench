@@ -59,7 +59,7 @@
             id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteFile"
             name="Delete Dscilia file">
       </command>
-            <command
+      <command
             id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createChain"
             name="Create Dscilia chain">
       </command>
@@ -67,6 +67,43 @@
             id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteChain"
             name="Delete Dscilia chain">
       </command>
+      
+      <command
+            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createMediator"
+            name="Create mediator component">
+      </command>
+      
+      <command
+            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteMediator"
+            name="Delete mediator component">
+      </command>
+      
+            <command
+            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createAdapter"
+            name="Create adapter">
+      </command>
+      
+      <command
+            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteAdapter"
+            name="Delete adapter">
+      </command>
+      
+            <command
+            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createBinding"
+            name="Create binding">
+      </command>
+      
+      <command
+            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteBinding"
+            name="Delete binding">
+      </command>
+      
+      
+      
+      
+      
+      
+      
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -113,7 +150,7 @@
          </command>
       </menuContribution>
       
-            <menuContribution
+       <menuContribution
             allPopups="false"
             locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
          <command
@@ -134,8 +171,66 @@
                style="push">
          </command>
       </menuContribution>
-      
-      
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createMediator"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/mediatorCreate.png"
+               label="Create mediator component"
+               style="push">
+         </command>
+      </menuContribution>
+       <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteMediator"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/mediatorDelete.png"
+               label="Delete mediator component "
+               style="push">
+         </command>
+      </menuContribution>
+       <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createAdapter"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/adapterCreate.png"
+               label="Create adapter"
+               style="push">
+         </command>
+      </menuContribution>
+       <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteAdapter"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/adapterDelete.png"
+               label="Delete adapter "
+               style="push">
+         </command>
+      </menuContribution>
+       <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createBinding"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/bindingCreate.png"
+               label="Create binding"
+               style="push">
+         </command>
+      </menuContribution>      
+       <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteBinding"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/bindingDelete.png"
+               label="Delete binding"
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -165,7 +260,30 @@
             commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteChain">
       </handler>
       
-      
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.CreateMediatorHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createMediator">
+      </handler>
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.DeleteMediatorHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteMediator">
+      </handler>
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.CreateAdapterHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createAdapter">
+      </handler>
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.DeleteAdapterHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteAdapter">
+      </handler>
+            <handler
+            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.CreateBindingHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createBinding">
+      </handler>
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.DeleteBindingHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteBinding">
+      </handler>
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">
       <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
