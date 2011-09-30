@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.repositoryview.ContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
-public class DsciliaContentProvider extends ContentProvider {
+public class DsciliaContentProvider extends GenericContentProvider {
 
 	public DsciliaContentProvider(List<RepoElement> repo) {
 		parent.put(repo, new Object[0]);

@@ -25,12 +25,12 @@ import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponen
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Sender;
-import fr.liglab.adele.cilia.workbench.designer.repositoryview.ContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
 
 /**
  * MetadataContentProvider.
  */
-public class MetadataContentProvider extends ContentProvider {
+public class MetadataContentProvider extends GenericContentProvider {
 
 	
 	/**
