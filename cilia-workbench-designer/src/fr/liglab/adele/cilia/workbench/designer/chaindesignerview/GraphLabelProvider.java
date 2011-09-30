@@ -59,7 +59,7 @@ public class GraphLabelProvider extends LabelProvider {
 	public Image getImage(Object obj) {
 		String imageName;
 		if (obj instanceof AdapterInstance)
-			imageName = "icons/16/inAdapter.png";
+			imageName = "icons/16/adapterIn.png";
 		else if (obj instanceof MediatorInstance)
 			imageName = "icons/16/mediator.png";
 		else if (obj instanceof EntityConnectionData)

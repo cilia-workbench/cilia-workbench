@@ -36,9 +36,9 @@ public class MetadataLabelProvider extends LabelProvider {
 		if (obj instanceof Adapter) {
 			Adapter adapt = (Adapter) obj;
 			if (adapt.getPattern().equals("in-only"))
-				imageName = "icons/16/inAdapter.png";
+				imageName = "icons/16/adapterIn.png";
 			else
-				imageName = "icons/16/outAdapter.png";
+				imageName = "icons/16/adapterOut.png";
 		} else if (obj instanceof Bundle)
 			imageName = "icons/16/repo.png";
 		else if (obj instanceof Collector)
@@ -54,9 +54,9 @@ public class MetadataLabelProvider extends LabelProvider {
 		else if (obj instanceof Sender)
 			imageName = "icons/16/sender.png";
 		else if (obj instanceof InPort)
-			imageName = "icons/16/inPort.png";
+			imageName = "icons/16/portIn.png";
 		else if (obj instanceof OutPort)
-			imageName = "icons/16/outPort.png";
+			imageName = "icons/16/portOut.png";
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
 

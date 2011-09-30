@@ -83,9 +83,9 @@ public class CiliaLabelProvider extends LabelProvider {
 			int out = adapter.getOutBindings() == null ? 0 : adapter.getOutBindings().length;
 
 			if (in == 0 && out != 0)
-				imageName = "icons/16/inAdapter.png";
+				imageName = "icons/16/adapterIn.png";
 			else if (in != 0 && out == 0)
-				imageName = "icons/16/outAdapter.png";
+				imageName = "icons/16/adapterOut.png";
 			else
 				imageName = "icons/16/mediator.png";
 		} else if (obj instanceof MediatorReadOnly)
