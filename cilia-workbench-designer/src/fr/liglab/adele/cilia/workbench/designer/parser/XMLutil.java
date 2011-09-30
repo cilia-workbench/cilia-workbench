@@ -34,8 +34,12 @@ public class XMLutil {
 		Exception exception = null;
 		boolean retval = true;
 		try {
-
-			Field field = object.getClass().getDeclaredField(fieldName);
+			Field field;
+			try {
+				field = object.getClass().getDeclaredField(fieldName);
+			} catch (NoSuchFieldException e) {
+				field = object.getClass().getSuperclass().getDeclaredField(fieldName);
+			}
 			String value = null;
 			
 			try {

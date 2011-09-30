@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Collector;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.IPojo;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Port;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Sender;
@@ -51,6 +52,12 @@ public class MetadataContentProvider extends GenericContentProvider {
 				parent.put(mc, bundle);
 				children.get(bundle).add(mc);
 				children.put(mc, new ArrayList<Object>());
+				
+				for (Port p : mc.getPorts()) {
+					parent.put(p, mc);
+					children.get(mc).add(p);
+					children.put(p, new ArrayList<Object>());
+				}
 			}
 			
 			for (Processor p : ipojo.getProcessors()) {

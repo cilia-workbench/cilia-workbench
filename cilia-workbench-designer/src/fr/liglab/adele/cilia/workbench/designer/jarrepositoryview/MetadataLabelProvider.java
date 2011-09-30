@@ -14,12 +14,13 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 
-
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Collector;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Dispatcher;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.OutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Sender;
@@ -38,8 +39,7 @@ public class MetadataLabelProvider extends LabelProvider {
 				imageName = "icons/16/inAdapter.png";
 			else
 				imageName = "icons/16/outAdapter.png";
-		}
-		else if (obj instanceof Bundle)
+		} else if (obj instanceof Bundle)
 			imageName = "icons/16/repo.png";
 		else if (obj instanceof Collector)
 			imageName = "icons/16/collector.png";
@@ -53,9 +53,13 @@ public class MetadataLabelProvider extends LabelProvider {
 			imageName = "icons/16/scheduler.png";
 		else if (obj instanceof Sender)
 			imageName = "icons/16/sender.png";
+		else if (obj instanceof InPort)
+			imageName = "icons/16/inPort.png";
+		else if (obj instanceof OutPort)
+			imageName = "icons/16/outPort.png";
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
-		
+
 		return imageName;
 	}
 }
