@@ -29,7 +29,9 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Dscilia;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
@@ -277,5 +279,60 @@ public class DsciliaRepoService {
 		boolean retval = file.delete();
 		updateModel();
 		return retval;
+	}
+
+	public String isNewChainNameAllowed(RepoElement repo, String chainName) {
+		final String baseName = canonizeChainName(chainName);
+		if (baseName.length() == 0) {
+			return "Empty name is not allowed";
+		}
+		
+		Chain chain = findChain(chainName);
+		if (chain != null) {
+			return "A chain with this name already exists in the repository.";
+		}
+		
+		return null;
+	}
+	
+	private Chain findChain(String chainName) {
+		for (RepoElement re : repo) {
+			if (re.getDscilia() != null) {
+				for (Chain chain : re.getDscilia().getChains()) {
+					if (chain.getId().equalsIgnoreCase(chainName))
+						return chain;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Before chain creation, a method for name canonization.
+	 * @param chainName
+	 * @return the name canonized.
+	 */
+	private String canonizeChainName(String chainName) {
+		return chainName.trim();
+	}
+
+	/**
+	 * Creates the chain in a repository element.
+	 *
+	 * @param repo the repo
+	 * @param chainName the chain name
+	 */
+	public void createChain(RepoElement repo, String chainName) {
+		if (repo.getDscilia() == null)
+			return;
+		if (isNewChainNameAllowed(repo, chainName) != null)
+			return;
+		
+		try {
+			repo.getDscilia().createChain(chainName);
+			updateModel();
+		} catch (MetadataException e) {
+			e.printStackTrace();
+		}
 	}
 }

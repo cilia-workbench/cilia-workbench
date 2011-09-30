@@ -59,6 +59,14 @@
             id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteFile"
             name="Delete Dscilia file">
       </command>
+            <command
+            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createChain"
+            name="Create Dscilia chain">
+      </command>
+      <command
+            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteChain"
+            name="Delete Dscilia chain">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -82,6 +90,7 @@
                style="push">
          </command>
       </menuContribution>
+      
       <menuContribution
             allPopups="false"
             locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
@@ -92,6 +101,7 @@
                style="push">
          </command>
       </menuContribution>
+      
       <menuContribution
             allPopups="false"
             locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
@@ -102,6 +112,30 @@
                style="push">
          </command>
       </menuContribution>
+      
+            <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createChain"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chainCreate.png"
+               label="Create Dscilia chain"
+               style="push">
+         </command>
+      </menuContribution>
+      
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteChain"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chainDelete.png"
+               label="Delete Dscilia chain"
+               style="push">
+         </command>
+      </menuContribution>
+      
+      
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -121,6 +155,17 @@
             class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DeleteFileHandler"
             commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteFile">
       </handler>
+      
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.CreateChainHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createChain">
+      </handler>
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DeleteChainHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteChain">
+      </handler>
+      
+      
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">
       <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
@@ -152,8 +197,7 @@
    <extension
          point="org.eclipse.core.contenttype.contentTypes">
          
-         
-         
+              
 	<file-association
        content-type="org.eclipse.core.runtime.xml"
        file-extensions="dscilia"/>

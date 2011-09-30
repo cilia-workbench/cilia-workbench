@@ -18,35 +18,49 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 /**
- * CreateFileHandler.
+ * CreateChainHandler.
  */
-public class CreateFileHandler extends CommonHandler {
-	
+public class CreateChainHandler extends CommonHandler {
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+
+		// Gets the dscilia file first
+		Object object = getFirstSelectedElementInRepositoryView(event);
+		if (!(object instanceof RepoElement)) {
+			MessageDialog.openError(getShell(event), "Error", "Please select a dscilia file first.");
+			return null;
+		}
+		final RepoElement repo = (RepoElement) object;
+		if (repo.getDscilia() == null) {
+			MessageDialog.openError(getShell(event), "Error", "Dscilia file must be in a valid state. Please check xml.");
+			return null;
+		}
 		
 		// Validator
 		IInputValidator validator = new IInputValidator() {
 			@Override
 			public String isValid(String newText) {
-				return DsciliaRepoService.getInstance().isNewFileNameAllowed(newText);
+				return DsciliaRepoService.getInstance().isNewChainNameAllowed(repo, newText);
 			}
 		};
 		
 		// Dialog creation
-		InputDialog dialog = new InputDialog(getShell(event), "File creation", "Please give a name for the new file.", ".dscilia", validator);
+		InputDialog dialog = new InputDialog(getShell(event), "Chain creation", "Please give a name for the new chain.", "", validator);
 		
 		if (dialog.open() == Window.OK) {
-			String fileName = dialog.getValue();
-			DsciliaRepoService.getInstance().createFile(fileName);
+			String chainName = dialog.getValue();
+			DsciliaRepoService.getInstance().createChain(repo, chainName);
         }
 		
 		return null;
