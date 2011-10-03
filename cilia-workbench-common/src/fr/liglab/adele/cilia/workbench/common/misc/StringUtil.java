@@ -8,19 +8,40 @@ public class StringUtil {
 
 	private static final String SEPARATOR = ":";
 
+	
 	public static String getBeforeSeparatorOrAll(String name) {
 		Preconditions.checkNotNull(name);
-		
+
 		int index = name.indexOf(SEPARATOR);
 		if (index == -1)
 			return name;
 		return name.substring(0, index);
 	}
-	
+
+	public static String getBeforeSeparatorOrNothing(String name) {
+		Preconditions.checkNotNull(name);
+
+		int index = name.indexOf(SEPARATOR);
+		if (index == -1 || name.startsWith(SEPARATOR))
+			return "";
+		else
+			return name.substring(0, index);
+	}
+
+	public static String getAfterSeparatorOrAll(String name) {
+		Preconditions.checkNotNull(name);
+		
+		int index = name.indexOf(SEPARATOR);
+		if (index == -1)
+			return name;
+		else
+			return name.substring(index + 1);
+	}
+
 	
 	public static String getFileName(String path) {
 		Preconditions.checkNotNull(path);
-		
+
 		int index = path.lastIndexOf(File.separator, path.length());
 		if (index == -1)
 			return path;

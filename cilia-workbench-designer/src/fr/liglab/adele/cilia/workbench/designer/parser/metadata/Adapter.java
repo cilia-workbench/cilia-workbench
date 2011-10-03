@@ -2,7 +2,6 @@ package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.XMLutil;
 
 public class Adapter {
 
@@ -15,8 +14,8 @@ public class Adapter {
 	
 	public Adapter(Node node) throws MetadataException {
 		
-		XMLutil.setRequiredAttribute(node, "name", this, "name");
-		XMLutil.setRequiredAttribute(node, "pattern", this, "pattern");
+		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
+		XMLReflectionUtil.setRequiredAttribute(node, "pattern", this, "pattern");
 
 		String subNodeName ;
 		if (pattern.equals("in-only"))
@@ -26,10 +25,10 @@ public class Adapter {
 		else
 			throw new MetadataException("Invalid pattern : " + pattern);
 		
-		Node subNode = XMLutil.findChild(node, subNodeName);
+		Node subNode = XMLReflectionUtil.findChild(node, subNodeName);
 		if (subNode == null)
 			throw new MetadataException(subNodeName + " element not found");
-		XMLutil.setRequiredAttribute(subNode, "type", this, "elementType");
+		XMLReflectionUtil.setRequiredAttribute(subNode, "type", this, "elementType");
 	}
 	
 	public String getPattern() {

@@ -26,6 +26,7 @@ import org.xml.sax.SAXException;
 
 import com.google.common.base.Strings;
 
+import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
@@ -129,7 +130,7 @@ public class Dscilia {
 
 	private Node findXMLChainNode(Document document, String chainId) throws MetadataException {
 		Node root = getCiliaNode(document);
-		Node[] results = findXMLChildNode(root, "chain", "id", chainId);
+		Node[] results = XMLUtil.findXMLChildNode(root, "chain", "id", chainId);
 		
 		if (results.length == 0)
 			return null;
@@ -137,49 +138,11 @@ public class Dscilia {
 			return results[0];
 	}
 
-	private Node[] findXMLChildNode(Node root, String nodeName) {
-		return findXMLChildNode(root, nodeName, null, null);
-	}
-	
-	
-	private Node[] findXMLChildNode(Node root, String nodeName, String nodeAttribute, String attributeValue) {
-		ArrayList<Node> retval = new ArrayList<Node>();
-
-		NodeList list = root.getChildNodes();
-		for (int i = 0; i < list.getLength(); i++) {
-			Node current = list.item(i);
-			if (current.getNodeName().equalsIgnoreCase(nodeName)) {
-				if (Strings.isNullOrEmpty(nodeAttribute)) {
-					retval.add(current);
-				} else {
-					NamedNodeMap attrs = current.getAttributes();
-					for (int j = 0; j < attrs.getLength(); j++) {
-						Node attr = attrs.item(j);
-						String name = attr.getNodeName();
-						String value = attr.getNodeValue();
-						if (name.equalsIgnoreCase(nodeAttribute) && value.equals(attributeValue))
-							retval.add(current);
-					}
-				}
-			}
-		}
-
-		return retval.toArray(new Node[0]);
-	}
-
 	public void createMediatorInstance(Chain chain, String mediatorId, String mediatorType) throws MetadataException {
 		if (chain.isNewMediatorInstanceAllowed(mediatorId, mediatorType) == null) {
 			Document document = getDocument();
 			Node chainNode = findXMLChainNode(document, chain.getId());
-			Node[] mediatorsNodes = findXMLChildNode(chainNode, "mediators");
-			Node mediatorNode = null;
-			if (mediatorsNodes.length == 0) {
-				Element child = document.createElement("mediators");
-				mediatorNode = chainNode.appendChild(child);
-			}
-			else {
-				mediatorNode = mediatorsNodes[0];
-			}
+			Node mediatorNode = XMLUtil.getOrCreateSubNode(document, chainNode, "mediators");
 
 			Element child = document.createElement("mediator-instance");
 			child.setAttribute("id", mediatorId);

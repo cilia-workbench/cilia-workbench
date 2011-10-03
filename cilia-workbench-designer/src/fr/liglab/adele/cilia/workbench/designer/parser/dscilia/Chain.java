@@ -8,8 +8,8 @@ import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.XMLutil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
@@ -23,25 +23,25 @@ public class Chain {
 
 	public Chain(Node node) throws MetadataException {
 		this.node = node;
-		XMLutil.setRequiredAttribute(node, "id", this, "id");
+		XMLReflectionUtil.setRequiredAttribute(node, "id", this, "id");
 
-		Node rootAdapters = XMLutil.findChild(node, "adapters");
+		Node rootAdapters = XMLReflectionUtil.findChild(node, "adapters");
 		if (rootAdapters != null) {
-			Node[] ais = XMLutil.findChildren(rootAdapters, "adapter-instance");
+			Node[] ais = XMLReflectionUtil.findChildren(rootAdapters, "adapter-instance");
 			for (Node ai : ais)
 				adapters.add(new AdapterInstance(ai));
 		}
 
-		Node rootMediators = XMLutil.findChild(node, "mediators");
+		Node rootMediators = XMLReflectionUtil.findChild(node, "mediators");
 		if (rootMediators != null) {
-			Node[] mis = XMLutil.findChildren(rootMediators, "mediator-instance");
+			Node[] mis = XMLReflectionUtil.findChildren(rootMediators, "mediator-instance");
 			for (Node mi : mis)
 				mediators.add(new MediatorInstance(mi));
 		}
 
-		Node rootBindings = XMLutil.findChild(node, "bindings");
+		Node rootBindings = XMLReflectionUtil.findChild(node, "bindings");
 		if (rootBindings != null) {
-			Node[] bis = XMLutil.findChildren(rootBindings, "binding");
+			Node[] bis = XMLReflectionUtil.findChildren(rootBindings, "binding");
 			for (Node bi : bis)
 				bindings.add(new Binding(bi));
 		}

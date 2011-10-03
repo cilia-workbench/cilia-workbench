@@ -3,8 +3,8 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.XMLutil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 
 public class Binding {
@@ -13,8 +13,8 @@ public class Binding {
 	private String to;
 	
 	public Binding(Node node) throws MetadataException {
-		XMLutil.setRequiredAttribute(node, "from", this, "from");
-		XMLutil.setRequiredAttribute(node, "to", this, "to");
+		XMLReflectionUtil.setRequiredAttribute(node, "from", this, "from");
+		XMLReflectionUtil.setRequiredAttribute(node, "to", this, "to");
 	}
 
 	public String getSourceId() {

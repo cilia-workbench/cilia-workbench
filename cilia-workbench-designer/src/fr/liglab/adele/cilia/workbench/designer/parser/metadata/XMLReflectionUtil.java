@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.workbench.designer.parser;
+package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -8,10 +8,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 
 
-public class XMLutil {
+public class XMLReflectionUtil {
 
 	public static boolean setRequiredAttribute(Node node, String attrName, Object object,
 			String fieldName) throws MetadataException {
@@ -92,8 +92,8 @@ public class XMLutil {
 			for (int i = 0; i < attrs.getLength(); i++) {
 				Node attr = attrs.item(i);
 				String fullname = attr.getNodeName().toLowerCase();
-				String name = computeName(fullname);
-				String namespace = computeNamespace(fullname);
+				String name = XMLUtil.computeName(fullname);
+				String namespace = XMLUtil.computeNamespace(fullname);
 				String value = attr.getNodeValue();
 
 				if (attrName.equals(name))
@@ -103,26 +103,6 @@ public class XMLutil {
 
 		throw new MetadataException("Attribute " + attrName + " not found");
 	}
-	
-	
-
-	private static String computeNamespace(String fullname) {
-		int location = fullname.indexOf(":");
-
-		if (location == -1 || fullname.startsWith(":"))
-			return "";
-		else
-			return fullname.substring(0, location);
-	}
-
-	private static String computeName(String fullname) {
-		int location = fullname.indexOf(":");
-		if (location == -1)
-			return fullname;
-		else
-			return fullname.substring(location + 1);
-	}
-
 	
 	public static Node findChild(Node node, String childName) {
 
@@ -145,7 +125,7 @@ public class XMLutil {
 				String localName = child.getNodeName();
 
 				if (child.getNodeType() == Node.ELEMENT_NODE) {
-					String name = computeName(localName);
+					String name = XMLUtil.computeName(localName);
 					if (name.equals(childrenName))
 						list.add(child);
 				}
