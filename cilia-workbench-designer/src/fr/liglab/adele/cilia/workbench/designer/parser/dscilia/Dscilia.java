@@ -24,9 +24,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.google.common.base.Strings;
+
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
 public class Dscilia {
 	private String filePath;
@@ -92,6 +95,9 @@ public class Dscilia {
 
 		// Write it back to file system
 		writeDOM(document);
+
+		// Notifies Repository
+		DsciliaRepoService.getInstance().updateModel();
 	}
 
 	private void writeDOM(Document document) throws MetadataException {
@@ -110,30 +116,84 @@ public class Dscilia {
 	public void deleteChain(String id) throws MetadataException {
 		// Finding target node
 		Document document = getDocument();
+		Node target = findXMLChainNode(document, id);
+
+		if (target != null) {
+			getCiliaNode(document).removeChild(target);
+			writeDOM(document);
+
+			// Notifies Repository
+			DsciliaRepoService.getInstance().updateModel();
+		}
+	}
+
+	private Node findXMLChainNode(Document document, String chainId) throws MetadataException {
 		Node root = getCiliaNode(document);
+		Node[] results = findXMLChildNode(root, "chain", "id", chainId);
+		
+		if (results.length == 0)
+			return null;
+		else
+			return results[0];
+	}
+
+	private Node[] findXMLChildNode(Node root, String nodeName) {
+		return findXMLChildNode(root, nodeName, null, null);
+	}
+	
+	
+	private Node[] findXMLChildNode(Node root, String nodeName, String nodeAttribute, String attributeValue) {
+		ArrayList<Node> retval = new ArrayList<Node>();
+
 		NodeList list = root.getChildNodes();
-		Node target = null;
-		for (int i=0; i<list.getLength() && target == null; i++) {
+		for (int i = 0; i < list.getLength(); i++) {
 			Node current = list.item(i);
-			if (current.getNodeName().equalsIgnoreCase("chain")) {
-				NamedNodeMap attrs = current.getAttributes();
-				for (int j=0; j<attrs.getLength() && target == null; j++) {
-					Node attr = attrs.item(j);
-					String name = attr.getNodeName();
-					String value = attr.getNodeValue();
-					if (name.equalsIgnoreCase("id") && value.equals(id))
-						target = current;
+			if (current.getNodeName().equalsIgnoreCase(nodeName)) {
+				if (Strings.isNullOrEmpty(nodeAttribute)) {
+					retval.add(current);
+				} else {
+					NamedNodeMap attrs = current.getAttributes();
+					for (int j = 0; j < attrs.getLength(); j++) {
+						Node attr = attrs.item(j);
+						String name = attr.getNodeName();
+						String value = attr.getNodeValue();
+						if (name.equalsIgnoreCase(nodeAttribute) && value.equals(attributeValue))
+							retval.add(current);
+					}
 				}
-					
 			}
 		}
-		
-		if (target != null) {
-			root.removeChild(target);
+
+		return retval.toArray(new Node[0]);
+	}
+
+	public void createMediatorInstance(Chain chain, String mediatorId, String mediatorType) throws MetadataException {
+		if (chain.isNewMediatorInstanceAllowed(mediatorId, mediatorType) == null) {
+			Document document = getDocument();
+			Node chainNode = findXMLChainNode(document, chain.getId());
+			Node[] mediatorsNodes = findXMLChildNode(chainNode, "mediators");
+			Node mediatorNode = null;
+			if (mediatorsNodes.length == 0) {
+				Element child = document.createElement("mediators");
+				mediatorNode = chainNode.appendChild(child);
+			}
+			else {
+				mediatorNode = mediatorsNodes[0];
+			}
+
+			Element child = document.createElement("mediator-instance");
+			child.setAttribute("id", mediatorId);
+			child.setAttribute("type", mediatorType);
+			mediatorNode.appendChild(child);
+			
+			// Write it back to file system
 			writeDOM(document);
+
+			// Notifies Repository
+			DsciliaRepoService.getInstance().updateModel();
 		}
-	}	
-	
+	}
+
 	public List<Chain> getChains() {
 		return chains;
 	}
@@ -157,7 +217,7 @@ public class Dscilia {
 		for (Iterator<Chain> itr = chains.iterator(); itr.hasNext();) {
 			Chain old = itr.next();
 			String id = old.getId();
-			Chain updated = pullChain(newInstance, id);
+			Chain updated = PullElementUtil.pullChain(newInstance, id);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
@@ -175,18 +235,7 @@ public class Dscilia {
 		// path update
 		for (Changeset c : retval)
 			c.pushPathElement(this);
-		
-		return retval.toArray(new Changeset[0]);
-	}
 
-	private Chain pullChain(Dscilia newInstance, String id) {
-		for (Iterator<Chain> itr = newInstance.getChains().iterator(); itr.hasNext();) {
-			Chain element = itr.next();
-			if (element.getId().equals(id)) {
-				itr.remove();
-				return element;
-			}
-		}
-		return null;
+		return retval.toArray(new Changeset[0]);
 	}
 }

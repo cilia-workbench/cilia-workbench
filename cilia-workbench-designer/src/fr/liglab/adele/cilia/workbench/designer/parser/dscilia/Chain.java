@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
+import com.google.common.base.Strings;
+
 import fr.liglab.adele.cilia.workbench.designer.parser.XMLutil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
@@ -17,8 +19,10 @@ public class Chain {
 	private List<AdapterInstance> adapters = new ArrayList<AdapterInstance>();
 	private List<MediatorInstance> mediators = new ArrayList<MediatorInstance>();
 	private List<Binding> bindings = new ArrayList<Binding>();
+	private Node node;
 
 	public Chain(Node node) throws MetadataException {
+		this.node = node;
 		XMLutil.setRequiredAttribute(node, "id", this, "id");
 
 		Node rootAdapters = XMLutil.findChild(node, "adapters");
@@ -111,7 +115,7 @@ public class Chain {
 		for (Iterator<AdapterInstance> itr = adapters.iterator(); itr.hasNext();) {
 			AdapterInstance old = itr.next();
 			String id = old.getId();
-			AdapterInstance updated = pullAdapterInstance(newInstance, id);
+			AdapterInstance updated = PullElementUtil.pullAdapterInstance(newInstance, id);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
@@ -125,7 +129,7 @@ public class Chain {
 		for (Iterator<MediatorInstance> itr = mediators.iterator(); itr.hasNext();) {
 			MediatorInstance old = itr.next();
 			String id = old.getId();
-			MediatorInstance updated = pullMediatorInstance(newInstance, id);
+			MediatorInstance updated = PullElementUtil.pullMediatorInstance(newInstance, id);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
@@ -140,7 +144,7 @@ public class Chain {
 			Binding old = itr.next();
 			String from = old.getSourceId();
 			String to = old.getDestinationId();
-			Binding updated = pullBinding(newInstance, from, to);
+			Binding updated = PullElementUtil.pullBinding(newInstance, from, to);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
@@ -172,37 +176,21 @@ public class Chain {
 
 		return retval.toArray(new Changeset[0]);
 	}
-
-	private Binding pullBinding(Chain newInstance, String from, String to) {
-		for (Iterator<Binding> itr = newInstance.getBindings().iterator(); itr.hasNext();) {
-			Binding element = itr.next();
-			if (element.getSourceId().equals(from) && element.getDestinationId().equals(to)) {
-				itr.remove();
-				return element;
+	
+	public String isNewMediatorInstanceAllowed(String mediatorId, String mediatorType) {
+		
+		String message = null;
+		if (Strings.isNullOrEmpty(mediatorId)) {
+			message = "mediator id can't be empty";
+		} else if (Strings.isNullOrEmpty(mediatorType)) {
+			message = "mediator type can't be empty";
+		} else {
+			for (MediatorInstance m : mediators) {
+				if (mediatorId.equalsIgnoreCase(m.getId()))
+					message = "a mediator instance with id " + mediatorId + " already exists";
 			}
 		}
-		return null;
-	}
-
-	private MediatorInstance pullMediatorInstance(Chain newInstance, String id) {
-		for (Iterator<MediatorInstance> itr = newInstance.getMediators().iterator(); itr.hasNext();) {
-			MediatorInstance element = itr.next();
-			if (element.getId().equals(id)) {
-				itr.remove();
-				return element;
-			}
-		}
-		return null;
-	}
-
-	private AdapterInstance pullAdapterInstance(Chain newInstance, String id) {
-		for (Iterator<AdapterInstance> itr = newInstance.getAdapters().iterator(); itr.hasNext();) {
-			AdapterInstance element = itr.next();
-			if (element.getId().equals(id)) {
-				itr.remove();
-				return element;
-			}
-		}
-		return null;
+		
+		return message;
 	}
 }

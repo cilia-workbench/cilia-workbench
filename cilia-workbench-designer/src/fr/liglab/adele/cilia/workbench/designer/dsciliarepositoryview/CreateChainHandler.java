@@ -51,7 +51,7 @@ public class CreateChainHandler extends CommonHandler {
 		IInputValidator validator = new IInputValidator() {
 			@Override
 			public String isValid(String newText) {
-				return DsciliaRepoService.getInstance().isNewChainNameAllowed(repo, newText);
+				return DsciliaRepoService.getInstance().isNewChainNameAllowed(newText);
 			}
 		};
 		

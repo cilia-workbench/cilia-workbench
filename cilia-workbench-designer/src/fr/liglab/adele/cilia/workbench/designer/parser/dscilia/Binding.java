@@ -2,6 +2,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.XMLutil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
@@ -17,21 +18,13 @@ public class Binding {
 	}
 
 	public String getSourceId() {
-		return getId(from);
+		return StringUtil.getBeforeSeparatorOrAll(from);
 	}
 	
 	public String getDestinationId() {
-		return getId(to);
+		return StringUtil.getBeforeSeparatorOrAll(to);
 	}
 	
-	private String getId(String name) {
-		int index = name.indexOf(":");
-		if (index == -1)
-			return name;
-		String retval = name.substring(0, index);
-		return retval;
-	}
-
 	public Changeset[] merge(Binding newInstance) {
 		return new Changeset[0];
 	}

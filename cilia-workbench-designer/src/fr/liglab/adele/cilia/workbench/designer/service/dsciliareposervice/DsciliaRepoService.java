@@ -27,7 +27,6 @@ import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 
 import com.google.common.base.Preconditions;
@@ -36,6 +35,7 @@ import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Dscilia;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
@@ -59,9 +59,11 @@ public class DsciliaRepoService {
 	/** Listeners. */
 	private List<IDSciliaRepositoryListener> listeners = new ArrayList<IDSciliaRepositoryListener>();
 
+	/** DScilia files extension. */
 	private final String ext = ".dscilia";
 
-	private DsciliaContentProvider contentProvider = null;
+	/** Content provider, for computing parents */
+	private DsciliaContentProvider contentProvider;
 
 	/**
 	 * Gets the singleton instance.
@@ -90,6 +92,12 @@ public class DsciliaRepoService {
 		updateModel();
 	}
 
+	
+	/**
+	 * Gets the model.
+	 *
+	 * @return the model
+	 */
 	public List<RepoElement> getModel() {
 		return repo;
 	}
@@ -180,14 +188,21 @@ public class DsciliaRepoService {
 			return false;
 	}
 
-	public Changeset[] merge(List<RepoElement> repoElements) {
+	/**
+	 * Merge a list of repo element into the current model.
+	 * Only differences between the argument and the model are merge back into the model.  
+	 * 
+	 * @param repoElements a new model
+	 * @return a list of changesets, which can be empty.
+	 */
+	private Changeset[] merge(List<RepoElement> repoElements) {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
 		for (Iterator<RepoElement> itr = repo.iterator(); itr.hasNext();) {
 			RepoElement old = itr.next();
 			String id = old.getFilePath();
-			RepoElement updated = pullRepoElement(repoElements, id);
+			RepoElement updated = PullElementUtil.pullRepoElement(repoElements, id);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
@@ -208,17 +223,6 @@ public class DsciliaRepoService {
 		
 		
 		return retval.toArray(new Changeset[0]);
-	}
-
-	private RepoElement pullRepoElement(List<RepoElement> newInstance, String id) {
-		for (Iterator<RepoElement> itr = newInstance.iterator(); itr.hasNext();) {
-			RepoElement element = itr.next();
-			if (element.getFilePath().equals(id)) {
-				itr.remove();
-				return element;
-			}
-		}
-		return null;
 	}
 
 	/**
@@ -296,7 +300,10 @@ public class DsciliaRepoService {
 		return retval;
 	}
 
-	public String isNewChainNameAllowed(RepoElement repo, String chainName) {
+	
+	
+	
+	public String isNewChainNameAllowed(String chainName) {
 		final String baseName = canonizeChainName(chainName);
 		if (baseName.length() == 0) {
 			return "Empty name is not allowed";
@@ -340,12 +347,11 @@ public class DsciliaRepoService {
 	public void createChain(RepoElement repo, String chainName) {
 		if (repo.getDscilia() == null)
 			return;
-		if (isNewChainNameAllowed(repo, chainName) != null)
+		if (isNewChainNameAllowed(chainName) != null)
 			return;
 		
 		try {
 			repo.getDscilia().createChain(chainName);
-			updateModel();
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
@@ -357,7 +363,6 @@ public class DsciliaRepoService {
 			return;
 		try {
 			repo.getDscilia().deleteChain(chain.getId());
-			updateModel();
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
@@ -377,5 +382,12 @@ public class DsciliaRepoService {
 			return getRepoElement(parent);
 		else
 			return null;
+	}
+
+	public void createMediatorInstance(Chain chain, String id, String type) throws MetadataException {
+		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
+		if (repo == null)
+			return;
+		repo.getDscilia().createMediatorInstance(chain, id, type);
 	}
 }

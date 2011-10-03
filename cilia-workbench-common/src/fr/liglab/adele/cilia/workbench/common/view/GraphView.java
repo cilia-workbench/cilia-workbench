@@ -27,7 +27,7 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 		viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED);
 
 		// Layout
-		LayoutAlgorithm layout = setLayout();
+		LayoutAlgorithm layout = getLayout();
 		viewer.setLayoutAlgorithm(layout, true);
 		viewer.applyLayout();
 
@@ -51,7 +51,7 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 	 *
 	 * @return the layout algorithm
 	 */
-	private LayoutAlgorithm setLayout() {
+	private LayoutAlgorithm getLayout() {
 		LayoutAlgorithm layout;
 		// layout = new
 		// SpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);

@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.chaindesignerview.ChainDesignerView;
 
 public abstract class CommonHandler extends AbstractHandler {
 
@@ -35,6 +36,14 @@ public abstract class CommonHandler extends AbstractHandler {
 		return (DsciliaRepositoryView) ViewUtil.findViewWithId(event, viewId);
 	}
 
+	protected ChainDesignerView getChainDesignerView(ExecutionEvent event) {
+		String viewId = ChainDesignerView.viewId;
+		return (ChainDesignerView) ViewUtil.findViewWithId(event, viewId);
+	}
+	
+	
+	
+	
 	protected Object getFirstSelectedElementInRepositoryView(ExecutionEvent event) {
 		DsciliaRepositoryView view = getRepositoryView(event);
 		return view.getFirstSelectedElement();

@@ -14,9 +14,9 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
-import java.io.File;
 import java.util.ArrayList;
 
+import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Dscilia;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
@@ -113,10 +113,6 @@ public class RepoElement {
 	 */
 	@Override
 	public String toString() {
-		int index = path.lastIndexOf(File.separator, path.length());
-		if (index == -1)
-			return path;
-		else
-			return path.substring(index + 1);
+		return StringUtil.getFileName(path);
 	}
 }

@@ -112,4 +112,8 @@ public class ChainDesignerView extends GraphView implements IDSciliaRepositoryLi
 			}
 		}
 	}
+	
+	public Chain getModel() {
+		return model;
+	}
 }
