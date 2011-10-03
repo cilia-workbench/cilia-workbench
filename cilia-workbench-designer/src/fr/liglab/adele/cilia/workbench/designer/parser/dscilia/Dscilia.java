@@ -23,6 +23,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.google.common.base.Strings;
+
 import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
@@ -163,6 +165,38 @@ public class Dscilia {
 		DsciliaRepoService.getInstance().updateModel();
 	}
 
+	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort) throws MetadataException {
+		if (chain.isNewBindingAllowed(srcElem, srcPort, dstElem, dstPort) == null) {
+			
+			String from;
+			if (Strings.isNullOrEmpty(srcPort))
+				from = srcElem;
+			else
+				from = srcElem + ":" + srcPort;
+			
+			String to;
+			if (Strings.isNullOrEmpty(dstPort))
+				to = dstElem;
+			else
+				to = dstElem + ":" + dstPort;
+			
+			Document document = getDocument();
+			Node chainNode = findXMLChainNode(document, chain.getId());
+			Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, "bindings");
+
+			Element child = document.createElement("binding");
+			child.setAttribute("from", from);
+			child.setAttribute("to", to);
+			componentNode.appendChild(child);
+
+			// Write it back to file system
+			writeDOM(document);
+
+			// Notifies Repository
+			DsciliaRepoService.getInstance().updateModel();
+		}
+	}
+	
 	public List<Chain> getChains() {
 		return chains;
 	}

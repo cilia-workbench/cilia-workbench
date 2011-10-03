@@ -8,10 +8,12 @@ import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 public class Chain {
 
@@ -81,7 +83,7 @@ public class Chain {
 		return retval.toArray();
 	}
 
-	private Object getComponent(String componentId) {
+	private ComponentInstance getComponent(String componentId) {
 		for (AdapterInstance adapter : adapters)
 			if (adapter.getId().equals(componentId))
 				return adapter;
@@ -96,13 +98,13 @@ public class Chain {
 		return id;
 	}
 
-	public Object[] getElements() {
-		List<Object> retval = new ArrayList<Object>();
+	public ComponentInstance[] getElements() {
+		List<ComponentInstance> retval = new ArrayList<ComponentInstance>();
 		for (AdapterInstance adapter : adapters)
 			retval.add(adapter);
 		for (MediatorInstance mediator : mediators)
 			retval.add(mediator);
-		return retval.toArray();
+		return retval.toArray(new ComponentInstance[0]);
 	}
 	
 	public String getId() {
@@ -208,5 +210,53 @@ public class Chain {
 		}
 		
 		return message;
+	}
+
+	public String isNewBindingAllowed(String srcElem, String srcPort, String dstElem, String dstPort) {
+		if (Strings.isNullOrEmpty(srcElem))
+			return "Source element can't be empty";
+		if (Strings.isNullOrEmpty(dstElem))
+			return "Destination element can't be empty";
+		if (srcElem.equalsIgnoreCase(dstElem))
+			return "Source and destination can't be the same";
+		
+		ComponentInstance src = getComponent(srcElem);
+		ComponentInstance dst = getComponent(dstElem);
+		if (src == null)
+			return "Can't find " + srcElem + " in chain " + getId();
+		if (dst == null)
+			return "Can't find " + dstElem + " in chain " + getId();
+		
+		if (src instanceof AdapterInstance) {
+			AdapterInstance in = (AdapterInstance) src;
+			String type = in.getType();
+			Adapter ta = JarRepoService.getInstance().getAdapter(type);
+			if (ta != null) {
+				if (ta.getPattern().equals(Adapter.IN_PATTERN))
+					return src.id + " is an in-adapter. It can't be a binding source.";
+			}
+			else {
+				for (Binding b : bindings)
+					if (b.getDestinationId().equals(src.id))
+						return src.id + " is already used as an in-adapter";
+			}
+		}
+		
+		if (dst instanceof AdapterInstance) {
+			AdapterInstance out = (AdapterInstance) dst;
+			String type = out.getType();
+			Adapter ta = JarRepoService.getInstance().getAdapter(type);
+			if (ta != null) {
+				if (ta.getPattern().equals(Adapter.OUT_PATTERN))
+					return dst.id + " is an out-adapter. It can't be a binding destination.";
+			}
+			else {
+				for (Binding b : bindings)
+					if (b.getSourceId().equals(dst.id))
+						return dst.id + " is already used as an out-adapter";
+			}
+		}
+			
+		return null;
 	}
 }

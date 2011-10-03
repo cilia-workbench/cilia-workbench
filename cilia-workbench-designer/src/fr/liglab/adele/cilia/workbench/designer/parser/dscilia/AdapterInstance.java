@@ -7,20 +7,12 @@ import fr.liglab.adele.cilia.workbench.designer.parser.metadata.XMLReflectionUti
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
-public class AdapterInstance {
-
-	private String id;
-	private String type;
+public class AdapterInstance extends ComponentInstance {
 	
 	public AdapterInstance(Node node) throws MetadataException {
-		XMLReflectionUtil.setRequiredAttribute(node, "id", this, "id");
-		XMLReflectionUtil.setRequiredAttribute(node, "type", this, "type");
+		super(node);
 	}
-	
-	public String getId() {
-		return id;
-	}
-
+		
 	public Changeset[] merge(AdapterInstance newInstance) {
 		if (type.equals(newInstance.type))
 			return new Changeset[0];

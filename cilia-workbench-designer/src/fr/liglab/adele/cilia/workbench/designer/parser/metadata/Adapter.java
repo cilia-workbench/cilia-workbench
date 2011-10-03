@@ -12,15 +12,18 @@ public class Adapter {
 	private String senderType;
 	private String elementType;
 	
+	public static String IN_PATTERN = "in-only";
+	public static String OUT_PATTERN = "out-only";
+	
 	public Adapter(Node node) throws MetadataException {
 		
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
 		XMLReflectionUtil.setRequiredAttribute(node, "pattern", this, "pattern");
 
 		String subNodeName ;
-		if (pattern.equals("in-only"))
+		if (pattern.equals(IN_PATTERN))
 			subNodeName = "collector";
-		else if (pattern.equals("out-only"))
+		else if (pattern.equals(OUT_PATTERN))
 			subNodeName = "sender";
 		else
 			throw new MetadataException("Invalid pattern : " + pattern);

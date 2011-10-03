@@ -168,4 +168,21 @@ public class JarRepoService {
 		
 		return retval.toArray(new String[0]);
 	}
+	
+	public Adapter getAdapter(String name) {
+		for (Bundle bundle : model)
+			for (Adapter a : bundle.getMetadata().getAdapters())
+				if (a.getName().equalsIgnoreCase(name))
+					return a;
+		return null;
+	}
+	
+	public MediatorComponent getMediator(String name) {
+		for (Bundle bundle : model)
+			for (MediatorComponent m : bundle.getMetadata().getMediatorComponents())
+				if (m.getName().equalsIgnoreCase(name))
+					return m;
+		return null;
+	}
+	
 }

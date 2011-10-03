@@ -397,4 +397,11 @@ public class DsciliaRepoService {
 			return;
 		repo.getDscilia().createAdapterInstance(chain, id, type);
 	}
+
+	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort) throws MetadataException {
+		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
+		if (repo == null)
+			return;
+		repo.getDscilia().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
+	}
 }

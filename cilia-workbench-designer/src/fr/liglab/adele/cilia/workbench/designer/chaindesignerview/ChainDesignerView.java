@@ -42,7 +42,6 @@ public class ChainDesignerView extends GraphView implements IDSciliaRepositoryLi
 		viewer.setContentProvider(contentProvider);
 		viewer.setLabelProvider(new GraphLabelProvider());
 		viewer.setInput(new Object[0]);
-
 		DsciliaRepoService.getInstance().registerListener(this);
 	}
 

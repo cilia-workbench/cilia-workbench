@@ -7,18 +7,10 @@ import fr.liglab.adele.cilia.workbench.designer.parser.metadata.XMLReflectionUti
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
-public class MediatorInstance {
+public class MediatorInstance extends ComponentInstance {
 
-	private String id;
-	private String type;
-	
 	public MediatorInstance(Node node) throws MetadataException {
-		XMLReflectionUtil.setRequiredAttribute(node, "id", this, "id");
-		XMLReflectionUtil.setRequiredAttribute(node, "type", this, "type");
-	}
-	
-	public String getId() {
-		return id;
+		super(node);
 	}
 
 	public Changeset[] merge(MediatorInstance newInstance) {
