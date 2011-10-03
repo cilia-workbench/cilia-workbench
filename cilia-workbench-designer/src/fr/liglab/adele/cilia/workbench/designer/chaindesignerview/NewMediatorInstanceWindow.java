@@ -1,3 +1,17 @@
+/*
+ * Copyright Adele Team LIG (http://www-adele.imag.fr/)
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package fr.liglab.adele.cilia.workbench.designer.chaindesignerview;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -21,34 +35,66 @@ import com.google.common.base.Strings;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
+/**
+ * NewMediatorInstanceWindow.
+ */
 public class NewMediatorInstanceWindow extends Dialog {
 
+	/** The listener. */
+	private final WindowModifyListener listener = new WindowModifyListener();
+	/** The chain model element. */
+	private final Chain chain;
+	/** Margin used by the GridLayout. */
+	private final int margin = 10;	
+	/** The mediators id, found in the jar repository. */
+	private final String[] mediatorsId = JarRepoService.getInstance().getMediatorsId();
+	
+	/* =============== */
+	/* Text and labels */
+	/* =============== */
+	
+	/** The window title. */
+	private final String windowTitle = "New mediator instance";
+	/** Label for the ID field. */
+	private final String idLabelText = "ID";
+	/** Label for the Type field */
+	private final String typeLabelText = "Type";
+
+	/* ====== */
+	/* Fields */
+	/* ====== */
+	
+	/** The id field. */
+	private Text idText;
+	/** The type field. */
+	private Combo typeCombo;
+	/** The message area. */
+	Label messageArea;
+	
+	/* ====== */
+	/* Result */
+	/* ====== */
+	
+	/** The mediator id. */
+	private String mediatorId;
+	/** The mediator type. */
+	private String mediatorType;
+	
+	/**
+	 * Instantiates a new new mediator instance window.
+	 *
+	 * @param parentShell the parent shell
+	 * @param chain the chain
+	 */
 	protected NewMediatorInstanceWindow(Shell parentShell, Chain chain) {
 		super(parentShell);
 		Preconditions.checkNotNull(chain);
 		this.chain = chain;
 	}
-
-	private final String windowTitle = "New mediator instance";
-	private final String idLabelText = "ID";
-	private final String typeLabelText = "Type";
-
-	private Text idText;
-	private Combo typeCombo;
-	Label messageArea;
 	
-	private String mediatorId;
-	private String mediatorType;
-
-	private final WindowModifyListener listener = new WindowModifyListener();
-
-	private final Chain chain;
-
-	/** Margin used by the GridLayout */
-	private final int margin = 10;
-	
-	private final String[] mediatorsId = JarRepoService.getInstance().getMediatorsId();
-
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 */
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
 
@@ -95,6 +141,9 @@ public class NewMediatorInstanceWindow extends Dialog {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
+	 */
 	@Override
 	protected void initializeBounds() {
 		super.initializeBounds();
@@ -102,10 +151,20 @@ public class NewMediatorInstanceWindow extends Dialog {
 		
 	}
 
+	/**
+	 * Gets the mediator id.
+	 *
+	 * @return the mediator id
+	 */
 	public String getMediatorId() {
 		return mediatorId;
 	}
 	
+	/**
+	 * Gets the type.
+	 *
+	 * @return the type
+	 */
 	public String getType() {
 		return mediatorType;
 	}
@@ -140,7 +199,15 @@ public class NewMediatorInstanceWindow extends Dialog {
 		return true;
 	}
 
+	/**
+	 * Listener invoked each time the user modifies a field in this window.
+	 * @see WindowModifyEvent
+	 */
 	private class WindowModifyListener implements ModifyListener {
+		
+		/* (non-Javadoc)
+		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+		 */
 		@Override
 		public void modifyText(ModifyEvent e) {
 			String id = idText.getText();
