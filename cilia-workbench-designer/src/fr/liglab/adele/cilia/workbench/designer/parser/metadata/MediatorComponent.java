@@ -55,4 +55,8 @@ public class MediatorComponent {
 	public List<Port> getPorts() {
 		return ports;
 	}
+	
+	public String getName() {
+		return name;
+	}
 }

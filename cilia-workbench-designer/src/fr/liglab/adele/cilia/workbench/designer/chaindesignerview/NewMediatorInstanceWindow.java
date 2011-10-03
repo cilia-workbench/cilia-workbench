@@ -8,6 +8,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -18,6 +19,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 public class NewMediatorInstanceWindow extends Dialog {
 
@@ -31,9 +33,9 @@ public class NewMediatorInstanceWindow extends Dialog {
 	private final String idLabelText = "ID";
 	private final String typeLabelText = "Type";
 
-	private Text idText = null;
-	private Text typeText = null;
-	Label messageArea = null;
+	private Text idText;
+	private Combo typeCombo;
+	Label messageArea;
 	
 	private String mediatorId;
 	private String mediatorType;
@@ -44,6 +46,8 @@ public class NewMediatorInstanceWindow extends Dialog {
 
 	/** Margin used by the GridLayout */
 	private final int margin = 10;
+	
+	private final String[] mediatorsId = JarRepoService.getInstance().getMediatorsId();
 
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
@@ -72,9 +76,11 @@ public class NewMediatorInstanceWindow extends Dialog {
 		typeLabel.setText(typeLabelText);
 		typeLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		// Type Text
-		typeText = new Text(container, SWT.NONE);
-		typeText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		// Type Combo
+		typeCombo = new Combo(container, SWT.NONE);
+		for (String mediatorId : mediatorsId)
+			typeCombo.add(mediatorId);
+		typeCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// Message Area
 		messageArea = new Label(container, SWT.WRAP);
@@ -83,7 +89,7 @@ public class NewMediatorInstanceWindow extends Dialog {
 
 		// Listeners
 		idText.addModifyListener(listener);
-		typeText.addModifyListener(listener);
+		typeCombo.addModifyListener(listener);
 
 		return container;
 	}
@@ -138,13 +144,23 @@ public class NewMediatorInstanceWindow extends Dialog {
 		@Override
 		public void modifyText(ModifyEvent e) {
 			String id = idText.getText();
-			String type = typeText.getText();
+			String type = typeCombo.getText();
 			String msg = chain.isNewMediatorInstanceAllowed(id, type);
 
-			messageArea.setText(Strings.nullToEmpty(msg));
 			getButton(IDialogConstants.OK_ID).setEnabled(msg == null);
+			
+			boolean found = false;
+			for (int i=0; i<mediatorsId.length && !found ; i++)
+				if (mediatorsId[i].equalsIgnoreCase(type))
+					found = true;
+			
+			if (msg == null && !found)
+				messageArea.setText("Warning: mediator type " + type + " doesn't exists in repository.");  
+			else
+				messageArea.setText(Strings.nullToEmpty(msg));			
+			
 			mediatorId = idText.getText();
-			mediatorType = typeText.getText();
+			mediatorType = typeCombo.getText();
 		}
 	}
 }

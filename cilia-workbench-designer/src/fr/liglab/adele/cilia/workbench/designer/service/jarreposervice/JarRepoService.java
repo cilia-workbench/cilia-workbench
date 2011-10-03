@@ -25,6 +25,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 
 /**
@@ -147,5 +148,14 @@ public class JarRepoService {
 			return listeners.remove(listener);
 		else
 			return false;
+	}
+	
+	public String[] getMediatorsId() {
+		List<String> retval = new ArrayList<String>();
+		for (Bundle bundle : model)
+			for (MediatorComponent mc : bundle.getMetadata().getMediatorComponents())
+				retval.add(mc.getName());
+		
+		return retval.toArray(new String[0]);
 	}
 }
