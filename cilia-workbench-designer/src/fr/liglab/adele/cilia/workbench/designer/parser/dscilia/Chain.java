@@ -193,4 +193,20 @@ public class Chain {
 		
 		return message;
 	}
+
+	public String isNewAdapterInstanceAllowed(String adapterId, String adapterType) {
+		String message = null;
+		if (Strings.isNullOrEmpty(adapterId)) {
+			message = "adapter id can't be empty";
+		} else if (Strings.isNullOrEmpty(adapterType)) {
+			message = "adapter type can't be empty";
+		} else {
+			for (AdapterInstance a : adapters) {
+				if (adapterId.equalsIgnoreCase(a.getId()))
+					message = "an adapter instance with id " + adapterId + " already exists";
+			}
+		}
+		
+		return message;
+	}
 }

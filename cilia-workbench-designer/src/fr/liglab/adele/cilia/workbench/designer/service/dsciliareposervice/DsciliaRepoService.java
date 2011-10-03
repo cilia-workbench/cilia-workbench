@@ -390,4 +390,11 @@ public class DsciliaRepoService {
 			return;
 		repo.getDscilia().createMediatorInstance(chain, id, type);
 	}
+
+	public void createAdapterInstance(Chain chain, String id, String type) throws MetadataException {
+		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
+		if (repo == null)
+			return;
+		repo.getDscilia().createAdapterInstance(chain, id, type);
+	}
 }

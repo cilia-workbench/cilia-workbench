@@ -20,23 +20,23 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
- * NewMediatorInstanceWindow.
+ * NewAdapterInstanceWindow.
  */
-public class NewMediatorInstanceWindow extends NewComponentInstanceWindow {
-	
+public class NewAdapterInstanceWindow extends NewComponentInstanceWindow {
+
 	/**
-	 * Instantiates a new new mediator instance window.
+	 * Instantiates a new new adapter instance window.
 	 *
 	 * @param parentShell the parent shell
 	 * @param chain the chain
 	 */
-	protected NewMediatorInstanceWindow(Shell parentShell, Chain chain) {
-		super("mediator", parentShell, chain);
-		 componentsId = JarRepoService.getInstance().getMediatorsId();
+	protected NewAdapterInstanceWindow(Shell parentShell, Chain chain) {
+		super("adapter", parentShell, chain);
+		componentsId = JarRepoService.getInstance().getAdaptersId();
 	}
-
+	
 	@Override
 	protected String checkValidValues(String id, String type) {
-		 return chain.isNewMediatorInstanceAllowed(id, type);
+		 return chain.isNewAdapterInstanceAllowed(id, type);
 	}
 }

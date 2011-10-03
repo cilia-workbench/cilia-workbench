@@ -19,12 +19,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
@@ -131,30 +128,39 @@ public class Dscilia {
 	private Node findXMLChainNode(Document document, String chainId) throws MetadataException {
 		Node root = getCiliaNode(document);
 		Node[] results = XMLUtil.findXMLChildNode(root, "chain", "id", chainId);
-		
+
 		if (results.length == 0)
 			return null;
 		else
 			return results[0];
 	}
 
-	public void createMediatorInstance(Chain chain, String mediatorId, String mediatorType) throws MetadataException {
-		if (chain.isNewMediatorInstanceAllowed(mediatorId, mediatorType) == null) {
-			Document document = getDocument();
-			Node chainNode = findXMLChainNode(document, chain.getId());
-			Node mediatorNode = XMLUtil.getOrCreateSubNode(document, chainNode, "mediators");
+	public void createMediatorInstance(Chain chain, String id, String type) throws MetadataException {
+		if (chain.isNewMediatorInstanceAllowed(id, type) == null)
+			createComponentInstanceInternal(chain, id, type, "mediator");
+	}
 
-			Element child = document.createElement("mediator-instance");
-			child.setAttribute("id", mediatorId);
-			child.setAttribute("type", mediatorType);
-			mediatorNode.appendChild(child);
-			
-			// Write it back to file system
-			writeDOM(document);
+	public void createAdapterInstance(Chain chain, String id, String type) throws MetadataException {
+		if (chain.isNewAdapterInstanceAllowed(id, type) == null)
+			createComponentInstanceInternal(chain, id, type, "adapter");
+	}
 
-			// Notifies Repository
-			DsciliaRepoService.getInstance().updateModel();
-		}
+	private void createComponentInstanceInternal(Chain chain, String id, String type, String componentName)
+			throws MetadataException {
+		Document document = getDocument();
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, componentName + "s");
+
+		Element child = document.createElement(componentName + "-instance");
+		child.setAttribute("id", id);
+		child.setAttribute("type", type);
+		componentNode.appendChild(child);
+
+		// Write it back to file system
+		writeDOM(document);
+
+		// Notifies Repository
+		DsciliaRepoService.getInstance().updateModel();
 	}
 
 	public List<Chain> getChains() {

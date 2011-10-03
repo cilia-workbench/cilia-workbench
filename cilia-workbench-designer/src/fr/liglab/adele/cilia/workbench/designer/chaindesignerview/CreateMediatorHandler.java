@@ -17,16 +17,13 @@ public class CreateMediatorHandler extends CommonHandler {
 		if (chain != null) {
 			NewMediatorInstanceWindow window = new NewMediatorInstanceWindow(getShell(event), chain);
 			if (window.open() == Window.OK) {
-				String id = window.getMediatorId();
-				String type = window.getType();
+				String id = window.getComponentId();
+				String type = window.getComponentType();
 				try {
 					DsciliaRepoService.getInstance().createMediatorInstance(chain, id, type);
 				} catch (MetadataException e) {
 					e.printStackTrace();
 				}
-			}
-			else {
-				System.out.println("CANCEL pressed");
 			}
 		}
 		
