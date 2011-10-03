@@ -189,7 +189,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	 * @see org.eclipse.jface.dialogs.Dialog#getInitialSize()
 	 */
 	protected Point getInitialSize() {
-		return new Point(300, 200);
+		return new Point(300, 250);
 	}
 
 	/*
