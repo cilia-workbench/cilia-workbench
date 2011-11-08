@@ -6,6 +6,9 @@ import java.util.Map;
 import org.eclipse.ui.AbstractSourceProvider;
 import org.eclipse.ui.ISources;
 
+/**
+ * A class for creating toggle variables
+ */
 public class ToggleSourceProvider extends AbstractSourceProvider {
 
 	private final String STATE_TRUE;
