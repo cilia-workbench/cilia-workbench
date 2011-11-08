@@ -1,0 +1,142 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.liglab.adele</groupId>
+	<artifactId>cilia-workbench.reporting</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>Cilia workbench</name>
+	<url>http://github.com/cilia-workbench</url>
+	<description>Cilia workbench is an Eclipse RCP IDE specialized in designing, deploying and monitoring Cilia mediation chains.</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.target>1.6</version.target>
+	</properties>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://apache.org/licenses/LICENSE-2.0.html</url>
+			<distribution>manual</distribution>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>Adele Team / LIG</name>
+		<url>http://adele.imag.fr/</url>
+	</organization>
+
+
+	<scm>
+		<connection>scm:git://github.com/cilia-workbench/cilia-workbench.git</connection>
+		<url>https://github.com/cilia-workbench/cilia-workbench</url>
+	</scm>
+
+
+
+	<developers>
+		<developer>
+			<id>Gandrille</id>
+			<name>Etienne Gandrille</name>
+			<email>etienne.gandrille@imag.fr</email>
+			<roles>
+				<role>project leader</role>
+			</roles>
+			<timezone>
+				+1<!-- (GMT+01:00) Brussels, Copenhagen, Madrid, Paris -->
+			</timezone>
+			<organization>Adele Team / LIG</organization>
+		</developer>
+	</developers>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+			<plugin>
+				<groupId>com.google.code.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.4.0</version>
+				<configuration>
+					<header>http://sam.ligforge.imag.fr/licenses/LICENSE.txt</header>
+					<includes>
+						<include>**/src/**</include>
+					</includes>
+					<excludes>
+						<exclude>**/org/**</exclude>
+						<exclude>**/site/**</exclude>
+					</excludes>
+					<encoding>UTF-8</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<!-- license:check: verify if some files miss license header -->
+							<!-- license:format: add the license header when missing. If a header 
+								is existing, it is updated to the new one. -->
+							<!-- license:remove: remove existing license header -->
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.1.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javancss-maven-plugin</artifactId>
+				<version>2.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+				<version>2.4</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jdepend-maven-plugin</artifactId>
+				<version>2.0-beta-2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<targetJdk>${version.target}</targetJdk>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<omitVisitors>UnreadFields</omitVisitors>
+					<effort>Max</effort>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+</project>
