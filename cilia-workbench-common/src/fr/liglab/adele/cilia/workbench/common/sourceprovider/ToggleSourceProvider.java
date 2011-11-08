@@ -8,9 +8,9 @@ import org.eclipse.ui.ISources;
 
 public class ToggleSourceProvider extends AbstractSourceProvider {
 
-	private static String STATE_TRUE;
-	private static String STATE_FALSE;
-	private static String VARIABLE_NAME; 
+	private final String STATE_TRUE;
+	private final String STATE_FALSE;
+	private final String VARIABLE_NAME; 
 	private boolean value;
 	
 	public ToggleSourceProvider(String variable, String stateTrue, String stateFalse, boolean defaultValue) {
@@ -32,7 +32,8 @@ public class ToggleSourceProvider extends AbstractSourceProvider {
 	 * @see org.eclipse.ui.ISourceProvider#getCurrentState()
 	 */
 	@Override
-	public Map<String, String> getCurrentState() {
+	@SuppressWarnings("rawtypes")
+	public Map getCurrentState() {
 		Map<String, String> currentState = new HashMap<String, String>(1);
 		String variableState = value ? STATE_TRUE : STATE_FALSE;
 		currentState.put(VARIABLE_NAME, variableState);
