@@ -24,7 +24,7 @@
 					<artifactId>maven-license-plugin</artifactId>
 					<version>1.4.0</version>
 					<configuration>
-						<header>http://sam.ligforge.imag.fr/licenses/LICENSE.txt</header>
+						<header>${basedir}/LICENSE.txt</header>
 						<basedir>${basedir}/../..</basedir>						
 						<includes>
 							<include>**/src/**</include>
