@@ -7,7 +7,7 @@ import org.eclipse.ui.AbstractSourceProvider;
 import org.eclipse.ui.ISources;
 
 /**
- * A class for creating toggle variables
+ * A class for creating toggle variables.
  */
 public class ToggleSourceProvider extends AbstractSourceProvider {
 
