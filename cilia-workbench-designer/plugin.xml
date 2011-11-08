@@ -2,6 +2,16 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         point="org.eclipse.ui.services">
+      <sourceProvider
+            provider="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.VariablesSourceProvider">
+         <variable
+               name="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable"
+               priorityLevel="workbench">
+         </variable>
+      </sourceProvider>
+   </extension>
+   <extension
          point="org.eclipse.ui.preferencePages">
       <page
             category="fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage"
@@ -378,15 +388,5 @@
             id="fr.liglab.adele.cilia.workbench.designer.perspective.defaultperspective"
             name="Cilia designer">
       </perspective>
-   </extension>
-   <extension
-         point="org.eclipse.ui.services">
-      <sourceProvider
-            provider="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.VariablesSourceProvider">
-         <variable
-               name="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable"
-               priorityLevel="workbench">
-         </variable>
-      </sourceProvider>
    </extension>
 </plugin>
