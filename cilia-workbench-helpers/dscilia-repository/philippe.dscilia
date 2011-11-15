@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia>
-<chain id="chaine">
-<mediators>
-<mediator-instance id="mm" type="SimpleMediator"/>
-<mediator-instance id="mm1" type="mPhilippe"/>
-</mediators>
-<bindings>
-<binding from="mm" to="mm1"/>
-<binding from="a" to="mm"/>
-</bindings>
-<adapters>
-<adapter-instance id="a" type="aaaa"/>
-</adapters>
-</chain>
+	<chain id="chaine">
+		<mediators>
+			<mediator-instance id="mm" type="SimpleMediator" />
+			<mediator-instance id="mm1" type="mPhilippe" />
+		</mediators>
+		<bindings>
+
+		</bindings>
+		<adapters>
+			<adapter-instance id="a" type="aaaa" />
+		</adapters>
+	</chain>
 </cilia>

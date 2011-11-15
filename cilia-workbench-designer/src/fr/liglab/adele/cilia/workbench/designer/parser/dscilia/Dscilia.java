@@ -165,21 +165,22 @@ public class Dscilia {
 		DsciliaRepoService.getInstance().updateModel();
 	}
 
-	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort) throws MetadataException {
+	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
+			throws MetadataException {
 		if (chain.isNewBindingAllowed(srcElem, srcPort, dstElem, dstPort) == null) {
-			
+
 			String from;
 			if (Strings.isNullOrEmpty(srcPort))
 				from = srcElem;
 			else
 				from = srcElem + ":" + srcPort;
-			
+
 			String to;
 			if (Strings.isNullOrEmpty(dstPort))
 				to = dstElem;
 			else
 				to = dstElem + ":" + dstPort;
-			
+
 			Document document = getDocument();
 			Node chainNode = findXMLChainNode(document, chain.getId());
 			Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, "bindings");
@@ -196,7 +197,40 @@ public class Dscilia {
 			DsciliaRepoService.getInstance().updateModel();
 		}
 	}
-	
+
+	/**
+	 * Deletes a binding.
+	 * 
+	 * @param chain
+	 *            the chain the binding belongs to
+	 * @param from
+	 *            source[:port]
+	 * @param to
+	 *            destination[:port]
+	 * @throws MetadataException
+	 */
+	public void deleteBinding(Chain chain, String from, String to) throws MetadataException {
+
+		Document document = getDocument();
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, "bindings");
+
+		Node[] target = XMLUtil.findXMLChildNode(componentNode, "binding", "from", from, "to", to);
+
+		if (target.length != 0) {
+			for (Node n : target) {
+				componentNode.removeChild(n);
+			}
+
+			// Write it back to file system
+			writeDOM(document);
+
+			// Notifies Repository
+			DsciliaRepoService.getInstance().updateModel();
+		} else
+			throw new MetadataException("Can't find binding from " + from + " to " + to);
+	}
+
 	public List<Chain> getChains() {
 		return chains;
 	}

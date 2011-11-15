@@ -92,10 +92,9 @@ public class DsciliaRepoService {
 		updateModel();
 	}
 
-	
 	/**
 	 * Gets the model.
-	 *
+	 * 
 	 * @return the model
 	 */
 	public List<RepoElement> getModel() {
@@ -146,7 +145,7 @@ public class DsciliaRepoService {
 
 		// update content provider
 		contentProvider = new DsciliaContentProvider(repo);
-		
+
 		// Sends notifications
 		notifyListeners(changes);
 	}
@@ -189,10 +188,11 @@ public class DsciliaRepoService {
 	}
 
 	/**
-	 * Merge a list of repo element into the current model.
-	 * Only differences between the argument and the model are merge back into the model.  
+	 * Merge a list of repo element into the current model. Only differences
+	 * between the argument and the model are merge back into the model.
 	 * 
-	 * @param repoElements a new model
+	 * @param repoElements
+	 *            a new model
 	 * @return a list of changesets, which can be empty.
 	 */
 	private Changeset[] merge(List<RepoElement> repoElements) {
@@ -220,17 +220,18 @@ public class DsciliaRepoService {
 		// path update
 		for (Changeset c : retval)
 			c.pushPathElement(this);
-		
-		
+
 		return retval.toArray(new Changeset[0]);
 	}
 
 	/**
-	 * Tests if a dscilia can be created with the given fileName.
-	 * This method follows {@link IInputValidator#isValid(String)} API.
-	 * @param newText file name to be tested
-	 * @return null if the name is valid, an error message (including "") 
-	 * otherwise.
+	 * Tests if a dscilia can be created with the given fileName. This method
+	 * follows {@link IInputValidator#isValid(String)} API.
+	 * 
+	 * @param newText
+	 *            file name to be tested
+	 * @return null if the name is valid, an error message (including "")
+	 *         otherwise.
 	 */
 	public String isNewFileNameAllowed(String newText) {
 		final String baseName = canonizeFileName(newText);
@@ -252,20 +253,21 @@ public class DsciliaRepoService {
 
 	/**
 	 * Creates a dscilia file in the repository with the given file name.
+	 * 
 	 * @param fileName
 	 * @return
 	 */
 	public boolean createFile(String fileName) {
 		if (isNewFileNameAllowed(fileName) != null)
 			return false;
-		
+
 		String repoPath = getRepositoryPath();
 		String path;
 		if (repoPath.endsWith(File.separator))
 			path = repoPath + canonizeFileName(fileName);
 		else
 			path = repoPath + File.separator + canonizeFileName(fileName);
-		
+
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(path));
 			out.write("<cilia>\n");
@@ -275,13 +277,14 @@ public class DsciliaRepoService {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		updateModel();
-		return true;	
+		return true;
 	}
 
 	/**
 	 * Before file creation, a method for name canonization.
+	 * 
 	 * @param fileName
 	 * @return the name canonized.
 	 */
@@ -291,7 +294,8 @@ public class DsciliaRepoService {
 
 	/**
 	 * Delete an element in the file system repository.
-	 * @param element 
+	 * 
+	 * @param element
 	 */
 	public boolean deleteRepoElement(RepoElement element) {
 		File file = new File(element.getFilePath());
@@ -300,23 +304,20 @@ public class DsciliaRepoService {
 		return retval;
 	}
 
-	
-	
-	
 	public String isNewChainNameAllowed(String chainName) {
 		final String baseName = canonizeChainName(chainName);
 		if (baseName.length() == 0) {
 			return "Empty name is not allowed";
 		}
-		
+
 		Chain chain = findChain(chainName);
 		if (chain != null) {
 			return "A chain with this name already exists in the repository.";
 		}
-		
+
 		return null;
 	}
-	
+
 	private Chain findChain(String chainName) {
 		for (RepoElement re : repo) {
 			if (re.getDscilia() != null) {
@@ -331,6 +332,7 @@ public class DsciliaRepoService {
 
 	/**
 	 * Before chain creation, a method for name canonization.
+	 * 
 	 * @param chainName
 	 * @return the name canonized.
 	 */
@@ -340,16 +342,18 @@ public class DsciliaRepoService {
 
 	/**
 	 * Creates the chain in a repository element.
-	 *
-	 * @param repo the repo
-	 * @param chainName the chain name
+	 * 
+	 * @param repo
+	 *            the repo
+	 * @param chainName
+	 *            the chain name
 	 */
 	public void createChain(RepoElement repo, String chainName) {
 		if (repo.getDscilia() == null)
 			return;
 		if (isNewChainNameAllowed(chainName) != null)
 			return;
-		
+
 		try {
 			repo.getDscilia().createChain(chainName);
 		} catch (MetadataException e) {
@@ -371,10 +375,10 @@ public class DsciliaRepoService {
 	public ITreeContentProvider getContentProvider() {
 		return contentProvider;
 	}
-	
+
 	public RepoElement getRepoElement(Object object) {
 		Preconditions.checkNotNull(object);
-		
+
 		if (object instanceof RepoElement)
 			return (RepoElement) object;
 		Object parent = getContentProvider().getParent(object);
@@ -398,10 +402,27 @@ public class DsciliaRepoService {
 		repo.getDscilia().createAdapterInstance(chain, id, type);
 	}
 
-	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort) throws MetadataException {
+	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
+			throws MetadataException {
 		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
 		repo.getDscilia().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
+	}
+
+	/**
+	 * 
+	 * @param chain
+	 * @param src
+	 *            node[:port]
+	 * @param dst
+	 *            node[:port]
+	 * @throws MetadataException
+	 */
+	public void deleteBinding(Chain chain, String src, String dst) throws MetadataException {
+		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
+		if (repo == null)
+			return;
+		repo.getDscilia().deleteBinding(chain, src, dst);
 	}
 }
