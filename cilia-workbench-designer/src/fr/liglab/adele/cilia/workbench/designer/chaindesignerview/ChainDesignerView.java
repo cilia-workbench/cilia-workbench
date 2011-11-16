@@ -23,27 +23,48 @@ import org.eclipse.ui.IWorkbenchPart;
 import fr.liglab.adele.cilia.workbench.common.sourceprovider.SourceProviderUtil;
 import fr.liglab.adele.cilia.workbench.common.view.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaRepositoryView;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDSciliaRepositoryListener;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDsciliaRepositoryListener;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
-public class ChainDesignerView extends GraphView implements IDSciliaRepositoryListener {
+/**
+ * The implementation class for the chain designer view.
+ * 
+ * @author Etienne Gandrille
+ */
+public class ChainDesignerView extends GraphView implements IDsciliaRepositoryListener {
 
 	/** The View ID. */
 	public static final String viewId = "fr.liglab.adele.cilia.workbench.designer.chaindesignerview";
 
+	/** The content provider. */
 	private ChainGraphContentProvider contentProvider = new ChainGraphContentProvider();
 
+	/** The model. */
 	private Chain model;
 
+	/**
+	 * Default part name. The part name is then updated with the displayed chain
+	 * name.
+	 */
 	private final String DEFAULT_PART_NAME = "Chain Viewer";
 
+	/**
+	 * Instantiates a new chain designer view.
+	 */
 	public ChainDesignerView() {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.common.view.GraphView#createPartControl
+	 * (org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
@@ -59,10 +80,16 @@ public class ChainDesignerView extends GraphView implements IDSciliaRepositoryLi
 		DsciliaRepoService.getInstance().registerListener(this);
 	}
 
+	/**
+	 * Sets the model to be handle by the view.
+	 * 
+	 * @param chain
+	 *            the new model
+	 */
 	private void setModel(Chain chain) {
 		contentProvider.setModel(chain);
 		if (chain != null) {
-			viewer.setInput(chain.getElements());
+			viewer.setInput(chain.getComponents());
 			setPartName(chain.getId());
 		} else {
 			viewer.setInput(new Object[0]);
@@ -73,6 +100,12 @@ public class ChainDesignerView extends GraphView implements IDSciliaRepositoryLi
 		this.model = chain;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.
+	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	 */
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (selection instanceof TreeSelection) {
@@ -86,13 +119,21 @@ public class ChainDesignerView extends GraphView implements IDSciliaRepositoryLi
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.
+	 * IDSciliaRepositoryListener
+	 * #repositoryChange(fr.liglab.adele.cilia.workbench
+	 * .designer.service.dsciliareposervice.Changeset[])
+	 */
 	@Override
 	public void repositoryChange(Changeset[] changes) {
 		// if model = null, no need to check anything...
 		if (model != null) {
 			DsciliaRepoService srv = DsciliaRepoService.getInstance();
 
-			boolean needUpdate = false; 
+			boolean needUpdate = false;
 			for (Changeset change : changes) {
 
 				// Repository removed
@@ -103,29 +144,34 @@ public class ChainDesignerView extends GraphView implements IDSciliaRepositoryLi
 						return;
 					}
 				}
-				
-				// Chain removed 
+
+				// Chain removed
 				if (change.getObject() instanceof Chain && change.getOperation() == Operation.REMOVE) {
 					if (model == change.getObject()) { // pointer equality
 						setModel(null);
 						return;
 					}
 				}
-				
+
 				// Chain content modified
 				if (change.getPath().contains(model) && model != change.getObject()) {
 					if (change.getOperation() == Operation.REMOVE || change.getOperation() == Operation.ADD)
 						needUpdate = true;
 				}
 			}
-			
+
 			if (needUpdate == true) {
-				//viewer.refresh();
+				// viewer.refresh();
 				setModel(model);
 			}
 		}
 	}
-	
+
+	/**
+	 * Gets the model.
+	 * 
+	 * @return the model
+	 */
 	public Chain getModel() {
 		return model;
 	}

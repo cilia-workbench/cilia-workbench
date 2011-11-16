@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Text;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 
 public abstract class NewComponentInstanceWindow extends Dialog {
 

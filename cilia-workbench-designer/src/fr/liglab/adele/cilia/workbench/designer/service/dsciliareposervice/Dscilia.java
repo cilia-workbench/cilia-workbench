@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
+package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,15 +41,32 @@ import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
+/**
+ * Represents a VALID DSCilia file.
+ * 
+ * @see {@link RepoElement}.
+ * 
+ * @author Etienne Gandrille
+ */
 public class Dscilia {
-	private String filePath;
+
+	/** The file path to the DSCilia file. */
+	private final String filePath;
+
+	/** The chains contained by this DSCilia file. */
 	private List<Chain> chains = new ArrayList<Chain>();
 
-	public Dscilia(String filePath) throws Exception {
+	/**
+	 * Instantiates a new dscilia, using reflection on the DOM model.
+	 * 
+	 * @param filePath
+	 *            the file path
+	 * @throws Exception
+	 *             error while parsing the DSCilia file.
+	 */
+	public Dscilia(String filePath) throws MetadataException {
 		this.filePath = filePath;
 
 		Document document = getDocument();
@@ -68,6 +85,15 @@ public class Dscilia {
 		}
 	}
 
+	/**
+	 * Gets the cilia node in the XML file.
+	 * 
+	 * @param document
+	 *            the document
+	 * @return the cilia node
+	 * @throws MetadataException
+	 *             error while parsing the DSCilia file.
+	 */
 	private Node getCiliaNode(Document document) throws MetadataException {
 		NodeList nodes = document.getChildNodes();
 		if (nodes != null && nodes.getLength() == 1 && nodes.item(0).getNodeName().equalsIgnoreCase("cilia"))
@@ -76,6 +102,13 @@ public class Dscilia {
 			throw new MetadataException("Can't find cilia root in " + filePath);
 	}
 
+	/**
+	 * Gets the XML document.
+	 * 
+	 * @return the XML document
+	 * @throws MetadataException
+	 *             error while parsing the DSCilia file.
+	 */
 	private Document getDocument() throws MetadataException {
 		DocumentBuilderFactory fabrique = DocumentBuilderFactory.newInstance();
 		DocumentBuilder constructeur;
@@ -98,7 +131,16 @@ public class Dscilia {
 		return document;
 	}
 
-	public void createChain(String chainName) throws MetadataException {
+	/**
+	 * Creates a chain in the XML document. Does NOT check if chain already
+	 * exists.
+	 * 
+	 * @param chainName
+	 *            the chain name
+	 * @throws MetadataException
+	 *             error while parsing the DSCilia file.
+	 */
+	protected void createChain(String chainName) throws MetadataException {
 
 		// Document creation
 		Document document = getDocument();
@@ -114,6 +156,14 @@ public class Dscilia {
 		DsciliaRepoService.getInstance().updateModel();
 	}
 
+	/**
+	 * Write the XML DOM document back to the file system.
+	 * 
+	 * @param document
+	 *            the XML DOM document
+	 * @throws MetadataException
+	 *             XML error
+	 */
 	private void writeDOM(Document document) throws MetadataException {
 		Source source = new DOMSource(document);
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -127,7 +177,15 @@ public class Dscilia {
 		}
 	}
 
-	public void deleteChain(String id) throws MetadataException {
+	/**
+	 * Deletes a chain in the XML document.
+	 * 
+	 * @param id
+	 *            the chain id
+	 * @throws MetadataException
+	 *             XML error or chain not found.
+	 */
+	protected void deleteChain(String id) throws MetadataException {
 		// Finding target node
 		Document document = getDocument();
 		Node target = findXMLChainNode(document, id);
@@ -138,9 +196,21 @@ public class Dscilia {
 
 			// Notifies Repository
 			DsciliaRepoService.getInstance().updateModel();
-		}
+		} else
+			throw new MetadataException("Chain with id " + id + " not found.");
 	}
 
+	/**
+	 * Finds a chain node in the XML document.
+	 * 
+	 * @param document
+	 *            the XML document
+	 * @param chainId
+	 *            the chain id
+	 * @return the node, or null if not found.
+	 * @throws MetadataException
+	 *             DOM XML error
+	 */
 	private Node findXMLChainNode(Document document, String chainId) throws MetadataException {
 		Node root = getCiliaNode(document);
 		Node[] results = XMLUtil.findXMLChildNode(root, "chain", "id", chainId);
@@ -151,16 +221,55 @@ public class Dscilia {
 			return results[0];
 	}
 
-	public void createMediatorInstance(Chain chain, String id, String type) throws MetadataException {
-		if (chain.isNewMediatorInstanceAllowed(id, type) == null)
-			createComponentInstanceInternal(chain, id, type, "mediator");
+	/**
+	 * Creates a mediator instance in the XML document. Does NOT check if
+	 * mediator already exists.
+	 * 
+	 * @param chain
+	 *            the chain id
+	 * @param id
+	 *            the mediator id
+	 * @param type
+	 *            the mediator type
+	 * @throws MetadataException
+	 *             XML error
+	 */
+	protected void createMediatorInstance(Chain chain, String id, String type) throws MetadataException {
+		createComponentInstanceInternal(chain, id, type, "mediator");
 	}
 
-	public void createAdapterInstance(Chain chain, String id, String type) throws MetadataException {
-		if (chain.isNewAdapterInstanceAllowed(id, type) == null)
-			createComponentInstanceInternal(chain, id, type, "adapter");
+	/**
+	 * Creates an adapter instance in the XML document. Does NOT check if
+	 * adapter already exists.
+	 * 
+	 * @param chain
+	 *            the chain id
+	 * @param id
+	 *            the adapter id
+	 * @param type
+	 *            the adapter type
+	 * @throws MetadataException
+	 *             XML error
+	 */
+	protected void createAdapterInstance(Chain chain, String id, String type) throws MetadataException {
+		createComponentInstanceInternal(chain, id, type, "adapter");
 	}
 
+	/**
+	 * Creates a component instance (mediator or adapter). Does NOT check if
+	 * component already exists.
+	 * 
+	 * @param chain
+	 *            the chain id
+	 * @param id
+	 *            the component id
+	 * @param type
+	 *            the component type
+	 * @param componentName
+	 *            the component name
+	 * @throws MetadataException
+	 *             XML error
+	 */
 	private void createComponentInstanceInternal(Chain chain, String id, String type, String componentName)
 			throws MetadataException {
 		Document document = getDocument();
@@ -179,46 +288,110 @@ public class Dscilia {
 		DsciliaRepoService.getInstance().updateModel();
 	}
 
-	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort) throws MetadataException {
-		if (chain.isNewBindingAllowed(srcElem, srcPort, dstElem, dstPort) == null) {
-			
-			String from;
-			if (Strings.isNullOrEmpty(srcPort))
-				from = srcElem;
-			else
-				from = srcElem + ":" + srcPort;
-			
-			String to;
-			if (Strings.isNullOrEmpty(dstPort))
-				to = dstElem;
-			else
-				to = dstElem + ":" + dstPort;
-			
-			Document document = getDocument();
-			Node chainNode = findXMLChainNode(document, chain.getId());
-			Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, "bindings");
+	/**
+	 * Creates a binding. Does NOT check if binding already exists.
+	 * 
+	 * @param chain
+	 *            the chain id
+	 * @param srcElem
+	 *            the source element id (mediator or adapter)
+	 * @param srcPort
+	 *            the source element port (mediator or adapter); CAN be NULL
+	 * @param dstElem
+	 *            the destination element id (mediator or adapter)
+	 * @param dstPort
+	 *            the source element port (mediator or adapter); CAN be NULL
+	 * @throws MetadataException
+	 *             XML error
+	 */
+	protected void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
+			throws MetadataException {
 
-			Element child = document.createElement("binding");
-			child.setAttribute("from", from);
-			child.setAttribute("to", to);
-			componentNode.appendChild(child);
+		String from;
+		if (Strings.isNullOrEmpty(srcPort))
+			from = srcElem;
+		else
+			from = srcElem + ":" + srcPort;
+
+		String to;
+		if (Strings.isNullOrEmpty(dstPort))
+			to = dstElem;
+		else
+			to = dstElem + ":" + dstPort;
+
+		Document document = getDocument();
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, "bindings");
+
+		Element child = document.createElement("binding");
+		child.setAttribute("from", from);
+		child.setAttribute("to", to);
+		componentNode.appendChild(child);
+
+		// Write it back to file system
+		writeDOM(document);
+
+		// Notifies Repository
+		DsciliaRepoService.getInstance().updateModel();
+	}
+
+	/**
+	 * Deletes a binding in the XML document.
+	 * 
+	 * @param chain
+	 *            the chain the binding belongs to
+	 * @param from
+	 *            source[:port]
+	 * @param to
+	 *            destination[:port]
+	 * @throws MetadataException
+	 *             XML error or binding not found
+	 */
+	protected void deleteBinding(Chain chain, String from, String to) throws MetadataException {
+
+		Document document = getDocument();
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, "bindings");
+
+		Node[] target = XMLUtil.findXMLChildNode(componentNode, "binding", "from", from, "to", to);
+
+		if (target.length != 0) {
+			for (Node n : target) {
+				componentNode.removeChild(n);
+			}
 
 			// Write it back to file system
 			writeDOM(document);
 
 			// Notifies Repository
 			DsciliaRepoService.getInstance().updateModel();
-		}
+		} else
+			throw new MetadataException("Can't find binding from " + from + " to " + to);
 	}
-	
+
+	/**
+	 * Gets the chains.
+	 * 
+	 * @return the chains
+	 */
 	public List<Chain> getChains() {
 		return chains;
 	}
 
+	/**
+	 * Gets the file path.
+	 * 
+	 * @return the file path
+	 */
 	public String getFilePath() {
 		return filePath;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		int index = filePath.lastIndexOf(File.separator, filePath.length());
@@ -228,13 +401,21 @@ public class Dscilia {
 			return filePath.substring(index + 1);
 	}
 
-	public Changeset[] merge(Dscilia newInstance) {
+	/**
+	 * Merge another {@link Dscilia} into the current one. Differences between
+	 * the argument and the current object are injected into the current object.
+	 * 
+	 * @param newInstance
+	 *            an 'up-to-date' object
+	 * @return a list of {@link Changeset}, which can be empty.
+	 */
+	protected Changeset[] merge(Dscilia newInstance) {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
 		for (Iterator<Chain> itr = chains.iterator(); itr.hasNext();) {
 			Chain old = itr.next();
 			String id = old.getId();
-			Chain updated = PullElementUtil.pullChain(newInstance, id);
+			Chain updated = MergeUtil.pullChain(newInstance, id);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));

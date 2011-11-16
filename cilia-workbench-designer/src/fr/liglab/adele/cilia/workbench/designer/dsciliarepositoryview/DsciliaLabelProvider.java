@@ -14,9 +14,9 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.LabelProvider;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 public class DsciliaLabelProvider extends LabelProvider {

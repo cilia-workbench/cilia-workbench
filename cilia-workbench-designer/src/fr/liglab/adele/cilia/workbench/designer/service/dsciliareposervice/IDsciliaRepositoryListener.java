@@ -15,22 +15,25 @@
 package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
 /**
- * The listener interface for receiving IDSciliaRepository events.
- * The class that is interested in processing a IDSciliaRepository
- * event implements this interface, and the object created
- * with that class is registered with a component using the
- * component's <code>addIDSciliaRepositoryListener<code> method. When
+ * The listener interface for receiving IDSciliaRepository events. The class
+ * that is interested in processing a IDSciliaRepository event implements this
+ * interface, and the object created with that class is registered with a
+ * component using the component's
+ * <code>addIDSciliaRepositoryListener<code> method. When
  * the IDSciliaRepository event occurs, that object's appropriate
  * method is invoked.
- *
+ * 
  * @see IDSciliaRepositoryEvent
+ * 
+ * @author Etienne Gandrille
  */
-public interface IDSciliaRepositoryListener {
-	
+public interface IDsciliaRepositoryListener {
+
 	/**
-	 * Repository change.
-	 *
-	 * @param changes the changes
+	 * Callback called when the repository changes.
+	 * 
+	 * @param changes
+	 *            the changeset list
 	 */
 	public void repositoryChange(Changeset[] changes);
 }

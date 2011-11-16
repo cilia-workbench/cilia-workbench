@@ -12,12 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
+package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jface.dialogs.IInputValidator;
 import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
@@ -25,18 +26,42 @@ import com.google.common.base.Strings;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
+/**
+ * Represents a Cilia chain.
+ * 
+ * Potential BUG: spec is not clear whereas a mediator and an adapter can have
+ * the same id.
+ * 
+ * @author Etienne Gandrille
+ */
 public class Chain {
 
+	/** The chain id. */
 	private String id;
+
+	/** The adapters, contained by the chain. */
 	private List<AdapterInstance> adapters = new ArrayList<AdapterInstance>();
+
+	/** The mediators, contained by the chain. */
 	private List<MediatorInstance> mediators = new ArrayList<MediatorInstance>();
+
+	/** The bindings inside the chain. */
 	private List<Binding> bindings = new ArrayList<Binding>();
+
+	/** The XML DOM node. */
 	private Node node;
 
+	/**
+	 * Instantiates a new chain, using reflection on the DOM node.
+	 * 
+	 * @param node
+	 *            the DOM node
+	 * @throws MetadataException
+	 *             XML parsing error, or reflexion error.
+	 */
 	public Chain(Node node) throws MetadataException {
 		this.node = node;
 		XMLReflectionUtil.setRequiredAttribute(node, "id", this, "id");
@@ -63,26 +88,62 @@ public class Chain {
 		}
 	}
 
+	/**
+	 * Gets the adapters.
+	 * 
+	 * @return the adapters
+	 */
 	public List<AdapterInstance> getAdapters() {
 		return adapters;
 	}
-	
+
+	/**
+	 * Gets the mediators.
+	 * 
+	 * @return the mediators
+	 */
 	public List<MediatorInstance> getMediators() {
 		return mediators;
 	}
-	
+
+	/**
+	 * Gets the bindings.
+	 * 
+	 * @return the bindings
+	 */
 	public List<Binding> getBindings() {
 		return bindings;
 	}
-	
+
+	/**
+	 * Gets the destinations an adapter can join by its bindings.
+	 * 
+	 * @param adapter
+	 *            the adapter
+	 * @return the destinations
+	 */
 	public Object[] getDestinations(AdapterInstance adapter) {
 		return getDestinations(adapter.getId());
 	}
 
+	/**
+	 * Gets the destinations a mediator can join by its bindings.
+	 * 
+	 * @param mediator
+	 *            the mediator
+	 * @return the destinations
+	 */
 	public Object[] getDestinations(MediatorInstance mediator) {
 		return getDestinations(mediator.getId());
 	}
 
+	/**
+	 * Gets the destinations a component can join by its bindings.
+	 * 
+	 * @param componentId
+	 *            the component id
+	 * @return the destinations
+	 */
 	public Object[] getDestinations(String componentId) {
 		List<Object> retval = new ArrayList<Object>();
 		for (Binding binding : bindings) {
@@ -97,6 +158,13 @@ public class Chain {
 		return retval.toArray();
 	}
 
+	/**
+	 * Gets the component using its id.
+	 * 
+	 * @param componentId
+	 *            the component id
+	 * @return the component
+	 */
 	private ComponentInstance getComponent(String componentId) {
 		for (AdapterInstance adapter : adapters)
 			if (adapter.getId().equals(componentId))
@@ -107,12 +175,22 @@ public class Chain {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return id;
 	}
 
-	public ComponentInstance[] getElements() {
+	/**
+	 * Gets all the components (mediators and adapters).
+	 * 
+	 * @return the components
+	 */
+	public ComponentInstance[] getComponents() {
 		List<ComponentInstance> retval = new ArrayList<ComponentInstance>();
 		for (AdapterInstance adapter : adapters)
 			retval.add(adapter);
@@ -120,112 +198,165 @@ public class Chain {
 			retval.add(mediator);
 		return retval.toArray(new ComponentInstance[0]);
 	}
-	
+
+	/**
+	 * Gets the chain id.
+	 * 
+	 * @return the id
+	 */
 	public String getId() {
 		return id;
 	}
 
-	public Changeset[] merge(Chain newInstance) {
+	/**
+	 * Merge another {@link Chain} into the current one. Differences between the
+	 * argument and the current object are injected into the current object.
+	 * 
+	 * @param newInstance
+	 *            an 'up-to-date' object
+	 * @return a list of {@link Changeset}, which can be empty.
+	 */
+	protected Changeset[] merge(Chain newInstance) {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-		
+
 		for (Iterator<AdapterInstance> itr = adapters.iterator(); itr.hasNext();) {
 			AdapterInstance old = itr.next();
 			String id = old.getId();
-			AdapterInstance updated = PullElementUtil.pullAdapterInstance(newInstance, id);
+			AdapterInstance updated = MergeUtil.pullAdapterInstance(newInstance, id);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
-			}
-			else {
+			} else {
 				for (Changeset c : old.merge(updated))
 					retval.add(c);
 			}
 		}
-		
+
 		for (Iterator<MediatorInstance> itr = mediators.iterator(); itr.hasNext();) {
 			MediatorInstance old = itr.next();
 			String id = old.getId();
-			MediatorInstance updated = PullElementUtil.pullMediatorInstance(newInstance, id);
+			MediatorInstance updated = MergeUtil.pullMediatorInstance(newInstance, id);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
-			}
-			else {
+			} else {
 				for (Changeset c : old.merge(updated))
 					retval.add(c);
 			}
 		}
-		
+
 		for (Iterator<Binding> itr = bindings.iterator(); itr.hasNext();) {
 			Binding old = itr.next();
 			String from = old.getSourceId();
 			String to = old.getDestinationId();
-			Binding updated = PullElementUtil.pullBinding(newInstance, from, to);
+			Binding updated = MergeUtil.pullBinding(newInstance, from, to);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
-			}
-			else {
+			} else {
 				for (Changeset c : old.merge(updated))
 					retval.add(c);
 			}
 		}
-		
+
 		for (AdapterInstance a : newInstance.getAdapters()) {
 			adapters.add(a);
 			retval.add(new Changeset(Operation.ADD, a));
 		}
-		
+
 		for (MediatorInstance m : newInstance.getMediators()) {
 			mediators.add(m);
 			retval.add(new Changeset(Operation.ADD, m));
 		}
-		
+
 		for (Binding b : newInstance.getBindings()) {
 			bindings.add(b);
 			retval.add(new Changeset(Operation.ADD, b));
 		}
-						
+
 		// path update
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
 		return retval.toArray(new Changeset[0]);
 	}
-	
+
+	/**
+	 * Checks if is new mediator instance allowed. This method follows
+	 * {@link IInputValidator#isValid(String)} API.
+	 * 
+	 * @param mediatorId
+	 *            the mediator id
+	 * @param mediatorType
+	 *            the mediator type
+	 * @return null if no error detected, an error message (including "")
+	 *         otherwise.
+	 */
 	public String isNewMediatorInstanceAllowed(String mediatorId, String mediatorType) {
-		
-		String message = null;
-		if (Strings.isNullOrEmpty(mediatorId)) {
-			message = "mediator id can't be empty";
-		} else if (Strings.isNullOrEmpty(mediatorType)) {
-			message = "mediator type can't be empty";
-		} else {
-			for (MediatorInstance m : mediators) {
-				if (mediatorId.equalsIgnoreCase(m.getId()))
-					message = "a mediator instance with id " + mediatorId + " already exists";
-			}
-		}
-		
-		return message;
+		return isNewComponentInstanceAllowed(mediatorId, mediatorType);
 	}
 
+	/**
+	 * Checks if is new adapter instance allowed. This method follows
+	 * {@link IInputValidator#isValid(String)} API.
+	 * 
+	 * @param adapterId
+	 *            the adapter id
+	 * @param adapterType
+	 *            the adapter type
+	 * @return null if no error detected, an error message (including "")
+	 *         otherwise.
+	 */
 	public String isNewAdapterInstanceAllowed(String adapterId, String adapterType) {
+		return isNewComponentInstanceAllowed(adapterId, adapterType);
+	}
+
+	/**
+	 * Checks if is new component instance is allowed. This method follows
+	 * {@link IInputValidator#isValid(String)} API.
+	 * 
+	 * @param componentId
+	 *            the component id
+	 * @param componentType
+	 *            the component type
+	 * @return null if no error detected, an error message (including "")
+	 *         otherwise.
+	 */
+	private String isNewComponentInstanceAllowed(String componentId, String componentType) {
 		String message = null;
-		if (Strings.isNullOrEmpty(adapterId)) {
-			message = "adapter id can't be empty";
-		} else if (Strings.isNullOrEmpty(adapterType)) {
-			message = "adapter type can't be empty";
+		if (Strings.isNullOrEmpty(componentId)) {
+			message = "component id can't be empty";
+		} else if (Strings.isNullOrEmpty(componentType)) {
+			message = "component type can't be empty";
 		} else {
 			for (AdapterInstance a : adapters) {
-				if (adapterId.equalsIgnoreCase(a.getId()))
-					message = "an adapter instance with id " + adapterId + " already exists";
+				if (componentId.equalsIgnoreCase(a.getId()))
+					message = "a componant (adapter) instance with id " + a.getId() + " already exists";
+			}
+			for (MediatorInstance m : mediators) {
+				if (componentId.equalsIgnoreCase(m.getId()))
+					message = "a component (mediator) instance with id " + m.getId() + " already exists";
 			}
 		}
-		
+
 		return message;
 	}
 
+	/**
+	 * Checks if is new binding allowed. This method follows
+	 * {@link IInputValidator#isValid(String)} API.
+	 * 
+	 * @param srcElem
+	 *            the src elem
+	 * @param srcPort
+	 *            the src port
+	 * @param dstElem
+	 *            the dst elem
+	 * @param dstPort
+	 *            the dst port
+	 * @return null if no error detected, an error message (including "")
+	 *         otherwise.
+	 */
 	public String isNewBindingAllowed(String srcElem, String srcPort, String dstElem, String dstPort) {
 		if (Strings.isNullOrEmpty(srcElem))
 			return "Source element can't be empty";
@@ -233,14 +364,14 @@ public class Chain {
 			return "Destination element can't be empty";
 		if (srcElem.equalsIgnoreCase(dstElem))
 			return "Source and destination can't be the same";
-		
+
 		ComponentInstance src = getComponent(srcElem);
 		ComponentInstance dst = getComponent(dstElem);
 		if (src == null)
 			return "Can't find " + srcElem + " in chain " + getId();
 		if (dst == null)
 			return "Can't find " + dstElem + " in chain " + getId();
-		
+
 		if (src instanceof AdapterInstance) {
 			AdapterInstance in = (AdapterInstance) src;
 			String type = in.getType();
@@ -248,14 +379,13 @@ public class Chain {
 			if (ta != null) {
 				if (ta.getPattern().equals(Adapter.IN_PATTERN))
 					return src.id + " is an in-adapter. It can't be a binding source.";
-			}
-			else {
+			} else {
 				for (Binding b : bindings)
 					if (b.getDestinationId().equals(src.id))
 						return src.id + " is already used as an in-adapter";
 			}
 		}
-		
+
 		if (dst instanceof AdapterInstance) {
 			AdapterInstance out = (AdapterInstance) dst;
 			String type = out.getType();
@@ -263,14 +393,13 @@ public class Chain {
 			if (ta != null) {
 				if (ta.getPattern().equals(Adapter.OUT_PATTERN))
 					return dst.id + " is an out-adapter. It can't be a binding destination.";
-			}
-			else {
+			} else {
 				for (Binding b : bindings)
 					if (b.getSourceId().equals(dst.id))
 						return dst.id + " is already used as an out-adapter";
 			}
 		}
-			
+
 		return null;
 	}
 }

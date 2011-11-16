@@ -12,28 +12,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
+package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
-public class AdapterInstance extends ComponentInstance {
-	
-	public AdapterInstance(Node node) throws MetadataException {
+/**
+ * The Class MediatorInstance.
+ * 
+ * @author Etienne Gandrille
+ */
+public class MediatorInstance extends ComponentInstance {
+
+	/**
+	 * Instantiates a new mediator instance, using reflection on the DOM node.
+	 * 
+	 * @param node
+	 *            the DOMnode
+	 * @throws MetadataException
+	 *             XML parsing error, or reflexion error.
+	 */
+	public MediatorInstance(Node node) throws MetadataException {
 		super(node);
 	}
-		
-	public Changeset[] merge(AdapterInstance newInstance) {
+
+	/**
+	 * Merge another {@link MediatorInstance} into the current one. Differences
+	 * between the argument and the current object are injected into the current
+	 * object.
+	 * 
+	 * @param newInstance
+	 *            an 'up-to-date' object
+	 * @return a list of {@link Changeset}, which can be empty.
+	 */
+	protected Changeset[] merge(MediatorInstance newInstance) {
 		if (type.equals(newInstance.type))
 			return new Changeset[0];
 		else {
 			type = newInstance.type;
 			Changeset[] retval = new Changeset[1];
-			retval[0]=new Changeset(Operation.UPDATE, this);
+			retval[0] = new Changeset(Operation.UPDATE, this);
 			return retval;
 		}
 	}

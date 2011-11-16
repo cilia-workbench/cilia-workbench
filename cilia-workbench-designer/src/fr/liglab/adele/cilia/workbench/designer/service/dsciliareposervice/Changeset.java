@@ -18,7 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a modification on a repository.
+ * Represents a modification in the repository. The modification is composed by
+ * :
+ * <ul>
+ * <li>An {@link Operation}</li>
+ * <li>An Object, on which this operation has been performed.</li>
+ * <li>A path, to reach the object in the hierarchy</li>
+ * </ul>
+ * 
+ * @author Etienne Gandrille
  */
 public class Changeset {
 
@@ -42,7 +50,7 @@ public class Changeset {
 
 	/** The path to join the object in the complete model */
 	private final List<Object> path = new ArrayList<Object>();
-	
+
 	/**
 	 * Instantiates a new changeset.
 	 * 
@@ -74,16 +82,22 @@ public class Changeset {
 	public Operation getOperation() {
 		return operation;
 	}
-	
+
 	/**
-	 * Gets the path.
-	 *
+	 * Gets the path to reach the destination object.
+	 * 
 	 * @return the path
 	 */
 	public List<Object> getPath() {
 		return path;
 	}
-	
+
+	/**
+	 * Add an element in the path.
+	 * 
+	 * @param element
+	 *            the element to be added.
+	 */
 	public void pushPathElement(Object element) {
 		path.add(element);
 	}
