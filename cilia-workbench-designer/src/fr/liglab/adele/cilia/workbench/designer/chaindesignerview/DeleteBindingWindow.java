@@ -33,8 +33,8 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.base.Preconditions;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Binding;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 
 public class DeleteBindingWindow extends Dialog {
 

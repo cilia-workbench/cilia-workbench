@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.chaindesignerview;
 
 import org.eclipse.swt.widgets.Shell;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**

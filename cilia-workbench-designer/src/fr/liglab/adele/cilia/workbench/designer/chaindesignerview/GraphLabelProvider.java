@@ -26,8 +26,8 @@ import org.eclipse.zest.core.viewers.EntityConnectionData;
 import org.osgi.framework.Bundle;
 
 import fr.liglab.adele.cilia.workbench.common.Activator;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.MediatorInstance;
 
 /**
  * Label provider for the tree viewer.

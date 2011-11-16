@@ -33,18 +33,18 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDSciliaRepositoryListener;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDsciliaRepositoryListener;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 /**
  * DsciliaRepositoryView.
  */
-public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRepositoryListener {
+public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRepositoryListener {
 
 	/** The viewId. */
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview";

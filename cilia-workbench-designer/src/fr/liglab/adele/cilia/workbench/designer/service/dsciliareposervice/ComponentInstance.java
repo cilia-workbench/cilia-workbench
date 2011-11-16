@@ -12,27 +12,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
+package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.XMLReflectionUtil;
 
+/**
+ * An abstract class for {@link MediatorInstance} and {@link AdapterInstance}.
+ * 
+ * @author Etienne Gandrille
+ */
 public abstract class ComponentInstance {
 
+	/** The component id. */
 	protected String id;
+
+	/** The component type. */
 	protected String type;
 
+	/**
+	 * Instantiates a new component instance, using reflection on the DOM node.
+	 * 
+	 * @param node
+	 *            the XML DOM node
+	 * @throws MetadataException
+	 *             XML parsing error, or reflexion error.
+	 */
 	public ComponentInstance(Node node) throws MetadataException {
 		XMLReflectionUtil.setRequiredAttribute(node, "id", this, "id");
 		XMLReflectionUtil.setRequiredAttribute(node, "type", this, "type");
 	}
-	
+
+	/**
+	 * Gets the component id.
+	 * 
+	 * @return the id
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * Gets the component type.
+	 * 
+	 * @return the type
+	 */
 	public String getType() {
 		return type;
 	}

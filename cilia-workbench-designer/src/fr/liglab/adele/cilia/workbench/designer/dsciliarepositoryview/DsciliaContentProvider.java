@@ -17,8 +17,8 @@ package fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 public class DsciliaContentProvider extends GenericContentProvider {

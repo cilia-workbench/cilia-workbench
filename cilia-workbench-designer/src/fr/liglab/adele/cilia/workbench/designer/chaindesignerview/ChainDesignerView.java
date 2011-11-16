@@ -23,11 +23,11 @@ import org.eclipse.ui.IWorkbenchPart;
 import fr.liglab.adele.cilia.workbench.common.sourceprovider.SourceProviderUtil;
 import fr.liglab.adele.cilia.workbench.common.view.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaRepositoryView;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDSciliaRepositoryListener;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDsciliaRepositoryListener;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 /**
@@ -35,7 +35,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoE
  * 
  * @author Etienne Gandrille
  */
-public class ChainDesignerView extends GraphView implements IDSciliaRepositoryListener {
+public class ChainDesignerView extends GraphView implements IDsciliaRepositoryListener {
 
 	/** The View ID. */
 	public static final String viewId = "fr.liglab.adele.cilia.workbench.designer.chaindesignerview";
@@ -89,7 +89,7 @@ public class ChainDesignerView extends GraphView implements IDSciliaRepositoryLi
 	private void setModel(Chain chain) {
 		contentProvider.setModel(chain);
 		if (chain != null) {
-			viewer.setInput(chain.getElements());
+			viewer.setInput(chain.getComponents());
 			setPartName(chain.getId());
 		} else {
 			viewer.setInput(new Object[0]);

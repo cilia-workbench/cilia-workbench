@@ -31,15 +31,15 @@ import org.eclipse.swt.widgets.Shell;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.ComponentInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.OutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Port;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.ComponentInstance;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.MediatorInstance;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 public class NewBindingWindow extends Dialog {
@@ -272,7 +272,7 @@ public class NewBindingWindow extends Dialog {
 		public void modifyText(ModifyEvent e) {
 			comboPort.removeAll();
 			
-			for (ComponentInstance i : chain.getElements()) {
+			for (ComponentInstance i : chain.getComponents()) {
 				if (i.getId().equalsIgnoreCase(comboElem.getText())) {
 					if (i instanceof AdapterInstance) {
 						comboPort.setEnabled(false);

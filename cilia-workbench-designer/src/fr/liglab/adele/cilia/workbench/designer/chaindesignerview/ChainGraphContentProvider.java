@@ -17,9 +17,9 @@ package fr.liglab.adele.cilia.workbench.designer.chaindesignerview;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.MediatorInstance;
 
 public class ChainGraphContentProvider extends ArrayContentProvider implements IGraphEntityContentProvider {
 
