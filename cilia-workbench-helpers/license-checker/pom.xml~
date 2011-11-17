@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>fr.imag.adele</groupId>
+	<artifactId>simple-test</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>cilia-workbench license checker</name>
+	<url>https://github.com/cilia-workbench/cilia-workbench</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.source>1.6</version.source>
+		<version.target>1.6</version.target>
+	</properties>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.google.code.maven-license-plugin</groupId>
+					<artifactId>maven-license-plugin</artifactId>
+					<version>1.4.0</version>
+					<configuration>
+						<header>http://sam.ligforge.imag.fr/licenses/LICENSE.txt</header>
+						<includes>
+							<include>**/src/**</include>
+						</includes>
+						<excludes>
+							<exclude>**/org/**</exclude>
+							<exclude>**/site/**</exclude>
+						</excludes>
+						<encoding>UTF-8</encoding>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<!-- license:check: verify if some files miss license header -->
+								<!-- license:format: add the license header when missing. If a header 
+									is existing, it is updated to the new one. -->
+								<!-- license:remove: remove existing license header -->
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>com.google.code.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
