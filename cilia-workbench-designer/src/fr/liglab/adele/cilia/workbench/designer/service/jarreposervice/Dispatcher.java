@@ -12,23 +12,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.service.common.XMLReflectionUtil;
 
-public class Collector {
+/**
+ * Represents a Dispatcher.
+ * 
+ * @author Etienne Gandrille
+ */
+public class Dispatcher {
 
+	/** The name of the {@link Dispatcher}. */
 	private String name;
+
+	/** The implementation class name. */
 	private String classname;
+
+	/** The namespace. */
 	private String namespace;
-	
-	public Collector(Node node) throws MetadataException {
+
+	/**
+	 * Instantiates a new dispatcher, using reflection on the DOM model.
+	 * 
+	 * @param node
+	 *            the XML DOM node
+	 * @throws MetadataException
+	 *             error while parsing the XML node.
+	 */
+	public Dispatcher(Node node) throws MetadataException {
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
 		XMLReflectionUtil.setRequiredAttribute(node, "classname", this, "classname");
 		XMLReflectionUtil.setOptionalAttribute(node, "namespace", this, "namespace");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return name;

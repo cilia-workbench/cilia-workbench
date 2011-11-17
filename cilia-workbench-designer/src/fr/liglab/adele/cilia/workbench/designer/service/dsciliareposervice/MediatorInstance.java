@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
 /**

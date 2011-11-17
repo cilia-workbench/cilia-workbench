@@ -12,23 +12,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.service.common.XMLReflectionUtil;
 
+/**
+ * Represents a Scheduler.
+ * 
+ * @author Etienne Gandrille
+ */
 public class Scheduler {
 
+	/** The name. */
 	private String name;
+
+	/** The classname. */
 	private String classname;
+
+	/** The namespace. */
 	private String namespace;
-	
+
+	/**
+	 * Instantiates a new scheduler, using reflection on the DOM model.
+	 * 
+	 * @param node
+	 *            the XML DOM node
+	 * @throws MetadataException
+	 *             error while parsing the XML node.
+	 */
 	public Scheduler(Node node) throws MetadataException {
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
 		XMLReflectionUtil.setRequiredAttribute(node, "classname", this, "classname");
 		XMLReflectionUtil.setOptionalAttribute(node, "namespace", this, "namespace");
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return name;

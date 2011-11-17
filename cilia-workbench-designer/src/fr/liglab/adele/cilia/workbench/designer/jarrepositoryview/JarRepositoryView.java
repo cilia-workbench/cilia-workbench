@@ -31,9 +31,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IJarRepositoryListener;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
@@ -98,7 +98,7 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 		Object element = getFirstSelectedElement();
 		if (element != null && element instanceof Bundle) {
 			Bundle bundle = (Bundle) element;
-			String bundleName = bundle.getBundleName();
+			String bundleName = bundle.getBundlePath();
 
 			IWorkbenchPage page = getViewSite().getPage();
 
@@ -147,7 +147,7 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 	}
 
 	@Override
-	public void repositoryContentUpdated() {
+	public void jarRepositoryContentUpdated() {
 		refresh();
 	}
 }

@@ -12,25 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
 
-public abstract class Port {
+/**
+ * Represents an InPort.
+ * 
+ * @author Etienne Gandrille
+ */
+public class InPort extends Port {
 
-	private String name;
-	
-	public Port(Node node) throws MetadataException {
-		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
-	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
-	
-	public String getName() {
-		return name;
+	/**
+	 * Instantiates a new inPort, using reflection on the DOM model.
+	 * 
+	 * @param node
+	 *            the XML DOM node
+	 * @throws MetadataException
+	 *             error while parsing the XML node.
+	 */
+	public InPort(Node node) throws MetadataException {
+		super(node);
 	}
 }

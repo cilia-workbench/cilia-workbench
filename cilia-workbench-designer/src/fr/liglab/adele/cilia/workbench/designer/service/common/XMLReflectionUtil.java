@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.service.common;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -24,27 +24,105 @@ import org.w3c.dom.NodeList;
 
 import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 
-
+/**
+ * A set of static methods used to parse XML files and to inject fields values
+ * in an object using reflexion.
+ * 
+ * @author Etienne Gandrille
+ */
 public class XMLReflectionUtil {
 
-	public static boolean setRequiredAttribute(Node node, String attrName, Object object,
-			String fieldName) throws MetadataException {
-		return setAttributeInternal(true, null, node, attrName, object, fieldName);
+	/**
+	 * Sets an attribute, and sends an exception if the attribute can't be found
+	 * or set.
+	 * 
+	 * @param node
+	 *            an XML node, used to find the attribute and the associated
+	 *            value.
+	 * @param attrName
+	 *            the name of the attribute in the XML node.
+	 * @param object
+	 *            the object on which the value should be injected.
+	 * @param fieldName
+	 *            the object field name, for value injection.
+	 * @throws MetadataException
+	 *             error.
+	 */
+	public static void setRequiredAttribute(Node node, String attrName, Object object, String fieldName)
+			throws MetadataException {
+		setAttributeInternal(true, null, node, attrName, object, fieldName);
 	}
-	
-	public static boolean setOptionalAttribute(Node node, String attrName, Object object,
-			String fieldName) throws MetadataException {
+
+	/**
+	 * Sets an optional attribute.
+	 * 
+	 * @param node
+	 *            an XML node, used to find the attribute and the associated
+	 *            value.
+	 * @param attrName
+	 *            the name of the attribute in the XML node.
+	 * @param object
+	 *            the object on which the value should be injected.
+	 * @param fieldName
+	 *            the object field name, for value injection.
+	 * @return true, if successful
+	 * @throws MetadataException
+	 *             the metadata exception
+	 */
+	public static boolean setOptionalAttribute(Node node, String attrName, Object object, String fieldName)
+			throws MetadataException {
 		return setOptionalAttribute(node, attrName, object, fieldName, null);
 	}
 
-	public static boolean setOptionalAttribute(Node node, String attrName, Object object,
-			String fieldName, String defaultValue) throws MetadataException {
+	/**
+	 * Sets an optional attribute.
+	 * 
+	 * @param node
+	 *            an XML node, used to find the attribute and the associated
+	 *            value.
+	 * @param attrName
+	 *            the name of the attribute in the XML node.
+	 * @param object
+	 *            the object on which the value should be injected.
+	 * @param fieldName
+	 *            the object field name, for value injection.
+	 * @param defaultValue
+	 *            a default value, injected if no value found in the XML node.
+	 * @return true, if successful
+	 * @throws MetadataException
+	 *             the metadata exception
+	 */
+	public static boolean setOptionalAttribute(Node node, String attrName, Object object, String fieldName,
+			String defaultValue) throws MetadataException {
 		return setAttributeInternal(false, defaultValue, node, attrName, object, fieldName);
 	}
-	
-	private static boolean setAttributeInternal(boolean requiredAttribute, String defaultValue, Node node, String attrName, Object object,
-			String fieldName) throws MetadataException {
-		
+
+	/**
+	 * The internal method, for setting an attribute.
+	 * 
+	 * @param requiredAttribute
+	 *            tells if the attribute is required. If <code>true</code>,
+	 *            sends an exception if the attribute can't be found in the XML
+	 *            file.
+	 * @param defaultValue
+	 *            the default value, used if it's not null AND if
+	 *            requiredAttribute is <code>false</code>.
+	 * @param node
+	 *            an XML node, used to find the attribute and the associated
+	 *            value.
+	 * @param attrName
+	 *            the name of the attribute in the XML node.
+	 * @param object
+	 *            the object on which the value should be injected.
+	 * @param fieldName
+	 *            the object field name, for value injection.
+	 * @return true, if successful
+	 * @throws MetadataException
+	 *             the metadata exception
+	 */
+	private static boolean setAttributeInternal(boolean requiredAttribute, String defaultValue, Node node,
+			String attrName, Object object, String fieldName) throws MetadataException {
+
 		Exception exception = null;
 		boolean retval = true;
 		try {
@@ -55,18 +133,17 @@ public class XMLReflectionUtil {
 				field = object.getClass().getSuperclass().getDeclaredField(fieldName);
 			}
 			String value = null;
-			
+
 			try {
 				value = findAttributeValue(node, attrName);
 			} catch (MetadataException e) {
 				retval = false;
 				if (requiredAttribute == true)
 					throw new MetadataException(e);
-				else
-					if (defaultValue != null)
-						value = defaultValue;
+				else if (defaultValue != null)
+					value = defaultValue;
 			}
-			
+
 			field.setAccessible(true);
 			field.set(object, value);
 
@@ -79,27 +156,48 @@ public class XMLReflectionUtil {
 		} catch (IllegalAccessException e) {
 			exception = e;
 		}
-		
+
 		// If there's an error
 		if (exception != null)
 			throw new MetadataException("", exception);
-		
+
 		// Success
 		return retval;
 	}
 
-	
-	public static String findAttributeValue(Node node, String attrName, String defaultValue)
-			throws MetadataException {
-		
+	/**
+	 * Finds an attribute value in a node.
+	 * 
+	 * @param node
+	 *            an XML node, used to find the attribute and the associated
+	 *            value.
+	 * @param attrName
+	 *            the name of the attribute in the XML node.
+	 * @param defaultValue
+	 *            the default value, returns if the attribute value can't be
+	 *            found.
+	 * @return the attribute value
+	 */
+	public static String findAttributeValue(Node node, String attrName, String defaultValue) {
+
 		try {
 			return findAttributeValue(node, attrName);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return defaultValue;
 		}
 	}
-	
+
+	/**
+	 * Find attribute value.
+	 * 
+	 * @param node
+	 *            the node
+	 * @param attrName
+	 *            the attr name
+	 * @return the string
+	 * @throws MetadataException
+	 *             the metadata exception
+	 */
 	private static String findAttributeValue(Node node, String attrName) throws MetadataException {
 		NamedNodeMap attrs = node.getAttributes();
 		if (attrs != null) {
@@ -117,21 +215,39 @@ public class XMLReflectionUtil {
 
 		throw new MetadataException("Attribute " + attrName + " not found");
 	}
-	
+
+	/**
+	 * Finds a child node.
+	 * 
+	 * @param node
+	 *            the root node
+	 * @param childName
+	 *            the child node name
+	 * @return the child node
+	 */
 	public static Node findChild(Node node, String childName) {
 
 		Node[] children = findChildren(node, childName);
-		
+
 		if (children.length == 0)
 			return null;
 		else
 			return children[0];
 	}
-	
+
+	/**
+	 * Finds all the children nodes.
+	 * 
+	 * @param node
+	 *            the root node
+	 * @param childrenName
+	 *            the children name
+	 * @return the children list
+	 */
 	public static Node[] findChildren(Node node, String childrenName) {
-		
+
 		List<Node> list = new ArrayList<Node>();
-		
+
 		NodeList childs = node.getChildNodes();
 		if (childs != null) {
 			for (int i = 0; i < childs.getLength(); i++) {
@@ -145,10 +261,20 @@ public class XMLReflectionUtil {
 				}
 			}
 		}
-		
+
 		return list.toArray(new Node[0]);
 	}
-	
+
+	/**
+	 * Converts a node type to its associated string. This helper method can be
+	 * useful for debugging.
+	 * 
+	 * @param nodeType
+	 *            the node type, as a constant
+	 * @return the node type, as a string
+	 * @throws Exception
+	 *             if node type can't be found.
+	 */
 	public static String nodeTypeToString(short nodeType) throws Exception {
 		if (nodeType == Node.ELEMENT_NODE)
 			return "ELEMENT_NODE";
@@ -188,5 +314,5 @@ public class XMLReflectionUtil {
 			return "DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC";
 
 		throw new Exception("Unknown value : " + nodeType);
-	}	
+	}
 }

@@ -20,7 +20,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.CommonHandler;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 

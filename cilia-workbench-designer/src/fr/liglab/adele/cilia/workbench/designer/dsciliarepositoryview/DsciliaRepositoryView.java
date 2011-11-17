@@ -34,9 +34,9 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDsciliaRepositoryListener;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
@@ -106,7 +106,7 @@ public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRep
 	 *            the changes
 	 */
 	@Override
-	public void repositoryChange(Changeset[] changes) {
+	public void dsciliaRepositoryContentUpdated(Changeset[] changes) {
 		for (Changeset change : changes) {
 			Object object = change.getObject();
 			Operation operation = change.getOperation();
@@ -156,18 +156,16 @@ public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRep
 
 		if (element != null && element instanceof RepoElement) {
 			RepoElement repoElement = (RepoElement) element;
-			if (repoElement.getDscilia() != null) {
-				IFileStore fileStore;
-				try {
-					fileStore = EFS.getLocalFileSystem().getStore(new URI(repoElement.getFilePath()));
-					IWorkbenchPage page = getViewSite().getPage();
-					IEditorPart editor = IDE.openEditorOnFileStore(page, fileStore);
-					addEditorSavedListener(editor);
-				} catch (PartInitException e) {
-					e.printStackTrace();
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				}
+			IFileStore fileStore;
+			try {
+				fileStore = EFS.getLocalFileSystem().getStore(new URI(repoElement.getFilePath()));
+				IWorkbenchPage page = getViewSite().getPage();
+				IEditorPart editor = IDE.openEditorOnFileStore(page, fileStore);
+				addEditorSavedListener(editor);
+			} catch (PartInitException e) {
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -188,8 +186,12 @@ public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRep
 		viewer.refresh();
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView#getRepositoryDirectory()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView
+	 * #getRepositoryDirectory()
 	 */
 	@Override
 	protected String getRepositoryDirectory() {

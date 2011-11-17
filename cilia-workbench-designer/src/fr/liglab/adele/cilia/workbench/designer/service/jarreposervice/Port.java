@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
+package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import org.w3c.dom.Node;
 
@@ -20,46 +20,44 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException
 import fr.liglab.adele.cilia.workbench.designer.service.common.XMLReflectionUtil;
 
 /**
- * An abstract class for {@link MediatorInstance} and {@link AdapterInstance}.
+ * Represents an abstarct generic Port. This method inteds to be subclassed in
+ * {@link InPort} and {@link OutPort}.
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentInstance {
+public abstract class Port {
 
-	/** The component id. */
-	protected String id;
-
-	/** The component type. */
-	protected String type;
+	/** The port name. */
+	private String name;
 
 	/**
-	 * Instantiates a new component instance, using reflection on the DOM node.
+	 * Instantiates a new Port, using reflection on the DOM model.
 	 * 
 	 * @param node
 	 *            the XML DOM node
 	 * @throws MetadataException
-	 *             XML parsing error, or reflexion error.
+	 *             error while parsing the XML node.
 	 */
-	public ComponentInstance(Node node) throws MetadataException {
-		XMLReflectionUtil.setRequiredAttribute(node, "id", this, "id");
-		XMLReflectionUtil.setRequiredAttribute(node, "type", this, "type");
+	public Port(Node node) throws MetadataException {
+		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return name;
 	}
 
 	/**
-	 * Gets the component id.
+	 * Gets the name.
 	 * 
-	 * @return the id
+	 * @return the name
 	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * Gets the component type.
-	 * 
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
+	public String getName() {
+		return name;
 	}
 }

@@ -24,29 +24,26 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 
 /**
- * JarRepoService.
+ * A central place for managing the Jar repository. The repository can be asked
+ * to refresh the model. The repository can be asked to send model update
+ * notifications.
+ * 
+ * @author Etienne Gandrille
  */
 public class JarRepoService {
 
-	/** Singleton instance */
+	/** Singleton instance. */
 	private static JarRepoService INSTANCE;
 
-	/** The key used to search the repository path into the preferences store. */
-	private String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH;
+	/** The repository content. */
+	private Bundle[] repo;
 
-	/** The service model */
-	private Bundle[] model;
-	
 	/** Listeners. */
 	private List<IJarRepositoryListener> listeners = new ArrayList<IJarRepositoryListener>();
 
-	
 	/**
 	 * Gets the singleton instance.
 	 * 
@@ -57,7 +54,7 @@ public class JarRepoService {
 			INSTANCE = new JarRepoService();
 		return INSTANCE;
 	}
-	
+
 	/**
 	 * Instantiates a new jar repo service.
 	 */
@@ -65,28 +62,36 @@ public class JarRepoService {
 		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals(PREFERENCE_PATH_KEY)) {
+				if (event.getProperty().equals(CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH)) {
 					updateModel();
 				}
 			}
 		});
 		updateModel();
 	}
-	
+
+	/**
+	 * Gets the model.
+	 * 
+	 * @return the model
+	 */
 	public Bundle[] getModel() {
-		return model;
+		return repo;
 	}
 
 	/**
 	 * Gets the repository path on the file system.
-	 *
+	 * 
 	 * @return the repository path
 	 */
 	public String getRepositoryPath() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		return store.getString(PREFERENCE_PATH_KEY);
+		return store.getString(CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH);
 	}
-	
+
+	/**
+	 * Updates the model and sends notifications.
+	 */
 	public void updateModel() {
 		File dir = new File(getRepositoryPath());
 		File[] list = dir.listFiles(new FilenameFilter() {
@@ -109,39 +114,38 @@ public class JarRepoService {
 		}
 
 		// Updates model with computed one
-		model = bundles.toArray(new Bundle[0]);
-		
+		repo = bundles.toArray(new Bundle[0]);
+
 		// Sends notifications
 		notifyListeners();
 	}
-	
+
 	/**
-	 * Notifies listeners with given change set table.
+	 * Notifies listeners the model have been updated.
 	 * 
-	 * @param changes
-	 *            the change set table.
 	 */
 	private void notifyListeners() {
 		for (IJarRepositoryListener listener : listeners) {
-			listener.repositoryContentUpdated();
+			listener.jarRepositoryContentUpdated();
 		}
 	}
 
 	/**
 	 * Register listener.
-	 *
-	 * @param listener the listener
+	 * 
+	 * @param listener
+	 *            the listener
 	 */
 	public void registerListener(IJarRepositoryListener listener) {
 		if (listener != null && !listeners.contains(listener))
 			listeners.add(listener);
 	}
-	
-	
+
 	/**
 	 * Unregister listener.
-	 *
-	 * @param listener the listener
+	 * 
+	 * @param listener
+	 *            the listener
 	 * @return true, if successful
 	 */
 	public boolean unregisterListener(IJarRepositoryListener listener) {
@@ -150,39 +154,62 @@ public class JarRepoService {
 		else
 			return false;
 	}
-	
+
+	/**
+	 * Gets the mediators id.
+	 * 
+	 * @return the mediators id
+	 */
 	public String[] getMediatorsId() {
 		List<String> retval = new ArrayList<String>();
-		for (Bundle bundle : model)
+		for (Bundle bundle : repo)
 			for (MediatorComponent mc : bundle.getMetadata().getMediatorComponents())
 				retval.add(mc.getName());
-		
+
 		return retval.toArray(new String[0]);
 	}
 
+	/**
+	 * Gets the adapters id.
+	 * 
+	 * @return the adapters id
+	 */
 	public String[] getAdaptersId() {
 		List<String> retval = new ArrayList<String>();
-		for (Bundle bundle : model)
+		for (Bundle bundle : repo)
 			for (Adapter a : bundle.getMetadata().getAdapters())
 				retval.add(a.getName());
-		
+
 		return retval.toArray(new String[0]);
 	}
-	
+
+	/**
+	 * Gets an adapter, using its name.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the adapter
+	 */
 	public Adapter getAdapter(String name) {
-		for (Bundle bundle : model)
+		for (Bundle bundle : repo)
 			for (Adapter a : bundle.getMetadata().getAdapters())
 				if (a.getName().equalsIgnoreCase(name))
 					return a;
 		return null;
 	}
-	
+
+	/**
+	 * Gets a mediator, using its name.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the mediator
+	 */
 	public MediatorComponent getMediator(String name) {
-		for (Bundle bundle : model)
+		for (Bundle bundle : repo)
 			for (MediatorComponent m : bundle.getMetadata().getMediatorComponents())
 				if (m.getName().equalsIgnoreCase(name))
 					return m;
 		return null;
 	}
-	
 }

@@ -23,7 +23,7 @@ package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
  * the IDSciliaRepository event occurs, that object's appropriate
  * method is invoked.
  * 
- * @see IDSciliaRepositoryEvent
+ * @see {link #Changeset}
  * 
  * @author Etienne Gandrille
  */
@@ -35,5 +35,5 @@ public interface IDsciliaRepositoryListener {
 	 * @param changes
 	 *            the changeset list
 	 */
-	public void repositoryChange(Changeset[] changes);
+	public void dsciliaRepositoryContentUpdated(Changeset[] changes);
 }

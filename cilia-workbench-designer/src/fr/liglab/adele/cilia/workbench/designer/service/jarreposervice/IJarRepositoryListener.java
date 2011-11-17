@@ -14,23 +14,18 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
-
 /**
- * The listener interface for receiving IJarRepository events.
- * The class that is interested in processing a IJarRepository
- * event implements this interface, and the object created
- * with that class is registered with a component using the
- * component's <code>addIJarRepositoryListener<code> method. When
+ * The listener interface for receiving IJarRepository events. The class that is
+ * interested in processing a IJarRepository event implements this interface,
+ * and the object created with that class is registered with a component using
+ * the component's <code>addIJarRepositoryListener<code> method. When
  * the IJarRepository event occurs, that object's appropriate
  * method is invoked.
- *
- * @see IJarRepositoryEvent
  */
 public interface IJarRepositoryListener {
-
 
 	/**
 	 * Invoked when repository content update occurs.
 	 */
-	public void repositoryContentUpdated();
+	public void jarRepositoryContentUpdated();
 }

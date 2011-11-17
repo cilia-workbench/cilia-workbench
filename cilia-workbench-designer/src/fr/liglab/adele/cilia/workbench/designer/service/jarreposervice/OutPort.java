@@ -12,12 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
+
 import org.w3c.dom.Node;
 
-public class InPort extends Port {
-	
-	public InPort(Node node) throws MetadataException {
+import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
+
+/**
+ * Represents an OutPort.
+ * 
+ * @author Etienne Gandrille
+ */
+public class OutPort extends Port {
+
+	/**
+	 * Instantiates a new OutPort, using reflection on the DOM model.
+	 * 
+	 * @param node
+	 *            the XML DOM node
+	 * @throws MetadataException
+	 *             error while parsing the XML node.
+	 */
+	public OutPort(Node node) throws MetadataException {
 		super(node);
 	}
 }

@@ -23,10 +23,10 @@ import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.service.common.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**

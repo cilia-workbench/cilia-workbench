@@ -12,24 +12,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.service.common.XMLReflectionUtil;
 
+/**
+ * Represents a MediatorComponent.
+ * 
+ * @author Etienne Gandrille
+ */
 public class MediatorComponent {
 
+	/** The name of the mediator component. */
 	private String name;
+
+	/** The category of the mediator component. */
 	private String category;
 
+	/** The scheduler name. */
 	private String schedulerName;
+
+	/** The processor name. */
 	private String processorName;
+
+	/** The dispatcher name. */
 	private String dispatcherName;
+
+	/** The ports. Can be in or out ports. */
 	private List<Port> ports = new ArrayList<Port>();
 
+	/**
+	 * Instantiates a new MediatorComponent, using reflection on the DOM model.
+	 * 
+	 * @param node
+	 *            the XML DOM node
+	 * @throws MetadataException
+	 *             error while parsing the XML node.
+	 */
 	public MediatorComponent(Node node) throws MetadataException {
 
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
@@ -61,15 +86,30 @@ public class MediatorComponent {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return name;
 	}
-	
+
+	/**
+	 * Gets the ports.
+	 * 
+	 * @return the ports
+	 */
 	public List<Port> getPorts() {
 		return ports;
 	}
-	
+
+	/**
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}

@@ -16,17 +16,17 @@ package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 
 import java.util.ArrayList;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Collector;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Dispatcher;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.IPojo;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Port;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Scheduler;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Sender;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Adapter;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Bundle;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Collector;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Dispatcher;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IPojo;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Port;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Processor;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Scheduler;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Sender;
 
 /**
  * MetadataContentProvider.

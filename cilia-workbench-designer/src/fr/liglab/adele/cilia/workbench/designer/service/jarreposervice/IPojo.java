@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,29 +20,56 @@ import java.util.List;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
+/**
+ * Represents a VALID metadata.
+ * 
+ * @see {@link Bundle}.
+ * 
+ * @author Etienne Gandrille
+ */
 public class IPojo {
 
+	/** The mediator components. */
 	private List<MediatorComponent> mediatorComponents = new ArrayList<MediatorComponent>();
-	
+
+	/** The processors. */
 	private List<Processor> processors = new ArrayList<Processor>();
+
+	/** The schedulers. */
 	private List<Scheduler> schedulers = new ArrayList<Scheduler>();
+
+	/** The dispatchers. */
 	private List<Dispatcher> dispatchers = new ArrayList<Dispatcher>();
+
+	/** The collectors. */
 	private List<Collector> collectors = new ArrayList<Collector>();
+
+	/** The senders. */
 	private List<Sender> senders = new ArrayList<Sender>();
+
+	/** The adapters. */
 	private List<Adapter> adapters = new ArrayList<Adapter>();
 
+	/**
+	 * Instantiates a new metadata.xml abstraction, using reflection on the DOM
+	 * model.
+	 * 
+	 * @param node
+	 *            the XML DOM node
+	 * @throws Exception
+	 *             error while parsing the metadata.xml file.
+	 */
 	public IPojo(Node node) throws Exception {
-		
+
 		NodeList childs = node.getChildNodes();
 		if (childs != null) {
 			for (int i = 0; i < childs.getLength(); i++) {
 				Node child = childs.item(i);
-				
+
 				if (child.getNodeType() == Node.ELEMENT_NODE) {
-				
+
 					String nodeName = child.getNodeName().toLowerCase();
-					
+
 					if (nodeName.equals("processor"))
 						processors.add(new Processor(child));
 					else if (nodeName.equals("scheduler"))
@@ -61,31 +88,66 @@ public class IPojo {
 			}
 		}
 	}
-	
+
+	/**
+	 * Gets the mediator components.
+	 * 
+	 * @return the mediator components
+	 */
 	public List<MediatorComponent> getMediatorComponents() {
 		return mediatorComponents;
 	}
 
+	/**
+	 * Gets the processors.
+	 * 
+	 * @return the processors
+	 */
 	public List<Processor> getProcessors() {
 		return processors;
 	}
 
+	/**
+	 * Gets the schedulers.
+	 * 
+	 * @return the schedulers
+	 */
 	public List<Scheduler> getSchedulers() {
 		return schedulers;
 	}
 
+	/**
+	 * Gets the dispatchers.
+	 * 
+	 * @return the dispatchers
+	 */
 	public List<Dispatcher> getDispatchers() {
 		return dispatchers;
 	}
 
+	/**
+	 * Gets the collectors.
+	 * 
+	 * @return the collectors
+	 */
 	public List<Collector> getCollectors() {
 		return collectors;
 	}
 
+	/**
+	 * Gets the senders.
+	 * 
+	 * @return the senders
+	 */
 	public List<Sender> getSenders() {
 		return senders;
 	}
 
+	/**
+	 * Gets the adapters.
+	 * 
+	 * @return the adapters
+	 */
 	public List<Adapter> getAdapters() {
 		return adapters;
 	}

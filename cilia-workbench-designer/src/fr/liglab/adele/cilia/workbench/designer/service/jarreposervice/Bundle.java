@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -29,16 +29,38 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
+
+/**
+ * Indirection layer to {@link IPojo}.
+ * 
+ * While IPojo represents ONLY valid files (parsed successfully), this class
+ * represents valid and non valid jar metadata. Non valid files have the
+ * {@link #metadata} field null.
+ * 
+ * @author Etienne Gandrille
+ */
 public class Bundle {
 
+	/** The path on the file system. */
 	private String filePath;
+
+	/** The logical representation of the jar metadata. */
 	private IPojo metadata;
 
+	/**
+	 * Instantiates a new bundle.
+	 * 
+	 * @param filePath
+	 *            the file path
+	 * @throws Exception
+	 *             the exception
+	 */
 	public Bundle(String filePath) throws Exception {
 		this.filePath = filePath;
 
 		InputStream is = inputStreamFromFile(filePath);
-		
+
 		DocumentBuilderFactory fabrique = DocumentBuilderFactory.newInstance();
 		DocumentBuilder constructeur;
 		try {
@@ -65,6 +87,15 @@ public class Bundle {
 			throw new MetadataException("Can't find ipojo root in " + filePath);
 	}
 
+	/**
+	 * Gets an XML stream from a jar file.
+	 * 
+	 * @param filePath
+	 *            the file path
+	 * @return the input stream
+	 * @throws MetadataException
+	 *             the metadata exception
+	 */
 	public static InputStream inputStreamFromFile(String filePath) throws MetadataException {
 		// Jar file
 		JarFile file;
@@ -88,11 +119,21 @@ public class Bundle {
 
 		return is;
 	}
-	
-	public String getBundleName() {
+
+	/**
+	 * Gets the bundle path.
+	 * 
+	 * @return the bundle path
+	 */
+	public String getBundlePath() {
 		return filePath;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		int index = filePath.lastIndexOf(File.separator, filePath.length());
@@ -102,6 +143,11 @@ public class Bundle {
 			return filePath.substring(index + 1);
 	}
 
+	/**
+	 * Gets the metadata.
+	 * 
+	 * @return the metadata
+	 */
 	public IPojo getMetadata() {
 		return metadata;
 	}

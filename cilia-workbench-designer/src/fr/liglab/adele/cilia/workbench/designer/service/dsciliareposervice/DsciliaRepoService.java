@@ -33,8 +33,8 @@ import com.google.common.base.Preconditions;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
+import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
 /**
@@ -152,7 +152,7 @@ public class DsciliaRepoService {
 	 */
 	private void notifyListeners(Changeset[] changes) {
 		for (IDsciliaRepositoryListener listener : listeners) {
-			listener.repositoryChange(changes);
+			listener.dsciliaRepositoryContentUpdated(changes);
 		}
 	}
 
