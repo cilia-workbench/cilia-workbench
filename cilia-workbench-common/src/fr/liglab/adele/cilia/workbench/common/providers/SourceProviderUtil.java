@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.sourceprovider;
+package fr.liglab.adele.cilia.workbench.common.providers;
 
 import org.eclipse.ui.ISourceProvider;
 import org.eclipse.ui.PlatformUI;

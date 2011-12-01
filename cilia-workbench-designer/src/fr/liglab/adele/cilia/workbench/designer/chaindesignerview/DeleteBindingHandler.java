@@ -24,7 +24,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
 /**
- * Handler used when deleting a chain in the chain designer view.
+ * Handler called when deleting a binding in the chain designer view.
  * 
  * @author Etienne Gandrille
  */
@@ -33,9 +33,7 @@ public class DeleteBindingHandler extends CommonHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
-	 * .ExecutionEvent)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands .ExecutionEvent)
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {

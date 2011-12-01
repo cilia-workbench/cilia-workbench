@@ -17,11 +17,11 @@ package fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.common.providers.GenericTreeContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
-public class DsciliaContentProvider extends GenericContentProvider {
+public class DsciliaContentProvider extends GenericTreeContentProvider {
 
 	public DsciliaContentProvider(List<RepoElement> repo) {
 		parent.put(repo, new Object[0]);

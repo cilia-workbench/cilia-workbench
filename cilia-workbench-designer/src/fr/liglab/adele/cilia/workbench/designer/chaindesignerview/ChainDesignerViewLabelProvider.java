@@ -14,25 +14,19 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.chaindesignerview;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
-import org.osgi.framework.Bundle;
 
 import fr.liglab.adele.cilia.workbench.common.Activator;
+import fr.liglab.adele.cilia.workbench.common.providers.GenericLabelProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.AdapterInstance;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.MediatorInstance;
 
 /**
- * Label provider for the tree viewer.
+ * Label provider used in the chain designer view.
+ * 
+ * @author Etienne Gandrille
  */
-public class GraphLabelProvider extends LabelProvider {
+public class ChainDesignerViewLabelProvider extends GenericLabelProvider {
 
 	/*
 	 * (non-Javadoc)
@@ -44,7 +38,7 @@ public class GraphLabelProvider extends LabelProvider {
 			return ((AdapterInstance) obj).getId();
 		if (obj instanceof MediatorInstance)
 			return ((MediatorInstance) obj).getId();
-	
+
 		if (obj instanceof EntityConnectionData)
 			return "";
 
@@ -56,29 +50,14 @@ public class GraphLabelProvider extends LabelProvider {
 	 * 
 	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 	 */
-	public Image getImage(Object obj) {
-		String imageName;
+	public String getImageKey(Object obj) {
 		if (obj instanceof AdapterInstance)
-			imageName = "icons/16/adapterIn.png";
+			return Activator.IN_ADAPTER;
 		else if (obj instanceof MediatorInstance)
-			imageName = "icons/16/mediator.png";
+			return Activator.MEDIATOR;
 		else if (obj instanceof EntityConnectionData)
-			imageName = null;
+			return null;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
-
-		if (imageName != null) {
-			Bundle bundle = Activator.getDefault().getBundle();
-			URL url = FileLocator.find(bundle, new Path(imageName), null);
-			try {
-				url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imageName);
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-			ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
-
-			return imageDesc.createImage();
-		} else
-			return null;
 	}
 }

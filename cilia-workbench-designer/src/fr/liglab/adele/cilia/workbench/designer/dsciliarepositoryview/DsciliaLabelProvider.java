@@ -14,24 +14,24 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview;
 
-
-import fr.liglab.adele.cilia.workbench.designer.repositoryview.LabelProvider;
+import fr.liglab.adele.cilia.workbench.common.Activator;
+import fr.liglab.adele.cilia.workbench.common.providers.GenericLabelProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
-public class DsciliaLabelProvider extends LabelProvider {
+public class DsciliaLabelProvider extends GenericLabelProvider {
 
-	protected String getImagePath(Object obj) {
+	protected String getImageKey(Object obj) {
 		String imageName;
 
 		if (obj instanceof RepoElement) {
 			RepoElement re = (RepoElement) obj;
 			if (re.getDscilia() != null)
-				imageName = "icons/16/file.png";
+				imageName = Activator.FILE;
 			else
-				imageName = "icons/16/fileError.png";
+				imageName = Activator.FILE_ERROR;
 		} else if (obj instanceof Chain)
-			imageName = "icons/16/chain.png";
+			imageName = Activator.CHAIN;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
 

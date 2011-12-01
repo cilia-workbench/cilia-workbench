@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 
-import fr.liglab.adele.cilia.workbench.common.sourceprovider.SourceProviderUtil;
+import fr.liglab.adele.cilia.workbench.common.providers.SourceProviderUtil;
 import fr.liglab.adele.cilia.workbench.common.view.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaRepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
@@ -75,7 +75,7 @@ public class ChainDesignerView extends GraphView implements IDsciliaRepositoryLi
 
 		setPartName(DEFAULT_PART_NAME);
 		viewer.setContentProvider(contentProvider);
-		viewer.setLabelProvider(new GraphLabelProvider());
+		viewer.setLabelProvider(new ChainDesignerViewLabelProvider());
 		viewer.setInput(new Object[0]);
 		DsciliaRepoService.getInstance().registerListener(this);
 	}

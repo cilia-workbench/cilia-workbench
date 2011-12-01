@@ -14,28 +14,20 @@
  */
 package fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
-import org.osgi.framework.Bundle;
 
 import fr.liglab.adele.cilia.AdapterReadOnly;
 import fr.liglab.adele.cilia.ChainReadOnly;
 import fr.liglab.adele.cilia.CiliaContextReadOnly;
 import fr.liglab.adele.cilia.MediatorReadOnly;
 import fr.liglab.adele.cilia.management.monitoring.MonitoredApplication;
-import fr.liglab.adele.cilia.workbench.monitoring.Activator;
+import fr.liglab.adele.cilia.workbench.common.Activator;
+import fr.liglab.adele.cilia.workbench.common.providers.GenericLabelProvider;
 
 /**
  * Label provider for the tree viewer.
  */
-public class CiliaLabelProvider extends LabelProvider {
+public class CiliaLabelProvider extends GenericLabelProvider {
 
 	/*
 	 * (non-Javadoc)
@@ -65,14 +57,11 @@ public class CiliaLabelProvider extends LabelProvider {
 	 * 
 	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 	 */
-	public Image getImage(Object obj) {
-		String imageName;
-		if (obj instanceof MonitoredApplication)
-			imageName = "icons/16/start.png";
-		else if (obj instanceof CiliaContextReadOnly)
-			imageName = "icons/16/chain.png";
+	public String getImageKey(Object obj) {
+		if (obj instanceof CiliaContextReadOnly)
+			return Activator.CHAIN;
 		else if (obj instanceof ChainReadOnly)
-			imageName = "icons/16/chain.png";
+			return Activator.CHAIN;
 		else if (obj instanceof AdapterReadOnly) {
 			AdapterReadOnly adapter = (AdapterReadOnly) obj;
 
@@ -83,30 +72,16 @@ public class CiliaLabelProvider extends LabelProvider {
 			int out = adapter.getOutBindings() == null ? 0 : adapter.getOutBindings().length;
 
 			if (in == 0 && out != 0)
-				imageName = "icons/16/adapterIn.png";
+				return Activator.IN_ADAPTER;
 			else if (in != 0 && out == 0)
-				imageName = "icons/16/adapterOut.png";
+				return Activator.OUT_ADAPTER;
 			else
-				imageName = "icons/16/mediator.png";
+				return Activator.MEDIATOR;
 		} else if (obj instanceof MediatorReadOnly)
-			imageName = "icons/16/mediator.png";
+			return Activator.MEDIATOR;
 		else if (obj instanceof EntityConnectionData) {
-			imageName = null;
+			return null;
 		} else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
-
-		if (imageName != null) {
-			Bundle bundle = Activator.getDefault().getBundle();
-			URL url = FileLocator.find(bundle, new Path(imageName), null);
-			try {
-				url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imageName);
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-			ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
-
-			return imageDesc.createImage();
-		} else
-			return null;
 	}
 }

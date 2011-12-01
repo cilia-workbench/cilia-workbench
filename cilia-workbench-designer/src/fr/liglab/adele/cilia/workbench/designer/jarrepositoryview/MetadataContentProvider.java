@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 
 import java.util.ArrayList;
 
-import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.common.providers.GenericTreeContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Collector;
@@ -31,7 +31,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Sender;
 /**
  * MetadataContentProvider.
  */
-public class MetadataContentProvider extends GenericContentProvider {
+public class MetadataContentProvider extends GenericTreeContentProvider {
 
 	
 	/**

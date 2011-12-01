@@ -14,7 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.monitoring.topologyview;
 
-import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvider;
+import fr.liglab.adele.cilia.workbench.common.providers.ToggleSourceProvider;
 
 /**
  * Handles the reload require variable using a SourceProvider. 

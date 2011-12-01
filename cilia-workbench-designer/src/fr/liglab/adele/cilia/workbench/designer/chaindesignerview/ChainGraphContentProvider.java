@@ -21,19 +21,33 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Adapt
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.MediatorInstance;
 
+/**
+ * Content provider for the Chain View.
+ * 
+ * @author Etienne Gandrille
+ */
 public class ChainGraphContentProvider extends ArrayContentProvider implements IGraphEntityContentProvider {
 
+	/** The model. */
 	private Chain model = null;
 
+	/**
+	 * Instantiates a new chain graph content provider.
+	 */
 	public ChainGraphContentProvider() {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.zest.core.viewers.IGraphEntityContentProvider#getConnectedTo(java.lang.Object)
+	 */
 	@Override
 	public Object[] getConnectedTo(Object entity) {
 
 		if (model == null)
 			return new Object[0];
-		
+
 		if (entity instanceof AdapterInstance) {
 			AdapterInstance ai = (AdapterInstance) entity;
 			return model.getDestinations(ai);
@@ -46,6 +60,12 @@ public class ChainGraphContentProvider extends ArrayContentProvider implements I
 		return new Object[0];
 	}
 
+	/**
+	 * Sets the model.
+	 * 
+	 * @param model
+	 *            the new model
+	 */
 	public void setModel(Chain model) {
 		this.model = model;
 	}

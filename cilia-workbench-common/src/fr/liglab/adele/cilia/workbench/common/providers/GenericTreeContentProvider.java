@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.repositoryview;
+package fr.liglab.adele.cilia.workbench.common.providers;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,18 +22,22 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * Generic ContentProvider.
+ * Base class for Tree Content Provider implementation. The implementation is optimized for retrieving children and
+ * parents from a node.
+ * 
+ * @author Etienne Gandrille
  */
-public abstract class GenericContentProvider implements ITreeContentProvider {
+public abstract class GenericTreeContentProvider implements ITreeContentProvider {
 
 	/** Maps to get the children from the parent. */
 	protected Map<Object, List<Object>> children = new HashMap<Object, List<Object>>();
-	
+
 	/** Map to get the parent from a child. */
 	protected Map<Object, Object> parent = new HashMap<Object, Object>();
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
 	 */
 	@Override
@@ -41,8 +45,10 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 		return parent.get(element);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang. Object)
 	 */
 	@Override
 	public Object[] getChildren(Object parentElement) {
@@ -51,32 +57,41 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 			return new Object[0];
 		return a.toArray();
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang. Object)
 	 */
 	@Override
 	public boolean hasChildren(Object element) {
 		return (getChildren(element).length != 0);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang. Object)
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
 		return getChildren(inputElement);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 	 */
 	@Override
 	public void dispose() {
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface .viewers.Viewer, java.lang.Object,
+	 * java.lang.Object)
 	 */
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {

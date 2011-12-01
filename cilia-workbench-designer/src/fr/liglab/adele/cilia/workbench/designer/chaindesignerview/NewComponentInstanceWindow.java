@@ -34,24 +34,41 @@ import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 
+/***
+ * Abstract class used as base class for creating components (Mediators and Adapters).
+ * 
+ * Should be used as this snippet (with sub classes, of course !) : <code>
+ * NewComponentInstanceWindow window = new NewComponentInstanceWindow(event, chain);
+ * if (window.open() == Window.OK) {
+ *   String id = window.getComponentId();
+ *   String type = window.getComponentType();
+ *   (...)
+ * }
+ * </code>
+ * 
+ * @author Etienne Gandrille
+ */
 public abstract class NewComponentInstanceWindow extends Dialog {
 
-	/** The mediators id, found in the jar repository. */
+	/** Components id, found in the jar repository. */
 	protected String[] componentsId = new String[0];
-	
+
+	/** Component name, such as mediator or adapter */
 	private final String componentName;
-	
+
 	/** The listener. */
 	private final WindowModifyListener listener = new WindowModifyListener();
+
 	/** The chain model element. */
 	protected final Chain chain;
+
 	/** Margin used by the GridLayout. */
 	private final int margin = 10;
 
 	/* =============== */
 	/* Text and labels */
 	/* =============== */
-	
+
 	/** The window title. */
 	private final String windowTitle;
 	/** Label for the ID field. */
@@ -62,28 +79,30 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	/* ====== */
 	/* Fields */
 	/* ====== */
-	
+
 	/** The id field. */
 	private Text idText;
 	/** The type field. */
 	private Combo typeCombo;
 	/** The message area. */
 	Label messageArea;
-		
+
 	/* ====== */
 	/* Result */
 	/* ====== */
-	
+
 	/** The component id. */
 	private String componentId;
 	/** The component type. */
 	private String componentType;
-	
+
 	/**
 	 * Instantiates a new new component instance window.
-	 *
-	 * @param parentShell the parent shell
-	 * @param chain the chain
+	 * 
+	 * @param parentShell
+	 *            the parent shell
+	 * @param chain
+	 *            the chain
 	 */
 	protected NewComponentInstanceWindow(String componentName, Shell parentShell, Chain chain) {
 		super(parentShell);
@@ -93,8 +112,10 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 		windowTitle = "New " + componentName + " instance";
 		this.chain = chain;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createDialogArea(Composite parent) {
@@ -142,41 +163,40 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 		return container;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
 	 */
 	@Override
 	protected void initializeBounds() {
 		super.initializeBounds();
 		getButton(IDialogConstants.OK_ID).setEnabled(false);
-		
+
 	}
 
 	/**
 	 * Gets the component id.
-	 *
+	 * 
 	 * @return the component id
 	 */
 	public String getComponentId() {
 		return componentId;
 	}
-	
+
 	/**
 	 * Gets the component type.
-	 *
+	 * 
 	 * @return the component type
 	 */
 	public String getComponentType() {
 		return componentType;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
-	 * .swt.widgets.Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse .swt.widgets.Composite)
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
@@ -202,14 +222,17 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	}
 
 	protected abstract String checkValidValues(String id, String type);
-	
+
 	/**
 	 * Listener invoked each time the user modifies a field in this window.
+	 * 
 	 * @see WindowModifyEvent
 	 */
 	private class WindowModifyListener implements ModifyListener {
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
 		 */
 		@Override
@@ -219,17 +242,17 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 			String msg = checkValidValues(id, type);
 
 			getButton(IDialogConstants.OK_ID).setEnabled(msg == null);
-			
+
 			boolean found = false;
-			for (int i=0; i<componentsId.length && !found ; i++)
+			for (int i = 0; i < componentsId.length && !found; i++)
 				if (componentsId[i].equalsIgnoreCase(type))
 					found = true;
-			
+
 			if (msg == null && !found)
-				messageArea.setText("Warning: " + componentName + " type " + type + " doesn't exists in repository.");  
+				messageArea.setText("Warning: " + componentName + " type " + type + " doesn't exists in repository.");
 			else
-				messageArea.setText(Strings.nullToEmpty(msg));			
-			
+				messageArea.setText(Strings.nullToEmpty(msg));
+
 			componentId = idText.getText();
 			componentType = typeCombo.getText();
 		}

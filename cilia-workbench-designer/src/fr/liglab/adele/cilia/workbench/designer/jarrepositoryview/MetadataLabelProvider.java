@@ -14,7 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 
-import fr.liglab.adele.cilia.workbench.designer.repositoryview.LabelProvider;
+import fr.liglab.adele.cilia.workbench.common.Activator;
+import fr.liglab.adele.cilia.workbench.common.providers.GenericLabelProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Collector;
@@ -29,34 +30,34 @@ import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Sender;
 /**
  * The Class MetadataLabelProvider.
  */
-public class MetadataLabelProvider extends LabelProvider {
+public class MetadataLabelProvider extends GenericLabelProvider {
 
-	protected String getImagePath(Object obj) {
+	protected String getImageKey(Object obj) {
 		String imageName;
 		if (obj instanceof Adapter) {
 			Adapter adapt = (Adapter) obj;
 			if (adapt.getPattern().equals("in-only"))
-				imageName = "icons/16/adapterIn.png";
+				imageName = Activator.IN_ADAPTER;
 			else
-				imageName = "icons/16/adapterOut.png";
+				imageName = Activator.OUT_ADAPTER;
 		} else if (obj instanceof Bundle)
-			imageName = "icons/16/repo.png";
+			imageName = Activator.REPO;
 		else if (obj instanceof Collector)
-			imageName = "icons/16/collector.png";
+			imageName = Activator.COLLECTOR;
 		else if (obj instanceof Dispatcher)
-			imageName = "icons/16/dispatcher.png";
+			imageName = Activator.DISPATCHER;
 		else if (obj instanceof MediatorComponent)
-			imageName = "icons/16/mediator.png";
+			imageName = Activator.MEDIATOR;
 		else if (obj instanceof Processor)
-			imageName = "icons/16/processor.png";
+			imageName = Activator.PROCESSOR;
 		else if (obj instanceof Scheduler)
-			imageName = "icons/16/scheduler.png";
+			imageName = Activator.SCHEDULER;
 		else if (obj instanceof Sender)
-			imageName = "icons/16/sender.png";
+			imageName = Activator.SENDER;
 		else if (obj instanceof InPort)
-			imageName = "icons/16/portIn.png";
+			imageName = Activator.IN_PORT;
 		else if (obj instanceof OutPort)
-			imageName = "icons/16/portOut.png";
+			imageName = Activator.OUT_PORT;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
 
