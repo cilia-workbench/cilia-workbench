@@ -21,31 +21,56 @@ import org.eclipse.ui.AbstractSourceProvider;
 import org.eclipse.ui.ISources;
 
 /**
- * A class for creating toggle variables.
+ * An helper class for creating toggle variables.
+ * 
+ * @author Etienne Gandrille
  */
 public class ToggleSourceProvider extends AbstractSourceProvider {
 
+	/** The toggle variable name. */
+	private final String VARIABLE_NAME;
+
+	/** The name of the state, when the variable is <code>true</code>. */
 	private final String STATE_TRUE;
+
+	/** The name of the state, when the variable is <code>false</code>. */
 	private final String STATE_FALSE;
-	private final String VARIABLE_NAME; 
+
+	/** The variable current value. */
 	private boolean value;
-	
-	public ToggleSourceProvider(String variable, String stateTrue, String stateFalse, boolean defaultValue) {
+
+	/**
+	 * Instantiates a new toggle source provider.
+	 * 
+	 * @param variable
+	 *            the variable name
+	 * @param stateTrue
+	 *            The name of the state, when the variable is <code>true</code>
+	 * @param stateFalse
+	 *            The name of the state, when the variable is <code>false</code>
+	 * @param initialValue
+	 *            the initial boolean value
+	 */
+	public ToggleSourceProvider(String variable, String stateTrue, String stateFalse, boolean initialValue) {
 		STATE_TRUE = stateTrue;
 		STATE_FALSE = stateFalse;
 		VARIABLE_NAME = variable;
-		value = defaultValue;
+		value = initialValue;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.ISourceProvider#getProvidedSourceNames()
 	 */
 	@Override
 	public String[] getProvidedSourceNames() {
 		return new String[] { VARIABLE_NAME };
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.ISourceProvider#getCurrentState()
 	 */
 	@Override
@@ -56,11 +81,12 @@ public class ToggleSourceProvider extends AbstractSourceProvider {
 		currentState.put(VARIABLE_NAME, variableState);
 		return currentState;
 	}
-	
+
 	/**
 	 * Set current state and fire notification if (and only if) state changes.
 	 * 
-	 * @param flag new state.
+	 * @param flag
+	 *            new state.
 	 */
 	public void setValue(boolean flag) {
 		if (this.value == flag)
@@ -78,14 +104,21 @@ public class ToggleSourceProvider extends AbstractSourceProvider {
 	public boolean getValue() {
 		return value;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.ISourceProvider#dispose()
 	 */
 	@Override
 	public void dispose() {
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return (value ? STATE_TRUE : STATE_FALSE);

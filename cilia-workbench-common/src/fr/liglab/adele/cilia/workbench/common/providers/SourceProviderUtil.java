@@ -18,15 +18,28 @@ import org.eclipse.ui.ISourceProvider;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.ISourceProviderService;
 
+/**
+ * Helper class for using Source Providers.
+ * 
+ * @author Etienne Gandrille
+ */
 public class SourceProviderUtil {
-	
+
+	/**
+	 * Toggles a boolean variable.
+	 * 
+	 * @param variable
+	 *            the variable name
+	 * @param newValue
+	 *            the variable new value.
+	 */
 	public static void setToggleVariable(String variable, boolean newValue) {
-		//ISourceProviderService sourceProviderService = (ISourceProviderService)  getSite().getService();
-		ISourceProviderService sourceProviderService = (ISourceProviderService) PlatformUI.getWorkbench().getService(ISourceProviderService.class);
+		// ISourceProviderService sourceProviderService = (ISourceProviderService) getSite().getService();
+		ISourceProviderService sourceProviderService = (ISourceProviderService) PlatformUI.getWorkbench().getService(
+				ISourceProviderService.class);
 		if (sourceProviderService != null) {
-			ISourceProvider provider = sourceProviderService
-					.getSourceProvider(variable);
-			
+			ISourceProvider provider = sourceProviderService.getSourceProvider(variable);
+
 			if (provider instanceof ToggleSourceProvider) {
 				((ToggleSourceProvider) provider).setValue(newValue);
 			} else {

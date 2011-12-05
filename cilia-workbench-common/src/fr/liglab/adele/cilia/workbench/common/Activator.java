@@ -24,6 +24,8 @@ import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle.
+ * 
+ * @author Etienne Gandrille
  */
 public class Activator extends AbstractUIPlugin {
 
@@ -97,6 +99,11 @@ public class Activator extends AbstractUIPlugin {
 		return plugin;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#initializeImageRegistry(org.eclipse.jface.resource.ImageRegistry)
+	 */
 	@Override
 	protected void initializeImageRegistry(ImageRegistry reg) {
 
@@ -119,6 +126,18 @@ public class Activator extends AbstractUIPlugin {
 		populateRegistry(bundle, registry, OUT_PORT, OUT_PORT_PATH);
 	}
 
+	/**
+	 * Add an image in the image registry. The image can then be found using the provided imageId.
+	 * 
+	 * @param bundle
+	 *            the current bundle
+	 * @param registry
+	 *            the image registry used to store images.
+	 * @param imageId
+	 *            the image id
+	 * @param path
+	 *            the path to the image, in the bundle
+	 */
 	private static void populateRegistry(Bundle bundle, ImageRegistry registry, String imageId, String path) {
 		ImageDescriptor myImage = ImageDescriptor.createFromURL(FileLocator.find(bundle, new Path(path), null));
 		registry.put(imageId, myImage);

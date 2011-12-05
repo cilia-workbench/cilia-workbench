@@ -24,12 +24,13 @@ import org.w3c.dom.NodeList;
 
 /**
  * A few methods, for managing XML files using DOM.
+ * 
+ * @author Etienne Gandrille
  */
 public class XMLUtil {
 
 	/**
-	 * Finds child nodes which a specific node name, and optionnaly a set of
-	 * attribute values pairs.
+	 * Finds child nodes which a specific node name, and optionnaly a set of attribute values pairs.
 	 * 
 	 * @param root
 	 *            the root node

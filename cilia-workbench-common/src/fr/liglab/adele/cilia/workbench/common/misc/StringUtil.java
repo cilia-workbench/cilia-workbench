@@ -20,6 +20,8 @@ import com.google.common.base.Preconditions;
 
 /**
  * A small class for managing Strings.
+ * 
+ * @author Etienne Gandrille
  */
 public class StringUtil {
 
@@ -27,13 +29,11 @@ public class StringUtil {
 	private static final String SEPARATOR = ":";
 
 	/**
-	 * Gets the text before the separator, or all the text if the separator
-	 * can't be found.
+	 * Gets the text before the separator, or all the text if the separator can't be found.
 	 * 
 	 * @param string
 	 *            the text
-	 * @return the text before the separator, or all the text if the separator
-	 *         can't be found.
+	 * @return the text before the separator, or all the text if the separator can't be found.
 	 */
 	public static String getBeforeSeparatorOrAll(String string) {
 		Preconditions.checkNotNull(string);
@@ -45,13 +45,11 @@ public class StringUtil {
 	}
 
 	/**
-	 * Gets the text before the separator, or an empty string if the separator
-	 * can't be found.
+	 * Gets the text before the separator, or an empty string if the separator can't be found.
 	 * 
 	 * @param string
 	 *            the text
-	 * @return the text before the separator, or an empty string if the
-	 *         separator can't be found.
+	 * @return the text before the separator, or an empty string if the separator can't be found.
 	 */
 	public static String getBeforeSeparatorOrNothing(String string) {
 		Preconditions.checkNotNull(string);
@@ -64,13 +62,11 @@ public class StringUtil {
 	}
 
 	/**
-	 * Gets the text after the separator, or all the text if the separator can't
-	 * be found.
+	 * Gets the text after the separator, or all the text if the separator can't be found.
 	 * 
 	 * @param string
 	 *            the text
-	 * @return the text after the separator, or all the text if the separator
-	 *         can't be found.
+	 * @return the text after the separator, or all the text if the separator can't be found.
 	 */
 	public static String getAfterSeparatorOrAll(String string) {
 		Preconditions.checkNotNull(string);
@@ -83,13 +79,11 @@ public class StringUtil {
 	}
 
 	/**
-	 * Gets the text after the separator, or an empty string if the separator
-	 * can't be found.
+	 * Gets the text after the separator, or an empty string if the separator can't be found.
 	 * 
 	 * @param string
 	 *            the text
-	 * @return the text after the separator, or an empty string if the separator
-	 *         can't be found.
+	 * @return the text after the separator, or an empty string if the separator can't be found.
 	 */
 	public static String getAfterSeparatorOrNothing(String string) {
 		Preconditions.checkNotNull(string);
