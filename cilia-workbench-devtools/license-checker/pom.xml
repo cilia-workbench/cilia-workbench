@@ -20,6 +20,9 @@
 					<basedir>${basedir}/../..</basedir>
 					<header>src/main/resources/license.license</header>
 					<includes>
+						<include>**/build.properties</include>
+						<include>**/plugin.xml</include>
+						<include>**/pom.xml</include>
 						<include>**/src/**</include>
 					</includes>
 					<excludes>
