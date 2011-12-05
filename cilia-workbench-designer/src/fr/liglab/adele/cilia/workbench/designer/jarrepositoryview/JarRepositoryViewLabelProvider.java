@@ -28,10 +28,17 @@ import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Scheduler
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Sender;
 
 /**
- * The Class MetadataLabelProvider.
+ * The Jar Repository View Label Provider.
+ * 
+ * @author Etienne Gandrille
  */
-public class MetadataLabelProvider extends GenericLabelProvider {
+public class JarRepositoryViewLabelProvider extends GenericLabelProvider {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.liglab.adele.cilia.workbench.common.providers.GenericLabelProvider#getImageKey(java.lang.Object)
+	 */
 	protected String getImageKey(Object obj) {
 		String imageName;
 		if (obj instanceof Adapter) {

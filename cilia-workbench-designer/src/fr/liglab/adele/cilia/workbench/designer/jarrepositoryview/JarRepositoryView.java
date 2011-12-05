@@ -38,11 +38,13 @@ import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IJarRepos
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
- * The Class RepositoryView.
+ * The implementation class for the jar repository view.
+ * 
+ * @author Etienne Gandrille
  */
 public class JarRepositoryView extends RepositoryView implements IJarRepositoryListener {
 
-	/** The Constant viewId. */
+	/** The viewId. */
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.jarrepositoryview";
 
 	/** The model. */
@@ -57,15 +59,13 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets .Composite)
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 
-		viewer.setLabelProvider(new MetadataLabelProvider());
+		viewer.setLabelProvider(new JarRepositoryViewLabelProvider());
 		viewer.setAutoExpandLevel(2);
 
 		// TreeViewer listener
@@ -84,14 +84,14 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 	public void refresh() {
 		super.refresh();
 		model = JarRepoService.getInstance().getModel();
-		viewer.setContentProvider(new MetadataContentProvider(model));
+		viewer.setContentProvider(new JarRepositoryViewContentProvider(model));
 		viewer.setInput(model);
 		viewer.refresh();
 	}
 
 	/**
-	 * Opens an editor with the content of the related metadata. Does'nt open an
-	 * editor twice. Only bring to top the second time.
+	 * Opens an editor with the content of the related metadata. Does'nt open an editor twice. Only bring to top the
+	 * second time.
 	 */
 	private void openMetadataInEditor() {
 
@@ -132,22 +132,34 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 		}
 	}
 
+	/**
+	 * Gets the property used to store the repository path into the preference store.
+	 * 
+	 * @return the property name
+	 */
 	protected String getRepositoryPropertyPath() {
 		return CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH;
 	}
 
 	/**
-	 * Gets the repository directory.
+	 * Gets the jar repository directory.
 	 * 
-	 * @return the repository directory
+	 * @return the jar repository directory
 	 */
 	protected String getRepositoryDirectory() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		return store.getString(getRepositoryPropertyPath());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IJarRepositoryListener#updateJarRepositoryContent
+	 * ()
+	 */
 	@Override
-	public void jarRepositoryContentUpdated() {
+	public void updateJarRepositoryContent() {
 		refresh();
 	}
 }

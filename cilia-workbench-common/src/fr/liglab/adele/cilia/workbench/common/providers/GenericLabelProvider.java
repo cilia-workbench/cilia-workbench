@@ -21,13 +21,23 @@ import org.eclipse.swt.graphics.Image;
 import fr.liglab.adele.cilia.workbench.common.Activator;
 
 /**
+ * Base class for implementing label provider. This implementation uses the plugin image registry. The registry is
+ * initialized in the {@link Activator}. The images can be retrieved in the registry using a key.
  * 
+ * The goal of the {@link #getImageKey(Object)} method is to find the key from a model object.
  * 
  * @author Etienne Gandrille
  */
 public abstract class GenericLabelProvider extends LabelProvider {
 
-	protected abstract String getImageKey(Object obj);
+	/**
+	 * Gets the image key from a model object.
+	 * 
+	 * @param modelObject
+	 *            the model object
+	 * @return the image key
+	 */
+	protected abstract String getImageKey(Object modelObject);
 
 	/*
 	 * (non-Javadoc)

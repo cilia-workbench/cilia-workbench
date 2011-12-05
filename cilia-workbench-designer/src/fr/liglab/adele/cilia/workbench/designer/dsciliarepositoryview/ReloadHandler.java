@@ -21,18 +21,17 @@ import org.eclipse.core.commands.ExecutionException;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
 /**
- * ReloadHandler.
+ * Handler called when reloading the dscilia repository view.
+ * 
+ * @author Etienne Gandrille
  */
 public class ReloadHandler extends AbstractHandler {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
-	 * .ExecutionEvent)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands .ExecutionEvent)
 	 */
-	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		DsciliaRepoService.getInstance().updateModel();

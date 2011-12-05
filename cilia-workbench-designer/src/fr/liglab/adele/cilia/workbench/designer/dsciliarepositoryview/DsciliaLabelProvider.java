@@ -19,8 +19,18 @@ import fr.liglab.adele.cilia.workbench.common.providers.GenericLabelProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
+/**
+ * The label provider for the dscilia repository view.
+ * 
+ * @author Etienne Gandrille
+ */
 public class DsciliaLabelProvider extends GenericLabelProvider {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.liglab.adele.cilia.workbench.common.providers.GenericLabelProvider#getImageKey(java.lang.Object)
+	 */
 	protected String getImageKey(Object obj) {
 		String imageName;
 

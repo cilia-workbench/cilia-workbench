@@ -22,6 +22,11 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.chaindesignerview.ChainDesignerView;
 
+/**
+ * A base class for handlers implementation. Provides a few helpers methods.
+ * 
+ * @author Etienne Gandrille
+ */
 public abstract class CommonHandler extends AbstractHandler {
 
 	/**
@@ -36,14 +41,25 @@ public abstract class CommonHandler extends AbstractHandler {
 		return (DsciliaRepositoryView) ViewUtil.findViewWithId(event, viewId);
 	}
 
+	/**
+	 * Gets the chain designer view.
+	 * 
+	 * @param event
+	 *            the event
+	 * @return the chain designer view
+	 */
 	protected ChainDesignerView getChainDesignerView(ExecutionEvent event) {
 		String viewId = ChainDesignerView.viewId;
 		return (ChainDesignerView) ViewUtil.findViewWithId(event, viewId);
 	}
-	
-	
-	
-	
+
+	/**
+	 * Gets the first selected element in repository view.
+	 * 
+	 * @param event
+	 *            the event
+	 * @return the first selected element in repository view
+	 */
 	protected Object getFirstSelectedElementInRepositoryView(ExecutionEvent event) {
 		DsciliaRepositoryView view = getRepositoryView(event);
 		return view.getFirstSelectedElement();

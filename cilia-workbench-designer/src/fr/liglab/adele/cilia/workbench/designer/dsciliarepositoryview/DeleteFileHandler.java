@@ -22,11 +22,15 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Dscil
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 /**
- * DeleteFileHandler.
+ * Handler called for deleting a dscilia file.
+ * 
+ * @author Etienne Gandrille
  */
 public class DeleteFileHandler extends CommonHandler {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
 	@Override
@@ -34,7 +38,8 @@ public class DeleteFileHandler extends CommonHandler {
 		Object object = getFirstSelectedElementInRepositoryView(event);
 		if (object != null && object instanceof RepoElement) {
 			RepoElement repo = (RepoElement) object;
-			boolean result = MessageDialog.openConfirm(getShell(event), "Confirmation required", "Do you want to delete " + repo.getFilePath() + "?");
+			boolean result = MessageDialog.openConfirm(getShell(event), "Confirmation required",
+					"Do you want to delete " + repo.getFilePath() + "?");
 			if (result == true)
 				DsciliaRepoService.getInstance().deleteRepoElement(repo);
 		} else {

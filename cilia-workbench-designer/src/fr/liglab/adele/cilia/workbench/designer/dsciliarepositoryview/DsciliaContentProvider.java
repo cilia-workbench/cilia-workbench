@@ -21,8 +21,19 @@ import fr.liglab.adele.cilia.workbench.common.providers.GenericTreeContentProvid
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
+/**
+ * A content provider for the dscilia repository view.
+ * 
+ * @author Etienne Gandrille
+ */
 public class DsciliaContentProvider extends GenericTreeContentProvider {
 
+	/**
+	 * Instantiates a new dscilia content provider.
+	 * 
+	 * @param repo
+	 *            the list of {@link RepoElement}.
+	 */
 	public DsciliaContentProvider(List<RepoElement> repo) {
 		parent.put(repo, new Object[0]);
 		children.put(repo, new ArrayList<Object>());

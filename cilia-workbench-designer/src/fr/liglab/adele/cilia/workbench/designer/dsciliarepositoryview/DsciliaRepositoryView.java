@@ -42,7 +42,9 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDsci
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 /**
- * DsciliaRepositoryView.
+ * The implementation class for the Dscilia Repository View.
+ * 
+ * @author Etienne Gandrille
  */
 public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRepositoryListener {
 
@@ -52,14 +54,16 @@ public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRep
 	/** The view internal model. */
 	private List<RepoElement> model = new ArrayList<RepoElement>();
 
+	/**
+	 * Instantiates a new dscilia repository view.
+	 */
 	public DsciliaRepositoryView() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView
+	 * @see fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView
 	 * #createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -173,9 +177,7 @@ public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRep
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView
-	 * #refresh()
+	 * @see fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView #refresh()
 	 */
 	@Override
 	protected void refresh() {
@@ -189,9 +191,7 @@ public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRep
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView
-	 * #getRepositoryDirectory()
+	 * @see fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView #getRepositoryDirectory()
 	 */
 	@Override
 	protected String getRepositoryDirectory() {

@@ -26,7 +26,9 @@ import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * RepositoryView.
+ * A base class for implementing repository views.
+ * 
+ * @author Etienne Gandrille
  */
 public abstract class RepositoryView extends ViewPart {
 
@@ -38,8 +40,10 @@ public abstract class RepositoryView extends ViewPart {
 
 	/** The message area prefix. */
 	protected final String messageAreaPrefix = "Repository directory: ";
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createPartControl(Composite parent) {
@@ -50,7 +54,7 @@ public abstract class RepositoryView extends ViewPart {
 		// Viewer
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
+
 		// Label
 		messageArea = new Label(parent, SWT.WRAP);
 		messageArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -71,7 +75,7 @@ public abstract class RepositoryView extends ViewPart {
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
-	
+
 	/**
 	 * Gets the repository directory.
 	 * 
@@ -80,7 +84,7 @@ public abstract class RepositoryView extends ViewPart {
 	protected abstract String getRepositoryDirectory();
 
 	/**
-	 * Computes the message area text.
+	 * Computes the text for the message area.
 	 * 
 	 * @return the message area text
 	 */
@@ -91,16 +95,17 @@ public abstract class RepositoryView extends ViewPart {
 		else
 			return messageAreaPrefix + dir;
 	}
-	
+
 	/**
-	 * refreshes the viewer.
+	 * Refreshes the viewer.
 	 */
 	protected void refresh() {
 		messageArea.setText(computeMessageAreaText());
 	}
-	
+
 	/**
 	 * Gets the first element selected in the viewer.
+	 * 
 	 * @return the element, or null if not found.
 	 */
 	public Object getFirstSelectedElement() {
@@ -110,7 +115,7 @@ public abstract class RepositoryView extends ViewPart {
 			TreeSelection ts = (TreeSelection) sel;
 			return ts.getFirstElement();
 		}
-		
+
 		return null;
 	}
 }

@@ -48,7 +48,7 @@ public class ChainDesignerViewLabelProvider extends GenericLabelProvider {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
+	 * @see fr.liglab.adele.cilia.workbench.common.providers.GenericLabelProvider#getImageKey(java.lang.Object)
 	 */
 	public String getImageKey(Object obj) {
 		if (obj instanceof AdapterInstance)

@@ -29,67 +29,71 @@ import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Scheduler
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Sender;
 
 /**
- * MetadataContentProvider.
+ * Content Provider for the Jar repository view.
+ * 
+ * @author Etienne Gandrille
  */
-public class MetadataContentProvider extends GenericTreeContentProvider {
+public class JarRepositoryViewContentProvider extends GenericTreeContentProvider {
 
-	
 	/**
 	 * Initialize maps from model.
+	 * 
+	 * @param model
+	 *            the model
 	 */
-	public MetadataContentProvider(Bundle[] model) {
-		
+	public JarRepositoryViewContentProvider(Bundle[] model) {
+
 		parent.put(model, new Object[0]);
 		children.put(model, new ArrayList<Object>());
-		
+
 		for (Bundle bundle : model) {
 			parent.put(bundle, model);
 			children.get(model).add(bundle);
 			children.put(bundle, new ArrayList<Object>());
 			IPojo ipojo = bundle.getMetadata();
-			
+
 			for (MediatorComponent mc : ipojo.getMediatorComponents()) {
 				parent.put(mc, bundle);
 				children.get(bundle).add(mc);
 				children.put(mc, new ArrayList<Object>());
-				
+
 				for (Port p : mc.getPorts()) {
 					parent.put(p, mc);
 					children.get(mc).add(p);
 					children.put(p, new ArrayList<Object>());
 				}
 			}
-			
+
 			for (Processor p : ipojo.getProcessors()) {
 				parent.put(p, bundle);
 				children.get(bundle).add(p);
 				children.put(p, new ArrayList<Object>());
 			}
-			
+
 			for (Scheduler s : ipojo.getSchedulers()) {
 				parent.put(s, bundle);
 				children.get(bundle).add(s);
 				children.put(s, new ArrayList<Object>());
 			}
-			
+
 			for (Dispatcher d : ipojo.getDispatchers()) {
 				parent.put(d, bundle);
 				children.get(bundle).add(d);
 				children.put(d, new ArrayList<Object>());
 			}
-			
+
 			for (Collector c : ipojo.getCollectors()) {
 				parent.put(c, bundle);
 				children.get(bundle).add(c);
 				children.put(c, new ArrayList<Object>());
 			}
-			
+
 			for (Sender s : ipojo.getSenders()) {
 				parent.put(s, bundle);
 				children.get(bundle).add(s);
 				children.put(s, new ArrayList<Object>());
 			}
-			
+
 			for (Adapter a : ipojo.getAdapters()) {
 				parent.put(a, bundle);
 				children.get(bundle).add(a);

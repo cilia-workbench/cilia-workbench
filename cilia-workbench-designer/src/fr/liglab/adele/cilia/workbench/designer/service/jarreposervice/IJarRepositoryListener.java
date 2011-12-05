@@ -28,5 +28,5 @@ public interface IJarRepositoryListener {
 	/**
 	 * Invoked when repository content update occurs.
 	 */
-	public void jarRepositoryContentUpdated();
+	public void updateJarRepositoryContent();
 }

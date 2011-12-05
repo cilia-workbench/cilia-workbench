@@ -27,9 +27,8 @@ import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 
 /**
- * A central place for managing the Jar repository. The repository can be asked
- * to refresh the model. The repository can be asked to send model update
- * notifications.
+ * A central place for managing the Jar repository. The repository can be asked to refresh the model. The repository can
+ * be asked to send model update notifications.
  * 
  * @author Etienne Gandrille
  */
@@ -122,11 +121,10 @@ public class JarRepoService {
 
 	/**
 	 * Notifies listeners the model have been updated.
-	 * 
 	 */
 	private void notifyListeners() {
 		for (IJarRepositoryListener listener : listeners) {
-			listener.jarRepositoryContentUpdated();
+			listener.updateJarRepositoryContent();
 		}
 	}
 

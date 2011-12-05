@@ -22,11 +22,15 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
 /**
- * DeleteChainHandler.
+ * Handler called for deleting a chain.
+ * 
+ * @author Etienne Gandrille
  */
 public class DeleteChainHandler extends CommonHandler {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
 	@Override
@@ -34,7 +38,8 @@ public class DeleteChainHandler extends CommonHandler {
 		Object object = getFirstSelectedElementInRepositoryView(event);
 		if (object != null && object instanceof Chain) {
 			Chain chain = (Chain) object;
-			boolean result = MessageDialog.openConfirm(getShell(event), "Confirmation required", "Do you want to delete " + chain.getId() + "?");
+			boolean result = MessageDialog.openConfirm(getShell(event), "Confirmation required",
+					"Do you want to delete " + chain.getId() + "?");
 			if (result == true)
 				DsciliaRepoService.getInstance().deleteChain(chain);
 		} else {
