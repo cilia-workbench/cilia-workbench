@@ -35,9 +35,6 @@ public class JarRepoService extends AbstractRepoService<Bundle, IJarRepositoryLi
 	/** The key used to search the repository path into the preferences store. */
 	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH;
 
-	/** The service model */
-	private List<Bundle> model;
-
 	/** Jar files extension. */
 	private final static String ext = ".jar";
 
