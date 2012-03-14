@@ -63,7 +63,7 @@ public class PullElementUtil {
 		return null;
 	}
 	
-	public static Chain pullChain(Dscilia newInstance, String id) {
+	public static Chain pullChain(DsciliaModel newInstance, String id) {
 		for (Iterator<Chain> itr = newInstance.getChains().iterator(); itr.hasNext();) {
 			Chain element = itr.next();
 			if (element.getId().equals(id)) {

@@ -15,126 +15,74 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
-public class Dscilia {
+
+/**
+ * A {@link DsciliaModel} represents the content of a <strong>well formed<strong> {@link DsciliaFile}.
+ * 
+ * @author Etienne Gandrille
+ */
+public class DsciliaModel {
+	
 	private String filePath;
+	
 	private List<Chain> chains = new ArrayList<Chain>();
 
-	public Dscilia(String filePath) throws Exception {
+	public DsciliaModel(String filePath) throws Exception {
 		this.filePath = filePath;
 
-		Document document = getDocument();
+		Document document = XMLHelpers.getDocument(filePath);
 		Node root = getCiliaNode(document);
 
-		NodeList elements = root.getChildNodes();
-		for (int i = 0; i < elements.getLength(); i++) {
-			Node child = elements.item(i);
-
-			if (child.getNodeType() == Node.ELEMENT_NODE) {
-				String nodeName = child.getNodeName().toLowerCase();
-
-				if (nodeName.equals("chain"))
-					chains.add(new Chain(child));
-			}
-		}
+		for (Node node : XMLReflectionUtil.findChildren(root, "chain"))
+			chains.add(new Chain(node));
 	}
 
-	private Node getCiliaNode(Document document) throws MetadataException {
-		NodeList nodes = document.getChildNodes();
-		if (nodes != null && nodes.getLength() == 1 && nodes.item(0).getNodeName().equalsIgnoreCase("cilia"))
-			return nodes.item(0);
-		else
-			throw new MetadataException("Can't find cilia root in " + filePath);
-	}
-
-	private Document getDocument() throws MetadataException {
-		DocumentBuilderFactory fabrique = DocumentBuilderFactory.newInstance();
-		DocumentBuilder constructeur;
-		try {
-			constructeur = fabrique.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			throw new MetadataException("Can't get document builder " + filePath, e);
-		}
-
-		File file = new File(filePath);
-		Document document;
-		try {
-			document = constructeur.parse(file);
-		} catch (SAXException e) {
-			throw new MetadataException("Can't parse document " + filePath, e);
-		} catch (IOException e) {
-			throw new MetadataException("Can't parse document " + filePath, e);
-		}
-
-		return document;
+	private static Node getCiliaNode(Document document) throws MetadataException {
+		return XMLHelpers.getRootNode(document, "cilia");
 	}
 
 	public void createChain(String chainName) throws MetadataException {
 
 		// Document creation
-		Document document = getDocument();
+		Document document = XMLHelpers.getDocument(filePath);
 		Node root = getCiliaNode(document);
 		Element child = document.createElement("chain");
 		child.setAttribute("id", chainName);
 		root.appendChild(child);
 
 		// Write it back to file system
-		writeDOM(document);
+		XMLHelpers.writeDOM(document, filePath);
 
 		// Notifies Repository
 		DsciliaRepoService.getInstance().updateModel();
 	}
 
-	private void writeDOM(Document document) throws MetadataException {
-		Source source = new DOMSource(document);
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		try {
-			Transformer xformer = transformerFactory.newTransformer();
-			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			StreamResult result = new StreamResult(new File(filePath));
-			xformer.transform(source, result);
-		} catch (TransformerException e) {
-			throw new MetadataException("XML transformer error", e);
-		}
-	}
-
 	public void deleteChain(String id) throws MetadataException {
 		// Finding target node
-		Document document = getDocument();
+		Document document = XMLHelpers.getDocument(filePath);
 		Node target = findXMLChainNode(document, id);
 
 		if (target != null) {
 			getCiliaNode(document).removeChild(target);
-			writeDOM(document);
+			XMLHelpers.writeDOM(document, filePath);
 
 			// Notifies Repository
 			DsciliaRepoService.getInstance().updateModel();
@@ -163,7 +111,7 @@ public class Dscilia {
 
 	private void createComponentInstanceInternal(Chain chain, String id, String type, String componentName)
 			throws MetadataException {
-		Document document = getDocument();
+		Document document = XMLHelpers.getDocument(filePath);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, componentName + "s");
 
@@ -173,7 +121,7 @@ public class Dscilia {
 		componentNode.appendChild(child);
 
 		// Write it back to file system
-		writeDOM(document);
+		XMLHelpers.writeDOM(document, filePath);
 
 		// Notifies Repository
 		DsciliaRepoService.getInstance().updateModel();
@@ -194,7 +142,7 @@ public class Dscilia {
 			else
 				to = dstElem + ":" + dstPort;
 			
-			Document document = getDocument();
+			Document document = XMLHelpers.getDocument(filePath);
 			Node chainNode = findXMLChainNode(document, chain.getId());
 			Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, "bindings");
 
@@ -204,7 +152,7 @@ public class Dscilia {
 			componentNode.appendChild(child);
 
 			// Write it back to file system
-			writeDOM(document);
+			XMLHelpers.writeDOM(document, filePath);
 
 			// Notifies Repository
 			DsciliaRepoService.getInstance().updateModel();
@@ -228,7 +176,7 @@ public class Dscilia {
 			return filePath.substring(index + 1);
 	}
 
-	public Changeset[] merge(Dscilia newInstance) {
+	public Changeset[] merge(DsciliaModel newInstance) {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
 		for (Iterator<Chain> itr = chains.iterator(); itr.hasNext();) {

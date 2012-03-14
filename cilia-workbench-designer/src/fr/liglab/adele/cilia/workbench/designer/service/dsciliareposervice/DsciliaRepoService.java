@@ -243,8 +243,8 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, IDScili
 
 	private Chain findChain(String chainName) {
 		for (DsciliaFile re : model) {
-			if (re.getDscilia() != null) {
-				for (Chain chain : re.getDscilia().getChains()) {
+			if (re.getModel() != null) {
+				for (Chain chain : re.getModel().getChains()) {
 					if (chain.getId().equalsIgnoreCase(chainName))
 						return chain;
 				}
@@ -272,13 +272,13 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, IDScili
 	 *            the chain name
 	 */
 	public void createChain(DsciliaFile repo, String chainName) {
-		if (repo.getDscilia() == null)
+		if (repo.getModel() == null)
 			return;
 		if (isNewChainNameAllowed(chainName) != null)
 			return;
 
 		try {
-			repo.getDscilia().createChain(chainName);
+			repo.getModel().createChain(chainName);
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
@@ -289,7 +289,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, IDScili
 		if (repo == null)
 			return;
 		try {
-			repo.getDscilia().deleteChain(chain.getId());
+			repo.getModel().deleteChain(chain.getId());
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
@@ -315,14 +315,14 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, IDScili
 		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
-		repo.getDscilia().createMediatorInstance(chain, id, type);
+		repo.getModel().createMediatorInstance(chain, id, type);
 	}
 
 	public void createAdapterInstance(Chain chain, String id, String type) throws MetadataException {
 		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
-		repo.getDscilia().createAdapterInstance(chain, id, type);
+		repo.getModel().createAdapterInstance(chain, id, type);
 	}
 
 	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
@@ -330,6 +330,6 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, IDScili
 		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
-		repo.getDscilia().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
+		repo.getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
 	}
 }

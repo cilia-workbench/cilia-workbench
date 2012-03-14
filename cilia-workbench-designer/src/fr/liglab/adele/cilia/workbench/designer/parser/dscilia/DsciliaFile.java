@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
 public class DsciliaFile {
 
 	/** Dscilia model. Can be null, if the file is not well formed.*/
-	private Dscilia dscilia;
+	private DsciliaModel model;
 
 	/** Path on the file system. */
 	private String path;
@@ -38,17 +38,17 @@ public class DsciliaFile {
 	 * 
 	 * @param path
 	 *            the path on the file system.
-	 * @param dscilia
+	 * @param model
 	 *            the dscilia
 	 */
 	public DsciliaFile(String path) {
 		this.path = path;
 		
 		try {
-			dscilia = new Dscilia(path);
+			model = new DsciliaModel(path);
 		} catch (Exception e) {
 			e.printStackTrace();
-			dscilia = null;
+			model = null;
 		}
 	}
 
@@ -57,8 +57,8 @@ public class DsciliaFile {
 	 * 
 	 * @return the dscilia
 	 */
-	public Dscilia getDscilia() {
-		return dscilia;
+	public DsciliaModel getModel() {
+		return model;
 	}
 
 	/**
@@ -81,25 +81,25 @@ public class DsciliaFile {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
-		if (dscilia == null && newInstance.getDscilia() == null) {
+		if (model == null && newInstance.getModel() == null) {
 			// do nothing
-		} else if (dscilia != null && newInstance.getDscilia() != null) {
-			for (Changeset c : dscilia.merge(newInstance.getDscilia()))
+		} else if (model != null && newInstance.getModel() != null) {
+			for (Changeset c : model.merge(newInstance.getModel()))
 				retval.add(c);
 		} else {
 			retval.add(new Changeset(Operation.UPDATE, this));
 
 			// DScilia becomes invalid
-			if (dscilia != null) {
-				for (Chain c : dscilia.getChains())
+			if (model != null) {
+				for (Chain c : model.getChains())
 					retval.add(new Changeset(Operation.REMOVE, c));
 			}
 
-			dscilia = newInstance.getDscilia();
+			model = newInstance.getModel();
 
 			// DScilia becomes valid
-			if (dscilia != null) {
-				for (Chain c : dscilia.getChains())
+			if (model != null) {
+				for (Chain c : model.getChains())
 					retval.add(new Changeset(Operation.ADD, c));
 			}
 		}

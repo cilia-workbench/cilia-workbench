@@ -39,6 +39,7 @@ import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPref
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IJarRepositoryListener;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
 /**
  * The Class RepositoryView.

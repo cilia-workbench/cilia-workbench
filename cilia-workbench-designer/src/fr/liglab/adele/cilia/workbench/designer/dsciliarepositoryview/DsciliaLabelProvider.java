@@ -26,7 +26,7 @@ public class DsciliaLabelProvider extends LabelProvider {
 
 		if (obj instanceof DsciliaFile) {
 			DsciliaFile re = (DsciliaFile) obj;
-			if (re.getDscilia() != null)
+			if (re.getModel() != null)
 				imageName = "icons/16/file.png";
 			else
 				imageName = "icons/16/fileError.png";

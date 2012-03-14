@@ -14,10 +14,60 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
+import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
+
 public class SpecFile {
 
+	/** specFile model. Can be null, if the file is not well formed.*/
+	private SpecModel model;
+
+	/** Path on the file system. */
+	private String path;
+
+	/**
+	 * Instantiates a new DsciliaFile
+	 * 
+	 * @param path
+	 *            the path on the file system.
+	 * @param dscilia
+	 *            the dscilia
+	 */
 	public SpecFile(String path) {
-		// TODO Auto-generated constructor stub
+		this.path = path;
+		
+		try {
+			model = new SpecModel(path);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model = null;
+		}
 	}
 
+	/**
+	 * Gets the dscilia.
+	 * 
+	 * @return the dscilia
+	 */
+	public SpecModel getModel() {
+		return model;
+	}
+
+	/**
+	 * Gets the file path.
+	 * 
+	 * @return the file path
+	 */
+	public String getFilePath() {
+		return path;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return StringUtil.getFileName(path);
+	}
 }

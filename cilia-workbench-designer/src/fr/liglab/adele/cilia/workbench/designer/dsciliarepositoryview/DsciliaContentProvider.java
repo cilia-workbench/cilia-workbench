@@ -32,8 +32,8 @@ public class DsciliaContentProvider extends GenericContentProvider {
 			children.get(repo).add(re);
 			children.put(re, new ArrayList<Object>());
 
-			if (re.getDscilia() != null) {
-				for (Chain c : re.getDscilia().getChains()) {
+			if (re.getModel() != null) {
+				for (Chain c : re.getModel().getChains()) {
 					parent.put(c, re);
 					children.get(re).add(c);
 					children.put(c, new ArrayList<Object>());

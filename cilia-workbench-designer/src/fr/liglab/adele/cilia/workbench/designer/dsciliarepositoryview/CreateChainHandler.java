@@ -42,7 +42,7 @@ public class CreateChainHandler extends CommonHandler {
 			return null;
 		}
 		final DsciliaFile repo = (DsciliaFile) object;
-		if (repo.getDscilia() == null) {
+		if (repo.getModel() == null) {
 			MessageDialog.openError(getShell(event), "Error", "Dscilia file must be in a valid state. Please check xml.");
 			return null;
 		}

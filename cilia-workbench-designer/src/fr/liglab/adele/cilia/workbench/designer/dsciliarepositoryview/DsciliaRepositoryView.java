@@ -156,7 +156,7 @@ public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRep
 
 		if (element != null && element instanceof DsciliaFile) {
 			DsciliaFile repoElement = (DsciliaFile) element;
-			if (repoElement.getDscilia() != null) {
+			if (repoElement.getModel() != null) {
 				IFileStore fileStore;
 				try {
 					fileStore = EFS.getLocalFileSystem().getStore(new URI(repoElement.getFilePath()));
