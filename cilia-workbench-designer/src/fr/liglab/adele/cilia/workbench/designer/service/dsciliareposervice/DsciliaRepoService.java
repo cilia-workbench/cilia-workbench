@@ -24,39 +24,41 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.IInputValidator;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 
 import com.google.common.base.Preconditions;
 
-import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Dscilia;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.PullElementUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
-import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IJarRepositoryListener;
 
 /**
  * A central place for managing the DScilia repository. The repository can be
  * asked to refresh the model. The repository can be asked to send model update
  * notifications.
- * 
- * @author Etienne Gandrille
  */
-public class DsciliaRepoService {
+public class DsciliaRepoService extends AbstractRepoService {
 
 	/** The repository */
-	private List<RepoElement> repo = new ArrayList<RepoElement>();
+	private List<RepoElement> repo;
 
 	/** Singleton instance */
 	private static DsciliaRepoService INSTANCE;
 
+	/** The key used to search the repository path into the preferences store. */
+	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.DSCILIA_REPOSITORY_PATH;
+
 	/** Listeners. */
-	private List<IDsciliaRepositoryListener> listeners = new ArrayList<IDsciliaRepositoryListener>();
+	private List<IDSciliaRepositoryListener> listeners;
 
 	/** DScilia files extension. */
-	private final String ext = ".dscilia";
+	private final static String ext = ".dscilia";
 
 	/** Content provider, for computing parents */
 	private DsciliaContentProvider contentProvider;
@@ -77,15 +79,7 @@ public class DsciliaRepoService {
 	 * model.
 	 */
 	private DsciliaRepoService() {
-		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals(CiliaDesignerPreferencePage.DSCILIA_REPOSITORY_PATH)) {
-					updateModel();
-				}
-			}
-		});
-		updateModel();
+		super(PREFERENCE_PATH_KEY, ext);
 	}
 
 	/**
@@ -98,39 +92,20 @@ public class DsciliaRepoService {
 	}
 
 	/**
-	 * Gets the repository path on the file system.
-	 * 
-	 * @return the repository path
-	 */
-	public String getRepositoryPath() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		return store.getString(CiliaDesignerPreferencePage.DSCILIA_REPOSITORY_PATH);
-	}
-
-	/**
 	 * Updates the model and sends notifications.
 	 */
 	public void updateModel() {
 
-		// Gets dscilia file list in the physical repository
-		File dir = new File(getRepositoryPath());
-		File[] list = dir.listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(ext);
-			}
-		});
-
-		// Creates a new model from the repository
+		File[] list = getFiles();
 		List<RepoElement> elements = new ArrayList<RepoElement>();
-		if (list != null) {
-			for (File jar : list) {
-				String path = jar.getPath();
-				try {
-					elements.add(new RepoElement(path));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		for (File jar : list) {
+			String path = jar.getPath();
+			try {
+				Dscilia dscilia = new Dscilia(path);
+				elements.add(new RepoElement(path, dscilia));
+			} catch (Exception e) {
+				e.printStackTrace();
+				elements.add(new RepoElement(path, null));
 			}
 		}
 
@@ -151,8 +126,8 @@ public class DsciliaRepoService {
 	 *            the change set table.
 	 */
 	private void notifyListeners(Changeset[] changes) {
-		for (IDsciliaRepositoryListener listener : listeners) {
-			listener.dsciliaRepositoryContentUpdated(changes);
+		for (IDSciliaRepositoryListener listener : listeners) {
+			listener.repositoryChange(changes);
 		}
 	}
 
@@ -162,7 +137,7 @@ public class DsciliaRepoService {
 	 * @param listener
 	 *            the listener
 	 */
-	public void registerListener(IDsciliaRepositoryListener listener) {
+	public void registerListener(IDSciliaRepositoryListener listener) {
 		if (listener != null && !listeners.contains(listener))
 			listeners.add(listener);
 	}
@@ -174,7 +149,7 @@ public class DsciliaRepoService {
 	 *            the listener
 	 * @return true, if successful
 	 */
-	public boolean unregisterListener(IDsciliaRepositoryListener listener) {
+	public boolean unregisterListener(IDSciliaRepositoryListener listener) {
 		if (listener != null)
 			return listeners.remove(listener);
 		else
@@ -182,22 +157,21 @@ public class DsciliaRepoService {
 	}
 
 	/**
-	 * Merge a list of {@link RepoElement} into the current object. Differences
-	 * between the argument and the current object are injected into the current
-	 * object.
+	 * Merge a list of repo element into the current model. Only differences
+	 * between the argument and the model are merge back into the model.
 	 * 
-	 * @param newInstance
-	 *            an 'up-to-date' object
-	 * @return a list of {@link Changeset}, which can be empty.
+	 * @param repoElements
+	 *            a new model
+	 * @return a list of changesets, which can be empty.
 	 */
-	protected Changeset[] merge(List<RepoElement> repoElements) {
+	private Changeset[] merge(List<RepoElement> repoElements) {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
 		for (Iterator<RepoElement> itr = repo.iterator(); itr.hasNext();) {
 			RepoElement old = itr.next();
 			String id = old.getFilePath();
-			RepoElement updated = MergeUtil.pullRepoElement(repoElements, id);
+			RepoElement updated = PullElementUtil.pullRepoElement(repoElements, id);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
@@ -247,16 +221,14 @@ public class DsciliaRepoService {
 	}
 
 	/**
-	 * Creates a dscilia file in the repository with the given file name. Throws
-	 * an exception if creation fails.
+	 * Creates a dscilia file in the repository with the given file name.
 	 * 
 	 * @param fileName
-	 *            the file name
+	 * @return
 	 */
-	public void createFile(String fileName) {
-		String msg = isNewFileNameAllowed(fileName);
-		if (msg != null)
-			throw new RuntimeException("File with name " + fileName + " can't be created: " + msg);
+	public boolean createFile(String fileName) {
+		if (isNewFileNameAllowed(fileName) != null)
+			return false;
 
 		String repoPath = getRepositoryPath();
 		String path;
@@ -271,11 +243,12 @@ public class DsciliaRepoService {
 			out.write("</cilia>");
 			out.close();
 		} catch (IOException e) {
-			throw new RuntimeException("I/O error while creating " + fileName, e);
+			e.printStackTrace();
+			return false;
 		}
 
 		updateModel();
-		return;
+		return true;
 	}
 
 	/**
@@ -284,33 +257,22 @@ public class DsciliaRepoService {
 	 * @param fileName
 	 * @return the name canonized.
 	 */
-	private String canonizeFileName(String fileName) {
+	private static String canonizeFileName(String fileName) {
 		return fileName.trim();
 	}
 
 	/**
-	 * Delete an element in the file system repository. Throws an exception if
-	 * deletion fails.
+	 * Delete an element in the file system repository.
 	 * 
 	 * @param element
 	 */
-	public void deleteRepoElement(RepoElement element) {
+	public boolean deleteRepoElement(RepoElement element) {
 		File file = new File(element.getFilePath());
-		boolean success = file.delete();
+		boolean retval = file.delete();
 		updateModel();
-		if (!success)
-			throw new RuntimeException("Can't delete repo element with path " + element.getFilePath());
+		return retval;
 	}
 
-	/**
-	 * Tests if a chain with a given name can be created. This method follows
-	 * {@link IInputValidator#isValid(String)} API.
-	 * 
-	 * @param chainName
-	 *            chain name to be tested
-	 * @return null if the name is valid, an error message (including "")
-	 *         otherwise.
-	 */
 	public String isNewChainNameAllowed(String chainName) {
 		final String baseName = canonizeChainName(chainName);
 		if (baseName.length() == 0) {
@@ -325,14 +287,6 @@ public class DsciliaRepoService {
 		return null;
 	}
 
-	/**
-	 * Finds a chain in the repository.
-	 * 
-	 * @param chainName
-	 *            the chain name
-	 * 
-	 * @return the chain, or null, if not found.
-	 */
 	private Chain findChain(String chainName) {
 		for (RepoElement re : repo) {
 			if (re.getDscilia() != null) {
@@ -351,7 +305,7 @@ public class DsciliaRepoService {
 	 * @param chainName
 	 * @return the name canonized.
 	 */
-	private String canonizeChainName(String chainName) {
+	private static String canonizeChainName(String chainName) {
 		return chainName.trim();
 	}
 
@@ -365,32 +319,25 @@ public class DsciliaRepoService {
 	 */
 	public void createChain(RepoElement repo, String chainName) {
 		if (repo.getDscilia() == null)
-			throw new RuntimeException("Can't create chain : DSCilia is null");
-		String msg = isNewChainNameAllowed(chainName);
-		if (msg != null)
-			throw new RuntimeException("Chain name " + chainName + " is not allowed");
+			return;
+		if (isNewChainNameAllowed(chainName) != null)
+			return;
 
 		try {
 			repo.getDscilia().createChain(chainName);
 		} catch (MetadataException e) {
-			throw new RuntimeException("Error while creating chain", e);
+			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * Delete a chain.
-	 * 
-	 * @param chain
-	 *            the chain name
-	 */
 	public void deleteChain(Chain chain) {
 		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
 		if (repo == null)
-			throw new RuntimeException("Can't delete chain : can't find the underlying RepoElement");
+			return;
 		try {
 			repo.getDscilia().deleteChain(chain.getId());
 		} catch (MetadataException e) {
-			throw new RuntimeException("Error while deleting chain", e);
+			e.printStackTrace();
 		}
 	}
 
@@ -398,13 +345,6 @@ public class DsciliaRepoService {
 		return contentProvider;
 	}
 
-	/**
-	 * Gets the {@link RepoElement} of an Object. Returns null if not found.
-	 * 
-	 * @param object
-	 *            the object
-	 * @return the {@link RepoElement}
-	 */
 	public RepoElement getRepoElement(Object object) {
 		Preconditions.checkNotNull(object);
 
@@ -417,99 +357,31 @@ public class DsciliaRepoService {
 			return null;
 	}
 
-	/**
-	 * Creates a mediator instance in a DSCilia.
-	 * 
-	 * @param chain
-	 *            the chain name
-	 * @param id
-	 *            the mediator id
-	 * @param type
-	 *            the mediator type
-	 * @throws MetadataException
-	 *             the metadata exception
-	 */
 	public void createMediatorInstance(Chain chain, String id, String type) throws MetadataException {
 		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
 		if (repo == null)
-			throw new RuntimeException("Can't create mediator instance : can't find the underlying RepoElement");
-
-		String msg = chain.isNewMediatorInstanceAllowed(id, type);
-		if (msg == null)
-			repo.getDscilia().createMediatorInstance(chain, id, type);
-		else
-			throw new RuntimeException("Can't create mediator instance: " + msg);
+			return;
+		repo.getDscilia().createMediatorInstance(chain, id, type);
 	}
 
-	/**
-	 * Creates an adapter instance.
-	 * 
-	 * @param chain
-	 *            the chain name
-	 * @param id
-	 *            the adapter id
-	 * @param type
-	 *            the adapter type
-	 * @throws MetadataException
-	 *             the metadata exception
-	 */
 	public void createAdapterInstance(Chain chain, String id, String type) throws MetadataException {
 		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
 		if (repo == null)
-			throw new RuntimeException("Can't create adapter instance : can't find the underlying RepoElement");
-
-		String msg = chain.isNewAdapterInstanceAllowed(id, type);
-		if (msg == null)
-			repo.getDscilia().createAdapterInstance(chain, id, type);
-		else
-			throw new RuntimeException("Can't create adapter instance: " + msg);
+			return;
+		repo.getDscilia().createAdapterInstance(chain, id, type);
 	}
 
-	/**
-	 * Creates a binding.
-	 * 
-	 * @param chain
-	 *            the chain
-	 * @param srcElem
-	 *            the src elem
-	 * @param srcPort
-	 *            the src port
-	 * @param dstElem
-	 *            the dst elem
-	 * @param dstPort
-	 *            the dst port
-	 * @throws MetadataException
-	 *             the metadata exception
-	 */
 	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
 			throws MetadataException {
 		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
 		if (repo == null)
-			throw new RuntimeException("Can't create binding : can't find the underlying RepoElement");
-
-		String msg = chain.isNewBindingAllowed(srcElem, srcPort, dstElem, dstPort);
-		if (msg == null)
-			repo.getDscilia().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
-		else
-			throw new RuntimeException("Can't create binding: " + msg);
+			return;
+		repo.getDscilia().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
 	}
 
-	/**
-	 * Deletes a binding.
-	 * 
-	 * @param chain
-	 *            the chain name
-	 * @param scr
-	 *            the binding source : node[:port]
-	 * @param dst
-	 *            the binding destination : node[:port]
-	 * @throws MetadataException
-	 *             the metadata exception
-	 */
-	public void deleteBinding(Chain chain, String src, String dst) throws MetadataException {
-		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
-		if (repo == null)
-			throw new RuntimeException("Can't delete binding : can't find the underlying RepoElement");
-		repo.getDscilia().deleteBinding(chain, src, dst);
+	@Override
+	protected void initRepository() {
+		repo = new ArrayList<RepoElement>();
+		listeners = new ArrayList<IDSciliaRepositoryListener>();
 	}
 }

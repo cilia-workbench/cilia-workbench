@@ -21,13 +21,11 @@ import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
-import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Bundle;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 
 /**
- * Represents a file as an {@link IStorage} object.
- * 
- * @author Etienne Gandrille
+ * The Class StreamFromFileStorage.
  */
 class StreamFromFileStorage implements IStorage {
 
@@ -36,17 +34,14 @@ class StreamFromFileStorage implements IStorage {
 
 	/**
 	 * Instantiates a new stream from file storage.
-	 * 
-	 * @param filePath
-	 *            the file path
+	 *
+	 * @param filePath the file path
 	 */
 	StreamFromFileStorage(String filePath) {
 		this.filePath = filePath;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.core.resources.IStorage#getContents()
 	 */
 	public InputStream getContents() throws CoreException {
@@ -58,18 +53,14 @@ class StreamFromFileStorage implements IStorage {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.core.resources.IStorage#getFullPath()
 	 */
 	public IPath getFullPath() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
 	@SuppressWarnings("rawtypes")
@@ -77,9 +68,7 @@ class StreamFromFileStorage implements IStorage {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.core.resources.IStorage#getName()
 	 */
 	public String getName() {
@@ -90,9 +79,7 @@ class StreamFromFileStorage implements IStorage {
 			return filePath.substring(index + 1);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.core.resources.IStorage#isReadOnly()
 	 */
 	public boolean isReadOnly() {

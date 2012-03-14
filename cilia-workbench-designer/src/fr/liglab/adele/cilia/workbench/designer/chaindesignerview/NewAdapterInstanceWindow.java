@@ -16,40 +16,27 @@ package fr.liglab.adele.cilia.workbench.designer.chaindesignerview;
 
 import org.eclipse.swt.widgets.Shell;
 
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
- * Window used for Adapter instance creation in a chain.
- * 
- * Should be used as this snippet : <code>
- * NewComponentInstanceWindow window = new NewAdapterInstanceWindow(event, chain);
- * if (window.open() == Window.OK) {
- *   String id = window.getComponentId();
- *   String type = window.getComponentType();
- *   (...)
- * }
- * </code>
- * 
- * @author Etienne Gandrille
+ * NewAdapterInstanceWindow.
  */
 public class NewAdapterInstanceWindow extends NewComponentInstanceWindow {
 
 	/**
 	 * Instantiates a new new adapter instance window.
-	 * 
-	 * @param parentShell
-	 *            the parent shell
-	 * @param chain
-	 *            the chain
+	 *
+	 * @param parentShell the parent shell
+	 * @param chain the chain
 	 */
 	protected NewAdapterInstanceWindow(Shell parentShell, Chain chain) {
 		super("adapter", parentShell, chain);
 		componentsId = JarRepoService.getInstance().getAdaptersId();
 	}
-
+	
 	@Override
 	protected String checkValidValues(String id, String type) {
-		return chain.isNewAdapterInstanceAllowed(id, type);
+		 return chain.isNewAdapterInstanceAllowed(id, type);
 	}
 }

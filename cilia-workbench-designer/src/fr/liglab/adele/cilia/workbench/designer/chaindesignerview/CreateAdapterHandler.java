@@ -16,25 +16,16 @@ package fr.liglab.adele.cilia.workbench.designer.chaindesignerview;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.CommonHandler;
-import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
-/**
- * Handler called when creating an adapter in the chain designer view.
- * 
- * @author Etienne Gandrille
- */
 public class CreateAdapterHandler extends CommonHandler {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
-	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		Chain chain = getChainDesignerView(event).getModel();
@@ -50,6 +41,8 @@ public class CreateAdapterHandler extends CommonHandler {
 				}
 			}
 		}
+		
 		return null;
 	}
+
 }

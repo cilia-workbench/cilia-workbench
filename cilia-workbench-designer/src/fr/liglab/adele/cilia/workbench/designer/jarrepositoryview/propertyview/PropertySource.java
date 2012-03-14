@@ -23,33 +23,19 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
 /**
- * Bridge the gap between the Chain model object (of type ChainReadOnly) and the properties view.
- * 
- * @author Etienne Gandrille
+ * Bridge the gap between the Chain model object (of type ChainReadOnly) and the
+ * properties view.
  */
 public class PropertySource implements IPropertySource {
 
-	/** The model object. */
 	private Object modelObject;
 
-	/** The name for the default category */
 	protected final String PROPERTIES_CATEGORY = "Basic properties";
 
-	/**
-	 * Instantiates a new property source.
-	 * 
-	 * @param modelObject
-	 *            the model object
-	 */
 	public PropertySource(Object modelObject) {
 		this.modelObject = modelObject;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
-	 */
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		Field[] fields = modelObject.getClass().getDeclaredFields();
 
@@ -67,11 +53,6 @@ public class PropertySource implements IPropertySource {
 		return list.toArray(new IPropertyDescriptor[0]);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java.lang.Object)
-	 */
 	@Override
 	public Object getPropertyValue(Object id) {
 		String name = (String) id;
@@ -92,40 +73,20 @@ public class PropertySource implements IPropertySource {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getEditableValue()
-	 */
 	@Override
 	public Object getEditableValue() {
 		return null;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
-	 */
+	
 	@Override
 	public boolean isPropertySet(Object id) {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
-	 */
 	@Override
 	public void resetPropertyValue(Object id) {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java.lang.Object, java.lang.Object)
-	 */
 	@Override
 	public void setPropertyValue(Object id, Object value) {
 	}

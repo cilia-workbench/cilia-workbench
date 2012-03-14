@@ -33,20 +33,18 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDsciliaRepositoryListener;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDSciliaRepositoryListener;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 /**
- * The implementation class for the Dscilia Repository View.
- * 
- * @author Etienne Gandrille
+ * DsciliaRepositoryView.
  */
-public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRepositoryListener {
+public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRepositoryListener {
 
 	/** The viewId. */
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview";
@@ -54,16 +52,14 @@ public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRep
 	/** The view internal model. */
 	private List<RepoElement> model = new ArrayList<RepoElement>();
 
-	/**
-	 * Instantiates a new dscilia repository view.
-	 */
 	public DsciliaRepositoryView() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView
 	 * #createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -110,7 +106,7 @@ public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRep
 	 *            the changes
 	 */
 	@Override
-	public void dsciliaRepositoryContentUpdated(Changeset[] changes) {
+	public void repositoryChange(Changeset[] changes) {
 		for (Changeset change : changes) {
 			Object object = change.getObject();
 			Operation operation = change.getOperation();
@@ -160,16 +156,18 @@ public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRep
 
 		if (element != null && element instanceof RepoElement) {
 			RepoElement repoElement = (RepoElement) element;
-			IFileStore fileStore;
-			try {
-				fileStore = EFS.getLocalFileSystem().getStore(new URI(repoElement.getFilePath()));
-				IWorkbenchPage page = getViewSite().getPage();
-				IEditorPart editor = IDE.openEditorOnFileStore(page, fileStore);
-				addEditorSavedListener(editor);
-			} catch (PartInitException e) {
-				e.printStackTrace();
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
+			if (repoElement.getDscilia() != null) {
+				IFileStore fileStore;
+				try {
+					fileStore = EFS.getLocalFileSystem().getStore(new URI(repoElement.getFilePath()));
+					IWorkbenchPage page = getViewSite().getPage();
+					IEditorPart editor = IDE.openEditorOnFileStore(page, fileStore);
+					addEditorSavedListener(editor);
+				} catch (PartInitException e) {
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -177,7 +175,9 @@ public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRep
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView #refresh()
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView
+	 * #refresh()
 	 */
 	@Override
 	protected void refresh() {
@@ -188,10 +188,8 @@ public class DsciliaRepositoryView extends RepositoryView implements IDsciliaRep
 		viewer.refresh();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView #getRepositoryDirectory()
+	/* (non-Javadoc)
+	 * @see fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView#getRepositoryDirectory()
 	 */
 	@Override
 	protected String getRepositoryDirectory() {

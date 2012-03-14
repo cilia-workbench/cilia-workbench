@@ -23,20 +23,16 @@ import org.eclipse.jface.window.Window;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
 /**
- * Handler called for creating a new dscilia file.
- * 
- * @author Etienne Gandrille
+ * CreateFileHandler.
  */
 public class CreateFileHandler extends CommonHandler {
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	
+	/* (non-Javadoc)
 	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-
+		
 		// Validator
 		IInputValidator validator = new IInputValidator() {
 			@Override
@@ -44,16 +40,15 @@ public class CreateFileHandler extends CommonHandler {
 				return DsciliaRepoService.getInstance().isNewFileNameAllowed(newText);
 			}
 		};
-
+		
 		// Dialog creation
-		InputDialog dialog = new InputDialog(getShell(event), "File creation", "Please give a name for the new file.",
-				".dscilia", validator);
-
+		InputDialog dialog = new InputDialog(getShell(event), "File creation", "Please give a name for the new file.", ".dscilia", validator);
+		
 		if (dialog.open() == Window.OK) {
 			String fileName = dialog.getValue();
 			DsciliaRepoService.getInstance().createFile(fileName);
-		}
-
+        }
+		
 		return null;
 	}
 }

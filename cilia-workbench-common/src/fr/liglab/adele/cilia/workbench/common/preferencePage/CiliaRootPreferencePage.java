@@ -22,46 +22,26 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * A root page in the preference menu. Should be used by all Cilia Designer sub pages.
- * 
- * @author Etienne Gandrille
+ * A root page in the preference menu.
+ * Should be used by all Cilia Designer sub pages.  
  */
 public class CiliaRootPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	/** Message displayed on the top of the page. */
 	private static final String PAGE_DESCRIPTION = "CILIA workbench preferences.";
 
-	/**
-	 * Instantiates a new cilia root preference page.
-	 */
 	public CiliaRootPreferencePage() {
 	}
 
-	/**
-	 * Instantiates a new cilia root preference page.
-	 * 
-	 * @param title
-	 *            the page title
-	 */
 	public CiliaRootPreferencePage(String title) {
 		super(title);
 	}
 
-	/**
-	 * Instantiates a new cilia root preference page.
-	 * 
-	 * @param title
-	 *            the page title
-	 * @param image
-	 *            the page image
-	 */
 	public CiliaRootPreferencePage(String title, ImageDescriptor image) {
 		super(title, image);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
 	@Override
@@ -69,9 +49,7 @@ public class CiliaRootPreferencePage extends PreferencePage implements IWorkbenc
 		setDescription(PAGE_DESCRIPTION);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override

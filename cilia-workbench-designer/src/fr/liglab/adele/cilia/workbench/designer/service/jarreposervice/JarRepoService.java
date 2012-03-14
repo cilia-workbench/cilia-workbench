@@ -15,33 +15,34 @@
 package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
-
-import fr.liglab.adele.cilia.workbench.designer.Activator;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 
 /**
- * A central place for managing the Jar repository. The repository can be asked to refresh the model. The repository can
- * be asked to send model update notifications.
- * 
- * @author Etienne Gandrille
+ * JarRepoService.
  */
-public class JarRepoService {
+public class JarRepoService extends AbstractRepoService {
 
-	/** Singleton instance. */
+	/** Singleton instance */
 	private static JarRepoService INSTANCE;
 
-	/** The repository content. */
-	private Bundle[] repo;
+	/** The key used to search the repository path into the preferences store. */
+	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH;
+
+	/** The service model */
+	private List<Bundle> model;
 
 	/** Listeners. */
-	private List<IJarRepositoryListener> listeners = new ArrayList<IJarRepositoryListener>();
+	private List<IJarRepositoryListener> listeners ;
+
+	/** Jar files extension. */
+	private final static String ext = ".jar";
 
 	/**
 	 * Gets the singleton instance.
@@ -58,73 +59,41 @@ public class JarRepoService {
 	 * Instantiates a new jar repo service.
 	 */
 	private JarRepoService() {
-		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals(CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH)) {
-					updateModel();
-				}
-			}
-		});
-		updateModel();
+		super(PREFERENCE_PATH_KEY, ext);
 	}
 
-	/**
-	 * Gets the model.
-	 * 
-	 * @return the model
-	 */
-	public Bundle[] getModel() {
-		return repo;
+	public List<Bundle> getModel() {
+		return model;
 	}
 
-	/**
-	 * Gets the repository path on the file system.
-	 * 
-	 * @return the repository path
-	 */
-	public String getRepositoryPath() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		return store.getString(CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH);
-	}
-
-	/**
-	 * Updates the model and sends notifications.
-	 */
 	public void updateModel() {
-		File dir = new File(getRepositoryPath());
-		File[] list = dir.listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".jar");
-			}
-		});
-
+		File[] list = getFiles();
 		List<Bundle> bundles = new ArrayList<Bundle>();
-		if (list != null) {
-			for (File jar : list) {
-				try {
-					String path = jar.getPath();
-					bundles.add(new Bundle(path));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		for (File jar : list) {
+			try {
+				String path = jar.getPath();
+				bundles.add(new Bundle(path));
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
 		// Updates model with computed one
-		repo = bundles.toArray(new Bundle[0]);
+		model = bundles;
 
 		// Sends notifications
 		notifyListeners();
 	}
 
 	/**
-	 * Notifies listeners the model have been updated.
+	 * Notifies listeners with given change set table.
+	 * 
+	 * @param changes
+	 *            the change set table.
 	 */
 	private void notifyListeners() {
 		for (IJarRepositoryListener listener : listeners) {
-			listener.updateJarRepositoryContent();
+			listener.repositoryContentUpdated();
 		}
 	}
 
@@ -153,61 +122,44 @@ public class JarRepoService {
 			return false;
 	}
 
-	/**
-	 * Gets the mediators id.
-	 * 
-	 * @return the mediators id
-	 */
 	public String[] getMediatorsId() {
 		List<String> retval = new ArrayList<String>();
-		for (Bundle bundle : repo)
+		for (Bundle bundle : model)
 			for (MediatorComponent mc : bundle.getMetadata().getMediatorComponents())
 				retval.add(mc.getName());
 
 		return retval.toArray(new String[0]);
 	}
 
-	/**
-	 * Gets the adapters id.
-	 * 
-	 * @return the adapters id
-	 */
 	public String[] getAdaptersId() {
 		List<String> retval = new ArrayList<String>();
-		for (Bundle bundle : repo)
+		for (Bundle bundle : model)
 			for (Adapter a : bundle.getMetadata().getAdapters())
 				retval.add(a.getName());
 
 		return retval.toArray(new String[0]);
 	}
 
-	/**
-	 * Gets an adapter, using its name.
-	 * 
-	 * @param name
-	 *            the name
-	 * @return the adapter
-	 */
 	public Adapter getAdapter(String name) {
-		for (Bundle bundle : repo)
+		for (Bundle bundle : model)
 			for (Adapter a : bundle.getMetadata().getAdapters())
 				if (a.getName().equalsIgnoreCase(name))
 					return a;
 		return null;
 	}
 
-	/**
-	 * Gets a mediator, using its name.
-	 * 
-	 * @param name
-	 *            the name
-	 * @return the mediator
-	 */
 	public MediatorComponent getMediator(String name) {
-		for (Bundle bundle : repo)
+		for (Bundle bundle : model)
 			for (MediatorComponent m : bundle.getMetadata().getMediatorComponents())
 				if (m.getName().equalsIgnoreCase(name))
 					return m;
 		return null;
 	}
+
+	@Override
+	protected void initRepository() {
+		model = new ArrayList<Bundle>();
+		listeners = new ArrayList<IJarRepositoryListener>();
+	}
+
 }

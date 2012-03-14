@@ -29,88 +29,49 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.AdapterInstance;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Chain;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.ComponentInstance;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.MediatorInstance;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Adapter;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.InPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.ComponentInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.InPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.OutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Port;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.OutPort;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Port;
 
-/**
- * Window used for Binding instance creation in a chain.
- * 
- * Should be used as this snippet : <code>
- * NewBindingWindow window = new NewBindingWindow(event, chain);
- * if (window.open() == Window.OK) {
- *   String srcElem = window.getSrcElem();
- *   String dstElem = window.getDstElem();
- *   String srcPort = window.getSrcPort();
- *   String dstPort = window.getDstPort();
- *   (...)
- * }
- * </code>
- * 
- * @author Etienne Gandrille
- */
 public class NewBindingWindow extends Dialog {
+	
+	public static final String IN_PORT = "IN";
+	public static final String OUT_PORT = "OUT";
 
-	/** Used internally */
-	private enum PortType {
-		IN, OUT
-	}
-
-	/** The scope for the binding to be created. */
 	private final Chain chain;
-
-	/** Window title. */
+	
 	private final String windowTitle = "New binding";
-
+	
 	/** Margin used by the GridLayout. */
 	private final int margin = 10;
 
-	/** Combo widget for selecting the source element for this binding. */
 	private Combo srcElemCombo;
 
-	/** Combo widget for selecting the destination element for this binding. */
 	private Combo dstElemCombo;
 
-	/** Combo widget for selecting the source port (on the source element) for this binding. */
 	private Combo srcPortCombo;
 
-	/** Combo widget for selecting the destination port (on the destination element) for this binding. */
 	private Combo dstPortCombo;
 
-	/** Message area for displaying error and warning messages. */
 	private Label messageArea;
-
-	/** Listener called to check integrity constraints when modifying data in the window. */
-	private final IntegrityListener iListener = new IntegrityListener();
-
-	/** Result : source element. */
+	
+	private final IntegrityListener iListener = new IntegrityListener(); 
+	
 	private String srcElem;
-
-	/** Result : destination element. */
 	private String dstElem;
-
-	/** Result : source port (on the source element). */
 	private String srcPort;
-
-	/** Result : source destination (on the destination element). */
 	private String dstPort;
-
-	/**
-	 * Instantiates a new new binding window.
-	 * 
-	 * @param parentShell
-	 *            the parent shell
-	 * @param chain
-	 *            the chain
-	 */
+	
+	
 	protected NewBindingWindow(Shell parentShell, Chain chain) {
 		super(parentShell);
 		Preconditions.checkNotNull(chain);
@@ -118,9 +79,7 @@ public class NewBindingWindow extends Dialog {
 		this.chain = chain;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createDialogArea(Composite parent) {
@@ -140,30 +99,30 @@ public class NewBindingWindow extends Dialog {
 		Label label1 = new Label(container, SWT.WRAP);
 		label1.setText("");
 		label1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-
+		
 		// Source
 		Label label2 = new Label(container, SWT.WRAP);
 		label2.setText("Source");
 		label2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-
+		
 		// Destination
 		Label label3 = new Label(container, SWT.WRAP);
 		label3.setText("Destination");
 		label3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-
+		
 		// Element
 		Label label4 = new Label(container, SWT.WRAP);
 		label4.setText("Element");
 		label4.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-
+		
 		// Source Element Combo
 		srcElemCombo = new Combo(container, SWT.READ_ONLY);
 		srcElemCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-
+		
 		// Destination Element Combo
 		dstElemCombo = new Combo(container, SWT.READ_ONLY);
 		dstElemCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-
+		
 		// populating
 		for (MediatorInstance item : chain.getMediators()) {
 			srcElemCombo.add(item.getId());
@@ -184,20 +143,20 @@ public class NewBindingWindow extends Dialog {
 				dstElemCombo.add(item.getId());
 			}
 		}
-
+		
 		// Port
 		Label label5 = new Label(container, SWT.WRAP);
 		label5.setText("Port");
 		label5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-
+		
 		// Source port Combo
 		srcPortCombo = new Combo(container, SWT.NONE);
 		srcPortCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-
+		
 		// Destination port Combo
 		dstPortCombo = new Combo(container, SWT.NONE);
 		dstPortCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-
+		
 		// Message Area
 		messageArea = new Label(container, SWT.WRAP);
 		messageArea.setText("");
@@ -208,51 +167,29 @@ public class NewBindingWindow extends Dialog {
 		dstElemCombo.addModifyListener(iListener);
 		srcPortCombo.addModifyListener(iListener);
 		dstPortCombo.addModifyListener(iListener);
-		srcElemCombo.addModifyListener(new ComboUpdate(srcElemCombo, srcPortCombo, PortType.OUT));
-		dstElemCombo.addModifyListener(new ComboUpdate(dstElemCombo, dstPortCombo, PortType.IN));
-
+		srcElemCombo.addModifyListener(new ComboUpdate(srcElemCombo, srcPortCombo, OUT_PORT));
+		dstElemCombo.addModifyListener(new ComboUpdate(dstElemCombo, dstPortCombo, IN_PORT));
+		
 		return container;
 	}
 
-	/**
-	 * Gets the source element for the binding to be created.
-	 * 
-	 * @return the source element.
-	 */
 	public String getSrcElem() {
 		return srcElem;
 	}
-
-	/**
-	 * Gets the source destination for the binding to be created.
-	 * 
-	 * @return the destination element.
-	 */
+	
 	public String getDstElem() {
 		return dstElem;
 	}
-
-	/**
-	 * Gets the source element port for the binding to be created.
-	 * 
-	 * @return the source element port.
-	 */
+	
 	public String getSrcPort() {
 		return srcPort;
 	}
-
-	/**
-	 * Gets the destination element port for the binding to be created.
-	 * 
-	 * @return the destination element port.
-	 */
+	
 	public String getDstPort() {
 		return dstPort;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	
+	/* (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
 	 */
 	@Override
@@ -260,11 +197,13 @@ public class NewBindingWindow extends Dialog {
 		super.initializeBounds();
 		getButton(IDialogConstants.OK_ID).setEnabled(false);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse .swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
@@ -288,97 +227,52 @@ public class NewBindingWindow extends Dialog {
 	protected boolean isResizable() {
 		return true;
 	}
-
-	/**
-	 * Updates the result with values selected by the user.
-	 */
+	
 	protected void updateResult() {
 		srcElem = srcElemCombo.getText();
 		dstElem = dstElemCombo.getText();
 		srcPort = srcPortCombo.getText();
 		dstPort = dstPortCombo.getText();
 	}
-
-	/**
-	 * Listener called each time a value is modified. This listener :
-	 * <ul>
-	 * <li>Updates the message area with error or warning message</li>
-	 * <li>Enamble or disable the OK button</li>
-	 * <li>Updates the result.</li>
-	 * </ul>
-	 * 
-	 * @see IntegrityEvent
-	 * @author Etienne Gandrille
-	 */
+	
 	private class IntegrityListener implements ModifyListener {
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
-		 */
 		@Override
 		public void modifyText(ModifyEvent e) {
 			String srcElem = srcElemCombo.getText();
 			String srcPort = srcPortCombo.getText();
 			String dstElem = dstElemCombo.getText();
 			String dstPort = dstPortCombo.getText();
-
+			
 			String errorMsg = chain.isNewBindingAllowed(srcElem, srcPort, dstElem, dstPort);
 
 			if (errorMsg != null)
 				messageArea.setText(errorMsg);
 			else
 				messageArea.setText("");
-
+			
 			getButton(IDialogConstants.OK_ID).setEnabled(errorMsg == null);
 			updateResult();
 		}
 	}
 
-	/**
-	 * Listener called each time a value is modified. This listener updates the ports list when the source or
-	 * destination element is modified.
-	 * 
-	 * @author Etienne Gandrille
-	 */
 	private class ComboUpdate implements ModifyListener {
 
-		/** The combo element. */
 		private final Combo comboElem;
-
-		/** The combo port. */
 		private final Combo comboPort;
-
-		/** The port type. */
-		private final PortType portType;
-
-		/**
-		 * Instantiates a new combo update.
-		 * 
-		 * @param comboElem
-		 *            the combo elem
-		 * @param comboPort
-		 *            the combo port
-		 * @param portType
-		 *            the port type
-		 */
-		public ComboUpdate(Combo comboElem, Combo comboPort, PortType portType) {
+		private final String portType;
+		
+		public ComboUpdate(Combo comboElem, Combo comboPort, String portType) {
 			this.comboElem = comboElem;
 			this.comboPort = comboPort;
 			this.portType = portType;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
-		 */
+		
 		@Override
 		public void modifyText(ModifyEvent e) {
 			comboPort.removeAll();
-
-			for (ComponentInstance i : chain.getComponents()) {
+			
+			for (ComponentInstance i : chain.getElements()) {
 				if (i.getId().equalsIgnoreCase(comboElem.getText())) {
 					if (i instanceof AdapterInstance) {
 						comboPort.setEnabled(false);
@@ -389,11 +283,11 @@ public class NewBindingWindow extends Dialog {
 						MediatorComponent m = JarRepoService.getInstance().getMediator(i.getType());
 						if (m != null) {
 							for (Port p : m.getPorts()) {
-								if (p instanceof InPort && portType.equals(PortType.IN))
+								if (p instanceof InPort && portType.equals(IN_PORT))
 									comboPort.add(p.getName());
-								if (p instanceof OutPort && portType.equals(PortType.OUT))
+								if (p instanceof OutPort && portType.equals(OUT_PORT))
 									comboPort.add(p.getName());
-							}
+							} 
 						}
 						updateResult();
 						return;

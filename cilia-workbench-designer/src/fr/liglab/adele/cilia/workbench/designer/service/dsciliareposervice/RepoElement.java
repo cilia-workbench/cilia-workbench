@@ -16,61 +16,39 @@ package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
 import java.util.ArrayList;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-
 import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.common.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Dscilia;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
 /**
- * Indirection layer to {@link Dscilia}.
- * 
- * While DSCila represents ONLY valid files (parsed successfully), this class
- * represents valid and non valid DSCilia files. Non valid files have the
- * {@link #dscilia} field null.
- * 
- * @author Etienne Gandrille
+ * RepoElement.
  */
 public class RepoElement {
 
-	/**
-	 * The dscilia model, which represents the file. This field is null, if
-	 * there's an error while parsing the file.
-	 */
-	private Dscilia dscilia;
+	/** The dscilia. */
+	Dscilia dscilia;
 
-	/** The path on the file system, to the dscilia file. */
-	private final String path;
+	/** The path on the file system. */
+	String path;
 
 	/**
 	 * Instantiates a new repo element.
 	 * 
 	 * @param path
-	 *            the path on the file system
+	 *            the path
 	 * @param dscilia
-	 *            the dscilia model
-	 * @throws Exception
-	 *             in case of error during dscilia file parsing.
+	 *            the dscilia
 	 */
-	public RepoElement(String path) {
-		Preconditions.checkArgument(!Strings.isNullOrEmpty(path));
-
+	public RepoElement(String path, Dscilia dscilia) {
 		this.path = path;
-		try {
-			this.dscilia = new Dscilia(path);
-		} catch (MetadataException e) {
-			// The file exists, but there's an error while parsing it.
-			this.dscilia = null;
-			e.printStackTrace();
-		}
+		this.dscilia = dscilia;
 	}
 
 	/**
-	 * Gets the logical abstraction of the file. Returns null if the file is not
-	 * well formed.
+	 * Gets the dscilia.
 	 * 
-	 * @return the {@link Dscilia} object.
+	 * @return the dscilia
 	 */
 	public Dscilia getDscilia() {
 		return dscilia;
@@ -86,24 +64,24 @@ public class RepoElement {
 	}
 
 	/**
-	 * Merge another {@link RepoElement} into this {@link RepoElement}, and
-	 * returns an array representing the differences.
+	 * Merge.
 	 * 
 	 * @param newInstance
-	 *            the other {@link RepoElement}, to be merged into the current
-	 *            object.
-	 * @return the {@link Changeset} list.
+	 *            the new instance
+	 * @return the changeset[]
 	 */
-	protected Changeset[] merge(RepoElement newInstance) {
-
+	public Changeset[] merge(RepoElement newInstance) {
+		
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-
+		
 		if (dscilia == null && newInstance.getDscilia() == null) {
 			// do nothing
-		} else if (dscilia != null && newInstance.getDscilia() != null) {
+		}
+		else if (dscilia != null && newInstance.getDscilia() != null) {
 			for (Changeset c : dscilia.merge(newInstance.getDscilia()))
 				retval.add(c);
-		} else {
+		}
+		else {
 			retval.add(new Changeset(Operation.UPDATE, this));
 
 			// DScilia becomes invalid

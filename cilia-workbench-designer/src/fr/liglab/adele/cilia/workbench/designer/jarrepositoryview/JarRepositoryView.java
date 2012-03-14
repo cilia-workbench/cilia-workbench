@@ -14,6 +14,9 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -31,24 +34,22 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IJarRepositoryListener;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
- * The implementation class for the jar repository view.
- * 
- * @author Etienne Gandrille
+ * The Class RepositoryView.
  */
 public class JarRepositoryView extends RepositoryView implements IJarRepositoryListener {
 
-	/** The viewId. */
+	/** The Constant viewId. */
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.jarrepositoryview";
 
 	/** The model. */
-	private Bundle[] model = new Bundle[0];
+	private List<Bundle> model = new ArrayList<Bundle>();
 
 	/**
 	 * Instantiates a new repository view.
@@ -59,13 +60,15 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets .Composite)
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 
-		viewer.setLabelProvider(new JarRepositoryViewLabelProvider());
+		viewer.setLabelProvider(new MetadataLabelProvider());
 		viewer.setAutoExpandLevel(2);
 
 		// TreeViewer listener
@@ -84,21 +87,21 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 	public void refresh() {
 		super.refresh();
 		model = JarRepoService.getInstance().getModel();
-		viewer.setContentProvider(new JarRepositoryViewContentProvider(model));
+		viewer.setContentProvider(new MetadataContentProvider(model));
 		viewer.setInput(model);
 		viewer.refresh();
 	}
 
 	/**
-	 * Opens an editor with the content of the related metadata. Does'nt open an editor twice. Only bring to top the
-	 * second time.
+	 * Opens an editor with the content of the related metadata. Does'nt open an
+	 * editor twice. Only bring to top the second time.
 	 */
 	private void openMetadataInEditor() {
 
 		Object element = getFirstSelectedElement();
 		if (element != null && element instanceof Bundle) {
 			Bundle bundle = (Bundle) element;
-			String bundleName = bundle.getBundlePath();
+			String bundleName = bundle.getBundleName();
 
 			IWorkbenchPage page = getViewSite().getPage();
 
@@ -132,34 +135,22 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 		}
 	}
 
-	/**
-	 * Gets the property used to store the repository path into the preference store.
-	 * 
-	 * @return the property name
-	 */
 	protected String getRepositoryPropertyPath() {
 		return CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH;
 	}
 
 	/**
-	 * Gets the jar repository directory.
+	 * Gets the repository directory.
 	 * 
-	 * @return the jar repository directory
+	 * @return the repository directory
 	 */
 	protected String getRepositoryDirectory() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		return store.getString(getRepositoryPropertyPath());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IJarRepositoryListener#updateJarRepositoryContent
-	 * ()
-	 */
 	@Override
-	public void updateJarRepositoryContent() {
+	public void repositoryContentUpdated() {
 		refresh();
 	}
 }

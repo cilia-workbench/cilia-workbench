@@ -14,30 +14,15 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.chaindesignerview;
 
-import fr.liglab.adele.cilia.workbench.common.providers.ToggleSourceProvider;
+import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvider;
 
-/**
- * This boolean source provider is used for toolbar activation in the chain designer view.
- * 
- * @author Etienne Gandrille
- */
 public class VariablesSourceProvider extends ToggleSourceProvider {
 
-	/** The variable name. Must be unique */
 	public final static String VARIABLE_NAME = "fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable";
-
-	/** A value for the boolean */
 	private final static String TOOLBAR_ENABLE = "enable";
-
-	/** A value for the boolean */
 	private final static String TOOLBAR_DISABLE = "disable";
-
-	/** The defaultValue. */
 	private final static boolean defaultValue = false;
 
-	/**
-	 * Instantiates a new variables using the {@link ToggleSourceProvider} class.
-	 */
 	public VariablesSourceProvider() {
 		super(VARIABLE_NAME, TOOLBAR_ENABLE, TOOLBAR_DISABLE, defaultValue);
 	}

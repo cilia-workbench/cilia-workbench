@@ -20,18 +20,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.CommonHandler;
 
-/**
- * Handler called when deleting a mediator in the chain designer view.
- * 
- * @author Etienne Gandrille
- */
 public class DeleteMediatorHandler extends CommonHandler {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
-	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		MessageDialog.openInformation(getShell(event), "Handler", this.getClass().getName());
