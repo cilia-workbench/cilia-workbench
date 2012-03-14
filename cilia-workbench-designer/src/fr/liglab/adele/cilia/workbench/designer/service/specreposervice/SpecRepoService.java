@@ -22,18 +22,13 @@ import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 
-public class SpecRepoService extends AbstractRepoService {
+public class SpecRepoService extends AbstractRepoService<SpecFile, ISpecRepositoryListener> {
 
 	/** Singleton instance */
 	private static SpecRepoService INSTANCE;
 
 	/** The key used to search the repository path into the preferences store. */
 	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.SPEC_REPOSITORY_PATH;
-
-	/** Listeners. */
-	private List<ISpecRepositoryListener> listeners;
-
-	private List<SpecFile> model;
 
 	/** Spec files extension. */
 	private final static String ext = ".xml";
@@ -54,10 +49,6 @@ public class SpecRepoService extends AbstractRepoService {
 	 */
 	private SpecRepoService() {
 		super(PREFERENCE_PATH_KEY, ext);
-	}
-
-	public List<SpecFile> getModel() {
-		return model;
 	}
 
 	public void updateModel() {
@@ -89,36 +80,5 @@ public class SpecRepoService extends AbstractRepoService {
 		for (ISpecRepositoryListener listener : listeners) {
 			listener.repositoryContentUpdated();
 		}
-	}
-
-	/**
-	 * Register listener.
-	 * 
-	 * @param listener
-	 *            the listener
-	 */
-	public void registerListener(ISpecRepositoryListener listener) {
-		if (listener != null && !listeners.contains(listener))
-			listeners.add(listener);
-	}
-
-	/**
-	 * Unregister listener.
-	 * 
-	 * @param listener
-	 *            the listener
-	 * @return true, if successful
-	 */
-	public boolean unregisterListener(ISpecRepositoryListener listener) {
-		if (listener != null)
-			return listeners.remove(listener);
-		else
-			return false;
-	}
-
-	@Override
-	protected void initRepository() {
-		model = new ArrayList<SpecFile>();
-		listeners = new ArrayList<ISpecRepositoryListener>();
 	}
 }

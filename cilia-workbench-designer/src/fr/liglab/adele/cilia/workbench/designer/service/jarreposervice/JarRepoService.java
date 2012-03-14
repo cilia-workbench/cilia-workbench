@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Abst
 /**
  * JarRepoService.
  */
-public class JarRepoService extends AbstractRepoService {
+public class JarRepoService extends AbstractRepoService<Bundle, IJarRepositoryListener> {
 
 	/** Singleton instance */
 	private static JarRepoService INSTANCE;
@@ -37,9 +37,6 @@ public class JarRepoService extends AbstractRepoService {
 
 	/** The service model */
 	private List<Bundle> model;
-
-	/** Listeners. */
-	private List<IJarRepositoryListener> listeners ;
 
 	/** Jar files extension. */
 	private final static String ext = ".jar";
@@ -60,10 +57,6 @@ public class JarRepoService extends AbstractRepoService {
 	 */
 	private JarRepoService() {
 		super(PREFERENCE_PATH_KEY, ext);
-	}
-
-	public List<Bundle> getModel() {
-		return model;
 	}
 
 	public void updateModel() {
@@ -95,31 +88,6 @@ public class JarRepoService extends AbstractRepoService {
 		for (IJarRepositoryListener listener : listeners) {
 			listener.repositoryContentUpdated();
 		}
-	}
-
-	/**
-	 * Register listener.
-	 * 
-	 * @param listener
-	 *            the listener
-	 */
-	public void registerListener(IJarRepositoryListener listener) {
-		if (listener != null && !listeners.contains(listener))
-			listeners.add(listener);
-	}
-
-	/**
-	 * Unregister listener.
-	 * 
-	 * @param listener
-	 *            the listener
-	 * @return true, if successful
-	 */
-	public boolean unregisterListener(IJarRepositoryListener listener) {
-		if (listener != null)
-			return listeners.remove(listener);
-		else
-			return false;
 	}
 
 	public String[] getMediatorsId() {
@@ -155,11 +123,4 @@ public class JarRepoService extends AbstractRepoService {
 					return m;
 		return null;
 	}
-
-	@Override
-	protected void initRepository() {
-		model = new ArrayList<Bundle>();
-		listeners = new ArrayList<IJarRepositoryListener>();
-	}
-
 }

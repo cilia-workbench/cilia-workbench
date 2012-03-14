@@ -36,26 +36,19 @@ import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataExceptio
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IJarRepositoryListener;
 
 /**
  * A central place for managing the DScilia repository. The repository can be
  * asked to refresh the model. The repository can be asked to send model update
  * notifications.
  */
-public class DsciliaRepoService extends AbstractRepoService {
-
-	/** The repository */
-	private List<RepoElement> repo;
+public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDSciliaRepositoryListener> {
 
 	/** Singleton instance */
 	private static DsciliaRepoService INSTANCE;
 
 	/** The key used to search the repository path into the preferences store. */
 	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.DSCILIA_REPOSITORY_PATH;
-
-	/** Listeners. */
-	private List<IDSciliaRepositoryListener> listeners;
 
 	/** DScilia files extension. */
 	private final static String ext = ".dscilia";
@@ -83,15 +76,6 @@ public class DsciliaRepoService extends AbstractRepoService {
 	}
 
 	/**
-	 * Gets the model.
-	 * 
-	 * @return the model
-	 */
-	public List<RepoElement> getModel() {
-		return repo;
-	}
-
-	/**
 	 * Updates the model and sends notifications.
 	 */
 	public void updateModel() {
@@ -113,7 +97,7 @@ public class DsciliaRepoService extends AbstractRepoService {
 		Changeset[] changes = merge(elements);
 
 		// update content provider
-		contentProvider = new DsciliaContentProvider(repo);
+		contentProvider = new DsciliaContentProvider(model);
 
 		// Sends notifications
 		notifyListeners(changes);
@@ -132,31 +116,6 @@ public class DsciliaRepoService extends AbstractRepoService {
 	}
 
 	/**
-	 * Register listener.
-	 * 
-	 * @param listener
-	 *            the listener
-	 */
-	public void registerListener(IDSciliaRepositoryListener listener) {
-		if (listener != null && !listeners.contains(listener))
-			listeners.add(listener);
-	}
-
-	/**
-	 * Unregister listener.
-	 * 
-	 * @param listener
-	 *            the listener
-	 * @return true, if successful
-	 */
-	public boolean unregisterListener(IDSciliaRepositoryListener listener) {
-		if (listener != null)
-			return listeners.remove(listener);
-		else
-			return false;
-	}
-
-	/**
 	 * Merge a list of repo element into the current model. Only differences
 	 * between the argument and the model are merge back into the model.
 	 * 
@@ -168,7 +127,7 @@ public class DsciliaRepoService extends AbstractRepoService {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
-		for (Iterator<RepoElement> itr = repo.iterator(); itr.hasNext();) {
+		for (Iterator<RepoElement> itr = model.iterator(); itr.hasNext();) {
 			RepoElement old = itr.next();
 			String id = old.getFilePath();
 			RepoElement updated = PullElementUtil.pullRepoElement(repoElements, id);
@@ -182,7 +141,7 @@ public class DsciliaRepoService extends AbstractRepoService {
 		}
 
 		for (RepoElement r : repoElements) {
-			repo.add(r);
+			model.add(r);
 			retval.add(new Changeset(Operation.ADD, r));
 		}
 
@@ -288,7 +247,7 @@ public class DsciliaRepoService extends AbstractRepoService {
 	}
 
 	private Chain findChain(String chainName) {
-		for (RepoElement re : repo) {
+		for (RepoElement re : model) {
 			if (re.getDscilia() != null) {
 				for (Chain chain : re.getDscilia().getChains()) {
 					if (chain.getId().equalsIgnoreCase(chainName))
@@ -377,11 +336,5 @@ public class DsciliaRepoService extends AbstractRepoService {
 		if (repo == null)
 			return;
 		repo.getDscilia().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
-	}
-
-	@Override
-	protected void initRepository() {
-		repo = new ArrayList<RepoElement>();
-		listeners = new ArrayList<IDSciliaRepositoryListener>();
 	}
 }

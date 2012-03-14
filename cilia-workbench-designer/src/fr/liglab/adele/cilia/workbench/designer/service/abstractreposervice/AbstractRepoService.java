@@ -16,6 +16,8 @@ package fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -23,10 +25,15 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
 
-public abstract class AbstractRepoService {
+
+public abstract class AbstractRepoService<ModelType, ListernerType> {
 
 	private final String PREFERENCE_PATH_KEY;
 
+	protected List<ModelType> model;
+	
+	protected List<ListernerType> listeners;
+		
 	/** Files extension. */
 	private final String ext;
 
@@ -42,11 +49,12 @@ public abstract class AbstractRepoService {
 				}
 			}
 		});
-		initRepository();
+		
+		model = new ArrayList<ModelType>();
+		listeners = new ArrayList<ListernerType>();
+
 		updateModel();
 	}
-
-	protected abstract void initRepository();
 
 	/**
 	 * Gets the repository path on the file system.
@@ -78,4 +86,38 @@ public abstract class AbstractRepoService {
 	}
 
 	public abstract void updateModel();
+	
+	/**
+	 * Gets the model.
+	 * 
+	 * @return the model
+	 */
+	public List<ModelType> getModel() {
+		return model;
+	}
+	
+	/**
+	 * Register listener.
+	 * 
+	 * @param listener
+	 *            the listener
+	 */
+	public void registerListener(ListernerType listener) {
+		if (listener != null && !listeners.contains(listener))
+			listeners.add(listener);
+	}
+
+	/**
+	 * Unregister listener.
+	 * 
+	 * @param listener
+	 *            the listener
+	 * @return true, if successful
+	 */
+	public boolean unregisterListener(ListernerType listener) {
+		if (listener != null)
+			return listeners.remove(listener);
+		else
+			return false;
+	}
 }
