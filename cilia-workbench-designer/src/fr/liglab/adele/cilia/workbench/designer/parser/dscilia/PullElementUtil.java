@@ -17,14 +17,11 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
-
 public class PullElementUtil {
 	
-	public static RepoElement pullRepoElement(List<RepoElement> newInstance, String id) {
-		for (Iterator<RepoElement> itr = newInstance.iterator(); itr.hasNext();) {
-			RepoElement element = itr.next();
+	public static DsciliaFile pullRepoElement(List<DsciliaFile> newInstance, String id) {
+		for (Iterator<DsciliaFile> itr = newInstance.iterator(); itr.hasNext();) {
+			DsciliaFile element = itr.next();
 			if (element.getFilePath().equals(id)) {
 				itr.remove();
 				return element;

@@ -24,11 +24,11 @@ import fr.liglab.adele.cilia.workbench.common.sourceprovider.SourceProviderUtil;
 import fr.liglab.adele.cilia.workbench.common.view.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaRepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDSciliaRepositoryListener;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
 
 public class ChainDesignerView extends GraphView implements IDSciliaRepositoryListener {
 
@@ -96,8 +96,8 @@ public class ChainDesignerView extends GraphView implements IDSciliaRepositoryLi
 			for (Changeset change : changes) {
 
 				// Repository removed
-				if (change.getObject() instanceof RepoElement && change.getOperation() == Operation.REMOVE) {
-					RepoElement curRepo = srv.getRepoElement(model);
+				if (change.getObject() instanceof DsciliaFile && change.getOperation() == Operation.REMOVE) {
+					DsciliaFile curRepo = srv.getRepoElement(model);
 					if (curRepo == change.getObject()) { // pointer equality
 						setModel(null);
 						return;

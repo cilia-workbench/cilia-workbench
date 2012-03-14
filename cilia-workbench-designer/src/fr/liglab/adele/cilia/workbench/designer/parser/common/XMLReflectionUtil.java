@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.parser.common;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 
 
 public class XMLReflectionUtil {

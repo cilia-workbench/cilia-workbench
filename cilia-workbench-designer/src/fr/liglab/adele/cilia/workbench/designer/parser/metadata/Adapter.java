@@ -16,6 +16,8 @@ package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+
 
 public class Adapter {
 

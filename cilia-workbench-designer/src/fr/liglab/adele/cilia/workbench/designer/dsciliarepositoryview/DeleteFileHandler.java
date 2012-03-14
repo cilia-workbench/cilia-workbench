@@ -18,8 +18,8 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 /**
  * DeleteFileHandler.
@@ -32,8 +32,8 @@ public class DeleteFileHandler extends CommonHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		Object object = getFirstSelectedElementInRepositoryView(event);
-		if (object != null && object instanceof RepoElement) {
-			RepoElement repo = (RepoElement) object;
+		if (object != null && object instanceof DsciliaFile) {
+			DsciliaFile repo = (DsciliaFile) object;
 			boolean result = MessageDialog.openConfirm(getShell(event), "Confirmation required", "Do you want to delete " + repo.getFilePath() + "?");
 			if (result == true)
 				DsciliaRepoService.getInstance().deleteRepoElement(repo);

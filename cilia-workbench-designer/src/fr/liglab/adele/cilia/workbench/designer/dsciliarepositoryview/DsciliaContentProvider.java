@@ -18,16 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 public class DsciliaContentProvider extends GenericContentProvider {
 
-	public DsciliaContentProvider(List<RepoElement> repo) {
+	public DsciliaContentProvider(List<DsciliaFile> repo) {
 		parent.put(repo, new Object[0]);
 		children.put(repo, new ArrayList<Object>());
 
-		for (RepoElement re : repo) {
+		for (DsciliaFile re : repo) {
 			parent.put(re, repo);
 			children.get(repo).add(re);
 			children.put(re, new ArrayList<Object>());

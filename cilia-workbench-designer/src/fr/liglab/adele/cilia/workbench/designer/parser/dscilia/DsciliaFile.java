@@ -12,37 +12,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
+package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import java.util.ArrayList;
 
 import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Dscilia;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
- * RepoElement.
+ * Represents a Dscilia file, from a "physical" point of view. This file, which
+ * must exists on the file system, can be well formed or not.
+ * If it is "well formed", the dscilia field is not null, and represents a model of the file.
  */
-public class RepoElement {
+public class DsciliaFile {
 
-	/** The dscilia. */
-	Dscilia dscilia;
+	/** Dscilia model. Can be null, if the file is not well formed.*/
+	private Dscilia dscilia;
 
-	/** The path on the file system. */
-	String path;
+	/** Path on the file system. */
+	private String path;
 
 	/**
-	 * Instantiates a new repo element.
+	 * Instantiates a new DsciliaFile
 	 * 
 	 * @param path
-	 *            the path
+	 *            the path on the file system.
 	 * @param dscilia
 	 *            the dscilia
 	 */
-	public RepoElement(String path, Dscilia dscilia) {
+	public DsciliaFile(String path) {
 		this.path = path;
-		this.dscilia = dscilia;
+		
+		try {
+			dscilia = new Dscilia(path);
+		} catch (Exception e) {
+			e.printStackTrace();
+			dscilia = null;
+		}
 	}
 
 	/**
@@ -70,18 +77,16 @@ public class RepoElement {
 	 *            the new instance
 	 * @return the changeset[]
 	 */
-	public Changeset[] merge(RepoElement newInstance) {
-		
+	public Changeset[] merge(DsciliaFile newInstance) {
+
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-		
+
 		if (dscilia == null && newInstance.getDscilia() == null) {
 			// do nothing
-		}
-		else if (dscilia != null && newInstance.getDscilia() != null) {
+		} else if (dscilia != null && newInstance.getDscilia() != null) {
 			for (Changeset c : dscilia.merge(newInstance.getDscilia()))
 				retval.add(c);
-		}
-		else {
+		} else {
 			retval.add(new Changeset(Operation.UPDATE, this));
 
 			// DScilia becomes invalid

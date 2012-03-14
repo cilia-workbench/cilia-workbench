@@ -17,9 +17,9 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 
 public class Binding {
 

@@ -21,8 +21,8 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 /**
  * CreateChainHandler.
@@ -37,11 +37,11 @@ public class CreateChainHandler extends CommonHandler {
 
 		// Gets the dscilia file first
 		Object object = getFirstSelectedElementInRepositoryView(event);
-		if (!(object instanceof RepoElement)) {
+		if (!(object instanceof DsciliaFile)) {
 			MessageDialog.openError(getShell(event), "Error", "Please select a dscilia file first.");
 			return null;
 		}
-		final RepoElement repo = (RepoElement) object;
+		final DsciliaFile repo = (DsciliaFile) object;
 		if (repo.getDscilia() == null) {
 			MessageDialog.openError(getShell(event), "Error", "Dscilia file must be in a valid state. Please check xml.");
 			return null;

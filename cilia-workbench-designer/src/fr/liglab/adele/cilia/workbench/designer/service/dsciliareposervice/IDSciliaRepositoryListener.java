@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+
 /**
  * The listener interface for receiving IDSciliaRepository events.
  * The class that is interested in processing a IDSciliaRepository

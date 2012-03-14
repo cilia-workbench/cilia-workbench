@@ -15,17 +15,17 @@
 package fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.LabelProvider;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 public class DsciliaLabelProvider extends LabelProvider {
 
 	protected String getImagePath(Object obj) {
 		String imageName;
 
-		if (obj instanceof RepoElement) {
-			RepoElement re = (RepoElement) obj;
+		if (obj instanceof DsciliaFile) {
+			DsciliaFile re = (DsciliaFile) obj;
 			if (re.getDscilia() != null)
 				imageName = "icons/16/file.png";
 			else

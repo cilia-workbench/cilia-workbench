@@ -34,12 +34,12 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDSciliaRepositoryListener;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.RepoElement;
 
 /**
  * DsciliaRepositoryView.
@@ -50,7 +50,7 @@ public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRep
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview";
 
 	/** The view internal model. */
-	private List<RepoElement> model = new ArrayList<RepoElement>();
+	private List<DsciliaFile> model = new ArrayList<DsciliaFile>();
 
 	public DsciliaRepositoryView() {
 	}
@@ -111,12 +111,12 @@ public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRep
 			Object object = change.getObject();
 			Operation operation = change.getOperation();
 			if (operation != Operation.UPDATE) {
-				if (object instanceof RepoElement || object instanceof Chain) {
+				if (object instanceof DsciliaFile || object instanceof Chain) {
 					refresh();
 					return;
 				}
 			} else {
-				if (object instanceof RepoElement) {
+				if (object instanceof DsciliaFile) {
 					refresh();
 					return;
 				}
@@ -154,8 +154,8 @@ public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRep
 	private void openEditor(DoubleClickEvent event) {
 		Object element = getFirstSelectedElement();
 
-		if (element != null && element instanceof RepoElement) {
-			RepoElement repoElement = (RepoElement) element;
+		if (element != null && element instanceof DsciliaFile) {
+			DsciliaFile repoElement = (DsciliaFile) element;
 			if (repoElement.getDscilia() != null) {
 				IFileStore fileStore;
 				try {

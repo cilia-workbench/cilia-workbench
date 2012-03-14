@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+
 
 public class MediatorComponent {
 

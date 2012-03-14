@@ -30,19 +30,20 @@ import com.google.common.base.Preconditions;
 
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Dscilia;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
  * A central place for managing the DScilia repository. The repository can be
  * asked to refresh the model. The repository can be asked to send model update
  * notifications.
  */
-public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDSciliaRepositoryListener> {
+public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, IDSciliaRepositoryListener> {
 
 	/** Singleton instance */
 	private static DsciliaRepoService INSTANCE;
@@ -81,16 +82,10 @@ public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDScili
 	public void updateModel() {
 
 		File[] list = getFiles();
-		List<RepoElement> elements = new ArrayList<RepoElement>();
+		List<DsciliaFile> elements = new ArrayList<DsciliaFile>();
 		for (File jar : list) {
 			String path = jar.getPath();
-			try {
-				Dscilia dscilia = new Dscilia(path);
-				elements.add(new RepoElement(path, dscilia));
-			} catch (Exception e) {
-				e.printStackTrace();
-				elements.add(new RepoElement(path, null));
-			}
+			elements.add(new DsciliaFile(path));
 		}
 
 		// Updates existing model with computed model
@@ -123,14 +118,14 @@ public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDScili
 	 *            a new model
 	 * @return a list of changesets, which can be empty.
 	 */
-	private Changeset[] merge(List<RepoElement> repoElements) {
+	private Changeset[] merge(List<DsciliaFile> repoElements) {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
-		for (Iterator<RepoElement> itr = model.iterator(); itr.hasNext();) {
-			RepoElement old = itr.next();
+		for (Iterator<DsciliaFile> itr = model.iterator(); itr.hasNext();) {
+			DsciliaFile old = itr.next();
 			String id = old.getFilePath();
-			RepoElement updated = PullElementUtil.pullRepoElement(repoElements, id);
+			DsciliaFile updated = PullElementUtil.pullRepoElement(repoElements, id);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
@@ -140,7 +135,7 @@ public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDScili
 			}
 		}
 
-		for (RepoElement r : repoElements) {
+		for (DsciliaFile r : repoElements) {
 			model.add(r);
 			retval.add(new Changeset(Operation.ADD, r));
 		}
@@ -225,7 +220,7 @@ public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDScili
 	 * 
 	 * @param element
 	 */
-	public boolean deleteRepoElement(RepoElement element) {
+	public boolean deleteRepoElement(DsciliaFile element) {
 		File file = new File(element.getFilePath());
 		boolean retval = file.delete();
 		updateModel();
@@ -247,7 +242,7 @@ public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDScili
 	}
 
 	private Chain findChain(String chainName) {
-		for (RepoElement re : model) {
+		for (DsciliaFile re : model) {
 			if (re.getDscilia() != null) {
 				for (Chain chain : re.getDscilia().getChains()) {
 					if (chain.getId().equalsIgnoreCase(chainName))
@@ -276,7 +271,7 @@ public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDScili
 	 * @param chainName
 	 *            the chain name
 	 */
-	public void createChain(RepoElement repo, String chainName) {
+	public void createChain(DsciliaFile repo, String chainName) {
 		if (repo.getDscilia() == null)
 			return;
 		if (isNewChainNameAllowed(chainName) != null)
@@ -290,7 +285,7 @@ public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDScili
 	}
 
 	public void deleteChain(Chain chain) {
-		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
+		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
 		try {
@@ -304,11 +299,11 @@ public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDScili
 		return contentProvider;
 	}
 
-	public RepoElement getRepoElement(Object object) {
+	public DsciliaFile getRepoElement(Object object) {
 		Preconditions.checkNotNull(object);
 
-		if (object instanceof RepoElement)
-			return (RepoElement) object;
+		if (object instanceof DsciliaFile)
+			return (DsciliaFile) object;
 		Object parent = getContentProvider().getParent(object);
 		if (parent != null)
 			return getRepoElement(parent);
@@ -317,14 +312,14 @@ public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDScili
 	}
 
 	public void createMediatorInstance(Chain chain, String id, String type) throws MetadataException {
-		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
+		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
 		repo.getDscilia().createMediatorInstance(chain, id, type);
 	}
 
 	public void createAdapterInstance(Chain chain, String id, String type) throws MetadataException {
-		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
+		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
 		repo.getDscilia().createAdapterInstance(chain, id, type);
@@ -332,7 +327,7 @@ public class DsciliaRepoService extends AbstractRepoService<RepoElement, IDScili
 
 	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
 			throws MetadataException {
-		RepoElement repo = (RepoElement) contentProvider.getParent(chain);
+		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
 		repo.getDscilia().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
