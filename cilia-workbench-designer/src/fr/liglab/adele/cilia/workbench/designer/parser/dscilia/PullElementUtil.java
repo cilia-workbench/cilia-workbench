@@ -17,6 +17,9 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
+
 public class PullElementUtil {
 	
 	public static DsciliaFile pullRepoElement(List<DsciliaFile> newInstance, String id) {
@@ -74,3 +77,7 @@ public class PullElementUtil {
 		return null;
 	}
 }
+
+
+
+

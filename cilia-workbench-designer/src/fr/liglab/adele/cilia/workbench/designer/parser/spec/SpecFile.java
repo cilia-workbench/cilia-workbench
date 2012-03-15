@@ -14,7 +14,13 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
+import java.util.ArrayList;
+
 import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 public class SpecFile {
 
@@ -70,4 +76,59 @@ public class SpecFile {
 	public String toString() {
 		return StringUtil.getFileName(path);
 	}
+
+	public Changeset[] merge(SpecFile newInstance) {
+	
+		
+		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+
+		if (model == null && newInstance.getModel() == null) {
+			// do nothing
+		} else if (model != null && newInstance.getModel() != null) {
+			for (Changeset c : model.merge(newInstance.getModel()))
+				retval.add(c);
+		} else {
+			retval.add(new Changeset(Operation.UPDATE, this));
+
+			// becomes invalid
+			if (model != null) {
+				for (MediatorSpec ms : model.getMediatorSpecs())
+					retval.add(new Changeset(Operation.REMOVE, ms));
+			}
+
+			model = newInstance.getModel();
+
+			// becomes valid
+			if (model != null) {
+				for (MediatorSpec ms : model.getMediatorSpecs())
+					retval.add(new Changeset(Operation.ADD, ms));
+			}
+		}
+
+		// path update
+		for (Changeset c : retval)
+			c.pushPathElement(this);
+
+		return retval.toArray(new Changeset[0]);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

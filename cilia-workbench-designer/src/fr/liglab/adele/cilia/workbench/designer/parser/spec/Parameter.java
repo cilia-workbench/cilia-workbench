@@ -28,4 +28,8 @@ public class Parameter {
 		this.node = node;
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
 	}
+	
+	public String getName() {
+		return name;
+	}
 }

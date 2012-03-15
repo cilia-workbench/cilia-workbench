@@ -15,12 +15,15 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 public class ComponentPart {
 
@@ -35,4 +38,33 @@ public class ComponentPart {
 				parameters.add(new Parameter(param));
 		}
 	}
+	
+	public List<Parameter> getParameters() {
+		return parameters;
+	}
+	
+	
+	public Changeset[] merge(ComponentPart newInstance) {
+		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+		
+		// ports
+		for (Iterator<Parameter> itr = parameters.iterator(); itr.hasNext();) {
+			Parameter old = itr.next();
+			String name = old.getName();
+	
+			Parameter updated = PullElementUtil.pullParameter(newInstance, name);
+			if (updated == null) {
+				retval.add(new Changeset(Operation.UPDATE, this));
+				return retval.toArray(new Changeset[0]);
+			}
+		}
+		
+		if (!newInstance.getParameters().isEmpty()) {
+			retval.add(new Changeset(Operation.UPDATE, this));
+			return retval.toArray(new Changeset[0]);
+		}
+		
+		return retval.toArray(new Changeset[0]);
+	}
+	
 }

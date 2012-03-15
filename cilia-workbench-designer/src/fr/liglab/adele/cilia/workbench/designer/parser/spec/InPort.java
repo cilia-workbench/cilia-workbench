@@ -22,7 +22,6 @@ public class InPort extends Port {
 
 	
 	public InPort(Node node) throws MetadataException {
-		super(node);
+		super(node, "In");
 	}
-
 }

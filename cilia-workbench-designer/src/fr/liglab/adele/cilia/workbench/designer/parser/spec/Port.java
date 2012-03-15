@@ -22,10 +22,20 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 public abstract class Port {
 
 	private String name;
+	private final String type;
 	private Node node;
 
-	public Port(Node node) throws MetadataException {
+	public Port(Node node, String type) throws MetadataException {
 		this.node = node;
+		this.type = type;
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getType() {
+		return type;
 	}
 }

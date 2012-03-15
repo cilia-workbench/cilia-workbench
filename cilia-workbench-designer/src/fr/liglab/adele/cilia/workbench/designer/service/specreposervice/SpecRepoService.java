@@ -16,11 +16,16 @@ package fr.liglab.adele.cilia.workbench.designer.service.specreposervice;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 public class SpecRepoService extends AbstractRepoService<SpecFile> {
 
@@ -53,23 +58,56 @@ public class SpecRepoService extends AbstractRepoService<SpecFile> {
 
 	public void updateModel() {
 		File[] list = getFiles();
-		List<SpecFile> files = new ArrayList<SpecFile>();
+		List<SpecFile> elements = new ArrayList<SpecFile>();
 		for (File file : list) {
-			try {
-				String path = file.getPath();
-				files.add(new SpecFile(path));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			String path = file.getPath();
+			elements.add(new SpecFile(path));
 		}
 
-		// Updates model with computed one
-		model = files;
+		// Updates existing model with computed model
+		Changeset[] changes = merge(elements);
 
 		// Update content provider
 		contentProvider = new SpecContentProvider(model);
 		
 		// Sends notifications
 		notifyListeners(null);
+	}
+	
+	/**
+	 * Merge a list of repo element into the current model. Only differences
+	 * between the argument and the model are merge back into the model.
+	 * 
+	 * @param repoElements
+	 *            a new model
+	 * @return a list of changesets, which can be empty.
+	 */
+	private Changeset[] merge(List<SpecFile> repoElements) {
+
+		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+
+		for (Iterator<SpecFile> itr = model.iterator(); itr.hasNext();) {
+			SpecFile old = itr.next();
+			String id = old.getFilePath();
+			SpecFile updated = PullElementUtil.pullRepoElement(repoElements, id);
+			if (updated == null) {
+				itr.remove();
+				retval.add(new Changeset(Operation.REMOVE, old));
+			} else {
+				for (Changeset c : old.merge(updated))
+					retval.add(c);
+			}
+		}
+
+		for (SpecFile r : repoElements) {
+			model.add(r);
+			retval.add(new Changeset(Operation.ADD, r));
+		}
+
+		// path update
+		for (Changeset c : retval)
+			c.pushPathElement(this);
+
+		return retval.toArray(new Changeset[0]);
 	}
 }

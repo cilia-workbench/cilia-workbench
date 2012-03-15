@@ -15,15 +15,16 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 public class MediatorSpec {
 
@@ -51,7 +52,7 @@ public class MediatorSpec {
 			for (Node op : ops)
 				ports.add(new OutPort(op));
 		}
-		
+
 		Node rootProperties = XMLReflectionUtil.findChild(node, "properties");
 		if (rootProperties != null) {
 			Node[] props = XMLReflectionUtil.findChildren(rootProperties, "property");
@@ -63,35 +64,145 @@ public class MediatorSpec {
 		if (rootProcessor != null) {
 			processor = new Processor(rootProcessor);
 		}
-		
+
 		Node rootScheduler = XMLReflectionUtil.findChild(node, "scheduler");
 		if (rootScheduler != null) {
 			scheduler = new Scheduler(rootScheduler);
 		}
-		
+
 		Node rootDispatcher = XMLReflectionUtil.findChild(node, "dispatcher");
 		if (rootDispatcher != null) {
 			dispatcher = new Dispatcher(rootDispatcher);
 		}
 	}
-	
+
+	public String getId() {
+		return id;
+	}
+
+	public String getNamespace() {
+		return namespace;
+	}
+
 	public Processor getProcessor() {
 		return processor;
 	}
-	
+
 	public Scheduler getScheduler() {
 		return scheduler;
 	}
-	
+
 	public Dispatcher getDispatcher() {
 		return dispatcher;
 	}
-	
+
 	public List<Property> getProperties() {
 		return properties;
 	}
-	
+
 	public List<Port> getPorts() {
 		return ports;
 	}
+
+	public Changeset[] merge(MediatorSpec newInstance) {
+		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+
+		// ports
+		for (Iterator<Port> itr = ports.iterator(); itr.hasNext();) {
+			Port old = itr.next();
+			String name = old.getName();
+			String type = old.getType();
+
+			Port updated = PullElementUtil.pullPort(newInstance, name, type);
+			if (updated == null) {
+				itr.remove();
+				retval.add(new Changeset(Operation.REMOVE, old));
+			}
+		}
+		for (Port port : newInstance.getPorts()) {
+			ports.add(port);
+			retval.add(new Changeset(Operation.ADD, port));
+		}
+
+		// properties
+		for (Iterator<Property> itr = properties.iterator(); itr.hasNext();) {
+			Property old = itr.next();
+			String key = old.getKey();
+			
+			Property updated = PullElementUtil.pullProperty(newInstance, key);
+			if (updated == null) {
+				itr.remove();
+				retval.add(new Changeset(Operation.REMOVE, old));
+			}
+			else {
+				for (Changeset c : old.merge(updated))
+					retval.add(c);
+			}
+		}
+		for (Property property : newInstance.getProperties()) {
+			properties.add(property);
+			retval.add(new Changeset(Operation.ADD, property));
+		}
+		
+		// processor
+		if (processor == null && newInstance.getProcessor() == null) {
+			// nothing to do
+		} else if (processor != null && newInstance.getProcessor() == null) {
+			retval.add(new Changeset(Operation.REMOVE, processor));
+			processor = null;
+		} else if (processor == null && newInstance.getProcessor() != null) {
+			processor = newInstance.getProcessor();
+			retval.add(new Changeset(Operation.ADD, processor));
+		} else {
+			for (Changeset c : processor.merge(newInstance.getProcessor()))
+				retval.add(c);
+		}
+		
+		// scheduler
+		if (scheduler == null && newInstance.getScheduler() == null) {
+			// nothing to do
+		} else if (scheduler != null && newInstance.getScheduler() == null) {
+			retval.add(new Changeset(Operation.REMOVE, scheduler));
+			scheduler = null;
+		} else if (scheduler == null && newInstance.getScheduler() != null) {
+			scheduler = newInstance.getScheduler();
+			retval.add(new Changeset(Operation.ADD, scheduler));
+		} else {
+			for (Changeset c : scheduler.merge(newInstance.getScheduler()))
+				retval.add(c);
+		}
+		
+		// dispatcher
+		if (dispatcher == null && newInstance.getDispatcher() == null) {
+			// nothing to do
+		} else if (dispatcher != null && newInstance.getDispatcher() == null) {
+			retval.add(new Changeset(Operation.REMOVE, dispatcher));
+			dispatcher = null;
+		} else if (dispatcher == null && newInstance.getDispatcher() != null) {
+			dispatcher = newInstance.getDispatcher();
+			retval.add(new Changeset(Operation.ADD, dispatcher));
+		} else {
+			for (Changeset c : dispatcher.merge(newInstance.getDispatcher()))
+				retval.add(c);
+		}
+		
+		// path update
+		for (Changeset c : retval)
+			c.pushPathElement(this);
+
+		return retval.toArray(new Changeset[0]);
+
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+

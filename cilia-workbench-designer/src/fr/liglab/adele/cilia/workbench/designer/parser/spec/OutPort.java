@@ -21,7 +21,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataExceptio
 public class OutPort extends Port {
 
 	public OutPort(Node node) throws MetadataException {
-		super(node);
+		super(node, "Out");
 	}
 
 }
