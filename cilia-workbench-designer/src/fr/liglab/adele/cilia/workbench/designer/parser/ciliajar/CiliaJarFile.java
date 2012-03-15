@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -29,12 +29,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class Bundle {
+public class CiliaJarFile {
 
 	private String filePath;
-	private IPojo metadata;
+	private CiliaJarModel model;
 
-	public Bundle(String filePath) throws Exception {
+	public CiliaJarFile(String filePath) throws Exception {
 		this.filePath = filePath;
 
 		InputStream is = inputStreamFromFile(filePath);
@@ -60,7 +60,7 @@ public class Bundle {
 
 		NodeList nodes = document.getChildNodes();
 		if (nodes != null && nodes.getLength() == 1 && nodes.item(0).getNodeName().equalsIgnoreCase("ipojo"))
-			metadata = new IPojo(nodes.item(0));
+			model = new CiliaJarModel(nodes.item(0));
 		else
 			throw new MetadataException("Can't find ipojo root in " + filePath);
 	}
@@ -102,7 +102,7 @@ public class Bundle {
 			return filePath.substring(index + 1);
 	}
 
-	public IPojo getMetadata() {
-		return metadata;
+	public CiliaJarModel getModel() {
+		return model;
 	}
 }

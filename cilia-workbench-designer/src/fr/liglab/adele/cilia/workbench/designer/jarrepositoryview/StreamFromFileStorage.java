@@ -21,8 +21,8 @@ import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 
 /**
  * The Class StreamFromFileStorage.
@@ -46,7 +46,7 @@ class StreamFromFileStorage implements IStorage {
 	 */
 	public InputStream getContents() throws CoreException {
 		try {
-			return Bundle.inputStreamFromFile(filePath);
+			return CiliaJarFile.inputStreamFromFile(filePath);
 		} catch (MetadataException e) {
 			e.printStackTrace();
 			return null;

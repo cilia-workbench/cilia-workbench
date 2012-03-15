@@ -20,8 +20,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.CommonHandler;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
 public class CreateBindingHandler extends CommonHandler {

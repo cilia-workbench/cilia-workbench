@@ -19,16 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.JarContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 
 /**
  * JarRepoService.
  */
-public class JarRepoService extends AbstractRepoService<Bundle> {
+public class JarRepoService extends AbstractRepoService<CiliaJarFile> {
 
 	/** Singleton instance */
 	private static JarRepoService INSTANCE;
@@ -59,11 +59,11 @@ public class JarRepoService extends AbstractRepoService<Bundle> {
 
 	public void updateModel() {
 		File[] list = getFiles();
-		List<Bundle> bundles = new ArrayList<Bundle>();
+		List<CiliaJarFile> bundles = new ArrayList<CiliaJarFile>();
 		for (File jar : list) {
 			try {
 				String path = jar.getPath();
-				bundles.add(new Bundle(path));
+				bundles.add(new CiliaJarFile(path));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -81,8 +81,8 @@ public class JarRepoService extends AbstractRepoService<Bundle> {
 
 	public String[] getMediatorsId() {
 		List<String> retval = new ArrayList<String>();
-		for (Bundle bundle : model)
-			for (MediatorComponent mc : bundle.getMetadata().getMediatorComponents())
+		for (CiliaJarFile bundle : model)
+			for (MediatorComponent mc : bundle.getModel().getMediatorComponents())
 				retval.add(mc.getName());
 
 		return retval.toArray(new String[0]);
@@ -90,24 +90,24 @@ public class JarRepoService extends AbstractRepoService<Bundle> {
 
 	public String[] getAdaptersId() {
 		List<String> retval = new ArrayList<String>();
-		for (Bundle bundle : model)
-			for (Adapter a : bundle.getMetadata().getAdapters())
+		for (CiliaJarFile bundle : model)
+			for (Adapter a : bundle.getModel().getAdapters())
 				retval.add(a.getName());
 
 		return retval.toArray(new String[0]);
 	}
 
 	public Adapter getAdapter(String name) {
-		for (Bundle bundle : model)
-			for (Adapter a : bundle.getMetadata().getAdapters())
+		for (CiliaJarFile bundle : model)
+			for (Adapter a : bundle.getModel().getAdapters())
 				if (a.getName().equalsIgnoreCase(name))
 					return a;
 		return null;
 	}
 
 	public MediatorComponent getMediator(String name) {
-		for (Bundle bundle : model)
-			for (MediatorComponent m : bundle.getMetadata().getMediatorComponents())
+		for (CiliaJarFile bundle : model)
+			for (MediatorComponent m : bundle.getModel().getMediatorComponents())
 				if (m.getName().equalsIgnoreCase(name))
 					return m;
 		return null;

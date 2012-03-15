@@ -14,16 +14,16 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Collector;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Dispatcher;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.InPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.OutPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Scheduler;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Sender;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.InPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.OutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.LabelProvider;
 
 /**
@@ -39,7 +39,7 @@ public class MetadataLabelProvider extends LabelProvider {
 				imageName = "icons/16/adapterIn.png";
 			else
 				imageName = "icons/16/adapterOut.png";
-		} else if (obj instanceof Bundle)
+		} else if (obj instanceof CiliaJarFile)
 			imageName = "icons/16/repo.png";
 		else if (obj instanceof Collector)
 			imageName = "icons/16/collector.png";

@@ -20,9 +20,9 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 
 public class SpecModel {
 

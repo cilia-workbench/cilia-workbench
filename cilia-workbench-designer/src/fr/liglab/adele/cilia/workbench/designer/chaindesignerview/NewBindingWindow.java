@@ -31,15 +31,15 @@ import org.eclipse.swt.widgets.Shell;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.InPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.OutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Port;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.ComponentInstance;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.InPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.OutPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Port;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 public class NewBindingWindow extends Dialog {

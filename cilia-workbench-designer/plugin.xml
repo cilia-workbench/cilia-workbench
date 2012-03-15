@@ -344,29 +344,29 @@
       </handler>
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">
-      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.metadata.Collector" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.metadata.Dispatcher" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.metadata.Processor" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.metadata.Scheduler" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
       
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.metadata.Sender" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>      
    </extension>

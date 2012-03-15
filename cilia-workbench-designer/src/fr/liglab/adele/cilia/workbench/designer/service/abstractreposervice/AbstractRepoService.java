@@ -26,22 +26,45 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
 
-
+/**
+ * Represents a repository, from a model point of view.
+ * 
+ * 
+ * @param <ModelType>
+ *            the elements hosted by the repository.
+ */
 public abstract class AbstractRepoService<ModelType> {
 
-	private final String PREFERENCE_PATH_KEY;
-
+	/** The repository content. */
 	protected List<ModelType> model;
-	
-	protected List<IAbstractRepoServiceListener> listeners;
-	
-	/** Content provider, for computing parents */
+
+	/** Listeners used to notify repository updates. */
+	private List<IAbstractRepoServiceListener> listeners;
+
+	/**
+	 * A content provider. Usualy, it's useful for displaying the repository in
+	 * a view. Here, it's used for navigating the repository.
+	 */
 	protected GenericContentProvider contentProvider;
+
+	/**
+	 * The preference key, used to find the physical repository on the hard
+	 * disk.
+	 */
+	private final String PREFERENCE_PATH_KEY;
 	
-	/** Files extension. */
+	/** Extension used by files hosted in the repository. */
 	private final String ext;
 
-	public AbstractRepoService(String preferenceKey, String ext) {
+	/**
+	 * Instantiates a new repository.
+	 * 
+	 * @param preferenceKey
+	 *            the preference key
+	 * @param ext
+	 *            the extension
+	 */
+	protected AbstractRepoService(String preferenceKey, String ext) {
 		PREFERENCE_PATH_KEY = preferenceKey;
 		this.ext = ext;
 
@@ -53,13 +76,18 @@ public abstract class AbstractRepoService<ModelType> {
 				}
 			}
 		});
-		
+
 		model = new ArrayList<ModelType>();
 		listeners = new ArrayList<IAbstractRepoServiceListener>();
 
 		updateModel();
 	}
 
+	/**
+	 * Callback method used as soon as the model should be updated.
+	 */
+	public abstract void updateModel();
+	
 	/**
 	 * Gets the repository path on the file system.
 	 * 
@@ -71,8 +99,9 @@ public abstract class AbstractRepoService<ModelType> {
 	}
 
 	/**
-	 * Gets files list in the physical repository
-	 * @return
+	 * Gets files list in the physical repository.
+	 * 
+	 * @return the files
 	 */
 	protected File[] getFiles() {
 		File dir = new File(getRepositoryPath());
@@ -82,15 +111,13 @@ public abstract class AbstractRepoService<ModelType> {
 				return name.toLowerCase().endsWith(ext);
 			}
 		});
-		
+
 		if (list == null)
 			return new File[0];
 		else
 			return list;
 	}
 
-	public abstract void updateModel();
-	
 	/**
 	 * Gets the model.
 	 * 
@@ -99,13 +126,18 @@ public abstract class AbstractRepoService<ModelType> {
 	public List<ModelType> getModel() {
 		return model;
 	}
-	
+
+	/**
+	 * Gets the content provider.
+	 * 
+	 * @return the content provider
+	 */
 	public GenericContentProvider getContentProvider() {
 		return contentProvider;
 	}
-	
+
 	/**
-	 * Register listener.
+	 * Register a new listener.
 	 * 
 	 * @param listener
 	 *            the listener
@@ -128,7 +160,7 @@ public abstract class AbstractRepoService<ModelType> {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Notifies listeners with given change set table.
 	 * 

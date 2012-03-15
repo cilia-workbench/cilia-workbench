@@ -16,16 +16,16 @@ package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
 
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Collector;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Dispatcher;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.IPojo;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Port;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Scheduler;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Sender;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Port;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
 
 /**
@@ -37,14 +37,14 @@ public class JarContentProvider extends GenericContentProvider {
 	/**
 	 * Initialize maps from model.
 	 */
-	public JarContentProvider(List<Bundle> model) {
+	public JarContentProvider(List<CiliaJarFile> model) {
 		
 		addRoot(model);
 		
-		for (Bundle bundle : model) {
+		for (CiliaJarFile bundle : model) {
 			
 			addChild(model, bundle);
-			IPojo ipojo = bundle.getMetadata();
+			CiliaJarModel ipojo = bundle.getModel();
 			
 			for (MediatorComponent mc : ipojo.getMediatorComponents()) {
 				addChild(bundle, mc);

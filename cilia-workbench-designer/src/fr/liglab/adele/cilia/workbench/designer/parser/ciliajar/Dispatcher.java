@@ -12,27 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 
 
-public abstract class Port {
+public class Dispatcher {
 
 	private String name;
+	private String classname;
+	private String namespace;
 	
-	public Port(Node node) throws MetadataException {
+	public Dispatcher(Node node) throws MetadataException {
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
+		XMLReflectionUtil.setRequiredAttribute(node, "classname", this, "classname");
+		XMLReflectionUtil.setOptionalAttribute(node, "namespace", this, "namespace");
 	}
 
 	@Override
 	public String toString() {
-		return name;
-	}
-	
-	public String getName() {
 		return name;
 	}
 }

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
+package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
-public class IPojo {
+public class CiliaJarModel {
 
 	private List<MediatorComponent> mediatorComponents = new ArrayList<MediatorComponent>();
 	
@@ -32,7 +32,7 @@ public class IPojo {
 	private List<Sender> senders = new ArrayList<Sender>();
 	private List<Adapter> adapters = new ArrayList<Adapter>();
 
-	public IPojo(Node node) throws Exception {
+	public CiliaJarModel(Node node) throws Exception {
 		
 		NodeList childs = node.getChildNodes();
 		if (childs != null) {

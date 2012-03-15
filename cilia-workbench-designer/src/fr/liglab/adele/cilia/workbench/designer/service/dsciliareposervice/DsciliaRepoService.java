@@ -28,10 +28,10 @@ import org.eclipse.jface.dialogs.IInputValidator;
 import com.google.common.base.Preconditions;
 
 import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.PullElementUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;

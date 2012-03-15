@@ -12,27 +12,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.metadata;
-
+package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
-
-
-public class Scheduler {
-
-	private String name;
-	private String classname;
-	private String namespace;
+public class OutPort extends Port {
 	
-	public Scheduler(Node node) throws MetadataException {
-		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
-		XMLReflectionUtil.setRequiredAttribute(node, "classname", this, "classname");
-		XMLReflectionUtil.setOptionalAttribute(node, "namespace", this, "namespace");
-	}
-	
-	@Override
-	public String toString() {
-		return name;
+	public OutPort(Node node) throws MetadataException {
+		super(node);
 	}
 }

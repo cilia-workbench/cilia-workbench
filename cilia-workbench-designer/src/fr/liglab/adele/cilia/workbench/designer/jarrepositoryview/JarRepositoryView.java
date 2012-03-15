@@ -34,7 +34,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
-import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -51,7 +51,7 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.jarrepositoryview";
 
 	/** The model. */
-	private List<Bundle> model = new ArrayList<Bundle>();
+	private List<CiliaJarFile> model = new ArrayList<CiliaJarFile>();
 
 	/**
 	 * Instantiates a new repository view.
@@ -101,8 +101,8 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 	private void openMetadataInEditor() {
 
 		Object element = getFirstSelectedElement();
-		if (element != null && element instanceof Bundle) {
-			Bundle bundle = (Bundle) element;
+		if (element != null && element instanceof CiliaJarFile) {
+			CiliaJarFile bundle = (CiliaJarFile) element;
 			String bundleName = bundle.getBundleName();
 
 			IWorkbenchPage page = getViewSite().getPage();
