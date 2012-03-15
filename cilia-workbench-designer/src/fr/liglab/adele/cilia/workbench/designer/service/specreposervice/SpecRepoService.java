@@ -71,7 +71,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile> {
 		contentProvider = new SpecContentProvider(model);
 		
 		// Sends notifications
-		notifyListeners(null);
+		notifyListeners(changes);
 	}
 	
 	/**
