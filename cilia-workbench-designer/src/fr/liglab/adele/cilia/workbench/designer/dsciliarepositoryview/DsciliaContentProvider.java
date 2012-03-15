@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
@@ -24,19 +23,15 @@ import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentPro
 public class DsciliaContentProvider extends GenericContentProvider {
 
 	public DsciliaContentProvider(List<DsciliaFile> repo) {
-		parent.put(repo, new Object[0]);
-		children.put(repo, new ArrayList<Object>());
-
+		
+		addRoot(repo);
+		
 		for (DsciliaFile re : repo) {
-			parent.put(re, repo);
-			children.get(repo).add(re);
-			children.put(re, new ArrayList<Object>());
-
+			addChild(repo, re);
+			
 			if (re.getModel() != null) {
 				for (Chain c : re.getModel().getChains()) {
-					parent.put(c, re);
-					children.get(re).add(c);
-					children.put(c, new ArrayList<Object>());
+					addChild(re, c);
 				}
 			}
 		}

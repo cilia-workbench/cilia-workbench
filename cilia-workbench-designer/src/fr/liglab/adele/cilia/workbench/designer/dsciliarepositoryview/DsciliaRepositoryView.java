@@ -106,7 +106,7 @@ public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRep
 	 *            the changes
 	 */
 	@Override
-	public void repositoryChange(Changeset[] changes) {
+	public void repositoryContentUpdated(Changeset[] changes) {
 		for (Changeset change : changes) {
 			Object object = change.getObject();
 			Operation operation = change.getOperation();

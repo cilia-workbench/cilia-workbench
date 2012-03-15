@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IAbstractRepoServiceListener;
+
 
 /**
  * The listener interface for receiving IJarRepository events.
@@ -26,11 +28,5 @@ package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
  *
  * @see IJarRepositoryEvent
  */
-public interface IJarRepositoryListener {
-
-
-	/**
-	 * Invoked when repository content update occurs.
-	 */
-	public void repositoryContentUpdated();
+public interface IJarRepositoryListener extends IAbstractRepoServiceListener {
 }

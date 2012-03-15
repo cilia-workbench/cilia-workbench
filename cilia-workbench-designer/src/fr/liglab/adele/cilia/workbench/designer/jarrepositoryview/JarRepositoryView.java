@@ -37,9 +37,10 @@ import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IJarRepositoryListener;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
 /**
  * The Class RepositoryView.
@@ -88,7 +89,7 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 	public void refresh() {
 		super.refresh();
 		model = JarRepoService.getInstance().getModel();
-		viewer.setContentProvider(new MetadataContentProvider(model));
+		viewer.setContentProvider(JarRepoService.getInstance().getContentProvider());
 		viewer.setInput(model);
 		viewer.refresh();
 	}
@@ -151,7 +152,7 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 	}
 
 	@Override
-	public void repositoryContentUpdated() {
+	public void repositoryContentUpdated(Changeset[] toto) {
 		refresh();
 	}
 }

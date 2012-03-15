@@ -12,9 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.specreposervice;
+package fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice;
 
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IAbstractRepoServiceListener;
-
-public interface ISpecRepositoryListener extends IAbstractRepoServiceListener {
+public interface IAbstractRepoServiceListener {
+	/**
+	 * Repository change.
+	 *
+	 * @param changes the changes
+	 */
+	public void repositoryContentUpdated(Changeset[] changes);
 }

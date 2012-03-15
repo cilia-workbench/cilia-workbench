@@ -15,6 +15,7 @@
 package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IAbstractRepoServiceListener;
 
 /**
  * The listener interface for receiving IDSciliaRepository events.
@@ -27,12 +28,5 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
  *
  * @see IDSciliaRepositoryEvent
  */
-public interface IDSciliaRepositoryListener {
-	
-	/**
-	 * Repository change.
-	 *
-	 * @param changes the changes
-	 */
-	public void repositoryChange(Changeset[] changes);
+public interface IDSciliaRepositoryListener extends IAbstractRepoServiceListener {
 }

@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.repositoryview;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +28,21 @@ import org.eclipse.jface.viewers.Viewer;
 public abstract class GenericContentProvider implements ITreeContentProvider {
 
 	/** Maps to get the children from the parent. */
-	protected Map<Object, List<Object>> children = new HashMap<Object, List<Object>>();
+	private Map<Object, List<Object>> children = new HashMap<Object, List<Object>>();
 	
 	/** Map to get the parent from a child. */
-	protected Map<Object, Object> parent = new HashMap<Object, Object>();
+	private Map<Object, Object> parent = new HashMap<Object, Object>();
 
+	protected void addChild(Object theParent, Object theChild) {
+		parent.put(theChild, theParent);
+		children.get(theParent).add(theChild);
+		children.put(theChild, new ArrayList<Object>());
+	}
+
+	protected void addRoot(Object root) {
+		parent.put(root, new Object[0]);
+		children.put(root, new ArrayList<Object>());
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)

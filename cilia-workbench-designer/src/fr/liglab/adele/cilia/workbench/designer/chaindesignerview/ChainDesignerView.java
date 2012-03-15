@@ -87,7 +87,7 @@ public class ChainDesignerView extends GraphView implements IDSciliaRepositoryLi
 	}
 
 	@Override
-	public void repositoryChange(Changeset[] changes) {
+	public void repositoryContentUpdated(Changeset[] changes) {
 		// if model = null, no need to check anything...
 		if (model != null) {
 			DsciliaRepoService srv = DsciliaRepoService.getInstance();

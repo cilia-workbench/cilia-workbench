@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.JarContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.Bundle;
 import fr.liglab.adele.cilia.workbench.designer.parser.metadata.MediatorComponent;
@@ -27,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Abst
 /**
  * JarRepoService.
  */
-public class JarRepoService extends AbstractRepoService<Bundle, IJarRepositoryListener> {
+public class JarRepoService extends AbstractRepoService<Bundle> {
 
 	/** Singleton instance */
 	private static JarRepoService INSTANCE;
@@ -71,20 +72,11 @@ public class JarRepoService extends AbstractRepoService<Bundle, IJarRepositoryLi
 		// Updates model with computed one
 		model = bundles;
 
+		// update content provider
+		contentProvider = new JarContentProvider(model);
+		
 		// Sends notifications
-		notifyListeners();
-	}
-
-	/**
-	 * Notifies listeners with given change set table.
-	 * 
-	 * @param changes
-	 *            the change set table.
-	 */
-	private void notifyListeners() {
-		for (IJarRepositoryListener listener : listeners) {
-			listener.repositoryContentUpdated();
-		}
+		notifyListeners(null);
 	}
 
 	public String[] getMediatorsId() {

@@ -24,16 +24,20 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
+import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
 
 
-public abstract class AbstractRepoService<ModelType, ListernerType> {
+public abstract class AbstractRepoService<ModelType> {
 
 	private final String PREFERENCE_PATH_KEY;
 
 	protected List<ModelType> model;
 	
-	protected List<ListernerType> listeners;
-		
+	protected List<IAbstractRepoServiceListener> listeners;
+	
+	/** Content provider, for computing parents */
+	protected GenericContentProvider contentProvider;
+	
 	/** Files extension. */
 	private final String ext;
 
@@ -51,7 +55,7 @@ public abstract class AbstractRepoService<ModelType, ListernerType> {
 		});
 		
 		model = new ArrayList<ModelType>();
-		listeners = new ArrayList<ListernerType>();
+		listeners = new ArrayList<IAbstractRepoServiceListener>();
 
 		updateModel();
 	}
@@ -96,13 +100,17 @@ public abstract class AbstractRepoService<ModelType, ListernerType> {
 		return model;
 	}
 	
+	public GenericContentProvider getContentProvider() {
+		return contentProvider;
+	}
+	
 	/**
 	 * Register listener.
 	 * 
 	 * @param listener
 	 *            the listener
 	 */
-	public void registerListener(ListernerType listener) {
+	public void registerListener(IAbstractRepoServiceListener listener) {
 		if (listener != null && !listeners.contains(listener))
 			listeners.add(listener);
 	}
@@ -114,10 +122,22 @@ public abstract class AbstractRepoService<ModelType, ListernerType> {
 	 *            the listener
 	 * @return true, if successful
 	 */
-	public boolean unregisterListener(ListernerType listener) {
+	public boolean unregisterListener(IAbstractRepoServiceListener listener) {
 		if (listener != null)
 			return listeners.remove(listener);
 		else
 			return false;
+	}
+	
+	/**
+	 * Notifies listeners with given change set table.
+	 * 
+	 * @param changes
+	 *            the change set table.
+	 */
+	protected void notifyListeners(Changeset[] changes) {
+		for (IAbstractRepoServiceListener listener : listeners) {
+			listener.repositoryContentUpdated(changes);
+		}
 	}
 }

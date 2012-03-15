@@ -22,7 +22,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 
-public class SpecRepoService extends AbstractRepoService<SpecFile, ISpecRepositoryListener> {
+public class SpecRepoService extends AbstractRepoService<SpecFile> {
 
 	/** Singleton instance */
 	private static SpecRepoService INSTANCE;
@@ -67,18 +67,6 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, ISpecReposito
 		model = files;
 
 		// Sends notifications
-		notifyListeners();
-	}
-
-	/**
-	 * Notifies listeners with given change set table.
-	 * 
-	 * @param changes
-	 *            the change set table.
-	 */
-	private void notifyListeners() {
-		for (ISpecRepositoryListener listener : listeners) {
-			listener.repositoryContentUpdated();
-		}
+		notifyListeners(null);
 	}
 }

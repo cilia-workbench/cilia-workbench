@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.IInputValidator;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 
 import com.google.common.base.Preconditions;
 
@@ -43,7 +42,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
  * asked to refresh the model. The repository can be asked to send model update
  * notifications.
  */
-public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, IDSciliaRepositoryListener> {
+public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 
 	/** Singleton instance */
 	private static DsciliaRepoService INSTANCE;
@@ -53,9 +52,6 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, IDScili
 
 	/** DScilia files extension. */
 	private final static String ext = ".dscilia";
-
-	/** Content provider, for computing parents */
-	private DsciliaContentProvider contentProvider;
 
 	/**
 	 * Gets the singleton instance.
@@ -96,18 +92,6 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, IDScili
 
 		// Sends notifications
 		notifyListeners(changes);
-	}
-
-	/**
-	 * Notifies listeners with given change set table.
-	 * 
-	 * @param changes
-	 *            the change set table.
-	 */
-	private void notifyListeners(Changeset[] changes) {
-		for (IDSciliaRepositoryListener listener : listeners) {
-			listener.repositoryChange(changes);
-		}
 	}
 
 	/**
@@ -293,10 +277,6 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, IDScili
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public ITreeContentProvider getContentProvider() {
-		return contentProvider;
 	}
 
 	public DsciliaFile getRepoElement(Object object) {
