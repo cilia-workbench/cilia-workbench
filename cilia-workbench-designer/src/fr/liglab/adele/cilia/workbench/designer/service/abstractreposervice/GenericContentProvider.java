@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.repositoryview;
+package fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,37 +23,63 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * Generic ContentProvider.
+ * Base abstract class for implementing content providers. A ContentProvider
+ * knows relationships between objects. It's useful for navigating an abstract
+ * tree, representing our objects.
+ * It's used for model navigation, and for tree rendering.
  */
 public abstract class GenericContentProvider implements ITreeContentProvider {
 
 	/** Maps to get the children from the parent. */
 	private Map<Object, List<Object>> children = new HashMap<Object, List<Object>>();
-	
+
 	/** Map to get the parent from a child. */
 	private Map<Object, Object> parent = new HashMap<Object, Object>();
 
-	protected void addChild(Object theParent, Object theChild) {
-		parent.put(theChild, theParent);
-		children.get(theParent).add(theChild);
-		children.put(theChild, new ArrayList<Object>());
-	}
-
+	/**
+	 * Adds the root.
+	 *
+	 * @param root the root
+	 */
 	protected void addRoot(Object root) {
 		parent.put(root, new Object[0]);
 		children.put(root, new ArrayList<Object>());
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
+	/**
+	 * Add a relationship in the content provider.
+	 * 
+	 * IMPORTANT : if one argument is null, this function does nothing.
+	 * 
+	 * @param theParent
+	 * @param theChild
+	 */
+	protected void addRelationship(Object theParent, Object theChild) {
+		if (theParent != null && theChild != null) {
+			parent.put(theChild, theParent);
+			children.get(theParent).add(theChild);
+			children.put(theChild, new ArrayList<Object>());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
+	 * )
 	 */
 	@Override
 	public Object getParent(Object element) {
 		return parent.get(element);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
+	 * Object)
 	 */
 	@Override
 	public Object[] getChildren(Object parentElement) {
@@ -62,32 +88,46 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 			return new Object[0];
 		return a.toArray();
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
+	 * Object)
 	 */
 	@Override
 	public boolean hasChildren(Object element) {
 		return (getChildren(element).length != 0);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.
+	 * Object)
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
 		return getChildren(inputElement);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 	 */
 	@Override
 	public void dispose() {
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
+	 * .viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {

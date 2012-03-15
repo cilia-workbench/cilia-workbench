@@ -66,6 +66,9 @@ public class SpecRepoService extends AbstractRepoService<SpecFile> {
 		// Updates model with computed one
 		model = files;
 
+		// Update content provider
+		contentProvider = new SpecContentProvider(model);
+		
 		// Sends notifications
 		notifyListeners(null);
 	}

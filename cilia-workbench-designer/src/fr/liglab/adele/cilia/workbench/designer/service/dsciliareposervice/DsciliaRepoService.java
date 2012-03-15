@@ -27,7 +27,6 @@ import org.eclipse.jface.dialogs.IInputValidator;
 
 import com.google.common.base.Preconditions;
 
-import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
@@ -87,7 +86,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 		// Updates existing model with computed model
 		Changeset[] changes = merge(elements);
 
-		// update content provider
+		// Update content provider
 		contentProvider = new DsciliaContentProvider(model);
 
 		// Sends notifications

@@ -26,9 +26,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 
 public class SpecModel {
 
-	String filePath;
+	private String filePath;
 	
-	List<MediatorSpec> mediatorSpecs = new ArrayList<MediatorSpec>();
+	private List<MediatorSpec> mediatorSpecs = new ArrayList<MediatorSpec>();
 	
 	public SpecModel(String filePath) throws MetadataException {
 		this.filePath = filePath;
@@ -38,6 +38,10 @@ public class SpecModel {
 
 		for (Node node : XMLReflectionUtil.findChildren(root, "mediator-specification"))
 			mediatorSpecs.add(new MediatorSpec(node));
+	}
+	
+	public List<MediatorSpec> getMediatorSpecs() {
+		return mediatorSpecs;
 	}
 	
 	private static Node getSpecNode(Document document) throws MetadataException {

@@ -72,6 +72,26 @@ public class MediatorSpec {
 		Node rootDispatcher = XMLReflectionUtil.findChild(node, "dispatcher");
 		if (rootDispatcher != null) {
 			dispatcher = new Dispatcher(rootDispatcher);
-		}	
+		}
+	}
+	
+	public Processor getProcessor() {
+		return processor;
+	}
+	
+	public Scheduler getScheduler() {
+		return scheduler;
+	}
+	
+	public Dispatcher getDispatcher() {
+		return dispatcher;
+	}
+	
+	public List<Property> getProperties() {
+		return properties;
+	}
+	
+	public List<Port> getPorts() {
+		return ports;
 	}
 }

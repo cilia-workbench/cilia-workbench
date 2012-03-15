@@ -12,26 +12,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview;
+package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
-import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
+/**
+ * Content provider used by the DSCilia repository.
+ */
 public class DsciliaContentProvider extends GenericContentProvider {
 
+	/**
+	 * Initialize maps from model.
+	 */
 	public DsciliaContentProvider(List<DsciliaFile> repo) {
 		
 		addRoot(repo);
 		
 		for (DsciliaFile re : repo) {
-			addChild(repo, re);
+			addRelationship(repo, re);
 			
 			if (re.getModel() != null) {
 				for (Chain c : re.getModel().getChains()) {
-					addChild(re, c);
+					addRelationship(re, c);
 				}
 			}
 		}

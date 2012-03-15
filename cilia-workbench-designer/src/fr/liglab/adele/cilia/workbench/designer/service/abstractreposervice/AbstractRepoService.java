@@ -24,7 +24,6 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
-import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
 
 /**
  * Represents a repository, from a model point of view.

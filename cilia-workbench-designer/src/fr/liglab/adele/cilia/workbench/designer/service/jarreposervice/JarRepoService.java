@@ -18,7 +18,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.JarContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
@@ -72,7 +71,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile> {
 		// Updates model with computed one
 		model = bundles;
 
-		// update content provider
+		// Update content provider
 		contentProvider = new JarContentProvider(model);
 		
 		// Sends notifications

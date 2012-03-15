@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.jarrepositoryview;
+package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import java.util.List;
 
@@ -26,14 +26,13 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Port;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
-import fr.liglab.adele.cilia.workbench.designer.repositoryview.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
- * MetadataContentProvider.
+ * Content provider used by the jar repository.
  */
 public class JarContentProvider extends GenericContentProvider {
 
-	
 	/**
 	 * Initialize maps from model.
 	 */
@@ -43,39 +42,33 @@ public class JarContentProvider extends GenericContentProvider {
 		
 		for (CiliaJarFile bundle : model) {
 			
-			addChild(model, bundle);
+			addRelationship(model, bundle);
 			CiliaJarModel ipojo = bundle.getModel();
 			
 			for (MediatorComponent mc : ipojo.getMediatorComponents()) {
-				addChild(bundle, mc);
+				addRelationship(bundle, mc);
 				for (Port p : mc.getPorts()) {
-					addChild(mc, p);
+					addRelationship(mc, p);
 				}
 			}
 			
-			for (Processor p : ipojo.getProcessors()) {
-				addChild(bundle, p);
-			}
+			for (Processor p : ipojo.getProcessors())
+				addRelationship(bundle, p);
 			
-			for (Scheduler s : ipojo.getSchedulers()) {
-				addChild(bundle, s);
-			}
+			for (Scheduler s : ipojo.getSchedulers())
+				addRelationship(bundle, s);
 			
-			for (Dispatcher d : ipojo.getDispatchers()) {
-				addChild(bundle, d);
-			}
+			for (Dispatcher d : ipojo.getDispatchers())
+				addRelationship(bundle, d);
 			
-			for (Collector c : ipojo.getCollectors()) {
-				addChild(bundle, c);
-			}
+			for (Collector c : ipojo.getCollectors())
+				addRelationship(bundle, c);
 			
-			for (Sender s : ipojo.getSenders()) {
-				addChild(bundle, s);
-			}
+			for (Sender s : ipojo.getSenders())
+				addRelationship(bundle, s);
 			
-			for (Adapter a : ipojo.getAdapters()) {
-				addChild(bundle, a);
-			}
+			for (Adapter a : ipojo.getAdapters()) 
+				addRelationship(bundle, a);
 		}
 	}
 }
