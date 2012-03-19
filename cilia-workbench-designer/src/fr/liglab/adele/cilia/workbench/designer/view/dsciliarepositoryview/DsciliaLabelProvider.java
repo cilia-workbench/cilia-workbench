@@ -19,22 +19,29 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
+ * LabelProvider for the DSCilia repository view.
  * 
  * @author Etienne Gandrille
  */
 public class DsciliaLabelProvider extends LabelProvider {
 
-	protected String getImagePath(Object obj) {
-		String imageName;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider#getImageDescriptor(java.lang.Object)
+	 */
+	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
+		ImageDescriptorEnum imageName;
 
 		if (obj instanceof DsciliaFile) {
 			DsciliaFile re = (DsciliaFile) obj;
 			if (re.getModel() != null)
-				imageName = "icons/16/file.png";
+				imageName = ImageDescriptorEnum.FILE;
 			else
-				imageName = "icons/16/fileError.png";
+				imageName = ImageDescriptorEnum.FILE_ERROR;
 		} else if (obj instanceof Chain)
-			imageName = "icons/16/chain.png";
+			imageName = ImageDescriptorEnum.CHAIN;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
 

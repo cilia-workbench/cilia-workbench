@@ -27,38 +27,38 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
- * The Class JarMetadataLabelProvider.
+ * LabelProvider for the JAR repository view.
  * 
  * @author Etienne Gandrille
  */
 public class JarMetadataLabelProvider extends LabelProvider {
 
-	protected String getImagePath(Object obj) {
-		String imageName;
+	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
+		ImageDescriptorEnum imageName;
 		if (obj instanceof Adapter) {
 			Adapter adapt = (Adapter) obj;
 			if (adapt.getPattern().equals("in-only"))
-				imageName = "icons/16/adapterIn.png";
+				imageName = ImageDescriptorEnum.ADAPTER_IN;
 			else
-				imageName = "icons/16/adapterOut.png";
+				imageName = ImageDescriptorEnum.ADAPTER_OUT;
 		} else if (obj instanceof CiliaJarFile)
-			imageName = "icons/16/repo.png";
+			imageName = ImageDescriptorEnum.REPOSITORY;
 		else if (obj instanceof Collector)
-			imageName = "icons/16/collector.png";
+			imageName = ImageDescriptorEnum.COLLECTOR;
 		else if (obj instanceof Dispatcher)
-			imageName = "icons/16/dispatcher.png";
+			imageName = ImageDescriptorEnum.DISPATCHER;
 		else if (obj instanceof MediatorComponent)
-			imageName = "icons/16/mediator.png";
+			imageName = ImageDescriptorEnum.MEDIATOR;
 		else if (obj instanceof Processor)
-			imageName = "icons/16/processor.png";
+			imageName = ImageDescriptorEnum.PROCESSOR;
 		else if (obj instanceof Scheduler)
-			imageName = "icons/16/scheduler.png";
+			imageName = ImageDescriptorEnum.SCHEDULER;
 		else if (obj instanceof Sender)
-			imageName = "icons/16/sender.png";
+			imageName = ImageDescriptorEnum.SENDER;
 		else if (obj instanceof InPort)
-			imageName = "icons/16/portIn.png";
+			imageName = ImageDescriptorEnum.PORT_IN;
 		else if (obj instanceof OutPort)
-			imageName = "icons/16/portOut.png";
+			imageName = ImageDescriptorEnum.PORT_OUT;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
 
