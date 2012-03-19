@@ -20,18 +20,19 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
-public class SpecFile extends AbstractFile {
-
-	/** specFile model. Can be null, if the file is not well formed. */
-	private SpecModel model;
+/**
+ * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well
+ * formed or not. If it is "well formed", the model field is not null, and represents a model of the file.
+ * 
+ * @author Etienne Gandrille
+ */
+public class SpecFile extends AbstractFile<SpecModel> {
 
 	/**
-	 * Instantiates a new DsciliaFile
+	 * Instantiates a new spec file.
 	 * 
 	 * @param path
-	 *            the path on the file system.
-	 * @param dscilia
-	 *            the dscilia
+	 *            the path
 	 */
 	public SpecFile(String path) {
 		super(path);
@@ -45,14 +46,12 @@ public class SpecFile extends AbstractFile {
 	}
 
 	/**
-	 * Gets the dscilia.
+	 * Merge.
 	 * 
-	 * @return the dscilia
+	 * @param newInstance
+	 *            the new instance
+	 * @return the changeset[]
 	 */
-	public SpecModel getModel() {
-		return model;
-	}
-
 	public Changeset[] merge(SpecFile newInstance) {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();

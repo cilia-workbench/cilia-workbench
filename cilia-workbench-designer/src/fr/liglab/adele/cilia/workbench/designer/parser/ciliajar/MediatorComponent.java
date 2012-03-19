@@ -21,7 +21,10 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 
-
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class MediatorComponent {
 
 	private String name;
@@ -67,11 +70,11 @@ public class MediatorComponent {
 	public String toString() {
 		return name;
 	}
-	
+
 	public List<Port> getPorts() {
 		return ports;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

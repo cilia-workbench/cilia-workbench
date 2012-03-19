@@ -20,6 +20,10 @@ import org.eclipse.jface.dialogs.MessageDialog;
 
 import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.CommonHandler;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class DeleteBindingHandler extends CommonHandler {
 
 	@Override

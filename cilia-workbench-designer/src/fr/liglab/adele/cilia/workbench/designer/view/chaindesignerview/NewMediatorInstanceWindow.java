@@ -21,22 +21,26 @@ import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoSe
 
 /**
  * NewMediatorInstanceWindow.
+ * 
+ * @author Etienne Gandrille
  */
 public class NewMediatorInstanceWindow extends NewComponentInstanceWindow {
-	
+
 	/**
 	 * Instantiates a new new mediator instance window.
-	 *
-	 * @param parentShell the parent shell
-	 * @param chain the chain
+	 * 
+	 * @param parentShell
+	 *            the parent shell
+	 * @param chain
+	 *            the chain
 	 */
 	protected NewMediatorInstanceWindow(Shell parentShell, Chain chain) {
 		super("mediator", parentShell, chain);
-		 componentsId = JarRepoService.getInstance().getMediatorsId();
+		componentsId = JarRepoService.getInstance().getMediatorsId();
 	}
 
 	@Override
 	protected String checkValidValues(String id, String type) {
-		 return chain.isNewMediatorInstanceAllowed(id, type);
+		return chain.isNewMediatorInstanceAllowed(id, type);
 	}
 }

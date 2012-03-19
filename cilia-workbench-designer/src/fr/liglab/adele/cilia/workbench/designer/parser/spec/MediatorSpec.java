@@ -22,10 +22,13 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class MediatorSpec {
 
 	private String id;
@@ -128,13 +131,12 @@ public class MediatorSpec {
 		for (Iterator<Property> itr = properties.iterator(); itr.hasNext();) {
 			Property old = itr.next();
 			String key = old.getKey();
-			
+
 			Property updated = PullElementUtil.pullProperty(newInstance, key);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
-			}
-			else {
+			} else {
 				for (Changeset c : old.merge(updated))
 					retval.add(c);
 			}
@@ -143,7 +145,7 @@ public class MediatorSpec {
 			properties.add(property);
 			retval.add(new Changeset(Operation.ADD, property));
 		}
-		
+
 		// processor
 		if (processor == null && newInstance.getProcessor() == null) {
 			// nothing to do
@@ -157,7 +159,7 @@ public class MediatorSpec {
 			for (Changeset c : processor.merge(newInstance.getProcessor()))
 				retval.add(c);
 		}
-		
+
 		// scheduler
 		if (scheduler == null && newInstance.getScheduler() == null) {
 			// nothing to do
@@ -171,7 +173,7 @@ public class MediatorSpec {
 			for (Changeset c : scheduler.merge(newInstance.getScheduler()))
 				retval.add(c);
 		}
-		
+
 		// dispatcher
 		if (dispatcher == null && newInstance.getDispatcher() == null) {
 			// nothing to do
@@ -185,7 +187,7 @@ public class MediatorSpec {
 			for (Changeset c : dispatcher.merge(newInstance.getDispatcher()))
 				retval.add(c);
 		}
-		
+
 		// path update
 		for (Changeset c : retval)
 			c.pushPathElement(this);
@@ -194,15 +196,3 @@ public class MediatorSpec {
 
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-

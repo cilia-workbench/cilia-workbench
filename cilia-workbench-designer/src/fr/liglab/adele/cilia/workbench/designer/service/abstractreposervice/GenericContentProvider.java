@@ -23,10 +23,11 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * Base abstract class for implementing content providers. A ContentProvider
- * knows relationships between objects. It's useful for navigating an abstract
- * tree, representing our objects.
- * It's used for model navigation, and for tree rendering.
+ * Base abstract class for implementing content providers. A ContentProvider knows relationships between objects. It's
+ * useful for navigating an abstract tree, representing our objects. It's used for model navigation, and for tree
+ * rendering.
+ * 
+ * @author Etienne Gandrille
  */
 public abstract class GenericContentProvider implements ITreeContentProvider {
 
@@ -38,14 +39,15 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 
 	/**
 	 * Adds the root.
-	 *
-	 * @param root the root
+	 * 
+	 * @param root
+	 *            the root
 	 */
 	protected void addRoot(Object root) {
 		parent.put(root, new Object[0]);
 		children.put(root, new ArrayList<Object>());
 	}
-	
+
 	/**
 	 * Add a relationship in the content provider.
 	 * 
@@ -65,9 +67,7 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
-	 * )
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object )
 	 */
 	@Override
 	public Object getParent(Object element) {
@@ -77,9 +77,7 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
-	 * Object)
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang. Object)
 	 */
 	@Override
 	public Object[] getChildren(Object parentElement) {
@@ -92,9 +90,7 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
-	 * Object)
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang. Object)
 	 */
 	@Override
 	public boolean hasChildren(Object element) {
@@ -104,9 +100,7 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.
-	 * Object)
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang. Object)
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
@@ -125,9 +119,8 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
-	 * .viewers.Viewer, java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface .viewers.Viewer, java.lang.Object,
+	 * java.lang.Object)
 	 */
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {

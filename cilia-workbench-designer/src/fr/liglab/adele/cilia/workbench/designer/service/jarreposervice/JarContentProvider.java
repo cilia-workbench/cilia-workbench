@@ -30,6 +30,8 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Gene
 
 /**
  * Content provider used by the jar repository.
+ * 
+ * @author Etienne Gandrille
  */
 public class JarContentProvider extends GenericContentProvider {
 
@@ -37,38 +39,40 @@ public class JarContentProvider extends GenericContentProvider {
 	 * Initialize maps from model.
 	 */
 	public JarContentProvider(List<CiliaJarFile> model) {
-		
+
 		addRoot(model);
-		
+
 		for (CiliaJarFile bundle : model) {
-			
+
 			addRelationship(model, bundle);
 			CiliaJarModel ipojo = bundle.getModel();
-			
-			for (MediatorComponent mc : ipojo.getMediatorComponents()) {
-				addRelationship(bundle, mc);
-				for (Port p : mc.getPorts()) {
-					addRelationship(mc, p);
+
+			if (ipojo != null) {
+				for (MediatorComponent mc : ipojo.getMediatorComponents()) {
+					addRelationship(bundle, mc);
+					for (Port p : mc.getPorts()) {
+						addRelationship(mc, p);
+					}
 				}
+
+				for (Processor p : ipojo.getProcessors())
+					addRelationship(bundle, p);
+
+				for (Scheduler s : ipojo.getSchedulers())
+					addRelationship(bundle, s);
+
+				for (Dispatcher d : ipojo.getDispatchers())
+					addRelationship(bundle, d);
+
+				for (Collector c : ipojo.getCollectors())
+					addRelationship(bundle, c);
+
+				for (Sender s : ipojo.getSenders())
+					addRelationship(bundle, s);
+
+				for (Adapter a : ipojo.getAdapters())
+					addRelationship(bundle, a);
 			}
-			
-			for (Processor p : ipojo.getProcessors())
-				addRelationship(bundle, p);
-			
-			for (Scheduler s : ipojo.getSchedulers())
-				addRelationship(bundle, s);
-			
-			for (Dispatcher d : ipojo.getDispatchers())
-				addRelationship(bundle, d);
-			
-			for (Collector c : ipojo.getCollectors())
-				addRelationship(bundle, c);
-			
-			for (Sender s : ipojo.getSenders())
-				addRelationship(bundle, s);
-			
-			for (Adapter a : ipojo.getAdapters()) 
-				addRelationship(bundle, a);
 		}
 	}
 }

@@ -33,37 +33,40 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
-
 /**
  * A {@link DsciliaModel} represents the content of a <strong>well formed<strong> {@link DsciliaFile}.
  * 
  * @author Etienne Gandrille
  */
 public class DsciliaModel {
-	
+
+	/** Physical file path */
 	private String filePath;
-	
+
+	/** Chains owned by this file */
 	private List<Chain> chains = new ArrayList<Chain>();
 
 	public DsciliaModel(String filePath) throws Exception {
 		this.filePath = filePath;
 
-		Document document = XMLHelpers.getDocument(filePath);
-		Node root = getCiliaNode(document);
+		File file = new File(filePath);
+		Document document = XMLHelpers.getDocument(file);
+		Node root = getRootNode(document);
 
 		for (Node node : XMLReflectionUtil.findChildren(root, "chain"))
 			chains.add(new Chain(node));
 	}
 
-	private static Node getCiliaNode(Document document) throws MetadataException {
+	private static Node getRootNode(Document document) throws MetadataException {
 		return XMLHelpers.getRootNode(document, "cilia");
 	}
 
 	public void createChain(String chainName) throws MetadataException {
 
 		// Document creation
-		Document document = XMLHelpers.getDocument(filePath);
-		Node root = getCiliaNode(document);
+		File file = new File(filePath);
+		Document document = XMLHelpers.getDocument(file);
+		Node root = getRootNode(document);
 		Element child = document.createElement("chain");
 		child.setAttribute("id", chainName);
 		root.appendChild(child);
@@ -76,12 +79,14 @@ public class DsciliaModel {
 	}
 
 	public void deleteChain(String id) throws MetadataException {
+
 		// Finding target node
-		Document document = XMLHelpers.getDocument(filePath);
+		File file = new File(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node target = findXMLChainNode(document, id);
 
 		if (target != null) {
-			getCiliaNode(document).removeChild(target);
+			getRootNode(document).removeChild(target);
 			XMLHelpers.writeDOM(document, filePath);
 
 			// Notifies Repository
@@ -90,7 +95,7 @@ public class DsciliaModel {
 	}
 
 	private Node findXMLChainNode(Document document, String chainId) throws MetadataException {
-		Node root = getCiliaNode(document);
+		Node root = getRootNode(document);
 		Node[] results = XMLUtil.findXMLChildNode(root, "chain", "id", chainId);
 
 		if (results.length == 0)
@@ -111,7 +116,8 @@ public class DsciliaModel {
 
 	private void createComponentInstanceInternal(Chain chain, String id, String type, String componentName)
 			throws MetadataException {
-		Document document = XMLHelpers.getDocument(filePath);
+		File file = new File(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, componentName + "s");
 
@@ -127,22 +133,24 @@ public class DsciliaModel {
 		DsciliaRepoService.getInstance().updateModel();
 	}
 
-	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort) throws MetadataException {
+	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
+			throws MetadataException {
 		if (chain.isNewBindingAllowed(srcElem, srcPort, dstElem, dstPort) == null) {
-			
+
 			String from;
 			if (Strings.isNullOrEmpty(srcPort))
 				from = srcElem;
 			else
 				from = srcElem + ":" + srcPort;
-			
+
 			String to;
 			if (Strings.isNullOrEmpty(dstPort))
 				to = dstElem;
 			else
 				to = dstElem + ":" + dstPort;
-			
-			Document document = XMLHelpers.getDocument(filePath);
+
+			File file = new File(filePath);
+			Document document = XMLHelpers.getDocument(file);
 			Node chainNode = findXMLChainNode(document, chain.getId());
 			Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, "bindings");
 
@@ -158,22 +166,13 @@ public class DsciliaModel {
 			DsciliaRepoService.getInstance().updateModel();
 		}
 	}
-	
+
 	public List<Chain> getChains() {
 		return chains;
 	}
 
 	public String getFilePath() {
 		return filePath;
-	}
-
-	@Override
-	public String toString() {
-		int index = filePath.lastIndexOf(File.separator, filePath.length());
-		if (index == -1)
-			return filePath;
-		else
-			return filePath.substring(index + 1);
 	}
 
 	public Changeset[] merge(DsciliaModel newInstance) {

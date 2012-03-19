@@ -13,10 +13,15 @@
  * limitations under the License.
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
+
 import org.w3c.dom.Node;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class InPort extends Port {
-	
+
 	public InPort(Node node) throws MetadataException {
 		super(node);
 	}

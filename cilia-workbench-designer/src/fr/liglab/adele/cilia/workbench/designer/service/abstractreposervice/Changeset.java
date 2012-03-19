@@ -19,6 +19,8 @@ import java.util.List;
 
 /**
  * Represents a modification on a repository.
+ * 
+ * @author Etienne Gandrille
  */
 public class Changeset {
 
@@ -42,7 +44,7 @@ public class Changeset {
 
 	/** The path to join the object in the complete model */
 	private final List<Object> path = new ArrayList<Object>();
-	
+
 	/**
 	 * Instantiates a new changeset.
 	 * 
@@ -74,16 +76,16 @@ public class Changeset {
 	public Operation getOperation() {
 		return operation;
 	}
-	
+
 	/**
 	 * Gets the path.
-	 *
+	 * 
 	 * @return the path
 	 */
 	public List<Object> getPath() {
 		return path;
 	}
-	
+
 	public void pushPathElement(Object element) {
 		path.add(element);
 	}

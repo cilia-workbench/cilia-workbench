@@ -31,6 +31,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
 
 /**
  * Label provider for the tree viewer.
+ * 
+ * @author Etienne Gandrille
  */
 public class GraphLabelProvider extends LabelProvider {
 
@@ -44,7 +46,7 @@ public class GraphLabelProvider extends LabelProvider {
 			return ((AdapterInstance) obj).getId();
 		if (obj instanceof MediatorInstance)
 			return ((MediatorInstance) obj).getId();
-	
+
 		if (obj instanceof EntityConnectionData)
 			return "";
 

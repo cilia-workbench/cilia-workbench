@@ -18,6 +18,10 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class Scheduler extends ComponentPart {
 	public Scheduler(Node node) throws MetadataException {
 		super(node);

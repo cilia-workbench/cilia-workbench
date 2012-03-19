@@ -26,6 +26,10 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Abst
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class SpecRepoService extends AbstractRepoService<SpecFile> {
 
 	/** Singleton instance */

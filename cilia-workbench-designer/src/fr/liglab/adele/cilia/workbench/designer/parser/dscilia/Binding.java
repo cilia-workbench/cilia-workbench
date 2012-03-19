@@ -21,11 +21,15 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataExceptio
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class Binding {
 
 	private String from;
 	private String to;
-	
+
 	public Binding(Node node) throws MetadataException {
 		XMLReflectionUtil.setRequiredAttribute(node, "from", this, "from");
 		XMLReflectionUtil.setRequiredAttribute(node, "to", this, "to");
@@ -34,11 +38,11 @@ public class Binding {
 	public String getSourceId() {
 		return StringUtil.getBeforeSeparatorOrAll(from);
 	}
-	
+
 	public String getDestinationId() {
 		return StringUtil.getBeforeSeparatorOrAll(to);
 	}
-	
+
 	public Changeset[] merge(Binding newInstance) {
 		return new Changeset[0];
 	}

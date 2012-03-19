@@ -28,6 +28,8 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvide
 
 /**
  * The Class MetadataLabelProvider.
+ * 
+ * @author Etienne Gandrille
  */
 public class MetadataLabelProvider extends LabelProvider {
 

@@ -16,7 +16,6 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
@@ -24,6 +23,10 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.CommonHandler;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class CreateAdapterHandler extends CommonHandler {
 
 	@Override
@@ -41,7 +44,7 @@ public class CreateAdapterHandler extends CommonHandler {
 				}
 			}
 		}
-		
+
 		return null;
 	}
 

@@ -26,19 +26,25 @@ import org.eclipse.swt.graphics.Image;
 
 import fr.liglab.adele.cilia.workbench.common.Activator;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvider {
 
 	protected abstract String getImagePath(Object obj);
-	
+
 	private Map<String, Image> base = new HashMap<String, Image>();
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 	 */
 	public Image getImage(Object obj) {
 		String imagePath = getImagePath(obj);
 		Image image = base.get(imagePath);
-		
+
 		if (image == null) {
 			image = createImageFromPath(imagePath);
 			base.put(imagePath, image);
@@ -46,8 +52,7 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 
 		return image;
 	}
-	
-	
+
 	private static Image createImageFromPath(String imagePath) {
 		org.osgi.framework.Bundle bundle = Activator.getDefault().getBundle();
 		URL url = FileLocator.find(bundle, new Path(imagePath), null);
@@ -58,6 +63,6 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 		}
 		ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
 
-		return imageDesc.createImage();	
+		return imageDesc.createImage();
 	}
 }

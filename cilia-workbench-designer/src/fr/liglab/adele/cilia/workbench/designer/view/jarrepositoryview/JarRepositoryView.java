@@ -35,6 +35,8 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryVi
 
 /**
  * The Class RepositoryView.
+ * 
+ * @author Etienne Gandrille
  */
 public class JarRepositoryView extends RepositoryView<CiliaJarFile> {
 

@@ -21,6 +21,10 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class ChainGraphContentProvider extends ArrayContentProvider implements IGraphEntityContentProvider {
 
 	private Chain model = null;
@@ -33,7 +37,7 @@ public class ChainGraphContentProvider extends ArrayContentProvider implements I
 
 		if (model == null)
 			return new Object[0];
-		
+
 		if (entity instanceof AdapterInstance) {
 			AdapterInstance ai = (AdapterInstance) entity;
 			return model.getDestinations(ai);

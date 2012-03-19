@@ -23,8 +23,9 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
 /**
- * Bridge the gap between the Chain model object (of type ChainReadOnly) and the
- * properties view.
+ * Bridge the gap between the Chain model object (of type ChainReadOnly) and the properties view.
+ * 
+ * @author Etienne Gandrille
  */
 public class PropertySource implements IPropertySource {
 
@@ -77,7 +78,7 @@ public class PropertySource implements IPropertySource {
 	public Object getEditableValue() {
 		return null;
 	}
-	
+
 	@Override
 	public boolean isPropertySet(Object id) {
 		return false;

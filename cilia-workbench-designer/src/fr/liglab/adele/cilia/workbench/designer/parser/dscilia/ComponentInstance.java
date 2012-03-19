@@ -19,6 +19,10 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public abstract class ComponentInstance {
 
 	protected String id;
@@ -28,7 +32,7 @@ public abstract class ComponentInstance {
 		XMLReflectionUtil.setRequiredAttribute(node, "id", this, "id");
 		XMLReflectionUtil.setRequiredAttribute(node, "type", this, "type");
 	}
-	
+
 	public String getId() {
 		return id;
 	}

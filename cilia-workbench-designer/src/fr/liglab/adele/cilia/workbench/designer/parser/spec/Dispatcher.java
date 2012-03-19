@@ -18,7 +18,10 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 
-
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class Dispatcher extends ComponentPart {
 
 	public Dispatcher(Node node) throws MetadataException {

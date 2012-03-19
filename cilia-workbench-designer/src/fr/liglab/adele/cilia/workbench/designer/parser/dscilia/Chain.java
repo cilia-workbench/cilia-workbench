@@ -29,6 +29,10 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class Chain {
 
 	private String id;
@@ -66,15 +70,15 @@ public class Chain {
 	public List<AdapterInstance> getAdapters() {
 		return adapters;
 	}
-	
+
 	public List<MediatorInstance> getMediators() {
 		return mediators;
 	}
-	
+
 	public List<Binding> getBindings() {
 		return bindings;
 	}
-	
+
 	public Object[] getDestinations(AdapterInstance adapter) {
 		return getDestinations(adapter.getId());
 	}
@@ -120,14 +124,14 @@ public class Chain {
 			retval.add(mediator);
 		return retval.toArray(new ComponentInstance[0]);
 	}
-	
+
 	public String getId() {
 		return id;
 	}
 
 	public Changeset[] merge(Chain newInstance) {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-		
+
 		for (Iterator<AdapterInstance> itr = adapters.iterator(); itr.hasNext();) {
 			AdapterInstance old = itr.next();
 			String id = old.getId();
@@ -135,13 +139,12 @@ public class Chain {
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
-			}
-			else {
+			} else {
 				for (Changeset c : old.merge(updated))
 					retval.add(c);
 			}
 		}
-		
+
 		for (Iterator<MediatorInstance> itr = mediators.iterator(); itr.hasNext();) {
 			MediatorInstance old = itr.next();
 			String id = old.getId();
@@ -149,13 +152,12 @@ public class Chain {
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
-			}
-			else {
+			} else {
 				for (Changeset c : old.merge(updated))
 					retval.add(c);
 			}
 		}
-		
+
 		for (Iterator<Binding> itr = bindings.iterator(); itr.hasNext();) {
 			Binding old = itr.next();
 			String from = old.getSourceId();
@@ -164,37 +166,36 @@ public class Chain {
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
-			}
-			else {
+			} else {
 				for (Changeset c : old.merge(updated))
 					retval.add(c);
 			}
 		}
-		
+
 		for (AdapterInstance a : newInstance.getAdapters()) {
 			adapters.add(a);
 			retval.add(new Changeset(Operation.ADD, a));
 		}
-		
+
 		for (MediatorInstance m : newInstance.getMediators()) {
 			mediators.add(m);
 			retval.add(new Changeset(Operation.ADD, m));
 		}
-		
+
 		for (Binding b : newInstance.getBindings()) {
 			bindings.add(b);
 			retval.add(new Changeset(Operation.ADD, b));
 		}
-						
+
 		// path update
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
 		return retval.toArray(new Changeset[0]);
 	}
-	
+
 	public String isNewMediatorInstanceAllowed(String mediatorId, String mediatorType) {
-		
+
 		String message = null;
 		if (Strings.isNullOrEmpty(mediatorId)) {
 			message = "mediator id can't be empty";
@@ -206,7 +207,7 @@ public class Chain {
 					message = "a mediator instance with id " + mediatorId + " already exists";
 			}
 		}
-		
+
 		return message;
 	}
 
@@ -222,7 +223,7 @@ public class Chain {
 					message = "an adapter instance with id " + adapterId + " already exists";
 			}
 		}
-		
+
 		return message;
 	}
 
@@ -233,14 +234,14 @@ public class Chain {
 			return "Destination element can't be empty";
 		if (srcElem.equalsIgnoreCase(dstElem))
 			return "Source and destination can't be the same";
-		
+
 		ComponentInstance src = getComponent(srcElem);
 		ComponentInstance dst = getComponent(dstElem);
 		if (src == null)
 			return "Can't find " + srcElem + " in chain " + getId();
 		if (dst == null)
 			return "Can't find " + dstElem + " in chain " + getId();
-		
+
 		if (src instanceof AdapterInstance) {
 			AdapterInstance in = (AdapterInstance) src;
 			String type = in.getType();
@@ -248,14 +249,13 @@ public class Chain {
 			if (ta != null) {
 				if (ta.getPattern().equals(Adapter.IN_PATTERN))
 					return src.id + " is an in-adapter. It can't be a binding source.";
-			}
-			else {
+			} else {
 				for (Binding b : bindings)
 					if (b.getDestinationId().equals(src.id))
 						return src.id + " is already used as an in-adapter";
 			}
 		}
-		
+
 		if (dst instanceof AdapterInstance) {
 			AdapterInstance out = (AdapterInstance) dst;
 			String type = out.getType();
@@ -263,14 +263,13 @@ public class Chain {
 			if (ta != null) {
 				if (ta.getPattern().equals(Adapter.OUT_PATTERN))
 					return dst.id + " is an out-adapter. It can't be a binding destination.";
-			}
-			else {
+			} else {
 				for (Binding b : bindings)
 					if (b.getSourceId().equals(dst.id))
 						return dst.id + " is already used as an out-adapter";
 			}
 		}
-			
+
 		return null;
 	}
 }

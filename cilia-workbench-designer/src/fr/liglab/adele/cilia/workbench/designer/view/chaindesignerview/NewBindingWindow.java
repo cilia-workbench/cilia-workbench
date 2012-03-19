@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.InPort;
@@ -42,15 +41,19 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.ComponentInstance
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class NewBindingWindow extends Dialog {
-	
+
 	public static final String IN_PORT = "IN";
 	public static final String OUT_PORT = "OUT";
 
 	private final Chain chain;
-	
+
 	private final String windowTitle = "New binding";
-	
+
 	/** Margin used by the GridLayout. */
 	private final int margin = 10;
 
@@ -63,15 +66,14 @@ public class NewBindingWindow extends Dialog {
 	private Combo dstPortCombo;
 
 	private Label messageArea;
-	
-	private final IntegrityListener iListener = new IntegrityListener(); 
-	
+
+	private final IntegrityListener iListener = new IntegrityListener();
+
 	private String srcElem;
 	private String dstElem;
 	private String srcPort;
 	private String dstPort;
-	
-	
+
 	protected NewBindingWindow(Shell parentShell, Chain chain) {
 		super(parentShell);
 		Preconditions.checkNotNull(chain);
@@ -79,7 +81,9 @@ public class NewBindingWindow extends Dialog {
 		this.chain = chain;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createDialogArea(Composite parent) {
@@ -99,30 +103,30 @@ public class NewBindingWindow extends Dialog {
 		Label label1 = new Label(container, SWT.WRAP);
 		label1.setText("");
 		label1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		// Source
 		Label label2 = new Label(container, SWT.WRAP);
 		label2.setText("Source");
 		label2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		// Destination
 		Label label3 = new Label(container, SWT.WRAP);
 		label3.setText("Destination");
 		label3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		// Element
 		Label label4 = new Label(container, SWT.WRAP);
 		label4.setText("Element");
 		label4.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		// Source Element Combo
 		srcElemCombo = new Combo(container, SWT.READ_ONLY);
 		srcElemCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		// Destination Element Combo
 		dstElemCombo = new Combo(container, SWT.READ_ONLY);
 		dstElemCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		// populating
 		for (MediatorInstance item : chain.getMediators()) {
 			srcElemCombo.add(item.getId());
@@ -143,20 +147,20 @@ public class NewBindingWindow extends Dialog {
 				dstElemCombo.add(item.getId());
 			}
 		}
-		
+
 		// Port
 		Label label5 = new Label(container, SWT.WRAP);
 		label5.setText("Port");
 		label5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		// Source port Combo
 		srcPortCombo = new Combo(container, SWT.NONE);
 		srcPortCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		// Destination port Combo
 		dstPortCombo = new Combo(container, SWT.NONE);
 		dstPortCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		// Message Area
 		messageArea = new Label(container, SWT.WRAP);
 		messageArea.setText("");
@@ -169,27 +173,29 @@ public class NewBindingWindow extends Dialog {
 		dstPortCombo.addModifyListener(iListener);
 		srcElemCombo.addModifyListener(new ComboUpdate(srcElemCombo, srcPortCombo, OUT_PORT));
 		dstElemCombo.addModifyListener(new ComboUpdate(dstElemCombo, dstPortCombo, IN_PORT));
-		
+
 		return container;
 	}
 
 	public String getSrcElem() {
 		return srcElem;
 	}
-	
+
 	public String getDstElem() {
 		return dstElem;
 	}
-	
+
 	public String getSrcPort() {
 		return srcPort;
 	}
-	
+
 	public String getDstPort() {
 		return dstPort;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
 	 */
 	@Override
@@ -197,13 +203,11 @@ public class NewBindingWindow extends Dialog {
 		super.initializeBounds();
 		getButton(IDialogConstants.OK_ID).setEnabled(false);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
-	 * .swt.widgets.Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse .swt.widgets.Composite)
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
@@ -227,14 +231,14 @@ public class NewBindingWindow extends Dialog {
 	protected boolean isResizable() {
 		return true;
 	}
-	
+
 	protected void updateResult() {
 		srcElem = srcElemCombo.getText();
 		dstElem = dstElemCombo.getText();
 		srcPort = srcPortCombo.getText();
 		dstPort = dstPortCombo.getText();
 	}
-	
+
 	private class IntegrityListener implements ModifyListener {
 
 		@Override
@@ -243,14 +247,14 @@ public class NewBindingWindow extends Dialog {
 			String srcPort = srcPortCombo.getText();
 			String dstElem = dstElemCombo.getText();
 			String dstPort = dstPortCombo.getText();
-			
+
 			String errorMsg = chain.isNewBindingAllowed(srcElem, srcPort, dstElem, dstPort);
 
 			if (errorMsg != null)
 				messageArea.setText(errorMsg);
 			else
 				messageArea.setText("");
-			
+
 			getButton(IDialogConstants.OK_ID).setEnabled(errorMsg == null);
 			updateResult();
 		}
@@ -261,17 +265,17 @@ public class NewBindingWindow extends Dialog {
 		private final Combo comboElem;
 		private final Combo comboPort;
 		private final String portType;
-		
+
 		public ComboUpdate(Combo comboElem, Combo comboPort, String portType) {
 			this.comboElem = comboElem;
 			this.comboPort = comboPort;
 			this.portType = portType;
 		}
-		
+
 		@Override
 		public void modifyText(ModifyEvent e) {
 			comboPort.removeAll();
-			
+
 			for (ComponentInstance i : chain.getElements()) {
 				if (i.getId().equalsIgnoreCase(comboElem.getText())) {
 					if (i instanceof AdapterInstance) {
@@ -287,7 +291,7 @@ public class NewBindingWindow extends Dialog {
 									comboPort.add(p.getName());
 								if (p instanceof OutPort && portType.equals(OUT_PORT))
 									comboPort.add(p.getName());
-							} 
+							}
 						}
 						updateResult();
 						return;

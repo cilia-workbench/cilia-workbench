@@ -21,6 +21,10 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class Property {
 
 	private String key;
@@ -32,17 +36,17 @@ public class Property {
 		XMLReflectionUtil.setRequiredAttribute(node, "key", this, "key");
 		XMLReflectionUtil.setRequiredAttribute(node, "value", this, "value");
 	}
-	
+
 	public String getKey() {
 		return key;
 	}
-	
+
 	public String getValue() {
 		return value;
 	}
 
 	public Changeset[] merge(Property newInstance) {
-		
+
 		if (value.equals(newInstance.getValue()))
 			return new Changeset[0];
 		else {

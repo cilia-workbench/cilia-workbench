@@ -19,16 +19,20 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class Parameter {
-	
+
 	private String name;
 	private Node node;
-	
+
 	public Parameter(Node node) throws MetadataException {
 		this.node = node;
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
 	}
-	
+
 	public String getName() {
 		return name;
 	}

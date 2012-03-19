@@ -16,7 +16,6 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
@@ -24,6 +23,10 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.CommonHandler;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class CreateBindingHandler extends CommonHandler {
 
 	@Override
@@ -36,15 +39,15 @@ public class CreateBindingHandler extends CommonHandler {
 				String dstElem = window.getDstElem();
 				String srcPort = window.getSrcPort();
 				String dstPort = window.getDstPort();
-				
+
 				try {
 					DsciliaRepoService.getInstance().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
 				} catch (MetadataException e) {
 					e.printStackTrace();
-				}								
+				}
 			}
 		}
-		
+
 		return null;
 	}
 }

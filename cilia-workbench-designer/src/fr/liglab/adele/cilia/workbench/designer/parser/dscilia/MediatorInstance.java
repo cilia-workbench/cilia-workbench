@@ -20,6 +20,10 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataExceptio
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class MediatorInstance extends ComponentInstance {
 
 	public MediatorInstance(Node node) throws MetadataException {
@@ -32,7 +36,7 @@ public class MediatorInstance extends ComponentInstance {
 		else {
 			type = newInstance.type;
 			Changeset[] retval = new Changeset[1];
-			retval[0]=new Changeset(Operation.UPDATE, this);
+			retval[0] = new Changeset(Operation.UPDATE, this);
 			return retval;
 		}
 	}

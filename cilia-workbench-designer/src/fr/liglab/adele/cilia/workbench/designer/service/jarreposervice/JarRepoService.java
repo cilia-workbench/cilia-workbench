@@ -26,6 +26,8 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Abst
 
 /**
  * JarRepoService.
+ * 
+ * @author Etienne Gandrille
  */
 public class JarRepoService extends AbstractRepoService<CiliaJarFile> {
 
@@ -60,12 +62,8 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile> {
 		File[] list = getFiles();
 		List<CiliaJarFile> bundles = new ArrayList<CiliaJarFile>();
 		for (File jar : list) {
-			try {
-				String path = jar.getPath();
-				bundles.add(new CiliaJarFile(path));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			String path = jar.getPath();
+			bundles.add(new CiliaJarFile(path));
 		}
 
 		// Updates model with computed one
@@ -73,7 +71,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile> {
 
 		// Update content provider
 		contentProvider = new JarContentProvider(model);
-		
+
 		// Sends notifications
 		notifyListeners(null);
 	}

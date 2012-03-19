@@ -35,6 +35,8 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IRep
 
 /**
  * RepositoryView.
+ * 
+ * @author Etienne Gandrille
  */
 public abstract class RepositoryView<ModelType> extends ViewPart implements IRepoServiceListener {
 

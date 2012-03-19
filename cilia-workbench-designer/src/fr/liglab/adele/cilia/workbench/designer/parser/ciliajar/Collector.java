@@ -18,13 +18,16 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 
-
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class Collector {
 
 	private String name;
 	private String classname;
 	private String namespace;
-	
+
 	public Collector(Node node) throws MetadataException {
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
 		XMLReflectionUtil.setRequiredAttribute(node, "classname", this, "classname");

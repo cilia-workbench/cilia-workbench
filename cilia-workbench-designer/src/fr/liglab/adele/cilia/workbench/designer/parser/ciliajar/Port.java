@@ -18,11 +18,14 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 
-
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public abstract class Port {
 
 	private String name;
-	
+
 	public Port(Node node) throws MetadataException {
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
 	}
@@ -31,7 +34,7 @@ public abstract class Port {
 	public String toString() {
 		return name;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

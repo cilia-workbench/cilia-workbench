@@ -22,6 +22,8 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Gene
 
 /**
  * Content provider used by the DSCilia repository.
+ * 
+ * @author Etienne Gandrille
  */
 public class DsciliaContentProvider extends GenericContentProvider {
 
@@ -29,12 +31,12 @@ public class DsciliaContentProvider extends GenericContentProvider {
 	 * Initialize maps from model.
 	 */
 	public DsciliaContentProvider(List<DsciliaFile> repo) {
-		
+
 		addRoot(repo);
-		
+
 		for (DsciliaFile re : repo) {
 			addRelationship(repo, re);
-			
+
 			if (re.getModel() != null) {
 				for (Chain c : re.getModel().getChains()) {
 					addRelationship(re, c);

@@ -16,9 +16,12 @@ package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
-
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class DsciliaLabelProvider extends LabelProvider {
 
 	protected String getImagePath(Object obj) {

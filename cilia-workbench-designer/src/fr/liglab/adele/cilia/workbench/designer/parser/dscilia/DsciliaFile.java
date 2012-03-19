@@ -21,13 +21,12 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
- * Represents a Dscilia file, from a "physical" point of view. This file, which must exists on the file system, can be
- * well formed or not. If it is "well formed", the dscilia field is not null, and represents a model of the file.
+ * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well
+ * formed or not. If it is "well formed", the model field is not null, and represents a model of the file.
+ * 
+ * @author Etienne Gandrille
  */
-public class DsciliaFile extends AbstractFile {
-
-	/** Dscilia model. Can be null, if the file is not well formed. */
-	private DsciliaModel model;
+public class DsciliaFile extends AbstractFile<DsciliaModel> {
 
 	/**
 	 * Instantiates a new DsciliaFile
@@ -46,15 +45,6 @@ public class DsciliaFile extends AbstractFile {
 			e.printStackTrace();
 			model = null;
 		}
-	}
-
-	/**
-	 * Gets the dscilia.
-	 * 
-	 * @return the dscilia
-	 */
-	public DsciliaModel getModel() {
-		return model;
 	}
 
 	/**

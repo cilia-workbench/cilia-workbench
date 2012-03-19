@@ -40,6 +40,8 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryVi
 
 /**
  * DsciliaRepositoryView.
+ * 
+ * @author Etienne Gandrille
  */
 public class DsciliaRepositoryView extends RepositoryView<DsciliaFile> {
 

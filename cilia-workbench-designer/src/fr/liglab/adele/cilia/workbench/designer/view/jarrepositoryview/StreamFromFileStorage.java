@@ -21,11 +21,13 @@ import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
 
 /**
  * The Class StreamFromFileStorage.
+ * 
+ * @author Etienne Gandrille
  */
 class StreamFromFileStorage implements IStorage {
 
@@ -34,33 +36,40 @@ class StreamFromFileStorage implements IStorage {
 
 	/**
 	 * Instantiates a new stream from file storage.
-	 *
-	 * @param filePath the file path
+	 * 
+	 * @param filePath
+	 *            the file path
 	 */
 	StreamFromFileStorage(String filePath) {
 		this.filePath = filePath;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.resources.IStorage#getContents()
 	 */
 	public InputStream getContents() throws CoreException {
 		try {
-			return CiliaJarFile.inputStreamFromFile(filePath);
+			return XMLHelpers.inputStreamFromFileInJarArchive(filePath, "metadata.xml");
 		} catch (MetadataException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.resources.IStorage#getFullPath()
 	 */
 	public IPath getFullPath() {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
 	@SuppressWarnings("rawtypes")
@@ -68,7 +77,9 @@ class StreamFromFileStorage implements IStorage {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.resources.IStorage#getName()
 	 */
 	public String getName() {
@@ -79,7 +90,9 @@ class StreamFromFileStorage implements IStorage {
 			return filePath.substring(index + 1);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.resources.IStorage#isReadOnly()
 	 */
 	public boolean isReadOnly() {

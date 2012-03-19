@@ -30,6 +30,10 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IRep
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DsciliaRepositoryView;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class ChainDesignerView extends GraphView implements IRepoServiceListener {
 
 	/** The View ID. */

@@ -25,27 +25,30 @@ import org.w3c.dom.NodeList;
 import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 
-
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class XMLReflectionUtil {
 
-	public static boolean setRequiredAttribute(Node node, String attrName, Object object,
-			String fieldName) throws MetadataException {
+	public static boolean setRequiredAttribute(Node node, String attrName, Object object, String fieldName)
+			throws MetadataException {
 		return setAttributeInternal(true, null, node, attrName, object, fieldName);
 	}
-	
-	public static boolean setOptionalAttribute(Node node, String attrName, Object object,
-			String fieldName) throws MetadataException {
+
+	public static boolean setOptionalAttribute(Node node, String attrName, Object object, String fieldName)
+			throws MetadataException {
 		return setOptionalAttribute(node, attrName, object, fieldName, null);
 	}
 
-	public static boolean setOptionalAttribute(Node node, String attrName, Object object,
-			String fieldName, String defaultValue) throws MetadataException {
+	public static boolean setOptionalAttribute(Node node, String attrName, Object object, String fieldName,
+			String defaultValue) throws MetadataException {
 		return setAttributeInternal(false, defaultValue, node, attrName, object, fieldName);
 	}
-	
-	private static boolean setAttributeInternal(boolean requiredAttribute, String defaultValue, Node node, String attrName, Object object,
-			String fieldName) throws MetadataException {
-		
+
+	private static boolean setAttributeInternal(boolean requiredAttribute, String defaultValue, Node node,
+			String attrName, Object object, String fieldName) throws MetadataException {
+
 		Exception exception = null;
 		boolean retval = true;
 		try {
@@ -56,18 +59,17 @@ public class XMLReflectionUtil {
 				field = object.getClass().getSuperclass().getDeclaredField(fieldName);
 			}
 			String value = null;
-			
+
 			try {
 				value = findAttributeValue(node, attrName);
 			} catch (MetadataException e) {
 				retval = false;
 				if (requiredAttribute == true)
 					throw new MetadataException(e);
-				else
-					if (defaultValue != null)
-						value = defaultValue;
+				else if (defaultValue != null)
+					value = defaultValue;
 			}
-			
+
 			field.setAccessible(true);
 			field.set(object, value);
 
@@ -80,27 +82,24 @@ public class XMLReflectionUtil {
 		} catch (IllegalAccessException e) {
 			exception = e;
 		}
-		
+
 		// If there's an error
 		if (exception != null)
 			throw new MetadataException("", exception);
-		
+
 		// Success
 		return retval;
 	}
 
-	
-	public static String findAttributeValue(Node node, String attrName, String defaultValue)
-			throws MetadataException {
-		
+	public static String findAttributeValue(Node node, String attrName, String defaultValue) throws MetadataException {
+
 		try {
 			return findAttributeValue(node, attrName);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return defaultValue;
 		}
 	}
-	
+
 	private static String findAttributeValue(Node node, String attrName) throws MetadataException {
 		NamedNodeMap attrs = node.getAttributes();
 		if (attrs != null) {
@@ -118,21 +117,21 @@ public class XMLReflectionUtil {
 
 		throw new MetadataException("Attribute " + attrName + " not found");
 	}
-	
+
 	public static Node findChild(Node node, String childName) {
 
 		Node[] children = findChildren(node, childName);
-		
+
 		if (children.length == 0)
 			return null;
 		else
 			return children[0];
 	}
-	
+
 	public static Node[] findChildren(Node node, String childrenName) {
-		
+
 		List<Node> list = new ArrayList<Node>();
-		
+
 		NodeList childs = node.getChildNodes();
 		if (childs != null) {
 			for (int i = 0; i < childs.getLength(); i++) {
@@ -146,10 +145,10 @@ public class XMLReflectionUtil {
 				}
 			}
 		}
-		
+
 		return list.toArray(new Node[0]);
 	}
-	
+
 	public static String nodeTypeToString(short nodeType) throws Exception {
 		if (nodeType == Node.ELEMENT_NODE)
 			return "ELEMENT_NODE";
@@ -189,5 +188,5 @@ public class XMLReflectionUtil {
 			return "DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC";
 
 		throw new Exception("Unknown value : " + nodeType);
-	}	
+	}
 }

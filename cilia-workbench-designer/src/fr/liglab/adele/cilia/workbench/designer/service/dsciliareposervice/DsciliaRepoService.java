@@ -37,9 +37,10 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
- * A central place for managing the DScilia repository. The repository can be
- * asked to refresh the model. The repository can be asked to send model update
- * notifications.
+ * A central place for managing the DScilia repository. The repository can be asked to refresh the model. The repository
+ * can be asked to send model update notifications.
+ * 
+ * @author Etienne Gandrille
  */
 public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 
@@ -64,8 +65,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 	}
 
 	/**
-	 * Constructor. Registers for repository path update and constructs the
-	 * model.
+	 * Constructor. Registers for repository path update and constructs the model.
 	 */
 	private DsciliaRepoService() {
 		super(PREFERENCE_PATH_KEY, ext);
@@ -94,8 +94,8 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 	}
 
 	/**
-	 * Merge a list of repo element into the current model. Only differences
-	 * between the argument and the model are merge back into the model.
+	 * Merge a list of repo element into the current model. Only differences between the argument and the model are
+	 * merge back into the model.
 	 * 
 	 * @param repoElements
 	 *            a new model
@@ -131,13 +131,12 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 	}
 
 	/**
-	 * Tests if a dscilia can be created with the given fileName. This method
-	 * follows {@link IInputValidator#isValid(String)} API.
+	 * Tests if a dscilia can be created with the given fileName. This method follows
+	 * {@link IInputValidator#isValid(String)} API.
 	 * 
 	 * @param newText
 	 *            file name to be tested
-	 * @return null if the name is valid, an error message (including "")
-	 *         otherwise.
+	 * @return null if the name is valid, an error message (including "") otherwise.
 	 */
 	public String isNewFileNameAllowed(String newText) {
 		final String baseName = canonizeFileName(newText);

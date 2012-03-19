@@ -14,17 +14,28 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
 
+/**
+ * Represents the content of a <strong>well formed<strong> {@link CiliaJarFile}.
+ * 
+ * @author Etienne Gandrille
+ */
 public class CiliaJarModel {
 
+	/* ============= */
+	/* Model objects */
+	/* ============= */
+
 	private List<MediatorComponent> mediatorComponents = new ArrayList<MediatorComponent>();
-	
 	private List<Processor> processors = new ArrayList<Processor>();
 	private List<Scheduler> schedulers = new ArrayList<Scheduler>();
 	private List<Dispatcher> dispatchers = new ArrayList<Dispatcher>();
@@ -32,17 +43,21 @@ public class CiliaJarModel {
 	private List<Sender> senders = new ArrayList<Sender>();
 	private List<Adapter> adapters = new ArrayList<Adapter>();
 
-	public CiliaJarModel(Node node) throws Exception {
-		
-		NodeList childs = node.getChildNodes();
+	public CiliaJarModel(String filePath) throws MetadataException {
+
+		InputStream is = XMLHelpers.inputStreamFromFileInJarArchive(filePath, "metadata.xml");
+		Document document = XMLHelpers.getDocument(is);
+		Node root = getRootNode(document);
+
+		NodeList childs = root.getChildNodes();
 		if (childs != null) {
 			for (int i = 0; i < childs.getLength(); i++) {
 				Node child = childs.item(i);
-				
+
 				if (child.getNodeType() == Node.ELEMENT_NODE) {
-				
+
 					String nodeName = child.getNodeName().toLowerCase();
-					
+
 					if (nodeName.equals("processor"))
 						processors.add(new Processor(child));
 					else if (nodeName.equals("scheduler"))
@@ -61,7 +76,11 @@ public class CiliaJarModel {
 			}
 		}
 	}
-	
+
+	private static Node getRootNode(Document document) throws MetadataException {
+		return XMLHelpers.getRootNode(document, "ipojo");
+	}
+
 	public List<MediatorComponent> getMediatorComponents() {
 		return mediatorComponents;
 	}

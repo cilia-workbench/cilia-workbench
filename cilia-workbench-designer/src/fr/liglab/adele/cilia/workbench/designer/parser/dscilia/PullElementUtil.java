@@ -17,11 +17,12 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
-
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class PullElementUtil {
-	
+
 	public static DsciliaFile pullRepoElement(List<DsciliaFile> newInstance, String id) {
 		for (Iterator<DsciliaFile> itr = newInstance.iterator(); itr.hasNext();) {
 			DsciliaFile element = itr.next();
@@ -32,7 +33,7 @@ public class PullElementUtil {
 		}
 		return null;
 	}
-	
+
 	public static Binding pullBinding(Chain newInstance, String from, String to) {
 		for (Iterator<Binding> itr = newInstance.getBindings().iterator(); itr.hasNext();) {
 			Binding element = itr.next();
@@ -65,7 +66,7 @@ public class PullElementUtil {
 		}
 		return null;
 	}
-	
+
 	public static Chain pullChain(DsciliaModel newInstance, String id) {
 		for (Iterator<Chain> itr = newInstance.getChains().iterator(); itr.hasNext();) {
 			Chain element = itr.next();
@@ -77,7 +78,3 @@ public class PullElementUtil {
 		return null;
 	}
 }
-
-
-
-

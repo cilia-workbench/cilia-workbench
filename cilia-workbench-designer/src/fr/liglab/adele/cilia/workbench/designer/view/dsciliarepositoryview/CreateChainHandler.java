@@ -26,10 +26,14 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Dscil
 
 /**
  * CreateChainHandler.
+ * 
+ * @author Etienne Gandrille
  */
 public class CreateChainHandler extends CommonHandler {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
 	@Override
@@ -43,10 +47,11 @@ public class CreateChainHandler extends CommonHandler {
 		}
 		final DsciliaFile repo = (DsciliaFile) object;
 		if (repo.getModel() == null) {
-			MessageDialog.openError(getShell(event), "Error", "Dscilia file must be in a valid state. Please check xml.");
+			MessageDialog.openError(getShell(event), "Error",
+					"Dscilia file must be in a valid state. Please check xml.");
 			return null;
 		}
-		
+
 		// Validator
 		IInputValidator validator = new IInputValidator() {
 			@Override
@@ -54,15 +59,16 @@ public class CreateChainHandler extends CommonHandler {
 				return DsciliaRepoService.getInstance().isNewChainNameAllowed(newText);
 			}
 		};
-		
+
 		// Dialog creation
-		InputDialog dialog = new InputDialog(getShell(event), "Chain creation", "Please give a name for the new chain.", "", validator);
-		
+		InputDialog dialog = new InputDialog(getShell(event), "Chain creation",
+				"Please give a name for the new chain.", "", validator);
+
 		if (dialog.open() == Window.OK) {
 			String chainName = dialog.getValue();
 			DsciliaRepoService.getInstance().createChain(repo, chainName);
-        }
-		
+		}
+
 		return null;
 	}
 }

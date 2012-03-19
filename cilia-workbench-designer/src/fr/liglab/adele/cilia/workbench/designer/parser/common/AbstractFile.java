@@ -16,11 +16,29 @@ package fr.liglab.adele.cilia.workbench.designer.parser.common;
 
 import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
 
-public class AbstractFile {
+/**
+ * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well
+ * formed or not. If it is "well formed", the model field is not null, and represents a model of the file.
+ * 
+ * @param <ModelType>
+ *            the model type
+ * 
+ * @author Etienne Gandrille
+ */
+public class AbstractFile<ModelType> {
 
 	/** Path on the file system. */
 	private String path;
 
+	/** The model object, which represents the file. */
+	protected ModelType model;
+
+	/**
+	 * Instantiates a new abstract file.
+	 * 
+	 * @param path
+	 *            the path
+	 */
 	public AbstractFile(String path) {
 		this.path = path;
 	}
@@ -32,6 +50,15 @@ public class AbstractFile {
 	 */
 	public String getFilePath() {
 		return path;
+	}
+
+	/**
+	 * Gets the model.
+	 * 
+	 * @return the model
+	 */
+	public ModelType getModel() {
+		return model;
 	}
 
 	/*

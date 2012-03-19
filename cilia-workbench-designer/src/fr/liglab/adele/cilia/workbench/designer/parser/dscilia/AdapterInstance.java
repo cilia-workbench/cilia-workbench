@@ -20,19 +20,23 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataExceptio
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class AdapterInstance extends ComponentInstance {
-	
+
 	public AdapterInstance(Node node) throws MetadataException {
 		super(node);
 	}
-		
+
 	public Changeset[] merge(AdapterInstance newInstance) {
 		if (type.equals(newInstance.type))
 			return new Changeset[0];
 		else {
 			type = newInstance.type;
 			Changeset[] retval = new Changeset[1];
-			retval[0]=new Changeset(Operation.UPDATE, this);
+			retval[0] = new Changeset(Operation.UPDATE, this);
 			return retval;
 		}
 	}

@@ -16,6 +16,10 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
 import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvider;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class VariablesSourceProvider extends ToggleSourceProvider {
 
 	public final static String VARIABLE_NAME = "fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable";

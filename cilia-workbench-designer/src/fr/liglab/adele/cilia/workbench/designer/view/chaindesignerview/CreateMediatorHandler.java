@@ -17,16 +17,21 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.window.Window;
+
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.CommonHandler;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class CreateMediatorHandler extends CommonHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-			
+
 		Chain chain = getChainDesignerView(event).getModel();
 		if (chain != null) {
 			NewMediatorInstanceWindow window = new NewMediatorInstanceWindow(getShell(event), chain);
@@ -40,7 +45,7 @@ public class CreateMediatorHandler extends CommonHandler {
 				}
 			}
 		}
-		
+
 		return null;
 	}
 }

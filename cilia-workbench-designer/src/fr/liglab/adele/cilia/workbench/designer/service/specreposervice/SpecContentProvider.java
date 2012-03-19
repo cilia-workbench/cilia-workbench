@@ -25,6 +25,8 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Gene
 
 /**
  * Content provider used by the spec repository.
+ * 
+ * @author Etienne Gandrille
  */
 public class SpecContentProvider extends GenericContentProvider {
 

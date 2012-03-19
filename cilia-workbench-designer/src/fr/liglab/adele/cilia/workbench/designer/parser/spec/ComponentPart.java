@@ -25,12 +25,16 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class ComponentPart {
 
 	List<Parameter> parameters = new ArrayList<Parameter>();
-	
+
 	public ComponentPart(Node node) throws MetadataException {
-		
+
 		Node rootParam = XMLReflectionUtil.findChild(node, "parameters");
 		if (rootParam != null) {
 			Node[] params = XMLReflectionUtil.findChildren(rootParam, "parameter");
@@ -38,33 +42,32 @@ public class ComponentPart {
 				parameters.add(new Parameter(param));
 		}
 	}
-	
+
 	public List<Parameter> getParameters() {
 		return parameters;
 	}
-	
-	
+
 	public Changeset[] merge(ComponentPart newInstance) {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-		
+
 		// ports
 		for (Iterator<Parameter> itr = parameters.iterator(); itr.hasNext();) {
 			Parameter old = itr.next();
 			String name = old.getName();
-	
+
 			Parameter updated = PullElementUtil.pullParameter(newInstance, name);
 			if (updated == null) {
 				retval.add(new Changeset(Operation.UPDATE, this));
 				return retval.toArray(new Changeset[0]);
 			}
 		}
-		
+
 		if (!newInstance.getParameters().isEmpty()) {
 			retval.add(new Changeset(Operation.UPDATE, this));
 			return retval.toArray(new Changeset[0]);
 		}
-		
+
 		return retval.toArray(new Changeset[0]);
 	}
-	
+
 }

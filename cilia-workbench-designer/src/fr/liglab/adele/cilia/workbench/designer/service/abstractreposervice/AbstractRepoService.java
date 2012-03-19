@@ -31,6 +31,8 @@ import fr.liglab.adele.cilia.workbench.designer.Activator;
  * 
  * @param <ModelType>
  *            the elements hosted by the repository.
+ * 
+ * @author Etienne Gandrille
  */
 public abstract class AbstractRepoService<ModelType> {
 
@@ -41,17 +43,16 @@ public abstract class AbstractRepoService<ModelType> {
 	private List<IRepoServiceListener> listeners;
 
 	/**
-	 * A content provider. Usualy, it's useful for displaying the repository in
-	 * a view. Here, it's used for navigating the repository.
+	 * A content provider. Usualy, it's useful for displaying the repository in a view. Here, it's used for navigating
+	 * the repository.
 	 */
 	protected GenericContentProvider contentProvider;
 
 	/**
-	 * The preference key, used to find the physical repository on the hard
-	 * disk.
+	 * The preference key, used to find the physical repository on the hard disk.
 	 */
 	private final String PREFERENCE_PATH_KEY;
-	
+
 	/** Extension used by files hosted in the repository. */
 	private final String ext;
 
@@ -86,7 +87,7 @@ public abstract class AbstractRepoService<ModelType> {
 	 * Callback method used as soon as the model should be updated.
 	 */
 	public abstract void updateModel();
-	
+
 	/**
 	 * Gets the repository path on the file system.
 	 * 

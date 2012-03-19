@@ -21,22 +21,26 @@ import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoSe
 
 /**
  * NewAdapterInstanceWindow.
+ * 
+ * @author Etienne Gandrille
  */
 public class NewAdapterInstanceWindow extends NewComponentInstanceWindow {
 
 	/**
 	 * Instantiates a new new adapter instance window.
-	 *
-	 * @param parentShell the parent shell
-	 * @param chain the chain
+	 * 
+	 * @param parentShell
+	 *            the parent shell
+	 * @param chain
+	 *            the chain
 	 */
 	protected NewAdapterInstanceWindow(Shell parentShell, Chain chain) {
 		super("adapter", parentShell, chain);
 		componentsId = JarRepoService.getInstance().getAdaptersId();
 	}
-	
+
 	@Override
 	protected String checkValidValues(String id, String type) {
-		 return chain.isNewAdapterInstanceAllowed(id, type);
+		return chain.isNewAdapterInstanceAllowed(id, type);
 	}
 }

@@ -14,11 +14,16 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public interface IRepoServiceListener {
 	/**
 	 * Repository change.
-	 *
-	 * @param changes the changes
+	 * 
+	 * @param changes
+	 *            the changes
 	 */
 	public void repositoryContentUpdated(Changeset[] changes);
 }

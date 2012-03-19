@@ -17,6 +17,10 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class PullElementUtil {
 
 	public static SpecFile pullRepoElement(List<SpecFile> elements, String id) {
@@ -29,7 +33,7 @@ public class PullElementUtil {
 		}
 		return null;
 	}
-	
+
 	public static MediatorSpec pullMediatorSpec(SpecModel elements, String id, String namespace) {
 		for (Iterator<MediatorSpec> itr = elements.getMediatorSpecs().iterator(); itr.hasNext();) {
 			MediatorSpec element = itr.next();

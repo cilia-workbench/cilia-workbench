@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,45 +25,79 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaModel;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
+/**
+ * Represents the content of a <strong>well formed<strong> {@link SpecFile}.
+ * 
+ * @author Etienne Gandrille
+ */
 public class SpecModel {
 
+	/** Physical file path. */
 	private String filePath;
-	
+
+	/** Specs owned by the file. */
 	private List<MediatorSpec> mediatorSpecs = new ArrayList<MediatorSpec>();
-	
+
+	/**
+	 * Instantiates a new spec model.
+	 * 
+	 * @param filePath
+	 *            the file path
+	 * @throws MetadataException
+	 *             the metadata exception
+	 */
 	public SpecModel(String filePath) throws MetadataException {
 		this.filePath = filePath;
-		
-		Document document = XMLHelpers.getDocument(filePath);
-		Node root = getSpecNode(document);
+
+		File file = new File(filePath);
+		Document document = XMLHelpers.getDocument(file);
+		Node root = getRootNode(document);
 
 		for (Node node : XMLReflectionUtil.findChildren(root, "mediator-specification"))
 			mediatorSpecs.add(new MediatorSpec(node));
 	}
-	
+
+	/**
+	 * Gets the mediator specs.
+	 * 
+	 * @return the mediator specs
+	 */
 	public List<MediatorSpec> getMediatorSpecs() {
 		return mediatorSpecs;
 	}
-	
-	private static Node getSpecNode(Document document) throws MetadataException {
+
+	/**
+	 * Gets the root node.
+	 * 
+	 * @param document
+	 *            the document
+	 * @return the root node
+	 * @throws MetadataException
+	 *             the metadata exception
+	 */
+	private static Node getRootNode(Document document) throws MetadataException {
 		return XMLHelpers.getRootNode(document, "cilia-specifications");
 	}
 
+	/**
+	 * Merge.
+	 * 
+	 * @param newInstance
+	 *            the new instance
+	 * @return the changeset[]
+	 */
 	public Changeset[] merge(SpecModel newInstance) {
-		
+
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
 		for (Iterator<MediatorSpec> itr = mediatorSpecs.iterator(); itr.hasNext();) {
 			MediatorSpec old = itr.next();
 			String id = old.getId();
 			String namespace = old.getNamespace();
-			
+
 			MediatorSpec updated = PullElementUtil.pullMediatorSpec(newInstance, id, namespace);
 			if (updated == null) {
 				itr.remove();

@@ -22,6 +22,10 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.ChainDesignerView;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public abstract class CommonHandler extends AbstractHandler {
 
 	/**
@@ -40,10 +44,7 @@ public abstract class CommonHandler extends AbstractHandler {
 		String viewId = ChainDesignerView.viewId;
 		return (ChainDesignerView) ViewUtil.findViewWithId(event, viewId);
 	}
-	
-	
-	
-	
+
 	protected Object getFirstSelectedElementInRepositoryView(ExecutionEvent event) {
 		DsciliaRepositoryView view = getRepositoryView(event);
 		return view.getFirstSelectedElement();
