@@ -33,6 +33,12 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvide
  */
 public class JarMetadataLabelProvider extends LabelProvider {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider#getImageDescriptor(java.lang.Object)
+	 */
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
 		if (obj instanceof Adapter) {

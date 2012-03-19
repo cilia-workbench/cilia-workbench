@@ -50,7 +50,7 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 				"icons/16/adapterIn.png"), ADAPTER_OUT("icons/16/adapterOut.png"), REPOSITORY("icons/16/repo.png"), MEDIATOR(
 				"icons/16/mediator.png"), SCHEDULER("icons/16/scheduler.png"), PROCESSOR("icons/16/processor.png"), DISPATCHER(
 				"icons/16/dispatcher.png"), COLLECTOR("icons/16/collector.png"), SENDER("icons/16/sender.png"), PORT_IN(
-				"icons/16/portIn.png"), PORT_OUT("icons/16/portOut.png");
+				"icons/16/portIn.png"), PORT_OUT("icons/16/portOut.png"), PROPERTY("icons/16/property.png");
 
 		/** Path to find the physical image in the bundle */
 		private String path;
