@@ -16,22 +16,18 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import java.util.ArrayList;
 
-import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
- * Represents a Dscilia file, from a "physical" point of view. This file, which
- * must exists on the file system, can be well formed or not.
- * If it is "well formed", the dscilia field is not null, and represents a model of the file.
+ * Represents a Dscilia file, from a "physical" point of view. This file, which must exists on the file system, can be
+ * well formed or not. If it is "well formed", the dscilia field is not null, and represents a model of the file.
  */
-public class DsciliaFile {
+public class DsciliaFile extends AbstractFile {
 
-	/** Dscilia model. Can be null, if the file is not well formed.*/
+	/** Dscilia model. Can be null, if the file is not well formed. */
 	private DsciliaModel model;
-
-	/** Path on the file system. */
-	private String path;
 
 	/**
 	 * Instantiates a new DsciliaFile
@@ -42,8 +38,8 @@ public class DsciliaFile {
 	 *            the dscilia
 	 */
 	public DsciliaFile(String path) {
-		this.path = path;
-		
+		super(path);
+
 		try {
 			model = new DsciliaModel(path);
 		} catch (Exception e) {
@@ -59,15 +55,6 @@ public class DsciliaFile {
 	 */
 	public DsciliaModel getModel() {
 		return model;
-	}
-
-	/**
-	 * Gets the file path.
-	 * 
-	 * @return the file path
-	 */
-	public String getFilePath() {
-		return path;
 	}
 
 	/**
@@ -109,15 +96,5 @@ public class DsciliaFile {
 			c.pushPathElement(this);
 
 		return retval.toArray(new Changeset[0]);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return StringUtil.getFileName(path);
 	}
 }

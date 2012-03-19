@@ -15,7 +15,6 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.jar.JarFile;
@@ -29,16 +28,17 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class CiliaJarFile {
+import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 
-	private String filePath;
+public class CiliaJarFile extends AbstractFile {
+
 	private CiliaJarModel model;
 
 	public CiliaJarFile(String filePath) throws Exception {
-		this.filePath = filePath;
+		super(filePath);
 
 		InputStream is = inputStreamFromFile(filePath);
-		
+
 		DocumentBuilderFactory fabrique = DocumentBuilderFactory.newInstance();
 		DocumentBuilder constructeur;
 		try {
@@ -87,19 +87,6 @@ public class CiliaJarFile {
 		}
 
 		return is;
-	}
-	
-	public String getBundleName() {
-		return filePath;
-	}
-	
-	@Override
-	public String toString() {
-		int index = filePath.lastIndexOf(File.separator, filePath.length());
-		if (index == -1)
-			return filePath;
-		else
-			return filePath.substring(index + 1);
 	}
 
 	public CiliaJarModel getModel() {

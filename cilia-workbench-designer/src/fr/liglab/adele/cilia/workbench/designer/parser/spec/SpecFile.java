@@ -16,19 +16,14 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
 import java.util.ArrayList;
 
-import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
-public class SpecFile {
+public class SpecFile extends AbstractFile {
 
-	/** specFile model. Can be null, if the file is not well formed.*/
+	/** specFile model. Can be null, if the file is not well formed. */
 	private SpecModel model;
-
-	/** Path on the file system. */
-	private String path;
 
 	/**
 	 * Instantiates a new DsciliaFile
@@ -39,8 +34,8 @@ public class SpecFile {
 	 *            the dscilia
 	 */
 	public SpecFile(String path) {
-		this.path = path;
-		
+		super(path);
+
 		try {
 			model = new SpecModel(path);
 		} catch (Exception e) {
@@ -58,28 +53,8 @@ public class SpecFile {
 		return model;
 	}
 
-	/**
-	 * Gets the file path.
-	 * 
-	 * @return the file path
-	 */
-	public String getFilePath() {
-		return path;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return StringUtil.getFileName(path);
-	}
-
 	public Changeset[] merge(SpecFile newInstance) {
-	
-		
+
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
 		if (model == null && newInstance.getModel() == null) {
@@ -112,23 +87,3 @@ public class SpecFile {
 		return retval.toArray(new Changeset[0]);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

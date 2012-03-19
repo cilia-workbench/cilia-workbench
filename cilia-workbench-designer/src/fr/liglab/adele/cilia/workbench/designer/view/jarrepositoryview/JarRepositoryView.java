@@ -77,7 +77,7 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile> {
 		Object element = getFirstSelectedElement();
 		if (element != null && element instanceof CiliaJarFile) {
 			CiliaJarFile bundle = (CiliaJarFile) element;
-			String bundleName = bundle.getBundleName();
+			String bundleName = bundle.getFilePath();
 
 			IWorkbenchPage page = getViewSite().getPage();
 
