@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
@@ -69,14 +68,14 @@ public class SpecRepoService extends AbstractRepoService<SpecFile> {
 
 		// Update content provider
 		contentProvider = new SpecContentProvider(model);
-		
+
 		// Sends notifications
 		notifyListeners(changes);
 	}
-	
+
 	/**
-	 * Merge a list of repo element into the current model. Only differences
-	 * between the argument and the model are merge back into the model.
+	 * Merge a list of repo element into the current model. Only differences between the argument and the model are
+	 * merge back into the model.
 	 * 
 	 * @param repoElements
 	 *            a new model

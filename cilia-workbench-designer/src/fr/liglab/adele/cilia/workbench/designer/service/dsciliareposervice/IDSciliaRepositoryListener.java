@@ -14,18 +14,15 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IAbstractRepoServiceListener;
 
 /**
- * The listener interface for receiving IDSciliaRepository events.
- * The class that is interested in processing a IDSciliaRepository
- * event implements this interface, and the object created
- * with that class is registered with a component using the
- * component's <code>addIDSciliaRepositoryListener<code> method. When
+ * The listener interface for receiving IDSciliaRepository events. The class that is interested in processing a
+ * IDSciliaRepository event implements this interface, and the object created with that class is registered with a
+ * component using the component's <code>addIDSciliaRepositoryListener<code> method. When
  * the IDSciliaRepository event occurs, that object's appropriate
  * method is invoked.
- *
+ * 
  * @see IDSciliaRepositoryEvent
  */
 public interface IDSciliaRepositoryListener extends IAbstractRepoServiceListener {
