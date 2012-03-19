@@ -14,11 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.resources.IStorage;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.widgets.Composite;
@@ -33,29 +29,23 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 
-import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
-import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.IJarRepositoryListener;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
 
 /**
  * The Class RepositoryView.
  */
-public class JarRepositoryView extends RepositoryView implements IJarRepositoryListener {
+public class JarRepositoryView extends RepositoryView<CiliaJarFile> {
 
 	/** The Constant viewId. */
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview";
-
-	/** The model. */
-	private List<CiliaJarFile> model = new ArrayList<CiliaJarFile>();
 
 	/**
 	 * Instantiates a new repository view.
 	 */
 	public JarRepositoryView() {
+		super(JarRepoService.getInstance());
 	}
 
 	/*
@@ -68,7 +58,6 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 		super.createPartControl(parent);
 
 		viewer.setLabelProvider(new MetadataLabelProvider());
-		viewer.setAutoExpandLevel(2);
 
 		// TreeViewer listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
@@ -77,18 +66,6 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 				openMetadataInEditor();
 			}
 		});
-		JarRepoService.getInstance().registerListener(this);
-	}
-
-	/**
-	 * Refresh viewer.
-	 */
-	public void refresh() {
-		super.refresh();
-		model = JarRepoService.getInstance().getModel();
-		viewer.setContentProvider(JarRepoService.getInstance().getContentProvider());
-		viewer.setInput(model);
-		viewer.refresh();
 	}
 
 	/**
@@ -132,24 +109,5 @@ public class JarRepositoryView extends RepositoryView implements IJarRepositoryL
 				e.printStackTrace();
 			}
 		}
-	}
-
-	protected String getRepositoryPropertyPath() {
-		return CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH;
-	}
-
-	/**
-	 * Gets the repository directory.
-	 * 
-	 * @return the repository directory
-	 */
-	protected String getRepositoryDirectory() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		return store.getString(getRepositoryPropertyPath());
-	}
-
-	@Override
-	public void repositoryContentUpdated(Changeset[] toto) {
-		refresh();
 	}
 }

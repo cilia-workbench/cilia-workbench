@@ -16,8 +16,6 @@ package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
@@ -38,21 +36,18 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDSciliaRepositoryListener;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
 
 /**
  * DsciliaRepositoryView.
  */
-public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRepositoryListener {
+public class DsciliaRepositoryView extends RepositoryView<DsciliaFile> {
 
 	/** The viewId. */
 	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview";
 
-	/** The view internal model. */
-	private List<DsciliaFile> model = new ArrayList<DsciliaFile>();
-
 	public DsciliaRepositoryView() {
+		super(DsciliaRepoService.getInstance());
 	}
 
 	/*
@@ -64,8 +59,8 @@ public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRep
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
+
 		viewer.setLabelProvider(new DsciliaLabelProvider());
-		viewer.setAutoExpandLevel(2);
 
 		// TreeViewer listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
@@ -82,20 +77,6 @@ public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRep
 				addEditorSavedListener(editor.getPart(true));
 			}
 		}
-
-		// Register repository listener
-		DsciliaRepoService.getInstance().registerListener(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
-	 */
-	@Override
-	public void dispose() {
-		super.dispose();
-		DsciliaRepoService.getInstance().unregisterListener(this);
 	}
 
 	/**
@@ -137,7 +118,7 @@ public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRep
 					if (propId == IEditorPart.PROP_DIRTY && source instanceof EditorPart) {
 						EditorPart editor = (EditorPart) source;
 						if (editor.isDirty() == false)
-							DsciliaRepoService.getInstance().updateModel();
+							repoService.updateModel();
 					}
 				}
 			});
@@ -169,29 +150,5 @@ public class DsciliaRepositoryView extends RepositoryView implements IDSciliaRep
 				}
 			}
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView #refresh()
-	 */
-	@Override
-	protected void refresh() {
-		super.refresh();
-		model = DsciliaRepoService.getInstance().getModel();
-		viewer.setContentProvider(DsciliaRepoService.getInstance().getContentProvider());
-		viewer.setInput(model);
-		viewer.refresh();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView#getRepositoryDirectory()
-	 */
-	@Override
-	protected String getRepositoryDirectory() {
-		return DsciliaRepoService.getInstance().getRepositoryPath();
 	}
 }

@@ -38,7 +38,7 @@ public abstract class AbstractRepoService<ModelType> {
 	protected List<ModelType> model;
 
 	/** Listeners used to notify repository updates. */
-	private List<IAbstractRepoServiceListener> listeners;
+	private List<IRepoServiceListener> listeners;
 
 	/**
 	 * A content provider. Usualy, it's useful for displaying the repository in
@@ -77,7 +77,7 @@ public abstract class AbstractRepoService<ModelType> {
 		});
 
 		model = new ArrayList<ModelType>();
-		listeners = new ArrayList<IAbstractRepoServiceListener>();
+		listeners = new ArrayList<IRepoServiceListener>();
 
 		updateModel();
 	}
@@ -141,7 +141,7 @@ public abstract class AbstractRepoService<ModelType> {
 	 * @param listener
 	 *            the listener
 	 */
-	public void registerListener(IAbstractRepoServiceListener listener) {
+	public void registerListener(IRepoServiceListener listener) {
 		if (listener != null && !listeners.contains(listener))
 			listeners.add(listener);
 	}
@@ -153,7 +153,7 @@ public abstract class AbstractRepoService<ModelType> {
 	 *            the listener
 	 * @return true, if successful
 	 */
-	public boolean unregisterListener(IAbstractRepoServiceListener listener) {
+	public boolean unregisterListener(IRepoServiceListener listener) {
 		if (listener != null)
 			return listeners.remove(listener);
 		else
@@ -167,7 +167,7 @@ public abstract class AbstractRepoService<ModelType> {
 	 *            the change set table.
 	 */
 	protected void notifyListeners(Changeset[] changes) {
-		for (IAbstractRepoServiceListener listener : listeners) {
+		for (IRepoServiceListener listener : listeners) {
 			listener.repositoryContentUpdated(changes);
 		}
 	}

@@ -26,11 +26,11 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.IDSciliaRepositoryListener;
 import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DsciliaRepositoryView;
 
-public class ChainDesignerView extends GraphView implements IDSciliaRepositoryListener {
+public class ChainDesignerView extends GraphView implements IRepoServiceListener {
 
 	/** The View ID. */
 	public static final String viewId = "fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview";
