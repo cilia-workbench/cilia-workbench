@@ -27,11 +27,11 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
- * The Class MetadataLabelProvider.
+ * The Class JarMetadataLabelProvider.
  * 
  * @author Etienne Gandrille
  */
-public class MetadataLabelProvider extends LabelProvider {
+public class JarMetadataLabelProvider extends LabelProvider {
 
 	protected String getImagePath(Object obj) {
 		String imageName;

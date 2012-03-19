@@ -59,7 +59,7 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile> {
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 
-		viewer.setLabelProvider(new MetadataLabelProvider());
+		viewer.setLabelProvider(new JarMetadataLabelProvider());
 
 		// TreeViewer listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
