@@ -4,9 +4,9 @@
    <extension
          point="org.eclipse.ui.services">
       <sourceProvider
-            provider="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.VariablesSourceProvider">
+            provider="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.VariablesSourceProvider">
          <variable
-               name="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable"
+               name="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable"
                priorityLevel="workbench">
          </variable>
       </sourceProvider>
@@ -23,30 +23,30 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            category="fr.liglab.adele.cilia.workbench.designer.rootCategory"
-            class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.JarRepositoryView"
+            category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
+            class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.JarRepositoryView"
             icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
-            id="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview"
+            id="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview"
             name="Jar repository"
             restorable="true">
       </view>
       <category
-            id="fr.liglab.adele.cilia.workbench.designer.rootCategory"
+            id="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
             name="CILIA Designer">
       </category>
       <view
-            category="fr.liglab.adele.cilia.workbench.designer.rootCategory"
-            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaRepositoryView"
+            category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
+            class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DsciliaRepositoryView"
             icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
-            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview"
+            id="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview"
             name="Dscilia repository"
             restorable="true">
       </view>
       <view
-            category="fr.liglab.adele.cilia.workbench.designer.rootCategory"
-            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.ChainDesignerView"
+            category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
+            class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.ChainDesignerView"
             icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chain.png"
-            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview"
+            id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview"
             name="Chain Designer"
             restorable="true">
       </view>
@@ -54,74 +54,68 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            id="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.reload"
+            id="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.reload"
             name="Reload Jar repository">
       </command>
       <command
-            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.reload"
+            id="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.reload"
             name="Reload Dscilia repository">
       </command>
       <command
-            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createFile"
+            id="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.createFile"
             name="Create Dscilia file">
       </command>
       <command
-            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteFile"
+            id="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.deleteFile"
             name="Delete Dscilia file">
       </command>
       <command
-            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createChain"
+            id="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.createChain"
             name="Create Dscilia chain">
       </command>
       <command
-            id="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteChain"
+            id="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.deleteChain"
             name="Delete Dscilia chain">
       </command>
       
       <command
-            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createMediator"
+            id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createMediator"
             name="Create mediator component">
       </command>
       
       <command
-            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteMediator"
+            id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteMediator"
             name="Delete mediator component">
       </command>
       
             <command
-            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createAdapter"
+            id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createAdapter"
             name="Create adapter">
       </command>
       
       <command
-            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteAdapter"
+            id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteAdapter"
             name="Delete adapter">
       </command>
       
             <command
-            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createBinding"
+            id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createBinding"
             name="Create binding">
       </command>
       
       <command
-            id="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteBinding"
+            id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteBinding"
             name="Delete binding">
       </command>
-      
-      
-      
-      
-      
-      
       
    </extension>
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.jarrepositoryview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.reload"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.reload"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
                label="Reload Jar repository"
                style="push">
@@ -129,9 +123,9 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.reload"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.reload"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
                label="Reload Dscilia repository"
                style="push">
@@ -140,9 +134,9 @@
       
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createFile"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.createFile"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/fileCreate.png"
                label="Create Dscilia file"
                style="push">
@@ -151,9 +145,9 @@
       
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteFile"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.deleteFile"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/fileDelete.png"
                label="Delete Dscilia file"
                style="push">
@@ -162,9 +156,9 @@
       
        <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createChain"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.createChain"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chainCreate.png"
                label="Create Dscilia chain"
                style="push">
@@ -173,9 +167,9 @@
       
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteChain"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.deleteChain"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chainDelete.png"
                label="Delete Dscilia chain"
                style="push">
@@ -183,9 +177,9 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createMediator"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createMediator"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/mediatorCreate.png"
                label="Create mediator component"
                style="push">
@@ -193,9 +187,9 @@
       </menuContribution>
        <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteMediator"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteMediator"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/mediatorDelete.png"
                label="Delete mediator component "
                style="push">
@@ -203,9 +197,9 @@
       </menuContribution>
        <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createAdapter"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createAdapter"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/adapterCreate.png"
                label="Create adapter"
                style="push">
@@ -213,9 +207,9 @@
       </menuContribution>
        <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteAdapter"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteAdapter"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/adapterDelete.png"
                label="Delete adapter "
                style="push">
@@ -223,9 +217,9 @@
       </menuContribution>
        <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createBinding"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createBinding"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/bindingCreate.png"
                label="Create binding"
                style="push">
@@ -233,9 +227,9 @@
       </menuContribution>      
        <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.chaindesignerview">
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
          <command
-               commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteBinding"
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteBinding"
                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/bindingDelete.png"
                label="Delete binding"
                style="push">
@@ -245,37 +239,37 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.ReloadHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.reload">
+            class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.ReloadHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.reload">
       </handler>
       <handler
-            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.ReloadHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.reload">
+            class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.ReloadHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.reload">
       </handler>
       <handler
-            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.CreateFileHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createFile">
+            class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.CreateFileHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.createFile">
       </handler>
       <handler
-            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DeleteFileHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteFile">
-      </handler>
-      
-      <handler
-            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.CreateChainHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.createChain">
-      </handler>
-      <handler
-            class="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DeleteChainHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.deleteChain">
+            class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DeleteFileHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.deleteFile">
       </handler>
       
       <handler
-            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.CreateMediatorHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createMediator">
+            class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.CreateChainHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.createChain">
+      </handler>
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DeleteChainHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.deleteChain">
+      </handler>
+      
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.CreateMediatorHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createMediator">
          <enabledWhen>
             <with
-                  variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+                  variable="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable">
                <equals
                      value="enable">
                </equals>
@@ -283,11 +277,11 @@
          </enabledWhen>
       </handler>
       <handler
-            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.DeleteMediatorHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteMediator">
+            class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.DeleteMediatorHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteMediator">
          <enabledWhen>
             <with
-                  variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+                  variable="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable">
                <equals
                      value="enable">
                </equals>
@@ -295,11 +289,11 @@
          </enabledWhen>
       </handler>
       <handler
-            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.CreateAdapterHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createAdapter">
+            class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.CreateAdapterHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createAdapter">
          <enabledWhen>
             <with
-                  variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+                  variable="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable">
                <equals
                      value="enable">
                </equals>
@@ -307,11 +301,11 @@
          </enabledWhen>
       </handler>
       <handler
-            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.DeleteAdapterHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteAdapter">
+            class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.DeleteAdapterHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteAdapter">
          <enabledWhen>
             <with
-                  variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+                  variable="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable">
                <equals
                      value="enable">
                </equals>
@@ -319,11 +313,11 @@
          </enabledWhen>
       </handler>
             <handler
-            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.CreateBindingHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.createBinding">
+            class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.CreateBindingHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createBinding">
                <enabledWhen>
                   <with
-                        variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+                        variable="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable">
                      <equals
                            value="enable">
                      </equals>
@@ -331,11 +325,11 @@
                </enabledWhen>
       </handler>
       <handler
-            class="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.DeleteBindingHandler"
-            commandId="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.deleteBinding">
+            class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.DeleteBindingHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteBinding">
          <enabledWhen>
             <with
-                  variable="fr.liglab.adele.cilia.workbench.designer.chaindesignerview.toolbarEnable">
+                  variable="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable">
                <equals
                      value="enable">
                </equals>
@@ -344,29 +338,29 @@
       </handler>
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">
-      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
       
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender" class="fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.propertyview.PropertiesAdapter">
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>      
    </extension>

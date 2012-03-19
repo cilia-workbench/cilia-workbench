@@ -18,8 +18,8 @@ import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
-import fr.liglab.adele.cilia.workbench.designer.dsciliarepositoryview.DsciliaRepositoryView;
-import fr.liglab.adele.cilia.workbench.designer.jarrepositoryview.JarRepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DsciliaRepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.JarRepositoryView;
 
 public class DefaultPerspective implements IPerspectiveFactory {
 
