@@ -12,24 +12,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
-
-import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryHandler;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DeleteAdapterHandler extends ChainDesignerHandler {
+public abstract class SpecHandler extends RepositoryHandler {
 
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		MessageDialog.openInformation(ViewUtil.getShell(event), "Handler", this.getClass().getName());
-		return null;
+	public SpecHandler() {
+		super(SpecRepositoryView.viewID);
 	}
-
 }

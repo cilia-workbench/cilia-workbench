@@ -12,23 +12,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
-
-import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DeleteAdapterHandler extends ChainDesignerHandler {
+public class CreateFileHandler extends SpecHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		MessageDialog.openInformation(ViewUtil.getShell(event), "Handler", this.getClass().getName());
+
+		// TODO Ecrire le handler
+		// TODO ajouter tout ce qui va bien dans le plugin.xml
+
+		// TODO dans un second temps, refactorer les handlers, en mettant proprement la validation.
+
 		return null;
 	}
 

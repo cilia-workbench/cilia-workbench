@@ -18,17 +18,17 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
-import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.CommonHandler;
+import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DeleteMediatorHandler extends CommonHandler {
+public class DeleteMediatorHandler extends ChainDesignerHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		MessageDialog.openInformation(getShell(event), "Handler", this.getClass().getName());
+		MessageDialog.openInformation(ViewUtil.getShell(event), "Handler", this.getClass().getName());
 		return null;
 	}
 

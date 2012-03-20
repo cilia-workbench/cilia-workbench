@@ -18,6 +18,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
+import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
@@ -26,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Dscil
  * 
  * @author Etienne Gandrille
  */
-public class DeleteFileHandler extends CommonHandler {
+public class DeleteFileHandler extends DsciliaHandler {
 
 	/*
 	 * (non-Javadoc)
@@ -38,12 +39,12 @@ public class DeleteFileHandler extends CommonHandler {
 		Object object = getFirstSelectedElementInRepositoryView(event);
 		if (object != null && object instanceof DsciliaFile) {
 			DsciliaFile repo = (DsciliaFile) object;
-			boolean result = MessageDialog.openConfirm(getShell(event), "Confirmation required",
+			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required",
 					"Do you want to delete " + repo.getFilePath() + "?");
 			if (result == true)
 				DsciliaRepoService.getInstance().deleteRepoElement(repo);
 		} else {
-			MessageDialog.openError(getShell(event), "Error", "You must select a dscila file first.");
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", "You must select a dscila file first.");
 		}
 		return null;
 	}

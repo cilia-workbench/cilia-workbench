@@ -21,6 +21,7 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
+import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
@@ -29,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Dscil
  * 
  * @author Etienne Gandrille
  */
-public class CreateChainHandler extends CommonHandler {
+public class CreateChainHandler extends DsciliaHandler {
 
 	/*
 	 * (non-Javadoc)
@@ -42,12 +43,12 @@ public class CreateChainHandler extends CommonHandler {
 		// Gets the dscilia file first
 		Object object = getFirstSelectedElementInRepositoryView(event);
 		if (!(object instanceof DsciliaFile)) {
-			MessageDialog.openError(getShell(event), "Error", "Please select a dscilia file first.");
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Please select a dscilia file first.");
 			return null;
 		}
 		final DsciliaFile repo = (DsciliaFile) object;
 		if (repo.getModel() == null) {
-			MessageDialog.openError(getShell(event), "Error",
+			MessageDialog.openError(ViewUtil.getShell(event), "Error",
 					"Dscilia file must be in a valid state. Please check xml.");
 			return null;
 		}
@@ -61,7 +62,7 @@ public class CreateChainHandler extends CommonHandler {
 		};
 
 		// Dialog creation
-		InputDialog dialog = new InputDialog(getShell(event), "Chain creation",
+		InputDialog dialog = new InputDialog(ViewUtil.getShell(event), "Chain creation",
 				"Please give a name for the new chain.", "", validator);
 
 		if (dialog.open() == Window.OK) {

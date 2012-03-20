@@ -12,11 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.repositoryview;
 
+import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 
@@ -24,12 +23,20 @@ import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
  * 
  * @author Etienne Gandrille
  */
-public class DeleteAdapterHandler extends ChainDesignerHandler {
+public abstract class RepositoryHandler extends AbstractHandler {
 
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		MessageDialog.openInformation(ViewUtil.getShell(event), "Handler", this.getClass().getName());
-		return null;
+	private final String viewID;
+
+	public RepositoryHandler(String viewID) {
+		this.viewID = viewID;
 	}
 
+	protected RepositoryView<?> getRepositoryView(ExecutionEvent event) {
+		return (RepositoryView<?>) ViewUtil.findViewWithId(event, viewID);
+	}
+
+	protected Object getFirstSelectedElementInRepositoryView(ExecutionEvent event) {
+		RepositoryView<?> view = (RepositoryView<?>) getRepositoryView(event);
+		return view.getFirstSelectedElement();
+	}
 }

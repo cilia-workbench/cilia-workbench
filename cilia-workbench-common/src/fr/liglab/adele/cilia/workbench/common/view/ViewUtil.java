@@ -15,6 +15,7 @@
 package fr.liglab.adele.cilia.workbench.common.view;
 
 import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -40,5 +41,16 @@ public class ViewUtil {
 				return view.getView(true);
 
 		throw new RuntimeException("view with id " + viewId + " not found.");
+	}
+
+	/**
+	 * Gets the parent shell. Useful for creating modal dialogs.
+	 * 
+	 * @param event
+	 *            the event
+	 * @return the shell
+	 */
+	public static Shell getShell(ExecutionEvent event) {
+		return HandlerUtil.getActiveWorkbenchWindow(event).getShell();
 	}
 }

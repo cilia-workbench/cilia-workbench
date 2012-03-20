@@ -20,6 +20,7 @@ import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
 
+import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
 /**
@@ -27,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Dscil
  * 
  * @author Etienne Gandrille
  */
-public class CreateFileHandler extends CommonHandler {
+public class CreateFileHandler extends DsciliaHandler {
 
 	/*
 	 * (non-Javadoc)
@@ -46,8 +47,8 @@ public class CreateFileHandler extends CommonHandler {
 		};
 
 		// Dialog creation
-		InputDialog dialog = new InputDialog(getShell(event), "File creation", "Please give a name for the new file.",
-				".dscilia", validator);
+		InputDialog dialog = new InputDialog(ViewUtil.getShell(event), "File creation",
+				"Please give a name for the new file.", DsciliaRepoService.ext, validator);
 
 		if (dialog.open() == Window.OK) {
 			String fileName = dialog.getValue();

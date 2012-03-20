@@ -54,7 +54,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 		// Registers the instance in the selection service
 		ISelectionService s = getSite().getWorkbenchWindow().getSelectionService();
-		s.addSelectionListener(DsciliaRepositoryView.viewId, this);
+		s.addSelectionListener(DsciliaRepositoryView.viewID, this);
 
 		setPartName(DEFAULT_PART_NAME);
 		viewer.setContentProvider(contentProvider);

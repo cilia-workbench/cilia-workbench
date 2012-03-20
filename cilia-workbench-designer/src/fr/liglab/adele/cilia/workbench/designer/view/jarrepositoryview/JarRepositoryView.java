@@ -40,8 +40,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryVi
  */
 public class JarRepositoryView extends RepositoryView<CiliaJarFile> {
 
-	/** The Constant viewId. */
-	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview";
+	public final static String viewID = "fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview";
 
 	/**
 	 * Instantiates a new repository view.

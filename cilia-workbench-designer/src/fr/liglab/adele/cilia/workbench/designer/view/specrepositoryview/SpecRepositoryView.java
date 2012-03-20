@@ -33,8 +33,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryVi
  */
 public class SpecRepositoryView extends RepositoryView<SpecFile> {
 
-	/** The viewId. */
-	public final static String viewId = "fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview";
+	public final static String viewID = "fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview";
 
 	/**
 	 * Instantiates a new spec repository view.

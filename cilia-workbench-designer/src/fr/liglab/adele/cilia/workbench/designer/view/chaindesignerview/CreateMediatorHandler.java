@@ -18,23 +18,23 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.window.Window;
 
+import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.CommonHandler;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class CreateMediatorHandler extends CommonHandler {
+public class CreateMediatorHandler extends ChainDesignerHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
 		Chain chain = getChainDesignerView(event).getModel();
 		if (chain != null) {
-			NewMediatorInstanceWindow window = new NewMediatorInstanceWindow(getShell(event), chain);
+			NewMediatorInstanceWindow window = new NewMediatorInstanceWindow(ViewUtil.getShell(event), chain);
 			if (window.open() == Window.OK) {
 				String id = window.getComponentId();
 				String type = window.getComponentType();

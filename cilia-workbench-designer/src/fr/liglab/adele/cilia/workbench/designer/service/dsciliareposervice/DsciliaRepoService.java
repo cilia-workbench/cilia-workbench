@@ -51,7 +51,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.DSCILIA_REPOSITORY_PATH;
 
 	/** DScilia files extension. */
-	private final static String ext = ".dscilia";
+	public final static String ext = ".dscilia";
 
 	/**
 	 * Gets the singleton instance.

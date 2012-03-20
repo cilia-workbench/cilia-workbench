@@ -36,9 +36,9 @@ public class DefaultPerspective implements IPerspectiveFactory {
 
 		// Left folder
 		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, (float) 0.20, editorArea);
-		left.addView(SpecRepositoryView.viewId);
-		left.addView(JarRepositoryView.viewId);
-		left.addView(DsciliaRepositoryView.viewId);
+		left.addView(SpecRepositoryView.viewID);
+		left.addView(JarRepositoryView.viewID);
+		left.addView(DsciliaRepositoryView.viewID);
 
 		// Bottom folder
 		IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, (float) 0.70, editorArea);
