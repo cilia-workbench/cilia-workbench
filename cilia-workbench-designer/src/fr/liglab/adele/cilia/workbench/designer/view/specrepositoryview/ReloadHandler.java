@@ -12,39 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
-import org.w3c.dom.Node;
+package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port {
+public class ReloadHandler extends AbstractHandler {
 
-	private String name;
-	private final String type;
-	private Node node;
-
-	public Port(Node node, String type) throws MetadataException {
-		this.node = node;
-		this.type = type;
-		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands .ExecutionEvent)
+	 */
 	@Override
-	public String toString() {
-		return name;
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		SpecRepoService.getInstance().updateModel();
+		return null;
 	}
 }

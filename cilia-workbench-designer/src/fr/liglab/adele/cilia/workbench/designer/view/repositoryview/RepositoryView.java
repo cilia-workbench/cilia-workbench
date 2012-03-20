@@ -14,9 +14,14 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -25,9 +30,20 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.ISelectionService;
+import org.eclipse.ui.IURIEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
@@ -171,5 +187,105 @@ public abstract class RepositoryView<ModelType> extends ViewPart implements IRep
 	public void dispose() {
 		super.dispose();
 		repoService.unregisterListener(this);
+	}
+
+	/**
+	 * Adds a listener ton an editor to be notify as soon as he saves.
+	 * 
+	 * @param editor
+	 *            the editor
+	 */
+	protected void addEditorSavedListener(IWorkbenchPart editor) {
+		if (editor != null) {
+			editor.addPropertyListener(new IPropertyListener() {
+				@Override
+				public void propertyChanged(Object source, int propId) {
+					if (propId == IEditorPart.PROP_DIRTY && source instanceof EditorPart) {
+						EditorPart editor = (EditorPart) source;
+						if (editor.isDirty() == false)
+							repoService.updateModel();
+					}
+				}
+			});
+		}
+	}
+
+	/**
+	 * Finds open editors, which are editing a file located in the repository. Filters results using the editor title :
+	 * title must end with prefix.
+	 * 
+	 * @param prefix
+	 * @return
+	 */
+	protected List<IEditorReference> getRelevantFileStoreEditors(String prefix) {
+
+		List<IEditorReference> retval = new ArrayList<IEditorReference>();
+
+		IEditorReference[] ref = getViewSite().getPage().getEditorReferences();
+		for (IEditorReference editor : ref) {
+			try {
+				IEditorInput input = editor.getEditorInput();
+				if (input instanceof IURIEditorInput) {
+					IURIEditorInput fileStore = (IURIEditorInput) input;
+					URI uri = fileStore.getURI();
+					String scheme = uri.getScheme();
+					if (scheme.equals("file")) {
+						String path = uri.getPath();
+						if (path.startsWith(getRepositoryDirectory()))
+							if (editor.getTitle().toLowerCase().endsWith(prefix))
+								retval.add(editor);
+					}
+				}
+			} catch (PartInitException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return retval;
+	}
+
+	/**
+	 * Opens an editor.
+	 * 
+	 * @param event
+	 *            the event
+	 */
+	protected void openFileEditor(DoubleClickEvent event) {
+		Object element = getFirstSelectedElement();
+
+		if (element != null) {
+			try {
+				@SuppressWarnings("unchecked")
+				AbstractFile<ModelType> repoElement = (AbstractFile<ModelType>) element;
+				if (repoElement.getModel() != null) {
+					openFileEditor(repoElement.getFilePath());
+				}
+
+			} catch (Exception e) {
+				// do nothing
+				// we are using try... catch instead because instanceof is not possible (type erasure)
+			}
+		}
+	}
+
+	/**
+	 * Opens an editor for editing a file, which name is given into parameter. Registers a listener to update the repo
+	 * model as soon as the editor saves.
+	 * 
+	 * @param filePath
+	 *            the file path
+	 */
+	protected void openFileEditor(String filePath) {
+		IFileStore fileStore;
+		try {
+			fileStore = EFS.getLocalFileSystem().getStore(new URI(filePath));
+			IWorkbenchPage page = getViewSite().getPage();
+			IEditorPart editor = IDE.openEditorOnFileStore(page, fileStore);
+			addEditorSavedListener(editor);
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 }

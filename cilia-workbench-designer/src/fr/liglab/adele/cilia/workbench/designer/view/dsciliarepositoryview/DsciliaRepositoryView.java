@@ -14,22 +14,10 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IPropertyListener;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.part.EditorPart;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
@@ -68,17 +56,13 @@ public class DsciliaRepositoryView extends RepositoryView<DsciliaFile> {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
-				openEditor(event);
+				openFileEditor(event);
 			}
 		});
 
 		// Linking already opened editors for getting save notifications
-		IEditorReference[] ref = getViewSite().getPage().getEditorReferences();
-		for (IEditorReference editor : ref) {
-			if (editor.getTitle().toLowerCase().endsWith(".dscilia")) {
-				addEditorSavedListener(editor.getPart(true));
-			}
-		}
+		for (IEditorReference editor : getRelevantFileStoreEditors(".dscilia"))
+			addEditorSavedListener(editor.getPart(true));
 	}
 
 	/**
@@ -101,54 +85,6 @@ public class DsciliaRepositoryView extends RepositoryView<DsciliaFile> {
 				if (object instanceof DsciliaFile) {
 					refresh();
 					return;
-				}
-			}
-		}
-	}
-
-	/**
-	 * Adds a listener ton an editor to be notify as soon as he saves.
-	 * 
-	 * @param editor
-	 *            the editor
-	 */
-	private void addEditorSavedListener(IWorkbenchPart editor) {
-		if (editor != null) {
-			editor.addPropertyListener(new IPropertyListener() {
-				@Override
-				public void propertyChanged(Object source, int propId) {
-					if (propId == IEditorPart.PROP_DIRTY && source instanceof EditorPart) {
-						EditorPart editor = (EditorPart) source;
-						if (editor.isDirty() == false)
-							repoService.updateModel();
-					}
-				}
-			});
-		}
-	}
-
-	/**
-	 * Opens an editor.
-	 * 
-	 * @param event
-	 *            the event
-	 */
-	private void openEditor(DoubleClickEvent event) {
-		Object element = getFirstSelectedElement();
-
-		if (element != null && element instanceof DsciliaFile) {
-			DsciliaFile repoElement = (DsciliaFile) element;
-			if (repoElement.getModel() != null) {
-				IFileStore fileStore;
-				try {
-					fileStore = EFS.getLocalFileSystem().getStore(new URI(repoElement.getFilePath()));
-					IWorkbenchPage page = getViewSite().getPage();
-					IEditorPart editor = IDE.openEditorOnFileStore(page, fileStore);
-					addEditorSavedListener(editor);
-				} catch (PartInitException e) {
-					e.printStackTrace();
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
 				}
 			}
 		}

@@ -20,6 +20,7 @@ import org.eclipse.ui.IPerspectiveFactory;
 
 import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DsciliaRepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.JarRepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.SpecRepositoryView;
 
 /**
  * 
@@ -35,6 +36,7 @@ public class DefaultPerspective implements IPerspectiveFactory {
 
 		// Left folder
 		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, (float) 0.20, editorArea);
+		left.addView(SpecRepositoryView.viewId);
 		left.addView(JarRepositoryView.viewId);
 		left.addView(DsciliaRepositoryView.viewId);
 

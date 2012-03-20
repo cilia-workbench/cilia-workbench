@@ -18,8 +18,6 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
  * 
@@ -45,15 +43,8 @@ public class Property {
 		return value;
 	}
 
-	public Changeset[] merge(Property newInstance) {
-
-		if (value.equals(newInstance.getValue()))
-			return new Changeset[0];
-		else {
-			value = newInstance.getValue();
-			Changeset[] retval = new Changeset[1];
-			retval[0] = new Changeset(Operation.UPDATE, this);
-			return retval;
-		}
+	@Override
+	public String toString() {
+		return key + "=" + value;
 	}
 }

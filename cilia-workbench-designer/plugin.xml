@@ -30,10 +30,6 @@
             name="Jar repository"
             restorable="true">
       </view>
-      <category
-            id="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
-            name="CILIA Designer">
-      </category>
       <view
             category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
             class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DsciliaRepositoryView"
@@ -42,12 +38,24 @@
             name="Dscilia repository"
             restorable="true">
       </view>
+      <category
+            id="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
+            name="CILIA Designer">
+      </category>
       <view
             category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
             class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.ChainDesignerView"
             icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chain.png"
             id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview"
             name="Chain Designer"
+            restorable="true">
+      </view>
+      <view
+            category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
+            class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.SpecRepositoryView"
+            icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
+            id="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview"
+            name="Spec repository"
             restorable="true">
       </view>
    </extension>
@@ -106,6 +114,10 @@
       <command
             id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteBinding"
             name="Delete binding">
+      </command>
+      <command
+            id="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.reload"
+            name="Reload Spec Repository">
       </command>
       
    </extension>
@@ -235,6 +247,16 @@
                style="push">
          </command>
       </menuContribution>
+       <menuContribution
+             allPopups="false"
+             locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview">
+          <command
+                commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.reload"
+                icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
+                label="Reload Spec repository"
+                style="push">
+          </command>
+       </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -335,6 +357,10 @@
                </equals>
             </with>
          </enabledWhen>
+      </handler>
+      <handler
+            class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.ReloadHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.reload">
       </handler>
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">

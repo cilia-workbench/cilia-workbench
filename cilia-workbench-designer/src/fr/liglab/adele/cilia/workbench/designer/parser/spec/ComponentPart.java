@@ -70,4 +70,13 @@ public class ComponentPart {
 		return retval.toArray(new Changeset[0]);
 	}
 
+	@Override
+	public String toString() {
+		String className = this.getClass().getName();
+		int idx = className.lastIndexOf(".");
+		if (idx == -1)
+			return className;
+		else
+			return className.substring(idx + 1);
+	}
 }

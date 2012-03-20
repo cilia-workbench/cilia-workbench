@@ -131,14 +131,12 @@ public class MediatorSpec {
 		for (Iterator<Property> itr = properties.iterator(); itr.hasNext();) {
 			Property old = itr.next();
 			String key = old.getKey();
+			String value = old.getValue();
 
-			Property updated = PullElementUtil.pullProperty(newInstance, key);
+			Property updated = PullElementUtil.pullProperty(newInstance, key, value);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
-			} else {
-				for (Changeset c : old.merge(updated))
-					retval.add(c);
 			}
 		}
 		for (Property property : newInstance.getProperties()) {
@@ -194,5 +192,10 @@ public class MediatorSpec {
 
 		return retval.toArray(new Changeset[0]);
 
+	}
+
+	@Override
+	public String toString() {
+		return id;
 	}
 }
