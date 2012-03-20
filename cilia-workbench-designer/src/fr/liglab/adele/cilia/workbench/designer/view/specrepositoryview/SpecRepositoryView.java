@@ -54,9 +54,6 @@ public class SpecRepositoryView extends RepositoryView<SpecFile> {
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 
-		viewer.setLabelProvider(new SpecLabelProvider());
-		viewer.setAutoExpandLevel(3);
-
 		// TreeViewer listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			@Override
@@ -68,6 +65,9 @@ public class SpecRepositoryView extends RepositoryView<SpecFile> {
 		// Linking already opened editors for getting save notifications
 		for (IEditorReference editor : getRelevantFileStoreEditors(".xml"))
 			addEditorSavedListener(editor.getPart(true));
+
+		viewer.setLabelProvider(new SpecLabelProvider());
+		viewer.setAutoExpandLevel(3);
 	}
 
 	/*
@@ -86,5 +86,4 @@ public class SpecRepositoryView extends RepositoryView<SpecFile> {
 			}
 		}
 	}
-
 }

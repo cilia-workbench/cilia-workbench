@@ -364,31 +364,75 @@
       </handler>
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">
-      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
-         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
-      </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
-         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
-      </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
-         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
-      </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
-         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
-      </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
-         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
-      </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
-         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
-      </factory>
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
+   
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>
       
-            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender" class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview.PropertiesAdapter">
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+      
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+      
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+      
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
          <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
       </factory>      
+
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.spec.Dispatcher" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+
+      <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.spec.InPort" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+      
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+      
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.spec.OutPort" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+      
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+      
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.spec.Processor" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+      
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.spec.Property" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+      
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.spec.Scheduler" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+      
+            <factory adaptableType="fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile" class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
+      </factory>
+      
    </extension>
    <extension
          point="org.eclipse.core.contenttype.contentTypes">

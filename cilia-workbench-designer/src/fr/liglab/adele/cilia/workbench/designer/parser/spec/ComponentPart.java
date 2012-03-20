@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
  * 
  * @author Etienne Gandrille
  */
-public class ComponentPart {
+public abstract class ComponentPart {
 
 	List<Parameter> parameters = new ArrayList<Parameter>();
 

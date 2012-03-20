@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview;
+package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview;
 
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.ui.views.properties.IPropertySource;

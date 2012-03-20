@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.propertyview;
+package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,42 +23,76 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
 /**
- * Bridge the gap between the Chain model object (of type ChainReadOnly) and the properties view.
+ * Bridge the gap between the model object and the properties view.
  * 
  * @author Etienne Gandrille
  */
 public class PropertySource implements IPropertySource {
 
+	/** The model object. */
 	private Object modelObject;
 
+	/** The PROPERTIE s_ category. */
 	protected final String PROPERTIES_CATEGORY = "Basic properties";
 
+	/**
+	 * Instantiates a new property source.
+	 * 
+	 * @param modelObject
+	 *            the model object
+	 */
 	public PropertySource(Object modelObject) {
 		this.modelObject = modelObject;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
+	 */
+	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		Field[] fields = modelObject.getClass().getDeclaredFields();
+		List<IPropertyDescriptor> retval = new ArrayList<IPropertyDescriptor>();
 
-		List<IPropertyDescriptor> list = new ArrayList<IPropertyDescriptor>();
+		List<Field> fields = new ArrayList<Field>();
+
+		for (Field f : modelObject.getClass().getDeclaredFields())
+			fields.add(f);
+		try {
+			for (Field f : modelObject.getClass().getSuperclass().getDeclaredFields())
+				fields.add(f);
+		} catch (Exception e) {
+			// no super class
+		}
+
 		for (Field field : fields) {
 			Class<?> type = field.getType();
 			if (type.equals(String.class)) {
 				String name = field.getName();
 				PropertyDescriptor descriptor = new PropertyDescriptor(name, name);
 				descriptor.setCategory(PROPERTIES_CATEGORY);
-				list.add(descriptor);
+				retval.add(descriptor);
 			}
 		}
 
-		return list.toArray(new IPropertyDescriptor[0]);
+		return retval.toArray(new IPropertyDescriptor[0]);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java.lang.Object)
+	 */
 	@Override
 	public Object getPropertyValue(Object id) {
 		String name = (String) id;
 		try {
-			Field field = modelObject.getClass().getDeclaredField(name);
+			Field field;
+			try {
+				field = modelObject.getClass().getDeclaredField(name);
+			} catch (NoSuchFieldException e) {
+				field = modelObject.getClass().getSuperclass().getDeclaredField(name);
+			}
 			field.setAccessible(true);
 			Object value = field.get(modelObject);
 			return value;
@@ -74,20 +108,40 @@ public class PropertySource implements IPropertySource {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.views.properties.IPropertySource#getEditableValue()
+	 */
 	@Override
 	public Object getEditableValue() {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
+	 */
 	@Override
 	public boolean isPropertySet(Object id) {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
+	 */
 	@Override
 	public void resetPropertyValue(Object id) {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java.lang.Object, java.lang.Object)
+	 */
 	@Override
 	public void setPropertyValue(Object id, Object value) {
 	}
