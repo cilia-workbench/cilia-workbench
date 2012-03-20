@@ -21,6 +21,7 @@ import org.osgi.framework.BundleException;
 
 /**
  * Class referenced in <code>org.eclipse.ui.startup</code> extension point.
+ * @author Etienne Gandrille
  */
 public class EarlyStartupManager implements IStartup {
 

@@ -22,6 +22,10 @@ import fr.liglab.adele.cilia.workbench.monitoring.changesview.ChangesView;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.TopologyView;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.chainview.ChainView;
 
+/**
+ *
+ * @author Etienne Gandrille
+ */
 public class DefaultPerspective implements IPerspectiveFactory {
 
 	@Override

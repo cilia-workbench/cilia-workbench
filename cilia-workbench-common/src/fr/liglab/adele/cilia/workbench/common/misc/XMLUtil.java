@@ -24,6 +24,10 @@ import org.w3c.dom.NodeList;
 
 import com.google.common.base.Strings;
 
+/**
+ *
+ * @author Etienne Gandrille
+ */
 public class XMLUtil {
 	
 	public static Node[] findXMLChildNode(Node root, String nodeName) {

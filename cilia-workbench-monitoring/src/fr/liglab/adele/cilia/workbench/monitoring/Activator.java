@@ -23,6 +23,7 @@ import fr.liglab.adele.cilia.management.monitoring.MonitoredApplication;
 
 /**
  * The activator class controls the plug-in life cycle.
+ * @author Etienne Gandrille
  */
 public class Activator extends AbstractUIPlugin {
 

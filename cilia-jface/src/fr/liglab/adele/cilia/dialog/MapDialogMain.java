@@ -19,6 +19,10 @@ import java.util.Map;
 
 import org.eclipse.jface.window.Window;
 
+/**
+ *
+ * @author Etienne Gandrille
+ */
 public class MapDialogMain {
 
 	public static void main(String[] args) {

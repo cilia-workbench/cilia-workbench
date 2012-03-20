@@ -21,6 +21,7 @@ import fr.liglab.adele.cilia.MediatorReadOnly;
 
 /**
  * The Class MediatorPropertiesAdapter.
+ * @author Etienne Gandrille
  */
 public class MediatorPropertiesAdapter implements IAdapterFactory {
 

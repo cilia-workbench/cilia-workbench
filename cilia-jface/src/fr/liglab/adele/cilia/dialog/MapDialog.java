@@ -58,6 +58,8 @@ import org.eclipse.swt.widgets.Text;
  *  else
  *    ...  
  *  </code>
+ *
+ * @author Etienne Gandrille
  */
 public class MapDialog extends Dialog {
 

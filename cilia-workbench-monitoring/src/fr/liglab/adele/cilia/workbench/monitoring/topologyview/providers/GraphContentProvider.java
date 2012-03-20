@@ -26,6 +26,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.chainview.NodeEle
 
 /**
  * The Class GraphContentProvider.
+ * @author Etienne Gandrille
  */
 public class GraphContentProvider extends ArrayContentProvider implements IGraphEntityContentProvider {
 

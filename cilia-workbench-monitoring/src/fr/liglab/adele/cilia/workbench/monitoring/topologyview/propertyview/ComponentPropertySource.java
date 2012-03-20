@@ -21,6 +21,7 @@ import fr.liglab.adele.cilia.MediatorReadOnly;
 
 /**
  * The Class ComponentPropertySource.
+ * @author Etienne Gandrille
  */
 public class ComponentPropertySource extends CommonPropertySource<MediatorReadOnly> implements IPropertySource {
 

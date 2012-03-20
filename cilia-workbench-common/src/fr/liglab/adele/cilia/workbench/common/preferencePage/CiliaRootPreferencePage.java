@@ -24,6 +24,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 /**
  * A root page in the preference menu.
  * Should be used by all Cilia Designer sub pages.  
+ * @author Etienne Gandrille
  */
 public class CiliaRootPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 

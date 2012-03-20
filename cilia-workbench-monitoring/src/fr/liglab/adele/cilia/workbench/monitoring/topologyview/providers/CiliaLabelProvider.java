@@ -34,6 +34,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.Activator;
 
 /**
  * Label provider for the tree viewer.
+ * @author Etienne Gandrille
  */
 public class CiliaLabelProvider extends LabelProvider {
 

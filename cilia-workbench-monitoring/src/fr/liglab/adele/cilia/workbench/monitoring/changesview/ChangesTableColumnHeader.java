@@ -24,6 +24,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 
 /**
  * This enum represents the column header.
+ * @author Etienne Gandrille
  */
 public enum ChangesTableColumnHeader {
 

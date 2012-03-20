@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.management.BookMark;
 
 /**
  * The Class ChangesTableSorterComparator.
+ * @author Etienne Gandrille
  */
 public class ChangesTableSorterComparator extends ViewerComparator {
 	

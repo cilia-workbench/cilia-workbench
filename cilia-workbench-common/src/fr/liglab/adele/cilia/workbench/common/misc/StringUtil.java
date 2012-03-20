@@ -18,6 +18,10 @@ import java.io.File;
 
 import com.google.common.base.Preconditions;
 
+/**
+ *
+ * @author Etienne Gandrille
+ */
 public class StringUtil {
 
 	private static final String SEPARATOR = ":";

@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.TableColumn;
 /**
  * The table viewer, used in the changes view.
  * This class is a singleton. Only one viewer can be created.
+ * @author Etienne Gandrille
  */
 public class ChangesTableViewer {
 

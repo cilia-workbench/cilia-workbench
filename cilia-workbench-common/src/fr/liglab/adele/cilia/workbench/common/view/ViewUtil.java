@@ -22,6 +22,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
  * Utility class for packaging a few static methods related to views management.
+ * @author Etienne Gandrille
  */
 public class ViewUtil {
 

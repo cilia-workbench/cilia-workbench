@@ -21,6 +21,7 @@ import fr.liglab.adele.cilia.CiliaContextReadOnly;
 
 /**
  * The Class CiliaContextPropertySource.
+ * @author Etienne Gandrille
  */
 public class CiliaContextPropertySource extends CommonPropertySource<CiliaContextReadOnly> implements IPropertySource {
 

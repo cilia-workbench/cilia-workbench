@@ -42,6 +42,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.TreeCon
 
 /**
  * Controls the Eclipse view used to display Cilia chains.
+ * @author Etienne Gandrille
  */
 public class TopologyView extends ViewPart implements CiliaFrameworkEvent {
 

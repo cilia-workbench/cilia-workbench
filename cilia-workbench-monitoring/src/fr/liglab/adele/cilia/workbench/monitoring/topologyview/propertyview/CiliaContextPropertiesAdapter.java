@@ -21,6 +21,7 @@ import fr.liglab.adele.cilia.CiliaContextReadOnly;
 
 /**
  * The Class CiliaContextPropertiesAdapter.
+ * @author Etienne Gandrille
  */
 public class CiliaContextPropertiesAdapter implements IAdapterFactory {
 

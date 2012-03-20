@@ -21,6 +21,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
  * The Class ToggleAutoReloadHandler.
+ * @author Etienne Gandrille
  */
 public class ToggleAutoReloadHandler extends CommonTopologyViewHandler {
 

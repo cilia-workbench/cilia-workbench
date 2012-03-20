@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.ChainReadOnly;
 /**
  * Bridge the gap between the Chain model object (of type ChainReadOnly) and the
  * properties view.
+ * @author Etienne Gandrille
  */
 public class ChainPropertySource extends CommonPropertySource<ChainReadOnly> implements IPropertySource {
 

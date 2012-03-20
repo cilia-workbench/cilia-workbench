@@ -19,6 +19,10 @@ import java.util.List;
 
 import org.eclipse.jface.window.Window;
 
+/**
+ *
+ * @author Etienne Gandrille
+ */
 public class ListDialogMain {
 
 	public static void main(String[] args) {

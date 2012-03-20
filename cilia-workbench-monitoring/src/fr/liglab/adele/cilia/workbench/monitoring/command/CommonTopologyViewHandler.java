@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.TopologyView;
 
 /**
  * Abstract class used to be sub classed by all Topology view handlers. 
+ * @author Etienne Gandrille
  */
 public abstract class CommonTopologyViewHandler extends AbstractHandler {
 	

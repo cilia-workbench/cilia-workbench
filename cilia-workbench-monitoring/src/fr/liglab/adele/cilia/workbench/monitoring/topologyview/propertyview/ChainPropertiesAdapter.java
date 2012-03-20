@@ -21,6 +21,7 @@ import fr.liglab.adele.cilia.ChainReadOnly;
 
 /**
  * The Class ChainPropertiesAdapter.
+ * @author Etienne Gandrille
  */
 public class ChainPropertiesAdapter implements IAdapterFactory {
 

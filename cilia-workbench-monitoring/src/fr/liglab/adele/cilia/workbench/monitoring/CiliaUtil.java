@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.management.monitoring.MonitoredApplication;
 
 /**
  * A few static methods, for common processing on Cilia model objects.
+ * @author Etienne Gandrille
  */
 public abstract class CiliaUtil {
 

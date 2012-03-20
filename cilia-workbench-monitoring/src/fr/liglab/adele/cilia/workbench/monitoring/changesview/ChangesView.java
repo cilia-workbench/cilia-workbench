@@ -34,6 +34,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.TopologyView;
 
 /**
  * ChangesView.
+ * @author Etienne Gandrille
  */
 public class ChangesView extends ViewPart implements ISelectionListener {
 

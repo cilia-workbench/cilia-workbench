@@ -19,6 +19,7 @@ import org.eclipse.core.commands.ExecutionException;
 
 /**
  * The Class ReloadModelHandler.
+ * @author Etienne Gandrille
  */
 public class ReloadModelHandler extends CommonTopologyViewHandler {
 

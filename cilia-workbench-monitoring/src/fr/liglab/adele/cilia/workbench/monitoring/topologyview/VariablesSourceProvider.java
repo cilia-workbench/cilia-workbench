@@ -18,6 +18,7 @@ import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvide
 
 /**
  * Handles the reload require variable using a SourceProvider. 
+ * @author Etienne Gandrille
  */
 public class VariablesSourceProvider extends ToggleSourceProvider {
 

@@ -18,6 +18,10 @@ import org.eclipse.ui.ISourceProvider;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.ISourceProviderService;
 
+/**
+ *
+ * @author Etienne Gandrille
+ */
 public class SourceProviderUtil {
 	
 	public static void setToggleVariable(String variable, boolean newValue) {

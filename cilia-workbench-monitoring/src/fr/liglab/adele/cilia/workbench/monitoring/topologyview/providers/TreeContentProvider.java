@@ -30,6 +30,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.TopologyView;
 
 /**
  * Content provider for the tree viewer.
+ * @author Etienne Gandrille
  */
 public class TreeContentProvider implements ITreeContentProvider {
 

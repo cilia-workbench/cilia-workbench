@@ -23,6 +23,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.CiliaLa
 /**
  * The Class NodeElement.
  * Used to provide the equals and hashcode methods to MediatorReadOnly.
+ * @author Etienne Gandrille
  */
 public class NodeElement extends LabelProvider {
 

@@ -28,6 +28,10 @@ import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.HorizontalTreeLayoutAlgorithm;
 
+/**
+ *
+ * @author Etienne Gandrille
+ */
 public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPart, ISelectionListener {
 
 	/** The viewer. */

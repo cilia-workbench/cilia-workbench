@@ -22,6 +22,7 @@ import org.eclipse.ui.ISources;
 
 /**
  * A class for creating toggle variables.
+ * @author Etienne Gandrille
  */
 public class ToggleSourceProvider extends AbstractSourceProvider {
 

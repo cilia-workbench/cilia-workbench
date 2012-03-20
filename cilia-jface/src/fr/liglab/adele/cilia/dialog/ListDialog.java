@@ -50,6 +50,8 @@ import org.eclipse.swt.widgets.Text;
  *  else
  *    ...  
  *  </code>
+ *
+ * @author Etienne Gandrille
  */
 public class ListDialog extends Dialog {
 

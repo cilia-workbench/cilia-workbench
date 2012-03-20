@@ -35,6 +35,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.GraphCo
 
 /**
  * The Class ChainView.
+ * @author Etienne Gandrille
  */
 public class ChainView extends GraphView {
 

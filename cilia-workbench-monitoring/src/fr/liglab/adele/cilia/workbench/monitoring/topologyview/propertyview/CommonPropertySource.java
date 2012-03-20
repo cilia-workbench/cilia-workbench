@@ -30,6 +30,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
  * A high level abstract class, used to handle Cilia PropertySource.
  *
  * @param <T> the generic type
+ * @author Etienne Gandrille
  */
 public abstract class CommonPropertySource<T> implements IPropertySource {
 
