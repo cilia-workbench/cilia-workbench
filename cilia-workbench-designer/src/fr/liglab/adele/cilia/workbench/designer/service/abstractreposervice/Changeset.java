@@ -89,4 +89,14 @@ public class Changeset {
 	public void pushPathElement(Object element) {
 		path.add(element);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return operation + " " + object;
+	}
 }

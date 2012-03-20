@@ -19,7 +19,10 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorReference;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
 
@@ -52,6 +55,7 @@ public class SpecRepositoryView extends RepositoryView<SpecFile> {
 		super.createPartControl(parent);
 
 		viewer.setLabelProvider(new SpecLabelProvider());
+		viewer.setAutoExpandLevel(3);
 
 		// TreeViewer listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
@@ -65,4 +69,22 @@ public class SpecRepositoryView extends RepositoryView<SpecFile> {
 		for (IEditorReference editor : getRelevantFileStoreEditors(".xml"))
 			addEditorSavedListener(editor.getPart(true));
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView#repositoryContentUpdated(fr.liglab
+	 * .adele.cilia.workbench.designer.service.abstractreposervice.Changeset[])
+	 */
+	@Override
+	public void repositoryContentUpdated(Changeset[] changes) {
+		for (Changeset change : changes) {
+			if (change.getOperation() != Operation.UPDATE || change.getObject() instanceof Property) {
+				refresh();
+				return;
+			}
+		}
+	}
+
 }

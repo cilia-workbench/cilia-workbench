@@ -70,6 +70,9 @@ public class SpecRepoService extends AbstractRepoService<SpecFile> {
 		// Updates existing model with computed model
 		Changeset[] changes = merge(elements);
 
+		for (int i = 1; i <= changes.length; i++)
+			System.out.println(i + " : " + changes[i - 1]);
+
 		// Update content provider
 		contentProvider = new SpecContentProvider(model);
 

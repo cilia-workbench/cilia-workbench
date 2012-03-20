@@ -56,10 +56,10 @@ public class PullElementUtil {
 		return null;
 	}
 
-	public static Property pullProperty(MediatorSpec mediator, String key, String value) {
+	public static Property pullProperty(MediatorSpec mediator, String key) {
 		for (Iterator<Property> itr = mediator.getProperties().iterator(); itr.hasNext();) {
 			Property element = itr.next();
-			if (element.getKey().equals(key) && element.getValue().equals(value)) {
+			if (element.getKey().equals(key)) {
 				itr.remove();
 				return element;
 			}
