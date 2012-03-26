@@ -22,11 +22,13 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link SpecFile}.
@@ -121,5 +123,31 @@ public class SpecModel {
 			c.pushPathElement(this);
 
 		return retval.toArray(new Changeset[0]);
+	}
+
+	public void deleteMediator(String id, String namespace) throws MetadataException {
+
+		// Finding target node
+		File file = new File(filePath);
+		Document document = XMLHelpers.getDocument(file);
+		Node target = findXMLMediatorNode(document, id, namespace);
+
+		if (target != null) {
+			getRootNode(document).removeChild(target);
+			XMLHelpers.writeDOM(document, filePath);
+
+			// Notifies Repository
+			SpecRepoService.getInstance().updateModel();
+		}
+	}
+
+	private Node findXMLMediatorNode(Document document, String id, String namespace) throws MetadataException {
+		Node root = getRootNode(document);
+		Node[] results = XMLUtil.findXMLChildNode(root, "mediator-specification", "id", id, "namespace", namespace);
+
+		if (results.length == 0)
+			return null;
+		else
+			return results[0];
 	}
 }

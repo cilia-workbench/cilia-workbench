@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
@@ -124,5 +126,16 @@ public class SpecRepoService extends AbstractRepoService<SpecFile> {
 	@Override
 	protected String getContentForNewFile() {
 		return "<" + SpecModel.ROOT_NODE_NAME + ">\n</" + SpecModel.ROOT_NODE_NAME + ">";
+	}
+
+	public void deleteMediator(MediatorSpec mediator) {
+		SpecFile file = (SpecFile) contentProvider.getParent(mediator);
+		if (file == null)
+			return;
+		try {
+			file.getModel().deleteMediator(mediator.getId(), mediator.getNamespace());
+		} catch (MetadataException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -19,6 +19,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
 /**
  * 
@@ -33,7 +35,18 @@ public class DeleteMediatorHandler extends SpecHandler {
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		MessageDialog.openInformation(ViewUtil.getShell(event), "Not yet implemented", "Not yet implemented");
+
+		Object object = getFirstSelectedElementInRepositoryView(event);
+
+		if (object != null && object instanceof MediatorSpec) {
+			MediatorSpec mediator = (MediatorSpec) object;
+			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required",
+					"Do you want to delete " + mediator.getId() + "?");
+			if (result == true)
+				SpecRepoService.getInstance().deleteMediator(mediator);
+		} else {
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", "You must select a mediator first.");
+		}
 		return null;
 	}
 }
