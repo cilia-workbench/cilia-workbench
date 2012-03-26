@@ -2,12 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="/home/etienne/projets/cilia-atelier/eclipse-indigo-modeling/plugins/org.eclipse.jface_3.7.0.I20110522-1430.jar"/>
-	<classpathentry kind="lib" path="/home/etienne/projets/cilia-atelier/eclipse-indigo-modeling/plugins/org.eclipse.osgi_3.7.0.v20110613.jar"/>
-	<classpathentry kind="lib" path="/home/etienne/projets/cilia-atelier/eclipse-indigo-modeling/plugins/org.eclipse.core.boot_3.1.200.v20100505.jar"/>
-	<classpathentry kind="lib" path="/home/etienne/projets/cilia-atelier/eclipse-indigo-modeling/plugins/org.eclipse.core.commands_3.6.0.I20110111-0800.jar"/>
-	<classpathentry kind="lib" path="/home/etienne/projets/cilia-atelier/eclipse-indigo-modeling/plugins/org.eclipse.equinox.common_3.6.0.v20110523.jar"/>
-	<classpathentry kind="lib" path="/home/etienne/projets/cilia-atelier/eclipse-indigo-modeling/plugins/org.eclipse.swt_3.7.0.v3735b.jar"/>
-	<classpathentry kind="lib" path="/home/etienne/projets/cilia-atelier/eclipse-indigo-modeling/plugins/org.eclipse.swt.gtk.linux.x86_64_3.7.0.v3735b.jar"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.jface_3.7.0.I20110522-1430.jar"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.core.boot_3.1.200.v20100505.jar"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.core.commands_3.6.0.I20110111-0800.jar"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.equinox.common_3.6.0.v20110523.jar"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.apache.derby_10.5.1.1_201105231903.jar"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.swt_3.7.1.v3738a.jar"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.swt.gtk.linux.x86_3.7.1.v3738a.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
