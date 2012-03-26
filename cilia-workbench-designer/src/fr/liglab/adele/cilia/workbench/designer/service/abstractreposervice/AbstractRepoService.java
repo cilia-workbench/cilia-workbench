@@ -14,11 +14,15 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -54,7 +58,7 @@ public abstract class AbstractRepoService<ModelType> {
 	private final String PREFERENCE_PATH_KEY;
 
 	/** Extension used by files hosted in the repository. */
-	private final String ext;
+	public final String ext;
 
 	/**
 	 * Instantiates a new repository.
@@ -171,5 +175,115 @@ public abstract class AbstractRepoService<ModelType> {
 		for (IRepoServiceListener listener : listeners) {
 			listener.repositoryContentUpdated(changes);
 		}
+	}
+
+	/**
+	 * Tests if a name uses valid characters. This method follows {@link IInputValidator#isValid(String)} API.
+	 * 
+	 * @param name
+	 *            file name to be tested
+	 * @return null if the name is valid, an error message (including "") otherwise.
+	 */
+	public String isNameUsesAllowedChar(final String name) {
+
+		/* Null value */
+		if (name == null)
+			return "name can't be null";
+
+		/* Individual char checking */
+		char[] chars = new char[name.length()];
+		name.getChars(0, chars.length, chars, 0);
+		for (int i = 0; i < chars.length; i++) {
+			boolean nb = (chars[i] >= '0' && chars[i] <= '9');
+			boolean min = (chars[i] >= 'a' && chars[i] <= 'z');
+			boolean maj = (chars[i] >= 'A' && chars[i] <= 'Z');
+			boolean spec = (chars[i] == '-' || chars[i] == '_' || chars[i] == '.');
+
+			boolean valid = (nb || min || maj || spec);
+
+			if (!valid) {
+				return "character '" + chars[i] + "' is not allowed";
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Tests if a file can be created with the given fileName. This method follows
+	 * {@link IInputValidator#isValid(String)} API.
+	 * 
+	 * @param fileName
+	 *            file name to be tested
+	 * @return null if the name is valid, an error message (including "") otherwise.
+	 */
+	public String isNewFileNameAllowed(final String fileName) {
+
+		/* Char checking */
+		if (isNameUsesAllowedChar(fileName) != null)
+			return isNameUsesAllowedChar(fileName);
+
+		/* Extension checking */
+		if (!fileName.toLowerCase().endsWith(ext))
+			return "file name must end with '" + ext + "'";
+
+		/* Length checking */
+		if (fileName.length() == ext.length())
+			return "file name can't be empty";
+
+		/* Already exists checking */
+		File dir = new File(getRepositoryPath());
+		File[] list = dir.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.equalsIgnoreCase(fileName);
+			}
+		});
+		if (list.length != 0)
+			return "File already exists in repository";
+
+		return null;
+	}
+
+	/**
+	 * Returns a string, which contains the text automatically added in a new file of this repository.
+	 * 
+	 * @return the content for new file.
+	 */
+	protected abstract String getContentForNewFile();
+
+	/**
+	 * Creates a new file in the repository. This method follows {@link IInputValidator#isValid(String)} API.
+	 * 
+	 * @param fileName
+	 *            the file name
+	 * @param content
+	 *            the file content
+	 * @return null if success, an error message otherwise.
+	 */
+	public String createFile(String fileName) {
+
+		String content = getContentForNewFile();
+
+		if (isNewFileNameAllowed(fileName) != null)
+			return "file name is not allowed : " + isNewFileNameAllowed(fileName);
+
+		String repoPath = getRepositoryPath();
+		String path;
+		if (repoPath.endsWith(File.separator))
+			path = repoPath + fileName;
+		else
+			path = repoPath + File.separator + fileName;
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(path));
+			out.write(content);
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "i/o error while writing file";
+		}
+
+		updateModel();
+		return null;
 	}
 }

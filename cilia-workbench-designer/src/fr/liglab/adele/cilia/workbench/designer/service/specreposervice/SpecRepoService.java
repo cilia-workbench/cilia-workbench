@@ -21,6 +21,7 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -112,5 +113,16 @@ public class SpecRepoService extends AbstractRepoService<SpecFile> {
 			c.pushPathElement(this);
 
 		return retval.toArray(new Changeset[0]);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService#getContentForNewFile()
+	 */
+	@Override
+	protected String getContentForNewFile() {
+		return "<" + SpecModel.ROOT_NODE_NAME + ">\n</" + SpecModel.ROOT_NODE_NAME + ">";
 	}
 }

@@ -120,6 +120,12 @@
             name="Reload Spec Repository">
       </command>
       
+      <command
+            id="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.createFile"
+            name="Create Spec file">
+      </command>
+      
+      
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -257,6 +263,18 @@
                 style="push">
           </command>
        </menuContribution>
+       
+       <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.createFile"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/fileCreate.png"
+               label="Create Spec file"
+               style="push">
+         </command>
+      </menuContribution>
+              
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -362,6 +380,12 @@
             class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.ReloadHandler"
             commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.reload">
       </handler>
+      
+            <handler
+            class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.CreateFileHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.createFile">
+      </handler>
+      
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">
    

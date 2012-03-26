@@ -35,6 +35,9 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
  */
 public class SpecModel {
 
+	/** XML Root node name */
+	public static final String ROOT_NODE_NAME = "cilia-specifications";
+
 	/** Physical file path. */
 	private String filePath;
 
@@ -79,7 +82,7 @@ public class SpecModel {
 	 *             the metadata exception
 	 */
 	private static Node getRootNode(Document document) throws MetadataException {
-		return XMLHelpers.getRootNode(document, "cilia-specifications");
+		return XMLHelpers.getRootNode(document, ROOT_NODE_NAME);
 	}
 
 	/**

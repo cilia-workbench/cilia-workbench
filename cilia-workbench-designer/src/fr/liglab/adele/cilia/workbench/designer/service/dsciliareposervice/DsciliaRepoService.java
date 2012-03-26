@@ -14,22 +14,17 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.eclipse.jface.dialogs.IInputValidator;
 
 import com.google.common.base.Preconditions;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
@@ -51,7 +46,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.DSCILIA_REPOSITORY_PATH;
 
 	/** DScilia files extension. */
-	public final static String ext = ".dscilia";
+	private final static String ext = ".dscilia";
 
 	/**
 	 * Gets the singleton instance.
@@ -130,71 +125,15 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 		return retval.toArray(new Changeset[0]);
 	}
 
-	/**
-	 * Tests if a dscilia can be created with the given fileName. This method follows
-	 * {@link IInputValidator#isValid(String)} API.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param newText
-	 *            file name to be tested
-	 * @return null if the name is valid, an error message (including "") otherwise.
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService#getContentForNewFile()
 	 */
-	public String isNewFileNameAllowed(String newText) {
-		final String baseName = canonizeFileName(newText);
-		if (baseName.toLowerCase().endsWith(ext) && baseName.length() > ext.length()) {
-			File dir = new File(getRepositoryPath());
-			File[] list = dir.listFiles(new FilenameFilter() {
-				@Override
-				public boolean accept(File dir, String name) {
-					return name.equalsIgnoreCase(baseName);
-				}
-			});
-			if (list.length != 0)
-				return "File already exists";
-			else
-				return null;
-		} else
-			return "File name must end with .dscilia";
-	}
-
-	/**
-	 * Creates a dscilia file in the repository with the given file name.
-	 * 
-	 * @param fileName
-	 * @return
-	 */
-	public boolean createFile(String fileName) {
-		if (isNewFileNameAllowed(fileName) != null)
-			return false;
-
-		String repoPath = getRepositoryPath();
-		String path;
-		if (repoPath.endsWith(File.separator))
-			path = repoPath + canonizeFileName(fileName);
-		else
-			path = repoPath + File.separator + canonizeFileName(fileName);
-
-		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(path));
-			out.write("<cilia>\n");
-			out.write("</cilia>");
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-
-		updateModel();
-		return true;
-	}
-
-	/**
-	 * Before file creation, a method for name canonization.
-	 * 
-	 * @param fileName
-	 * @return the name canonized.
-	 */
-	private static String canonizeFileName(String fileName) {
-		return fileName.trim();
+	@Override
+	protected String getContentForNewFile() {
+		return "<" + DsciliaModel.ROOT_NODE_NAME + ">\n</" + DsciliaModel.ROOT_NODE_NAME + ">";
 	}
 
 	/**
@@ -210,8 +149,11 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 	}
 
 	public String isNewChainNameAllowed(String chainName) {
-		final String baseName = canonizeChainName(chainName);
-		if (baseName.length() == 0) {
+
+		if (isNameUsesAllowedChar(chainName) != null)
+			return isNameUsesAllowedChar(chainName);
+
+		if (chainName.length() == 0) {
 			return "Empty name is not allowed";
 		}
 
@@ -233,16 +175,6 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Before chain creation, a method for name canonization.
-	 * 
-	 * @param chainName
-	 * @return the name canonized.
-	 */
-	private static String canonizeChainName(String chainName) {
-		return chainName.trim();
 	}
 
 	/**

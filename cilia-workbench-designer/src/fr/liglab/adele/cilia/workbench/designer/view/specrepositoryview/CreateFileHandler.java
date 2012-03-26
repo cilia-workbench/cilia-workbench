@@ -17,21 +17,23 @@ package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.HandlerUtil;
+
 /**
+ * Creates a new file in the repository.
  * 
  * @author Etienne Gandrille
  */
 public class CreateFileHandler extends SpecHandler {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-
-		// TODO Ecrire le handler
-		// TODO ajouter tout ce qui va bien dans le plugin.xml
-
-		// TODO dans un second temps, refactorer les handlers, en mettant proprement la validation.
-
-		return null;
+		return HandlerUtil.CreateFileHandler(event, SpecRepoService.getInstance());
 	}
-
 }

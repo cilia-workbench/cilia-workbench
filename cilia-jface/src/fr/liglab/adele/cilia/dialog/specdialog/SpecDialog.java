@@ -42,6 +42,10 @@ import fr.liglab.adele.cilia.dialog.editor.KeyValueEditor;
 import fr.liglab.adele.cilia.dialog.editor.ListEditor;
 import fr.liglab.adele.cilia.dialog.editor.Utilities;
 
+/**
+ *
+ * @author Etienne Gandrille
+ */
 public class SpecDialog extends Dialog {
 
 	/** Shell title */

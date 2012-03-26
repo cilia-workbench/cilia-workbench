@@ -19,6 +19,11 @@ import java.util.List;
 
 import org.eclipse.jface.window.Window;
 
+
+/**
+ *
+ * @author Etienne Gandrille
+ */
 public class SpecDialogMain {
 	public static void main(String[] args) {
 		

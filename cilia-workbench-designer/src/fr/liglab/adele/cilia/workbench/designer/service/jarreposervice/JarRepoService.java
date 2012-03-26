@@ -109,4 +109,15 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile> {
 					return m;
 		return null;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService#getContentForNewFile()
+	 */
+	@Override
+	protected String getContentForNewFile() {
+		throw new RuntimeException("File creation is not allowed");
+	}
 }

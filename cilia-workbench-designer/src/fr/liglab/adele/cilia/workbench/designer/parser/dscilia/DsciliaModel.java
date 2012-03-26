@@ -40,6 +40,9 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Dscil
  */
 public class DsciliaModel {
 
+	/** XML Root node name */
+	public static final String ROOT_NODE_NAME = "cilia";
+
 	/** Physical file path */
 	private String filePath;
 
@@ -58,7 +61,7 @@ public class DsciliaModel {
 	}
 
 	private static Node getRootNode(Document document) throws MetadataException {
-		return XMLHelpers.getRootNode(document, "cilia");
+		return XMLHelpers.getRootNode(document, ROOT_NODE_NAME);
 	}
 
 	public void createChain(String chainName) throws MetadataException {
