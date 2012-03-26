@@ -17,9 +17,6 @@ package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.HandlerUtil;
-
 /**
  * Creates a new file in the repository.
  * 
@@ -34,6 +31,6 @@ public class CreateFileHandler extends SpecHandler {
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return HandlerUtil.CreateFileHandler(event, SpecRepoService.getInstance());
+		return createFile(event);
 	}
 }

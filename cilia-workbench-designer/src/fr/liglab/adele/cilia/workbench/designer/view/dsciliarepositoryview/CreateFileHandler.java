@@ -17,15 +17,12 @@ package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.HandlerUtil;
-
 /**
  * CreateFileHandler.
  * 
  * @author Etienne Gandrille
  */
-public class CreateFileHandler extends DsciliaHandler {
+public class CreateFileHandler extends DsciliaViewHandler {
 
 	/*
 	 * (non-Javadoc)
@@ -34,6 +31,6 @@ public class CreateFileHandler extends DsciliaHandler {
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return HandlerUtil.CreateFileHandler(event, DsciliaRepoService.getInstance());
+		return createFile(event);
 	}
 }

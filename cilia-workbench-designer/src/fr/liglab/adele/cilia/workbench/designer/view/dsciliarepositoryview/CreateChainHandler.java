@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Dscil
  * 
  * @author Etienne Gandrille
  */
-public class CreateChainHandler extends DsciliaHandler {
+public class CreateChainHandler extends DsciliaViewHandler {
 
 	/*
 	 * (non-Javadoc)

@@ -14,24 +14,19 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryViewHandler;
 
 /**
- * DeleteFileHandler.
+ * Base class for implementing handlers, relatives to the DSCilia View.
  * 
  * @author Etienne Gandrille
  */
-public class DeleteFileHandler extends DsciliaViewHandler {
+public abstract class DsciliaViewHandler extends RepositoryViewHandler {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	/**
+	 * Instantiates a new dscilia handler, providing the view ID to the super class.
 	 */
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return deleteFile(event);
+	public DsciliaViewHandler() {
+		super(DsciliaRepositoryView.viewID);
 	}
-
 }

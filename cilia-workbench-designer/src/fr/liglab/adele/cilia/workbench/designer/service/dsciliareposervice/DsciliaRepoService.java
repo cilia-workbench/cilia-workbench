@@ -136,18 +136,6 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 		return "<" + DsciliaModel.ROOT_NODE_NAME + ">\n</" + DsciliaModel.ROOT_NODE_NAME + ">";
 	}
 
-	/**
-	 * Delete an element in the file system repository.
-	 * 
-	 * @param element
-	 */
-	public boolean deleteRepoElement(DsciliaFile element) {
-		File file = new File(element.getFilePath());
-		boolean retval = file.delete();
-		updateModel();
-		return retval;
-	}
-
 	public String isNewChainNameAllowed(String chainName) {
 
 		if (isNameUsesAllowedChar(chainName) != null)

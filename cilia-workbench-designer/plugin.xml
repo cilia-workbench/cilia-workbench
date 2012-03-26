@@ -124,6 +124,12 @@
             id="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.createFile"
             name="Create Spec file">
       </command>
+            <command
+            id="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.deleteFile"
+            name="Delete Spec file">
+      </command>
+      
+      
       
       
    </extension>
@@ -274,6 +280,18 @@
                style="push">
          </command>
       </menuContribution>
+       <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview">
+         <command
+               commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.deleteFile"
+               icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/fileDelete.png"
+               label="Delete Spec file"
+               style="push">
+         </command>
+      </menuContribution>
+      
+      
               
    </extension>
    <extension
@@ -385,6 +403,12 @@
             class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.CreateFileHandler"
             commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.createFile">
       </handler>
+      
+            <handler
+            class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.DeleteFileHandler"
+            commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.deleteFile">
+      </handler>
+      
       
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">

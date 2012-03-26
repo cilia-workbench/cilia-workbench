@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Dscil
  * 
  * @author Etienne Gandrille
  */
-public class DeleteChainHandler extends DsciliaHandler {
+public class DeleteChainHandler extends DsciliaViewHandler {
 
 	/*
 	 * (non-Javadoc)

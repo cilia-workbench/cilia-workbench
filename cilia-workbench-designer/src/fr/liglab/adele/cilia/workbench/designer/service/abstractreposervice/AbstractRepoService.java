@@ -28,6 +28,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import fr.liglab.adele.cilia.workbench.designer.Activator;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 
 /**
  * Represents a repository, from a model point of view.
@@ -38,7 +39,7 @@ import fr.liglab.adele.cilia.workbench.designer.Activator;
  * 
  * @author Etienne Gandrille
  */
-public abstract class AbstractRepoService<ModelType> {
+public abstract class AbstractRepoService<ModelType extends AbstractFile<?>> {
 
 	/** The repository content. */
 	protected List<ModelType> model;
@@ -285,5 +286,17 @@ public abstract class AbstractRepoService<ModelType> {
 
 		updateModel();
 		return null;
+	}
+
+	/**
+	 * Delete an element in the file system repository.
+	 * 
+	 * @param element
+	 */
+	public boolean deleteRepoElement(AbstractFile<?> element) {
+		File file = new File(element.getFilePath());
+		boolean retval = file.delete();
+		updateModel();
+		return retval;
 	}
 }

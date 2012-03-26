@@ -79,7 +79,8 @@ public class SpecRepositoryView extends RepositoryView<SpecFile> {
 	@Override
 	public void repositoryContentUpdated(Changeset[] changes) {
 		for (Changeset change : changes) {
-			if (change.getOperation() != Operation.UPDATE || change.getObject() instanceof Property) {
+			if (change.getOperation() != Operation.UPDATE || change.getObject() instanceof SpecFile
+					|| change.getObject() instanceof Property) {
 				refresh();
 				return;
 			}

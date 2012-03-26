@@ -14,14 +14,18 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryHandler;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryViewHandler;
 
 /**
+ * Base class for implementing handlers, relatives to the Spec View.
  * 
  * @author Etienne Gandrille
  */
-public abstract class SpecHandler extends RepositoryHandler {
+public abstract class SpecHandler extends RepositoryViewHandler {
 
+	/**
+	 * Instantiates a new spec handler, providing the view ID to the super class.
+	 */
 	public SpecHandler() {
 		super(SpecRepositoryView.viewID);
 	}

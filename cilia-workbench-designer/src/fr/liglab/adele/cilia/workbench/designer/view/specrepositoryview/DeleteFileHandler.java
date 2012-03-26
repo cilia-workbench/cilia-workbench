@@ -12,17 +12,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
+package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 
 /**
+ * Deletes a file in the repository.
  * 
  * @author Etienne Gandrille
  */
-public abstract class DsciliaHandler extends RepositoryHandler {
+public class DeleteFileHandler extends SpecHandler {
 
-	public DsciliaHandler() {
-		super(DsciliaRepositoryView.viewID);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		return deleteFile(event);
 	}
 }

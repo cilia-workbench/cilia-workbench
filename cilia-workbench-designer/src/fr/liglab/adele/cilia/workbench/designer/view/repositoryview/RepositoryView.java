@@ -54,7 +54,8 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IRep
  * 
  * @author Etienne Gandrille
  */
-public abstract class RepositoryView<ModelType> extends ViewPart implements IRepoServiceListener {
+public abstract class RepositoryView<ModelType extends AbstractFile<?>> extends ViewPart implements
+		IRepoServiceListener {
 
 	/** Main viewer. */
 	protected TreeViewer viewer;
@@ -257,9 +258,8 @@ public abstract class RepositoryView<ModelType> extends ViewPart implements IRep
 			try {
 				@SuppressWarnings("unchecked")
 				AbstractFile<ModelType> repoElement = (AbstractFile<ModelType>) element;
-				if (repoElement.getModel() != null) {
-					openFileEditor(repoElement.getFilePath());
-				}
+				// Even files with an invalid model can be open.
+				openFileEditor(repoElement.getFilePath());
 
 			} catch (Exception e) {
 				// do nothing
@@ -287,5 +287,9 @@ public abstract class RepositoryView<ModelType> extends ViewPart implements IRep
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public AbstractRepoService<ModelType> getRepoService() {
+		return repoService;
 	}
 }
