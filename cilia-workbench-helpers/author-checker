@@ -1,0 +1,20 @@
+#!/bin/bash
+
+dirName=`dirname $0`
+relativeDir=..
+
+author="@author Etienne Gandrille"
+ext="java"
+
+
+function rechercher() {
+	while read line; do
+		nb=`cat $line | grep "$author" | wc -l`
+		if [ $nb -eq 0 ]; then
+			echo $line
+		fi
+	done
+}
+
+find $dirName/$relativeDir -type f -name \*.$ext | rechercher
+
