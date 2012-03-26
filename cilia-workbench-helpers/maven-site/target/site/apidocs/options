@@ -1,0 +1,24 @@
+-classpath
+'/home/etienne/projets/cilia-atelier/github/cilia-workbench-helpers/maven-site/target/classes'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/etienne/projets/cilia-atelier/github/cilia-workbench-helpers/maven-site/../../cilia-workbench-common'
+-author
+-bottom
+'Copyright &#169; 2012 <a href="http://adele.imag.fr/">Adele Team / LIG</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/etienne/projets/cilia-atelier/github/cilia-workbench-helpers/maven-site/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Cilia workbench 0.0.1-SNAPSHOT API'
+-link
+'http://java.sun.com/javase/6/docs/api'
+-use
+-version
+-windowtitle
+'Cilia workbench 0.0.1-SNAPSHOT API'

@@ -11,8 +11,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-                <version.source>1.6</version.source>	
-           	<version.target>1.6</version.target>
+		<version.source>1.6</version.source>
+		<version.target>1.6</version.target>
 	</properties>
 
 	<licenses>
@@ -27,15 +27,12 @@
 		<name>Adele Team / LIG</name>
 		<url>http://adele.imag.fr/</url>
 	</organization>
-
-
+	
 	<scm>
 		<connection>scm:git://github.com/cilia-workbench/cilia-workbench.git</connection>
 		<url>https://github.com/cilia-workbench/cilia-workbench</url>
 	</scm>
-
-
-
+	
 	<developers>
 		<developer>
 			<id>Gandrille</id>
@@ -45,45 +42,59 @@
 				<role>project leader</role>
 			</roles>
 			<timezone>
-				+1<!-- (GMT+01:00) Brussels, Copenhagen, Madrid, Paris -->
-			</timezone>
+                                +1<!-- (GMT+01:00) Brussels, Copenhagen, Madrid, Paris -->
+                        </timezone>
 			<organization>Adele Team / LIG</organization>
 		</developer>
 	</developers>
-
+	
 	<build>
 		<plugins>
 
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
+				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.2</version>
-                                <configuration>
-	                             <source>${version.source}</source>
-                                </configuration>
+				<configuration>
+					 <source>1.6</source>
+					 <target>1.6</target>
+					 <failOnError>false</failOnError>
+				</configuration>
 			</plugin>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.1</version>
-        <executions>
-          <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${basedir}/../../cilia-workbench-common</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
 
+
+
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<targetJdk>${version.target}</targetJdk>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/../../cilia-workbench-common</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -140,3 +151,4 @@
 		</plugins>
 	</reporting>
 </project>
+
