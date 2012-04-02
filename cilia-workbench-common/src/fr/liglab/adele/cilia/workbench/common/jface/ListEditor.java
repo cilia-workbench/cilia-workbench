@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.dialog.editor;
+package fr.liglab.adele.cilia.workbench.common.jface;
 
 import java.util.Comparator;
 import java.util.List;

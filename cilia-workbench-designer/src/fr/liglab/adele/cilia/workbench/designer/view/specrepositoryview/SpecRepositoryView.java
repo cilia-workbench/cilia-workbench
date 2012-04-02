@@ -16,9 +16,12 @@ package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorReference;
 
+import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
@@ -58,7 +61,14 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
-				openFileEditor(event);
+				Object element = getFirstSelectedElement();
+
+				if (element != null) {
+					if (element instanceof SpecFile)
+						openFileEditor(event);
+					else if (element instanceof MediatorSpec)
+						editMediatorSpec(event, (MediatorSpec) element);
+				}
 			}
 		});
 
@@ -86,5 +96,15 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 				return;
 			}
 		}
+	}
+
+	private void editMediatorSpec(DoubleClickEvent event, MediatorSpec element) {
+		UpdateMediatorSpecDialog dialog = new UpdateMediatorSpecDialog(ViewUtil.getShell(event), element.getId(),
+				element.getNamespace(), element.getPorts());
+
+		// TODO init
+
+		if (dialog.open() == Window.OK)
+			System.out.println("TODO : update !");
 	}
 }

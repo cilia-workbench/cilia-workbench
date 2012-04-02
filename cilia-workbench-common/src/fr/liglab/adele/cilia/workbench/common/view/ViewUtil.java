@@ -15,6 +15,7 @@
 package fr.liglab.adele.cilia.workbench.common.view;
 
 import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
@@ -22,6 +23,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
  * Utility class for packaging a few static methods related to views management.
+ * 
  * @author Etienne Gandrille
  */
 public class ViewUtil {
@@ -53,5 +55,16 @@ public class ViewUtil {
 	 */
 	public static Shell getShell(ExecutionEvent event) {
 		return HandlerUtil.getActiveWorkbenchWindow(event).getShell();
+	}
+
+	/**
+	 * Gets the parent shell. Useful for creating modal dialogs.
+	 * 
+	 * @param event
+	 *            the event
+	 * @return the shell
+	 */
+	public static Shell getShell(DoubleClickEvent event) {
+		return event.getViewer().getControl().getShell();
 	}
 }

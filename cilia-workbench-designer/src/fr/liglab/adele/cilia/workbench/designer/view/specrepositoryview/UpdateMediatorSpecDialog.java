@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.dialog.specdialog;
+package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +22,6 @@ import java.util.Map;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IInputValidator;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -32,21 +31,20 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import fr.liglab.adele.cilia.dialog.editor.KeyValueEditor;
-import fr.liglab.adele.cilia.dialog.editor.ListEditor;
-import fr.liglab.adele.cilia.workbench.common.view.Utilities;
+import fr.liglab.adele.cilia.workbench.common.jface.KeyValueEditor;
+import fr.liglab.adele.cilia.workbench.common.jface.ListEditor;
+import fr.liglab.adele.cilia.workbench.common.view.TextValidatorListener;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port;
 
 /**
- *
+ * 
  * @author Etienne Gandrille
  */
-public class SpecDialog extends Dialog {
+public class UpdateMediatorSpecDialog extends Dialog {
 
 	/** Shell title */
 	private final String title = "Spec editor";
@@ -54,12 +52,22 @@ public class SpecDialog extends Dialog {
 	/** User helper message */
 	private final String introMessage = "You can edit or create a new specification.";
 
+	/* ID */
+	private String idValue;
 	private final String idMessage = "id";
+	private Text idControl;
 
+	/* namespace */
+	private String namespaceValue;
 	private String namespaceMessage = "namespace";
+	private Text namespaceControl;
 
+	/* IN ports */
+	List<String> synchroPortsValue;
 	private String synchroPortsMessage = "In ports:";
 
+	/* OUT ports */
+	List<String> dispatchPortsValue;
 	private String dispatchPortsMessage = "Out ports:";
 
 	private String schedulerTitle = "scheduler";
@@ -79,19 +87,29 @@ public class SpecDialog extends Dialog {
 	 * 
 	 * @param parent
 	 *            Parent shell. Mandatory for this modal dialog.
+	 * @param list
 	 * @param input
 	 *            initial list
 	 */
-	public SpecDialog(Shell parent) {
+	public UpdateMediatorSpecDialog(Shell parent, String id, String namespace, List<Port> ports) {
 		super(parent);
+		this.idValue = id;
+		this.namespaceValue = namespace;
+
+		this.synchroPortsValue = new ArrayList<String>();
+		this.dispatchPortsValue = new ArrayList<String>();
+
+		for (Port port : ports)
+			if (port.getType().equals(Port.TYPE_IN))
+				synchroPortsValue.add(port.getName());
+			else
+				dispatchPortsValue.add(port.getName());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets .Composite)
 	 */
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
@@ -125,11 +143,13 @@ public class SpecDialog extends Dialog {
 
 		// id
 		createLabel(generalComposite, idMessage, false);
-		createText(generalComposite);
+		idControl = createText(generalComposite, true);
+		idControl.setText(idValue);
 
 		// namespace
 		createLabel(generalComposite, namespaceMessage, false);
-		createText(generalComposite);
+		namespaceControl = createText(generalComposite, true);
+		namespaceControl.setText(namespaceValue);
 
 		// Ports composite
 		// ===============
@@ -141,15 +161,11 @@ public class SpecDialog extends Dialog {
 		createLabel(portsComposite, dispatchPortsMessage, false);
 
 		// In ports
-		List<String> inPorts = new ArrayList<String>();
-
-		ListEditor inPortsEditor = new ListEditor(portsComposite, inPorts);
+		ListEditor inPortsEditor = new ListEditor(portsComposite, synchroPortsValue);
 		inPortsEditor.getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		// Out Ports
-		List<String> outPorts = new ArrayList<String>();
-
-		ListEditor outPortsEditor = new ListEditor(portsComposite, outPorts);
+		ListEditor outPortsEditor = new ListEditor(portsComposite, dispatchPortsValue);
 		outPortsEditor.getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		// Advanced composite
@@ -248,9 +264,16 @@ public class SpecDialog extends Dialog {
 	}
 
 	private static Text createText(final Composite container) {
-		final Text text = new Text(container, SWT.WRAP);
+		return createText(container, false);
+	}
+
+	private static Text createText(final Composite container, boolean readOnly) {
+		int style = SWT.WRAP;
+		if (readOnly)
+			style |= SWT.READ_ONLY;
+		final Text text = new Text(container, style);
 		text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		text.addListener(SWT.Verify, Utilities.getTextValidatorListner());
+		text.addListener(SWT.Verify, TextValidatorListener.getTextValidatorListner());
 		return text;
 	}
 
@@ -264,9 +287,7 @@ public class SpecDialog extends Dialog {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
-	 * .swt.widgets.Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse .swt.widgets.Composite)
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);

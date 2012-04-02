@@ -25,6 +25,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataExceptio
 public class InPort extends Port {
 
 	public InPort(Node node) throws MetadataException {
-		super(node, "In");
+		super(node, TYPE_IN);
 	}
 }

@@ -29,6 +29,9 @@ public abstract class Port {
 	private final String type;
 	private Node node;
 
+	public static final String TYPE_IN = "In";
+	public static final String TYPE_OUT = "Out";
+
 	public Port(Node node, String type) throws MetadataException {
 		this.node = node;
 		this.type = type;

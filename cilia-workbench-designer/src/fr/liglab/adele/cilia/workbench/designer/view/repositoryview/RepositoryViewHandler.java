@@ -144,4 +144,8 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 		return null;
 	}
 
+	public Object notYetImplementedHandler(ExecutionEvent event) throws ExecutionException {
+		MessageDialog.openInformation(ViewUtil.getShell(event), "Not yet implemented", this.getClass().toString());
+		return null;
+	}
 }
