@@ -54,8 +54,8 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IRep
  * 
  * @author Etienne Gandrille
  */
-public abstract class RepositoryView<ModelType extends AbstractFile<?>> extends ViewPart implements
-		IRepoServiceListener {
+public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType>, AbstractType> extends ViewPart
+		implements IRepoServiceListener {
 
 	/** Main viewer. */
 	protected TreeViewer viewer;
@@ -69,9 +69,9 @@ public abstract class RepositoryView<ModelType extends AbstractFile<?>> extends 
 	/** The message area prefix. */
 	protected final String messageAreaPrefix = "Repository directory: ";
 
-	protected final AbstractRepoService<ModelType> repoService;
+	protected final AbstractRepoService<ModelType, AbstractType> repoService;
 
-	public RepositoryView(AbstractRepoService<ModelType> repoService) {
+	public RepositoryView(AbstractRepoService<ModelType, AbstractType> repoService) {
 		this.repoService = repoService;
 	}
 
@@ -289,7 +289,7 @@ public abstract class RepositoryView<ModelType extends AbstractFile<?>> extends 
 		}
 	}
 
-	public AbstractRepoService<ModelType> getRepoService() {
+	public AbstractRepoService<ModelType, AbstractType> getRepoService() {
 		return repoService;
 	}
 }

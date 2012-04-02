@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.dialog.editor;
+package fr.liglab.adele.cilia.workbench.common.view;
 
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -21,27 +21,25 @@ import org.eclipse.swt.widgets.Listener;
  * 
  * @author Etienne Gandrille
  */
-public class Utilities {
+public class TextValidatorListener implements Listener {
 
-	private static Listener textValidatorListner = null;
-	
+	private static TextValidatorListener INSTANCE = null;
+
+	@Override
+	public void handleEvent(Event event) {
+		if (!IsValidString(event.text))
+			event.doit = false;
+	}
+
+	private TextValidatorListener() {
+	}
+
 	public static Listener getTextValidatorListner() {
-		if (textValidatorListner == null)
-			textValidatorListner = getTextValidatorListener();
-		
-		return textValidatorListner;
+		if (INSTANCE == null)
+			INSTANCE = new TextValidatorListener();
+		return INSTANCE;
 	}
-	
-	private static Listener getTextValidatorListener() {
-		return new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				if (!IsValidString(event.text))
-					event.doit = false;
-			}
-		};
-	}
-	
+
 	private static boolean IsValidString(String str) {
 		char[] chars = new char[str.length()];
 		str.getChars(0, chars.length, chars, 0);
@@ -50,14 +48,14 @@ public class Utilities {
 			boolean min = (chars[i] >= 'a' && chars[i] <= 'z');
 			boolean maj = (chars[i] >= 'A' && chars[i] <= 'Z');
 			boolean spec = (chars[i] == '-' || chars[i] == '_' || chars[i] == '.');
-			
+
 			boolean valid = (nb || min || maj || spec);
-			
+
 			if (!valid) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 }

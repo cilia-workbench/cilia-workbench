@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
@@ -149,5 +150,25 @@ public class SpecModel {
 			return null;
 		else
 			return results[0];
+	}
+
+	public void createMediatorSpec(String id, String namespace) throws MetadataException {
+
+		if (SpecRepoService.getInstance().isNewMediatorSpecAllowed(id, namespace) == null) {
+			File file = new File(filePath);
+			Document document = XMLHelpers.getDocument(file);
+			Node rootNode = getRootNode(document);
+
+			Element child = document.createElement("mediator-specification");
+			child.setAttribute("id", id);
+			child.setAttribute("namespace", namespace);
+			rootNode.appendChild(child);
+
+			// Write it back to file system
+			XMLHelpers.writeDOM(document, filePath);
+
+			// Notifies Repository
+			SpecRepoService.getInstance().updateModel();
+		}
 	}
 }

@@ -37,7 +37,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
  * 
  * @author Etienne Gandrille
  */
-public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
+public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, DsciliaModel> {
 
 	/** Singleton instance */
 	private static DsciliaRepoService INSTANCE;
@@ -154,14 +154,11 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile> {
 	}
 
 	private Chain findChain(String chainName) {
-		for (DsciliaFile re : model) {
-			if (re.getModel() != null) {
-				for (Chain chain : re.getModel().getChains()) {
-					if (chain.getId().equalsIgnoreCase(chainName))
-						return chain;
-				}
-			}
-		}
+
+		for (DsciliaModel model : findAbstractElements())
+			for (Chain chain : model.getChains())
+				if (chain.getId().equalsIgnoreCase(chainName))
+					return chain;
 		return null;
 	}
 

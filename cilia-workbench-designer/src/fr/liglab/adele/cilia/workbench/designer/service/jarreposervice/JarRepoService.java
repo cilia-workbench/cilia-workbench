@@ -20,6 +20,7 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
@@ -29,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Abst
  * 
  * @author Etienne Gandrille
  */
-public class JarRepoService extends AbstractRepoService<CiliaJarFile> {
+public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarModel> {
 
 	/** Singleton instance */
 	private static JarRepoService INSTANCE;

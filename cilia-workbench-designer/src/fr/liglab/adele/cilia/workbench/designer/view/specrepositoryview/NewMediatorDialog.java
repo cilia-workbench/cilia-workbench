@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.dialog.newMediatorDialog;
+package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -28,7 +28,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import fr.liglab.adele.cilia.dialog.editor.Utilities;
+import fr.liglab.adele.cilia.workbench.common.view.TextValidatorListener;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
 /**
  * 
@@ -38,7 +39,7 @@ public class NewMediatorDialog extends Dialog {
 
 	private final String title = "New mediator specification";
 
-	private final String introMessage = "Please give an id and a name for the new mediator specification.";
+	private final String introMessage = "Please give an id and a namespace for the new mediator specification.";
 
 	private final String idLabelText = "id";
 
@@ -54,8 +55,19 @@ public class NewMediatorDialog extends Dialog {
 
 	private String namespace;
 
+	private final SpecRepoService repoService;
+
 	public NewMediatorDialog(Shell parent) {
 		super(parent);
+		repoService = SpecRepoService.getInstance();
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getNamespace() {
+		return namespace;
 	}
 
 	protected Control createDialogArea(Composite parent) {
@@ -79,7 +91,7 @@ public class NewMediatorDialog extends Dialog {
 
 		idText = new Text(container, SWT.WRAP);
 		idText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		idText.addListener(SWT.Verify, Utilities.getTextValidatorListner());
+		idText.addListener(SWT.Verify, TextValidatorListener.getTextValidatorListner());
 		idText.addListener(SWT.Modify, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -94,7 +106,7 @@ public class NewMediatorDialog extends Dialog {
 
 		namespaceText = new Text(container, SWT.WRAP);
 		namespaceText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		namespaceText.addListener(SWT.Verify, Utilities.getTextValidatorListner());
+		namespaceText.addListener(SWT.Verify, TextValidatorListener.getTextValidatorListner());
 		namespaceText.addListener(SWT.Modify, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -126,13 +138,13 @@ public class NewMediatorDialog extends Dialog {
 		id = idText.getText();
 		namespace = namespaceText.getText();
 
-		if (id.isEmpty() || namespace.isEmpty()) {
-			errorLabel.setText("ça peut pas être null !");
-			getButton(IDialogConstants.OK_ID).setEnabled(false);
-
-		} else {
+		String message = repoService.isNewMediatorSpecAllowed(id, namespace);
+		if (message == null) {
 			errorLabel.setText("");
 			getButton(IDialogConstants.OK_ID).setEnabled(true);
+		} else {
+			errorLabel.setText(message);
+			getButton(IDialogConstants.OK_ID).setEnabled(false);
 		}
 	}
 

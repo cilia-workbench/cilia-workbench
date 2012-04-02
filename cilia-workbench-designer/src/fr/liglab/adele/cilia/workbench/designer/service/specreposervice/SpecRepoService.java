@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
  * 
  * @author Etienne Gandrille
  */
-public class SpecRepoService extends AbstractRepoService<SpecFile> {
+public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> {
 
 	/** Singleton instance */
 	private static SpecRepoService INSTANCE;
@@ -128,7 +128,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile> {
 		return "<" + SpecModel.ROOT_NODE_NAME + ">\n</" + SpecModel.ROOT_NODE_NAME + ">";
 	}
 
-	public void deleteMediator(MediatorSpec mediator) {
+	public void deleteMediatorSpec(MediatorSpec mediator) {
 		SpecFile file = (SpecFile) contentProvider.getParent(mediator);
 		if (file == null)
 			return;
@@ -137,5 +137,47 @@ public class SpecRepoService extends AbstractRepoService<SpecFile> {
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String isNewMediatorSpecAllowed(String id, String namespace) {
+		if (id == null || id.isEmpty())
+			return "id can't be null or empty";
+
+		if (namespace == null || namespace.isEmpty())
+			return "namespace can't be null or empty";
+
+		MediatorSpec spec = findMediatorSpec(id, namespace);
+
+		if (spec != null)
+			return "a mediator with the same id/namespace already exists";
+
+		return null;
+	}
+
+	/**
+	 * Finds a mediator spec with a given namespace and id.
+	 * 
+	 * @param id
+	 *            the id
+	 * @param namespace
+	 *            the namespace
+	 * @return the mediator spec
+	 */
+	private MediatorSpec findMediatorSpec(String id, String namespace) {
+		for (SpecModel spec : findAbstractElements()) {
+			for (MediatorSpec s : spec.getMediatorSpecs())
+				if (s.getId().equals(id) && s.getNamespace().equals(namespace))
+					return s;
+		}
+		return null;
+	}
+
+	public Object createMediatorSpec(SpecModel specModel, String id, String namespace) {
+		try {
+			specModel.createMediatorSpec(id, namespace);
+		} catch (MetadataException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

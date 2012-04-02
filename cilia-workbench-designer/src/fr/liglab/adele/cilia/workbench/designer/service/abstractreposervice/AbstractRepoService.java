@@ -39,7 +39,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
  * 
  * @author Etienne Gandrille
  */
-public abstract class AbstractRepoService<ModelType extends AbstractFile<?>> {
+public abstract class AbstractRepoService<ModelType extends AbstractFile<AbstractType>, AbstractType> {
 
 	/** The repository content. */
 	protected List<ModelType> model;
@@ -297,6 +297,26 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<?>> {
 		File file = new File(element.getFilePath());
 		boolean retval = file.delete();
 		updateModel();
+		return retval;
+	}
+
+	/**
+	 * Returns an array with all non null abstract elements. Remember this repository holds concrete elements. Each
+	 * concrete elements points to an abstract element, which can be null if the concrete element is in a non valid
+	 * state.
+	 * 
+	 * @return
+	 */
+	public List<AbstractType> findAbstractElements() {
+
+		List<AbstractType> retval = new ArrayList<AbstractType>();
+
+		for (ModelType element : model) {
+			AbstractType abstractModel = element.getModel();
+			if (abstractModel != null)
+				retval.add(abstractModel);
+		}
+
 		return retval;
 	}
 }

@@ -21,6 +21,7 @@ import org.eclipse.ui.IEditorReference;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaModel;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
@@ -31,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryVi
  * 
  * @author Etienne Gandrille
  */
-public class DsciliaRepositoryView extends RepositoryView<DsciliaFile> {
+public class DsciliaRepositoryView extends RepositoryView<DsciliaFile, DsciliaModel> {
 
 	public final static String viewID = "fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview";
 

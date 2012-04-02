@@ -43,7 +43,7 @@ public class DeleteMediatorHandler extends SpecHandler {
 			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required",
 					"Do you want to delete " + mediator.getId() + "?");
 			if (result == true)
-				SpecRepoService.getInstance().deleteMediator(mediator);
+				SpecRepoService.getInstance().deleteMediatorSpec(mediator);
 		} else {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", "You must select a mediator first.");
 		}

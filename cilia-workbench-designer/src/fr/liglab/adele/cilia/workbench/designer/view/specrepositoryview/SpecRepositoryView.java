@@ -21,6 +21,7 @@ import org.eclipse.ui.IEditorReference;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
@@ -31,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryVi
  * 
  * @author Etienne Gandrille
  */
-public class SpecRepositoryView extends RepositoryView<SpecFile> {
+public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 
 	public final static String viewID = "fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview";
 

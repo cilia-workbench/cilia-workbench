@@ -40,7 +40,7 @@ import org.eclipse.swt.widgets.Text;
 
 import fr.liglab.adele.cilia.dialog.editor.KeyValueEditor;
 import fr.liglab.adele.cilia.dialog.editor.ListEditor;
-import fr.liglab.adele.cilia.dialog.editor.Utilities;
+import fr.liglab.adele.cilia.workbench.common.view.Utilities;
 
 /**
  *

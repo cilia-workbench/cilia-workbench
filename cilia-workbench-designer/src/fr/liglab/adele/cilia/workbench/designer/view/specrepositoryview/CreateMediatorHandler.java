@@ -17,8 +17,13 @@ package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
 /**
  * 
@@ -33,7 +38,34 @@ public class CreateMediatorHandler extends SpecHandler {
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		MessageDialog.openInformation(ViewUtil.getShell(event), "Not yet implemented", "Not yet implemented");
+
+		Shell shell = ViewUtil.getShell(event);
+
+		// Finds specfile
+		Object element = getFirstSelectedElementInRepositoryView(event);
+		if (!(element instanceof SpecFile)) {
+			MessageDialog.openError(shell, "Error", "Please select a spec file first");
+			return null;
+		}
+		SpecFile specFile = (SpecFile) element;
+
+		// Finds model file
+		if (specFile.getModel() == null) {
+			MessageDialog.openError(shell, "Error", "Can't add a mediator in a non valid file");
+			return null;
+		}
+		SpecModel modelFile = specFile.getModel();
+
+		NewMediatorDialog dialog = new NewMediatorDialog(shell);
+
+		if (dialog.open() == Window.OK) {
+			String id = dialog.getId();
+			String namespace = dialog.getNamespace();
+
+			SpecRepoService repoService = SpecRepoService.getInstance();
+			return repoService.createMediatorSpec(modelFile, id, namespace);
+		}
+
 		return null;
 	}
 }

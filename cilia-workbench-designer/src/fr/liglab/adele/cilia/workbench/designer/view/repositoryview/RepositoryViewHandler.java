@@ -53,8 +53,8 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 	 *            the handler event
 	 * @return the repository view
 	 */
-	protected RepositoryView<?> getRepositoryView(ExecutionEvent event) {
-		return (RepositoryView<?>) ViewUtil.findViewWithId(event, viewID);
+	protected RepositoryView<?, ?> getRepositoryView(ExecutionEvent event) {
+		return (RepositoryView<?, ?>) ViewUtil.findViewWithId(event, viewID);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 	 *            the handler event
 	 * @return the repo service
 	 */
-	protected AbstractRepoService<?> getRepoService(ExecutionEvent event) {
+	protected AbstractRepoService<?, ?> getRepoService(ExecutionEvent event) {
 		return getRepositoryView(event).getRepoService();
 	}
 
@@ -76,7 +76,7 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 	 * @return
 	 */
 	protected Object getFirstSelectedElementInRepositoryView(ExecutionEvent event) {
-		RepositoryView<?> view = (RepositoryView<?>) getRepositoryView(event);
+		RepositoryView<?, ?> view = (RepositoryView<?, ?>) getRepositoryView(event);
 		return view.getFirstSelectedElement();
 	}
 
@@ -92,7 +92,7 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 	public Object deleteFile(ExecutionEvent event) throws ExecutionException {
 
 		// Important ! must be recorded in a variable to prevent focus problems.
-		RepositoryView<?> view = (RepositoryView<?>) getRepositoryView(event);
+		RepositoryView<?, ?> view = (RepositoryView<?, ?>) getRepositoryView(event);
 		Object object = view.getFirstSelectedElement();
 
 		if (object != null && object instanceof AbstractFile<?>) {
@@ -100,7 +100,7 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required",
 					"Do you want to delete " + file.getFilePath() + "?");
 			if (result == true) {
-				AbstractRepoService<?> repoService = view.getRepoService();
+				AbstractRepoService<?, ?> repoService = view.getRepoService();
 				repoService.deleteRepoElement(file);
 			} else {
 				MessageDialog.openError(ViewUtil.getShell(event), "Error", "You must select a file.");
@@ -122,7 +122,7 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 	public Object createFile(final ExecutionEvent event) throws ExecutionException {
 
 		// Important ! must be recorded in a variable to prevent focus problems.
-		final AbstractRepoService<?> repoService = getRepoService(event);
+		final AbstractRepoService<?, ?> repoService = getRepoService(event);
 
 		// Validator
 		IInputValidator validator = new IInputValidator() {

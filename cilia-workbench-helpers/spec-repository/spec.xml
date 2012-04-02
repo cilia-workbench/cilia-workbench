@@ -1,42 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-specifications>
 	<mediator-specification id="my_spec" namespace="my.namespace">
 		<ports>
-			<in-port name="in" />
-			<out-port name="out" />
+			<in-port name="in"/>
+			<out-port name="out"/>
 		</ports>
 
 		<properties>
-			<property key="secure" value="true" />
-			<property key="category" value="sample" />
+			<property key="secure" value="true"/>
+			<property key="category" value="sample"/>
 		</properties>
 
 		<scheduler>
 			<parameters>
-				<parameter name="period" />
+				<parameter name="period"/>
 			</parameters>
 		</scheduler>
 
 	</mediator-specification>
 	
-	<mediator-specification id="a" namespace="b">
+	<mediator-specification id="other_spec" namespace="my.namespace">
 		<properties>
-			<property key="secure" value="true" />
-			<property key="category" value="sample" />
+			<property key="secure" value="true"/>
+			<property key="category" value="sample"/>
 		</properties>
 
 		<scheduler>
 			<parameters>
-				<parameter name="period" />
+				<parameter name="period"/>
 			</parameters>
 		</scheduler>
 
 		<ports>
-			<in-port name="in" />
-			<out-port name="out" />
+			<in-port name="in"/>
+			<out-port name="out"/>
 		</ports>
 	
 	
 	</mediator-specification>
+
 
 
 </cilia-specifications>

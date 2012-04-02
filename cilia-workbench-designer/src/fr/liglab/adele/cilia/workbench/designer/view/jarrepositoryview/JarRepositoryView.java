@@ -30,6 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
 
@@ -38,7 +39,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryVi
  * 
  * @author Etienne Gandrille
  */
-public class JarRepositoryView extends RepositoryView<CiliaJarFile> {
+public class JarRepositoryView extends RepositoryView<CiliaJarFile, CiliaJarModel> {
 
 	public final static String viewID = "fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview";
 
