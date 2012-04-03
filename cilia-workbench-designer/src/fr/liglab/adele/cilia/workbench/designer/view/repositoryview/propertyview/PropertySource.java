@@ -69,13 +69,41 @@ public class PropertySource implements IPropertySource {
 			Class<?> type = field.getType();
 			if (type.equals(String.class)) {
 				String name = field.getName();
-				PropertyDescriptor descriptor = new PropertyDescriptor(name, name);
-				descriptor.setCategory(PROPERTIES_CATEGORY);
-				retval.add(descriptor);
+				if (isFieldDisplayed(name)) {
+					PropertyDescriptor descriptor = new PropertyDescriptor(name, name);
+					descriptor.setCategory(PROPERTIES_CATEGORY);
+					retval.add(descriptor);
+				}
 			}
 		}
 
 		return retval.toArray(new IPropertyDescriptor[0]);
+	}
+
+	/**
+	 * Returns true if the field should be displayed according to its name, false otherwise.
+	 * 
+	 * @param fieldName
+	 * @return
+	 */
+	private boolean isFieldDisplayed(String fieldName) {
+
+		char[] chars = new char[fieldName.length()];
+		fieldName.getChars(0, chars.length, chars, 0);
+		for (int i = 0; i < chars.length; i++) {
+			boolean nb = (chars[i] >= '0' && chars[i] <= '9');
+			// boolean min = (chars[i] >= 'a' && chars[i] <= 'z');
+			boolean maj = (chars[i] >= 'A' && chars[i] <= 'Z');
+			boolean spec = (chars[i] == '-' || chars[i] == '_' || chars[i] == '.');
+
+			boolean specialCar = (nb || maj || spec);
+
+			if (!specialCar) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/*
