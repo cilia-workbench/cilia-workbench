@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,6 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port.PortType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
@@ -39,7 +41,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepo
 public class SpecModel {
 
 	/** XML Root node name */
-	public static final String ROOT_NODE_NAME = "cilia-specifications";
+	public static final String XML_NODE_NAME = "cilia-specifications";
 
 	/** Physical file path. */
 	private String filePath;
@@ -62,7 +64,7 @@ public class SpecModel {
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
 
-		for (Node node : XMLReflectionUtil.findChildren(root, "mediator-specification"))
+		for (Node node : XMLReflectionUtil.findChildren(root, MediatorSpec.XML_NODE_NAME))
 			mediatorSpecs.add(new MediatorSpec(node));
 	}
 
@@ -85,7 +87,7 @@ public class SpecModel {
 	 *             the metadata exception
 	 */
 	private static Node getRootNode(Document document) throws MetadataException {
-		return XMLHelpers.getRootNode(document, ROOT_NODE_NAME);
+		return XMLHelpers.getRootNode(document, XML_NODE_NAME);
 	}
 
 	/**
@@ -126,7 +128,7 @@ public class SpecModel {
 		return retval.toArray(new Changeset[0]);
 	}
 
-	public void deleteMediator(String id, String namespace) throws MetadataException {
+	public void deleteMediatorSpec(String id, String namespace) throws MetadataException {
 
 		// Finding target node
 		File file = new File(filePath);
@@ -142,9 +144,54 @@ public class SpecModel {
 		}
 	}
 
+	public void updateMediatorSpec(String id, String namespace, List<String> inPorts, List<String> outPorts,
+			Map<String, String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
+			List<String> dispatcherParam) throws MetadataException {
+
+		// Finding target node
+		File file = new File(filePath);
+		Document document = XMLHelpers.getDocument(file);
+		Node target = findXMLMediatorNode(document, id, namespace);
+		Node parent = getRootNode(document);
+
+		if (target != null)
+			parent.removeChild(target);
+
+		// id and namespace attributes
+		Element spec = MediatorSpec.createXMLSpec(document, parent, id, namespace);
+
+		// ports
+		for (String inPort : inPorts)
+			MediatorSpec.createXMLPort(document, spec, inPort, PortType.IN);
+		for (String outPort : outPorts)
+			MediatorSpec.createXMLPort(document, spec, outPort, PortType.OUT);
+
+		// mediatorProperties
+		for (String key : mediatorProperties.keySet())
+			MediatorSpec.createMediatorProperty(document, spec, key, mediatorProperties.get(key));
+
+		// scheduler params
+		for (String param : schedulerParam)
+			MediatorSpec.createSchedulerParameter(document, spec, param);
+
+		// processor params
+		for (String param : processorParam)
+			MediatorSpec.createProcessorParameter(document, spec, param);
+
+		// dispatcher params
+		for (String param : dispatcherParam)
+			MediatorSpec.createDispatcherParameter(document, spec, param);
+
+		XMLHelpers.writeDOM(document, filePath);
+
+		// Notifies Repository
+		SpecRepoService.getInstance().updateModel();
+	}
+
 	private Node findXMLMediatorNode(Document document, String id, String namespace) throws MetadataException {
 		Node root = getRootNode(document);
-		Node[] results = XMLUtil.findXMLChildNode(root, "mediator-specification", "id", id, "namespace", namespace);
+		Node[] results = XMLUtil.findXMLChildNode(root, MediatorSpec.XML_NODE_NAME, MediatorSpec.XML_ATTR_ID, id,
+				MediatorSpec.XML_ATTR_NAMESPACE, namespace);
 
 		if (results.length == 0)
 			return null;
@@ -157,12 +204,9 @@ public class SpecModel {
 		if (SpecRepoService.getInstance().isNewMediatorSpecAllowed(id, namespace) == null) {
 			File file = new File(filePath);
 			Document document = XMLHelpers.getDocument(file);
-			Node rootNode = getRootNode(document);
+			Node parent = getRootNode(document);
 
-			Element child = document.createElement("mediator-specification");
-			child.setAttribute("id", id);
-			child.setAttribute("namespace", namespace);
-			rootNode.appendChild(child);
+			MediatorSpec.createXMLSpec(document, parent, id, namespace);
 
 			// Write it back to file system
 			XMLHelpers.writeDOM(document, filePath);
@@ -171,4 +215,5 @@ public class SpecModel {
 			SpecRepoService.getInstance().updateModel();
 		}
 	}
+
 }

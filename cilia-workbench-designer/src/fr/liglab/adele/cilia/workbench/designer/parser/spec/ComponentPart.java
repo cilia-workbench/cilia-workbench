@@ -18,9 +18,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
@@ -49,23 +51,27 @@ public abstract class ComponentPart {
 
 	public Changeset[] merge(ComponentPart newInstance) {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+		boolean mustUpdate = false;
 
-		// ports
+		// parameters
 		for (Iterator<Parameter> itr = parameters.iterator(); itr.hasNext();) {
 			Parameter old = itr.next();
 			String name = old.getName();
 
 			Parameter updated = PullElementUtil.pullParameter(newInstance, name);
 			if (updated == null) {
-				retval.add(new Changeset(Operation.UPDATE, this));
-				return retval.toArray(new Changeset[0]);
+				itr.remove();
+				mustUpdate = true;
 			}
 		}
 
 		if (!newInstance.getParameters().isEmpty()) {
-			retval.add(new Changeset(Operation.UPDATE, this));
-			return retval.toArray(new Changeset[0]);
+			parameters.addAll(newInstance.getParameters());
+			mustUpdate = true;
 		}
+
+		if (mustUpdate)
+			retval.add(new Changeset(Operation.UPDATE, this));
 
 		return retval.toArray(new Changeset[0]);
 	}
@@ -78,5 +84,11 @@ public abstract class ComponentPart {
 			return className;
 		else
 			return className.substring(idx + 1);
+	}
+
+	public static Node createXMLParameter(Document document, Node mediatorSpec, String param, String componentName) {
+		Node component = XMLHelpers.getOrCreateNode(document, mediatorSpec, componentName);
+		Node parameters = XMLHelpers.getOrCreateNode(document, component, "parameters");
+		return XMLHelpers.createNode(document, parameters, "parameter", "name", param);
 	}
 }

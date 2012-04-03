@@ -14,9 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
@@ -60,5 +62,9 @@ public class Property {
 			retval[0] = c;
 			return retval;
 		}
+	}
+
+	public static Node createXMLProperty(Document document, Node parent, String key, String value) {
+		return XMLHelpers.createNode(document, parent, "property", "key", key, "value", value);
 	}
 }

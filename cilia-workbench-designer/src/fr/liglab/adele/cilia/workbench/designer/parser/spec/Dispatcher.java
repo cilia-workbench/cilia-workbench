@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
@@ -26,5 +27,9 @@ public class Dispatcher extends ComponentPart {
 
 	public Dispatcher(Node node) throws MetadataException {
 		super(node);
+	}
+
+	public static Node createXMLParameter(Document document, Node mediatorSpec, String param) {
+		return createXMLParameter(document, mediatorSpec, param, "dispatcher");
 	}
 }

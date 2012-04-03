@@ -99,12 +99,13 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 	}
 
 	private void editMediatorSpec(DoubleClickEvent event, MediatorSpec element) {
-		UpdateMediatorSpecDialog dialog = new UpdateMediatorSpecDialog(ViewUtil.getShell(event), element.getId(),
-				element.getNamespace(), element.getPorts());
 
-		// TODO init
+		UpdateMediatorSpecDialog dialog = new UpdateMediatorSpecDialog(ViewUtil.getShell(event), element);
 
-		if (dialog.open() == Window.OK)
-			System.out.println("TODO : update !");
+		if (dialog.open() == Window.OK) {
+			SpecRepoService.getInstance().updateMediatorSpec(element, dialog.getInPorts(), dialog.getOutPorts(),
+					dialog.getMediatorProperties(), dialog.getSchedulerParam(), dialog.getProcessorParam(),
+					dialog.getDispatcherParam());
+		}
 	}
 }

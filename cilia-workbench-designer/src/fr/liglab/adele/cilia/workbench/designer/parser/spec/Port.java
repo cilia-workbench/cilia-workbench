@@ -14,9 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 
 /**
@@ -26,13 +28,30 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 public abstract class Port {
 
 	private String name;
-	private final String type;
+	private final PortType type;
 	private Node node;
 
-	public static final String TYPE_IN = "In";
-	public static final String TYPE_OUT = "Out";
+	public enum PortType {
+		IN("In", "in-port"), OUT("Out", "out-port");
 
-	public Port(Node node, String type) throws MetadataException {
+		private String name;
+		private String XMLtag;
+
+		private PortType(String name, String XMLtag) {
+			this.name = name;
+			this.XMLtag = XMLtag;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String getXMLtag() {
+			return XMLtag;
+		}
+	}
+
+	public Port(Node node, PortType type) throws MetadataException {
 		this.node = node;
 		this.type = type;
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
@@ -43,11 +62,15 @@ public abstract class Port {
 	}
 
 	public String getType() {
-		return type;
+		return type.getName();
 	}
 
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public static Node createXMLPort(Document document, Node parent, String portName, PortType portType) {
+		return XMLHelpers.createNode(document, parent, portType.getXMLtag(), "name", portName);
 	}
 }

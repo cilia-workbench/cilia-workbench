@@ -33,6 +33,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -179,5 +180,40 @@ public class XMLHelpers {
 		} catch (TransformerException e) {
 			throw new MetadataException("XML transformer error", e);
 		}
+	}
+
+	public static Node getOrCreateNode(Document document, Node parent, String nodeName) {
+
+		Node dstNode = XMLReflectionUtil.findChild(parent, nodeName);
+		if (dstNode == null) {
+			dstNode = createNode(document, parent, nodeName);
+		}
+		return dstNode;
+	}
+
+	public static Node createNode(Document document, Node parent, String nodeName) {
+		return createNodeInternal(document, parent, nodeName);
+	}
+
+	public static Node createNode(Document document, Node parent, String nodeName, String attrName, String attrValue) {
+		return createNodeInternal(document, parent, nodeName, attrName, attrValue);
+	}
+
+	public static Node createNode(Document document, Node parent, String nodeName, String attrName1, String attrValue1,
+			String attrName2, String attrValue2) {
+		return createNodeInternal(document, parent, nodeName, attrName1, attrValue1, attrName2, attrValue2);
+	}
+
+	private static Node createNodeInternal(Document document, Node parent, String nodeName,
+			String... attr_name_and_value) {
+		Element newNode = document.createElement(nodeName);
+
+		for (int i = 0; i < attr_name_and_value.length; i += 2) {
+			String attrName = attr_name_and_value[i];
+			String attrValue = attr_name_and_value[i + 1];
+			newNode.setAttribute(attrName, attrValue);
+		}
+		parent.appendChild(newNode);
+		return newNode;
 	}
 }

@@ -28,7 +28,6 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -38,9 +37,13 @@ import org.eclipse.swt.widgets.Text;
 import fr.liglab.adele.cilia.workbench.common.jface.KeyValueEditor;
 import fr.liglab.adele.cilia.workbench.common.jface.ListEditor;
 import fr.liglab.adele.cilia.workbench.common.view.TextValidatorListener;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.Property;
 
 /**
+ * This dialog is used to update a mediator specification.
  * 
  * @author Etienne Gandrille
  */
@@ -59,28 +62,34 @@ public class UpdateMediatorSpecDialog extends Dialog {
 
 	/* namespace */
 	private String namespaceValue;
-	private String namespaceMessage = "namespace";
+	private final String namespaceMessage = "namespace";
 	private Text namespaceControl;
 
 	/* IN ports */
-	List<String> synchroPortsValue;
-	private String synchroPortsMessage = "In ports:";
+	private List<String> synchroPortsValue = new ArrayList<String>();
+	private final String synchroPortsMessage = "In ports:";
 
 	/* OUT ports */
-	List<String> dispatchPortsValue;
-	private String dispatchPortsMessage = "Out ports:";
+	private List<String> dispatchPortsValue = new ArrayList<String>();
+	private final String dispatchPortsMessage = "Out ports:";
 
-	private String schedulerTitle = "scheduler";
-
-	private String dispatcherTitle = "dispatcher";
-
-	private String processorTitle = "processor";
-
-	private final static String propertiesMessage = "You can add properties for discribing intinsic caracteristics";
-
-	private static int maxPorts = 5;
-
+	/* Mediator properties */
+	private final String mediatorTitle = "mediator";
+	private final String propertiesMessage = "You can add properties for discribing intinsic caracteristics";
+	private Map<String, String> mediatorProperties = new HashMap<String, String>();
 	private KeyValueEditor editor;
+
+	/* Scheduler params */
+	private final String schedulerTitle = "scheduler";
+	private List<String> schedulerParam = new ArrayList<String>();
+
+	/* processor params */
+	private final String processorTitle = "processor";
+	private List<String> processorParam = new ArrayList<String>();
+
+	/* dispatcher params */
+	private final String dispatcherTitle = "dispatcher";
+	private List<String> dispatcherParam = new ArrayList<String>();
 
 	/**
 	 * Constructor
@@ -91,19 +100,38 @@ public class UpdateMediatorSpecDialog extends Dialog {
 	 * @param input
 	 *            initial list
 	 */
-	public UpdateMediatorSpecDialog(Shell parent, String id, String namespace, List<Port> ports) {
+	public UpdateMediatorSpecDialog(Shell parent, MediatorSpec mediatorSpec) {
 		super(parent);
-		this.idValue = id;
-		this.namespaceValue = namespace;
 
-		this.synchroPortsValue = new ArrayList<String>();
-		this.dispatchPortsValue = new ArrayList<String>();
+		// Global parameters
+		this.idValue = mediatorSpec.getId();
+		this.namespaceValue = mediatorSpec.getNamespace();
 
-		for (Port port : ports)
-			if (port.getType().equals(Port.TYPE_IN))
+		// Ports
+		for (Port port : mediatorSpec.getPorts())
+			if (port.getType().equals(Port.PortType.IN.getName()))
 				synchroPortsValue.add(port.getName());
 			else
 				dispatchPortsValue.add(port.getName());
+
+		// Mediator
+		for (Property property : mediatorSpec.getProperties())
+			mediatorProperties.put(property.getKey(), property.getValue());
+
+		// Scheduler
+		if (mediatorSpec.getScheduler() != null)
+			for (Parameter param : mediatorSpec.getScheduler().getParameters())
+				schedulerParam.add(param.getName());
+
+		// Processor
+		if (mediatorSpec.getProcessor() != null)
+			for (Parameter param : mediatorSpec.getProcessor().getParameters())
+				processorParam.add(param.getName());
+
+		// Dispatcher
+		if (mediatorSpec.getDispatcher() != null)
+			for (Parameter param : mediatorSpec.getDispatcher().getParameters())
+				dispatcherParam.add(param.getName());
 	}
 
 	/*
@@ -175,10 +203,10 @@ public class UpdateMediatorSpecDialog extends Dialog {
 
 		CTabFolder folder = new CTabFolder(advancedComposite, SWT.BORDER);
 
-		createMediatorTab(folder, "mediator");
-		createSPDTab(folder, schedulerTitle);
-		createSPDTab(folder, processorTitle);
-		createSPDTab(folder, dispatcherTitle);
+		createMediatorTab(folder, mediatorTitle, mediatorProperties);
+		createSPDTab(folder, schedulerTitle, schedulerParam);
+		createSPDTab(folder, processorTitle, processorParam);
+		createSPDTab(folder, dispatcherTitle, dispatcherParam);
 
 		folder.setSelection(0);
 
@@ -187,6 +215,11 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		return container;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
+	 */
 	@Override
 	protected void initializeBounds() {
 		super.initializeBounds();
@@ -210,14 +243,13 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		return container;
 	}
 
-	private Map<String, String> createMediatorTab(CTabFolder folder, String title) {
-		Map<String, String> modelObject = new HashMap<String, String>();
+	private void createMediatorTab(CTabFolder folder, String title, Map<String, String> mediatorProperties) {
 
 		// Init
 		Composite container = commonCreateTab(folder, title, propertiesMessage);
 
 		// Editor
-		editor = new KeyValueEditor(container, modelObject);
+		editor = new KeyValueEditor(container, mediatorProperties);
 		editor.setKeyValidator(new IInputValidator() {
 			@Override
 			public String isValid(String newText) {
@@ -228,43 +260,17 @@ public class UpdateMediatorSpecDialog extends Dialog {
 			}
 		});
 		editor.getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-		return modelObject;
 	}
 
-	private static List<String> createSPDTab(CTabFolder folder, String title) {
-		List<String> modelObject = new ArrayList<String>();
+	private static void createSPDTab(CTabFolder folder, String title, List<String> elements) {
 
 		// Init
 		String label = "You can add parameters, for adding variabiliy on the " + title;
 		Composite container = commonCreateTab(folder, title, label);
 
 		// Editor
-		ListEditor listEditor = new ListEditor(container, modelObject);
+		ListEditor listEditor = new ListEditor(container, elements);
 		listEditor.getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-		return modelObject;
-	}
-
-	private static Combo createCombo(Composite container) {
-		Combo combo = new Combo(container, SWT.READ_ONLY);
-		List<String> l = new ArrayList<String>();
-		for (int i = 1; i < maxPorts; i++) {
-			String str;
-			if (i == 1)
-				str = i + " port";
-			else
-				str = i + " ports";
-			l.add(str);
-		}
-		combo.setItems(l.toArray(new String[0]));
-		combo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		combo.select(0);
-		return combo;
-	}
-
-	private static Text createText(final Composite container) {
-		return createText(container, false);
 	}
 
 	private static Text createText(final Composite container, boolean readOnly) {
@@ -310,5 +316,29 @@ public class UpdateMediatorSpecDialog extends Dialog {
 	 */
 	protected boolean isResizable() {
 		return true;
+	}
+
+	public List<String> getInPorts() {
+		return synchroPortsValue;
+	}
+
+	public List<String> getOutPorts() {
+		return dispatchPortsValue;
+	}
+
+	public Map<String, String> getMediatorProperties() {
+		return mediatorProperties;
+	}
+
+	public List<String> getSchedulerParam() {
+		return schedulerParam;
+	}
+
+	public List<String> getProcessorParam() {
+		return processorParam;
+	}
+
+	public List<String> getDispatcherParam() {
+		return dispatcherParam;
 	}
 }

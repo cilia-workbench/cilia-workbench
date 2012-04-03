@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
@@ -125,7 +126,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> {
 	 */
 	@Override
 	protected String getContentForNewFile() {
-		return "<" + SpecModel.ROOT_NODE_NAME + ">\n</" + SpecModel.ROOT_NODE_NAME + ">";
+		return "<" + SpecModel.XML_NODE_NAME + ">\n</" + SpecModel.XML_NODE_NAME + ">";
 	}
 
 	public void deleteMediatorSpec(MediatorSpec mediator) {
@@ -133,7 +134,21 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> {
 		if (file == null)
 			return;
 		try {
-			file.getModel().deleteMediator(mediator.getId(), mediator.getNamespace());
+			file.getModel().deleteMediatorSpec(mediator.getId(), mediator.getNamespace());
+		} catch (MetadataException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateMediatorSpec(MediatorSpec mediator, List<String> inPorts, List<String> outPorts,
+			Map<String, String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
+			List<String> dispatcherParam) {
+		SpecFile file = (SpecFile) contentProvider.getParent(mediator);
+		if (file == null)
+			return;
+		try {
+			file.getModel().updateMediatorSpec(mediator.getId(), mediator.getNamespace(), inPorts, outPorts,
+					mediatorProperties, schedulerParam, processorParam, dispatcherParam);
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
