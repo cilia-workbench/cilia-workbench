@@ -21,8 +21,8 @@ import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * The Class StreamFromFileStorage.

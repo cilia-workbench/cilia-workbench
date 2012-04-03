@@ -21,9 +21,8 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
@@ -37,9 +36,9 @@ public abstract class ComponentPart {
 
 	public ComponentPart(Node node) throws MetadataException {
 
-		Node rootParam = XMLReflectionUtil.findChild(node, "parameters");
+		Node rootParam = XMLHelpers.findChild(node, "parameters");
 		if (rootParam != null) {
-			Node[] params = XMLReflectionUtil.findChildren(rootParam, "parameter");
+			Node[] params = XMLHelpers.findChildren(rootParam, "parameter");
 			for (Node param : params)
 				parameters.add(new Parameter(param));
 		}

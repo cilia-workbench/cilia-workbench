@@ -16,7 +16,9 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 
 /**
  * 
@@ -37,7 +39,7 @@ public class Processor {
 		XMLReflectionUtil.setRequiredAttribute(node, "classname", this, "classname");
 		XMLReflectionUtil.setOptionalAttribute(node, "namespace", this, "namespace");
 
-		Node methodNode = XMLReflectionUtil.findChild(node, "method");
+		Node methodNode = XMLHelpers.findChild(node, "method");
 		if (methodNode == null)
 			throw new MetadataException("method element not found");
 		XMLReflectionUtil.setRequiredAttribute(methodNode, "name", this, "methodName");

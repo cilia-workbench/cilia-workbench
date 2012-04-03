@@ -22,7 +22,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link CiliaJarFile}.

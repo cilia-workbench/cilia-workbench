@@ -22,9 +22,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port.PortType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
@@ -36,6 +36,9 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
 public class MediatorSpec {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
+
+	public static final String XML_NODE_PROPERTIES_CONTAINER = "properties";
+	public static final String XML_NODE_PORTS_CONTAINER = "ports";
 
 	private String id;
 	public static final String XML_ATTR_ID = "id";
@@ -54,34 +57,34 @@ public class MediatorSpec {
 		XMLReflectionUtil.setRequiredAttribute(node, XML_ATTR_ID, this, "id");
 		XMLReflectionUtil.setOptionalAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
 
-		Node rootPorts = XMLReflectionUtil.findChild(node, "ports");
+		Node rootPorts = XMLHelpers.findChild(node, XML_NODE_PORTS_CONTAINER);
 		if (rootPorts != null) {
-			Node[] ips = XMLReflectionUtil.findChildren(rootPorts, Port.PortType.IN.getXMLtag());
+			Node[] ips = XMLHelpers.findChildren(rootPorts, PortType.IN.getXMLtag());
 			for (Node ip : ips)
 				ports.add(new InPort(ip));
-			Node[] ops = XMLReflectionUtil.findChildren(rootPorts, Port.PortType.OUT.getXMLtag());
+			Node[] ops = XMLHelpers.findChildren(rootPorts, PortType.OUT.getXMLtag());
 			for (Node op : ops)
 				ports.add(new OutPort(op));
 		}
 
-		Node rootProperties = XMLReflectionUtil.findChild(node, "properties");
+		Node rootProperties = XMLHelpers.findChild(node, XML_NODE_PROPERTIES_CONTAINER);
 		if (rootProperties != null) {
-			Node[] props = XMLReflectionUtil.findChildren(rootProperties, "property");
+			Node[] props = XMLHelpers.findChildren(rootProperties, Property.XML_NODE_NAME);
 			for (Node prop : props)
 				properties.add(new Property(prop));
 		}
 
-		Node rootProcessor = XMLReflectionUtil.findChild(node, "processor");
+		Node rootProcessor = XMLHelpers.findChild(node, Processor.XML_NODE_NAME);
 		if (rootProcessor != null) {
 			processor = new Processor(rootProcessor);
 		}
 
-		Node rootScheduler = XMLReflectionUtil.findChild(node, "scheduler");
+		Node rootScheduler = XMLHelpers.findChild(node, Scheduler.XML_NODE_NAME);
 		if (rootScheduler != null) {
 			scheduler = new Scheduler(rootScheduler);
 		}
 
-		Node rootDispatcher = XMLReflectionUtil.findChild(node, "dispatcher");
+		Node rootDispatcher = XMLHelpers.findChild(node, Dispatcher.XML_NODE_NAME);
 		if (rootDispatcher != null) {
 			dispatcher = new Dispatcher(rootDispatcher);
 		}
@@ -219,12 +222,12 @@ public class MediatorSpec {
 	}
 
 	public static Node createXMLPort(Document document, Element spec, String portName, PortType portType) {
-		Node ports = XMLHelpers.getOrCreateNode(document, spec, "ports");
+		Node ports = XMLHelpers.getOrCreateNode(document, spec, XML_NODE_PORTS_CONTAINER);
 		return Port.createXMLPort(document, ports, portName, portType);
 	}
 
 	public static Node createMediatorProperty(Document document, Element spec, String key, String value) {
-		Node properties = XMLHelpers.getOrCreateNode(document, spec, "properties");
+		Node properties = XMLHelpers.getOrCreateNode(document, spec, XML_NODE_PROPERTIES_CONTAINER);
 		return Property.createXMLProperty(document, properties, key, value);
 	}
 

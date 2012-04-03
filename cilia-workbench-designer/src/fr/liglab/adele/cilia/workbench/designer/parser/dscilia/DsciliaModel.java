@@ -26,9 +26,8 @@ import org.w3c.dom.Node;
 import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
@@ -56,7 +55,7 @@ public class DsciliaModel {
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
 
-		for (Node node : XMLReflectionUtil.findChildren(root, "chain"))
+		for (Node node : XMLHelpers.findChildren(root, "chain"))
 			chains.add(new Chain(node));
 	}
 

@@ -17,9 +17,9 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
@@ -29,14 +29,18 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
  */
 public class Property {
 
+	public static final String XML_NODE_NAME = "property";
+
+	public static final String XML_ATTR_KEY = "key";
 	private String key;
+	public static final String XML_ATTR_VALUE = "value";
 	private String value;
 	private Node node;
 
 	public Property(Node node) throws MetadataException {
 		this.node = node;
-		XMLReflectionUtil.setRequiredAttribute(node, "key", this, "key");
-		XMLReflectionUtil.setRequiredAttribute(node, "value", this, "value");
+		XMLReflectionUtil.setRequiredAttribute(node, XML_ATTR_KEY, this, "key");
+		XMLReflectionUtil.setRequiredAttribute(node, XML_ATTR_VALUE, this, "value");
 	}
 
 	public String getKey() {
@@ -65,6 +69,6 @@ public class Property {
 	}
 
 	public static Node createXMLProperty(Document document, Node parent, String key, String value) {
-		return XMLHelpers.createNode(document, parent, "property", "key", key, "value", value);
+		return XMLHelpers.createNode(document, parent, XML_NODE_NAME, XML_ATTR_KEY, key, XML_ATTR_VALUE, value);
 	}
 }

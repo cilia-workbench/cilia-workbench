@@ -16,6 +16,8 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+
 /**
  * 
  * @author Etienne Gandrille

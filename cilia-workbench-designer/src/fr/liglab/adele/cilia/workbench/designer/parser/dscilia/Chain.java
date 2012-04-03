@@ -22,9 +22,10 @@ import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
 
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
@@ -45,23 +46,23 @@ public class Chain {
 		this.node = node;
 		XMLReflectionUtil.setRequiredAttribute(node, "id", this, "id");
 
-		Node rootAdapters = XMLReflectionUtil.findChild(node, "adapters");
+		Node rootAdapters = XMLHelpers.findChild(node, "adapters");
 		if (rootAdapters != null) {
-			Node[] ais = XMLReflectionUtil.findChildren(rootAdapters, "adapter-instance");
+			Node[] ais = XMLHelpers.findChildren(rootAdapters, "adapter-instance");
 			for (Node ai : ais)
 				adapters.add(new AdapterInstance(ai));
 		}
 
-		Node rootMediators = XMLReflectionUtil.findChild(node, "mediators");
+		Node rootMediators = XMLHelpers.findChild(node, "mediators");
 		if (rootMediators != null) {
-			Node[] mis = XMLReflectionUtil.findChildren(rootMediators, "mediator-instance");
+			Node[] mis = XMLHelpers.findChildren(rootMediators, "mediator-instance");
 			for (Node mi : mis)
 				mediators.add(new MediatorInstance(mi));
 		}
 
-		Node rootBindings = XMLReflectionUtil.findChild(node, "bindings");
+		Node rootBindings = XMLHelpers.findChild(node, "bindings");
 		if (rootBindings != null) {
-			Node[] bis = XMLReflectionUtil.findChildren(rootBindings, "binding");
+			Node[] bis = XMLHelpers.findChildren(rootBindings, "binding");
 			for (Node bi : bis)
 				bindings.add(new Binding(bi));
 		}

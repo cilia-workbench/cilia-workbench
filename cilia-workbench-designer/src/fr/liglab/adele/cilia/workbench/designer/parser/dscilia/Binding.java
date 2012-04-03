@@ -17,8 +17,8 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 
 /**

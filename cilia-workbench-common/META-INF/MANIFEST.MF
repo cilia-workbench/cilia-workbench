@@ -15,4 +15,5 @@ Export-Package: fr.liglab.adele.cilia.workbench.common,
  fr.liglab.adele.cilia.workbench.common.jface,
  fr.liglab.adele.cilia.workbench.common.misc,
  fr.liglab.adele.cilia.workbench.common.sourceprovider,
- fr.liglab.adele.cilia.workbench.common.view
+ fr.liglab.adele.cilia.workbench.common.view,
+ fr.liglab.adele.cilia.workbench.common.xml

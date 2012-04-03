@@ -16,8 +16,8 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 
 /**
  * 
@@ -25,12 +25,13 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
  */
 public class Parameter {
 
+	public static final String XML_ATTR_NAME = "name";
 	private String name;
 	private Node node;
 
 	public Parameter(Node node) throws MetadataException {
 		this.node = node;
-		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
+		XMLReflectionUtil.setRequiredAttribute(node, XML_ATTR_NAME, this, "name");
 	}
 
 	public String getName() {

@@ -19,7 +19,9 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 
 /**
  * 
@@ -40,27 +42,27 @@ public class MediatorComponent {
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
 		XMLReflectionUtil.setRequiredAttribute(node, "category", this, "category");
 
-		Node schedulerNode = XMLReflectionUtil.findChild(node, "scheduler");
+		Node schedulerNode = XMLHelpers.findChild(node, "scheduler");
 		if (schedulerNode == null)
 			throw new MetadataException("scheduler element not found");
 		XMLReflectionUtil.setRequiredAttribute(schedulerNode, "name", this, "schedulerName");
 
-		Node processorNode = XMLReflectionUtil.findChild(node, "processor");
+		Node processorNode = XMLHelpers.findChild(node, "processor");
 		if (processorNode == null)
 			throw new MetadataException("processor element not found");
 		XMLReflectionUtil.setRequiredAttribute(processorNode, "name", this, "processorName");
 
-		Node dispatcherNode = XMLReflectionUtil.findChild(node, "dispatcher");
+		Node dispatcherNode = XMLHelpers.findChild(node, "dispatcher");
 		if (dispatcherNode == null)
 			throw new MetadataException("dispatcher element not found");
 		XMLReflectionUtil.setRequiredAttribute(dispatcherNode, "name", this, "dispatcherName");
 
-		Node portsNode = XMLReflectionUtil.findChild(node, "ports");
+		Node portsNode = XMLHelpers.findChild(node, "ports");
 		if (portsNode != null) {
-			Node[] inPorts = XMLReflectionUtil.findChildren(portsNode, "in-port");
+			Node[] inPorts = XMLHelpers.findChildren(portsNode, "in-port");
 			for (Node inPort : inPorts)
 				ports.add(new InPort(inPort));
-			Node[] outPorts = XMLReflectionUtil.findChildren(portsNode, "out-port");
+			Node[] outPorts = XMLHelpers.findChildren(portsNode, "out-port");
 			for (Node outPort : outPorts)
 				ports.add(new OutPort(outPort));
 		}

@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 
 /**
  * 
@@ -25,6 +25,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataExceptio
 public class InPort extends Port {
 
 	public InPort(Node node) throws MetadataException {
-		super(node, Port.PortType.IN);
+		super(node, PortType.IN);
 	}
 }

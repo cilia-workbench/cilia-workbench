@@ -16,7 +16,9 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 
 /**
  * 
@@ -47,7 +49,7 @@ public class Adapter {
 		else
 			throw new MetadataException("Invalid pattern : " + pattern);
 
-		Node subNode = XMLReflectionUtil.findChild(node, subNodeName);
+		Node subNode = XMLHelpers.findChild(node, subNodeName);
 		if (subNode == null)
 			throw new MetadataException(subNodeName + " element not found");
 		XMLReflectionUtil.setRequiredAttribute(subNode, "type", this, "elementType");

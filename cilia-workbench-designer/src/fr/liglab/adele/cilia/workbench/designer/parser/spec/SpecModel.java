@@ -25,9 +25,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port.PortType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
@@ -64,7 +63,7 @@ public class SpecModel {
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
 
-		for (Node node : XMLReflectionUtil.findChildren(root, MediatorSpec.XML_NODE_NAME))
+		for (Node node : XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME))
 			mediatorSpecs.add(new MediatorSpec(node));
 	}
 

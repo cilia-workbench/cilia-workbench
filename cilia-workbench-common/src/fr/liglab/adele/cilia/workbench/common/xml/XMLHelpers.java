@@ -12,12 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.common;
+package fr.liglab.adele.cilia.workbench.common.xml;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -34,11 +36,12 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 
 /**
  * Static methods, for managing XML files.
@@ -184,7 +187,7 @@ public class XMLHelpers {
 
 	public static Node getOrCreateNode(Document document, Node parent, String nodeName) {
 
-		Node dstNode = XMLReflectionUtil.findChild(parent, nodeName);
+		Node dstNode = findChild(parent, nodeName);
 		if (dstNode == null) {
 			dstNode = createNode(document, parent, nodeName);
 		}
@@ -215,5 +218,104 @@ public class XMLHelpers {
 		}
 		parent.appendChild(newNode);
 		return newNode;
+	}
+
+	public static String findAttributeValue(Node node, String attrName, String defaultValue) throws MetadataException {
+
+		try {
+			return findAttributeValue(node, attrName);
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
+
+	static String findAttributeValue(Node node, String attrName) throws MetadataException {
+		NamedNodeMap attrs = node.getAttributes();
+		if (attrs != null) {
+			for (int i = 0; i < attrs.getLength(); i++) {
+				Node attr = attrs.item(i);
+				String fullname = attr.getNodeName().toLowerCase();
+				String name = XMLUtil.computeName(fullname);
+				String namespace = XMLUtil.computeNamespace(fullname);
+				String value = attr.getNodeValue();
+
+				if (attrName.equals(name))
+					return value;
+			}
+		}
+
+		throw new MetadataException("Attribute " + attrName + " not found");
+	}
+
+	public static Node findChild(Node node, String childName) {
+
+		Node[] children = findChildren(node, childName);
+
+		if (children.length == 0)
+			return null;
+		else
+			return children[0];
+	}
+
+	public static Node[] findChildren(Node node, String childrenName) {
+
+		List<Node> list = new ArrayList<Node>();
+
+		NodeList childs = node.getChildNodes();
+		if (childs != null) {
+			for (int i = 0; i < childs.getLength(); i++) {
+				Node child = childs.item(i);
+				String localName = child.getNodeName();
+
+				if (child.getNodeType() == Node.ELEMENT_NODE) {
+					String name = XMLUtil.computeName(localName);
+					if (name.equals(childrenName))
+						list.add(child);
+				}
+			}
+		}
+
+		return list.toArray(new Node[0]);
+	}
+
+	public static String nodeTypeToString(short nodeType) throws Exception {
+		if (nodeType == Node.ELEMENT_NODE)
+			return "ELEMENT_NODE";
+		if (nodeType == Node.ATTRIBUTE_NODE)
+			return "ATTRIBUTE_NODE";
+		if (nodeType == Node.TEXT_NODE)
+			return "TEXT_NODE";
+		if (nodeType == Node.CDATA_SECTION_NODE)
+			return "CDATA_SECTION_NODE";
+		if (nodeType == Node.ENTITY_REFERENCE_NODE)
+			return "ENTITY_REFERENCE_NODE";
+		if (nodeType == Node.ENTITY_NODE)
+			return "ENTITY_NODE";
+		if (nodeType == Node.PROCESSING_INSTRUCTION_NODE)
+			return "PROCESSING_INSTRUCTION_NODE";
+		if (nodeType == Node.COMMENT_NODE)
+			return "COMMENT_NODE";
+		if (nodeType == Node.DOCUMENT_NODE)
+			return "DOCUMENT_NODE";
+		if (nodeType == Node.DOCUMENT_TYPE_NODE)
+			return "DOCUMENT_TYPE_NODE";
+		if (nodeType == Node.DOCUMENT_FRAGMENT_NODE)
+			return "DOCUMENT_FRAGMENT_NODE";
+		if (nodeType == Node.NOTATION_NODE)
+			return "NOTATION_NODE";
+		if (nodeType == Node.DOCUMENT_POSITION_DISCONNECTED)
+			return "DOCUMENT_POSITION_DISCONNECTED";
+		if (nodeType == Node.DOCUMENT_POSITION_PRECEDING)
+			return "DOCUMENT_POSITION_PRECEDING";
+		if (nodeType == Node.DOCUMENT_POSITION_FOLLOWING)
+			return "DOCUMENT_POSITION_FOLLOWING";
+		if (nodeType == Node.DOCUMENT_POSITION_CONTAINS)
+			return "DOCUMENT_POSITION_CONTAINS";
+		if (nodeType == Node.DOCUMENT_POSITION_CONTAINED_BY)
+			return "DOCUMENT_POSITION_CONTAINED_BY";
+		if (nodeType == Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC)
+			return "DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC";
+
+		throw new Exception("Unknown value : " + nodeType);
 	}
 }
