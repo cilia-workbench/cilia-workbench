@@ -95,20 +95,28 @@ public class KeyValueEditor extends AbstractEditor {
 	public void setValueValidator(IInputValidator valueValidator) {
 		this.valueValidator = valueValidator;
 	}
-	
+
 	public Map<String, String> getMap() {
 		return input;
 	}
-	
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param parent
+	 *            parent composite
+	 * @param input
+	 *            values for viewer initialization. The map can be empty, but mustn't be null.
+	 */
 	public KeyValueEditor(Composite parent, Map<String, String> input) {
 		super(parent);
-		
+
 		this.input = input;
 
 		// Composite
 		widgetComposite = new Composite(parent, SWT.NONE);
 		widgetComposite.setLayout(new GridLayout(3, false));
-		
+
 		// Text
 		text1 = new Text(widgetComposite, SWT.NONE);
 		text1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -155,9 +163,7 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -191,9 +197,8 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
-		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse .jface.viewers.Viewer,
+		 * java.lang.Object, java.lang.Object)
 		 */
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
@@ -232,10 +237,9 @@ public class KeyValueEditor extends AbstractEditor {
 	}
 
 	/**
-	 * The listener interface for receiving addButton events. The class that is
-	 * interested in processing a addButton event implements this interface, and
-	 * the object created with that class is registered with a component using
-	 * the component's <code>addAddButtonListener<code> method. When
+	 * The listener interface for receiving addButton events. The class that is interested in processing a addButton
+	 * event implements this interface, and the object created with that class is registered with a component using the
+	 * component's <code>addAddButtonListener<code> method. When
 	 * the addButton event occurs, that object's appropriate
 	 * method is invoked.
 	 * 
@@ -271,9 +275,7 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse
-		 * .swt.events.MouseEvent)
+		 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse .swt.events.MouseEvent)
 		 */
 		@Override
 		public void mouseDoubleClick(MouseEvent e) {
@@ -283,9 +285,7 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events
-		 * .MouseEvent)
+		 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events .MouseEvent)
 		 */
 		@Override
 		public void mouseDown(MouseEvent e) {
@@ -295,9 +295,7 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events
-		 * .MouseEvent)
+		 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events .MouseEvent)
 		 */
 		@Override
 		public void mouseUp(MouseEvent e) {
@@ -323,7 +321,7 @@ public class KeyValueEditor extends AbstractEditor {
 					return;
 				}
 			}
-			
+
 			input.remove(str1);
 			input.put(str1, str2);
 			table.refresh();
@@ -369,9 +367,7 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.swt.events.ControlListener#controlResized(org.eclipse
-		 * .swt.events.ControlEvent)
+		 * @see org.eclipse.swt.events.ControlListener#controlResized(org.eclipse .swt.events.ControlEvent)
 		 */
 		@Override
 		public void controlResized(ControlEvent e) {
@@ -384,9 +380,7 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt
-		 * .events.ControlEvent)
+		 * @see org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt .events.ControlEvent)
 		 */
 		@Override
 		public void controlMoved(ControlEvent e) {
@@ -423,8 +417,7 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged
+		 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged
 		 * (org.eclipse.jface.viewers.SelectionChangedEvent)
 		 */
 		@Override
@@ -471,9 +464,7 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse
-		 * .swt.events.MouseEvent)
+		 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse .swt.events.MouseEvent)
 		 */
 		@Override
 		public void mouseDoubleClick(MouseEvent e) {
@@ -482,9 +473,7 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events
-		 * .MouseEvent)
+		 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events .MouseEvent)
 		 */
 		@Override
 		public void mouseDown(MouseEvent e) {
@@ -493,9 +482,7 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events
-		 * .MouseEvent)
+		 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events .MouseEvent)
 		 */
 		@Override
 		public void mouseUp(MouseEvent e) {

@@ -16,9 +16,9 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 
 /**
@@ -36,11 +36,11 @@ public class Binding {
 	}
 
 	public String getSourceId() {
-		return StringUtil.getBeforeSeparatorOrAll(from);
+		return XMLStringUtil.getBeforeSeparatorOrAll(from);
 	}
 
 	public String getDestinationId() {
-		return StringUtil.getBeforeSeparatorOrAll(to);
+		return XMLStringUtil.getBeforeSeparatorOrAll(to);
 	}
 
 	public Changeset[] merge(Binding newInstance) {

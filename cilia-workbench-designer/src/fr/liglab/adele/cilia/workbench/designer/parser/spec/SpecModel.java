@@ -24,7 +24,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port.PortType;
@@ -189,7 +188,7 @@ public class SpecModel {
 
 	private Node findXMLMediatorNode(Document document, String id, String namespace) throws MetadataException {
 		Node root = getRootNode(document);
-		Node[] results = XMLUtil.findXMLChildNode(root, MediatorSpec.XML_NODE_NAME, MediatorSpec.XML_ATTR_ID, id,
+		Node[] results = XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME, MediatorSpec.XML_ATTR_ID, id,
 				MediatorSpec.XML_ATTR_NAMESPACE, namespace);
 
 		if (results.length == 0)

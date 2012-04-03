@@ -35,14 +35,25 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
+ * A simple list<String> editor, with an add an a remove button.
  * 
  * @author Etienne Gandrille
  */
 public class ListEditor extends AbstractEditor {
 
+	/** the list contents */
 	private List<String> input;
+
 	private Text text;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param parent
+	 *            the parent composite.
+	 * @param input
+	 *            the input, which can be an empty list, but mustn't be null.
+	 */
 	public ListEditor(Composite parent, List<String> input) {
 		super(parent);
 
@@ -73,14 +84,12 @@ public class ListEditor extends AbstractEditor {
 		final Button btnRemove = new Button(widgetComposite, SWT.NONE);
 		btnRemove.setText(removeLabel);
 		btnRemove.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
-		
+
 		// Listeners
 		btnAdd.addMouseListener(new AddButtonListener(shell, text, jFaceViewer));
 		btnRemove.addMouseListener(new RemoveButtonListener(shell, jFaceViewer));
 	}
 
-
-	
 	/**
 	 * Listener called when clicking on the Add Button.
 	 */
@@ -109,8 +118,7 @@ public class ListEditor extends AbstractEditor {
 			String str = text.getText().trim();
 
 			if (str.isEmpty()) {
-				MessageDialog.openError(shell, "Error",
-						"Can't add an empty string");
+				MessageDialog.openError(shell, "Error", "Can't add an empty string");
 			} else {
 				boolean found = false;
 				for (int i = 0; i < input.size() && !found; i++) {
@@ -119,8 +127,7 @@ public class ListEditor extends AbstractEditor {
 				}
 
 				if (found) {
-					MessageDialog.openError(shell, "Error", "\"" + str + "\""
-							+ " is already in the list.");
+					MessageDialog.openError(shell, "Error", "\"" + str + "\"" + " is already in the list.");
 				} else {
 					input.add(str);
 					list.refresh();
@@ -130,7 +137,7 @@ public class ListEditor extends AbstractEditor {
 			text.setFocus();
 		}
 	}
-	
+
 	/**
 	 * Listener called when clicking on the remove button.
 	 */
@@ -158,19 +165,20 @@ public class ListEditor extends AbstractEditor {
 			String str = (String) sel.getFirstElement();
 
 			if (str == null)
-				MessageDialog.openError(shell, "Error",
-						"Please select an element first.");
+				MessageDialog.openError(shell, "Error", "Please select an element first.");
 			else
 				input.remove(str);
-				list.refresh();
+			list.refresh();
 		}
 	}
-	
+
 	@Override
 	public void refresh() {
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fr.liglab.adele.cilia.dialog.editor.AbstractEditor#getDefaultComparator()
 	 */
 	@Override

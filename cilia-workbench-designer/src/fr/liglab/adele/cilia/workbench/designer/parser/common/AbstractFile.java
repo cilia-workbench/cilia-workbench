@@ -14,7 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.common;
 
-import fr.liglab.adele.cilia.workbench.common.misc.StringUtil;
+import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well
@@ -68,6 +68,6 @@ public class AbstractFile<ModelType> {
 	 */
 	@Override
 	public String toString() {
-		return StringUtil.getFileName(path);
+		return FileUtil.getFileName(path);
 	}
 }

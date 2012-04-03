@@ -19,6 +19,7 @@ import java.lang.reflect.Field;
 import org.w3c.dom.Node;
 
 /**
+ * A few methods, for reading XML and injecting values into fields.
  * 
  * @author Etienne Gandrille
  */

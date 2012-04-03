@@ -25,7 +25,6 @@ import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
 
-import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -98,7 +97,7 @@ public class DsciliaModel {
 
 	private Node findXMLChainNode(Document document, String chainId) throws MetadataException {
 		Node root = getRootNode(document);
-		Node[] results = XMLUtil.findXMLChildNode(root, "chain", "id", chainId);
+		Node[] results = XMLHelpers.findChildren(root, "chain", "id", chainId);
 
 		if (results.length == 0)
 			return null;
@@ -121,7 +120,7 @@ public class DsciliaModel {
 		File file = new File(filePath);
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, componentName + "s");
+		Node componentNode = XMLHelpers.getOrCreateNode(document, chainNode, componentName + "s");
 
 		Element child = document.createElement(componentName + "-instance");
 		child.setAttribute("id", id);
@@ -154,7 +153,7 @@ public class DsciliaModel {
 			File file = new File(filePath);
 			Document document = XMLHelpers.getDocument(file);
 			Node chainNode = findXMLChainNode(document, chain.getId());
-			Node componentNode = XMLUtil.getOrCreateSubNode(document, chainNode, "bindings");
+			Node componentNode = XMLHelpers.getOrCreateNode(document, chainNode, "bindings");
 
 			Element child = document.createElement("binding");
 			child.setAttribute("from", from);

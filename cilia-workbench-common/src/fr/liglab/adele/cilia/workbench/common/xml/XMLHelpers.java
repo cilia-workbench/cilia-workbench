@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -41,14 +40,33 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import fr.liglab.adele.cilia.workbench.common.misc.XMLUtil;
-
 /**
  * Static methods, for managing XML files.
  * 
  * @author Etienne Gandrille
  */
 public class XMLHelpers {
+
+	/***
+	 * Gets the namespace part from a node name.
+	 * 
+	 * @param name
+	 *            the node name
+	 * @return the namespace part
+	 */
+	public static String computeNamespace(String name) {
+		return XMLStringUtil.getBeforeSeparatorOrNothing(name);
+	}
+
+	/**
+	 * Gets the name part from a node name, removing the namespace part if it exists.
+	 * 
+	 * @param name
+	 * @return the name, without namespace
+	 */
+	public static String computeName(String name) {
+		return XMLStringUtil.getAfterSeparatorOrAll(name);
+	}
 
 	/**
 	 * Gets a {@link Document} from a {@link File}.
@@ -144,25 +162,6 @@ public class XMLHelpers {
 	}
 
 	/**
-	 * Gets the root node in a document.
-	 * 
-	 * @param document
-	 *            the document
-	 * @param nodeName
-	 *            the node name
-	 * @return the root node
-	 * @throws MetadataException
-	 *             if the root node doesn't match nodeName.
-	 */
-	public static Node getRootNode(Document document, String nodeName) throws MetadataException {
-		NodeList nodes = document.getChildNodes();
-		if (nodes != null && nodes.getLength() == 1 && nodes.item(0).getNodeName().equalsIgnoreCase(nodeName))
-			return nodes.item(0);
-		else
-			throw new MetadataException("Can't find root node " + nodeName);
-	}
-
-	/**
 	 * Writes a document using its DOM representation.
 	 * 
 	 * @param document
@@ -185,8 +184,34 @@ public class XMLHelpers {
 		}
 	}
 
-	public static Node getOrCreateNode(Document document, Node parent, String nodeName) {
+	/**
+	 * Gets the root node in a document.
+	 * 
+	 * @param document
+	 *            the document
+	 * @param nodeName
+	 *            the node name
+	 * @return the root node
+	 * @throws MetadataException
+	 *             if the root node doesn't match nodeName.
+	 */
+	public static Node getRootNode(Document document, String nodeName) throws MetadataException {
+		NodeList nodes = document.getChildNodes();
+		if (nodes != null && nodes.getLength() == 1 && nodes.item(0).getNodeName().equalsIgnoreCase(nodeName))
+			return nodes.item(0);
+		else
+			throw new MetadataException("Can't find root node " + nodeName);
+	}
 
+	/**
+	 * Creates a child node, if it doesn't exists.
+	 * 
+	 * @param document
+	 * @param parent
+	 * @param nodeName
+	 * @return
+	 */
+	public static Node getOrCreateNode(Document document, Node parent, String nodeName) {
 		Node dstNode = findChild(parent, nodeName);
 		if (dstNode == null) {
 			dstNode = createNode(document, parent, nodeName);
@@ -194,19 +219,77 @@ public class XMLHelpers {
 		return dstNode;
 	}
 
+	/**
+	 * Creates a child node.
+	 * 
+	 * @param document
+	 *            the document
+	 * @param parent
+	 *            the parent
+	 * @param nodeName
+	 *            the node name
+	 * @return the node
+	 */
 	public static Node createNode(Document document, Node parent, String nodeName) {
 		return createNodeInternal(document, parent, nodeName);
 	}
 
+	/**
+	 * Creates a child node, with an attribute and its value.
+	 * 
+	 * @param document
+	 *            the document
+	 * @param parent
+	 *            the parent
+	 * @param nodeName
+	 *            the node name
+	 * @param attrName
+	 *            the attr name
+	 * @param attrValue
+	 *            the attr value
+	 * @return the node
+	 */
 	public static Node createNode(Document document, Node parent, String nodeName, String attrName, String attrValue) {
 		return createNodeInternal(document, parent, nodeName, attrName, attrValue);
 	}
 
+	/**
+	 * Creates a child node, with two attributes and their values.
+	 * 
+	 * @param document
+	 *            the document
+	 * @param parent
+	 *            the parent
+	 * @param nodeName
+	 *            the node name
+	 * @param attrName1
+	 *            the attr name1
+	 * @param attrValue1
+	 *            the attr value1
+	 * @param attrName2
+	 *            the attr name2
+	 * @param attrValue2
+	 *            the attr value2
+	 * @return the node
+	 */
 	public static Node createNode(Document document, Node parent, String nodeName, String attrName1, String attrValue1,
 			String attrName2, String attrValue2) {
 		return createNodeInternal(document, parent, nodeName, attrName1, attrValue1, attrName2, attrValue2);
 	}
 
+	/**
+	 * Internal method for creating a node whith attributes.
+	 * 
+	 * @param document
+	 *            the document
+	 * @param parent
+	 *            the parent
+	 * @param nodeName
+	 *            the node name
+	 * @param attr_name_and_value
+	 *            the attr_name_and_value
+	 * @return the node
+	 */
 	private static Node createNodeInternal(Document document, Node parent, String nodeName,
 			String... attr_name_and_value) {
 		Element newNode = document.createElement(nodeName);
@@ -220,23 +303,25 @@ public class XMLHelpers {
 		return newNode;
 	}
 
-	public static String findAttributeValue(Node node, String attrName, String defaultValue) throws MetadataException {
-
-		try {
-			return findAttributeValue(node, attrName);
-		} catch (Exception e) {
-			return defaultValue;
-		}
-	}
-
+	/**
+	 * Find an attribute value on a node. If the attribute does't exists, throw an exception.
+	 * 
+	 * @param node
+	 *            the node
+	 * @param attrName
+	 *            the attr name
+	 * @return the string
+	 * @throws MetadataException
+	 *             the metadata exception
+	 */
 	static String findAttributeValue(Node node, String attrName) throws MetadataException {
 		NamedNodeMap attrs = node.getAttributes();
 		if (attrs != null) {
 			for (int i = 0; i < attrs.getLength(); i++) {
 				Node attr = attrs.item(i);
 				String fullname = attr.getNodeName().toLowerCase();
-				String name = XMLUtil.computeName(fullname);
-				String namespace = XMLUtil.computeNamespace(fullname);
+				String name = computeName(fullname);
+				String namespace = computeNamespace(fullname);
 				String value = attr.getNodeValue();
 
 				if (attrName.equals(name))
@@ -247,37 +332,138 @@ public class XMLHelpers {
 		throw new MetadataException("Attribute " + attrName + " not found");
 	}
 
+	/**
+	 * Find an attribute value on a node. If the attribute does't exists, returns a default value.
+	 * 
+	 * @param node
+	 *            the node
+	 * @param attrName
+	 *            the attr name
+	 * @param defaultValue
+	 *            the default value
+	 * @return the string
+	 * @throws MetadataException
+	 *             the metadata exception
+	 */
+	public static String findAttributeValue(Node node, String attrName, String defaultValue) throws MetadataException {
+		try {
+			return findAttributeValue(node, attrName);
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
+
+	/**
+	 * Returns the first child node with a given name, or null if not found.
+	 * 
+	 * @param node
+	 *            the node
+	 * @param childName
+	 *            the child name
+	 * @return the node
+	 */
 	public static Node findChild(Node node, String childName) {
-
 		Node[] children = findChildren(node, childName);
-
 		if (children.length == 0)
 			return null;
 		else
 			return children[0];
 	}
 
-	public static Node[] findChildren(Node node, String childrenName) {
+	/**
+	 * Finds all children nodes with the given name.
+	 * 
+	 * @param root
+	 *            the root
+	 * @param nodeName
+	 *            the node name
+	 * @return the node[]
+	 */
+	public static Node[] findChildren(Node root, String nodeName) {
+		return findChildrenInternal(root, nodeName);
+	}
 
-		List<Node> list = new ArrayList<Node>();
+	/**
+	 * Finds all children nodes with the given name, and with an attribute with a given value.
+	 * 
+	 * @param root
+	 *            the root
+	 * @param nodeName
+	 *            the node name
+	 * @param attributeName
+	 *            the node attribute
+	 * @param attributeValue
+	 *            the attribute value
+	 * @return the node[]
+	 */
+	public static Node[] findChildren(Node root, String nodeName, String attributeName, String attributeValue) {
+		return findChildrenInternal(root, nodeName, attributeName, attributeValue);
+	}
 
-		NodeList childs = node.getChildNodes();
-		if (childs != null) {
-			for (int i = 0; i < childs.getLength(); i++) {
-				Node child = childs.item(i);
-				String localName = child.getNodeName();
+	/**
+	 * Finds all children nodes with the given name, and with two attribute with their given values.
+	 * 
+	 * @param root
+	 *            the root
+	 * @param nodeName
+	 *            the node name
+	 * @param attributeName
+	 *            the node attribute
+	 * @param attributeValue
+	 *            the attribute value
+	 * @return the node[]
+	 */
+	public static Node[] findChildren(Node root, String nodeName, String attributeName1, String attributeValue1,
+			String attributeName2, String attributeValue2) {
+		return findChildrenInternal(root, nodeName, attributeName1, attributeValue1, attributeName2, attributeValue2);
+	}
 
-				if (child.getNodeType() == Node.ELEMENT_NODE) {
-					String name = XMLUtil.computeName(localName);
-					if (name.equals(childrenName))
-						list.add(child);
+	private static Node[] findChildrenInternal(Node root, String nodeName, String... attr_value) {
+		ArrayList<Node> retval = new ArrayList<Node>();
+
+		NodeList list = root.getChildNodes();
+		for (int i = 0; i < list.getLength(); i++) {
+			Node current = list.item(i);
+			if (current.getNodeType() == Node.ELEMENT_NODE
+					&& computeName(current.getNodeName()).equalsIgnoreCase(nodeName)) {
+				boolean ok_node = true;
+
+				for (int idx = 0; idx < attr_value.length && ok_node == true; idx += 2) {
+					String nodeAttribute = attr_value[idx];
+					String attributeValue = attr_value[idx + 1];
+
+					NamedNodeMap attrs = current.getAttributes();
+
+					boolean ok_attr = false;
+					for (int j = 0; j < attrs.getLength() && ok_attr == false; j++) {
+						Node attr = attrs.item(j);
+						String name = attr.getNodeName();
+						String value = attr.getNodeValue();
+						if (name.equalsIgnoreCase(nodeAttribute) && value.equals(attributeValue))
+							ok_attr = true;
+					}
+
+					if (ok_attr == false)
+						ok_node = false;
 				}
+
+				if (ok_node == true)
+					retval.add(current);
 			}
 		}
 
-		return list.toArray(new Node[0]);
+		return retval.toArray(new Node[0]);
 	}
 
+	/**
+	 * Convert a node type to a string. For debug purpose only.
+	 * 
+	 * @param nodeType
+	 *            the node type
+	 * @return the string
+	 * @throws Exception
+	 *             the exception
+	 */
 	public static String nodeTypeToString(short nodeType) throws Exception {
 		if (nodeType == Node.ELEMENT_NODE)
 			return "ELEMENT_NODE";

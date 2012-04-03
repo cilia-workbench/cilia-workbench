@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package fr.liglab.adele.cilia.workbench.common.misc;
 
 import java.io.File;
@@ -19,44 +20,19 @@ import java.io.File;
 import com.google.common.base.Preconditions;
 
 /**
- *
+ * File utils.
+ * 
  * @author Etienne Gandrille
  */
-public class StringUtil {
+public class FileUtil {
 
-	private static final String SEPARATOR = ":";
-
-	
-	public static String getBeforeSeparatorOrAll(String name) {
-		Preconditions.checkNotNull(name);
-
-		int index = name.indexOf(SEPARATOR);
-		if (index == -1)
-			return name;
-		return name.substring(0, index);
-	}
-
-	public static String getBeforeSeparatorOrNothing(String name) {
-		Preconditions.checkNotNull(name);
-
-		int index = name.indexOf(SEPARATOR);
-		if (index == -1 || name.startsWith(SEPARATOR))
-			return "";
-		else
-			return name.substring(0, index);
-	}
-
-	public static String getAfterSeparatorOrAll(String name) {
-		Preconditions.checkNotNull(name);
-		
-		int index = name.indexOf(SEPARATOR);
-		if (index == -1)
-			return name;
-		else
-			return name.substring(index + 1);
-	}
-
-	
+	/**
+	 * Returns the file name, without the path.
+	 * 
+	 * @param a
+	 *            path to a file
+	 * @return only the file part.
+	 */
 	public static String getFileName(String path) {
 		Preconditions.checkNotNull(path);
 
