@@ -17,11 +17,13 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
+
 /**
  * 
  * @author Etienne Gandrille
  */
-public class PullElementUtil {
+public class PullElementUtil implements DisplayedInPropertiesView {
 
 	public static SpecFile pullRepoElement(List<SpecFile> elements, String id) {
 		for (Iterator<SpecFile> itr = elements.iterator(); itr.hasNext();) {

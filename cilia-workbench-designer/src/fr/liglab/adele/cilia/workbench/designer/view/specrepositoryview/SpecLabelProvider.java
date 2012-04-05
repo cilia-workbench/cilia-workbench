@@ -18,6 +18,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.spec.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.OutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Scheduler;
@@ -56,6 +57,8 @@ public class SpecLabelProvider extends LabelProvider {
 		else if (obj instanceof Dispatcher)
 			imageName = ImageDescriptorEnum.DISPATCHER;
 		else if (obj instanceof Property)
+			imageName = ImageDescriptorEnum.PROPERTY;
+		else if (obj instanceof Parameter)
 			imageName = ImageDescriptorEnum.PROPERTY;
 		else if (obj instanceof InPort)
 			imageName = ImageDescriptorEnum.PORT_IN;

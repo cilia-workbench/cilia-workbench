@@ -52,16 +52,19 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 	 * Add a relationship in the content provider.
 	 * 
 	 * IMPORTANT : if one argument is null, this function does nothing.
-	 * 
-	 * @param theParent
-	 * @param theChild
+	 *
+	 * @param theParent the the parent
+	 * @param theChild the the child
+	 * @return true, if the relationship has been added, false otherwise.
 	 */
-	protected void addRelationship(Object theParent, Object theChild) {
+	protected boolean addRelationship(Object theParent, Object theChild) {
 		if (theParent != null && theChild != null) {
 			parent.put(theChild, theParent);
 			children.get(theParent).add(theChild);
 			children.put(theChild, new ArrayList<Object>());
+			return true;
 		}
+		return false;
 	}
 
 	/*

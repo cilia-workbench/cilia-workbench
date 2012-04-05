@@ -17,12 +17,13 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class InPort extends Port {
+public class InPort extends Port implements DisplayedInPropertiesView {
 
 	public InPort(Node node) throws MetadataException {
 		super(node, PortType.IN);

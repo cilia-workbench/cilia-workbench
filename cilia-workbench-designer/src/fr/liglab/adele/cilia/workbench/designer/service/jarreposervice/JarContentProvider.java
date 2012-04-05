@@ -24,6 +24,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Port;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
@@ -50,9 +51,11 @@ public class JarContentProvider extends GenericContentProvider {
 			if (ipojo != null) {
 				for (MediatorComponent mc : ipojo.getMediatorComponents()) {
 					addRelationship(bundle, mc);
-					for (Port p : mc.getPorts()) {
+					for (Port p : mc.getPorts())
 						addRelationship(mc, p);
-					}
+					
+					for (Property p : mc.getProperties())
+						addRelationship(mc, p);
 				}
 
 				for (Processor p : ipojo.getProcessors())

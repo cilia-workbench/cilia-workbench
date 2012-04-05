@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -315,23 +317,45 @@ public class XMLHelpers {
 	 *             the metadata exception
 	 */
 	static String findAttributeValue(Node node, String attrName) throws MetadataException {
+		
+		Map<String, String> attrMap = findAttributesValues(node);
+		
+		for (String attr : attrMap.keySet()) {
+			String fullname = attr.toLowerCase();
+			String name = computeName(fullname);
+			String namespace = computeNamespace(fullname);
+			String value = attrMap.get(attr);
+
+			if (attrName.equals(name))
+				return value;
+		}
+		
+		throw new MetadataException("Attribute " + attrName + " not found");
+	}
+
+	/**
+	 * Finds all the attributes and their values in a given node.
+	 *
+	 * @param node the node
+	 * @return the map
+	 */
+	public static Map<String, String> findAttributesValues(Node node) {
+		
+		Map<String, String> retval = new HashMap<String, String>(); 
 		NamedNodeMap attrs = node.getAttributes();
 		if (attrs != null) {
 			for (int i = 0; i < attrs.getLength(); i++) {
 				Node attr = attrs.item(i);
-				String fullname = attr.getNodeName().toLowerCase();
-				String name = computeName(fullname);
-				String namespace = computeNamespace(fullname);
+				String name = attr.getNodeName();
 				String value = attr.getNodeValue();
 
-				if (attrName.equals(name))
-					return value;
+				retval.put(name, value);
 			}
 		}
 
-		throw new MetadataException("Attribute " + attrName + " not found");
+		return retval;
 	}
-
+	
 	/**
 	 * Find an attribute value on a node. If the attribute does't exists, returns a default value.
 	 * 

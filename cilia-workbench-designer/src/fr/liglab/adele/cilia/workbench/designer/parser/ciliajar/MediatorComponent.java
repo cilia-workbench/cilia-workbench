@@ -15,32 +15,40 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorComponent {
+public class MediatorComponent implements DisplayedInPropertiesView {
 
 	private String name;
-	private String category;
 
 	private String schedulerName;
 	private String processorName;
 	private String dispatcherName;
 	private List<Port> ports = new ArrayList<Port>();
+	private List<Property> properties = new ArrayList<Property>();
 
 	public MediatorComponent(Node node) throws MetadataException {
 
 		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
-		XMLReflectionUtil.setRequiredAttribute(node, "category", this, "category");
+		
+		Map<String, String> attrMap = XMLHelpers.findAttributesValues(node);
+		for (String attr : attrMap.keySet()) {
+			if (!attr.equalsIgnoreCase("name"))
+				properties.add(new Property(attr, attrMap.get(attr)));
+		}
 
 		Node schedulerNode = XMLHelpers.findChild(node, "scheduler");
 		if (schedulerNode == null)
@@ -79,5 +87,9 @@ public class MediatorComponent {
 
 	public String getName() {
 		return name;
+	}
+	
+	public List<Property> getProperties() {
+		return properties;
 	}
 }

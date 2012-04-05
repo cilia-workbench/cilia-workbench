@@ -15,6 +15,7 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well
@@ -22,7 +23,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
  * 
  * @author Etienne Gandrille
  */
-public class CiliaJarFile extends AbstractFile<CiliaJarModel> {
+public class CiliaJarFile extends AbstractFile<CiliaJarModel> implements DisplayedInPropertiesView {
 
 	public CiliaJarFile(String path) {
 		super(path);

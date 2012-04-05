@@ -20,7 +20,7 @@ import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.IStorageEditorInput;
 
 /**
- * The Class StringInput.
+ * Used for rendering a string in an editor.
  * 
  * @author Etienne Gandrille
  */

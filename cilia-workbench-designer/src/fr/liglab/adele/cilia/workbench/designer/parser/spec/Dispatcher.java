@@ -18,12 +18,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Dispatcher extends ComponentPart {
+public class Dispatcher extends ComponentPart implements DisplayedInPropertiesView {
 
 	public static final String XML_NODE_NAME = "dispatcher";
 

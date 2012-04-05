@@ -24,13 +24,14 @@ import org.w3c.dom.NodeList;
 
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link CiliaJarFile}.
  * 
  * @author Etienne Gandrille
  */
-public class CiliaJarModel {
+public class CiliaJarModel implements DisplayedInPropertiesView {
 
 	/* ============= */
 	/* Model objects */

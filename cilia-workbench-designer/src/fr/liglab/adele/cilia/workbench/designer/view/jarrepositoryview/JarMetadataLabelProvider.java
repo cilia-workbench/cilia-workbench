@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.OutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
@@ -61,6 +62,8 @@ public class JarMetadataLabelProvider extends LabelProvider {
 			imageName = ImageDescriptorEnum.SCHEDULER;
 		else if (obj instanceof Sender)
 			imageName = ImageDescriptorEnum.SENDER;
+		else if (obj instanceof Property)
+			imageName = ImageDescriptorEnum.PROPERTY;
 		else if (obj instanceof InPort)
 			imageName = ImageDescriptorEnum.PORT_IN;
 		else if (obj instanceof OutPort)

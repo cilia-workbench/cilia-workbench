@@ -30,13 +30,14 @@ import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port.PortType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link SpecFile}.
  * 
  * @author Etienne Gandrille
  */
-public class SpecModel {
+public class SpecModel implements DisplayedInPropertiesView {
 
 	/** XML Root node name */
 	public static final String XML_NODE_NAME = "cilia-specifications";

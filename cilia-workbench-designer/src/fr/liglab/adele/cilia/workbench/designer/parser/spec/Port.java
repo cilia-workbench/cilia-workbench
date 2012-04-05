@@ -20,12 +20,13 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port {
+public abstract class Port implements DisplayedInPropertiesView {
 
 	public static final String XML_ATTR_NAME = "name";
 	private String name;

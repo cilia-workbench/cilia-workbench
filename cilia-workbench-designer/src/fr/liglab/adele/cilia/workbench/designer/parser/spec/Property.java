@@ -22,12 +22,13 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Property {
+public class Property implements DisplayedInPropertiesView {
 
 	public static final String XML_NODE_NAME = "property";
 
@@ -53,7 +54,7 @@ public class Property {
 
 	@Override
 	public String toString() {
-		return key + "=" + value;
+		return key + " = " + value;
 	}
 
 	public Changeset[] merge(Property newInstance) {

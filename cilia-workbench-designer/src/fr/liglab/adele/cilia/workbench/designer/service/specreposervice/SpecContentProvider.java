@@ -16,9 +16,13 @@ package fr.liglab.adele.cilia.workbench.designer.service.specreposervice;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Property;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
@@ -46,9 +50,20 @@ public class SpecContentProvider extends GenericContentProvider {
 				for (MediatorSpec spec : model.getMediatorSpecs()) {
 					addRelationship(file, spec);
 
-					addRelationship(spec, spec.getScheduler());
-					addRelationship(spec, spec.getProcessor());
-					addRelationship(spec, spec.getDispatcher());
+					Scheduler scheduler = spec.getScheduler();
+					if (addRelationship(spec, scheduler))
+						for (Parameter p : scheduler.getParameters())
+							addRelationship(scheduler, p);
+
+					Processor processor = spec.getProcessor();
+					if (addRelationship(spec, processor))
+						for (Parameter p : processor.getParameters())
+							addRelationship(processor, p);
+
+					Dispatcher dispatcher = spec.getDispatcher();
+					if (addRelationship(spec, dispatcher))
+						for (Parameter p : dispatcher.getParameters())
+							addRelationship(dispatcher, p);
 
 					for (Property property : spec.getProperties())
 						addRelationship(spec, property);
