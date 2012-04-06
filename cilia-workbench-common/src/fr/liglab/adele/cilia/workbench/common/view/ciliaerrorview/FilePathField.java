@@ -12,20 +12,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.view.errorView;
+package fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview;
 
 import org.eclipse.ui.views.markers.MarkerField;
 import org.eclipse.ui.views.markers.MarkerItem;
 
 /**
- * The source provider field, for rendering in the error view.
+ * The file path field, for rendering in the error view.
  * 
  * @author Etienne Gandrille
  */
-public class SourceProviderField extends MarkerField {
+public class FilePathField extends MarkerField {
 
 	/** The field ID, used to store and find the attributes. */
-	public final static String FIELD_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.sourceproviderfield";
+	public final static String FIELD_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.filepathfield";
 
 	/*
 	 * (non-Javadoc)

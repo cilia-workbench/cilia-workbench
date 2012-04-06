@@ -41,6 +41,9 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	/** Jar files extension. */
 	private final static String ext = ".jar";
 
+	/** Repository Name */
+	private final static String repositoryName = "Jar repo service";
+
 	/**
 	 * Gets the singleton instance.
 	 * 
@@ -56,7 +59,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	 * Instantiates a new jar repo service.
 	 */
 	private JarRepoService() {
-		super(PREFERENCE_PATH_KEY, ext);
+		super(PREFERENCE_PATH_KEY, ext, repositoryName);
 	}
 
 	public void updateModel() {

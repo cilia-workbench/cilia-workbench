@@ -47,6 +47,9 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	/** Listeners used to notify repository updates. */
 	private List<IRepoServiceListener> listeners;
 
+	/** Repository name */
+	private final String name;
+
 	/**
 	 * A content provider. Usualy, it's useful for displaying the repository in a view. Here, it's used for navigating
 	 * the repository.
@@ -69,9 +72,10 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	 * @param ext
 	 *            the extension
 	 */
-	protected AbstractRepoService(String preferenceKey, String ext) {
+	protected AbstractRepoService(String preferenceKey, String ext, String repoName) {
 		PREFERENCE_PATH_KEY = preferenceKey;
 		this.ext = ext;
+		this.name = repoName;
 
 		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
@@ -318,5 +322,10 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 		}
 
 		return retval;
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }

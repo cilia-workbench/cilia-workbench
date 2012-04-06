@@ -45,6 +45,9 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> {
 	/** Spec files extension. */
 	private final static String ext = ".xml";
 
+	/** Repository Name */
+	private final static String repositoryName = "Spec repo service";
+
 	/**
 	 * Gets the singleton instance.
 	 * 
@@ -60,7 +63,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> {
 	 * Instantiates a new jar repo service.
 	 */
 	private SpecRepoService() {
-		super(PREFERENCE_PATH_KEY, ext);
+		super(PREFERENCE_PATH_KEY, ext, repositoryName);
 	}
 
 	public void updateModel() {

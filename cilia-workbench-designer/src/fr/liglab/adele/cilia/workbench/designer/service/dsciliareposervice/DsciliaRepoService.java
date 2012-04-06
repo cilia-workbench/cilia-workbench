@@ -48,6 +48,9 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	/** DScilia files extension. */
 	private final static String ext = ".dscilia";
 
+	/** Repository Name */
+	private final static String repositoryName = "DSCilia repo service";
+
 	/**
 	 * Gets the singleton instance.
 	 * 
@@ -63,7 +66,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	 * Constructor. Registers for repository path update and constructs the model.
 	 */
 	private DsciliaRepoService() {
-		super(PREFERENCE_PATH_KEY, ext);
+		super(PREFERENCE_PATH_KEY, ext, repositoryName);
 	}
 
 	/**
