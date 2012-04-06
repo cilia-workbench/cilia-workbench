@@ -19,21 +19,23 @@
 		</page>
 	</extension>
 	<extension point="org.eclipse.ui.views">
-		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
+	<category
+       id="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
+       name="CILIA designer">
+		</category>
+	       <view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
 			class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.JarRepositoryView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
 			id="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview"
 			name="Jar repository" restorable="true">
-		</view>
+	  </view>
+	
 		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
 			class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DsciliaRepositoryView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
 			id="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview"
 			name="Dscilia repository" restorable="true">
 		</view>
-		<category id="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
-			name="CILIA Designer">
-		</category>
 		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
 			class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.ChainDesignerView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chain.png"
