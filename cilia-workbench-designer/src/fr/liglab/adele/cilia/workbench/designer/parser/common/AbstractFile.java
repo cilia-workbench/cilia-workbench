@@ -14,7 +14,10 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.common;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well
@@ -25,10 +28,10 @@ import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
  * 
  * @author Etienne Gandrille
  */
-public class AbstractFile<ModelType> {
+public class AbstractFile<ModelType> implements MarkerFinder, DisplayedInPropertiesView {
 
 	/** Path on the file system. */
-	protected String path;
+	private String path;
 
 	/** The model object, which represents the file. */
 	protected ModelType model;
@@ -69,5 +72,11 @@ public class AbstractFile<ModelType> {
 	@Override
 	public String toString() {
 		return FileUtil.getFileName(path);
+	}
+	
+	@Override
+	public void createMarkers(Object rootSourceProvider) {
+		if (model == null)
+			CiliaMarkerUtil.createMarker("Invalid XML file", rootSourceProvider, this, getFilePath());
 	}
 }

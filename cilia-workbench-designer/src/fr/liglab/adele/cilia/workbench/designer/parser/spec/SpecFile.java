@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well
@@ -27,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class SpecFile extends AbstractFile<SpecModel> implements DisplayedInPropertiesView {
+public class SpecFile extends AbstractFile<SpecModel> {
 
 	/**
 	 * Instantiates a new spec file.
