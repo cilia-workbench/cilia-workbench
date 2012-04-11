@@ -21,4 +21,5 @@ Export-Package: fr.liglab.adele.cilia.workbench.common,
  fr.liglab.adele.cilia.workbench.common.sourceprovider,
  fr.liglab.adele.cilia.workbench.common.view,
  fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview,
+ fr.liglab.adele.cilia.workbench.common.marker,
  fr.liglab.adele.cilia.workbench.common.xml

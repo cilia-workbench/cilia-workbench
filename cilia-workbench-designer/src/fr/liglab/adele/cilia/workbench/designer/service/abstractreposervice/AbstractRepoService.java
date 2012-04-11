@@ -21,12 +21,16 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 
@@ -97,6 +101,28 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	 */
 	public abstract void updateModel();
 
+	/**
+	 * Updates markers for this repository. 
+	 * 
+	 * IMPORTANT : Only the elements managed by the content provider are tested to see if it implements {@link MarkerFinder} interface. 
+	 */
+	protected void updateMarkers() {
+		
+		// removes markers
+		try {
+			CiliaMarkerUtil.deleteMarkers(this);
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		
+		// finds markers
+		Set<Object> elements = getContentProvider().getElements();
+		for (Object element : elements)
+			if (element instanceof MarkerFinder)
+				((MarkerFinder) element).createMarkers(this);
+	}
+	
+	
 	/**
 	 * Gets the repository path on the file system.
 	 * 

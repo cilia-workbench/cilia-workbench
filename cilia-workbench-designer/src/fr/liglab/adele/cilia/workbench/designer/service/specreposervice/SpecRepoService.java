@@ -82,6 +82,9 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> {
 
 		// Sends notifications
 		notifyListeners(changes);
+		
+		// Update markers relative to this repository
+		updateMarkers();
 	}
 
 	/**

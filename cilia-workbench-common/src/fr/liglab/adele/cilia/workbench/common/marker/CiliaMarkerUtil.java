@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview;
+package fr.liglab.adele.cilia.workbench.common.marker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,10 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 
+import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.FilePathField;
+import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.RootSourceProviderField;
+import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.SourceProviderField;
+
 /**
  * Static methods for creating and finding cilia markers.
  * 
@@ -30,7 +34,7 @@ import org.eclipse.core.runtime.CoreException;
 public class CiliaMarkerUtil {
 
 	/** The Cilia marker Type ID */
-	public static String MARKER_TYPE = "fr.liglab.adelecilia.workbench.common.marker";
+	public static String MARKER_TYPE = "fr.liglab.adele.cilia.workbench.common.marker";
 
 	/**
 	 * Creates a Cilia marker.
@@ -43,7 +47,7 @@ public class CiliaMarkerUtil {
 	 *            the file path, stored *outside* the standard filepath field.
 	 * @return the marker
 	 */
-	public static IMarker createMarker(String description, Object sourceProvider, String filePath) {
+	public static IMarker createMarker(String description, Object rootSourceProvider, Object sourceProvider, String filePath) {
 
 		IMarker marker = null;
 
@@ -52,6 +56,8 @@ public class CiliaMarkerUtil {
 			marker.setAttribute(IMarker.MESSAGE, description);
 			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 			marker.setAttribute(IMarker.TRANSIENT, true);
+			if (rootSourceProvider != null)
+				marker.setAttribute(RootSourceProviderField.FIELD_ID, rootSourceProvider);
 			if (sourceProvider != null)
 				marker.setAttribute(SourceProviderField.FIELD_ID, sourceProvider);
 			if (filePath != null)
@@ -74,7 +80,7 @@ public class CiliaMarkerUtil {
 	}
 
 	/**
-	 * Find markers, with a given source provider.
+	 * Find markers, with a given root source provider.
 	 * 
 	 * @param sourceProvider
 	 *            the source provider
@@ -82,14 +88,30 @@ public class CiliaMarkerUtil {
 	 * @throws CoreException
 	 *             the core exception
 	 */
-	public static IMarker[] findMarkers(Object sourceProvider) throws CoreException {
+	public static IMarker[] findMarkers(Object rootSourceProvider) throws CoreException {
 
 		List<IMarker> retval = new ArrayList<IMarker>();
 
 		for (IMarker marker : findMarkers())
-			if (marker.getAttribute(SourceProviderField.FIELD_ID) == sourceProvider)
+			if (marker.getAttribute(RootSourceProviderField.FIELD_ID) == rootSourceProvider)
 				retval.add(marker);
 
 		return retval.toArray(new IMarker[0]);
+	}
+	
+	/**
+	 * Deletes markers, with a given root source provider.
+	 * 
+	 * @param sourceProvider
+	 *            the source provider
+	 * @return the markers
+	 * @throws CoreException
+	 *             the core exception
+	 */
+	public static void deleteMarkers(Object rootSourceProvider) throws CoreException {
+
+		for (IMarker marker : findMarkers(rootSourceProvider))
+			if (marker.exists())
+				marker.delete();
 	}
 }

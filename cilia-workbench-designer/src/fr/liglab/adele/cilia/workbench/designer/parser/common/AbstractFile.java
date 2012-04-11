@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
 public class AbstractFile<ModelType> {
 
 	/** Path on the file system. */
-	private String path;
+	protected String path;
 
 	/** The model object, which represents the file. */
 	protected ModelType model;

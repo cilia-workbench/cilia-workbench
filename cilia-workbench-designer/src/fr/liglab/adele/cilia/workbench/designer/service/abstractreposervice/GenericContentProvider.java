@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -110,6 +111,15 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 		return getChildren(inputElement);
 	}
 
+	/**
+	 * Gets all the elements managed by this content provider.
+	 * 
+	 * @return
+	 */
+	public Set<Object> getElements() {
+		return children.keySet();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

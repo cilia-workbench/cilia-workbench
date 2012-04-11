@@ -89,6 +89,9 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 
 		// Sends notifications
 		notifyListeners(changes);
+		
+		// Update markers relative to this repository
+		updateMarkers();
 	}
 
 	/**

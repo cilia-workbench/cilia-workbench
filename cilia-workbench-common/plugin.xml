@@ -27,10 +27,11 @@
             id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.generator"
             name="Cilia Marker Generator">
          <markerTypeReference
-               id="fr.liglab.adelecilia.workbench.common.marker">
+               id="fr.liglab.adele.cilia.workbench.common.marker">
          </markerTypeReference>
          <markerFieldReference
-               id="org.eclipse.ui.ide.descriptionField">
+               id="org.eclipse.ui.ide.descriptionField"
+               visible="true">
          </markerFieldReference>
          <markerFieldReference
                id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.filepathfield"
@@ -40,11 +41,20 @@
                id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.sourceproviderfield"
                visible="true">
          </markerFieldReference>
+         <markerFieldReference
+               id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.rootsourceproviderfield"
+               visible="true">
+         </markerFieldReference>
       </markerContentGenerator>
       <markerField
             class="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.SourceProviderField"
             id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.sourceproviderfield"
             name="Source Provider">
+      </markerField>
+      <markerField
+            class="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.RootSourceProviderField"
+            id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.rootsourceproviderfield"
+            name="Root Source Provider">
       </markerField>
       <markerField
             class="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.FilePathField"
@@ -53,7 +63,7 @@
       </markerField>
    </extension>
    <extension
-         id="fr.liglab.adelecilia.workbench.common.marker"
+         id="fr.liglab.adele.cilia.workbench.common.marker"
          name="Cilia marker"
          point="org.eclipse.core.resources.markers">
       <super
@@ -63,5 +73,4 @@
             value="false">
       </persistent>
    </extension>
-
 </plugin>

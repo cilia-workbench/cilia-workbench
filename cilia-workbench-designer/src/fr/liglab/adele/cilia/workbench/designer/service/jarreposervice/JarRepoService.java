@@ -78,6 +78,9 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 
 		// Sends notifications
 		notifyListeners(null);
+		
+		// Update markers relative to this repository
+		updateMarkers();
 	}
 
 	public String[] getMediatorsId() {
