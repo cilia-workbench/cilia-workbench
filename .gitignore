@@ -16,7 +16,7 @@
 *.dmg
 *.gz
 *.iso
-*.jar
+#*.jar needed by target platform !
 *.rar
 *.tar
 *.zip
