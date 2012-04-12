@@ -22,11 +22,9 @@ import org.eclipse.ui.IEditorReference;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
 
@@ -89,12 +87,9 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 	 */
 	@Override
 	public void repositoryContentUpdated(Changeset[] changes) {
-		for (Changeset change : changes) {
-			if (change.getOperation() != Operation.UPDATE || change.getObject() instanceof SpecFile
-					|| change.getObject() instanceof Property) {
-				refresh();
-				return;
-			}
+		if (changes.length != 0) {
+			refresh();
+			return;
 		}
 	}
 

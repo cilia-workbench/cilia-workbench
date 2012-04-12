@@ -22,19 +22,22 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port.PortType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpec implements DisplayedInPropertiesView {
+public class MediatorSpec implements DisplayedInPropertiesView, MarkerFinder {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
 
@@ -126,7 +129,7 @@ public class MediatorSpec implements DisplayedInPropertiesView {
 		for (Iterator<Port> itr = ports.iterator(); itr.hasNext();) {
 			Port old = itr.next();
 			String name = old.getName();
-			String type = old.getType();
+			PortType type = old.getType();
 
 			Port updated = PullElementUtil.pullPort(newInstance, name, type);
 			if (updated == null) {
@@ -242,5 +245,40 @@ public class MediatorSpec implements DisplayedInPropertiesView {
 
 	public static Node createDispatcherParameter(Document document, Element spec, String param) {
 		return Dispatcher.createXMLParameter(document, spec, param);
+	}
+
+	@Override
+	public void createMarkers(Object rootSourceProvider) {
+		// id
+		if (id == null || id.isEmpty())
+			CiliaMarkerUtil.createErrorMarker("ID undefined", SpecRepoService.getInstance(), this);
+		
+		// namespace
+		if (namespace == null || namespace.isEmpty())
+			CiliaMarkerUtil.createWarningMarker("namespace undefined", SpecRepoService.getInstance(), this);
+		
+		// ports
+		boolean foundInPort = false;
+		boolean foundOutPort = false;
+		for (Port port : ports)
+			if (port.getType().equals(PortType.IN))
+				foundInPort = true;
+			else
+				foundOutPort = true;
+		
+		if (!foundInPort)
+			CiliaMarkerUtil.createErrorMarker("Mediator doesn't have an in port", SpecRepoService.getInstance(), this);
+		if (!foundOutPort)
+			CiliaMarkerUtil.createErrorMarker("Mediator doesn't have an out port", SpecRepoService.getInstance(), this);
+		
+		// properties
+		List<String> foundProperties = new ArrayList<String>();
+		for (Property property : properties) {
+			String name = property.getKey();
+			if (foundProperties.contains(name))
+				CiliaMarkerUtil.createErrorMarker("Property " + name + " is defined more than once", SpecRepoService.getInstance(), this);
+			else
+				foundProperties.add(name);
+		}
 	}
 }

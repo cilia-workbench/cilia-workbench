@@ -35,10 +35,6 @@
                visible="true">
          </markerFieldReference>
          <markerFieldReference
-               id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.filepathfield"
-               visible="true">
-         </markerFieldReference>
-         <markerFieldReference
                id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.sourceproviderfield"
                visible="true">
          </markerFieldReference>
@@ -56,11 +52,6 @@
             class="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.RootSourceProviderField"
             id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.rootsourceproviderfield"
             name="Root Source Provider">
-      </markerField>
-      <markerField
-            class="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.FilePathField"
-            id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.filepathfield"
-            name="File Path">
       </markerField>
    </extension>
    <extension

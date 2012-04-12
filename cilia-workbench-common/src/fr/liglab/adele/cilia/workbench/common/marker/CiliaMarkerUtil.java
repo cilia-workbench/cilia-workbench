@@ -22,12 +22,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 
-import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.FilePathField;
 import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.RootSourceProviderField;
 import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.SourceProviderField;
 
 /**
- * Static methods for creating and finding cilia markers.
+ * Static methods for creating and finding Cilia markers.
  * 
  * @author Etienne Gandrille
  */
@@ -37,18 +36,42 @@ public class CiliaMarkerUtil {
 	public static String MARKER_TYPE = "fr.liglab.adele.cilia.workbench.common.marker";
 
 	/**
-	 * Creates a Cilia marker.
-	 * 
-	 * @param description
-	 *            the standard marker description
-	 * @param sourceProvider
-	 *            the source provider. It should be a repository
-	 * @param filePath
-	 *            the file path, stored *outside* the standard filepath field.
+	 * Creates an error Cilia marker.
+	 *
+	 * @param description the marker description
+	 * @param rootSourceProvider the root source provider, which should be a repository.
+	 * @param sourceProvider the source provider. Object responsible of this marker creation.
 	 * @return the marker
 	 */
-	public static IMarker createMarker(String description,
-			Object rootSourceProvider, Object sourceProvider, String filePath) {
+	public static IMarker createErrorMarker(String description,
+			Object rootSourceProvider, Object sourceProvider) {
+		return createMarker(IMarker.SEVERITY_ERROR, description, rootSourceProvider, sourceProvider);
+	}
+
+	/**
+	 * Creates a warning Cilia marker.
+	 *
+	 * @param description the marker description
+	 * @param rootSourceProvider the root source provider, which should be a repository.
+	 * @param sourceProvider the source provider. Object responsible of this marker creation.
+	 * @return the marker
+	 */
+	public static IMarker createWarningMarker(String description,
+			Object rootSourceProvider, Object sourceProvider) {
+		return createMarker(IMarker.SEVERITY_WARNING, description, rootSourceProvider, sourceProvider);
+	}
+	
+	/**
+	 * Creates a Cilia marker.
+	 *
+	 * @param severity the markers's severity. see {@link IMarker} file for getting constants.
+	 * @param description the marker description
+	 * @param rootSourceProvider the root source provider, which should be a repository.
+	 * @param sourceProvider the source provider. Object responsible of this marker creation.
+	 * @return the marker
+	 */
+	private static IMarker createMarker(int severity, String description,
+			Object rootSourceProvider, Object sourceProvider) {
 
 		IMarker marker = null;
 
@@ -56,7 +79,7 @@ public class CiliaMarkerUtil {
 			marker = ResourcesPlugin.getWorkspace().getRoot()
 					.createMarker(MARKER_TYPE);
 			marker.setAttribute(IMarker.MESSAGE, description);
-			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+			marker.setAttribute(IMarker.SEVERITY, severity);
 			marker.setAttribute(IMarker.TRANSIENT, true);
 			if (rootSourceProvider != null)
 				marker.setAttribute(RootSourceProviderField.FIELD_ID,
@@ -64,15 +87,13 @@ public class CiliaMarkerUtil {
 			if (sourceProvider != null)
 				marker.setAttribute(SourceProviderField.FIELD_ID,
 						sourceProvider);
-			if (filePath != null)
-				marker.setAttribute(FilePathField.FIELD_ID, filePath);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 		
 		return marker;
 	}
-
+	
 	/**
 	 * Finds all existing Cilia markers.
 	 * 

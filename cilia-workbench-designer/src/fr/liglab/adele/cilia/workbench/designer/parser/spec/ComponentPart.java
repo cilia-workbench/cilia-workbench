@@ -21,17 +21,20 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentPart implements DisplayedInPropertiesView {
+public abstract class ComponentPart implements DisplayedInPropertiesView, MarkerFinder {
 
 	List<Parameter> parameters = new ArrayList<Parameter>();
 
@@ -90,5 +93,19 @@ public abstract class ComponentPart implements DisplayedInPropertiesView {
 		Node component = XMLHelpers.getOrCreateNode(document, mediatorSpec, componentName);
 		Node parameters = XMLHelpers.getOrCreateNode(document, component, "parameters");
 		return XMLHelpers.createNode(document, parameters, "parameter", "name", param);
+	}
+	
+	@Override
+	public void createMarkers(Object rootSourceProvider) {
+	
+		List<String> foundParam = new ArrayList<String>();
+		
+		for (Parameter parameter : parameters) {
+			String name = parameter.getName();
+			if (foundParam.contains(name))
+				CiliaMarkerUtil.createErrorMarker("Parameter " + name + " is defined more than once", SpecRepoService.getInstance(), this);
+			else
+				foundParam.add(name);
+		}
 	}
 }

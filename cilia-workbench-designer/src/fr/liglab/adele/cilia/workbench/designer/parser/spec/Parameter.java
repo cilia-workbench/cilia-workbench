@@ -16,15 +16,18 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Parameter implements DisplayedInPropertiesView {
+public class Parameter implements DisplayedInPropertiesView, MarkerFinder {
 
 	public static final String XML_ATTR_NAME = "name";
 	private String name;
@@ -42,5 +45,11 @@ public class Parameter implements DisplayedInPropertiesView {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public void createMarkers(Object rootSourceProvider) {
+		if (name == null || name.isEmpty())
+			CiliaMarkerUtil.createErrorMarker("Parameter does't have its name defined", SpecRepoService.getInstance(), this);
 	}
 }

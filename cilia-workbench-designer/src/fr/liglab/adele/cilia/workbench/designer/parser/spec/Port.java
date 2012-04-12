@@ -17,16 +17,19 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port implements DisplayedInPropertiesView {
+public abstract class Port implements DisplayedInPropertiesView, MarkerFinder {
 
 	public static final String XML_ATTR_NAME = "name";
 	private String name;
@@ -36,18 +39,12 @@ public abstract class Port implements DisplayedInPropertiesView {
 	private final PortType type;
 
 	public enum PortType {
-		IN("In", "in-port"), OUT("Out", "out-port");
+		IN("in-port"), OUT("out-port");
 
-		private String name;
 		private String XMLtag;
 
-		private PortType(String name, String XMLtag) {
-			this.name = name;
+		private PortType(String XMLtag) {
 			this.XMLtag = XMLtag;
-		}
-
-		public String getName() {
-			return name;
 		}
 
 		public String getXMLtag() {
@@ -65,8 +62,8 @@ public abstract class Port implements DisplayedInPropertiesView {
 		return name;
 	}
 
-	public String getType() {
-		return type.getName();
+	public PortType getType() {
+		return type;
 	}
 
 	@Override
@@ -76,5 +73,11 @@ public abstract class Port implements DisplayedInPropertiesView {
 
 	public static Node createXMLPort(Document document, Node parent, String portName, PortType portType) {
 		return XMLHelpers.createNode(document, parent, portType.getXMLtag(), XML_ATTR_NAME, portName);
+	}
+	
+	@Override
+	public void createMarkers(Object rootSourceProvider) {
+		if (name == null || name.isEmpty())
+			CiliaMarkerUtil.createErrorMarker("Port does't have its name defined", SpecRepoService.getInstance(), this);
 	}
 }

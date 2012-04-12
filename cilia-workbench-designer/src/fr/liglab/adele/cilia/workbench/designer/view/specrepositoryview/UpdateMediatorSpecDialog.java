@@ -109,7 +109,7 @@ public class UpdateMediatorSpecDialog extends Dialog {
 
 		// Ports
 		for (Port port : mediatorSpec.getPorts())
-			if (port.getType().equals(Port.PortType.IN.getName()))
+			if (port.getType().equals(Port.PortType.IN))
 				synchroPortsValue.add(port.getName());
 			else
 				dispatchPortsValue.add(port.getName());

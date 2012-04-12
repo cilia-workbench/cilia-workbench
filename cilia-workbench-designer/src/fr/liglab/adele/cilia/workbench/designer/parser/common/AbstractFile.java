@@ -77,6 +77,6 @@ public class AbstractFile<ModelType> implements MarkerFinder, DisplayedInPropert
 	@Override
 	public void createMarkers(Object rootSourceProvider) {
 		if (model == null)
-			CiliaMarkerUtil.createMarker("Invalid XML file", rootSourceProvider, this, getFilePath());
+			CiliaMarkerUtil.createErrorMarker("Invalid XML file", rootSourceProvider, this);
 	}
 }

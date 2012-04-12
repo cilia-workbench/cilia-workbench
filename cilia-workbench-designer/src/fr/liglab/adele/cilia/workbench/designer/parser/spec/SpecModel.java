@@ -214,5 +214,4 @@ public class SpecModel implements DisplayedInPropertiesView {
 			SpecRepoService.getInstance().updateModel();
 		}
 	}
-
 }

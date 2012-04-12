@@ -116,12 +116,14 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 		}
 		
 		// finds markers
+		if (this instanceof MarkerFinder)
+			((MarkerFinder) this).createMarkers(this);
+		
 		Set<Object> elements = getContentProvider().getElements();
 		for (Object element : elements)
 			if (element instanceof MarkerFinder)
 				((MarkerFinder) element).createMarkers(this);
 	}
-	
 	
 	/**
 	 * Gets the repository path on the file system.
