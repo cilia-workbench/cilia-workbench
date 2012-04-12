@@ -18,6 +18,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -32,8 +34,6 @@ public class Activator extends AbstractUIPlugin {
 	/** The shared instance */
 	private static Activator plugin;
 
-	public static DsciliaRepoService dsciliaRepoService;
-
 	public Activator() {
 	}
 
@@ -45,7 +45,11 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		dsciliaRepoService = DsciliaRepoService.getInstance();
+		
+		// loads repositories, for displaying markers
+		SpecRepoService.getInstance();
+		JarRepoService.getInstance();
+		DsciliaRepoService.getInstance();
 	}
 
 	/*
@@ -55,7 +59,6 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
-		dsciliaRepoService = null;
 		super.stop(context);
 	}
 

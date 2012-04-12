@@ -17,19 +17,25 @@ package fr.liglab.adele.cilia.workbench.designer.view.repositoryview;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import fr.liglab.adele.cilia.workbench.common.Activator;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.SourceProviderField;
 
 /**
- * The base class for implementing label providers. Thanks to this class, images an be shared between labels providers.
+ * The base class for implementing label providers. Thanks to this class, images
+ * an be shared between labels providers.
  * 
  * @author Etienne Gandrille
  */
-public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvider {
+public abstract class LabelProvider extends
+		org.eclipse.jface.viewers.LabelProvider {
 
 	/**
 	 * Finds the ImageDescriptor enum which corresponds ton an object.
@@ -46,17 +52,20 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 	 * @author Etienne Gandrille
 	 */
 	public enum ImageDescriptorEnum {
-		FILE("icons/16/file.png"), FILE_ERROR("icons/16/fileError.png"), CHAIN("icons/16/chain.png"), ADAPTER_IN(
-				"icons/16/adapterIn.png"), ADAPTER_OUT("icons/16/adapterOut.png"), REPOSITORY("icons/16/repo.png"), MEDIATOR(
-				"icons/16/mediator.png"), SCHEDULER("icons/16/scheduler.png"), PROCESSOR("icons/16/processor.png"), DISPATCHER(
-				"icons/16/dispatcher.png"), COLLECTOR("icons/16/collector.png"), SENDER("icons/16/sender.png"), PORT_IN(
-				"icons/16/portIn.png"), PORT_OUT("icons/16/portOut.png"), PROPERTY("icons/16/property.png");
+		FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT(
+				"adapterOut.png"), REPOSITORY("repo.png"), MEDIATOR(
+				"mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR(
+				"processor.png"), DISPATCHER("dispatcher.png"), COLLECTOR(
+				"collector.png"), SENDER("sender.png"), PORT_IN("portIn.png"), PORT_OUT(
+				"portOut.png"), PROPERTY("property.png");
 
 		/** Path to find the physical image in the bundle */
-		private String path;
+		private String fileName;
 
 		/** Image object, for rendering */
-		private Image image;
+		private Image imageOK;
+		private Image imageError;
+		private Image imageWarning;
 
 		/**
 		 * Contructor.
@@ -64,21 +73,51 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 		 * @param path
 		 *            the path
 		 */
-		private ImageDescriptorEnum(String path) {
-			this.path = path;
-			this.image = null;
+		private ImageDescriptorEnum(String fileName) {
+			this.fileName = fileName;
+			this.imageOK = null;
+			this.imageError = null;
+			this.imageWarning = null;
 		}
 
 		/**
-		 * Gets the Image object for rendering. Creates the Image object if needed.
+		 * Gets the Image object for rendering. Creates the Image object if
+		 * needed.
 		 * 
 		 * @return The Image object.
 		 */
-		public Image getImage() {
-			if (image == null)
-				image = createImageFromPath(path);
+		public Image getImageOK() {
+			if (imageOK == null)
+				imageOK = createImageFromPath("icons/16/" + fileName);
 
-			return image;
+			return imageOK;
+		}
+
+		/**
+		 * Gets the Image object for rendering. Creates the Image object if
+		 * needed.
+		 * 
+		 * @return The Image object.
+		 */
+		public Image getImageError() {
+			if (imageError == null)
+				imageError = createImageFromPath("icons/16-error/" + fileName);
+
+			return imageError;
+		}
+
+		/**
+		 * Gets the Image object for rendering. Creates the Image object if
+		 * needed.
+		 * 
+		 * @return The Image object.
+		 */
+		public Image getImageWarning() {
+			if (imageWarning == null)
+				imageWarning = createImageFromPath("icons/16-warning/"
+						+ fileName);
+
+			return imageWarning;
 		}
 
 		/**
@@ -88,10 +127,13 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 		 * @return the Image object.
 		 */
 		private static Image createImageFromPath(String imagePath) {
-			org.osgi.framework.Bundle bundle = Activator.getDefault().getBundle();
+			org.osgi.framework.Bundle bundle = Activator.getDefault()
+					.getBundle();
 			URL url = FileLocator.find(bundle, new Path(imagePath), null);
 			try {
-				url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imagePath);
+				url = new URL(
+						"platform:/plugin/fr.liglab.adele.cilia.workbench.common/"
+								+ imagePath);
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
@@ -107,6 +149,29 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 	 */
 	public Image getImage(Object obj) {
-		return getImageDescriptor(obj).getImage();
+
+		ImageDescriptorEnum descriptor = getImageDescriptor(obj);
+		boolean warning = false;
+
+		try {
+			for (IMarker marker : CiliaMarkerUtil.findMarkers()) {
+				if (marker.getAttribute(SourceProviderField.FIELD_ID) == obj) {
+					int severity = marker.getAttribute(IMarker.SEVERITY,
+							IMarker.SEVERITY_INFO);
+
+					if (severity == IMarker.SEVERITY_ERROR)
+						return descriptor.getImageError();
+					else if (severity == IMarker.SEVERITY_WARNING)
+						warning = true;
+				}
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+
+		if (warning == true)
+			return descriptor.getImageWarning();
+
+		return descriptor.getImageOK();
 	}
 }

@@ -26,7 +26,7 @@ public class SourceProviderField extends MarkerField {
 
 	/** The field ID, used to store and find the attributes. */
 	public final static String FIELD_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.sourceproviderfield";
-
+ 	
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -34,13 +34,9 @@ public class DsciliaLabelProvider extends LabelProvider {
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
 
-		if (obj instanceof DsciliaFile) {
-			DsciliaFile re = (DsciliaFile) obj;
-			if (re.getModel() != null)
-				imageName = ImageDescriptorEnum.FILE;
-			else
-				imageName = ImageDescriptorEnum.FILE_ERROR;
-		} else if (obj instanceof Chain)
+		if (obj instanceof DsciliaFile)
+			imageName = ImageDescriptorEnum.FILE;
+		else if (obj instanceof Chain)
 			imageName = ImageDescriptorEnum.CHAIN;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());

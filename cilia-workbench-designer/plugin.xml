@@ -140,7 +140,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.createFile"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/fileCreate.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-create/file.png"
 				label="Create Dscilia file" style="push">
 			</command>
 		</menuContribution>
@@ -148,7 +148,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.deleteFile"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/fileDelete.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-delete/file.png"
 				label="Delete Dscilia file" style="push">
 			</command>
 		</menuContribution>
@@ -156,7 +156,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.createChain"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chainCreate.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-create/chain.png"
 				label="Create Dscilia chain" style="push">
 			</command>
 		</menuContribution>
@@ -164,7 +164,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.deleteChain"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chainDelete.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-delete/chain.png"
 				label="Delete Dscilia chain" style="push">
 			</command>
 		</menuContribution>
@@ -172,7 +172,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createMediator"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/mediatorCreate.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-create/mediator.png"
 				label="Create mediator component" style="push">
 			</command>
 		</menuContribution>
@@ -180,7 +180,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteMediator"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/mediatorDelete.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-delete/mediator.png"
 				label="Delete mediator component " style="push">
 			</command>
 		</menuContribution>
@@ -188,7 +188,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createAdapter"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/adapterCreate.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-create/adapter.png"
 				label="Create adapter" style="push">
 			</command>
 		</menuContribution>
@@ -196,7 +196,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteAdapter"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/adapterDelete.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-delete/adapter.png"
 				label="Delete adapter " style="push">
 			</command>
 		</menuContribution>
@@ -204,7 +204,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createBinding"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/bindingCreate.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-create/binding.png"
 				label="Create binding" style="push">
 			</command>
 		</menuContribution>
@@ -212,7 +212,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteBinding"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/bindingDelete.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-delete/binding.png"
 				label="Delete binding" style="push">
 			</command>
 		</menuContribution>
@@ -228,7 +228,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.createFile"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/fileCreate.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-create/file.png"
 				label="Create Spec file" style="push">
 			</command>
 		</menuContribution>
@@ -236,7 +236,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.deleteFile"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/fileDelete.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-delete/file.png"
 				label="Delete Spec file" style="push">
 			</command>
 		</menuContribution>
@@ -245,7 +245,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.createMediator"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/mediatorCreate.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-create/mediator.png"
 				label="Create Spec mediator" style="push">
 			</command>
 		</menuContribution>
@@ -253,7 +253,7 @@
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview">
 			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.deleteMediator"
-				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/mediatorDelete.png"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-delete/mediator.png"
 				label="Delete Spec mediator" style="push">
 			</command>
 		</menuContribution>

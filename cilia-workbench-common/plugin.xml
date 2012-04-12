@@ -16,6 +16,7 @@
       <view
             category="fr.liglab.adele.cilia.workbench.common.view.rootCategory"
             class="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.CiliaErrorView"
+            icon="icons/16/error.png"
             id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview"
             name="Cilia error view"
             restorable="true">
@@ -30,7 +31,7 @@
                id="fr.liglab.adele.cilia.workbench.common.marker">
          </markerTypeReference>
          <markerFieldReference
-               id="org.eclipse.ui.ide.descriptionField"
+               id="org.eclipse.ui.ide.severityAndDescriptionField"
                visible="true">
          </markerFieldReference>
          <markerFieldReference

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+progName=`basename $0`
+dirName=`dirname $0`
+
+
+dir=$dirName/../cilia-workbench-common/icons
+srcDir=$dir/16
+masqueDir=$dir/16-template
+type=png
+
+
+list=`ls $srcDir`
+
+for i in $list; do
+  nom=`echo $i | cut -d '.' -f 1`
+  ext=`echo $i | cut -d '.' -f 2`
+
+  if [ "$ext" == "$type" ]; then
+    composite $masqueDir/16-create.png $srcDir/$i $dir/16-create/$i
+    composite $masqueDir/16-delete.png $srcDir/$i $dir/16-delete/$i
+    composite $masqueDir/16-error.png $srcDir/$i $dir/16-error/$i
+    composite $masqueDir/16-warning.png $srcDir/$i $dir/16-warning/$i
+  fi
+done
+
+
+
+
+
+
+

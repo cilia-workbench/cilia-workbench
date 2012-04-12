@@ -42,13 +42,9 @@ public class SpecLabelProvider extends LabelProvider {
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
 
-		if (obj instanceof SpecFile) {
-			SpecFile file = (SpecFile) obj;
-			if (file.getModel() != null)
-				imageName = ImageDescriptorEnum.FILE;
-			else
-				imageName = ImageDescriptorEnum.FILE_ERROR;
-		} else if (obj instanceof MediatorSpec)
+		if (obj instanceof SpecFile)
+			imageName = ImageDescriptorEnum.FILE;
+		else if (obj instanceof MediatorSpec)
 			imageName = ImageDescriptorEnum.MEDIATOR;
 		else if (obj instanceof Scheduler)
 			imageName = ImageDescriptorEnum.SCHEDULER;

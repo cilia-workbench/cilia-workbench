@@ -87,11 +87,11 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 		// Update content provider
 		contentProvider = new DsciliaContentProvider(model);
 
-		// Sends notifications
-		notifyListeners(changes);
-		
 		// Update markers relative to this repository
 		updateMarkers();
+		
+		// Sends notifications
+		notifyListeners(changes);
 	}
 
 	/**

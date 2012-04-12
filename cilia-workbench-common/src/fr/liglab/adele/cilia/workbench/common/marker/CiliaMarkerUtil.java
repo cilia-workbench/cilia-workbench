@@ -47,36 +47,49 @@ public class CiliaMarkerUtil {
 	 *            the file path, stored *outside* the standard filepath field.
 	 * @return the marker
 	 */
-	public static IMarker createMarker(String description, Object rootSourceProvider, Object sourceProvider, String filePath) {
+	public static IMarker createMarker(String description,
+			Object rootSourceProvider, Object sourceProvider, String filePath) {
 
 		IMarker marker = null;
 
 		try {
-			marker = ResourcesPlugin.getWorkspace().getRoot().createMarker(MARKER_TYPE);
+			marker = ResourcesPlugin.getWorkspace().getRoot()
+					.createMarker(MARKER_TYPE);
 			marker.setAttribute(IMarker.MESSAGE, description);
 			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 			marker.setAttribute(IMarker.TRANSIENT, true);
 			if (rootSourceProvider != null)
-				marker.setAttribute(RootSourceProviderField.FIELD_ID, rootSourceProvider);
+				marker.setAttribute(RootSourceProviderField.FIELD_ID,
+						rootSourceProvider);
 			if (sourceProvider != null)
-				marker.setAttribute(SourceProviderField.FIELD_ID, sourceProvider);
+				marker.setAttribute(SourceProviderField.FIELD_ID,
+						sourceProvider);
 			if (filePath != null)
 				marker.setAttribute(FilePathField.FIELD_ID, filePath);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-
+		
 		return marker;
 	}
 
 	/**
-	 * Finds all cilia markers.
+	 * Finds all existing Cilia markers.
 	 * 
 	 * @return
 	 * @throws CoreException
 	 */
 	public static IMarker[] findMarkers() throws CoreException {
-		return ResourcesPlugin.getWorkspace().getRoot().findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+
+		List<IMarker> retval = new ArrayList<IMarker>();
+		IMarker[] markers = ResourcesPlugin.getWorkspace().getRoot()
+				.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+
+		for (IMarker marker : markers)
+			if (marker.exists())
+				retval.add(marker);
+
+		return retval.toArray(new IMarker[0]);
 	}
 
 	/**
@@ -88,7 +101,8 @@ public class CiliaMarkerUtil {
 	 * @throws CoreException
 	 *             the core exception
 	 */
-	public static IMarker[] findMarkers(Object rootSourceProvider) throws CoreException {
+	public static IMarker[] findMarkers(Object rootSourceProvider)
+			throws CoreException {
 
 		List<IMarker> retval = new ArrayList<IMarker>();
 
@@ -98,7 +112,7 @@ public class CiliaMarkerUtil {
 
 		return retval.toArray(new IMarker[0]);
 	}
-	
+
 	/**
 	 * Deletes markers, with a given root source provider.
 	 * 
@@ -108,10 +122,10 @@ public class CiliaMarkerUtil {
 	 * @throws CoreException
 	 *             the core exception
 	 */
-	public static void deleteMarkers(Object rootSourceProvider) throws CoreException {
+	public static void deleteMarkers(Object rootSourceProvider)
+			throws CoreException {
 
 		for (IMarker marker : findMarkers(rootSourceProvider))
-			if (marker.exists())
-				marker.delete();
+			marker.delete();
 	}
 }
