@@ -16,22 +16,25 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Adapter implements DisplayedInPropertiesView {
+public class Adapter implements DisplayedInPropertiesView, MarkerFinder {
 
+	private Node node;
+	
 	private String name;
 	private String pattern;
-
-	private String collectorType;
-	private String senderType;
+	// collector or sender type
 	private String elementType;
 
 	public static String IN_PATTERN = "in-only";
@@ -39,21 +42,16 @@ public class Adapter implements DisplayedInPropertiesView {
 
 	public Adapter(Node node) throws MetadataException {
 
-		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
-		XMLReflectionUtil.setRequiredAttribute(node, "pattern", this, "pattern");
+		this.node = node;
+		XMLReflectionUtil.setAttribute(node, "name", this, "name");
+		XMLReflectionUtil.setAttribute(node, "pattern", this, "pattern");
 
-		String subNodeName;
-		if (pattern.equals(IN_PATTERN))
-			subNodeName = "collector";
-		else if (pattern.equals(OUT_PATTERN))
-			subNodeName = "sender";
-		else
-			throw new MetadataException("Invalid pattern : " + pattern);
-
-		Node subNode = XMLHelpers.findChild(node, subNodeName);
-		if (subNode == null)
-			throw new MetadataException(subNodeName + " element not found");
-		XMLReflectionUtil.setRequiredAttribute(subNode, "type", this, "elementType");
+		try {
+			Node subNode = getSubNode(node, pattern);
+			XMLReflectionUtil.setAttribute(subNode, "type", this, "elementType");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 
 	public String getPattern() {
@@ -67,5 +65,42 @@ public class Adapter implements DisplayedInPropertiesView {
 
 	public String getName() {
 		return name;
+	}
+
+	private static Node getSubNode(Node rootNode, String pattern) throws MetadataException {
+		String subNodeName;
+		if (pattern.equals(IN_PATTERN))
+			subNodeName = "collector";
+		else if (pattern.equals(OUT_PATTERN))
+			subNodeName = "sender";
+		else
+			throw new MetadataException("Invalid pattern : " + pattern);
+
+		Node subNode = XMLHelpers.findChild(rootNode, subNodeName);
+		
+		if (subNode == null)
+			throw new MetadataException("Adapter with pattern " + pattern + " must have a " + subNodeName);
+		
+		return subNode;
+	}
+	
+	@Override
+	public void createMarkers(Object rootSourceProvider) {
+		
+		// name validation
+		if (name == null || name.length() == 0)
+			CiliaMarkerUtil.createErrorMarker("name can't be null or empty", JarRepoService.getInstance(), this);
+		
+		// pattern and element type validation
+		try {
+			// pattern validation
+			getSubNode(node, pattern);
+			
+			// element type validation
+			if (elementType == null || elementType.length() == 0)
+				CiliaMarkerUtil.createErrorMarker("Element type is undefined", JarRepoService.getInstance(), this);
+		} catch (MetadataException e) {
+			CiliaMarkerUtil.createErrorMarker(e.getMessage(), JarRepoService.getInstance(), this);
+		} 
 	}
 }

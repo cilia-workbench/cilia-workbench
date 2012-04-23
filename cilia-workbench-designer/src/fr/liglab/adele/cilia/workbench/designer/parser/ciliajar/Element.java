@@ -12,9 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.spec;
+package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
-import org.w3c.dom.Document;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
@@ -22,59 +24,60 @@ import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port implements DisplayedInPropertiesView, MarkerFinder {
+public abstract class Element implements DisplayedInPropertiesView, MarkerFinder {
 
-	public static final String XML_ATTR_NAME = "name";
 	private String name;
+	private String classname;
+	private String namespace;
 
-	private final PortType type;
-
-	public enum PortType {
-		IN("in-port"), OUT("out-port");
-
-		private String XMLtag;
-
-		private PortType(String XMLtag) {
-			this.XMLtag = XMLtag;
-		}
-
-		public String getXMLtag() {
-			return XMLtag;
+	private List<Parameter> parameters = new ArrayList<Parameter>();
+	
+	public Element(Node node) throws MetadataException {
+		XMLReflectionUtil.setAttribute(node, "name", this, "name");
+		XMLReflectionUtil.setAttribute(node, "classname", this, "classname");
+		XMLReflectionUtil.setAttribute(node, "namespace", this, "namespace");
+		
+		Node rootParam = XMLHelpers.findChild(node, "properties");
+		if (rootParam != null) {
+			Node[] params = XMLHelpers.findChildren(rootParam, "property");
+			for (Node param : params)
+				parameters.add(new Parameter(param));
 		}
 	}
-
-	public Port(Node node, PortType type) throws MetadataException {
-		this.type = type;
-		XMLReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
-	}
-
+	
 	public String getName() {
 		return name;
 	}
-
-	public PortType getType() {
-		return type;
+	
+	public String getClassname() {
+		return classname;
 	}
-
+	
+	public String getNamespace() {
+		return namespace;
+	}
+	
+	public List<Parameter> getParameters() {
+		return parameters;
+	}
+	
 	@Override
 	public String toString() {
 		return name;
 	}
-
-	public static Node createXMLPort(Document document, Node parent, String portName, PortType portType) {
-		return XMLHelpers.createNode(document, parent, portType.getXMLtag(), XML_ATTR_NAME, portName);
-	}
 	
 	@Override
 	public void createMarkers(Object rootSourceProvider) {
-		if (name == null || name.isEmpty())
-			CiliaMarkerUtil.createErrorMarker("Port does't have its name defined", SpecRepoService.getInstance(), this);
+		if (name == null)
+			CiliaMarkerUtil.createErrorMarker("name can't be null", JarRepoService.getInstance(), this);
+		if (classname == null)
+			CiliaMarkerUtil.createErrorMarker("classname can't be null", JarRepoService.getInstance(), this);
 	}
 }

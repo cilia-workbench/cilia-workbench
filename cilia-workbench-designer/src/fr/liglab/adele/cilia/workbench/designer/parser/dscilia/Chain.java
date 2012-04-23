@@ -22,6 +22,8 @@ import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
@@ -29,22 +31,21 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Chain {
+public class Chain implements DisplayedInPropertiesView, MarkerFinder {
 
 	private String id;
 	private List<AdapterInstance> adapters = new ArrayList<AdapterInstance>();
 	private List<MediatorInstance> mediators = new ArrayList<MediatorInstance>();
 	private List<Binding> bindings = new ArrayList<Binding>();
-	private Node node;
 
 	public Chain(Node node) throws MetadataException {
-		this.node = node;
-		XMLReflectionUtil.setRequiredAttribute(node, "id", this, "id");
+		XMLReflectionUtil.setAttribute(node, "id", this, "id");
 
 		Node rootAdapters = XMLHelpers.findChild(node, "adapters");
 		if (rootAdapters != null) {
@@ -272,5 +273,11 @@ public class Chain {
 		}
 
 		return null;
+	}
+
+	@Override
+	public void createMarkers(Object rootSourceProvider) {
+		if (id == null || id.length() == 0)
+			CiliaMarkerUtil.createErrorMarker("id can't be null or empty", rootSourceProvider, this);
 	}
 }

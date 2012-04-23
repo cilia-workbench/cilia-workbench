@@ -31,11 +31,9 @@ public class Parameter implements DisplayedInPropertiesView, MarkerFinder {
 
 	public static final String XML_ATTR_NAME = "name";
 	private String name;
-	private Node node;
 
 	public Parameter(Node node) throws MetadataException {
-		this.node = node;
-		XMLReflectionUtil.setRequiredAttribute(node, XML_ATTR_NAME, this, "name");
+		XMLReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 	}
 
 	public String getName() {

@@ -36,7 +36,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public abstract class ComponentPart implements DisplayedInPropertiesView, MarkerFinder {
 
-	List<Parameter> parameters = new ArrayList<Parameter>();
+	private List<Parameter> parameters = new ArrayList<Parameter>();
 
 	public ComponentPart(Node node) throws MetadataException {
 

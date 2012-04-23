@@ -39,12 +39,10 @@ public class Property implements DisplayedInPropertiesView, MarkerFinder {
 	private String key;
 	public static final String XML_ATTR_VALUE = "value";
 	private String value;
-	private Node node;
 
 	public Property(Node node) throws MetadataException {
-		this.node = node;
-		XMLReflectionUtil.setRequiredAttribute(node, XML_ATTR_KEY, this, "key");
-		XMLReflectionUtil.setRequiredAttribute(node, XML_ATTR_VALUE, this, "value");
+		XMLReflectionUtil.setAttribute(node, XML_ATTR_KEY, this, "key");
+		XMLReflectionUtil.setAttribute(node, XML_ATTR_VALUE, this, "value");
 	}
 
 	public String getKey() {

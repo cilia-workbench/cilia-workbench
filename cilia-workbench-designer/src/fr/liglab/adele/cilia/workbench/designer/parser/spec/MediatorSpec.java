@@ -58,8 +58,8 @@ public class MediatorSpec implements DisplayedInPropertiesView, MarkerFinder {
 
 	public MediatorSpec(Node node) throws MetadataException {
 		this.node = node;
-		XMLReflectionUtil.setRequiredAttribute(node, XML_ATTR_ID, this, "id");
-		XMLReflectionUtil.setOptionalAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
+		XMLReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "id");
+		XMLReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
 
 		Node rootPorts = XMLHelpers.findChild(node, XML_NODE_PORTS_CONTAINER);
 		if (rootPorts != null) {

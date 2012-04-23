@@ -16,39 +16,37 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Processor implements DisplayedInPropertiesView {
-
-	private String name;
-	private String classname;
-	private String namespace;
+public class Processor extends Element {
 
 	private String methodName;
 	private String methodDataType;
 
 	public Processor(Node node) throws MetadataException {
-
-		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
-		XMLReflectionUtil.setRequiredAttribute(node, "classname", this, "classname");
-		XMLReflectionUtil.setOptionalAttribute(node, "namespace", this, "namespace");
-
+		super(node);
+		
 		Node methodNode = XMLHelpers.findChild(node, "method");
 		if (methodNode == null)
 			throw new MetadataException("method element not found");
-		XMLReflectionUtil.setRequiredAttribute(methodNode, "name", this, "methodName");
-		XMLReflectionUtil.setRequiredAttribute(methodNode, "data.type", this, "methodDataType");
+		XMLReflectionUtil.setAttribute(methodNode, "name", this, "methodName");
+		XMLReflectionUtil.setAttribute(methodNode, "data.type", this, "methodDataType");
 	}
-
+	
 	@Override
-	public String toString() {
-		return name;
+	public void createMarkers(Object rootSourceProvider) {
+		super.createMarkers(rootSourceProvider);
+		if (methodName == null)
+			CiliaMarkerUtil.createErrorMarker("methodName can't be null", JarRepoService.getInstance(), this);
+		if (methodDataType == null)
+			CiliaMarkerUtil.createErrorMarker("methodDataType can't be null", JarRepoService.getInstance(), this);
 	}
 }

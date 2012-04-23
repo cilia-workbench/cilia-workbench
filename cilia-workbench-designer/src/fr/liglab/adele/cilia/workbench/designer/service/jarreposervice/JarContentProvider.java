@@ -27,6 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
@@ -58,20 +59,35 @@ public class JarContentProvider extends GenericContentProvider {
 						addRelationship(mc, p);
 				}
 
-				for (Processor p : ipojo.getProcessors())
+				for (Processor p : ipojo.getProcessors()) {
 					addRelationship(bundle, p);
+					for (Parameter param : p.getParameters())
+						addRelationship(p, param);
+				}
 
-				for (Scheduler s : ipojo.getSchedulers())
+				for (Scheduler s : ipojo.getSchedulers()) {
 					addRelationship(bundle, s);
+					for (Parameter param : s.getParameters())
+						addRelationship(s, param);
+				}
 
-				for (Dispatcher d : ipojo.getDispatchers())
+				for (Dispatcher d : ipojo.getDispatchers()) {
 					addRelationship(bundle, d);
+					for (Parameter param : d.getParameters())
+						addRelationship(d, param);
+				}
 
-				for (Collector c : ipojo.getCollectors())
+				for (Collector c : ipojo.getCollectors()) {
 					addRelationship(bundle, c);
+					for (Parameter param : c.getParameters())
+						addRelationship(c, param);
+				}
 
-				for (Sender s : ipojo.getSenders())
+				for (Sender s : ipojo.getSenders()) {
 					addRelationship(bundle, s);
+					for (Parameter param : s.getParameters())
+						addRelationship(s, param);
+				}
 
 				for (Adapter a : ipojo.getAdapters())
 					addRelationship(bundle, a);

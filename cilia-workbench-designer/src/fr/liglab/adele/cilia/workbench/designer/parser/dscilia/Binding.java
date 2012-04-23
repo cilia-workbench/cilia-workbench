@@ -16,23 +16,26 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Binding {
+public class Binding implements DisplayedInPropertiesView, MarkerFinder {
 
 	private String from;
 	private String to;
 
 	public Binding(Node node) throws MetadataException {
-		XMLReflectionUtil.setRequiredAttribute(node, "from", this, "from");
-		XMLReflectionUtil.setRequiredAttribute(node, "to", this, "to");
+		XMLReflectionUtil.setAttribute(node, "from", this, "from");
+		XMLReflectionUtil.setAttribute(node, "to", this, "to");
 	}
 
 	public String getSourceId() {
@@ -45,5 +48,13 @@ public class Binding {
 
 	public Changeset[] merge(Binding newInstance) {
 		return new Changeset[0];
+	}
+
+	@Override
+	public void createMarkers(Object rootSourceProvider) {
+		if (from == null || from.length() == 0)
+			CiliaMarkerUtil.createErrorMarker("from can't be null or empty", rootSourceProvider, this);
+		if (to == null || to.length() == 0)
+			CiliaMarkerUtil.createErrorMarker("to can't be null or empty", rootSourceProvider, this);
 	}
 }

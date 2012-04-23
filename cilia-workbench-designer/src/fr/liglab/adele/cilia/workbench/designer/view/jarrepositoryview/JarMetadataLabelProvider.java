@@ -21,6 +21,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.OutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
@@ -68,6 +69,9 @@ public class JarMetadataLabelProvider extends LabelProvider {
 			imageName = ImageDescriptorEnum.PORT_IN;
 		else if (obj instanceof OutPort)
 			imageName = ImageDescriptorEnum.PORT_OUT;
+		else if (obj instanceof Parameter)
+			imageName = ImageDescriptorEnum.PROPERTY;
+		
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
 

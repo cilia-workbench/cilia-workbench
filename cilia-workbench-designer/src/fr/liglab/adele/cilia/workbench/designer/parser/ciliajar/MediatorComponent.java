@@ -15,22 +15,24 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorComponent implements DisplayedInPropertiesView {
+public class MediatorComponent implements DisplayedInPropertiesView, MarkerFinder {
 
 	private String name;
 
@@ -42,8 +44,8 @@ public class MediatorComponent implements DisplayedInPropertiesView {
 
 	public MediatorComponent(Node node) throws MetadataException {
 
-		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
-		
+		XMLReflectionUtil.setAttribute(node, "name", this, "name");
+
 		Map<String, String> attrMap = XMLHelpers.findAttributesValues(node);
 		for (String attr : attrMap.keySet()) {
 			if (!attr.equalsIgnoreCase("name"))
@@ -51,19 +53,19 @@ public class MediatorComponent implements DisplayedInPropertiesView {
 		}
 
 		Node schedulerNode = XMLHelpers.findChild(node, "scheduler");
-		if (schedulerNode == null)
-			throw new MetadataException("scheduler element not found");
-		XMLReflectionUtil.setRequiredAttribute(schedulerNode, "name", this, "schedulerName");
+		if (schedulerNode != null)
+			XMLReflectionUtil.setAttribute(schedulerNode, "name", this,
+					"schedulerName");
 
 		Node processorNode = XMLHelpers.findChild(node, "processor");
-		if (processorNode == null)
-			throw new MetadataException("processor element not found");
-		XMLReflectionUtil.setRequiredAttribute(processorNode, "name", this, "processorName");
+		if (processorNode != null)
+			XMLReflectionUtil.setAttribute(processorNode, "name", this,
+					"processorName");
 
 		Node dispatcherNode = XMLHelpers.findChild(node, "dispatcher");
-		if (dispatcherNode == null)
-			throw new MetadataException("dispatcher element not found");
-		XMLReflectionUtil.setRequiredAttribute(dispatcherNode, "name", this, "dispatcherName");
+		if (dispatcherNode != null)
+			XMLReflectionUtil.setAttribute(dispatcherNode, "name",
+					this, "dispatcherName");
 
 		Node portsNode = XMLHelpers.findChild(node, "ports");
 		if (portsNode != null) {
@@ -88,8 +90,20 @@ public class MediatorComponent implements DisplayedInPropertiesView {
 	public String getName() {
 		return name;
 	}
-	
+
 	public List<Property> getProperties() {
 		return properties;
+	}
+	
+	@Override
+	public void createMarkers(Object rootSourceProvider) {
+		if (name == null || name.length() == 0)
+			CiliaMarkerUtil.createErrorMarker("name can't be null or empty", JarRepoService.getInstance(), this);
+		if (schedulerName == null || schedulerName.length() == 0)
+			CiliaMarkerUtil.createErrorMarker("schedulerName can't be null or empty", JarRepoService.getInstance(), this);
+		if (processorName == null || processorName.length() == 0)
+			CiliaMarkerUtil.createErrorMarker("processorName can't be null or empty", JarRepoService.getInstance(), this);
+		if (dispatcherName == null || dispatcherName.length() == 0)
+			CiliaMarkerUtil.createErrorMarker("dispatcherName can't be null or empty", JarRepoService.getInstance(), this);
 	}
 }

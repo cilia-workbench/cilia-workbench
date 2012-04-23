@@ -16,20 +16,23 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port implements DisplayedInPropertiesView {
+public abstract class Port implements DisplayedInPropertiesView, MarkerFinder {
 
 	private String name;
 
 	public Port(Node node) throws MetadataException {
-		XMLReflectionUtil.setRequiredAttribute(node, "name", this, "name");
+		XMLReflectionUtil.setAttribute(node, "name", this, "name");
 	}
 
 	@Override
@@ -39,5 +42,11 @@ public abstract class Port implements DisplayedInPropertiesView {
 
 	public String getName() {
 		return name;
+	}
+	
+	@Override
+	public void createMarkers(Object rootSourceProvider) {
+		if (name == null || name.length() == 0)
+			CiliaMarkerUtil.createErrorMarker("name can't be null or empty", JarRepoService.getInstance(), this);
 	}
 }

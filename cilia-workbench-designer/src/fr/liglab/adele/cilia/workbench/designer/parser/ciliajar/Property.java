@@ -14,13 +14,17 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * The Class Property.
  * @author Etienne Gandrille
  */
-public class Property implements DisplayedInPropertiesView {
+public class Property implements DisplayedInPropertiesView, MarkerFinder {
 	
 	/** The key. */
 	private final String key;
@@ -81,5 +85,14 @@ public class Property implements DisplayedInPropertiesView {
 			return false;
 
 		return true;
+	}
+
+	@Override
+	public void createMarkers(Object rootSourceProvider) {
+		// name validation
+		if (key == null || key.length() == 0)
+			CiliaMarkerUtil.createErrorMarker("key can't be null or empty", JarRepoService.getInstance(), this);
+		if (value == null || value.isEmpty())
+			CiliaMarkerUtil.createWarningMarker("Property " + key + " does't have its value defined", SpecRepoService.getInstance(), this);
 	}
 }
