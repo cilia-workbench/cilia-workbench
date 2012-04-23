@@ -57,7 +57,7 @@ public abstract class LabelProvider extends
 				"mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR(
 				"processor.png"), DISPATCHER("dispatcher.png"), COLLECTOR(
 				"collector.png"), SENDER("sender.png"), PORT_IN("portIn.png"), PORT_OUT(
-				"portOut.png"), PROPERTY("property.png");
+				"portOut.png"), PROPERTY("property.png"), BINDING("binding.png");
 
 		/** Path to find the physical image in the bundle */
 		private String fileName;

@@ -26,7 +26,8 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentInstance implements DisplayedInPropertiesView, MarkerFinder {
+public abstract class ComponentInstance implements DisplayedInPropertiesView,
+		MarkerFinder {
 
 	protected String id;
 	protected String type;
@@ -43,12 +44,19 @@ public abstract class ComponentInstance implements DisplayedInPropertiesView, Ma
 	public String getType() {
 		return type;
 	}
-	
+
+	@Override
+	public String toString() {
+		return id;
+	}
+
 	@Override
 	public void createMarkers(Object rootSourceProvider) {
 		if (id == null || id.length() == 0)
-			CiliaMarkerUtil.createErrorMarker("id can't be null or empty", rootSourceProvider, this);
+			CiliaMarkerUtil.createErrorMarker("id can't be null or empty",
+					rootSourceProvider, this);
 		if (type == null || type.length() == 0)
-			CiliaMarkerUtil.createErrorMarker("type can't be null or empty", rootSourceProvider, this);
+			CiliaMarkerUtil.createErrorMarker("type can't be null or empty",
+					rootSourceProvider, this);
 	}
 }

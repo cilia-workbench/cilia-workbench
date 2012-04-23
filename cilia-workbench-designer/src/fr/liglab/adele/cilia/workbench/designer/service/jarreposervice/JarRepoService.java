@@ -78,7 +78,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 
 		// Update markers relative to this repository
 		updateMarkers();
-		
+
 		// Sends notifications
 		notifyListeners(null);
 	}
@@ -86,8 +86,10 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	public String[] getMediatorsId() {
 		List<String> retval = new ArrayList<String>();
 		for (CiliaJarFile bundle : model)
-			for (MediatorComponent mc : bundle.getModel().getMediatorComponents())
-				retval.add(mc.getName());
+			if (bundle.getModel() != null)
+				for (MediatorComponent mc : bundle.getModel()
+						.getMediatorComponents())
+					retval.add(mc.getName());
 
 		return retval.toArray(new String[0]);
 	}
@@ -95,25 +97,29 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	public String[] getAdaptersId() {
 		List<String> retval = new ArrayList<String>();
 		for (CiliaJarFile bundle : model)
-			for (Adapter a : bundle.getModel().getAdapters())
-				retval.add(a.getName());
+			if (bundle.getModel() != null)
+				for (Adapter a : bundle.getModel().getAdapters())
+					retval.add(a.getName());
 
 		return retval.toArray(new String[0]);
 	}
 
 	public Adapter getAdapter(String name) {
 		for (CiliaJarFile bundle : model)
-			for (Adapter a : bundle.getModel().getAdapters())
-				if (a.getName().equalsIgnoreCase(name))
-					return a;
+			if (bundle.getModel() != null)
+				for (Adapter a : bundle.getModel().getAdapters())
+					if (a.getName().equalsIgnoreCase(name))
+						return a;
 		return null;
 	}
 
 	public MediatorComponent getMediator(String name) {
 		for (CiliaJarFile bundle : model)
-			for (MediatorComponent m : bundle.getModel().getMediatorComponents())
-				if (m.getName().equalsIgnoreCase(name))
-					return m;
+			if (bundle.getModel() != null)
+				for (MediatorComponent m : bundle.getModel()
+						.getMediatorComponents())
+					if (m.getName().equalsIgnoreCase(name))
+						return m;
 		return null;
 	}
 
@@ -121,7 +127,8 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService#getContentForNewFile()
+	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.
+	 * AbstractRepoService#getContentForNewFile()
 	 */
 	@Override
 	protected String getContentForNewFile() {

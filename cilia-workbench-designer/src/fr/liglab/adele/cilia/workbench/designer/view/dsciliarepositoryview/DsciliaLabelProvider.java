@@ -14,8 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
@@ -38,6 +41,13 @@ public class DsciliaLabelProvider extends LabelProvider {
 			imageName = ImageDescriptorEnum.FILE;
 		else if (obj instanceof Chain)
 			imageName = ImageDescriptorEnum.CHAIN;
+		else if (obj instanceof AdapterInstance)
+			imageName = ImageDescriptorEnum.ADAPTER_IN;
+		else if (obj instanceof MediatorInstance)
+			imageName = ImageDescriptorEnum.MEDIATOR;
+		else if (obj instanceof Binding)
+			imageName = ImageDescriptorEnum.BINDING;
+		
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
 

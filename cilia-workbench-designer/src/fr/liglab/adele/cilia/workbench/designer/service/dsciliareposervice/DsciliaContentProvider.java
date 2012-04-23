@@ -16,8 +16,11 @@ package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
@@ -40,6 +43,15 @@ public class DsciliaContentProvider extends GenericContentProvider {
 			if (re.getModel() != null) {
 				for (Chain c : re.getModel().getChains()) {
 					addRelationship(re, c);
+					
+					for (AdapterInstance a : c.getAdapters())
+						addRelationship(c, a);
+					
+					for (MediatorInstance m : c.getMediators())
+						addRelationship(c, m);
+					
+					for (Binding b : c.getBindings())
+						addRelationship(c, b);
 				}
 			}
 		}

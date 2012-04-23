@@ -51,6 +51,11 @@ public class Binding implements DisplayedInPropertiesView, MarkerFinder {
 	}
 
 	@Override
+	public String toString() {
+		return from + " - " + to; 
+	}
+	
+	@Override
 	public void createMarkers(Object rootSourceProvider) {
 		if (from == null || from.length() == 0)
 			CiliaMarkerUtil.createErrorMarker("from can't be null or empty", rootSourceProvider, this);
