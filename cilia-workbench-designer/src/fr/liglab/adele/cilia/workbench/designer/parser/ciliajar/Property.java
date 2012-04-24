@@ -71,6 +71,11 @@ public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFin
 	 */
 	@Override
 	public String toString() {
+		if (key == null || key.length() == 0)
+			return "<undefined> = " + value;
+		if (value == null || value.length() == 0)
+			return key + " = <undefined>";
+
 		return key + " = " + value;
 	}
 
@@ -96,7 +101,6 @@ public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFin
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, key, "key");
 		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, value, "value");
 
