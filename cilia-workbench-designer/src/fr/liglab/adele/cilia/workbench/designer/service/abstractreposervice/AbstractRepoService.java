@@ -29,8 +29,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.designer.Activator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 
@@ -55,13 +56,14 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	private final String name;
 
 	/**
-	 * A content provider. Usualy, it's useful for displaying the repository in a view. Here, it's used for navigating
-	 * the repository.
+	 * A content provider. Usualy, it's useful for displaying the repository in
+	 * a view. Here, it's used for navigating the repository.
 	 */
 	protected GenericContentProvider contentProvider;
 
 	/**
-	 * The preference key, used to find the physical repository on the hard disk.
+	 * The preference key, used to find the physical repository on the hard
+	 * disk.
 	 */
 	private final String PREFERENCE_PATH_KEY;
 
@@ -102,29 +104,38 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	public abstract void updateModel();
 
 	/**
-	 * Updates markers for this repository. 
+	 * Updates markers for this repository.
 	 * 
-	 * IMPORTANT : Only the elements managed by the content provider are tested to see if it implements {@link MarkerFinder} interface. 
+	 * IMPORTANT : Only the elements managed by the content provider are tested
+	 * to see if it implements {@link ErrorsAndWarningsFinder} interface.
 	 */
 	protected void updateMarkers() {
-		
+
+		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
+
 		// removes markers
 		try {
 			CiliaMarkerUtil.deleteMarkers(this);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		
-		// finds markers
-		if (this instanceof MarkerFinder)
-			((MarkerFinder) this).createMarkers(this);
-		
+
+		// finds errors and warnings
+		if (this instanceof ErrorsAndWarningsFinder)
+			for (CiliaFlag flag : ((ErrorsAndWarningsFinder) this).getErrorsAndWarnings())
+				list.add(flag);
+
 		Set<Object> elements = getContentProvider().getElements();
 		for (Object element : elements)
-			if (element instanceof MarkerFinder)
-				((MarkerFinder) element).createMarkers(this);
+			if (element instanceof ErrorsAndWarningsFinder)
+				for (CiliaFlag flag : ((ErrorsAndWarningsFinder) element).getErrorsAndWarnings())
+					list.add(flag);
+
+		// creates markers
+		for (CiliaFlag flag : list)
+			CiliaMarkerUtil.createMarker(flag.getSeverity(), flag.getMessage(), this, flag.getSourceProvider());
 	}
-	
+
 	/**
 	 * Gets the repository path on the file system.
 	 * 
@@ -211,11 +222,13 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	}
 
 	/**
-	 * Tests if a name uses valid characters. This method follows {@link IInputValidator#isValid(String)} API.
+	 * Tests if a name uses valid characters. This method follows
+	 * {@link IInputValidator#isValid(String)} API.
 	 * 
 	 * @param name
 	 *            file name to be tested
-	 * @return null if the name is valid, an error message (including "") otherwise.
+	 * @return null if the name is valid, an error message (including "")
+	 *         otherwise.
 	 */
 	public String isNameUsesAllowedChar(final String name) {
 
@@ -243,12 +256,13 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	}
 
 	/**
-	 * Tests if a file can be created with the given fileName. This method follows
-	 * {@link IInputValidator#isValid(String)} API.
+	 * Tests if a file can be created with the given fileName. This method
+	 * follows {@link IInputValidator#isValid(String)} API.
 	 * 
 	 * @param fileName
 	 *            file name to be tested
-	 * @return null if the name is valid, an error message (including "") otherwise.
+	 * @return null if the name is valid, an error message (including "")
+	 *         otherwise.
 	 */
 	public String isNewFileNameAllowed(final String fileName) {
 
@@ -279,14 +293,16 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	}
 
 	/**
-	 * Returns a string, which contains the text automatically added in a new file of this repository.
+	 * Returns a string, which contains the text automatically added in a new
+	 * file of this repository.
 	 * 
 	 * @return the content for new file.
 	 */
 	protected abstract String getContentForNewFile();
 
 	/**
-	 * Creates a new file in the repository. This method follows {@link IInputValidator#isValid(String)} API.
+	 * Creates a new file in the repository. This method follows
+	 * {@link IInputValidator#isValid(String)} API.
 	 * 
 	 * @param fileName
 	 *            the file name
@@ -333,9 +349,10 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	}
 
 	/**
-	 * Returns an array with all non null abstract elements. Remember this repository holds concrete elements. Each
-	 * concrete elements points to an abstract element, which can be null if the concrete element is in a non valid
-	 * state.
+	 * Returns an array with all non null abstract elements. Remember this
+	 * repository holds concrete elements. Each concrete elements points to an
+	 * abstract element, which can be null if the concrete element is in a non
+	 * valid state.
 	 * 
 	 * @return
 	 */

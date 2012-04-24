@@ -14,21 +14,23 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.common;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
- * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well
- * formed or not. If it is "well formed", the model field is not null, and represents a model of the file.
+ * Represents a file, from a "physical" point of view. This file, which must
+ * exists on the file system, can be well formed or not. If it is "well formed",
+ * the model field is not null, and represents a model of the file.
  * 
  * @param <ModelType>
  *            the model type
  * 
  * @author Etienne Gandrille
  */
-public class AbstractFile<ModelType> implements MarkerFinder, DisplayedInPropertiesView {
+public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, DisplayedInPropertiesView {
 
 	/** Path on the file system. */
 	private String path;
@@ -73,10 +75,10 @@ public class AbstractFile<ModelType> implements MarkerFinder, DisplayedInPropert
 	public String toString() {
 		return FileUtil.getFileName(path);
 	}
-	
+
 	@Override
-	public void createMarkers(Object rootSourceProvider) {
-		if (model == null)
-			CiliaMarkerUtil.createErrorMarker("Invalid XML file", rootSourceProvider, this);
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e1 = CiliaError.checkNotNull(this, model, "XML file");
+		return CiliaFlag.generateTab(e1);
 	}
 }

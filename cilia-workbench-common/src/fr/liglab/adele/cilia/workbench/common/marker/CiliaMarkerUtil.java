@@ -37,63 +37,72 @@ public class CiliaMarkerUtil {
 
 	/**
 	 * Creates an error Cilia marker.
-	 *
-	 * @param description the marker description
-	 * @param rootSourceProvider the root source provider, which should be a repository.
-	 * @param sourceProvider the source provider. Object responsible of this marker creation.
+	 * 
+	 * @param description
+	 *            the marker description
+	 * @param rootSourceProvider
+	 *            the root source provider, which should be a repository.
+	 * @param sourceProvider
+	 *            the source provider. Object responsible of this marker
+	 *            creation.
 	 * @return the marker
 	 */
-	public static IMarker createErrorMarker(String description,
-			Object rootSourceProvider, Object sourceProvider) {
+	public static IMarker createErrorMarker(String description, Object rootSourceProvider, Object sourceProvider) {
 		return createMarker(IMarker.SEVERITY_ERROR, description, rootSourceProvider, sourceProvider);
 	}
 
 	/**
 	 * Creates a warning Cilia marker.
-	 *
-	 * @param description the marker description
-	 * @param rootSourceProvider the root source provider, which should be a repository.
-	 * @param sourceProvider the source provider. Object responsible of this marker creation.
+	 * 
+	 * @param description
+	 *            the marker description
+	 * @param rootSourceProvider
+	 *            the root source provider, which should be a repository.
+	 * @param sourceProvider
+	 *            the source provider. Object responsible of this marker
+	 *            creation.
 	 * @return the marker
 	 */
-	public static IMarker createWarningMarker(String description,
-			Object rootSourceProvider, Object sourceProvider) {
+	public static IMarker createWarningMarker(String description, Object rootSourceProvider, Object sourceProvider) {
 		return createMarker(IMarker.SEVERITY_WARNING, description, rootSourceProvider, sourceProvider);
 	}
-	
+
 	/**
 	 * Creates a Cilia marker.
-	 *
-	 * @param severity the markers's severity. see {@link IMarker} file for getting constants.
-	 * @param description the marker description
-	 * @param rootSourceProvider the root source provider, which should be a repository.
-	 * @param sourceProvider the source provider. Object responsible of this marker creation.
+	 * 
+	 * @param severity
+	 *            the markers's severity. see {@link IMarker} file for getting
+	 *            constants.
+	 * @param description
+	 *            the marker description
+	 * @param rootSourceProvider
+	 *            the root source provider, which should be a repository.
+	 * @param sourceProvider
+	 *            the source provider. Object responsible of this marker
+	 *            creation.
 	 * @return the marker
 	 */
-	private static IMarker createMarker(int severity, String description,
-			Object rootSourceProvider, Object sourceProvider) {
+	public static IMarker createMarker(int severity, String description, Object rootSourceProvider,
+			Object sourceProvider) {
 
 		IMarker marker = null;
 
 		try {
-			marker = ResourcesPlugin.getWorkspace().getRoot()
-					.createMarker(MARKER_TYPE);
+			marker = ResourcesPlugin.getWorkspace().getRoot().createMarker(MARKER_TYPE);
 			marker.setAttribute(IMarker.MESSAGE, description);
 			marker.setAttribute(IMarker.SEVERITY, severity);
 			marker.setAttribute(IMarker.TRANSIENT, true);
 			if (rootSourceProvider != null)
-				marker.setAttribute(RootSourceProviderField.FIELD_ID,
-						rootSourceProvider);
+				marker.setAttribute(RootSourceProviderField.FIELD_ID, rootSourceProvider);
 			if (sourceProvider != null)
-				marker.setAttribute(SourceProviderField.FIELD_ID,
-						sourceProvider);
+				marker.setAttribute(SourceProviderField.FIELD_ID, sourceProvider);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		
+
 		return marker;
 	}
-	
+
 	/**
 	 * Finds all existing Cilia markers.
 	 * 
@@ -122,8 +131,7 @@ public class CiliaMarkerUtil {
 	 * @throws CoreException
 	 *             the core exception
 	 */
-	public static IMarker[] findMarkers(Object rootSourceProvider)
-			throws CoreException {
+	public static IMarker[] findMarkers(Object rootSourceProvider) throws CoreException {
 
 		List<IMarker> retval = new ArrayList<IMarker>();
 
@@ -143,8 +151,7 @@ public class CiliaMarkerUtil {
 	 * @throws CoreException
 	 *             the core exception
 	 */
-	public static void deleteMarkers(Object rootSourceProvider)
-			throws CoreException {
+	public static void deleteMarkers(Object rootSourceProvider) throws CoreException {
 
 		for (IMarker marker : findMarkers(rootSourceProvider))
 			marker.delete();

@@ -17,21 +17,22 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Property implements DisplayedInPropertiesView, MarkerFinder {
+public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	public static final String XML_NODE_NAME = "property";
 
@@ -61,7 +62,7 @@ public class Property implements DisplayedInPropertiesView, MarkerFinder {
 			return key + " = <undefined>";
 
 		return key + " = " + value;
-	}	
+	}
 
 	public Changeset[] merge(Property newInstance) {
 		if (newInstance.getValue().equals(value))
@@ -78,12 +79,12 @@ public class Property implements DisplayedInPropertiesView, MarkerFinder {
 	public static Node createXMLProperty(Document document, Node parent, String key, String value) {
 		return XMLHelpers.createNode(document, parent, XML_NODE_NAME, XML_ATTR_KEY, key, XML_ATTR_VALUE, value);
 	}
-	
+
 	@Override
-	public void createMarkers(Object rootSourceProvider) {
-		if (key == null || key.isEmpty())
-			CiliaMarkerUtil.createErrorMarker("Property does't have its key defined", SpecRepoService.getInstance(), this);
-		if (value == null || value.isEmpty())
-			CiliaMarkerUtil.createWarningMarker("Property " + key + " does't have its value defined", SpecRepoService.getInstance(), this);
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, key, "key");
+		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, value, "value");
+
+		return CiliaFlag.generateTab(e1, e2);
 	}
 }

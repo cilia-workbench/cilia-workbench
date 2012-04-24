@@ -22,22 +22,22 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port.PortType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpec implements DisplayedInPropertiesView, MarkerFinder {
+public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
 
@@ -54,10 +54,8 @@ public class MediatorSpec implements DisplayedInPropertiesView, MarkerFinder {
 	private Processor processor = null;
 	private Scheduler scheduler = null;
 	private Dispatcher dispatcher = null;
-	private Node node;
 
 	public MediatorSpec(Node node) throws MetadataException {
-		this.node = node;
 		XMLReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "id");
 		XMLReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
 
@@ -248,15 +246,13 @@ public class MediatorSpec implements DisplayedInPropertiesView, MarkerFinder {
 	}
 
 	@Override
-	public void createMarkers(Object rootSourceProvider) {
-		// id
-		if (id == null || id.isEmpty())
-			CiliaMarkerUtil.createErrorMarker("ID undefined", SpecRepoService.getInstance(), this);
-		
-		// namespace
-		if (namespace == null || namespace.isEmpty())
-			CiliaMarkerUtil.createWarningMarker("namespace undefined", SpecRepoService.getInstance(), this);
-		
+	public CiliaFlag[] getErrorsAndWarnings() {
+
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id, "id");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, namespace, "namespace");
+		CiliaFlag e3 = null;
+		CiliaFlag e4 = null;
+
 		// ports
 		boolean foundInPort = false;
 		boolean foundOutPort = false;
@@ -265,20 +261,23 @@ public class MediatorSpec implements DisplayedInPropertiesView, MarkerFinder {
 				foundInPort = true;
 			else
 				foundOutPort = true;
-		
+
 		if (!foundInPort)
-			CiliaMarkerUtil.createErrorMarker("Mediator doesn't have an in port", SpecRepoService.getInstance(), this);
+			e3 = new CiliaError("Mediator doesn't have an in port", this);
 		if (!foundOutPort)
-			CiliaMarkerUtil.createErrorMarker("Mediator doesn't have an out port", SpecRepoService.getInstance(), this);
-		
+			e4 = new CiliaError("Mediator doesn't have an out port", this);
+
 		// properties
 		List<String> foundProperties = new ArrayList<String>();
+		List<CiliaFlag> retvallist = new ArrayList<CiliaFlag>();
 		for (Property property : properties) {
 			String name = property.getKey();
 			if (foundProperties.contains(name))
-				CiliaMarkerUtil.createErrorMarker("Property " + name + " is defined more than once", SpecRepoService.getInstance(), this);
+				retvallist.add(new CiliaError("Property " + name + " is defined more than once", this));
 			else
 				foundProperties.add(name);
 		}
+
+		return CiliaFlag.generateTab(retvallist, e1, e2, e3, e4);
 	}
 }

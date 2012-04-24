@@ -20,19 +20,19 @@ import java.util.Map;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorComponent implements DisplayedInPropertiesView, MarkerFinder {
+public class MediatorComponent implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	private String name;
 
@@ -54,18 +54,15 @@ public class MediatorComponent implements DisplayedInPropertiesView, MarkerFinde
 
 		Node schedulerNode = XMLHelpers.findChild(node, "scheduler");
 		if (schedulerNode != null)
-			XMLReflectionUtil.setAttribute(schedulerNode, "name", this,
-					"schedulerName");
+			XMLReflectionUtil.setAttribute(schedulerNode, "name", this, "schedulerName");
 
 		Node processorNode = XMLHelpers.findChild(node, "processor");
 		if (processorNode != null)
-			XMLReflectionUtil.setAttribute(processorNode, "name", this,
-					"processorName");
+			XMLReflectionUtil.setAttribute(processorNode, "name", this, "processorName");
 
 		Node dispatcherNode = XMLHelpers.findChild(node, "dispatcher");
 		if (dispatcherNode != null)
-			XMLReflectionUtil.setAttribute(dispatcherNode, "name",
-					this, "dispatcherName");
+			XMLReflectionUtil.setAttribute(dispatcherNode, "name", this, "dispatcherName");
 
 		Node portsNode = XMLHelpers.findChild(node, "ports");
 		if (portsNode != null) {
@@ -94,16 +91,14 @@ public class MediatorComponent implements DisplayedInPropertiesView, MarkerFinde
 	public List<Property> getProperties() {
 		return properties;
 	}
-	
+
 	@Override
-	public void createMarkers(Object rootSourceProvider) {
-		if (name == null || name.length() == 0)
-			CiliaMarkerUtil.createErrorMarker("name can't be null or empty", JarRepoService.getInstance(), this);
-		if (schedulerName == null || schedulerName.length() == 0)
-			CiliaMarkerUtil.createErrorMarker("schedulerName can't be null or empty", JarRepoService.getInstance(), this);
-		if (processorName == null || processorName.length() == 0)
-			CiliaMarkerUtil.createErrorMarker("processorName can't be null or empty", JarRepoService.getInstance(), this);
-		if (dispatcherName == null || dispatcherName.length() == 0)
-			CiliaMarkerUtil.createErrorMarker("dispatcherName can't be null or empty", JarRepoService.getInstance(), this);
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e1 = CiliaError.checkNotNull(this, name, "name");
+		CiliaFlag e2 = CiliaError.checkNotNull(this, schedulerName, "scheduler name");
+		CiliaFlag e3 = CiliaError.checkNotNull(this, processorName, "processor name");
+		CiliaFlag e4 = CiliaError.checkNotNull(this, dispatcherName, "dispatcher name");
+
+		return CiliaFlag.generateTab(e1, e2, e3, e4);
 	}
 }

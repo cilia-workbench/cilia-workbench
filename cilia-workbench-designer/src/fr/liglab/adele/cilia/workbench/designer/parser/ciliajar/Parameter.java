@@ -16,29 +16,29 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Parameter implements DisplayedInPropertiesView, MarkerFinder {
+public class Parameter implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_METHOD = "method";
 	public static final String XML_ATTR_VALUE = "value";
 	public static final String XML_ATTR_FIELD = "field";
-	
+
 	private String name;
 	private String method;
 	private String value;
 	private String field;
-	
+
 	public Parameter(Node node) throws MetadataException {
 		XMLReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 		XMLReflectionUtil.setAttribute(node, XML_ATTR_METHOD, this, "method");
@@ -49,26 +49,28 @@ public class Parameter implements DisplayedInPropertiesView, MarkerFinder {
 	public String getName() {
 		return name;
 	}
-	
+
 	@Override
 	public String toString() {
 		String retval = name;
-		
+
 		if (value != null)
 			retval = retval + " = " + value;
 		if (method != null)
 			retval = retval + " [" + method + "]";
 		if (field != null)
 			retval = retval + " [" + field + "]";
-		
+
 		return retval;
 	}
 
 	@Override
-	public void createMarkers(Object rootSourceProvider) {
-		if (name == null)
-			CiliaMarkerUtil.createErrorMarker("name can't be null", JarRepoService.getInstance(), this);
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e1 = CiliaError.checkNotNull(this, name, "name");
+		CiliaFlag e2 = null;
 		if (method != null && field != null)
-			CiliaMarkerUtil.createErrorMarker("method and field parameters are excusive", JarRepoService.getInstance(), this);
+			e2 = new CiliaError("method and field parameters are excusive", this);
+
+		return CiliaFlag.generateTab(e1, e2);
 	}
 }

@@ -19,31 +19,31 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Element implements DisplayedInPropertiesView, MarkerFinder {
+public abstract class Element implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	private String name;
 	private String classname;
 	private String namespace;
 
 	private List<Parameter> parameters = new ArrayList<Parameter>();
-	
+
 	public Element(Node node) throws MetadataException {
 		XMLReflectionUtil.setAttribute(node, "name", this, "name");
 		XMLReflectionUtil.setAttribute(node, "classname", this, "classname");
 		XMLReflectionUtil.setAttribute(node, "namespace", this, "namespace");
-		
+
 		Node rootParam = XMLHelpers.findChild(node, "properties");
 		if (rootParam != null) {
 			Node[] params = XMLHelpers.findChildren(rootParam, "property");
@@ -51,33 +51,33 @@ public abstract class Element implements DisplayedInPropertiesView, MarkerFinder
 				parameters.add(new Parameter(param));
 		}
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getClassname() {
 		return classname;
 	}
-	
+
 	public String getNamespace() {
 		return namespace;
 	}
-	
+
 	public List<Parameter> getParameters() {
 		return parameters;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;
 	}
-	
+
 	@Override
-	public void createMarkers(Object rootSourceProvider) {
-		if (name == null)
-			CiliaMarkerUtil.createErrorMarker("name can't be null", JarRepoService.getInstance(), this);
-		if (classname == null)
-			CiliaMarkerUtil.createErrorMarker("classname can't be null", JarRepoService.getInstance(), this);
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e1 = CiliaError.checkNotNull(this, name, "name");
+		CiliaFlag e2 = CiliaError.checkNotNull(this, classname, "class name");
+
+		return CiliaFlag.generateTab(e1, e2);
 	}
 }

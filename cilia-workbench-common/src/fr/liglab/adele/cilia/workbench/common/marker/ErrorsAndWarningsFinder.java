@@ -15,16 +15,15 @@
 package fr.liglab.adele.cilia.workbench.common.marker;
 
 /**
- * This interface is implemented by objects able to generate markers.
+ * This interface is implemented by objects able to generate errors and
+ * warnings.
  * 
  * @author Etienne Gandrille
  */
-public interface MarkerFinder {
+public interface ErrorsAndWarningsFinder {
 
 	/**
 	 * Create a marker relative to the current object.
-	 * 
-	 * @param rootSourceProvider 
 	 */
-	public void createMarkers(Object rootSourceProvider);
+	public CiliaFlag[] getErrorsAndWarnings();
 }

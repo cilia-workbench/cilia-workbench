@@ -20,8 +20,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
@@ -36,8 +37,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
  * 
  * @author Etienne Gandrille
  */
-public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel>
-		implements MarkerFinder {
+public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> implements ErrorsAndWarningsFinder {
 
 	/** Singleton instance */
 	private static SpecRepoService INSTANCE;
@@ -105,8 +105,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel>
 		for (Iterator<SpecFile> itr = model.iterator(); itr.hasNext();) {
 			SpecFile old = itr.next();
 			String id = old.getFilePath();
-			SpecFile updated = PullElementUtil
-					.pullRepoElement(repoElements, id);
+			SpecFile updated = PullElementUtil.pullRepoElement(repoElements, id);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
@@ -137,8 +136,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel>
 	 */
 	@Override
 	protected String getContentForNewFile() {
-		return "<" + SpecModel.XML_NODE_NAME + ">\n</"
-				+ SpecModel.XML_NODE_NAME + ">";
+		return "<" + SpecModel.XML_NODE_NAME + ">\n</" + SpecModel.XML_NODE_NAME + ">";
 	}
 
 	public void deleteMediatorSpec(MediatorSpec mediator) {
@@ -146,25 +144,21 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel>
 		if (file == null)
 			return;
 		try {
-			file.getModel().deleteMediatorSpec(mediator.getId(),
-					mediator.getNamespace());
+			file.getModel().deleteMediatorSpec(mediator.getId(), mediator.getNamespace());
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void updateMediatorSpec(MediatorSpec mediator, List<String> inPorts,
-			List<String> outPorts, Map<String, String> mediatorProperties,
-			List<String> schedulerParam, List<String> processorParam,
+	public void updateMediatorSpec(MediatorSpec mediator, List<String> inPorts, List<String> outPorts,
+			Map<String, String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
 			List<String> dispatcherParam) {
 		SpecFile file = (SpecFile) contentProvider.getParent(mediator);
 		if (file == null)
 			return;
 		try {
-			file.getModel().updateMediatorSpec(mediator.getId(),
-					mediator.getNamespace(), inPorts, outPorts,
-					mediatorProperties, schedulerParam, processorParam,
-					dispatcherParam);
+			file.getModel().updateMediatorSpec(mediator.getId(), mediator.getNamespace(), inPorts, outPorts,
+					mediatorProperties, schedulerParam, processorParam, dispatcherParam);
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
@@ -203,8 +197,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel>
 		return null;
 	}
 
-	public Object createMediatorSpec(SpecModel specModel, String id,
-			String namespace) {
+	public Object createMediatorSpec(SpecModel specModel, String id, String namespace) {
 		try {
 			specModel.createMediatorSpec(id, namespace);
 		} catch (MetadataException e) {
@@ -213,28 +206,35 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel>
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder#createMarkers(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder#createMarkers
+	 * (java.lang.Object)
 	 */
 	@Override
-	public void createMarkers(Object rootSourceProvider) {
-		
+	public CiliaFlag[] getErrorsAndWarnings() {
+
 		List<String> specsFound = new ArrayList<String>();
-		
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
+
 		// Check if a mediator spec is not defined twice
 		for (SpecFile spec : model) {
 			SpecModel abstractModel = spec.getModel();
-			
+
 			for (MediatorSpec ms : abstractModel.getMediatorSpecs()) {
 				String id = ms.getId();
 				String namespace = ms.getNamespace();
 				String fullName = id + ":" + namespace;
 				if (specsFound.contains(fullName)) {
-					CiliaMarkerUtil.createErrorMarker("Mediator " + fullName + " defined more than once", this, this);
+					retval.add(new CiliaError("Mediator " + fullName + " defined more than once", this));
 				} else {
 					specsFound.add(fullName);
 				}
 			}
 		}
+
+		return retval.toArray(new CiliaFlag[0]);
 	}
 }

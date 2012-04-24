@@ -34,8 +34,7 @@ import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.SourceProvider
  * 
  * @author Etienne Gandrille
  */
-public abstract class LabelProvider extends
-		org.eclipse.jface.viewers.LabelProvider {
+public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvider {
 
 	/**
 	 * Finds the ImageDescriptor enum which corresponds ton an object.
@@ -52,11 +51,9 @@ public abstract class LabelProvider extends
 	 * @author Etienne Gandrille
 	 */
 	public enum ImageDescriptorEnum {
-		FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT(
-				"adapterOut.png"), REPOSITORY("repo.png"), MEDIATOR(
-				"mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR(
-				"processor.png"), DISPATCHER("dispatcher.png"), COLLECTOR(
-				"collector.png"), SENDER("sender.png"), PORT_IN("portIn.png"), PORT_OUT(
+		FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT("adapterOut.png"), REPOSITORY(
+				"repo.png"), MEDIATOR("mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR("processor.png"), DISPATCHER(
+				"dispatcher.png"), COLLECTOR("collector.png"), SENDER("sender.png"), PORT_IN("portIn.png"), PORT_OUT(
 				"portOut.png"), PROPERTY("property.png"), BINDING("binding.png");
 
 		/** Path to find the physical image in the bundle */
@@ -114,8 +111,7 @@ public abstract class LabelProvider extends
 		 */
 		public Image getImageWarning() {
 			if (imageWarning == null)
-				imageWarning = createImageFromPath("icons/16-warning/"
-						+ fileName);
+				imageWarning = createImageFromPath("icons/16-warning/" + fileName);
 
 			return imageWarning;
 		}
@@ -127,13 +123,10 @@ public abstract class LabelProvider extends
 		 * @return the Image object.
 		 */
 		private static Image createImageFromPath(String imagePath) {
-			org.osgi.framework.Bundle bundle = Activator.getDefault()
-					.getBundle();
+			org.osgi.framework.Bundle bundle = Activator.getDefault().getBundle();
 			URL url = FileLocator.find(bundle, new Path(imagePath), null);
 			try {
-				url = new URL(
-						"platform:/plugin/fr.liglab.adele.cilia.workbench.common/"
-								+ imagePath);
+				url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imagePath);
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
@@ -156,8 +149,7 @@ public abstract class LabelProvider extends
 		try {
 			for (IMarker marker : CiliaMarkerUtil.findMarkers()) {
 				if (marker.getAttribute(SourceProviderField.FIELD_ID) == obj) {
-					int severity = marker.getAttribute(IMarker.SEVERITY,
-							IMarker.SEVERITY_INFO);
+					int severity = marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
 
 					if (severity == IMarker.SEVERITY_ERROR)
 						return descriptor.getImageError();

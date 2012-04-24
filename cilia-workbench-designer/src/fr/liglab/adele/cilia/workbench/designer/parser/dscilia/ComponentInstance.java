@@ -16,8 +16,9 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
@@ -26,8 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentInstance implements DisplayedInPropertiesView,
-		MarkerFinder {
+public abstract class ComponentInstance implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	protected String id;
 	protected String type;
@@ -50,13 +50,10 @@ public abstract class ComponentInstance implements DisplayedInPropertiesView,
 		return id;
 	}
 
-	@Override
-	public void createMarkers(Object rootSourceProvider) {
-		if (id == null || id.length() == 0)
-			CiliaMarkerUtil.createErrorMarker("id can't be null or empty",
-					rootSourceProvider, this);
-		if (type == null || type.length() == 0)
-			CiliaMarkerUtil.createErrorMarker("type can't be null or empty",
-					rootSourceProvider, this);
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id, "id");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, type, "type");
+
+		return CiliaFlag.generateTab(e1, e2);
 	}
 }

@@ -16,18 +16,18 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port implements DisplayedInPropertiesView, MarkerFinder {
+public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	private String name;
 
@@ -43,10 +43,10 @@ public abstract class Port implements DisplayedInPropertiesView, MarkerFinder {
 	public String getName() {
 		return name;
 	}
-	
+
 	@Override
-	public void createMarkers(Object rootSourceProvider) {
-		if (name == null || name.length() == 0)
-			CiliaMarkerUtil.createErrorMarker("name can't be null or empty", JarRepoService.getInstance(), this);
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e = CiliaError.checkNotNull(this, name, "name");
+		return CiliaFlag.generateTab(e);
 	}
 }

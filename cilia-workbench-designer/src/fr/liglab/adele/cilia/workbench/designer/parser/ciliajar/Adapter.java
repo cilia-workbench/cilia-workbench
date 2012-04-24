@@ -16,22 +16,22 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Adapter implements DisplayedInPropertiesView, MarkerFinder {
+public class Adapter implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	private Node node;
-	
+
 	private String name;
 	private String pattern;
 	// collector or sender type
@@ -51,7 +51,7 @@ public class Adapter implements DisplayedInPropertiesView, MarkerFinder {
 			XMLReflectionUtil.setAttribute(subNode, "type", this, "elementType");
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	public String getPattern() {
@@ -77,30 +77,37 @@ public class Adapter implements DisplayedInPropertiesView, MarkerFinder {
 			throw new MetadataException("Invalid pattern : " + pattern);
 
 		Node subNode = XMLHelpers.findChild(rootNode, subNodeName);
-		
+
 		if (subNode == null)
 			throw new MetadataException("Adapter with pattern " + pattern + " must have a " + subNodeName);
-		
+
 		return subNode;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder
+	 * #createErrorsAndWarnings(java.lang.Object)
+	 */
 	@Override
-	public void createMarkers(Object rootSourceProvider) {
-		
-		// name validation
-		if (name == null || name.length() == 0)
-			CiliaMarkerUtil.createErrorMarker("name can't be null or empty", JarRepoService.getInstance(), this);
-		
+	public CiliaFlag[] getErrorsAndWarnings() {
+
+		CiliaError e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+		CiliaError e2 = null;
+		CiliaError e3 = null;
+
 		// pattern and element type validation
 		try {
 			// pattern validation
 			getSubNode(node, pattern);
-			
 			// element type validation
-			if (elementType == null || elementType.length() == 0)
-				CiliaMarkerUtil.createErrorMarker("Element type is undefined", JarRepoService.getInstance(), this);
+			e2 = CiliaError.checkStringNotNullOrEmpty(this, elementType, "elementType");
 		} catch (MetadataException e) {
-			CiliaMarkerUtil.createErrorMarker(e.getMessage(), JarRepoService.getInstance(), this);
-		} 
+			e3 = new CiliaError(e.getMessage(), this);
+		}
+
+		return CiliaFlag.generateTab(e1, e2, e3);
 	}
 }

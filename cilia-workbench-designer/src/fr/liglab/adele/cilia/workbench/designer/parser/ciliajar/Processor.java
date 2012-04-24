@@ -16,11 +16,11 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
  * 
@@ -33,20 +33,20 @@ public class Processor extends Element {
 
 	public Processor(Node node) throws MetadataException {
 		super(node);
-		
+
 		Node methodNode = XMLHelpers.findChild(node, "method");
 		if (methodNode == null)
 			throw new MetadataException("method element not found");
 		XMLReflectionUtil.setAttribute(methodNode, "name", this, "methodName");
 		XMLReflectionUtil.setAttribute(methodNode, "data.type", this, "methodDataType");
 	}
-	
+
 	@Override
-	public void createMarkers(Object rootSourceProvider) {
-		super.createMarkers(rootSourceProvider);
-		if (methodName == null)
-			CiliaMarkerUtil.createErrorMarker("methodName can't be null", JarRepoService.getInstance(), this);
-		if (methodDataType == null)
-			CiliaMarkerUtil.createErrorMarker("methodDataType can't be null", JarRepoService.getInstance(), this);
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] e = super.getErrorsAndWarnings();
+		CiliaFlag e1 = CiliaError.checkNotNull(this, methodName, "method name");
+		CiliaFlag e2 = CiliaError.checkNotNull(this, methodDataType, "method data type");
+
+		return CiliaFlag.generateTab(e, e1, e2);
 	}
 }

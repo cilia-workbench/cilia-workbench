@@ -21,20 +21,20 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentPart implements DisplayedInPropertiesView, MarkerFinder {
+public abstract class ComponentPart implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 
@@ -94,18 +94,21 @@ public abstract class ComponentPart implements DisplayedInPropertiesView, Marker
 		Node parameters = XMLHelpers.getOrCreateNode(document, component, "parameters");
 		return XMLHelpers.createNode(document, parameters, "parameter", "name", param);
 	}
-	
+
 	@Override
-	public void createMarkers(Object rootSourceProvider) {
-	
+	public CiliaFlag[] getErrorsAndWarnings() {
+
 		List<String> foundParam = new ArrayList<String>();
-		
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
+
 		for (Parameter parameter : parameters) {
 			String name = parameter.getName();
 			if (foundParam.contains(name))
-				CiliaMarkerUtil.createErrorMarker("Parameter " + name + " is defined more than once", SpecRepoService.getInstance(), this);
+				retval.add(new CiliaError("Parameter " + name + " is defined more than once", this));
 			else
 				foundParam.add(name);
 		}
+
+		return retval.toArray(new CiliaFlag[0]);
 	}
 }
