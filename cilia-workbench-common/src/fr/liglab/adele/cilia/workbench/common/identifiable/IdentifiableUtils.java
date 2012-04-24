@@ -36,7 +36,7 @@ public abstract class IdentifiableUtils {
 	 * @param data
 	 * @return an array (which can be null) with errors.
 	 */
-	public static CiliaError[] getErrorsNonUniqueId(Object sourceProvider, Iterable<? extends Identifiable> data) {
+	public static List<CiliaFlag> getErrorsNonUniqueId(Object sourceProvider, Iterable<? extends Identifiable> data) {
 		Map<Object, Integer> counter = new HashMap<Object, Integer>();
 
 		for (Identifiable item : data) {
@@ -58,6 +58,6 @@ public abstract class IdentifiableUtils {
 			}
 		}
 
-		return retval.toArray(new CiliaError[0]);
+		return retval;
 	}
 }

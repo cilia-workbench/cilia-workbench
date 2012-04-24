@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
@@ -27,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
 	public static final String XML_ATTR_NAME = "name";
 	private String name;
@@ -43,6 +44,19 @@ public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarnin
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public Object getId() {
+		return name;
+	}
+
+	public boolean isInPort() {
+		return this.getClass().equals(InPort.class);
+	}
+
+	public boolean isOutPort() {
+		return this.getClass().equals(OutPort.class);
 	}
 
 	@Override

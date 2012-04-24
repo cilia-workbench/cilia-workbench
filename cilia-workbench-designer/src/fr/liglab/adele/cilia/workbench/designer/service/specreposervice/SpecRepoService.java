@@ -20,7 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
@@ -60,6 +61,17 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		if (INSTANCE == null)
 			INSTANCE = new SpecRepoService();
 		return INSTANCE;
+	}
+
+	public List<MediatorSpec> getMediatorSpecs() {
+		List<MediatorSpec> retval = new ArrayList<MediatorSpec>();
+
+		for (SpecFile spec : model) {
+			SpecModel abstractModel = spec.getModel();
+			if (abstractModel != null)
+				retval.addAll(abstractModel.getMediatorSpecs());
+		}
+		return retval;
 	}
 
 	/**
@@ -144,7 +156,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		if (file == null)
 			return;
 		try {
-			file.getModel().deleteMediatorSpec(mediator.getId(), mediator.getNamespace());
+			file.getModel().deleteMediatorSpec((IdNamespace) mediator.getId());
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
@@ -157,21 +169,21 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		if (file == null)
 			return;
 		try {
-			file.getModel().updateMediatorSpec(mediator.getId(), mediator.getNamespace(), inPorts, outPorts,
-					mediatorProperties, schedulerParam, processorParam, dispatcherParam);
+			file.getModel().updateMediatorSpec((IdNamespace) mediator.getId(), inPorts, outPorts, mediatorProperties,
+					schedulerParam, processorParam, dispatcherParam);
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public String isNewMediatorSpecAllowed(String id, String namespace) {
-		if (id == null || id.isEmpty())
+	public String isNewMediatorSpecAllowed(IdNamespace id) {
+		if (id == null || id.getId() == null || ((String) id.getId()).isEmpty())
 			return "id can't be null or empty";
 
-		if (namespace == null || namespace.isEmpty())
+		if (id.getNamespace() == null || ((String) id.getNamespace()).isEmpty())
 			return "namespace can't be null or empty";
 
-		MediatorSpec spec = findMediatorSpec(id, namespace);
+		MediatorSpec spec = findMediatorSpec(id);
 
 		if (spec != null)
 			return "a mediator with the same id/namespace already exists";
@@ -188,18 +200,18 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 	 *            the namespace
 	 * @return the mediator spec
 	 */
-	private MediatorSpec findMediatorSpec(String id, String namespace) {
+	private MediatorSpec findMediatorSpec(IdNamespace id) {
 		for (SpecModel spec : findAbstractElements()) {
 			for (MediatorSpec s : spec.getMediatorSpecs())
-				if (s.getId().equals(id) && s.getNamespace().equals(namespace))
+				if (s.getId().equals(id))
 					return s;
 		}
 		return null;
 	}
 
-	public Object createMediatorSpec(SpecModel specModel, String id, String namespace) {
+	public Object createMediatorSpec(SpecModel specModel, IdNamespace id) {
 		try {
-			specModel.createMediatorSpec(id, namespace);
+			specModel.createMediatorSpec(id);
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
@@ -215,26 +227,8 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 	 */
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
+		List<CiliaFlag> errorList = IdentifiableUtils.getErrorsNonUniqueId(this, getMediatorSpecs());
 
-		List<String> specsFound = new ArrayList<String>();
-		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
-
-		// Check if a mediator spec is not defined twice
-		for (SpecFile spec : model) {
-			SpecModel abstractModel = spec.getModel();
-
-			for (MediatorSpec ms : abstractModel.getMediatorSpecs()) {
-				String id = ms.getId();
-				String namespace = ms.getNamespace();
-				String fullName = id + ":" + namespace;
-				if (specsFound.contains(fullName)) {
-					retval.add(new CiliaError("Mediator " + fullName + " defined more than once", this));
-				} else {
-					specsFound.add(fullName);
-				}
-			}
-		}
-
-		return retval.toArray(new CiliaFlag[0]);
+		return CiliaFlag.generateTab(errorList);
 	}
 }

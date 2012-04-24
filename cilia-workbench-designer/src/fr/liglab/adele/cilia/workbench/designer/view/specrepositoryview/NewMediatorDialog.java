@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdNamespace;
 import fr.liglab.adele.cilia.workbench.common.view.TextValidatorListener;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
@@ -138,7 +139,7 @@ public class NewMediatorDialog extends Dialog {
 		id = idText.getText();
 		namespace = namespaceText.getText();
 
-		String message = repoService.isNewMediatorSpecAllowed(id, namespace);
+		String message = repoService.isNewMediatorSpecAllowed(new IdNamespace(id, namespace));
 		if (message == null) {
 			errorLabel.setText("");
 			getButton(IDialogConstants.OK_ID).setEnabled(true);
@@ -151,7 +152,9 @@ public class NewMediatorDialog extends Dialog {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse .swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);

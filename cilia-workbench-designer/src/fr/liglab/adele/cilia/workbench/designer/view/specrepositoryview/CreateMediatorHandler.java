@@ -20,6 +20,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdNamespace;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
@@ -34,7 +35,9 @@ public class CreateMediatorHandler extends SpecHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -63,7 +66,7 @@ public class CreateMediatorHandler extends SpecHandler {
 			String namespace = dialog.getNamespace();
 
 			SpecRepoService repoService = SpecRepoService.getInstance();
-			return repoService.createMediatorSpec(modelFile, id, namespace);
+			return repoService.createMediatorSpec(modelFile, new IdNamespace(id, namespace));
 		}
 
 		return null;

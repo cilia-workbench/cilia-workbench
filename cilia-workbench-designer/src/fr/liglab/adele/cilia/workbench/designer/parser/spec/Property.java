@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
@@ -32,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
 	public static final String XML_NODE_NAME = "property";
 
@@ -52,6 +53,11 @@ public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFin
 
 	public String getValue() {
 		return value;
+	}
+
+	@Override
+	public Object getId() {
+		return key;
 	}
 
 	@Override

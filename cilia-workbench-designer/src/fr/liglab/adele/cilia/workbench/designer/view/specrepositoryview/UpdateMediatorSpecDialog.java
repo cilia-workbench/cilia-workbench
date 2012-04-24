@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdNamespace;
 import fr.liglab.adele.cilia.workbench.common.jface.KeyValueEditor;
 import fr.liglab.adele.cilia.workbench.common.jface.ListEditor;
 import fr.liglab.adele.cilia.workbench.common.view.TextValidatorListener;
@@ -105,8 +106,8 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		super(parent);
 
 		// Global parameters
-		this.idValue = mediatorSpec.getId();
-		this.namespaceValue = mediatorSpec.getNamespace();
+		this.idValue = (String) ((IdNamespace) mediatorSpec.getId()).getId();
+		this.namespaceValue = (String) ((IdNamespace) mediatorSpec.getId()).getNamespace();
 
 		// Ports
 		for (Port port : mediatorSpec.getPorts())

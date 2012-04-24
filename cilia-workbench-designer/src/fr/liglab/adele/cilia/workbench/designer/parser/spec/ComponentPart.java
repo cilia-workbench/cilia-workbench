@@ -97,6 +97,6 @@ public abstract class ComponentPart implements DisplayedInPropertiesView, Errors
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		return IdentifiableUtils.getErrorsNonUniqueId(this, parameters);
+		return IdentifiableUtils.getErrorsNonUniqueId(this, parameters).toArray(new CiliaFlag[0]);
 	}
 }

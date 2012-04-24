@@ -22,6 +22,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
@@ -36,7 +39,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
 
@@ -91,8 +94,8 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 		}
 	}
 
-	public String getId() {
-		return id;
+	public Object getId() {
+		return new IdNamespace(id, namespace);
 	}
 
 	public String getNamespace() {
@@ -117,6 +120,22 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 
 	public List<Port> getPorts() {
 		return ports;
+	}
+
+	public List<Port> getInPorts() {
+		List<Port> retval = new ArrayList<Port>();
+		for (Port p : ports)
+			if (p.isInPort())
+				retval.add(p);
+		return retval;
+	}
+
+	public List<Port> getOutPorts() {
+		List<Port> retval = new ArrayList<Port>();
+		for (Port p : ports)
+			if (p.isOutPort())
+				retval.add(p);
+		return retval;
 	}
 
 	public Changeset[] merge(MediatorSpec newInstance) {
@@ -213,10 +232,10 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 		return id;
 	}
 
-	public static Element createXMLSpec(Document document, Node parent, String id, String namespace) {
+	public static Element createXMLSpec(Document document, Node parent, IdNamespace id) {
 		Element child = document.createElement(MediatorSpec.XML_NODE_NAME);
-		child.setAttribute(MediatorSpec.XML_ATTR_ID, id);
-		child.setAttribute(MediatorSpec.XML_ATTR_NAMESPACE, namespace);
+		child.setAttribute(MediatorSpec.XML_ATTR_ID, (String) id.getId());
+		child.setAttribute(MediatorSpec.XML_ATTR_NAMESPACE, (String) id.getNamespace());
 		parent.appendChild(child);
 
 		return child;
@@ -252,36 +271,23 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 
+		List<CiliaFlag> errorList = new ArrayList<CiliaFlag>();
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id, "id");
 		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, namespace, "namespace");
 		CiliaFlag e3 = null;
 		CiliaFlag e4 = null;
 
 		// ports
-		boolean foundInPort = false;
-		boolean foundOutPort = false;
-		for (Port port : ports)
-			if (port.getClass().equals(InPort.class))
-				foundInPort = true;
-			else
-				foundOutPort = true;
-
-		if (!foundInPort)
+		if (getInPorts().size() == 0)
 			e3 = new CiliaError("Mediator doesn't have an in port", this);
-		if (!foundOutPort)
+		if (getOutPorts().size() == 0)
 			e4 = new CiliaError("Mediator doesn't have an out port", this);
+		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getInPorts()));
+		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getOutPorts()));
 
 		// properties
-		List<String> foundProperties = new ArrayList<String>();
-		List<CiliaFlag> retvallist = new ArrayList<CiliaFlag>();
-		for (Property property : properties) {
-			String name = property.getKey();
-			if (foundProperties.contains(name))
-				retvallist.add(new CiliaError("Property " + name + " is defined more than once", this));
-			else
-				foundProperties.add(name);
-		}
+		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, properties));
 
-		return CiliaFlag.generateTab(retvallist, e1, e2, e3, e4);
+		return CiliaFlag.generateTab(errorList, e1, e2, e3, e4);
 	}
 }

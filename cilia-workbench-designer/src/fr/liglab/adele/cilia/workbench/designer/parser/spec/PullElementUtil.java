@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdNamespace;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
@@ -36,10 +37,10 @@ public class PullElementUtil implements DisplayedInPropertiesView {
 		return null;
 	}
 
-	public static MediatorSpec pullMediatorSpec(SpecModel elements, String id, String namespace) {
+	public static MediatorSpec pullMediatorSpec(SpecModel elements, IdNamespace id) {
 		for (Iterator<MediatorSpec> itr = elements.getMediatorSpecs().iterator(); itr.hasNext();) {
 			MediatorSpec element = itr.next();
-			if (element.getId().equals(id) && element.getNamespace().equals(namespace)) {
+			if (element.getId().equals(id)) {
 				itr.remove();
 				return element;
 			}

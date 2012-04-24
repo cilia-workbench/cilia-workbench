@@ -24,6 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdNamespace;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -101,10 +102,9 @@ public class SpecModel implements DisplayedInPropertiesView {
 
 		for (Iterator<MediatorSpec> itr = mediatorSpecs.iterator(); itr.hasNext();) {
 			MediatorSpec old = itr.next();
-			String id = old.getId();
-			String namespace = old.getNamespace();
+			IdNamespace id = (IdNamespace) old.getId();
 
-			MediatorSpec updated = PullElementUtil.pullMediatorSpec(newInstance, id, namespace);
+			MediatorSpec updated = PullElementUtil.pullMediatorSpec(newInstance, id);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
@@ -126,12 +126,12 @@ public class SpecModel implements DisplayedInPropertiesView {
 		return retval.toArray(new Changeset[0]);
 	}
 
-	public void deleteMediatorSpec(String id, String namespace) throws MetadataException {
+	public void deleteMediatorSpec(IdNamespace id) throws MetadataException {
 
 		// Finding target node
 		File file = new File(filePath);
 		Document document = XMLHelpers.getDocument(file);
-		Node target = findXMLMediatorNode(document, id, namespace);
+		Node target = findXMLMediatorNode(document, id);
 
 		if (target != null) {
 			getRootNode(document).removeChild(target);
@@ -142,21 +142,21 @@ public class SpecModel implements DisplayedInPropertiesView {
 		}
 	}
 
-	public void updateMediatorSpec(String id, String namespace, List<String> inPorts, List<String> outPorts,
+	public void updateMediatorSpec(IdNamespace id, List<String> inPorts, List<String> outPorts,
 			Map<String, String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
 			List<String> dispatcherParam) throws MetadataException {
 
 		// Finding target node
 		File file = new File(filePath);
 		Document document = XMLHelpers.getDocument(file);
-		Node target = findXMLMediatorNode(document, id, namespace);
+		Node target = findXMLMediatorNode(document, id);
 		Node parent = getRootNode(document);
 
 		if (target != null)
 			parent.removeChild(target);
 
 		// id and namespace attributes
-		Element spec = MediatorSpec.createXMLSpec(document, parent, id, namespace);
+		Element spec = MediatorSpec.createXMLSpec(document, parent, id);
 
 		// ports
 		for (String inPort : inPorts)
@@ -186,10 +186,10 @@ public class SpecModel implements DisplayedInPropertiesView {
 		SpecRepoService.getInstance().updateModel();
 	}
 
-	private Node findXMLMediatorNode(Document document, String id, String namespace) throws MetadataException {
+	private Node findXMLMediatorNode(Document document, IdNamespace id) throws MetadataException {
 		Node root = getRootNode(document);
-		Node[] results = XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME, MediatorSpec.XML_ATTR_ID, id,
-				MediatorSpec.XML_ATTR_NAMESPACE, namespace);
+		Node[] results = XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME, MediatorSpec.XML_ATTR_ID,
+				(String) id.getId(), MediatorSpec.XML_ATTR_NAMESPACE, (String) id.getNamespace());
 
 		if (results.length == 0)
 			return null;
@@ -197,14 +197,14 @@ public class SpecModel implements DisplayedInPropertiesView {
 			return results[0];
 	}
 
-	public void createMediatorSpec(String id, String namespace) throws MetadataException {
+	public void createMediatorSpec(IdNamespace id) throws MetadataException {
 
-		if (SpecRepoService.getInstance().isNewMediatorSpecAllowed(id, namespace) == null) {
+		if (SpecRepoService.getInstance().isNewMediatorSpecAllowed(id) == null) {
 			File file = new File(filePath);
 			Document document = XMLHelpers.getDocument(file);
 			Node parent = getRootNode(document);
 
-			MediatorSpec.createXMLSpec(document, parent, id, namespace);
+			MediatorSpec.createXMLSpec(document, parent, id);
 
 			// Write it back to file system
 			XMLHelpers.writeDOM(document, filePath);
