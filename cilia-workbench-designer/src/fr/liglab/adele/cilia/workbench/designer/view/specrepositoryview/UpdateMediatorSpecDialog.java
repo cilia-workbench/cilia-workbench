@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Text;
 import fr.liglab.adele.cilia.workbench.common.jface.KeyValueEditor;
 import fr.liglab.adele.cilia.workbench.common.jface.ListEditor;
 import fr.liglab.adele.cilia.workbench.common.view.TextValidatorListener;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port;
@@ -109,7 +110,7 @@ public class UpdateMediatorSpecDialog extends Dialog {
 
 		// Ports
 		for (Port port : mediatorSpec.getPorts())
-			if (port.getType().equals(Port.PortType.IN))
+			if (port.getClass().equals(InPort.class))
 				synchroPortsValue.add(port.getName());
 			else
 				dispatchPortsValue.add(port.getName());
@@ -137,7 +138,9 @@ public class UpdateMediatorSpecDialog extends Dialog {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets .Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
@@ -293,7 +296,9 @@ public class UpdateMediatorSpecDialog extends Dialog {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse .swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);

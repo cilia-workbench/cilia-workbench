@@ -14,9 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
@@ -25,8 +27,17 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public class OutPort extends Port implements DisplayedInPropertiesView {
 
+	private static String XMLtag = "out-port";
+
 	public OutPort(Node node) throws MetadataException {
-		super(node, PortType.OUT);
+		super(node, XMLtag);
 	}
 
+	public static String getXMLtag() {
+		return XMLtag;
+	}
+
+	public static Node createXMLPort(Document document, Node parent, String portName) {
+		return XMLHelpers.createNode(document, parent, XMLtag, XML_ATTR_NAME, portName);
+	}
 }

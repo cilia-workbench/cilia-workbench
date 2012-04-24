@@ -28,7 +28,6 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port.PortType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
@@ -61,10 +60,10 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 
 		Node rootPorts = XMLHelpers.findChild(node, XML_NODE_PORTS_CONTAINER);
 		if (rootPorts != null) {
-			Node[] ips = XMLHelpers.findChildren(rootPorts, PortType.IN.getXMLtag());
+			Node[] ips = XMLHelpers.findChildren(rootPorts, InPort.getXMLtag());
 			for (Node ip : ips)
 				ports.add(new InPort(ip));
-			Node[] ops = XMLHelpers.findChildren(rootPorts, PortType.OUT.getXMLtag());
+			Node[] ops = XMLHelpers.findChildren(rootPorts, OutPort.getXMLtag());
 			for (Node op : ops)
 				ports.add(new OutPort(op));
 		}
@@ -127,9 +126,9 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 		for (Iterator<Port> itr = ports.iterator(); itr.hasNext();) {
 			Port old = itr.next();
 			String name = old.getName();
-			PortType type = old.getType();
+			Class<? extends Port> classType = old.getClass();
 
-			Port updated = PullElementUtil.pullPort(newInstance, name, type);
+			Port updated = PullElementUtil.pullPort(newInstance, name, classType);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
@@ -223,9 +222,14 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 		return child;
 	}
 
-	public static Node createXMLPort(Document document, Element spec, String portName, PortType portType) {
+	public static Node createXMLInPort(Document document, Element spec, String portName) {
 		Node ports = XMLHelpers.getOrCreateNode(document, spec, XML_NODE_PORTS_CONTAINER);
-		return Port.createXMLPort(document, ports, portName, portType);
+		return InPort.createXMLPort(document, ports, portName);
+	}
+
+	public static Node createXMLOutPort(Document document, Element spec, String portName) {
+		Node ports = XMLHelpers.getOrCreateNode(document, spec, XML_NODE_PORTS_CONTAINER);
+		return OutPort.createXMLPort(document, ports, portName);
 	}
 
 	public static Node createMediatorProperty(Document document, Element spec, String key, String value) {
@@ -257,7 +261,7 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 		boolean foundInPort = false;
 		boolean foundOutPort = false;
 		for (Port port : ports)
-			if (port.getType().equals(PortType.IN))
+			if (port.getClass().equals(InPort.class))
 				foundInPort = true;
 			else
 				foundOutPort = true;

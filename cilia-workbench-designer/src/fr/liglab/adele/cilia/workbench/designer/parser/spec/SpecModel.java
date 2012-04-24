@@ -26,7 +26,6 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port.PortType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
@@ -161,9 +160,9 @@ public class SpecModel implements DisplayedInPropertiesView {
 
 		// ports
 		for (String inPort : inPorts)
-			MediatorSpec.createXMLPort(document, spec, inPort, PortType.IN);
+			MediatorSpec.createXMLInPort(document, spec, inPort);
 		for (String outPort : outPorts)
-			MediatorSpec.createXMLPort(document, spec, outPort, PortType.OUT);
+			MediatorSpec.createXMLOutPort(document, spec, outPort);
 
 		// mediatorProperties
 		for (String key : mediatorProperties.keySet())

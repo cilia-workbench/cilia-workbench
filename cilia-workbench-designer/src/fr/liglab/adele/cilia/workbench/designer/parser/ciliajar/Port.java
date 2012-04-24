@@ -46,7 +46,7 @@ public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarnin
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e = CiliaError.checkNotNull(this, name, "name");
+		CiliaFlag e = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
 		return CiliaFlag.generateTab(e);
 	}
 }

@@ -17,7 +17,6 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port.PortType;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
@@ -48,10 +47,10 @@ public class PullElementUtil implements DisplayedInPropertiesView {
 		return null;
 	}
 
-	public static Port pullPort(MediatorSpec mediator, String name, PortType type) {
+	public static Port pullPort(MediatorSpec mediator, String name, Class<? extends Port> classType) {
 		for (Iterator<Port> itr = mediator.getPorts().iterator(); itr.hasNext();) {
 			Port element = itr.next();
-			if (element.getName().equals(name) && element.getType().equals(type)) {
+			if (element.getName().equals(name) && element.getClass().equals(classType)) {
 				itr.remove();
 				return element;
 			}

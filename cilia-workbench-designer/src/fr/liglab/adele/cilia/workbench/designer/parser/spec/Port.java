@@ -14,14 +14,12 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
@@ -34,24 +32,7 @@ public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarnin
 	public static final String XML_ATTR_NAME = "name";
 	private String name;
 
-	private final PortType type;
-
-	public enum PortType {
-		IN("in-port"), OUT("out-port");
-
-		private String XMLtag;
-
-		private PortType(String XMLtag) {
-			this.XMLtag = XMLtag;
-		}
-
-		public String getXMLtag() {
-			return XMLtag;
-		}
-	}
-
-	public Port(Node node, PortType type) throws MetadataException {
-		this.type = type;
+	public Port(Node node, String XMLtag) throws MetadataException {
 		XMLReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 	}
 
@@ -59,17 +40,9 @@ public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarnin
 		return name;
 	}
 
-	public PortType getType() {
-		return type;
-	}
-
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	public static Node createXMLPort(Document document, Node parent, String portName, PortType portType) {
-		return XMLHelpers.createNode(document, parent, portType.getXMLtag(), XML_ATTR_NAME, portName);
 	}
 
 	@Override
