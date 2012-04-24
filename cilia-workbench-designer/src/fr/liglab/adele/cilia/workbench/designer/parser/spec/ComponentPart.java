@@ -21,7 +21,7 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
@@ -97,18 +97,6 @@ public abstract class ComponentPart implements DisplayedInPropertiesView, Errors
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-
-		List<String> foundParam = new ArrayList<String>();
-		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
-
-		for (Parameter parameter : parameters) {
-			String name = parameter.getName();
-			if (foundParam.contains(name))
-				retval.add(new CiliaError("Parameter " + name + " is defined more than once", this));
-			else
-				foundParam.add(name);
-		}
-
-		return retval.toArray(new CiliaFlag[0]);
+		return IdentifiableUtils.getErrorsNonUniqueId(this, parameters);
 	}
 }

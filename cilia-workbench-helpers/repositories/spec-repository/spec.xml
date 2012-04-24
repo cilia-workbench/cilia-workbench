@@ -2,74 +2,77 @@
 <cilia-specifications>
 
 
-	
 
 
 
 
-	
 
 
 
+
+
+
+
+
+
+
+	<mediator-specification id="aa" namespace="aa">
+		<ports>
+			<in-port name="a" />
+			<out-port name="aaaa" />
+		</ports>
+		<properties>
+			<property key="kez" value="valuz" />
+		</properties>
+		<scheduler>
+			<parameters>
+				<parameter name="azerty" />
+			</parameters>
+		</scheduler>
+		<processor>
+			<parameters>
+				<parameter name="aaa" />
+				<parameter name="aaaaa" />
+			</parameters>
+		</processor>
+		<dispatcher>
+			<parameters>
+				<parameter name="a" />
+				<parameter name="aaa" />
+			</parameters>
+		</dispatcher>
+	</mediator-specification>
 
 
 	<mediator-specification id="my_spec" namespace="my.namespace">
 		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
+			<in-port name="in" />
+			<out-port name="out" />
 		</ports>
 		<properties>
-			<property key="category" value="sample"/>
-			<property key="secure" value="true"/>
+			<property key="category" value="sample" />
+			<property key="secure" value="true" />
 		</properties>
 		<scheduler>
 			<parameters>
-				<parameter name="period"/>
+				<parameter name="period" />
 			</parameters>
 		</scheduler>
 	</mediator-specification>
-
-
-<mediator-specification id="aa" namespace="aa">
-<ports>
-<in-port name="a"/>
-<out-port name="aaaa"/>
-</ports>
-<properties>
-<property key="kez" value="valuz"/>
-</properties>
-<scheduler>
-<parameters>
-<parameter name="azerty"/>
-</parameters>
-</scheduler>
-<processor>
-<parameters>
-<parameter name="aaa"/>
-<parameter name="aaaaa"/>
-</parameters>
-</processor>
-<dispatcher>
-<parameters>
-<parameter name="a"/>
-<parameter name="aaa"/>
-</parameters>
-</dispatcher>
-</mediator-specification>
-
-<mediator-specification id="other_spec" namespace="my.namespace">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-<properties>
-<property key="category" value="sample"/>
-<property key="secure" value="true"/>
-</properties>
-<scheduler>
-<parameters>
-<parameter name="period"/>
-</parameters>
-</scheduler>
-</mediator-specification>
+	<mediator-specification id="other_spec"
+		namespace="my.namespace">
+		<ports>
+			<in-port name="in" />
+			<out-port name="out" />
+		</ports>
+		<properties>
+			<property key="category" value="sample" />
+			<property key="secure" value="true" />
+		</properties>
+		<scheduler>
+			<parameters>
+				<parameter name="period" />
+			</parameters>
+		</scheduler>
+	</mediator-specification>
 </cilia-specifications>

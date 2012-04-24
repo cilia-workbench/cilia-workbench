@@ -66,7 +66,7 @@ public class Parameter implements DisplayedInPropertiesView, ErrorsAndWarningsFi
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkNotNull(this, name, "name");
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
 		CiliaFlag e2 = null;
 		if (method != null && field != null)
 			e2 = new CiliaError("method and field parameters are excusive", this);
