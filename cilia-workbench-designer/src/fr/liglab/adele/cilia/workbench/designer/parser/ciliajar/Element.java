@@ -75,9 +75,10 @@ public abstract class Element implements DisplayedInPropertiesView, ErrorsAndWar
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkNotNull(this, name, "name");
-		CiliaFlag e2 = CiliaError.checkNotNull(this, classname, "class name");
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, classname, "class name");
+		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, namespace, "name space");
 
-		return CiliaFlag.generateTab(e1, e2);
+		return CiliaFlag.generateTab(e1, e2, e3);
 	}
 }
