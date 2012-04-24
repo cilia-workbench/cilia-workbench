@@ -125,7 +125,7 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 			for (CiliaFlag flag : ((ErrorsAndWarningsFinder) this).getErrorsAndWarnings())
 				list.add(flag);
 
-		Set<Object> elements = getContentProvider().getElements();
+		Set<Object> elements = getContentProvider().getAllElements();
 		for (Object element : elements)
 			if (element instanceof ErrorsAndWarningsFinder)
 				for (CiliaFlag flag : ((ErrorsAndWarningsFinder) element).getErrorsAndWarnings())

@@ -43,33 +43,33 @@ public class SpecContentProvider extends GenericContentProvider {
 
 		for (SpecFile file : root) {
 
-			addRelationship(root, file);
+			addRelationship(true, root, file);
 
 			SpecModel model = file.getModel();
 			if (model != null) {
 				for (MediatorSpec spec : model.getMediatorSpecs()) {
-					addRelationship(file, spec);
+					addRelationship(true, file, spec);
 
 					Scheduler scheduler = spec.getScheduler();
-					if (addRelationship(spec, scheduler))
+					if (addRelationship(true, spec, scheduler))
 						for (Parameter p : scheduler.getParameters())
-							addRelationship(scheduler, p);
+							addRelationship(true, scheduler, p);
 
 					Processor processor = spec.getProcessor();
-					if (addRelationship(spec, processor))
+					if (addRelationship(true, spec, processor))
 						for (Parameter p : processor.getParameters())
-							addRelationship(processor, p);
+							addRelationship(true, processor, p);
 
 					Dispatcher dispatcher = spec.getDispatcher();
-					if (addRelationship(spec, dispatcher))
+					if (addRelationship(true, spec, dispatcher))
 						for (Parameter p : dispatcher.getParameters())
-							addRelationship(dispatcher, p);
+							addRelationship(true, dispatcher, p);
 
 					for (Property property : spec.getProperties())
-						addRelationship(spec, property);
+						addRelationship(true, spec, property);
 
 					for (Port port : spec.getPorts())
-						addRelationship(spec, port);
+						addRelationship(true, spec, port);
 				}
 			}
 		}

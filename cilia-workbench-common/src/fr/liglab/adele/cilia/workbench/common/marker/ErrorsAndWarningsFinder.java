@@ -23,7 +23,9 @@ package fr.liglab.adele.cilia.workbench.common.marker;
 public interface ErrorsAndWarningsFinder {
 
 	/**
-	 * Create a marker relative to the current object.
+	 * Gets all errors and warnings relative to the current element.
+	 * 
+	 * @return an array, which can be empty, but must NOT be null.
 	 */
 	public CiliaFlag[] getErrorsAndWarnings();
 }

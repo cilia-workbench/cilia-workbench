@@ -38,20 +38,20 @@ public class DsciliaContentProvider extends GenericContentProvider {
 		addRoot(repo);
 
 		for (DsciliaFile re : repo) {
-			addRelationship(repo, re);
+			addRelationship(true, repo, re);
 
 			if (re.getModel() != null) {
 				for (Chain c : re.getModel().getChains()) {
-					addRelationship(re, c);
-					
+					addRelationship(true, re, c);
+
 					for (AdapterInstance a : c.getAdapters())
-						addRelationship(c, a);
-					
+						addRelationship(false, c, a);
+
 					for (MediatorInstance m : c.getMediators())
-						addRelationship(c, m);
-					
+						addRelationship(false, c, m);
+
 					for (Binding b : c.getBindings())
-						addRelationship(c, b);
+						addRelationship(false, c, b);
 				}
 			}
 		}

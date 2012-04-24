@@ -22,12 +22,12 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Port;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
@@ -46,51 +46,51 @@ public class JarContentProvider extends GenericContentProvider {
 
 		for (CiliaJarFile bundle : model) {
 
-			addRelationship(model, bundle);
+			addRelationship(true, model, bundle);
 			CiliaJarModel ipojo = bundle.getModel();
 
 			if (ipojo != null) {
 				for (MediatorComponent mc : ipojo.getMediatorComponents()) {
-					addRelationship(bundle, mc);
+					addRelationship(true, bundle, mc);
 					for (Port p : mc.getPorts())
-						addRelationship(mc, p);
-					
+						addRelationship(true, mc, p);
+
 					for (Property p : mc.getProperties())
-						addRelationship(mc, p);
+						addRelationship(true, mc, p);
 				}
 
 				for (Processor p : ipojo.getProcessors()) {
-					addRelationship(bundle, p);
+					addRelationship(true, bundle, p);
 					for (Parameter param : p.getParameters())
-						addRelationship(p, param);
+						addRelationship(true, p, param);
 				}
 
 				for (Scheduler s : ipojo.getSchedulers()) {
-					addRelationship(bundle, s);
+					addRelationship(true, bundle, s);
 					for (Parameter param : s.getParameters())
-						addRelationship(s, param);
+						addRelationship(true, s, param);
 				}
 
 				for (Dispatcher d : ipojo.getDispatchers()) {
-					addRelationship(bundle, d);
+					addRelationship(true, bundle, d);
 					for (Parameter param : d.getParameters())
-						addRelationship(d, param);
+						addRelationship(true, d, param);
 				}
 
 				for (Collector c : ipojo.getCollectors()) {
-					addRelationship(bundle, c);
+					addRelationship(true, bundle, c);
 					for (Parameter param : c.getParameters())
-						addRelationship(c, param);
+						addRelationship(true, c, param);
 				}
 
 				for (Sender s : ipojo.getSenders()) {
-					addRelationship(bundle, s);
+					addRelationship(true, bundle, s);
 					for (Parameter param : s.getParameters())
-						addRelationship(s, param);
+						addRelationship(true, s, param);
 				}
 
 				for (Adapter a : ipojo.getAdapters())
-					addRelationship(bundle, a);
+					addRelationship(true, bundle, a);
 			}
 		}
 	}
