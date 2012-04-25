@@ -16,37 +16,15 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Processor extends Element {
-
-	private String methodName;
-	private String methodDataType;
+public class Processor extends SPDElement {
 
 	public Processor(Node node) throws MetadataException {
 		super(node);
-
-		Node methodNode = XMLHelpers.findChild(node, "method");
-		if (methodNode == null)
-			throw new MetadataException("method element not found");
-		XMLReflectionUtil.setAttribute(methodNode, "name", this, "methodName");
-		XMLReflectionUtil.setAttribute(methodNode, "data.type", this, "methodDataType");
-	}
-
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] e = super.getErrorsAndWarnings();
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, methodName, "method name");
-		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, methodDataType, "method data type");
-
-		return CiliaFlag.generateTab(e, e1, e2);
 	}
 }

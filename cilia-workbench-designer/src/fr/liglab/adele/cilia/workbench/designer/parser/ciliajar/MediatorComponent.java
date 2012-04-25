@@ -20,49 +20,55 @@ import java.util.Map;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorComponent implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
-
-	private String name;
+public class MediatorComponent extends Element {
 
 	private String schedulerName;
+	private String schedulerNamespace;
 	private String processorName;
+	private String processorNamespace;
 	private String dispatcherName;
+	private String dispatcherNamespace;
 	private List<Port> ports = new ArrayList<Port>();
 	private List<Property> properties = new ArrayList<Property>();
 
 	public MediatorComponent(Node node) throws MetadataException {
-
-		XMLReflectionUtil.setAttribute(node, "name", this, "name");
+		super(node);
 
 		Map<String, String> attrMap = XMLHelpers.findAttributesValues(node);
 		for (String attr : attrMap.keySet()) {
-			if (!attr.equalsIgnoreCase("name"))
+			if (!attr.equalsIgnoreCase("name") && !attr.equalsIgnoreCase("namespace"))
 				properties.add(new Property(attr, attrMap.get(attr)));
 		}
 
 		Node schedulerNode = XMLHelpers.findChild(node, "scheduler");
-		if (schedulerNode != null)
+		if (schedulerNode != null) {
 			XMLReflectionUtil.setAttribute(schedulerNode, "name", this, "schedulerName");
+			XMLReflectionUtil.setAttribute(schedulerNode, "namespace", this, "schedulerNamespace");
+		}
 
 		Node processorNode = XMLHelpers.findChild(node, "processor");
-		if (processorNode != null)
+		if (processorNode != null) {
 			XMLReflectionUtil.setAttribute(processorNode, "name", this, "processorName");
+			XMLReflectionUtil.setAttribute(processorNode, "namespace", this, "processorNamespace");
+		}
 
 		Node dispatcherNode = XMLHelpers.findChild(node, "dispatcher");
-		if (dispatcherNode != null)
+		if (dispatcherNode != null) {
 			XMLReflectionUtil.setAttribute(dispatcherNode, "name", this, "dispatcherName");
+			XMLReflectionUtil.setAttribute(dispatcherNode, "namespace", this, "dispatcherNamespace");
+		}
 
 		Node portsNode = XMLHelpers.findChild(node, "ports");
 		if (portsNode != null) {
@@ -75,17 +81,36 @@ public class MediatorComponent implements DisplayedInPropertiesView, ErrorsAndWa
 		}
 	}
 
-	@Override
-	public String toString() {
-		return name;
-	}
-
 	public List<Port> getPorts() {
 		return ports;
 	}
 
-	public String getName() {
-		return name;
+	public List<Port> getInPorts() {
+		List<Port> retval = new ArrayList<Port>();
+		for (Port p : ports)
+			if (p.isInPort())
+				retval.add(p);
+		return retval;
+	}
+
+	public List<Port> getOutPorts() {
+		List<Port> retval = new ArrayList<Port>();
+		for (Port p : ports)
+			if (p.isOutPort())
+				retval.add(p);
+		return retval;
+	}
+
+	public NameNamespace getSchedulerNameNamespace() {
+		return new NameNamespace(schedulerName, schedulerNamespace);
+	}
+
+	public NameNamespace getProcessorNameNamespace() {
+		return new NameNamespace(processorName, processorNamespace);
+	}
+
+	public NameNamespace getDispatcherNameNamespace() {
+		return new NameNamespace(dispatcherName, dispatcherNamespace);
 	}
 
 	public List<Property> getProperties() {
@@ -94,11 +119,29 @@ public class MediatorComponent implements DisplayedInPropertiesView, ErrorsAndWa
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, schedulerName, "scheduler name");
-		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, processorName, "processor name");
-		CiliaFlag e4 = CiliaError.checkStringNotNullOrEmpty(this, dispatcherName, "dispatcher name");
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
 
-		return CiliaFlag.generateTab(e1, e2, e3, e4);
+		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
+		for (CiliaFlag f : tab)
+			flagsTab.add(f);
+
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, schedulerName, "scheduler name");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, processorName, "processor name");
+		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, dispatcherName, "dispatcher name");
+		CiliaFlag e4 = null;
+		CiliaFlag e5 = null;
+
+		// ports
+		if (getInPorts().size() == 0)
+			e4 = new CiliaError("Mediator doesn't have an in port", this);
+		if (getOutPorts().size() == 0)
+			e5 = new CiliaError("Mediator doesn't have an out port", this);
+		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getInPorts()));
+		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getOutPorts()));
+
+		// properties
+		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, properties));
+
+		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4, e5);
 	}
 }

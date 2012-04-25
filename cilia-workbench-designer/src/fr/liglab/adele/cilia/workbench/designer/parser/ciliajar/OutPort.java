@@ -28,4 +28,12 @@ public class OutPort extends Port implements DisplayedInPropertiesView {
 	public OutPort(Node node) throws MetadataException {
 		super(node);
 	}
+
+	public boolean isInPort() {
+		return false;
+	}
+
+	public boolean isOutPort() {
+		return true;
+	}
 }

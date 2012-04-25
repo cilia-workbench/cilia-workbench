@@ -22,9 +22,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.IdNamespace;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
@@ -95,7 +95,7 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 	}
 
 	public Object getId() {
-		return new IdNamespace(id, namespace);
+		return new NameNamespace(id, namespace);
 	}
 
 	public String getNamespace() {
@@ -232,10 +232,10 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 		return id;
 	}
 
-	public static Element createXMLSpec(Document document, Node parent, IdNamespace id) {
+	public static Element createXMLSpec(Document document, Node parent, NameNamespace id) {
 		Element child = document.createElement(MediatorSpec.XML_NODE_NAME);
-		child.setAttribute(MediatorSpec.XML_ATTR_ID, (String) id.getId());
-		child.setAttribute(MediatorSpec.XML_ATTR_NAMESPACE, (String) id.getNamespace());
+		child.setAttribute(MediatorSpec.XML_ATTR_ID, id.getName());
+		child.setAttribute(MediatorSpec.XML_ATTR_NAMESPACE, id.getNamespace());
 		parent.appendChild(child);
 
 		return child;
@@ -271,7 +271,7 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 
-		List<CiliaFlag> errorList = new ArrayList<CiliaFlag>();
+		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id, "id");
 		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, namespace, "namespace");
 		CiliaFlag e3 = null;
@@ -282,12 +282,12 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 			e3 = new CiliaError("Mediator doesn't have an in port", this);
 		if (getOutPorts().size() == 0)
 			e4 = new CiliaError("Mediator doesn't have an out port", this);
-		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getInPorts()));
-		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getOutPorts()));
+		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getInPorts()));
+		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getOutPorts()));
 
 		// properties
-		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, properties));
+		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, properties));
 
-		return CiliaFlag.generateTab(errorList, e1, e2, e3, e4);
+		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4);
 	}
 }

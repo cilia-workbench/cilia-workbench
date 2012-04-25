@@ -14,13 +14,14 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
@@ -30,22 +31,25 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public abstract class Element implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
+public abstract class SCElement implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
 	private String name;
-	private String namespace;
+	private String classname;
+	private List<Parameter> parameters = new ArrayList<Parameter>();
 
-	public Element(Node node) throws MetadataException {
+	public SCElement(Node node) throws MetadataException {
+		parameters = Parameter.findParameters(node);
 		XMLReflectionUtil.setAttribute(node, "name", this, "name");
-		XMLReflectionUtil.setAttribute(node, "namespace", this, "namespace");
+		XMLReflectionUtil.setAttribute(node, "classname", this, "class name");
 	}
 
-	public String getName() {
+	public List<Parameter> getParameters() {
+		return parameters;
+	}
+
+	@Override
+	public Object getId() {
 		return name;
-	}
-
-	public String getNamespace() {
-		return namespace;
 	}
 
 	@Override
@@ -54,14 +58,9 @@ public abstract class Element implements DisplayedInPropertiesView, ErrorsAndWar
 	}
 
 	@Override
-	public Object getId() {
-		return new NameNamespace(name, namespace);
-	}
-
-	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, namespace, "namespace");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, classname, "class name");
 
 		return CiliaFlag.generateTab(e1, e2);
 	}

@@ -18,31 +18,31 @@ package fr.liglab.adele.cilia.workbench.common.identifiable;
  * 
  * @author Etienne Gandrille
  */
-public class IdNamespace {
+public class NameNamespace {
 
-	private final Object id;
-	private final Object namespace;
+	private final String name;
+	private final String namespace;
 
-	public IdNamespace(Object id, Object namespace) {
-		this.id = id;
+	public NameNamespace(String name, String namespace) {
+		this.name = name;
 		this.namespace = namespace;
 	}
 
-	public Object getId() {
-		return id;
+	public String getName() {
+		return name;
 	}
 
-	public Object getNamespace() {
+	public String getNamespace() {
 		return namespace;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof IdNamespace))
+		if (obj == null || !(obj instanceof NameNamespace))
 			return false;
-		IdNamespace o = (IdNamespace) obj;
+		NameNamespace o = (NameNamespace) obj;
 
-		if (!o.getId().equals(id))
+		if (!o.getName().equals(name))
 			return false;
 		if (!o.getNamespace().equals(namespace))
 			return false;

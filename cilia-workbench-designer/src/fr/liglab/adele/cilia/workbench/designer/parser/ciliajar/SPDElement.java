@@ -14,49 +14,41 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
+ * 
  */
-public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
+public abstract class SPDElement extends Element {
 
-	private String name;
+	private String classname;
+	private List<Parameter> parameters = new ArrayList<Parameter>();
 
-	public Port(Node node) throws MetadataException {
-		XMLReflectionUtil.setAttribute(node, "name", this, "name");
+	public SPDElement(Node node) throws MetadataException {
+		super(node);
+		parameters = Parameter.findParameters(node);
+		XMLReflectionUtil.setAttribute(node, "classname", this, "classname");
 	}
 
-	@Override
-	public String toString() {
-		return name;
+	public List<Parameter> getParameters() {
+		return parameters;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public Object getId() {
-		return name;
-	}
-
-	public abstract boolean isInPort();
-
-	public abstract boolean isOutPort();
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-		return CiliaFlag.generateTab(e);
+		CiliaFlag[] flags = super.getErrorsAndWarnings();
+		CiliaFlag e = CiliaError.checkStringNotNullOrEmpty(this, classname, "class name");
+
+		return CiliaFlag.generateTab(flags, e);
 	}
 }

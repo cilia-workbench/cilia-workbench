@@ -22,7 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
  * 
  * @author Etienne Gandrille
  */
-public class Collector extends Element {
+public class Collector extends SCElement {
 
 	public Collector(Node node) throws MetadataException {
 		super(node);

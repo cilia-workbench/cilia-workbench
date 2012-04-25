@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.IdNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.view.TextValidatorListener;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
@@ -139,7 +139,7 @@ public class NewMediatorDialog extends Dialog {
 		id = idText.getText();
 		namespace = namespaceText.getText();
 
-		String message = repoService.isNewMediatorSpecAllowed(new IdNamespace(id, namespace));
+		String message = repoService.isNewMediatorSpecAllowed(new NameNamespace(id, namespace));
 		if (message == null) {
 			errorLabel.setText("");
 			getButton(IDialogConstants.OK_ID).setEnabled(true);

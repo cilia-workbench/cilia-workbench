@@ -14,12 +14,16 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
@@ -44,6 +48,20 @@ public class Parameter implements DisplayedInPropertiesView, ErrorsAndWarningsFi
 		XMLReflectionUtil.setAttribute(node, XML_ATTR_METHOD, this, "method");
 		XMLReflectionUtil.setAttribute(node, XML_ATTR_VALUE, this, "value");
 		XMLReflectionUtil.setAttribute(node, XML_ATTR_FIELD, this, "field");
+	}
+
+	public static List<Parameter> findParameters(Node node) throws MetadataException {
+
+		List<Parameter> retval = new ArrayList<Parameter>();
+
+		Node rootParam = XMLHelpers.findChild(node, "properties");
+		if (rootParam != null) {
+			Node[] params = XMLHelpers.findChildren(rootParam, "property");
+			for (Node param : params)
+				retval.add(new Parameter(param));
+		}
+
+		return retval;
 	}
 
 	public String getName() {

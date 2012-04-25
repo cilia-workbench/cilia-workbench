@@ -18,21 +18,18 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Adapter implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public class Adapter extends Element {
 
 	private Node node;
 
-	private String name;
 	private String pattern;
 	// collector or sender type
 	private String elementType;
@@ -41,9 +38,9 @@ public class Adapter implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 	public static String OUT_PATTERN = "out-only";
 
 	public Adapter(Node node) throws MetadataException {
+		super(node);
 
 		this.node = node;
-		XMLReflectionUtil.setAttribute(node, "name", this, "name");
 		XMLReflectionUtil.setAttribute(node, "pattern", this, "pattern");
 
 		try {
@@ -58,13 +55,12 @@ public class Adapter implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 		return pattern;
 	}
 
-	@Override
-	public String toString() {
-		return name;
+	public boolean isInAdapter() {
+		return pattern.equals(IN_PATTERN);
 	}
 
-	public String getName() {
-		return name;
+	public boolean isOutAdapter() {
+		return pattern.equals(OUT_PATTERN);
 	}
 
 	private static Node getSubNode(Node rootNode, String pattern) throws MetadataException {
@@ -93,21 +89,21 @@ public class Adapter implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 	 */
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] flagsTab = super.getErrorsAndWarnings();
 
-		CiliaError e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+		CiliaError e1 = null;
 		CiliaError e2 = null;
-		CiliaError e3 = null;
 
 		// pattern and element type validation
 		try {
 			// pattern validation
 			getSubNode(node, pattern);
 			// element type validation
-			e2 = CiliaError.checkStringNotNullOrEmpty(this, elementType, "elementType");
+			e1 = CiliaError.checkStringNotNullOrEmpty(this, elementType, "elementType");
 		} catch (MetadataException e) {
-			e3 = new CiliaError(e.getMessage(), this);
+			e2 = new CiliaError(e.getMessage(), this);
 		}
 
-		return CiliaFlag.generateTab(e1, e2, e3);
+		return CiliaFlag.generateTab(flagsTab, e1, e2);
 	}
 }

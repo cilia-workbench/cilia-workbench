@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
@@ -25,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
 	/** The key. */
 	private final String key;
@@ -44,6 +45,11 @@ public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFin
 	public Property(String key, String value) {
 		this.key = key;
 		this.value = value;
+	}
+
+	@Override
+	public Object getId() {
+		return key;
 	}
 
 	/**

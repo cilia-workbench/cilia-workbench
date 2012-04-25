@@ -22,7 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
  * 
  * @author Etienne Gandrille
  */
-public class Scheduler extends Element {
+public class Scheduler extends SPDElement {
 
 	public Scheduler(Node node) throws MetadataException {
 		super(node);
