@@ -94,10 +94,10 @@ public class MediatorComponent implements DisplayedInPropertiesView, ErrorsAndWa
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkNotNull(this, name, "name");
-		CiliaFlag e2 = CiliaError.checkNotNull(this, schedulerName, "scheduler name");
-		CiliaFlag e3 = CiliaError.checkNotNull(this, processorName, "processor name");
-		CiliaFlag e4 = CiliaError.checkNotNull(this, dispatcherName, "dispatcher name");
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, schedulerName, "scheduler name");
+		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, processorName, "processor name");
+		CiliaFlag e4 = CiliaError.checkStringNotNullOrEmpty(this, dispatcherName, "dispatcher name");
 
 		return CiliaFlag.generateTab(e1, e2, e3, e4);
 	}

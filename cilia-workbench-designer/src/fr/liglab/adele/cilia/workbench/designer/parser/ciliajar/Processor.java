@@ -44,8 +44,8 @@ public class Processor extends Element {
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag[] e = super.getErrorsAndWarnings();
-		CiliaFlag e1 = CiliaError.checkNotNull(this, methodName, "method name");
-		CiliaFlag e2 = CiliaError.checkNotNull(this, methodDataType, "method data type");
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, methodName, "method name");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, methodDataType, "method data type");
 
 		return CiliaFlag.generateTab(e, e1, e2);
 	}
