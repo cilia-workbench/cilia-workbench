@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
@@ -37,7 +38,7 @@ public abstract class Element implements DisplayedInPropertiesView, ErrorsAndWar
 
 	public Element(Node node) throws MetadataException {
 		XMLReflectionUtil.setAttribute(node, "name", this, "name");
-		XMLReflectionUtil.setAttribute(node, "namespace", this, "namespace");
+		XMLReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.getDefaultNamespace());
 	}
 
 	public String getName() {

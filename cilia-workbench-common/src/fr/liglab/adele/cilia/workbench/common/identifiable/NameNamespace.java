@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.common.identifiable;
 
+import com.google.common.base.Strings;
+
 /**
  * 
  * @author Etienne Gandrille
@@ -42,11 +44,16 @@ public class NameNamespace {
 			return false;
 		NameNamespace o = (NameNamespace) obj;
 
-		if (!o.getName().equals(name))
+		if (!Strings.nullToEmpty(o.getName()).equals(Strings.nullToEmpty(name)))
 			return false;
-		if (!o.getNamespace().equals(namespace))
+		if (!Strings.nullToEmpty(o.getNamespace()).equals(Strings.nullToEmpty(namespace)))
 			return false;
 
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }

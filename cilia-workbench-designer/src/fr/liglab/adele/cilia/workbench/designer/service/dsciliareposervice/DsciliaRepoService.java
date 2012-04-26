@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
@@ -32,8 +33,9 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
- * A central place for managing the DScilia repository. The repository can be asked to refresh the model. The repository
- * can be asked to send model update notifications.
+ * A central place for managing the DScilia repository. The repository can be
+ * asked to refresh the model. The repository can be asked to send model update
+ * notifications.
  * 
  * @author Etienne Gandrille
  */
@@ -63,7 +65,8 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	}
 
 	/**
-	 * Constructor. Registers for repository path update and constructs the model.
+	 * Constructor. Registers for repository path update and constructs the
+	 * model.
 	 */
 	private DsciliaRepoService() {
 		super(PREFERENCE_PATH_KEY, ext, repositoryName);
@@ -89,14 +92,14 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 
 		// Update markers relative to this repository
 		updateMarkers();
-		
+
 		// Sends notifications
 		notifyListeners(changes);
 	}
 
 	/**
-	 * Merge a list of repo element into the current model. Only differences between the argument and the model are
-	 * merge back into the model.
+	 * Merge a list of repo element into the current model. Only differences
+	 * between the argument and the model are merge back into the model.
 	 * 
 	 * @param repoElements
 	 *            a new model
@@ -135,7 +138,8 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService#getContentForNewFile()
+	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.
+	 * AbstractRepoService#getContentForNewFile()
 	 */
 	@Override
 	protected String getContentForNewFile() {
@@ -212,14 +216,14 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 			return null;
 	}
 
-	public void createMediatorInstance(Chain chain, String id, String type) throws MetadataException {
+	public void createMediatorInstance(Chain chain, String id, NameNamespace type) throws MetadataException {
 		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
 		repo.getModel().createMediatorInstance(chain, id, type);
 	}
 
-	public void createAdapterInstance(Chain chain, String id, String type) throws MetadataException {
+	public void createAdapterInstance(Chain chain, String id, NameNamespace type) throws MetadataException {
 		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;

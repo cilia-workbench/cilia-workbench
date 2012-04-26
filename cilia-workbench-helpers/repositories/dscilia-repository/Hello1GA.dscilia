@@ -23,7 +23,7 @@
 
 			</mediator-instance>
 
-		</mediators>
+</mediators>
 
 		<!-- Bindings definition -->
 		<bindings>

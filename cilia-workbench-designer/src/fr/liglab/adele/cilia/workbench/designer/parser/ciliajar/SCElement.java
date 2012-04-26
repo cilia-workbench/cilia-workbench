@@ -20,6 +20,7 @@ import java.util.List;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
@@ -59,9 +60,11 @@ public abstract class SCElement implements DisplayedInPropertiesView, ErrorsAndW
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
+		List<CiliaFlag> flagsTab = IdentifiableUtils.getErrorsNonUniqueId(this, parameters);
+
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
 		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, classname, "class name");
 
-		return CiliaFlag.generateTab(e1, e2);
+		return CiliaFlag.generateTab(flagsTab, e1, e2);
 	}
 }

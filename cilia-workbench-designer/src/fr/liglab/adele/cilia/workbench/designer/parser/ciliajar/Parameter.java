@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
@@ -31,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class Parameter implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public class Parameter implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
 	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_METHOD = "method";
@@ -62,6 +63,11 @@ public class Parameter implements DisplayedInPropertiesView, ErrorsAndWarningsFi
 		}
 
 		return retval;
+	}
+
+	@Override
+	public Object getId() {
+		return name;
 	}
 
 	public String getName() {

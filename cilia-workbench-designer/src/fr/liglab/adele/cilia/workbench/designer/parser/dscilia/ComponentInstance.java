@@ -31,10 +31,12 @@ public abstract class ComponentInstance implements DisplayedInPropertiesView, Er
 
 	protected String id;
 	protected String type;
+	protected String namespace;
 
 	public ComponentInstance(Node node) throws MetadataException {
 		XMLReflectionUtil.setAttribute(node, "id", this, "id");
 		XMLReflectionUtil.setAttribute(node, "type", this, "type");
+		XMLReflectionUtil.setAttribute(node, "namespace", this, "namespace");
 	}
 
 	public String getId() {
@@ -43,6 +45,10 @@ public abstract class ComponentInstance implements DisplayedInPropertiesView, Er
 
 	public String getType() {
 		return type;
+	}
+
+	public String getNamespace() {
+		return namespace;
 	}
 
 	@Override

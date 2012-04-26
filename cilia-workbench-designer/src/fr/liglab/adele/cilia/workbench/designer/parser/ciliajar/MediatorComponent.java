@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
@@ -46,6 +47,8 @@ public class MediatorComponent extends Element {
 	public MediatorComponent(Node node) throws MetadataException {
 		super(node);
 
+		String defNs = CiliaConstants.getDefaultNamespace();
+
 		Map<String, String> attrMap = XMLHelpers.findAttributesValues(node);
 		for (String attr : attrMap.keySet()) {
 			if (!attr.equalsIgnoreCase("name") && !attr.equalsIgnoreCase("namespace"))
@@ -55,18 +58,18 @@ public class MediatorComponent extends Element {
 		Node schedulerNode = XMLHelpers.findChild(node, "scheduler");
 		if (schedulerNode != null) {
 			XMLReflectionUtil.setAttribute(schedulerNode, "name", this, "schedulerName");
-			XMLReflectionUtil.setAttribute(schedulerNode, "namespace", this, "schedulerNamespace");
+			XMLReflectionUtil.setAttribute(schedulerNode, "namespace", this, "schedulerNamespace", defNs);
 		}
 
 		Node processorNode = XMLHelpers.findChild(node, "processor");
 		if (processorNode != null) {
 			XMLReflectionUtil.setAttribute(processorNode, "name", this, "processorName");
-			XMLReflectionUtil.setAttribute(processorNode, "namespace", this, "processorNamespace");
+			XMLReflectionUtil.setAttribute(processorNode, "namespace", this, "processorNamespace", defNs);
 		}
 
 		Node dispatcherNode = XMLHelpers.findChild(node, "dispatcher");
 		if (dispatcherNode != null) {
-			XMLReflectionUtil.setAttribute(dispatcherNode, "name", this, "dispatcherName");
+			XMLReflectionUtil.setAttribute(dispatcherNode, "name", this, "dispatcherName", defNs);
 			XMLReflectionUtil.setAttribute(dispatcherNode, "namespace", this, "dispatcherNamespace");
 		}
 

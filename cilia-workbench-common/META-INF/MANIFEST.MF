@@ -16,6 +16,7 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: fr.liglab.adele.cilia.workbench.common,
+ fr.liglab.adele.cilia.workbench.common.cilia,
  fr.liglab.adele.cilia.workbench.common.identifiable,
  fr.liglab.adele.cilia.workbench.common.jface,
  fr.liglab.adele.cilia.workbench.common.marker,

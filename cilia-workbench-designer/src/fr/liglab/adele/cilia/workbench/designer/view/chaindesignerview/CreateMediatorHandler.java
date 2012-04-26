@@ -18,6 +18,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.window.Window;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
@@ -37,7 +38,7 @@ public class CreateMediatorHandler extends ChainDesignerHandler {
 			NewMediatorInstanceWindow window = new NewMediatorInstanceWindow(ViewUtil.getShell(event), chain);
 			if (window.open() == Window.OK) {
 				String id = window.getComponentId();
-				String type = window.getComponentType();
+				NameNamespace type = window.getComponentType();
 				try {
 					DsciliaRepoService.getInstance().createMediatorInstance(chain, id, type);
 				} catch (MetadataException e) {

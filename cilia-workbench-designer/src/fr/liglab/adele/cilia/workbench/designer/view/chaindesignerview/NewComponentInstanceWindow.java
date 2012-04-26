@@ -14,6 +14,9 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -32,6 +35,7 @@ import org.eclipse.swt.widgets.Text;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 
 /**
@@ -40,8 +44,10 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
  */
 public abstract class NewComponentInstanceWindow extends Dialog {
 
-	/** The mediators id, found in the jar repository. */
-	protected String[] componentsId = new String[0];
+	/** The component id, found in the jar repository. */
+	protected NameNamespace[] componentsId = new NameNamespace[0];
+
+	Map<String, NameNamespace> stringToId = new HashMap<String, NameNamespace>();
 
 	private final String componentName;
 
@@ -81,7 +87,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	/** The component id. */
 	private String componentId;
 	/** The component type. */
-	private String componentType;
+	private NameNamespace componentType;
 
 	/**
 	 * Instantiates a new new component instance window.
@@ -103,7 +109,9 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
@@ -134,8 +142,13 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 
 		// Type Combo
 		typeCombo = new Combo(container, SWT.NONE);
-		for (String mediatorId : componentsId)
-			typeCombo.add(mediatorId);
+		for (NameNamespace compoId : componentsId) {
+			String str = compoId.getName();
+			if (!Strings.isNullOrEmpty(compoId.getNamespace()))
+				str = str + " (" + compoId.getNamespace() + ")";
+			typeCombo.add(str);
+			stringToId.put(str, compoId);
+		}
 		typeCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// Message Area
@@ -176,14 +189,16 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	 * 
 	 * @return the component type
 	 */
-	public String getComponentType() {
+	public NameNamespace getComponentType() {
 		return componentType;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse .swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
@@ -208,7 +223,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 		return true;
 	}
 
-	protected abstract String checkValidValues(String id, String type);
+	protected abstract String checkValidValues(String id, NameNamespace type);
 
 	/**
 	 * Listener invoked each time the user modifies a field in this window.
@@ -220,28 +235,35 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+		 * @see
+		 * org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.
+		 * events.ModifyEvent)
 		 */
 		@Override
 		public void modifyText(ModifyEvent e) {
 			String id = idText.getText();
-			String type = typeCombo.getText();
-			String msg = checkValidValues(id, type);
+			String str = typeCombo.getText();
+			NameNamespace nn = stringToId.get(str);
+
+			String msg = checkValidValues(id, nn);
 
 			getButton(IDialogConstants.OK_ID).setEnabled(msg == null);
 
 			boolean found = false;
 			for (int i = 0; i < componentsId.length && !found; i++)
-				if (componentsId[i].equalsIgnoreCase(type))
+				if (componentsId[i].equals(nn))
 					found = true;
 
 			if (msg == null && !found)
-				messageArea.setText("Warning: " + componentName + " type " + type + " doesn't exists in repository.");
+				messageArea.setText("Warning: " + componentName + " type " + str + " doesn't exists in repository.");
 			else
 				messageArea.setText(Strings.nullToEmpty(msg));
 
 			componentId = idText.getText();
-			componentType = typeCombo.getText();
+			if (nn != null)
+				componentType = nn;
+			else
+				throw new RuntimeException("BUG TO BE FIX");
 		}
 	}
 }

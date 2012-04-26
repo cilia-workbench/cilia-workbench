@@ -25,6 +25,7 @@ import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -32,7 +33,8 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
 /**
- * A {@link DsciliaModel} represents the content of a <strong>well formed<strong> {@link DsciliaFile}.
+ * A {@link DsciliaModel} represents the content of a <strong>well
+ * formed<strong> {@link DsciliaFile}.
  * 
  * @author Etienne Gandrille
  */
@@ -105,17 +107,17 @@ public class DsciliaModel {
 			return results[0];
 	}
 
-	public void createMediatorInstance(Chain chain, String id, String type) throws MetadataException {
+	public void createMediatorInstance(Chain chain, String id, NameNamespace type) throws MetadataException {
 		if (chain.isNewMediatorInstanceAllowed(id, type) == null)
 			createComponentInstanceInternal(chain, id, type, "mediator");
 	}
 
-	public void createAdapterInstance(Chain chain, String id, String type) throws MetadataException {
+	public void createAdapterInstance(Chain chain, String id, NameNamespace type) throws MetadataException {
 		if (chain.isNewAdapterInstanceAllowed(id, type) == null)
 			createComponentInstanceInternal(chain, id, type, "adapter");
 	}
 
-	private void createComponentInstanceInternal(Chain chain, String id, String type, String componentName)
+	private void createComponentInstanceInternal(Chain chain, String id, NameNamespace type, String componentName)
 			throws MetadataException {
 		File file = new File(filePath);
 		Document document = XMLHelpers.getDocument(file);
@@ -124,7 +126,8 @@ public class DsciliaModel {
 
 		Element child = document.createElement(componentName + "-instance");
 		child.setAttribute("id", id);
-		child.setAttribute("type", type);
+		child.setAttribute("type", type.getName());
+		child.setAttribute("namespace", type.getNamespace());
 		componentNode.appendChild(child);
 
 		// Write it back to file system

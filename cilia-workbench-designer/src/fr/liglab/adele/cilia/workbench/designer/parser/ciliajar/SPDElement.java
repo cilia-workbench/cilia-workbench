@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
@@ -47,8 +48,13 @@ public abstract class SPDElement extends Element {
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag[] flags = super.getErrorsAndWarnings();
+
+		List<CiliaFlag> flagsTab = IdentifiableUtils.getErrorsNonUniqueId(this, parameters);
+		for (CiliaFlag flag : flags)
+			flagsTab.add(flag);
+
 		CiliaFlag e = CiliaError.checkStringNotNullOrEmpty(this, classname, "class name");
 
-		return CiliaFlag.generateTab(flags, e);
+		return CiliaFlag.generateTab(flagsTab, e);
 	}
 }

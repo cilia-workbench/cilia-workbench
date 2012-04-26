@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.base.Preconditions;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
@@ -84,7 +85,9 @@ public class NewBindingWindow extends Dialog {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
@@ -133,7 +136,7 @@ public class NewBindingWindow extends Dialog {
 			dstElemCombo.add(item.getId());
 		}
 		for (AdapterInstance item : chain.getAdapters()) {
-			String id = item.getType();
+			NameNamespace id = new NameNamespace(item.getType(), item.getNamespace());
 			Adapter a = JarRepoService.getInstance().getAdapter(id);
 			if (a == null) {
 				srcElemCombo.add(item.getId());
@@ -207,7 +210,9 @@ public class NewBindingWindow extends Dialog {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse .swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
@@ -284,7 +289,8 @@ public class NewBindingWindow extends Dialog {
 						return;
 					} else {
 						comboPort.setEnabled(true);
-						MediatorComponent m = JarRepoService.getInstance().getMediator(i.getType());
+						MediatorComponent m = JarRepoService.getInstance().getMediator(
+								new NameNamespace(i.getType(), i.getNamespace()));
 						if (m != null) {
 							for (Port p : m.getPorts()) {
 								if (p instanceof InPort && portType.equals(IN_PORT))
