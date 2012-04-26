@@ -28,11 +28,8 @@ import fr.liglab.adele.cilia.workbench.designer.Activator;
  */
 public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
-	/** The Constant REPOSITORY_PATH, used for field identification in the page */
 	public static final String JAR_REPOSITORY_PATH = "jarRepositoryPath";
-
 	public static final String DSCILIA_REPOSITORY_PATH = "dsciliaRepositoryPath";
-
 	public static final String SPEC_REPOSITORY_PATH = "specRepositoryPath";
 
 	/** Page header. */
@@ -48,7 +45,9 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage imple
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors
+	 * ()
 	 */
 	public void createFieldEditors() {
 		addField(new DirectoryFieldEditor(JAR_REPOSITORY_PATH, "&Jar repository path:", getFieldEditorParent()));
@@ -60,7 +59,8 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage imple
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 * @see
+	 * org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());

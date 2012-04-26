@@ -27,6 +27,6 @@ public abstract class DsciliaViewHandler extends RepositoryViewHandler {
 	 * Instantiates a new dscilia handler, providing the view ID to the super class.
 	 */
 	public DsciliaViewHandler() {
-		super(DsciliaRepositoryView.viewID);
+		super(DsciliaRepositoryView.VIEW_ID);
 	}
 }

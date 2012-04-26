@@ -3,7 +3,7 @@
 <plugin>
 	<extension point="org.eclipse.ui.services">
 		<sourceProvider
-			provider="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.VariablesSourceProvider">
+			provider="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.ToolbarEnabler">
 			<variable
 				name="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable"
 				priorityLevel="workbench">
@@ -383,8 +383,8 @@
 	</extension>
 	<extension point="org.eclipse.ui.perspectives">
 		<perspective
-			class="fr.liglab.adele.cilia.workbench.designer.perspective.DefaultPerspective"
-			id="fr.liglab.adele.cilia.workbench.designer.perspective.defaultperspective"
+			class="fr.liglab.adele.cilia.workbench.designer.perspective.DesignerPerspective"
+			id="fr.liglab.adele.cilia.workbench.designer.perspective.designerperspective"
 			name="Cilia designer">
 		</perspective>
 	</extension>

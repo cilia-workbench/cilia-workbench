@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
 
 /**
+ * Content provider for graph renderer.
  * 
  * @author Etienne Gandrille
  */

@@ -31,6 +31,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Dscil
 import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DsciliaRepositoryView;
 
 /**
+ * The chain designer view.
  * 
  * @author Etienne Gandrille
  */
@@ -54,7 +55,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 		// Registers the instance in the selection service
 		ISelectionService s = getSite().getWorkbenchWindow().getSelectionService();
-		s.addSelectionListener(DsciliaRepositoryView.viewID, this);
+		s.addSelectionListener(DsciliaRepositoryView.VIEW_ID, this);
 
 		setPartName(DEFAULT_PART_NAME);
 		viewer.setContentProvider(contentProvider);
@@ -72,7 +73,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 			viewer.setInput(new Object[0]);
 			setPartName(DEFAULT_PART_NAME);
 		}
-		ToggleSourceProvider.setToggleVariable(VariablesSourceProvider.VARIABLE_NAME, chain != null);
+		ToggleSourceProvider.setToggleVariable(ToolbarEnabler.VARIABLE_NAME, chain != null);
 		viewer.refresh();
 		this.model = chain;
 	}

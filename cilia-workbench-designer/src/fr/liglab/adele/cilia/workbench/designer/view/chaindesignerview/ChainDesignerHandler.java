@@ -20,6 +20,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 
 /**
+ * Base Handler for the chain designer view.
  * 
  * @author Etienne Gandrille
  */

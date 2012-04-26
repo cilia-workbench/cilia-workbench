@@ -28,6 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
+ * Represents a basic XML element, with name and namespace attributes.
  * 
  * @author Etienne Gandrille
  */

@@ -34,7 +34,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryVi
  */
 public class DsciliaRepositoryView extends RepositoryView<DsciliaFile, DsciliaModel> {
 
-	public final static String viewID = "fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview";
+	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview";
 
 	public DsciliaRepositoryView() {
 		super(DsciliaRepoService.getInstance());

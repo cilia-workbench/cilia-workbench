@@ -26,9 +26,10 @@ import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 
 /**
+ * Base class for implementing {@link Scheduler}, {@link Processor} and
+ * {@link Dispatcher}.
  * 
  * @author Etienne Gandrille
- * 
  */
 public abstract class SPDElement extends Element {
 

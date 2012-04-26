@@ -37,11 +37,15 @@ public class MediatorComponent extends Element {
 
 	private String schedulerName;
 	private String schedulerNamespace;
+
 	private String processorName;
 	private String processorNamespace;
+
 	private String dispatcherName;
 	private String dispatcherNamespace;
+
 	private List<Port> ports = new ArrayList<Port>();
+
 	private List<Property> properties = new ArrayList<Property>();
 
 	public MediatorComponent(Node node) throws CiliaException {

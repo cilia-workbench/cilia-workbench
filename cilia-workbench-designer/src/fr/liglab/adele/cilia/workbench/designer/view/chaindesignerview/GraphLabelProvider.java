@@ -14,20 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
-import org.osgi.framework.Bundle;
 
-import fr.liglab.adele.cilia.workbench.common.Activator;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
  * Label provider for the tree viewer.
@@ -36,51 +27,19 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
  */
 public class GraphLabelProvider extends LabelProvider {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
-	 */
-	public String getText(Object obj) {
+	@Override
+	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
+
+		ImageDescriptorEnum imageName;
 		if (obj instanceof AdapterInstance)
-			return ((AdapterInstance) obj).getId();
-		if (obj instanceof MediatorInstance)
-			return ((MediatorInstance) obj).getId();
-
-		if (obj instanceof EntityConnectionData)
-			return "";
-
-		throw new RuntimeException("Unsupported type: " + obj.getClass());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
-	 */
-	public Image getImage(Object obj) {
-		String imageName;
-		if (obj instanceof AdapterInstance)
-			imageName = "icons/16/adapterIn.png";
+			imageName = ImageDescriptorEnum.ADAPTER_IN;
 		else if (obj instanceof MediatorInstance)
-			imageName = "icons/16/mediator.png";
+			imageName = ImageDescriptorEnum.MEDIATOR;
 		else if (obj instanceof EntityConnectionData)
-			imageName = null;
+			imageName = ImageDescriptorEnum.NOTHING;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
 
-		if (imageName != null) {
-			Bundle bundle = Activator.getDefault().getBundle();
-			URL url = FileLocator.find(bundle, new Path(imageName), null);
-			try {
-				url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imageName);
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-			ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
-
-			return imageDesc.createImage();
-		} else
-			return null;
+		return imageName;
 	}
 }

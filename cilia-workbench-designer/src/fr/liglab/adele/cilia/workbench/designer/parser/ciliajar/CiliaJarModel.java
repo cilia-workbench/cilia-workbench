@@ -33,10 +33,6 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public class CiliaJarModel implements DisplayedInPropertiesView {
 
-	/* ============= */
-	/* Model objects */
-	/* ============= */
-
 	private List<MediatorComponent> mediatorComponents = new ArrayList<MediatorComponent>();
 	private List<Processor> processors = new ArrayList<Processor>();
 	private List<Scheduler> schedulers = new ArrayList<Scheduler>();

@@ -17,17 +17,18 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvider;
 
 /**
+ * Toggle variable used to enable and disable toolbar buttons.
  * 
  * @author Etienne Gandrille
  */
-public class VariablesSourceProvider extends ToggleSourceProvider {
+public class ToolbarEnabler extends ToggleSourceProvider {
 
 	public final static String VARIABLE_NAME = "fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable";
 	private final static String TOOLBAR_ENABLE = "enable";
 	private final static String TOOLBAR_DISABLE = "disable";
 	private final static boolean defaultValue = false;
 
-	public VariablesSourceProvider() {
+	public ToolbarEnabler() {
 		super(VARIABLE_NAME, TOOLBAR_ENABLE, TOOLBAR_DISABLE, defaultValue);
 	}
 }

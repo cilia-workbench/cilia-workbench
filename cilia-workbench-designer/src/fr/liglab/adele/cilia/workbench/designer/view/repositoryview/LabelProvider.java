@@ -51,7 +51,7 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 	 * @author Etienne Gandrille
 	 */
 	public enum ImageDescriptorEnum {
-		FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT("adapterOut.png"), REPOSITORY(
+		NOTHING(null), FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT("adapterOut.png"), REPOSITORY(
 				"repo.png"), MEDIATOR("mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR("processor.png"), DISPATCHER(
 				"dispatcher.png"), COLLECTOR("collector.png"), SENDER("sender.png"), PORT_IN("portIn.png"), PORT_OUT(
 				"portOut.png"), PROPERTY("property.png"), BINDING("binding.png");
@@ -84,6 +84,8 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 		 * @return The Image object.
 		 */
 		public Image getImageOK() {
+			if (fileName == null)
+				return null;
 			if (imageOK == null)
 				imageOK = createImageFromPath("icons/16/" + fileName);
 
@@ -97,6 +99,8 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 		 * @return The Image object.
 		 */
 		public Image getImageError() {
+			if (fileName == null)
+				return null;
 			if (imageError == null)
 				imageError = createImageFromPath("icons/16-error/" + fileName);
 
@@ -110,6 +114,8 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 		 * @return The Image object.
 		 */
 		public Image getImageWarning() {
+			if (fileName == null)
+				return null;
 			if (imageWarning == null)
 				imageWarning = createImageFromPath("icons/16-warning/" + fileName);
 
@@ -165,5 +171,14 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 			return descriptor.getImageWarning();
 
 		return descriptor.getImageOK();
+	}
+
+	@Override
+	public String getText(Object element) {
+		String def = super.getText(element);
+		if (getImageDescriptor(element).equals(ImageDescriptorEnum.NOTHING))
+			return "";
+		else
+			return def;
 	}
 }

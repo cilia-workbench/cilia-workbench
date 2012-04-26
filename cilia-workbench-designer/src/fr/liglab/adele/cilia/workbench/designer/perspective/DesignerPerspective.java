@@ -18,15 +18,17 @@ import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
+import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.CiliaErrorView;
 import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DsciliaRepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.JarRepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.SpecRepositoryView;
 
 /**
+ * The Cilia Workbench designer perspective.
  * 
  * @author Etienne Gandrille
  */
-public class DefaultPerspective implements IPerspectiveFactory {
+public class DesignerPerspective implements IPerspectiveFactory {
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -36,13 +38,13 @@ public class DefaultPerspective implements IPerspectiveFactory {
 
 		// Left folder
 		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, (float) 0.20, editorArea);
-		left.addView(SpecRepositoryView.viewID);
-		left.addView(JarRepositoryView.viewID);
-		left.addView(DsciliaRepositoryView.viewID);
+		left.addView(SpecRepositoryView.VIEW_ID);
+		left.addView(JarRepositoryView.VIEW_ID);
+		left.addView(DsciliaRepositoryView.VIEW_ID);
 
 		// Bottom folder
 		IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, (float) 0.70, editorArea);
 		bottom.addView(IPageLayout.ID_PROP_SHEET);
-
+		bottom.addView(CiliaErrorView.VIEW_ID);
 	}
 }

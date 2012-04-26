@@ -27,6 +27,6 @@ public abstract class SpecHandler extends RepositoryViewHandler {
 	 * Instantiates a new spec handler, providing the view ID to the super class.
 	 */
 	public SpecHandler() {
-		super(SpecRepositoryView.viewID);
+		super(SpecRepositoryView.VIEW_ID);
 	}
 }
