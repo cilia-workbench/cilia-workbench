@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public class InPort extends Port implements DisplayedInPropertiesView {
 
-	public InPort(Node node) throws MetadataException {
+	public InPort(Node node) throws CiliaException {
 		super(node);
 	}
 

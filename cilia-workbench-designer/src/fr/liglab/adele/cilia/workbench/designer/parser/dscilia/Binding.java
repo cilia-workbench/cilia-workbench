@@ -16,10 +16,10 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -34,7 +34,7 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 	private String from;
 	private String to;
 
-	public Binding(Node node) throws MetadataException {
+	public Binding(Node node) throws CiliaException {
 		XMLReflectionUtil.setAttribute(node, "from", this, "from");
 		XMLReflectionUtil.setAttribute(node, "to", this, "to");
 	}

@@ -18,6 +18,8 @@ import java.lang.reflect.Field;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+
 /**
  * A few methods, for reading XML and injecting values into fields.
  * 
@@ -26,17 +28,17 @@ import org.w3c.dom.Node;
 public class XMLReflectionUtil {
 
 	public static boolean setAttribute(Node node, String attrName, Object object, String fieldName)
-			throws MetadataException {
+			throws CiliaException {
 		return setAttribute(node, attrName, object, fieldName, null);
 	}
 
 	public static boolean setAttribute(Node node, String attrName, Object object, String fieldName, String defaultValue)
-			throws MetadataException {
+			throws CiliaException {
 		return setAttributeInternal(false, defaultValue, node, attrName, object, fieldName);
 	}
 
 	private static boolean setAttributeInternal(boolean requiredAttribute, String defaultValue, Node node,
-			String attrName, Object object, String fieldName) throws MetadataException {
+			String attrName, Object object, String fieldName) throws CiliaException {
 
 		Exception exception = null;
 		boolean retval = true;
@@ -59,10 +61,10 @@ public class XMLReflectionUtil {
 			String value = null;
 			try {
 				value = XMLHelpers.findAttributeValue(node, attrName);
-			} catch (MetadataException e) {
+			} catch (CiliaException e) {
 				retval = false;
 				if (requiredAttribute == true)
-					throw new MetadataException(e);
+					throw new CiliaException(e);
 				else if (defaultValue != null)
 					value = defaultValue;
 			}
@@ -83,7 +85,7 @@ public class XMLReflectionUtil {
 
 		// If there's an error
 		if (exception != null)
-			throw new MetadataException("", exception);
+			throw new CiliaException("", exception);
 
 		// Success
 		return retval;

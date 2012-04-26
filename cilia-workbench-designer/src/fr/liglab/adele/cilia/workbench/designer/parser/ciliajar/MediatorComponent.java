@@ -21,11 +21,11 @@ import java.util.Map;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 
@@ -44,7 +44,7 @@ public class MediatorComponent extends Element {
 	private List<Port> ports = new ArrayList<Port>();
 	private List<Property> properties = new ArrayList<Property>();
 
-	public MediatorComponent(Node node) throws MetadataException {
+	public MediatorComponent(Node node) throws CiliaException {
 		super(node);
 
 		String defNs = CiliaConstants.getDefaultNamespace();

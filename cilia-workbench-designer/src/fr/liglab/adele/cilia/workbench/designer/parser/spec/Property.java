@@ -17,12 +17,12 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -42,7 +42,7 @@ public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFin
 	public static final String XML_ATTR_VALUE = "value";
 	private String value;
 
-	public Property(Node node) throws MetadataException {
+	public Property(Node node) throws CiliaException {
 		XMLReflectionUtil.setAttribute(node, XML_ATTR_KEY, this, "key");
 		XMLReflectionUtil.setAttribute(node, XML_ATTR_VALUE, this, "value");
 	}

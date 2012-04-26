@@ -16,9 +16,9 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 
@@ -37,7 +37,7 @@ public class Adapter extends Element {
 	public static String IN_PATTERN = "in-only";
 	public static String OUT_PATTERN = "out-only";
 
-	public Adapter(Node node) throws MetadataException {
+	public Adapter(Node node) throws CiliaException {
 		super(node);
 
 		this.node = node;
@@ -63,19 +63,19 @@ public class Adapter extends Element {
 		return pattern.equals(OUT_PATTERN);
 	}
 
-	private static Node getSubNode(Node rootNode, String pattern) throws MetadataException {
+	private static Node getSubNode(Node rootNode, String pattern) throws CiliaException {
 		String subNodeName;
 		if (pattern.equals(IN_PATTERN))
 			subNodeName = "collector";
 		else if (pattern.equals(OUT_PATTERN))
 			subNodeName = "sender";
 		else
-			throw new MetadataException("Invalid pattern : " + pattern);
+			throw new CiliaException("Invalid pattern : " + pattern);
 
 		Node subNode = XMLHelpers.findChild(rootNode, subNodeName);
 
 		if (subNode == null)
-			throw new MetadataException("Adapter with pattern " + pattern + " must have a " + subNodeName);
+			throw new CiliaException("Adapter with pattern " + pattern + " must have a " + subNodeName);
 
 		return subNode;
 	}
@@ -100,7 +100,7 @@ public class Adapter extends Element {
 			getSubNode(node, pattern);
 			// element type validation
 			e1 = CiliaError.checkStringNotNullOrEmpty(this, elementType, "elementType");
-		} catch (MetadataException e) {
+		} catch (CiliaException e) {
 			e2 = new CiliaError(e.getMessage(), this);
 		}
 

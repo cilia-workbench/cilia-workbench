@@ -18,9 +18,9 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.window.Window;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 
@@ -40,7 +40,7 @@ public class CreateAdapterHandler extends ChainDesignerHandler {
 				NameNamespaceID type = window.getComponentType();
 				try {
 					DsciliaRepoService.getInstance().createAdapterInstance(chain, id, type);
-				} catch (MetadataException e) {
+				} catch (CiliaException e) {
 					e.printStackTrace();
 				}
 			}

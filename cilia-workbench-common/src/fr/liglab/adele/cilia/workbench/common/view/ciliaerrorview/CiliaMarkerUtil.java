@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.marker;
+package fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 
-import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.RootSourceProviderField;
-import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.SourceProviderField;
 
 /**
  * Static methods for creating and finding Cilia markers. An {@link IMarker} is

@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 
-import fr.liglab.adele.cilia.workbench.common.sourceprovider.SourceProviderUtil;
+import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvider;
 import fr.liglab.adele.cilia.workbench.common.view.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
@@ -72,7 +72,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 			viewer.setInput(new Object[0]);
 			setPartName(DEFAULT_PART_NAME);
 		}
-		SourceProviderUtil.setToggleVariable(VariablesSourceProvider.VARIABLE_NAME, chain != null);
+		ToggleSourceProvider.setToggleVariable(VariablesSourceProvider.VARIABLE_NAME, chain != null);
 		viewer.refresh();
 		this.model = chain;
 	}

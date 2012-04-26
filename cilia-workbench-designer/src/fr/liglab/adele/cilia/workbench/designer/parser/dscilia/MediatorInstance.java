@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
  */
 public class MediatorInstance extends ComponentInstance {
 
-	public MediatorInstance(Node node) throws MetadataException {
+	public MediatorInstance(Node node) throws CiliaException {
 		super(node);
 	}
 

@@ -29,8 +29,8 @@ public class FileUtil {
 	/**
 	 * Returns the file name, without the path.
 	 * 
-	 * @param a
-	 *            path to a file
+	 * @param path
+	 *            the full path
 	 * @return only the file part.
 	 */
 	public static String getFileName(String path) {

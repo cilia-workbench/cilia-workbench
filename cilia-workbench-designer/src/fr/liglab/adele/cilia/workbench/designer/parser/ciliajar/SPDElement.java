@@ -19,10 +19,10 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 
 /**
@@ -35,7 +35,7 @@ public abstract class SPDElement extends Element {
 	private String classname;
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 
-	public SPDElement(Node node) throws MetadataException {
+	public SPDElement(Node node) throws CiliaException {
 		super(node);
 		parameters = Parameter.findParameters(node);
 		XMLReflectionUtil.setAttribute(node, "classname", this, "classname");

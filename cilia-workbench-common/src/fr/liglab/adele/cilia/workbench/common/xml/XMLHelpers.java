@@ -42,6 +42,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+
 /**
  * Static methods, for managing XML files.
  * 
@@ -76,16 +78,16 @@ public class XMLHelpers {
 	 * @param file
 	 *            the file
 	 * @return the dom document
-	 * @throws MetadataException
+	 * @throws CiliaException
 	 *             if any error during parsing.
 	 */
-	public static Document getDocument(File file) throws MetadataException {
+	public static Document getDocument(File file) throws CiliaException {
 		try {
 			return getDocumentBuilder().parse(file);
 		} catch (SAXException e) {
-			throw new MetadataException("Can't parse document from file " + file.getAbsolutePath(), e);
+			throw new CiliaException("Can't parse document from file " + file.getAbsolutePath(), e);
 		} catch (IOException e) {
-			throw new MetadataException("Can't parse document from file " + file.getAbsolutePath(), e);
+			throw new CiliaException("Can't parse document from file " + file.getAbsolutePath(), e);
 		}
 	}
 
@@ -95,16 +97,16 @@ public class XMLHelpers {
 	 * @param is
 	 *            the input stream
 	 * @return the dom document
-	 * @throws MetadataException
+	 * @throws CiliaException
 	 *             if any error during parsing.
 	 */
-	public static Document getDocument(InputStream is) throws MetadataException {
+	public static Document getDocument(InputStream is) throws CiliaException {
 		try {
 			return getDocumentBuilder().parse(is);
 		} catch (SAXException e) {
-			throw new MetadataException("Can't parse document from stream", e);
+			throw new CiliaException("Can't parse document from stream", e);
 		} catch (IOException e) {
-			throw new MetadataException("Can't parse document from stream", e);
+			throw new CiliaException("Can't parse document from stream", e);
 		}
 	}
 
@@ -112,16 +114,16 @@ public class XMLHelpers {
 	 * Gets a document builder.
 	 * 
 	 * @return the document builder
-	 * @throws MetadataException
+	 * @throws CiliaException
 	 *             if can't get builder
 	 */
-	private static DocumentBuilder getDocumentBuilder() throws MetadataException {
+	private static DocumentBuilder getDocumentBuilder() throws CiliaException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
 		try {
 			builder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			throw new MetadataException("Can't get document builder ", e);
+			throw new CiliaException("Can't get document builder ", e);
 		}
 
 		return builder;
@@ -135,29 +137,29 @@ public class XMLHelpers {
 	 * @param fileName
 	 *            the file name, in the archive. The file must be located at the archive root.
 	 * @return the input stream
-	 * @throws MetadataException
+	 * @throws CiliaException
 	 *             if any error.
 	 */
 	public static InputStream inputStreamFromFileInJarArchive(String archivePath, String fileName)
-			throws MetadataException {
+			throws CiliaException {
 		// Jar file
 		JarFile file;
 		try {
 			file = new JarFile(archivePath);
 		} catch (IOException e) {
-			throw new MetadataException("Can't open jar file " + archivePath, e);
+			throw new CiliaException("Can't open jar file " + archivePath, e);
 		}
 
 		// File
 		ZipEntry entry = file.getEntry(fileName);
 		if (entry == null)
-			throw new MetadataException("File " + fileName + " not found in " + archivePath);
+			throw new CiliaException("File " + fileName + " not found in " + archivePath);
 
 		BufferedInputStream is;
 		try {
 			is = new BufferedInputStream(file.getInputStream(entry));
 		} catch (IOException e) {
-			throw new MetadataException("Can't access file " + fileName + " in jar file " + archivePath, e);
+			throw new CiliaException("Can't access file " + fileName + " in jar file " + archivePath, e);
 		}
 
 		return is;
@@ -170,10 +172,10 @@ public class XMLHelpers {
 	 *            the document
 	 * @param filePath
 	 *            the file path, on the local file system.
-	 * @throws MetadataException
+	 * @throws CiliaException
 	 *             the metadata exception
 	 */
-	public static void writeDOM(Document document, String filePath) throws MetadataException {
+	public static void writeDOM(Document document, String filePath) throws CiliaException {
 		Source source = new DOMSource(document);
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		try {
@@ -182,7 +184,7 @@ public class XMLHelpers {
 			StreamResult result = new StreamResult(new File(filePath));
 			xformer.transform(source, result);
 		} catch (TransformerException e) {
-			throw new MetadataException("XML transformer error", e);
+			throw new CiliaException("XML transformer error", e);
 		}
 	}
 
@@ -194,15 +196,15 @@ public class XMLHelpers {
 	 * @param nodeName
 	 *            the node name
 	 * @return the root node
-	 * @throws MetadataException
+	 * @throws CiliaException
 	 *             if the root node doesn't match nodeName.
 	 */
-	public static Node getRootNode(Document document, String nodeName) throws MetadataException {
+	public static Node getRootNode(Document document, String nodeName) throws CiliaException {
 		NodeList nodes = document.getChildNodes();
 		if (nodes != null && nodes.getLength() == 1 && nodes.item(0).getNodeName().equalsIgnoreCase(nodeName))
 			return nodes.item(0);
 		else
-			throw new MetadataException("Can't find root node " + nodeName);
+			throw new CiliaException("Can't find root node " + nodeName);
 	}
 
 	/**
@@ -313,10 +315,10 @@ public class XMLHelpers {
 	 * @param attrName
 	 *            the attr name
 	 * @return the string
-	 * @throws MetadataException
+	 * @throws CiliaException
 	 *             the metadata exception
 	 */
-	static String findAttributeValue(Node node, String attrName) throws MetadataException {
+	static String findAttributeValue(Node node, String attrName) throws CiliaException {
 		
 		Map<String, String> attrMap = findAttributesValues(node);
 		
@@ -330,7 +332,7 @@ public class XMLHelpers {
 				return value;
 		}
 		
-		throw new MetadataException("Attribute " + attrName + " not found");
+		throw new CiliaException("Attribute " + attrName + " not found");
 	}
 
 	/**
@@ -366,10 +368,10 @@ public class XMLHelpers {
 	 * @param defaultValue
 	 *            the default value
 	 * @return the string
-	 * @throws MetadataException
+	 * @throws CiliaException
 	 *             the metadata exception
 	 */
-	public static String findAttributeValue(Node node, String attrName, String defaultValue) throws MetadataException {
+	public static String findAttributeValue(Node node, String attrName, String defaultValue) throws CiliaException {
 		try {
 			return findAttributeValue(node, attrName);
 		} catch (Exception e) {

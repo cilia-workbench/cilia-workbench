@@ -29,7 +29,8 @@ import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.HorizontalTreeLayoutAlgorithm;
 
 /**
- *
+ * Base class for implementing graphView, using ZEST framework.
+ * 
  * @author Etienne Gandrille
  */
 public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPart, ISelectionListener {
@@ -38,7 +39,7 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 	protected GraphViewer viewer;
 
 	public void createPartControl(Composite parent) {
-		
+
 		viewer = new GraphViewer(parent, SWT.BORDER);
 
 		// Connection style MUST be set at the beginning
@@ -50,10 +51,10 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 		viewer.applyLayout();
 
 		fillToolBar();
-		
+
 		getSite().setSelectionProvider(viewer);
 	}
-	
+
 	/**
 	 * Fill tool bar.
 	 */
@@ -63,10 +64,10 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 		bars.getMenuManager().add(toolbarZoomContributionViewItem);
 
 	}
-	
+
 	/**
 	 * Sets the viewer layout.
-	 *
+	 * 
 	 * @return the layout algorithm
 	 */
 	private LayoutAlgorithm getLayout() {
@@ -83,16 +84,19 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 		return layout;
 
 	}
-	
+
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.zest.core.viewers.IZoomableWorkbenchPart#getZoomableViewer()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.zest.core.viewers.IZoomableWorkbenchPart#getZoomableViewer()
 	 */
 	@Override
 	public AbstractZoomableViewer getZoomableViewer() {

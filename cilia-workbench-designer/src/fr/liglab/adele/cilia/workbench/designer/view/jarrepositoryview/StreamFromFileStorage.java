@@ -21,7 +21,7 @@ import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
@@ -52,7 +52,7 @@ class StreamFromFileStorage implements IStorage {
 	public InputStream getContents() throws CoreException {
 		try {
 			return XMLHelpers.inputStreamFromFileInJarArchive(filePath, "metadata.xml");
-		} catch (MetadataException e) {
+		} catch (CiliaException e) {
 			e.printStackTrace();
 			return null;
 		}

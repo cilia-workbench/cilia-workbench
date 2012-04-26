@@ -18,13 +18,24 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 /**
+ * A simple text validator listener, for validating SWT text boxes. The
+ * validations constraints are defined in the {@link #IsValidString(String)}
+ * method.
  * 
  * @author Etienne Gandrille
  */
 public class TextValidatorListener implements Listener {
 
+	/** shared instance */
 	private static TextValidatorListener INSTANCE = null;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
+	 */
 	@Override
 	public void handleEvent(Event event) {
 		if (!IsValidString(event.text))
@@ -34,12 +45,24 @@ public class TextValidatorListener implements Listener {
 	private TextValidatorListener() {
 	}
 
+	/**
+	 * Gets the text validator listner.
+	 * 
+	 * @return the text validator listner
+	 */
 	public static Listener getTextValidatorListner() {
 		if (INSTANCE == null)
 			INSTANCE = new TextValidatorListener();
 		return INSTANCE;
 	}
 
+	/**
+	 * The validation logic.
+	 * 
+	 * @param str
+	 *            the string to be tested
+	 * @return true if str is valid, false otherwise.
+	 */
 	private static boolean IsValidString(String str) {
 		char[] chars = new char[str.length()];
 		str.getChars(0, chars.length, chars, 0);

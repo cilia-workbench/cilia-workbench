@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 
 /**
  * 
@@ -24,7 +24,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
  */
 public class Dispatcher extends SPDElement {
 
-	public Dispatcher(Node node) throws MetadataException {
+	public Dispatcher(Node node) throws CiliaException {
 		super(node);
 	}
 }

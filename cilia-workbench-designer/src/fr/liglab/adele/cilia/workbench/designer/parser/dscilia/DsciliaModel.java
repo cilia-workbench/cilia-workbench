@@ -25,8 +25,8 @@ import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
@@ -60,11 +60,11 @@ public class DsciliaModel {
 			chains.add(new Chain(node));
 	}
 
-	private static Node getRootNode(Document document) throws MetadataException {
+	private static Node getRootNode(Document document) throws CiliaException {
 		return XMLHelpers.getRootNode(document, ROOT_NODE_NAME);
 	}
 
-	public void createChain(String chainName) throws MetadataException {
+	public void createChain(String chainName) throws CiliaException {
 
 		// Document creation
 		File file = new File(filePath);
@@ -81,7 +81,7 @@ public class DsciliaModel {
 		DsciliaRepoService.getInstance().updateModel();
 	}
 
-	public void deleteChain(String id) throws MetadataException {
+	public void deleteChain(String id) throws CiliaException {
 
 		// Finding target node
 		File file = new File(filePath);
@@ -97,7 +97,7 @@ public class DsciliaModel {
 		}
 	}
 
-	private Node findXMLChainNode(Document document, String chainId) throws MetadataException {
+	private Node findXMLChainNode(Document document, String chainId) throws CiliaException {
 		Node root = getRootNode(document);
 		Node[] results = XMLHelpers.findChildren(root, "chain", "id", chainId);
 
@@ -107,18 +107,18 @@ public class DsciliaModel {
 			return results[0];
 	}
 
-	public void createMediatorInstance(Chain chain, String id, NameNamespaceID type) throws MetadataException {
+	public void createMediatorInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
 		if (chain.isNewMediatorInstanceAllowed(id, type) == null)
 			createComponentInstanceInternal(chain, id, type, "mediator");
 	}
 
-	public void createAdapterInstance(Chain chain, String id, NameNamespaceID type) throws MetadataException {
+	public void createAdapterInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
 		if (chain.isNewAdapterInstanceAllowed(id, type) == null)
 			createComponentInstanceInternal(chain, id, type, "adapter");
 	}
 
 	private void createComponentInstanceInternal(Chain chain, String id, NameNamespaceID type, String componentName)
-			throws MetadataException {
+			throws CiliaException {
 		File file = new File(filePath);
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
@@ -138,7 +138,7 @@ public class DsciliaModel {
 	}
 
 	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
-			throws MetadataException {
+			throws CiliaException {
 		if (chain.isNewBindingAllowed(srcElem, srcPort, dstElem, dstPort) == null) {
 
 			String from;

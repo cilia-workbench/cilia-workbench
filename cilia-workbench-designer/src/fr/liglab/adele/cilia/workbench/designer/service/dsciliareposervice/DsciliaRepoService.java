@@ -21,8 +21,8 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaModel;
@@ -188,7 +188,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 
 		try {
 			repo.getModel().createChain(chainName);
-		} catch (MetadataException e) {
+		} catch (CiliaException e) {
 			e.printStackTrace();
 		}
 	}
@@ -199,7 +199,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 			return;
 		try {
 			repo.getModel().deleteChain(chain.getId());
-		} catch (MetadataException e) {
+		} catch (CiliaException e) {
 			e.printStackTrace();
 		}
 	}
@@ -216,14 +216,14 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 			return null;
 	}
 
-	public void createMediatorInstance(Chain chain, String id, NameNamespaceID type) throws MetadataException {
+	public void createMediatorInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
 		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
 		repo.getModel().createMediatorInstance(chain, id, type);
 	}
 
-	public void createAdapterInstance(Chain chain, String id, NameNamespaceID type) throws MetadataException {
+	public void createAdapterInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
 		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
@@ -231,7 +231,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	}
 
 	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
-			throws MetadataException {
+			throws CiliaException {
 		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;

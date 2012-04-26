@@ -17,7 +17,7 @@ package fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview;
 import org.eclipse.ui.views.markers.MarkerSupportView;
 
 /**
- * The error View.
+ * The error View, used to display Cilia markers.
  * 
  * @author Etienne Gandrille
  */
@@ -27,8 +27,8 @@ public class CiliaErrorView extends MarkerSupportView {
 	public static final String VIEW_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview";
 
 	/**
-	 * The content generator is used to retrieve the marker type and the fileds to be displayed. It is defined in the
-	 * plugin.xml file.
+	 * The content generator is used to retrieve the marker type and the fields
+	 * to be displayed. It is defined in the plugin.xml file.
 	 */
 	public static final String CONTENT_GENERATOR_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.generator";
 

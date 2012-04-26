@@ -19,12 +19,12 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
@@ -38,7 +38,7 @@ public abstract class SCElement implements DisplayedInPropertiesView, ErrorsAndW
 	private String classname;
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 
-	public SCElement(Node node) throws MetadataException {
+	public SCElement(Node node) throws CiliaException {
 		parameters = Parameter.findParameters(node);
 		XMLReflectionUtil.setAttribute(node, "name", this, "name");
 		XMLReflectionUtil.setAttribute(node, "classname", this, "classname");

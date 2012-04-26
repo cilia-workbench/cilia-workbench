@@ -18,35 +18,44 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.ui.AbstractSourceProvider;
+import org.eclipse.ui.ISourceProvider;
 import org.eclipse.ui.ISources;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.services.ISourceProviderService;
 
 /**
- * A class for creating toggle variables.
+ * A class for creating toggle variables, managed by Eclipse. Typical use of
+ * toggle variables is button activation in toolbars.
+ * 
  * @author Etienne Gandrille
  */
-public class ToggleSourceProvider extends AbstractSourceProvider {
+public abstract class ToggleSourceProvider extends AbstractSourceProvider {
 
 	private final String STATE_TRUE;
 	private final String STATE_FALSE;
-	private final String VARIABLE_NAME; 
+	private final String VARIABLE_NAME;
 	private boolean value;
-	
+
 	public ToggleSourceProvider(String variable, String stateTrue, String stateFalse, boolean defaultValue) {
 		STATE_TRUE = stateTrue;
 		STATE_FALSE = stateFalse;
 		VARIABLE_NAME = variable;
 		value = defaultValue;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.ISourceProvider#getProvidedSourceNames()
 	 */
 	@Override
 	public String[] getProvidedSourceNames() {
 		return new String[] { VARIABLE_NAME };
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.ISourceProvider#getCurrentState()
 	 */
 	@Override
@@ -57,11 +66,12 @@ public class ToggleSourceProvider extends AbstractSourceProvider {
 		currentState.put(VARIABLE_NAME, variableState);
 		return currentState;
 	}
-	
+
 	/**
 	 * Set current state and fire notification if (and only if) state changes.
 	 * 
-	 * @param flag new state.
+	 * @param flag
+	 *            new state.
 	 */
 	public void setValue(boolean flag) {
 		if (this.value == flag)
@@ -79,16 +89,43 @@ public class ToggleSourceProvider extends AbstractSourceProvider {
 	public boolean getValue() {
 		return value;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.ISourceProvider#dispose()
 	 */
 	@Override
 	public void dispose() {
 	}
-	
+
 	@Override
 	public String toString() {
 		return (value ? STATE_TRUE : STATE_FALSE);
+	}
+
+	/**
+	 * Helper method for setting a toggle variable to a value.
+	 * 
+	 * @param variable
+	 *            the toggle variable name.
+	 * @param newValue
+	 *            the new value.
+	 */
+	public static void setToggleVariable(String variable, boolean newValue) {
+		// ISourceProviderService sourceProviderService =
+		// (ISourceProviderService) getSite().getService();
+		ISourceProviderService sourceProviderService = (ISourceProviderService) PlatformUI.getWorkbench().getService(
+				ISourceProviderService.class);
+		if (sourceProviderService != null) {
+			ISourceProvider provider = sourceProviderService.getSourceProvider(variable);
+
+			if (provider instanceof ToggleSourceProvider) {
+				((ToggleSourceProvider) provider).setValue(newValue);
+			} else {
+				throw new RuntimeException("Provider is not instance of VariablesSourceProvider");
+			}
+		} else
+			throw new RuntimeException("Can't retrieve sourceProviderService");
 	}
 }

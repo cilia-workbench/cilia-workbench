@@ -24,8 +24,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
@@ -53,10 +53,10 @@ public class SpecModel implements DisplayedInPropertiesView {
 	 * 
 	 * @param filePath
 	 *            the file path
-	 * @throws MetadataException
+	 * @throws CiliaException
 	 *             the metadata exception
 	 */
-	public SpecModel(String filePath) throws MetadataException {
+	public SpecModel(String filePath) throws CiliaException {
 		this.filePath = filePath;
 
 		File file = new File(filePath);
@@ -82,10 +82,10 @@ public class SpecModel implements DisplayedInPropertiesView {
 	 * @param document
 	 *            the document
 	 * @return the root node
-	 * @throws MetadataException
+	 * @throws CiliaException
 	 *             the metadata exception
 	 */
-	private static Node getRootNode(Document document) throws MetadataException {
+	private static Node getRootNode(Document document) throws CiliaException {
 		return XMLHelpers.getRootNode(document, XML_NODE_NAME);
 	}
 
@@ -126,7 +126,7 @@ public class SpecModel implements DisplayedInPropertiesView {
 		return retval.toArray(new Changeset[0]);
 	}
 
-	public void deleteMediatorSpec(NameNamespaceID id) throws MetadataException {
+	public void deleteMediatorSpec(NameNamespaceID id) throws CiliaException {
 
 		// Finding target node
 		File file = new File(filePath);
@@ -144,7 +144,7 @@ public class SpecModel implements DisplayedInPropertiesView {
 
 	public void updateMediatorSpec(NameNamespaceID id, List<String> inPorts, List<String> outPorts,
 			Map<String, String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
-			List<String> dispatcherParam) throws MetadataException {
+			List<String> dispatcherParam) throws CiliaException {
 
 		// Finding target node
 		File file = new File(filePath);
@@ -186,7 +186,7 @@ public class SpecModel implements DisplayedInPropertiesView {
 		SpecRepoService.getInstance().updateModel();
 	}
 
-	private Node findXMLMediatorNode(Document document, NameNamespaceID id) throws MetadataException {
+	private Node findXMLMediatorNode(Document document, NameNamespaceID id) throws CiliaException {
 		Node root = getRootNode(document);
 		Node[] results = XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME, MediatorSpec.XML_ATTR_ID,
 				id.getName(), MediatorSpec.XML_ATTR_NAMESPACE, id.getNamespace());
@@ -197,7 +197,7 @@ public class SpecModel implements DisplayedInPropertiesView {
 			return results[0];
 	}
 
-	public void createMediatorSpec(NameNamespaceID id) throws MetadataException {
+	public void createMediatorSpec(NameNamespaceID id) throws CiliaException {
 
 		if (SpecRepoService.getInstance().isNewMediatorSpecAllowed(id) == null) {
 			File file = new File(filePath);

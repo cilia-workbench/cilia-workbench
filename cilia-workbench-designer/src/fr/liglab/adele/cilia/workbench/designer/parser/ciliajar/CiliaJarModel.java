@@ -22,7 +22,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
@@ -45,7 +45,7 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 	private List<Sender> senders = new ArrayList<Sender>();
 	private List<Adapter> adapters = new ArrayList<Adapter>();
 
-	public CiliaJarModel(String filePath) throws MetadataException {
+	public CiliaJarModel(String filePath) throws CiliaException {
 
 		InputStream is = XMLHelpers.inputStreamFromFileInJarArchive(filePath, "metadata.xml");
 		Document document = XMLHelpers.getDocument(is);
@@ -79,7 +79,7 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 		}
 	}
 
-	private static Node getRootNode(Document document) throws MetadataException {
+	private static Node getRootNode(Document document) throws CiliaException {
 		return XMLHelpers.getRootNode(document, "ipojo");
 	}
 

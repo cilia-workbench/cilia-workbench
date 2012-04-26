@@ -34,7 +34,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import fr.liglab.adele.cilia.event.CiliaFrameworkEvent;
 import fr.liglab.adele.cilia.management.monitoring.MonitoredApplication;
-import fr.liglab.adele.cilia.workbench.common.sourceprovider.SourceProviderUtil;
+import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvider;
 import fr.liglab.adele.cilia.workbench.monitoring.Activator;
 import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.CiliaLabelProvider;
@@ -42,6 +42,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.TreeCon
 
 /**
  * Controls the Eclipse view used to display Cilia chains.
+ * 
  * @author Etienne Gandrille
  */
 public class TopologyView extends ViewPart implements CiliaFrameworkEvent {
@@ -57,10 +58,10 @@ public class TopologyView extends ViewPart implements CiliaFrameworkEvent {
 
 	/** Message area used to display last model reload date. */
 	private Label messageArea;
-	
+
 	/** The message area prefix. */
 	private final String messageAreaPrefix = "Last model update: ";
-	
+
 	/** The defaultmessage area text. */
 	private final String defaultmessageAreaText = messageAreaPrefix + "not available";
 
@@ -175,15 +176,18 @@ public class TopologyView extends ViewPart implements CiliaFrameworkEvent {
 	 *            the new value.
 	 */
 	private void updateReloadRequiredVariable(boolean newValue) {
-		SourceProviderUtil.setToggleVariable(VariablesSourceProvider.RELOAD_REQUIRED_VARIABLE, newValue);
+		ToggleSourceProvider.setToggleVariable(VariablesSourceProvider.RELOAD_REQUIRED_VARIABLE, newValue);
 	}
 
 	/**
 	 * Callback used by Cilia notification.
-	 *
-	 * @param chainId the chain id
-	 * @param mediatorId the mediator id
-	 * @param evtNumber the evt number
+	 * 
+	 * @param chainId
+	 *            the chain id
+	 * @param mediatorId
+	 *            the mediator id
+	 * @param evtNumber
+	 *            the evt number
 	 */
 	@Override
 	public void event(String chainId, String mediatorId, int evtNumber) {

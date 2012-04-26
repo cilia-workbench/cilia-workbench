@@ -12,29 +12,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.xml;
+package fr.liglab.adele.cilia.workbench.common.cilia;
 
 /**
+ * A Cilia Exception, used everywhere...
  * 
  * @author Etienne Gandrille
  */
-public class MetadataException extends Exception {
+public class CiliaException extends Exception {
 
 	private static final long serialVersionUID = 6517857644001289861L;
 
-	public MetadataException() {
+	public CiliaException() {
 		super();
 	}
 
-	public MetadataException(String message) {
+	public CiliaException(String message) {
 		super(message);
 	}
 
-	public MetadataException(Throwable cause) {
+	public CiliaException(Throwable cause) {
 		super(cause);
 	}
 
-	public MetadataException(String message, Throwable cause) {
+	public CiliaException(String message, Throwable cause) {
 		super(message, cause);
 	}
 }

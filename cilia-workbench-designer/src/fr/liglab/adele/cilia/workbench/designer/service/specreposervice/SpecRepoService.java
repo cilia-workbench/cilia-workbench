@@ -20,11 +20,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
@@ -157,7 +157,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 			return;
 		try {
 			file.getModel().deleteMediatorSpec((NameNamespaceID) mediator.getId());
-		} catch (MetadataException e) {
+		} catch (CiliaException e) {
 			e.printStackTrace();
 		}
 	}
@@ -171,7 +171,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		try {
 			file.getModel().updateMediatorSpec((NameNamespaceID) mediator.getId(), inPorts, outPorts, mediatorProperties,
 					schedulerParam, processorParam, dispatcherParam);
-		} catch (MetadataException e) {
+		} catch (CiliaException e) {
 			e.printStackTrace();
 		}
 	}
@@ -212,7 +212,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 	public Object createMediatorSpec(SpecModel specModel, NameNamespaceID id) {
 		try {
 			specModel.createMediatorSpec(id);
-		} catch (MetadataException e) {
+		} catch (CiliaException e) {
 			e.printStackTrace();
 		}
 		return null;

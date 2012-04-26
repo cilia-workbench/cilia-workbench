@@ -22,11 +22,11 @@ import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
@@ -46,7 +46,7 @@ public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder
 	private List<MediatorInstance> mediators = new ArrayList<MediatorInstance>();
 	private List<Binding> bindings = new ArrayList<Binding>();
 
-	public Chain(Node node) throws MetadataException {
+	public Chain(Node node) throws CiliaException {
 		XMLReflectionUtil.setAttribute(node, "id", this, "id");
 
 		Node rootAdapters = XMLHelpers.findChild(node, "adapters");

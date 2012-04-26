@@ -17,7 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
@@ -28,7 +28,7 @@ public class Dispatcher extends ComponentPart implements DisplayedInPropertiesVi
 
 	public static final String XML_NODE_NAME = "dispatcher";
 
-	public Dispatcher(Node node) throws MetadataException {
+	public Dispatcher(Node node) throws CiliaException {
 		super(node);
 	}
 
