@@ -30,8 +30,8 @@ public class XMLReflectionUtil {
 		return setAttribute(node, attrName, object, fieldName, null);
 	}
 
-	public static boolean setAttribute(Node node, String attrName, Object object, String fieldName,
-			String defaultValue) throws MetadataException {
+	public static boolean setAttribute(Node node, String attrName, Object object, String fieldName, String defaultValue)
+			throws MetadataException {
 		return setAttributeInternal(false, defaultValue, node, attrName, object, fieldName);
 	}
 
@@ -41,14 +41,22 @@ public class XMLReflectionUtil {
 		Exception exception = null;
 		boolean retval = true;
 		try {
-			Field field;
-			try {
-				field = object.getClass().getDeclaredField(fieldName);
-			} catch (NoSuchFieldException e) {
-				field = object.getClass().getSuperclass().getDeclaredField(fieldName);
-			}
-			String value = null;
 
+			// finds field
+			Field field = null;
+			Class<? extends Object> claz = object.getClass();
+			while (claz != null && field == null) {
+				try {
+					field = claz.getDeclaredField(fieldName);
+				} catch (NoSuchFieldException e) {
+					claz = claz.getSuperclass();
+				}
+			}
+			if (field == null)
+				throw new NoSuchFieldException("Can't find field with name " + fieldName);
+
+			// finds value
+			String value = null;
 			try {
 				value = XMLHelpers.findAttributeValue(node, attrName);
 			} catch (MetadataException e) {
@@ -59,6 +67,7 @@ public class XMLReflectionUtil {
 					value = defaultValue;
 			}
 
+			// set value
 			field.setAccessible(true);
 			field.set(object, value);
 

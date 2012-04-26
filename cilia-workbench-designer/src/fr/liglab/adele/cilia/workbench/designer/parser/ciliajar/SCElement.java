@@ -40,7 +40,7 @@ public abstract class SCElement implements DisplayedInPropertiesView, ErrorsAndW
 	public SCElement(Node node) throws MetadataException {
 		parameters = Parameter.findParameters(node);
 		XMLReflectionUtil.setAttribute(node, "name", this, "name");
-		XMLReflectionUtil.setAttribute(node, "classname", this, "class name");
+		XMLReflectionUtil.setAttribute(node, "classname", this, "classname");
 	}
 
 	public List<Parameter> getParameters() {
