@@ -20,7 +20,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
@@ -66,7 +66,7 @@ public class CreateMediatorHandler extends SpecHandler {
 			String namespace = dialog.getNamespace();
 
 			SpecRepoService repoService = SpecRepoService.getInstance();
-			return repoService.createMediatorSpec(modelFile, new NameNamespace(id, namespace));
+			return repoService.createMediatorSpec(modelFile, new NameNamespaceID(id, namespace));
 		}
 
 		return null;

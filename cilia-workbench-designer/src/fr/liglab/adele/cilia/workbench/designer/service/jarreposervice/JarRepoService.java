@@ -18,11 +18,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarModel;
@@ -138,7 +138,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public Scheduler getScheduler(NameNamespace nn) {
+	public Scheduler getScheduler(NameNamespaceID nn) {
 		for (Scheduler s : getSchedulers())
 			if (s.getId().equals(nn))
 				return s;
@@ -154,7 +154,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public Processor getProcessor(NameNamespace nn) {
+	public Processor getProcessor(NameNamespaceID nn) {
 		for (Processor p : getProcessors())
 			if (p.getId().equals(nn))
 				return p;
@@ -170,7 +170,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public Collector getCollector(NameNamespace nn) {
+	public Collector getCollector(NameNamespaceID nn) {
 		for (Collector c : getCollectors())
 			if (c.getId().equals(nn))
 				return c;
@@ -186,7 +186,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public Dispatcher getDispatcher(NameNamespace nn) {
+	public Dispatcher getDispatcher(NameNamespaceID nn) {
 		for (Dispatcher d : getDispatchers())
 			if (d.getId().equals(nn))
 				return d;
@@ -202,20 +202,20 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public NameNamespace[] getMediatorsId() {
-		List<NameNamespace> retval = new ArrayList<NameNamespace>();
+	public NameNamespaceID[] getMediatorsId() {
+		List<NameNamespaceID> retval = new ArrayList<NameNamespaceID>();
 		for (MediatorComponent mc : getMediators())
-			retval.add((NameNamespace) mc.getId());
+			retval.add((NameNamespaceID) mc.getId());
 
-		return retval.toArray(new NameNamespace[0]);
+		return retval.toArray(new NameNamespaceID[0]);
 	}
 
-	public NameNamespace[] getAdaptersId() {
-		List<NameNamespace> retval = new ArrayList<NameNamespace>();
+	public NameNamespaceID[] getAdaptersId() {
+		List<NameNamespaceID> retval = new ArrayList<NameNamespaceID>();
 		for (Adapter a : getAdapters())
-			retval.add((NameNamespace) a.getId());
+			retval.add((NameNamespaceID) a.getId());
 
-		return retval.toArray(new NameNamespace[0]);
+		return retval.toArray(new NameNamespaceID[0]);
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	 * @param id
 	 * @return the mediator, or null if not found
 	 */
-	public MediatorComponent getMediator(NameNamespace id) {
+	public MediatorComponent getMediator(NameNamespaceID id) {
 		for (MediatorComponent m : getMediators())
 			if (m.getId().equals(id))
 				return m;
@@ -235,19 +235,19 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	/**
 	 * Gets a mediator, by its id, using the chain criteria. If the id given in
 	 * parameter has its namespace defined, the functions calls
-	 * {@link #getMediator(NameNamespace)}. If the namespace is undefined (null
+	 * {@link #getMediator(NameNamespaceID)}. If the namespace is undefined (null
 	 * or empty), the comparison is ONLY based on the name, and the namespace is
 	 * IGNORED.
 	 * 
 	 * @param id
 	 * @return the mediator, or null if not found
 	 */
-	public MediatorComponent getMediatorForChain(NameNamespace id) {
+	public MediatorComponent getMediatorForChain(NameNamespaceID id) {
 		if (id.getNamespace() != null && id.getNamespace().length() != 0)
 			return getMediator(id);
 
 		for (MediatorComponent m : getMediators())
-			if (((NameNamespace) m.getId()).getName().equals(id.getName()))
+			if (((NameNamespaceID) m.getId()).getName().equals(id.getName()))
 				return m;
 
 		return null;
@@ -259,7 +259,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	 * @param id
 	 * @return the adapter, or null if not found.
 	 */
-	public Adapter getAdapter(NameNamespace id) {
+	public Adapter getAdapter(NameNamespaceID id) {
 		for (Adapter a : getAdapters())
 			if (a.getId().equals(id))
 				return a;
@@ -270,19 +270,19 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	/**
 	 * Gets a adapter, by its id, using the chain criteria. If the id given in
 	 * parameter has its namespace defined, the functions calls
-	 * {@link #getAdapter(NameNamespace)}. If the namespace is undefined (null
+	 * {@link #getAdapter(NameNamespaceID)}. If the namespace is undefined (null
 	 * or empty), the comparison is ONLY based on the name, and the namespace is
 	 * IGNORED.
 	 * 
 	 * @param id
 	 * @return the adapter, or null if not found
 	 */
-	public Adapter getAdapterForChain(NameNamespace id) {
+	public Adapter getAdapterForChain(NameNamespaceID id) {
 		if (id.getNamespace() != null && id.getNamespace().length() != 0)
 			return getAdapter(id);
 
 		for (Adapter a : getAdapters())
-			if (((NameNamespace) a.getId()).getName().equals(id.getName()))
+			if (((NameNamespaceID) a.getId()).getName().equals(id.getName()))
 				return a;
 
 		return null;
@@ -313,9 +313,9 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getAdapters()));
 
 		for (MediatorComponent mediator : getMediators()) {
-			NameNamespace snn = mediator.getSchedulerNameNamespace();
-			NameNamespace pnn = mediator.getProcessorNameNamespace();
-			NameNamespace dnn = mediator.getDispatcherNameNamespace();
+			NameNamespaceID snn = mediator.getSchedulerNameNamespace();
+			NameNamespaceID pnn = mediator.getProcessorNameNamespace();
+			NameNamespaceID dnn = mediator.getDispatcherNameNamespace();
 
 			if (getScheduler(snn) == null)
 				errorList.add(new CiliaError("can't find scheduler " + snn, mediator));

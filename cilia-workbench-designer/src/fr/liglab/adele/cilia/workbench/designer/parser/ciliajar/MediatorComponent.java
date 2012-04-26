@@ -21,10 +21,10 @@ import java.util.Map;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
-import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
@@ -104,16 +104,16 @@ public class MediatorComponent extends Element {
 		return retval;
 	}
 
-	public NameNamespace getSchedulerNameNamespace() {
-		return new NameNamespace(schedulerName, schedulerNamespace);
+	public NameNamespaceID getSchedulerNameNamespace() {
+		return new NameNamespaceID(schedulerName, schedulerNamespace);
 	}
 
-	public NameNamespace getProcessorNameNamespace() {
-		return new NameNamespace(processorName, processorNamespace);
+	public NameNamespaceID getProcessorNameNamespace() {
+		return new NameNamespaceID(processorName, processorNamespace);
 	}
 
-	public NameNamespace getDispatcherNameNamespace() {
-		return new NameNamespace(dispatcherName, dispatcherNamespace);
+	public NameNamespaceID getDispatcherNameNamespace() {
+		return new NameNamespaceID(dispatcherName, dispatcherNamespace);
 	}
 
 	public List<Property> getProperties() {

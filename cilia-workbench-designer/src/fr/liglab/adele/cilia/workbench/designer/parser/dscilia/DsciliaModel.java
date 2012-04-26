@@ -25,7 +25,7 @@ import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -107,17 +107,17 @@ public class DsciliaModel {
 			return results[0];
 	}
 
-	public void createMediatorInstance(Chain chain, String id, NameNamespace type) throws MetadataException {
+	public void createMediatorInstance(Chain chain, String id, NameNamespaceID type) throws MetadataException {
 		if (chain.isNewMediatorInstanceAllowed(id, type) == null)
 			createComponentInstanceInternal(chain, id, type, "mediator");
 	}
 
-	public void createAdapterInstance(Chain chain, String id, NameNamespace type) throws MetadataException {
+	public void createAdapterInstance(Chain chain, String id, NameNamespaceID type) throws MetadataException {
 		if (chain.isNewAdapterInstanceAllowed(id, type) == null)
 			createComponentInstanceInternal(chain, id, type, "adapter");
 	}
 
-	private void createComponentInstanceInternal(Chain chain, String id, NameNamespace type, String componentName)
+	private void createComponentInstanceInternal(Chain chain, String id, NameNamespaceID type, String componentName)
 			throws MetadataException {
 		File file = new File(filePath);
 		Document document = XMLHelpers.getDocument(file);

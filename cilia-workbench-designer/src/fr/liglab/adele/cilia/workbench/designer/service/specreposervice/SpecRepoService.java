@@ -20,10 +20,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
-import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
@@ -156,7 +156,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		if (file == null)
 			return;
 		try {
-			file.getModel().deleteMediatorSpec((NameNamespace) mediator.getId());
+			file.getModel().deleteMediatorSpec((NameNamespaceID) mediator.getId());
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
@@ -169,14 +169,14 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		if (file == null)
 			return;
 		try {
-			file.getModel().updateMediatorSpec((NameNamespace) mediator.getId(), inPorts, outPorts, mediatorProperties,
+			file.getModel().updateMediatorSpec((NameNamespaceID) mediator.getId(), inPorts, outPorts, mediatorProperties,
 					schedulerParam, processorParam, dispatcherParam);
 		} catch (MetadataException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public String isNewMediatorSpecAllowed(NameNamespace id) {
+	public String isNewMediatorSpecAllowed(NameNamespaceID id) {
 		if (id == null || id.getName() == null || id.getName().isEmpty())
 			return "id can't be null or empty";
 
@@ -200,7 +200,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 	 *            the namespace
 	 * @return the mediator spec
 	 */
-	private MediatorSpec findMediatorSpec(NameNamespace id) {
+	private MediatorSpec findMediatorSpec(NameNamespaceID id) {
 		for (SpecModel spec : findAbstractElements()) {
 			for (MediatorSpec s : spec.getMediatorSpecs())
 				if (s.getId().equals(id))
@@ -209,7 +209,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		return null;
 	}
 
-	public Object createMediatorSpec(SpecModel specModel, NameNamespace id) {
+	public Object createMediatorSpec(SpecModel specModel, NameNamespaceID id) {
 		try {
 			specModel.createMediatorSpec(id);
 		} catch (MetadataException e) {

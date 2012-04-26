@@ -17,15 +17,19 @@ package fr.liglab.adele.cilia.workbench.common.identifiable;
 import com.google.common.base.Strings;
 
 /**
+ * Helper class, which represents an id from the {@link Identifiable} point of
+ * view.
  * 
  * @author Etienne Gandrille
  */
-public class NameNamespace {
+public class NameNamespaceID {
 
+	/** Name */
 	private final String name;
+	/** Namespace */
 	private final String namespace;
 
-	public NameNamespace(String name, String namespace) {
+	public NameNamespaceID(String name, String namespace) {
 		this.name = name;
 		this.namespace = namespace;
 	}
@@ -40,9 +44,9 @@ public class NameNamespace {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof NameNamespace))
+		if (obj == null || !(obj instanceof NameNamespaceID))
 			return false;
-		NameNamespace o = (NameNamespace) obj;
+		NameNamespaceID o = (NameNamespaceID) obj;
 
 		if (!Strings.nullToEmpty(o.getName()).equals(Strings.nullToEmpty(name)))
 			return false;

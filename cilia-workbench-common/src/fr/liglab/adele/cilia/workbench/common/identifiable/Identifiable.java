@@ -15,10 +15,16 @@
 package fr.liglab.adele.cilia.workbench.common.identifiable;
 
 /**
- * Gets an id on an object.
+ * Gets an id on an object. It corresponds to the primary key in a database.
  * 
  * @author Etienne Gandrille
  */
 public interface Identifiable {
+
+	/**
+	 * Gets the object identifier.
+	 * 
+	 * @return the object identifier.
+	 */
 	Object getId();
 }

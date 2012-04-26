@@ -22,7 +22,7 @@ import org.w3c.dom.Node;
 
 import com.google.common.base.Strings;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
@@ -198,7 +198,7 @@ public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder
 		return retval.toArray(new Changeset[0]);
 	}
 
-	public String isNewMediatorInstanceAllowed(String mediatorId, NameNamespace nn) {
+	public String isNewMediatorInstanceAllowed(String mediatorId, NameNamespaceID nn) {
 
 		String message = null;
 		if (Strings.isNullOrEmpty(mediatorId)) {
@@ -215,7 +215,7 @@ public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder
 		return message;
 	}
 
-	public String isNewAdapterInstanceAllowed(String adapterId, NameNamespace nn) {
+	public String isNewAdapterInstanceAllowed(String adapterId, NameNamespaceID nn) {
 		String message = null;
 		if (Strings.isNullOrEmpty(adapterId)) {
 			message = "adapter id can't be empty";
@@ -250,7 +250,7 @@ public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder
 			AdapterInstance in = (AdapterInstance) src;
 			String type = in.getType();
 			String namespace = in.getNamespace();
-			NameNamespace nn = new NameNamespace(type, namespace);
+			NameNamespaceID nn = new NameNamespaceID(type, namespace);
 			Adapter ta = JarRepoService.getInstance().getAdapterForChain(nn);
 			if (ta != null) {
 				if (ta.getPattern().equals(Adapter.IN_PATTERN))
@@ -266,7 +266,7 @@ public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder
 			AdapterInstance out = (AdapterInstance) dst;
 			String type = out.getType();
 			String namespace = out.getNamespace();
-			NameNamespace nn = new NameNamespace(type, namespace);
+			NameNamespaceID nn = new NameNamespaceID(type, namespace);
 			Adapter ta = JarRepoService.getInstance().getAdapterForChain(nn);
 			if (ta != null) {
 				if (ta.getPattern().equals(Adapter.OUT_PATTERN))

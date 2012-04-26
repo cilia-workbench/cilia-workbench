@@ -12,17 +12,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.identifiable;
+package fr.liglab.adele.cilia.workbench.common.marker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 
 /**
+ * Helpers methods, for managing errors from {@link Identifiable} objects.
  * 
  * @author Etienne Gandrille
  */
@@ -34,7 +34,8 @@ public abstract class IdentifiableUtils {
 	 * @param sourceProvider
 	 *            the source provider, for error generation
 	 * @param data
-	 * @return an array (which can be null) with errors.
+	 * @return an array (which can be null) with errors if two objects have the
+	 *         same id from the {@link Identifiable} point of view.
 	 */
 	public static List<CiliaFlag> getErrorsNonUniqueId(Object sourceProvider, Iterable<? extends Identifiable> data) {
 		Map<Object, Integer> counter = new HashMap<Object, Integer>();

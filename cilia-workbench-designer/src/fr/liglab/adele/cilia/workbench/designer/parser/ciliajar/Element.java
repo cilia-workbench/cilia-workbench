@@ -18,7 +18,7 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
@@ -56,7 +56,7 @@ public abstract class Element implements DisplayedInPropertiesView, ErrorsAndWar
 
 	@Override
 	public Object getId() {
-		return new NameNamespace(name, namespace);
+		return new NameNamespaceID(name, namespace);
 	}
 
 	@Override

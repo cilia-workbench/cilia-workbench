@@ -23,11 +23,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.identifiable.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
@@ -95,7 +95,7 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 	}
 
 	public Object getId() {
-		return new NameNamespace(id, namespace);
+		return new NameNamespaceID(id, namespace);
 	}
 
 	public String getNamespace() {
@@ -232,7 +232,7 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 		return id;
 	}
 
-	public static Element createXMLSpec(Document document, Node parent, NameNamespace id) {
+	public static Element createXMLSpec(Document document, Node parent, NameNamespaceID id) {
 		Element child = document.createElement(MediatorSpec.XML_NODE_NAME);
 		child.setAttribute(MediatorSpec.XML_ATTR_ID, id.getName());
 		child.setAttribute(MediatorSpec.XML_ATTR_NAMESPACE, id.getNamespace());

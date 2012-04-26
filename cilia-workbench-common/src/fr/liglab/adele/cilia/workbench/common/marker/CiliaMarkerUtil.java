@@ -26,7 +26,10 @@ import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.RootSourceProv
 import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.SourceProviderField;
 
 /**
- * Static methods for creating and finding Cilia markers.
+ * Static methods for creating and finding Cilia markers. An {@link IMarker} is
+ * an object which can be used by Eclipse to display errors in an error view. As
+ * soon as markers are created, they are automatically registered in the eclipse
+ * workbench.
  * 
  * @author Etienne Gandrille
  */
@@ -104,7 +107,7 @@ public class CiliaMarkerUtil {
 	}
 
 	/**
-	 * Finds all existing Cilia markers.
+	 * Finds all existing Cilia markers, registered in the Eclipse Workbench.
 	 * 
 	 * @return
 	 * @throws CoreException
@@ -123,7 +126,7 @@ public class CiliaMarkerUtil {
 	}
 
 	/**
-	 * Find markers, with a given root source provider.
+	 * Finds markers, with a given root source provider.
 	 * 
 	 * @param sourceProvider
 	 *            the source provider
@@ -143,7 +146,7 @@ public class CiliaMarkerUtil {
 	}
 
 	/**
-	 * Deletes markers, with a given root source provider.
+	 * Deletes all markers, with a given root source provider.
 	 * 
 	 * @param sourceProvider
 	 *            the source provider
@@ -152,7 +155,6 @@ public class CiliaMarkerUtil {
 	 *             the core exception
 	 */
 	public static void deleteMarkers(Object rootSourceProvider) throws CoreException {
-
 		for (IMarker marker : findMarkers(rootSourceProvider))
 			marker.delete();
 	}

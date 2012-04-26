@@ -24,7 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -102,7 +102,7 @@ public class SpecModel implements DisplayedInPropertiesView {
 
 		for (Iterator<MediatorSpec> itr = mediatorSpecs.iterator(); itr.hasNext();) {
 			MediatorSpec old = itr.next();
-			NameNamespace id = (NameNamespace) old.getId();
+			NameNamespaceID id = (NameNamespaceID) old.getId();
 
 			MediatorSpec updated = PullElementUtil.pullMediatorSpec(newInstance, id);
 			if (updated == null) {
@@ -126,7 +126,7 @@ public class SpecModel implements DisplayedInPropertiesView {
 		return retval.toArray(new Changeset[0]);
 	}
 
-	public void deleteMediatorSpec(NameNamespace id) throws MetadataException {
+	public void deleteMediatorSpec(NameNamespaceID id) throws MetadataException {
 
 		// Finding target node
 		File file = new File(filePath);
@@ -142,7 +142,7 @@ public class SpecModel implements DisplayedInPropertiesView {
 		}
 	}
 
-	public void updateMediatorSpec(NameNamespace id, List<String> inPorts, List<String> outPorts,
+	public void updateMediatorSpec(NameNamespaceID id, List<String> inPorts, List<String> outPorts,
 			Map<String, String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
 			List<String> dispatcherParam) throws MetadataException {
 
@@ -186,7 +186,7 @@ public class SpecModel implements DisplayedInPropertiesView {
 		SpecRepoService.getInstance().updateModel();
 	}
 
-	private Node findXMLMediatorNode(Document document, NameNamespace id) throws MetadataException {
+	private Node findXMLMediatorNode(Document document, NameNamespaceID id) throws MetadataException {
 		Node root = getRootNode(document);
 		Node[] results = XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME, MediatorSpec.XML_ATTR_ID,
 				id.getName(), MediatorSpec.XML_ATTR_NAMESPACE, id.getNamespace());
@@ -197,7 +197,7 @@ public class SpecModel implements DisplayedInPropertiesView {
 			return results[0];
 	}
 
-	public void createMediatorSpec(NameNamespace id) throws MetadataException {
+	public void createMediatorSpec(NameNamespaceID id) throws MetadataException {
 
 		if (SpecRepoService.getInstance().isNewMediatorSpecAllowed(id) == null) {
 			File file = new File(filePath);

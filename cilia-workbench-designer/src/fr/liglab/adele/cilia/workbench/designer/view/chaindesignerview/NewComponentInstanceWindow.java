@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Text;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 
 /**
@@ -45,9 +45,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 public abstract class NewComponentInstanceWindow extends Dialog {
 
 	/** The component id, found in the jar repository. */
-	protected NameNamespace[] componentsId = new NameNamespace[0];
+	protected NameNamespaceID[] componentsId = new NameNamespaceID[0];
 
-	Map<String, NameNamespace> stringToId = new HashMap<String, NameNamespace>();
+	Map<String, NameNamespaceID> stringToId = new HashMap<String, NameNamespaceID>();
 
 	private final String componentName;
 
@@ -87,7 +87,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	/** The component id. */
 	private String componentId;
 	/** The component type. */
-	private NameNamespace componentType;
+	private NameNamespaceID componentType;
 
 	/**
 	 * Instantiates a new new component instance window.
@@ -142,7 +142,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 
 		// Type Combo
 		typeCombo = new Combo(container, SWT.NONE);
-		for (NameNamespace compoId : componentsId) {
+		for (NameNamespaceID compoId : componentsId) {
 			String str = compoId.getName();
 			if (!Strings.isNullOrEmpty(compoId.getNamespace()))
 				str = str + " (" + compoId.getNamespace() + ")";
@@ -189,7 +189,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	 * 
 	 * @return the component type
 	 */
-	public NameNamespace getComponentType() {
+	public NameNamespaceID getComponentType() {
 		return componentType;
 	}
 
@@ -223,7 +223,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 		return true;
 	}
 
-	protected abstract String checkValidValues(String id, NameNamespace type);
+	protected abstract String checkValidValues(String id, NameNamespaceID type);
 
 	/**
 	 * Listener invoked each time the user modifies a field in this window.
@@ -243,7 +243,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 		public void modifyText(ModifyEvent e) {
 			String id = idText.getText();
 			String str = typeCombo.getText();
-			NameNamespace nn = stringToId.get(str);
+			NameNamespaceID nn = stringToId.get(str);
 
 			String msg = checkValidValues(id, nn);
 

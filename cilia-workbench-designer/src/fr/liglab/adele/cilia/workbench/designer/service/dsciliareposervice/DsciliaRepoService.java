@@ -21,7 +21,7 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.xml.MetadataException;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
@@ -216,14 +216,14 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 			return null;
 	}
 
-	public void createMediatorInstance(Chain chain, String id, NameNamespace type) throws MetadataException {
+	public void createMediatorInstance(Chain chain, String id, NameNamespaceID type) throws MetadataException {
 		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
 		repo.getModel().createMediatorInstance(chain, id, type);
 	}
 
-	public void createAdapterInstance(Chain chain, String id, NameNamespace type) throws MetadataException {
+	public void createAdapterInstance(Chain chain, String id, NameNamespaceID type) throws MetadataException {
 		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
