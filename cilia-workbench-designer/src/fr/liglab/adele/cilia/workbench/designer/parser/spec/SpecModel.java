@@ -16,7 +16,6 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,8 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
@@ -37,7 +37,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class SpecModel implements DisplayedInPropertiesView {
+public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 
 	/** XML Root node name */
 	public static final String XML_NODE_NAME = "cilia-specifications";
@@ -89,41 +89,25 @@ public class SpecModel implements DisplayedInPropertiesView {
 		return XMLHelpers.getRootNode(document, XML_NODE_NAME);
 	}
 
-	/**
-	 * Merge.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param newInstance
-	 *            the new instance
-	 * @return the changeset[]
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.
+	 * Mergeable#merge(java.lang.Object)
 	 */
-	public Changeset[] merge(SpecModel newInstance) {
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+		SpecModel newInstance = (SpecModel) other;
 
-		for (Iterator<MediatorSpec> itr = mediatorSpecs.iterator(); itr.hasNext();) {
-			MediatorSpec old = itr.next();
-			NameNamespaceID id = (NameNamespaceID) old.getId();
+		retval.addAll(MergeUtil.mergeLists(newInstance.getMediatorSpecs(), mediatorSpecs));
 
-			MediatorSpec updated = PullElementUtil.pullMediatorSpec(newInstance, id);
-			if (updated == null) {
-				itr.remove();
-				retval.add(new Changeset(Operation.REMOVE, old));
-			} else {
-				for (Changeset c : old.merge(updated))
-					retval.add(c);
-			}
-		}
-
-		for (MediatorSpec c : newInstance.getMediatorSpecs()) {
-			mediatorSpecs.add(c);
-			retval.add(new Changeset(Operation.ADD, c));
-		}
-
-		// path update
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
-		return retval.toArray(new Changeset[0]);
+		return retval;
 	}
 
 	public void deleteMediatorSpec(NameNamespaceID id) throws CiliaException {

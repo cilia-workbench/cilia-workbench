@@ -40,4 +40,9 @@ public class OutPort extends Port implements DisplayedInPropertiesView {
 	public static Node createXMLPort(Document document, Node parent, String portName) {
 		return XMLHelpers.createNode(document, parent, XMLtag, XML_ATTR_NAME, portName);
 	}
+
+	@Override
+	public Object getId() {
+		return "out:" + getName();
+	}
 }

@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.window.Window;
@@ -48,8 +50,8 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView#createPartControl(org.eclipse.swt
-	 * .widgets.Composite)
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView
+	 * #createPartControl(org.eclipse.swt .widgets.Composite)
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
@@ -82,12 +84,13 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView#repositoryContentUpdated(fr.liglab
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView
+	 * #repositoryContentUpdated(fr.liglab
 	 * .adele.cilia.workbench.designer.service.abstractreposervice.Changeset[])
 	 */
 	@Override
-	public void repositoryContentUpdated(Changeset[] changes) {
-		if (changes.length != 0) {
+	public void repositoryContentUpdated(List<Changeset> changes) {
+		if (changes.size() != 0) {
 			refresh();
 			return;
 		}

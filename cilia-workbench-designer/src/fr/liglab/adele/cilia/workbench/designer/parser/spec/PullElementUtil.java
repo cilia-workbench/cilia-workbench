@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
@@ -74,6 +75,17 @@ public class PullElementUtil implements DisplayedInPropertiesView {
 		for (Iterator<Parameter> itr = componentPart.getParameters().iterator(); itr.hasNext();) {
 			Parameter element = itr.next();
 			if (element.getName().equals(name)) {
+				itr.remove();
+				return element;
+			}
+		}
+		return null;
+	}
+
+	public static Identifiable pullProperty(Iterable<? extends Identifiable> list, Object id) {
+		for (Iterator<? extends Identifiable> itr = list.iterator(); itr.hasNext();) {
+			Identifiable element = itr.next();
+			if (element.getId().equals(id)) {
 				itr.remove();
 				return element;
 			}

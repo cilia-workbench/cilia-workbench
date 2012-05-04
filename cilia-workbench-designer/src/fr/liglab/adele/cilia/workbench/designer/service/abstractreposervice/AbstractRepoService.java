@@ -215,7 +215,7 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	 * @param changes
 	 *            the change set table.
 	 */
-	protected void notifyListeners(Changeset[] changes) {
+	protected void notifyListeners(List<Changeset> changes) {
 		for (IRepoServiceListener listener : listeners) {
 			listener.repositoryContentUpdated(changes);
 		}

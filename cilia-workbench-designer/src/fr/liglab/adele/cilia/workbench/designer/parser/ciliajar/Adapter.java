@@ -19,8 +19,8 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 
 /**
  * 
@@ -41,11 +41,11 @@ public class Adapter extends Element {
 		super(node);
 
 		this.node = node;
-		XMLReflectionUtil.setAttribute(node, "pattern", this, "pattern");
+		ReflectionUtil.setAttribute(node, "pattern", this, "pattern");
 
 		try {
 			Node subNode = getSubNode(node, pattern);
-			XMLReflectionUtil.setAttribute(subNode, "type", this, "elementType");
+			ReflectionUtil.setAttribute(subNode, "type", this, "elementType");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

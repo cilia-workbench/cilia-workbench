@@ -15,7 +15,6 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -27,14 +26,15 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentPart implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public abstract class ComponentPart implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
 
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 
@@ -52,31 +52,8 @@ public abstract class ComponentPart implements DisplayedInPropertiesView, Errors
 		return parameters;
 	}
 
-	public Changeset[] merge(ComponentPart newInstance) {
-		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-		boolean mustUpdate = false;
-
-		// parameters
-		for (Iterator<Parameter> itr = parameters.iterator(); itr.hasNext();) {
-			Parameter old = itr.next();
-			String name = old.getName();
-
-			Parameter updated = PullElementUtil.pullParameter(newInstance, name);
-			if (updated == null) {
-				itr.remove();
-				mustUpdate = true;
-			}
-		}
-
-		if (!newInstance.getParameters().isEmpty()) {
-			parameters.addAll(newInstance.getParameters());
-			mustUpdate = true;
-		}
-
-		if (mustUpdate)
-			retval.add(new Changeset(Operation.UPDATE, this));
-
-		return retval.toArray(new Changeset[0]);
+	public List<Changeset> merge(Object newInstance) throws CiliaException {
+		return MergeUtil.mergeLists(((ComponentPart) newInstance).getParameters(), parameters);
 	}
 
 	@Override

@@ -24,7 +24,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
@@ -38,8 +38,8 @@ public abstract class Element implements DisplayedInPropertiesView, ErrorsAndWar
 	private String namespace;
 
 	public Element(Node node) throws CiliaException {
-		XMLReflectionUtil.setAttribute(node, "name", this, "name");
-		XMLReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.getDefaultNamespace());
+		ReflectionUtil.setAttribute(node, "name", this, "name");
+		ReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.getDefaultNamespace());
 	}
 
 	public String getName() {

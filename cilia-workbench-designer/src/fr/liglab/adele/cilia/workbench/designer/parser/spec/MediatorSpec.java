@@ -15,7 +15,6 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -29,17 +28,18 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
+public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
 
@@ -58,8 +58,8 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 	private Dispatcher dispatcher = null;
 
 	public MediatorSpec(Node node) throws CiliaException {
-		XMLReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "id");
-		XMLReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
+		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "id");
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
 
 		Node rootPorts = XMLHelpers.findChild(node, XML_NODE_PORTS_CONTAINER);
 		if (rootPorts != null) {
@@ -138,93 +138,21 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 		return retval;
 	}
 
-	public Changeset[] merge(MediatorSpec newInstance) {
-		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+	public List<Changeset> merge(Object other) throws CiliaException {
 
-		// ports
-		for (Iterator<Port> itr = ports.iterator(); itr.hasNext();) {
-			Port old = itr.next();
-			String name = old.getName();
-			Class<? extends Port> classType = old.getClass();
+		List<Changeset> retval = new ArrayList<Changeset>();
+		MediatorSpec newInstance = (MediatorSpec) other;
 
-			Port updated = PullElementUtil.pullPort(newInstance, name, classType);
-			if (updated == null) {
-				itr.remove();
-				retval.add(new Changeset(Operation.REMOVE, old));
-			}
-		}
-		for (Port port : newInstance.getPorts()) {
-			ports.add(port);
-			retval.add(new Changeset(Operation.ADD, port));
-		}
+		retval.addAll(MergeUtil.mergeLists(newInstance.getPorts(), ports));
+		retval.addAll(MergeUtil.mergeLists(newInstance.getProperties(), properties));
+		retval.addAll(MergeUtil.mergeObjectsFields(newInstance, this, "processor"));
+		retval.addAll(MergeUtil.mergeObjectsFields(newInstance, this, "scheduler"));
+		retval.addAll(MergeUtil.mergeObjectsFields(newInstance, this, "dispatcher"));
 
-		// properties
-		for (Iterator<Property> itr = properties.iterator(); itr.hasNext();) {
-			Property old = itr.next();
-			String key = old.getKey();
-
-			Property updated = PullElementUtil.pullProperty(newInstance, key);
-			if (updated == null) {
-				itr.remove();
-				retval.add(new Changeset(Operation.REMOVE, old));
-			} else {
-				for (Changeset c : old.merge(updated))
-					retval.add(c);
-			}
-		}
-		for (Property property : newInstance.getProperties()) {
-			properties.add(property);
-			retval.add(new Changeset(Operation.ADD, property));
-		}
-
-		// processor
-		if (processor == null && newInstance.getProcessor() == null) {
-			// nothing to do
-		} else if (processor != null && newInstance.getProcessor() == null) {
-			retval.add(new Changeset(Operation.REMOVE, processor));
-			processor = null;
-		} else if (processor == null && newInstance.getProcessor() != null) {
-			processor = newInstance.getProcessor();
-			retval.add(new Changeset(Operation.ADD, processor));
-		} else {
-			for (Changeset c : processor.merge(newInstance.getProcessor()))
-				retval.add(c);
-		}
-
-		// scheduler
-		if (scheduler == null && newInstance.getScheduler() == null) {
-			// nothing to do
-		} else if (scheduler != null && newInstance.getScheduler() == null) {
-			retval.add(new Changeset(Operation.REMOVE, scheduler));
-			scheduler = null;
-		} else if (scheduler == null && newInstance.getScheduler() != null) {
-			scheduler = newInstance.getScheduler();
-			retval.add(new Changeset(Operation.ADD, scheduler));
-		} else {
-			for (Changeset c : scheduler.merge(newInstance.getScheduler()))
-				retval.add(c);
-		}
-
-		// dispatcher
-		if (dispatcher == null && newInstance.getDispatcher() == null) {
-			// nothing to do
-		} else if (dispatcher != null && newInstance.getDispatcher() == null) {
-			retval.add(new Changeset(Operation.REMOVE, dispatcher));
-			dispatcher = null;
-		} else if (dispatcher == null && newInstance.getDispatcher() != null) {
-			dispatcher = newInstance.getDispatcher();
-			retval.add(new Changeset(Operation.ADD, dispatcher));
-		} else {
-			for (Changeset c : dispatcher.merge(newInstance.getDispatcher()))
-				retval.add(c);
-		}
-
-		// path update
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
-		return retval.toArray(new Changeset[0]);
-
+		return retval;
 	}
 
 	@Override

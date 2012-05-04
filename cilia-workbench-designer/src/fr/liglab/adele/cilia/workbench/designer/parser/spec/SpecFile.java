@@ -15,14 +15,18 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 
 /**
- * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well
- * formed or not. If it is "well formed", the model field is not null, and represents a model of the file.
+ * Represents a file, from a "physical" point of view. This file, which must
+ * exists on the file system, can be well formed or not. If it is "well formed",
+ * the model field is not null, and represents a model of the file.
  * 
  * @author Etienne Gandrille
  */
@@ -51,38 +55,39 @@ public class SpecFile extends AbstractFile<SpecModel> {
 	 * @param newInstance
 	 *            the new instance
 	 * @return the changeset[]
+	 * @throws CiliaException
 	 */
-	public Changeset[] merge(SpecFile newInstance) {
+	public ArrayList<Changeset> merge(SpecFile newInstance) throws CiliaException {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
-		if (model == null && newInstance.getModel() == null) {
-			// do nothing
-		} else if (model != null && newInstance.getModel() != null) {
-			for (Changeset c : model.merge(newInstance.getModel()))
-				retval.add(c);
-		} else {
-			retval.add(new Changeset(Operation.UPDATE, this));
+		SpecModel oldModel = this.getModel();
+		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");
+		SpecModel newModel = this.getModel();
 
-			// becomes invalid
-			if (model != null) {
-				for (MediatorSpec ms : model.getMediatorSpecs())
-					retval.add(new Changeset(Operation.REMOVE, ms));
-			}
+		// Because Spec Model is not displayed in tne view, here is a little
+		// piece of code for handling this very special case...
+		for (Changeset c : result) {
 
-			model = newInstance.getModel();
-
-			// becomes valid
-			if (model != null) {
-				for (MediatorSpec ms : model.getMediatorSpecs())
+			// XML file becomes valid
+			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel)
+				for (MediatorSpec ms : newModel.getMediatorSpecs())
 					retval.add(new Changeset(Operation.ADD, ms));
-			}
+
+			// XML file becomes invalid
+			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel)
+				for (MediatorSpec ms : oldModel.getMediatorSpecs())
+					retval.add(new Changeset(Operation.REMOVE, ms));
+
+			// Other event, deeper in hierarchy
+			else
+				retval.add(c);
 		}
 
 		// path update
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
-		return retval.toArray(new Changeset[0]);
+		return retval;
 	}
 }

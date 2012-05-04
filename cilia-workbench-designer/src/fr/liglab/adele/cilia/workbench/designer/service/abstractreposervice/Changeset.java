@@ -99,4 +99,10 @@ public class Changeset {
 	public String toString() {
 		return operation + " " + object;
 	}
+
+	public static void displayChangeset(List<Changeset> changesets) {
+		System.out.println("Liste des changesets");
+		for (Changeset c : changesets)
+			System.out.println(" * " + c);
+	}
 }

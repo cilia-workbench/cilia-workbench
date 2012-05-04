@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
@@ -40,8 +40,8 @@ public abstract class SCElement implements DisplayedInPropertiesView, ErrorsAndW
 
 	public SCElement(Node node) throws CiliaException {
 		parameters = Parameter.findParameters(node);
-		XMLReflectionUtil.setAttribute(node, "name", this, "name");
-		XMLReflectionUtil.setAttribute(node, "classname", this, "classname");
+		ReflectionUtil.setAttribute(node, "name", this, "name");
+		ReflectionUtil.setAttribute(node, "classname", this, "classname");
 	}
 
 	public List<Parameter> getParameters() {

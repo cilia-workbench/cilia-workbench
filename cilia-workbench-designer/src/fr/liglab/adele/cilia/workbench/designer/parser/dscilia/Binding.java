@@ -20,7 +20,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
@@ -35,8 +35,8 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 	private String to;
 
 	public Binding(Node node) throws CiliaException {
-		XMLReflectionUtil.setAttribute(node, "from", this, "from");
-		XMLReflectionUtil.setAttribute(node, "to", this, "to");
+		ReflectionUtil.setAttribute(node, "from", this, "from");
+		ReflectionUtil.setAttribute(node, "to", this, "to");
 	}
 
 	public String getSourceId() {

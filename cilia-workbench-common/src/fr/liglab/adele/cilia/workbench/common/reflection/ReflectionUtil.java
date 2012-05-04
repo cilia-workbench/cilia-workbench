@@ -12,20 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.xml;
+package fr.liglab.adele.cilia.workbench.common.reflection;
 
 import java.lang.reflect.Field;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * A few methods, for reading XML and injecting values into fields.
  * 
  * @author Etienne Gandrille
  */
-public class XMLReflectionUtil {
+public class ReflectionUtil {
 
 	public static boolean setAttribute(Node node, String attrName, Object object, String fieldName)
 			throws CiliaException {
@@ -43,19 +44,7 @@ public class XMLReflectionUtil {
 		Exception exception = null;
 		boolean retval = true;
 		try {
-
-			// finds field
-			Field field = null;
-			Class<? extends Object> claz = object.getClass();
-			while (claz != null && field == null) {
-				try {
-					field = claz.getDeclaredField(fieldName);
-				} catch (NoSuchFieldException e) {
-					claz = claz.getSuperclass();
-				}
-			}
-			if (field == null)
-				throw new NoSuchFieldException("Can't find field with name " + fieldName);
+			Field field = findField(object, fieldName);
 
 			// finds value
 			String value = null;
@@ -89,5 +78,42 @@ public class XMLReflectionUtil {
 
 		// Success
 		return retval;
+	}
+
+	private static Field findField(Object object, String fieldName) throws NoSuchFieldException {
+		Field field = null;
+		Class<? extends Object> claz = object.getClass();
+		while (claz != null && field == null) {
+			try {
+				field = claz.getDeclaredField(fieldName);
+			} catch (NoSuchFieldException e) {
+				claz = claz.getSuperclass();
+			}
+		}
+		if (field == null)
+			throw new NoSuchFieldException("Can't find field with name " + fieldName);
+
+		return field;
+	}
+
+	public static String findStringValue(Object object, String fieldName) throws NoSuchFieldException,
+			IllegalArgumentException, IllegalAccessException {
+		Field field = findField(object, fieldName);
+		field.setAccessible(true);
+		return (String) field.get(object);
+	}
+
+	public static Object findValue(Object object, String fieldName) throws NoSuchFieldException,
+			IllegalArgumentException, IllegalAccessException {
+		Field field = findField(object, fieldName);
+		field.setAccessible(true);
+		return field.get(object);
+	}
+
+	public static void setValue(Object object, String fieldName, Object value) throws NoSuchFieldException,
+			IllegalArgumentException, IllegalAccessException {
+		Field field = findField(object, fieldName);
+		field.setAccessible(true);
+		field.set(object, value);
 	}
 }

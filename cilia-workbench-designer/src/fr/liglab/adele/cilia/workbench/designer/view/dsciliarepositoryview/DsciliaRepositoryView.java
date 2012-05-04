@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.widgets.Composite;
@@ -43,7 +45,8 @@ public class DsciliaRepositoryView extends RepositoryView<DsciliaFile, DsciliaMo
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView
 	 * #createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -72,7 +75,7 @@ public class DsciliaRepositoryView extends RepositoryView<DsciliaFile, DsciliaMo
 	 *            the changes
 	 */
 	@Override
-	public void repositoryContentUpdated(Changeset[] changes) {
+	public void repositoryContentUpdated(List<Changeset> changes) {
 		for (Changeset change : changes) {
 			Object object = change.getObject();
 			Operation operation = change.getOperation();

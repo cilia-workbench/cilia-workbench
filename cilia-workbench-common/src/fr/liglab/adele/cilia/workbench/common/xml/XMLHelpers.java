@@ -63,7 +63,8 @@ public class XMLHelpers {
 	}
 
 	/**
-	 * Gets the name part from a node name, removing the namespace part if it exists.
+	 * Gets the name part from a node name, removing the namespace part if it
+	 * exists.
 	 * 
 	 * @param name
 	 * @return the name, without namespace
@@ -135,7 +136,8 @@ public class XMLHelpers {
 	 * @param archivePath
 	 *            the archive path, on the hard disk.
 	 * @param fileName
-	 *            the file name, in the archive. The file must be located at the archive root.
+	 *            the file name, in the archive. The file must be located at the
+	 *            archive root.
 	 * @return the input stream
 	 * @throws CiliaException
 	 *             if any error.
@@ -308,7 +310,8 @@ public class XMLHelpers {
 	}
 
 	/**
-	 * Find an attribute value on a node. If the attribute does't exists, throw an exception.
+	 * Find an attribute value on a node. If the attribute does't exists, throw
+	 * an exception.
 	 * 
 	 * @param node
 	 *            the node
@@ -318,10 +321,10 @@ public class XMLHelpers {
 	 * @throws CiliaException
 	 *             the metadata exception
 	 */
-	static String findAttributeValue(Node node, String attrName) throws CiliaException {
-		
+	public static String findAttributeValue(Node node, String attrName) throws CiliaException {
+
 		Map<String, String> attrMap = findAttributesValues(node);
-		
+
 		for (String attr : attrMap.keySet()) {
 			String fullname = attr.toLowerCase();
 			String name = computeName(fullname);
@@ -331,19 +334,20 @@ public class XMLHelpers {
 			if (attrName.equals(name))
 				return value;
 		}
-		
+
 		throw new CiliaException("Attribute " + attrName + " not found");
 	}
 
 	/**
 	 * Finds all the attributes and their values in a given node.
-	 *
-	 * @param node the node
+	 * 
+	 * @param node
+	 *            the node
 	 * @return the map
 	 */
 	public static Map<String, String> findAttributesValues(Node node) {
-		
-		Map<String, String> retval = new HashMap<String, String>(); 
+
+		Map<String, String> retval = new HashMap<String, String>();
 		NamedNodeMap attrs = node.getAttributes();
 		if (attrs != null) {
 			for (int i = 0; i < attrs.getLength(); i++) {
@@ -357,9 +361,10 @@ public class XMLHelpers {
 
 		return retval;
 	}
-	
+
 	/**
-	 * Find an attribute value on a node. If the attribute does't exists, returns a default value.
+	 * Find an attribute value on a node. If the attribute does't exists,
+	 * returns a default value.
 	 * 
 	 * @param node
 	 *            the node
@@ -410,7 +415,8 @@ public class XMLHelpers {
 	}
 
 	/**
-	 * Finds all children nodes with the given name, and with an attribute with a given value.
+	 * Finds all children nodes with the given name, and with an attribute with
+	 * a given value.
 	 * 
 	 * @param root
 	 *            the root
@@ -427,7 +433,8 @@ public class XMLHelpers {
 	}
 
 	/**
-	 * Finds all children nodes with the given name, and with two attribute with their given values.
+	 * Finds all children nodes with the given name, and with two attribute with
+	 * their given values.
 	 * 
 	 * @param root
 	 *            the root

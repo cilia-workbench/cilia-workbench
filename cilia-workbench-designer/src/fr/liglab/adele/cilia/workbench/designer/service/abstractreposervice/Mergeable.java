@@ -16,16 +16,13 @@ package fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+
 /**
  * 
  * @author Etienne Gandrille
  */
-public interface IRepoServiceListener {
-	/**
-	 * Repository change.
-	 * 
-	 * @param changes
-	 *            the changes
-	 */
-	public void repositoryContentUpdated(List<Changeset> changes);
+public interface Mergeable {
+
+	List<Changeset> merge(Object other) throws CiliaException;
 }

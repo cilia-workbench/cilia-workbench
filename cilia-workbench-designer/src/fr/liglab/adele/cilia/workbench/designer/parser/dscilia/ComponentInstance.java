@@ -20,7 +20,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
@@ -34,9 +34,9 @@ public abstract class ComponentInstance implements DisplayedInPropertiesView, Er
 	protected String namespace;
 
 	public ComponentInstance(Node node) throws CiliaException {
-		XMLReflectionUtil.setAttribute(node, "id", this, "id");
-		XMLReflectionUtil.setAttribute(node, "type", this, "type");
-		XMLReflectionUtil.setAttribute(node, "namespace", this, "namespace");
+		ReflectionUtil.setAttribute(node, "id", this, "id");
+		ReflectionUtil.setAttribute(node, "type", this, "type");
+		ReflectionUtil.setAttribute(node, "namespace", this, "namespace");
 	}
 
 	public String getId() {

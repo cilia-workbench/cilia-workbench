@@ -27,8 +27,8 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
@@ -47,7 +47,7 @@ public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder
 	private List<Binding> bindings = new ArrayList<Binding>();
 
 	public Chain(Node node) throws CiliaException {
-		XMLReflectionUtil.setAttribute(node, "id", this, "id");
+		ReflectionUtil.setAttribute(node, "id", this, "id");
 
 		Node rootAdapters = XMLHelpers.findChild(node, "adapters");
 		if (rootAdapters != null) {

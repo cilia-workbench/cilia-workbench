@@ -90,7 +90,12 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		}
 
 		// Updates existing model with computed model
-		Changeset[] changes = merge(elements);
+		List<Changeset> changes = null;
+		try {
+			changes = merge(elements);
+		} catch (CiliaException e) {
+			e.printStackTrace();
+		}
 
 		// Update content provider
 		contentProvider = new SpecContentProvider(model);
@@ -110,7 +115,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 	 *            a new model
 	 * @return a list of changesets, which can be empty.
 	 */
-	private Changeset[] merge(List<SpecFile> repoElements) {
+	private List<Changeset> merge(List<SpecFile> repoElements) throws CiliaException {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
@@ -136,7 +141,9 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
-		return retval.toArray(new Changeset[0]);
+		Changeset.displayChangeset(retval);
+
+		return retval;
 	}
 
 	/*
@@ -169,8 +176,8 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		if (file == null)
 			return;
 		try {
-			file.getModel().updateMediatorSpec((NameNamespaceID) mediator.getId(), inPorts, outPorts, mediatorProperties,
-					schedulerParam, processorParam, dispatcherParam);
+			file.getModel().updateMediatorSpec((NameNamespaceID) mediator.getId(), inPorts, outPorts,
+					mediatorProperties, schedulerParam, processorParam, dispatcherParam);
 		} catch (CiliaException e) {
 			e.printStackTrace();
 		}

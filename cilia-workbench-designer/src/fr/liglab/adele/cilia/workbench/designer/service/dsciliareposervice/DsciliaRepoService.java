@@ -85,7 +85,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 		}
 
 		// Updates existing model with computed model
-		Changeset[] changes = merge(elements);
+		List<Changeset> changes = merge(elements);
 
 		// Update content provider
 		contentProvider = new DsciliaContentProvider(model);
@@ -105,7 +105,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	 *            a new model
 	 * @return a list of changesets, which can be empty.
 	 */
-	private Changeset[] merge(List<DsciliaFile> repoElements) {
+	private List<Changeset> merge(List<DsciliaFile> repoElements) {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
@@ -131,7 +131,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
-		return retval.toArray(new Changeset[0]);
+		return retval;
 	}
 
 	/*

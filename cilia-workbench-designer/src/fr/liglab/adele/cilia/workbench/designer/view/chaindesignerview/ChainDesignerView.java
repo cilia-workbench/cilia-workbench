@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Composite;
@@ -92,7 +94,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 	}
 
 	@Override
-	public void repositoryContentUpdated(Changeset[] changes) {
+	public void repositoryContentUpdated(List<Changeset> changes) {
 		// if model = null, no need to check anything...
 		if (model != null) {
 			DsciliaRepoService srv = DsciliaRepoService.getInstance();

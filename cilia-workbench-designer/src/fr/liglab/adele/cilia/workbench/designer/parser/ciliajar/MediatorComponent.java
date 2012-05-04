@@ -26,8 +26,8 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
 
 /**
  * 
@@ -61,20 +61,20 @@ public class MediatorComponent extends Element {
 
 		Node schedulerNode = XMLHelpers.findChild(node, "scheduler");
 		if (schedulerNode != null) {
-			XMLReflectionUtil.setAttribute(schedulerNode, "name", this, "schedulerName");
-			XMLReflectionUtil.setAttribute(schedulerNode, "namespace", this, "schedulerNamespace", defNs);
+			ReflectionUtil.setAttribute(schedulerNode, "name", this, "schedulerName");
+			ReflectionUtil.setAttribute(schedulerNode, "namespace", this, "schedulerNamespace", defNs);
 		}
 
 		Node processorNode = XMLHelpers.findChild(node, "processor");
 		if (processorNode != null) {
-			XMLReflectionUtil.setAttribute(processorNode, "name", this, "processorName");
-			XMLReflectionUtil.setAttribute(processorNode, "namespace", this, "processorNamespace", defNs);
+			ReflectionUtil.setAttribute(processorNode, "name", this, "processorName");
+			ReflectionUtil.setAttribute(processorNode, "namespace", this, "processorNamespace", defNs);
 		}
 
 		Node dispatcherNode = XMLHelpers.findChild(node, "dispatcher");
 		if (dispatcherNode != null) {
-			XMLReflectionUtil.setAttribute(dispatcherNode, "name", this, "dispatcherName", defNs);
-			XMLReflectionUtil.setAttribute(dispatcherNode, "namespace", this, "dispatcherNamespace");
+			ReflectionUtil.setAttribute(dispatcherNode, "name", this, "dispatcherName", defNs);
+			ReflectionUtil.setAttribute(dispatcherNode, "namespace", this, "dispatcherNamespace");
 		}
 
 		Node portsNode = XMLHelpers.findChild(node, "ports");

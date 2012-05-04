@@ -21,7 +21,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
@@ -34,7 +34,7 @@ public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarnin
 	private String name;
 
 	public Port(Node node, String XMLtag) throws CiliaException {
-		XMLReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 	}
 
 	public String getName() {
@@ -43,11 +43,6 @@ public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarnin
 
 	@Override
 	public String toString() {
-		return name;
-	}
-
-	@Override
-	public Object getId() {
 		return name;
 	}
 

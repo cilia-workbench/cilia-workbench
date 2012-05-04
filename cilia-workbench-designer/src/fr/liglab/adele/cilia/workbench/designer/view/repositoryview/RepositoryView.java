@@ -78,7 +78,9 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createPartControl(Composite parent) {
 		// Global layout
@@ -170,7 +172,7 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	 *            the changes
 	 */
 	@Override
-	public void repositoryContentUpdated(Changeset[] changes) {
+	public void repositoryContentUpdated(List<Changeset> changes) {
 		for (Changeset change : changes) {
 			if (change.getOperation() != Operation.UPDATE) {
 				refresh();
@@ -212,8 +214,8 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	}
 
 	/**
-	 * Finds open editors, which are editing a file located in the repository. Filters results using the editor title :
-	 * title must end with prefix.
+	 * Finds open editors, which are editing a file located in the repository.
+	 * Filters results using the editor title : title must end with prefix.
 	 * 
 	 * @param prefix
 	 * @return
@@ -263,14 +265,16 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 
 			} catch (Exception e) {
 				// do nothing
-				// we are using try... catch instead because instanceof is not possible (type erasure)
+				// we are using try... catch instead because instanceof is not
+				// possible (type erasure)
 			}
 		}
 	}
 
 	/**
-	 * Opens an editor for editing a file, which name is given into parameter. Registers a listener to update the repo
-	 * model as soon as the editor saves.
+	 * Opens an editor for editing a file, which name is given into parameter.
+	 * Registers a listener to update the repo model as soon as the editor
+	 * saves.
 	 * 
 	 * @param filePath
 	 *            the file path
