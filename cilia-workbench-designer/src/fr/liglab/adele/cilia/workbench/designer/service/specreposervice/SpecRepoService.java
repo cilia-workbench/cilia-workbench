@@ -123,8 +123,6 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
-		Changeset.displayChangeset(retval);
-
 		return retval;
 	}
 

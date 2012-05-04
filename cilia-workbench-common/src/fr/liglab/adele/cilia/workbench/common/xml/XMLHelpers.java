@@ -310,7 +310,7 @@ public class XMLHelpers {
 	}
 
 	/**
-	 * Find an attribute value on a node. If the attribute does't exists, throw
+	 * Finds an attribute value on a node. If the attribute does't exists, throw
 	 * an exception.
 	 * 
 	 * @param node
@@ -328,7 +328,7 @@ public class XMLHelpers {
 		for (String attr : attrMap.keySet()) {
 			String fullname = attr.toLowerCase();
 			String name = computeName(fullname);
-			String namespace = computeNamespace(fullname);
+			// String namespace = computeNamespace(fullname);
 			String value = attrMap.get(attr);
 
 			if (attrName.equals(name))
