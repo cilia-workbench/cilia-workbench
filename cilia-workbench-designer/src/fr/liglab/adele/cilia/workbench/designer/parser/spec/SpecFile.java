@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must
@@ -30,7 +31,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Merg
  * 
  * @author Etienne Gandrille
  */
-public class SpecFile extends AbstractFile<SpecModel> {
+public class SpecFile extends AbstractFile<SpecModel> implements Mergeable {
 
 	/**
 	 * Instantiates a new spec file.
@@ -49,17 +50,18 @@ public class SpecFile extends AbstractFile<SpecModel> {
 		}
 	}
 
-	/**
-	 * Merge.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param newInstance
-	 *            the new instance
-	 * @return the changeset[]
-	 * @throws CiliaException
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.
+	 * Mergeable#merge(java.lang.Object)
 	 */
-	public ArrayList<Changeset> merge(SpecFile newInstance) throws CiliaException {
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+		SpecFile newInstance = (SpecFile) other;
 
 		SpecModel oldModel = this.getModel();
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");

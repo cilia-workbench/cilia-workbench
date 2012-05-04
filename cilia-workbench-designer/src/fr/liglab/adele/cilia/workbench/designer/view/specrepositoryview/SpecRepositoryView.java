@@ -90,7 +90,7 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 	 */
 	@Override
 	public void repositoryContentUpdated(List<Changeset> changes) {
-		if (changes.size() != 0) {
+		if (changes != null && changes.size() != 0) {
 			refresh();
 			return;
 		}

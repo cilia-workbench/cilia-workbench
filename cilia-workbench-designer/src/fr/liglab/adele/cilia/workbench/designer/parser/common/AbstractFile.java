@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.common;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
@@ -30,7 +31,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, DisplayedInPropertiesView {
+public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, DisplayedInPropertiesView, Identifiable {
 
 	/** Path on the file system. */
 	private String path;
@@ -46,6 +47,11 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 	 */
 	public AbstractFile(String path) {
 		this.path = path;
+	}
+
+	@Override
+	public Object getId() {
+		return path;
 	}
 
 	/**

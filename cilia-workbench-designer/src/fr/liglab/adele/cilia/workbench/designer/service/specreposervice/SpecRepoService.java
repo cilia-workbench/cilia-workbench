@@ -16,7 +16,6 @@ package fr.liglab.adele.cilia.workbench.designer.service.specreposervice;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,13 +25,12 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 
 /**
  * 
@@ -119,23 +117,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
-		for (Iterator<SpecFile> itr = model.iterator(); itr.hasNext();) {
-			SpecFile old = itr.next();
-			String id = old.getFilePath();
-			SpecFile updated = PullElementUtil.pullRepoElement(repoElements, id);
-			if (updated == null) {
-				itr.remove();
-				retval.add(new Changeset(Operation.REMOVE, old));
-			} else {
-				for (Changeset c : old.merge(updated))
-					retval.add(c);
-			}
-		}
-
-		for (SpecFile r : repoElements) {
-			model.add(r);
-			retval.add(new Changeset(Operation.ADD, r));
-		}
+		retval.addAll(MergeUtil.mergeLists(repoElements, this.model));
 
 		// path update
 		for (Changeset c : retval)
