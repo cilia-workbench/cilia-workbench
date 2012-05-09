@@ -45,27 +45,7 @@
 
 
 
-<mediator-specification id="my_spec" namespace="my.namespace">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-<properties>
-<property key="category" value="sample"/>
-<property key="secure" value="false"/>
-</properties>
-<scheduler>
-<parameters>
-<parameter name="period"/>
-</parameters>
-</scheduler>
-<processor>
-<parameters>
-<parameter name="a"/>
-<parameter name="aaaa"/>
-</parameters>
-</processor>
-</mediator-specification>
+
 
 
 
@@ -116,5 +96,41 @@
 <parameter name="aaa"/>
 </parameters>
 </dispatcher>
+</mediator-specification>
+
+
+
+
+
+<mediator-specification id="a" namespace="a">
+<ports>
+<in-port name="q"/>
+<in-port name="zzz"/>
+<out-port name="q"/>
+</ports>
+<properties>
+<property key="q" value="q"/>
+</properties>
+</mediator-specification>
+<mediator-specification id="my_spec" namespace="my.namespace">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+<properties>
+<property key="category" value="sample"/>
+<property key="secure" value="false"/>
+</properties>
+<scheduler>
+<parameters>
+<parameter name="period"/>
+</parameters>
+</scheduler>
+<processor>
+<parameters>
+<parameter name="a"/>
+<parameter name="aaaa"/>
+</parameters>
+</processor>
 </mediator-specification>
 </cilia-specifications>

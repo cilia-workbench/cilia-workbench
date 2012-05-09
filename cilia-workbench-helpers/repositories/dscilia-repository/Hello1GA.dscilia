@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia>
-	<chain id="chain3">
+	<chain id="chain6">
 		<!-- Adapters instances definition -->
 		<adapters>
 			<adapter-instance id="entryAdapter" type="periodic-generator">
