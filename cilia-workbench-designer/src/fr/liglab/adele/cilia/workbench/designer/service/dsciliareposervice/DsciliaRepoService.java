@@ -22,6 +22,9 @@ import com.google.common.base.Preconditions;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaModel;
@@ -37,7 +40,8 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Merg
  * 
  * @author Etienne Gandrille
  */
-public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, DsciliaModel> {
+public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, DsciliaModel> implements
+		ErrorsAndWarningsFinder {
 
 	/** Singleton instance */
 	private static DsciliaRepoService INSTANCE;
@@ -96,8 +100,6 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 		// Update markers relative to this repository
 		updateMarkers();
 
-		Changeset.displayChangeset(changes);
-
 		// Sends notifications
 		notifyListeners(changes);
 	}
@@ -154,12 +156,17 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	}
 
 	private Chain findChain(String chainName) {
-
-		for (DsciliaModel model : findAbstractElements())
-			for (Chain chain : model.getChains())
-				if (chain.getId().equalsIgnoreCase(chainName))
-					return chain;
+		for (Chain chain : getChains())
+			if (chain.getId().equalsIgnoreCase(chainName))
+				return chain;
 		return null;
+	}
+
+	private List<Chain> getChains() {
+		List<Chain> retval = new ArrayList<Chain>();
+		for (DsciliaModel model : findAbstractElements())
+			retval.addAll(model.getChains());
+		return retval;
 	}
 
 	/**
@@ -226,5 +233,12 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 		if (repo == null)
 			return;
 		repo.getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		List<CiliaFlag> errorList = IdentifiableUtils.getErrorsNonUniqueId(this, getChains());
+
+		return CiliaFlag.generateTab(errorList);
 	}
 }
