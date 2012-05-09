@@ -12,19 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
+package fr.liglab.adele.cilia.workbench.designer.parser.common;
 
-import org.w3c.dom.Node;
+import java.util.Iterator;
 
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorInstance extends ComponentInstance {
+public class PullElementUtil implements DisplayedInPropertiesView {
 
-	public MediatorInstance(Node node) throws CiliaException {
-		super(node);
+	public static Identifiable pullProperty(Iterable<? extends Identifiable> list, Object id) {
+		for (Iterator<? extends Identifiable> itr = list.iterator(); itr.hasNext();) {
+			Identifiable element = itr.next();
+			if (element.getId().equals(id)) {
+				itr.remove();
+				return element;
+			}
+		}
+		return null;
 	}
 }

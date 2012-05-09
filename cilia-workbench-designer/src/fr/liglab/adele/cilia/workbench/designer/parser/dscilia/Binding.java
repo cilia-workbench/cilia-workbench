@@ -14,22 +14,27 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
 
 	private String from;
 	private String to;
@@ -47,10 +52,6 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 		return XMLStringUtil.getBeforeSeparatorOrAll(to);
 	}
 
-	public Changeset[] merge(Binding newInstance) {
-		return new Changeset[0];
-	}
-
 	@Override
 	public String toString() {
 		return from + " - " + to;
@@ -62,5 +63,15 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, to, "to");
 
 		return CiliaFlag.generateTab(e1, e2);
+	}
+
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
+		return new ArrayList<Changeset>();
+	}
+
+	@Override
+	public Object getId() {
+		return from + " - " + to;
 	}
 }

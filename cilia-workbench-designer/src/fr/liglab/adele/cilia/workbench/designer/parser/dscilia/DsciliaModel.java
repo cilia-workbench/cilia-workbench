@@ -16,7 +16,6 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -29,8 +28,10 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * A {@link DsciliaModel} represents the content of a <strong>well
@@ -38,7 +39,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.Dscil
  * 
  * @author Etienne Gandrille
  */
-public class DsciliaModel {
+public class DsciliaModel implements DisplayedInPropertiesView, Mergeable {
 
 	/** XML Root node name */
 	public static final String ROOT_NODE_NAME = "cilia";
@@ -179,31 +180,16 @@ public class DsciliaModel {
 		return filePath;
 	}
 
-	public Changeset[] merge(DsciliaModel newInstance) {
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+		DsciliaModel newInstance = (DsciliaModel) other;
 
-		for (Iterator<Chain> itr = chains.iterator(); itr.hasNext();) {
-			Chain old = itr.next();
-			String id = old.getId();
-			Chain updated = PullElementUtil.pullChain(newInstance, id);
-			if (updated == null) {
-				itr.remove();
-				retval.add(new Changeset(Operation.REMOVE, old));
-			} else {
-				for (Changeset c : old.merge(updated))
-					retval.add(c);
-			}
-		}
+		retval.addAll(MergeUtil.mergeLists(newInstance.getChains(), chains));
 
-		for (Chain c : newInstance.getChains()) {
-			chains.add(c);
-			retval.add(new Changeset(Operation.ADD, c));
-		}
-
-		// path update
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
-		return retval.toArray(new Changeset[0]);
+		return retval;
 	}
 }

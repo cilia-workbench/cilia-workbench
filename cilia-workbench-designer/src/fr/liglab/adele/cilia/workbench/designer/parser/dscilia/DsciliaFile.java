@@ -15,18 +15,23 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 
 /**
- * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well
- * formed or not. If it is "well formed", the model field is not null, and represents a model of the file.
+ * Represents a file, from a "physical" point of view. This file, which must
+ * exists on the file system, can be well formed or not. If it is "well formed",
+ * the model field is not null, and represents a model of the file.
  * 
  * @author Etienne Gandrille
  */
-public class DsciliaFile extends AbstractFile<DsciliaModel> {
+public class DsciliaFile extends AbstractFile<DsciliaModel> implements Mergeable {
 
 	/**
 	 * Instantiates a new DsciliaFile
@@ -47,44 +52,38 @@ public class DsciliaFile extends AbstractFile<DsciliaModel> {
 		}
 	}
 
-	/**
-	 * Merge.
-	 * 
-	 * @param newInstance
-	 *            the new instance
-	 * @return the changeset[]
-	 */
-	public Changeset[] merge(DsciliaFile newInstance) {
-
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+		DsciliaFile newInstance = (DsciliaFile) other;
 
-		if (model == null && newInstance.getModel() == null) {
-			// do nothing
-		} else if (model != null && newInstance.getModel() != null) {
-			for (Changeset c : model.merge(newInstance.getModel()))
+		DsciliaModel oldModel = this.getModel();
+		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");
+		DsciliaModel newModel = this.getModel();
+
+		// Because DSCilia Model is not displayed in the view, here is a little
+		// piece of code for handling this very special case...
+		for (Changeset c : result) {
+
+			// XML file becomes valid
+			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel)
+				for (Chain chain : newModel.getChains())
+					retval.add(new Changeset(Operation.ADD, chain));
+
+			// XML file becomes invalid
+			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel)
+				for (Chain chain : oldModel.getChains())
+					retval.add(new Changeset(Operation.REMOVE, chain));
+
+			// Other event, deeper in hierarchy
+			else
 				retval.add(c);
-		} else {
-			retval.add(new Changeset(Operation.UPDATE, this));
-
-			// DScilia becomes invalid
-			if (model != null) {
-				for (Chain c : model.getChains())
-					retval.add(new Changeset(Operation.REMOVE, c));
-			}
-
-			model = newInstance.getModel();
-
-			// DScilia becomes valid
-			if (model != null) {
-				for (Chain c : model.getChains())
-					retval.add(new Changeset(Operation.ADD, c));
-			}
 		}
 
 		// path update
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
-		return retval.toArray(new Changeset[0]);
+		return retval;
 	}
 }

@@ -14,20 +14,28 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentInstance implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public abstract class ComponentInstance implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable,
+		Mergeable {
 
 	protected String id;
 	protected String type;
@@ -61,5 +69,14 @@ public abstract class ComponentInstance implements DisplayedInPropertiesView, Er
 		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, type, "type");
 
 		return CiliaFlag.generateTab(e1, e2);
+	}
+
+	public List<Changeset> merge(Object other) throws CiliaException {
+		List<Changeset> retval = new ArrayList<Changeset>();
+
+		retval.addAll(MergeUtil.computeUpdateChangeset(other, this, "type"));
+		retval.addAll(MergeUtil.computeUpdateChangeset(other, this, "namespace"));
+
+		return retval;
 	}
 }

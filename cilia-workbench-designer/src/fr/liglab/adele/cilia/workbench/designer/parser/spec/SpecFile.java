@@ -67,7 +67,7 @@ public class SpecFile extends AbstractFile<SpecModel> implements Mergeable {
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");
 		SpecModel newModel = this.getModel();
 
-		// Because Spec Model is not displayed in tne view, here is a little
+		// Because Spec Model is not displayed in the view, here is a little
 		// piece of code for handling this very special case...
 		for (Changeset c : result) {
 

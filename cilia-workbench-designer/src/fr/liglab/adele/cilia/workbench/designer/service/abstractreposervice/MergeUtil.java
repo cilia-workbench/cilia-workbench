@@ -21,7 +21,7 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.PullElementUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
@@ -40,11 +40,13 @@ public abstract class MergeUtil {
 				String newValue = ReflectionUtil.findStringValue(newInstance, fieldName);
 				String oldValue = ReflectionUtil.findStringValue(oldInstance, fieldName);
 
-				if (!oldValue.equals(newValue)) {
-					ReflectionUtil.setValue(oldInstance, fieldName, newValue);
-					Changeset c = new Changeset(Operation.UPDATE, oldInstance);
-					retval.add(c);
-					return retval;
+				if (!(oldValue == null && newValue == null)) {
+					if (!oldValue.equals(newValue)) {
+						ReflectionUtil.setValue(oldInstance, fieldName, newValue);
+						Changeset c = new Changeset(Operation.UPDATE, oldInstance);
+						retval.add(c);
+						return retval;
+					}
 				}
 
 			} catch (Exception e) {

@@ -17,8 +17,6 @@ package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
  * 
@@ -28,16 +26,5 @@ public class AdapterInstance extends ComponentInstance {
 
 	public AdapterInstance(Node node) throws CiliaException {
 		super(node);
-	}
-
-	public Changeset[] merge(AdapterInstance newInstance) {
-		if (type.equals(newInstance.type))
-			return new Changeset[0];
-		else {
-			type = newInstance.type;
-			Changeset[] retval = new Changeset[1];
-			retval[0] = new Changeset(Operation.UPDATE, this);
-			return retval;
-		}
 	}
 }

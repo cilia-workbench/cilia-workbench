@@ -15,7 +15,6 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Node;
@@ -23,6 +22,7 @@ import org.w3c.dom.Node;
 import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
@@ -31,7 +31,8 @@ import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
@@ -39,7 +40,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
 
 	private String id;
 	private List<AdapterInstance> adapters = new ArrayList<AdapterInstance>();
@@ -133,69 +134,19 @@ public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder
 		return id;
 	}
 
-	public Changeset[] merge(Chain newInstance) {
-		ArrayList<Changeset> retval = new ArrayList<Changeset>();
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
+		List<Changeset> retval = new ArrayList<Changeset>();
+		Chain newInstance = (Chain) other;
 
-		for (Iterator<AdapterInstance> itr = adapters.iterator(); itr.hasNext();) {
-			AdapterInstance old = itr.next();
-			String id = old.getId();
-			AdapterInstance updated = PullElementUtil.pullAdapterInstance(newInstance, id);
-			if (updated == null) {
-				itr.remove();
-				retval.add(new Changeset(Operation.REMOVE, old));
-			} else {
-				for (Changeset c : old.merge(updated))
-					retval.add(c);
-			}
-		}
+		retval.addAll(MergeUtil.mergeLists(newInstance.getAdapters(), adapters));
+		retval.addAll(MergeUtil.mergeLists(newInstance.getMediators(), mediators));
+		retval.addAll(MergeUtil.mergeLists(newInstance.getBindings(), bindings));
 
-		for (Iterator<MediatorInstance> itr = mediators.iterator(); itr.hasNext();) {
-			MediatorInstance old = itr.next();
-			String id = old.getId();
-			MediatorInstance updated = PullElementUtil.pullMediatorInstance(newInstance, id);
-			if (updated == null) {
-				itr.remove();
-				retval.add(new Changeset(Operation.REMOVE, old));
-			} else {
-				for (Changeset c : old.merge(updated))
-					retval.add(c);
-			}
-		}
-
-		for (Iterator<Binding> itr = bindings.iterator(); itr.hasNext();) {
-			Binding old = itr.next();
-			String from = old.getSourceId();
-			String to = old.getDestinationId();
-			Binding updated = PullElementUtil.pullBinding(newInstance, from, to);
-			if (updated == null) {
-				itr.remove();
-				retval.add(new Changeset(Operation.REMOVE, old));
-			} else {
-				for (Changeset c : old.merge(updated))
-					retval.add(c);
-			}
-		}
-
-		for (AdapterInstance a : newInstance.getAdapters()) {
-			adapters.add(a);
-			retval.add(new Changeset(Operation.ADD, a));
-		}
-
-		for (MediatorInstance m : newInstance.getMediators()) {
-			mediators.add(m);
-			retval.add(new Changeset(Operation.ADD, m));
-		}
-
-		for (Binding b : newInstance.getBindings()) {
-			bindings.add(b);
-			retval.add(new Changeset(Operation.ADD, b));
-		}
-
-		// path update
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
-		return retval.toArray(new Changeset[0]);
+		return retval;
 	}
 
 	public String isNewMediatorInstanceAllowed(String mediatorId, NameNamespaceID nn) {

@@ -16,7 +16,6 @@ package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
@@ -26,11 +25,10 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaModel;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 
 /**
  * A central place for managing the DScilia repository. The repository can be
@@ -85,13 +83,20 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 		}
 
 		// Updates existing model with computed model
-		List<Changeset> changes = merge(elements);
+		List<Changeset> changes = null;
+		try {
+			changes = merge(elements);
+		} catch (CiliaException e) {
+			e.printStackTrace();
+		}
 
 		// Update content provider
 		contentProvider = new DsciliaContentProvider(model);
 
 		// Update markers relative to this repository
 		updateMarkers();
+
+		Changeset.displayChangeset(changes);
 
 		// Sends notifications
 		notifyListeners(changes);
@@ -104,28 +109,13 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	 * @param repoElements
 	 *            a new model
 	 * @return a list of changesets, which can be empty.
+	 * @throws CiliaException
 	 */
-	private List<Changeset> merge(List<DsciliaFile> repoElements) {
+	private List<Changeset> merge(List<DsciliaFile> repoElements) throws CiliaException {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
-		for (Iterator<DsciliaFile> itr = model.iterator(); itr.hasNext();) {
-			DsciliaFile old = itr.next();
-			String id = old.getFilePath();
-			DsciliaFile updated = PullElementUtil.pullRepoElement(repoElements, id);
-			if (updated == null) {
-				itr.remove();
-				retval.add(new Changeset(Operation.REMOVE, old));
-			} else {
-				for (Changeset c : old.merge(updated))
-					retval.add(c);
-			}
-		}
-
-		for (DsciliaFile r : repoElements) {
-			model.add(r);
-			retval.add(new Changeset(Operation.ADD, r));
-		}
+		retval.addAll(MergeUtil.mergeLists(repoElements, this.model));
 
 		// path update
 		for (Changeset c : retval)
