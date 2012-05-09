@@ -28,7 +28,7 @@ public class BasicCollector extends AbstractCollector implements Runnable {
 
 	private static int counter = 0;
 
-	private void start() {
+	public void start() {
 		ScheduledThreadPoolExecutor se = new ScheduledThreadPoolExecutor(1);
 		se.scheduleAtFixedRate(this, 0, 1, TimeUnit.SECONDS);
 	}
