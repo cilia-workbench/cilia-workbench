@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cilia-specifications>
+
+
+
+<mediator-specification id="aa" namespace="aaa">
+<ports>
+<in-port name="a"/>
+<in-port name="aa"/>
+<in-port name="aaaa"/>
+<out-port name="a"/>
+</ports>
+</mediator-specification>
+</cilia-specifications>
