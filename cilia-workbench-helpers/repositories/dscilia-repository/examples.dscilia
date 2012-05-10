@@ -1,0 +1,25 @@
+<cilia>
+ 
+  <chain id="increment">
+ 
+    <adapters>
+      <adapter-instance type="random-generator" id="random" />
+      <adapter-instance type="console-adapter" id="console" />
+    </adapters>
+ 
+    <mediators>
+      <mediator-instance type="increment-mediator" id="increment">
+        <processor>
+          <property name="increment" value="500"/>
+        </processor>
+      </mediator-instance>
+    </mediators>
+ 
+    <bindings>
+      <binding from="random" to="increment" />
+      <binding from="increment" to="console" />
+    </bindings>
+ 
+  </chain>
+
+</cilia>

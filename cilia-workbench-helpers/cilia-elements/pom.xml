@@ -52,10 +52,10 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
-						<Private-Package>fr.liglab.adele.cilia.components.collectors,
-							fr.liglab.adele.cilia.components.mediators,
-							fr.liglab.adele.cilia.components.senders</Private-Package>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Private-Package>fr.liglab.adele.cilia.workbench.helpers.collectors,
+							fr.liglab.adele.cilia.workbench.helpers.mediators,
+							fr.liglab.adele.cilia.workbench.helpers.senders</Private-Package>
 					</instructions>
 				</configuration>
 			</plugin>

@@ -12,20 +12,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.components.mediators;
+package fr.liglab.adele.cilia.workbench.helpers.senders;
 
 import fr.liglab.adele.cilia.Data;
+import fr.liglab.adele.cilia.framework.ISender;
 
 /**
+ * Writes what is read to the console.
  * 
  * @author Etienne Gandrille
  */
-public class BasicProcessor {
+public class ConsoleWriter implements ISender {
 
-	public Data sayHello(Data data) {
-		if (data != null) {
-			data.setContent("Groovy !, " + data.getContent().toString());
-		}
-		return data;
+	public boolean send(Data arg0) {
+
+		if (arg0 != null)
+			System.out.println(arg0.getContent());
+
+		return true;
 	}
 }

@@ -203,10 +203,14 @@ public class XMLHelpers {
 	 */
 	public static Node getRootNode(Document document, String nodeName) throws CiliaException {
 		NodeList nodes = document.getChildNodes();
-		if (nodes != null && nodes.getLength() == 1 && nodes.item(0).getNodeName().equalsIgnoreCase(nodeName))
-			return nodes.item(0);
-		else
-			throw new CiliaException("Can't find root node " + nodeName);
+
+		if (nodes != null) {
+			for (int i = 0; i < nodes.getLength(); i++)
+				if (nodes.item(i).getNodeName().equalsIgnoreCase(nodeName))
+					return nodes.item(i);
+		}
+
+		throw new CiliaException("Can't find root node " + nodeName);
 	}
 
 	/**

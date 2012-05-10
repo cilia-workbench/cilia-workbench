@@ -12,22 +12,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.components.senders;
+package fr.liglab.adele.cilia.workbench.helpers.mediators;
 
 import fr.liglab.adele.cilia.Data;
-import fr.liglab.adele.cilia.framework.ISender;
 
 /**
+ * A few processors, using Integers.
  * 
  * @author Etienne Gandrille
  */
-public class BasicSender implements ISender {
+public class MathProcessor extends IntegerProcessor {
 
-	public boolean send(Data arg0) {
+	private Integer sum = 0;
+	private int counter = 0;
 
-		if (arg0 != null)
-			System.out.println(arg0.getContent());
+	private void process(Data data) {
+		Integer content = getInteger(data);
 
-		return true;
+		if (content != null)
+			sum += content;
+		counter++;
+	}
+
+	/**
+	 * Method used by the sum processor.
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public Data sum(Data data) {
+		process(data);
+		data.setContent(sum);
+		return data;
+	}
+
+	/**
+	 * Method used by the average processor.
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public Data average(Data data) {
+		process(data);
+		data.setContent(sum / counter);
+		return data;
 	}
 }

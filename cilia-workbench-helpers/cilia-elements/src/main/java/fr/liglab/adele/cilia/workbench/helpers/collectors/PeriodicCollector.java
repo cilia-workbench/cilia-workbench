@@ -12,29 +12,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.components.collectors;
+package fr.liglab.adele.cilia.workbench.helpers.collectors;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import fr.liglab.adele.cilia.Data;
 import fr.liglab.adele.cilia.framework.AbstractCollector;
 
 /**
+ * Base class for implementing periodic collectors.
  * 
  * @author Etienne Gandrille
  */
-public class BasicCollector extends AbstractCollector implements Runnable {
+public abstract class PeriodicCollector extends AbstractCollector implements Runnable {
 
-	private static int counter = 0;
-
+	/**
+	 * Initialize the thread.
+	 */
 	public void start() {
 		ScheduledThreadPoolExecutor se = new ScheduledThreadPoolExecutor(1);
-		se.scheduleAtFixedRate(this, 0, 1, TimeUnit.SECONDS);
+		se.scheduleAtFixedRate(this, 0, getPeriodInMillis(), TimeUnit.MILLISECONDS);
 	}
 
-	public void run() {
-		Data data = new Data(Integer.toString(counter++));
-		notifyDataArrival(data);
+	/**
+	 * The action itself, called each period.
+	 */
+	public abstract void run();
+
+	/**
+	 * Gets the period in milliseconds between two calls of {@link #run()}
+	 * method.
+	 * 
+	 * @return
+	 */
+	public int getPeriodInMillis() {
+		return 1000;
 	}
 }

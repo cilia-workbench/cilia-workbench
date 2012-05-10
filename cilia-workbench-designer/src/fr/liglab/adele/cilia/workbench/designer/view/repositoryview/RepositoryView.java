@@ -173,6 +173,12 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	 */
 	@Override
 	public void repositoryContentUpdated(List<Changeset> changes) {
+		// Force refresh
+		if (changes == null) {
+			refresh();
+			return;
+		}
+		// Check refresh
 		for (Changeset change : changes) {
 			if (change.getOperation() != Operation.UPDATE) {
 				refresh();
