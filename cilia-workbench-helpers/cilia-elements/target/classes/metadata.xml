@@ -15,16 +15,15 @@
 		classname="fr.liglab.adele.cilia.workbench.helpers.mediators.MathProcessor">
 		<cilia:method name="sum" data.type="fr.liglab.adele.cilia.Data" />
 	</processor>
-
+	
 	<mediator-component name="sum-mediator" category="samples">
 		<cilia:processor name="sum-processor" />
 		<cilia:scheduler name="immediate-scheduler" />
 		<cilia:dispatcher name="multicast-dispatcher" />
-<!--  Uncomment this when the new cilia version will be released -->
-<!-- 		<ports> -->
-<!-- 			<in-port name="in" /> -->
-<!-- 			<out-port name="out" /> -->
-<!-- 		</ports> -->
+		<ports>
+			<in-port name="in" />
+			<out-port name="out" />
+		</ports>
 	</mediator-component>
 
 
@@ -39,11 +38,10 @@
 		<cilia:processor name="average-processor" />
 		<cilia:scheduler name="immediate-scheduler" />
 		<cilia:dispatcher name="multicast-dispatcher" />
-<!--  Uncomment this when the new cilia version will be released -->
-<!-- 		<ports> -->
-<!-- 			<in-port name="in" /> -->
-<!-- 			<out-port name="out" /> -->
-<!-- 		</ports> -->
+		<ports>
+			<in-port name="in" />
+			<out-port name="out" />
+		</ports>
 	</mediator-component>
 
 
@@ -61,11 +59,10 @@
 		<cilia:processor name="increment-processor" />
 		<cilia:scheduler name="immediate-scheduler" />
 		<cilia:dispatcher name="multicast-dispatcher" />
-<!--  Uncomment this when the new cilia version will be released -->
-<!-- 		<ports> -->
-<!-- 			<in-port name="in" /> -->
-<!-- 			<out-port name="out" /> -->
-<!-- 		</ports> -->
+		<ports>
+			<in-port name="in" />
+			<out-port name="out" />
+		</ports>
 	</mediator-component>
 
 
@@ -80,11 +77,10 @@
 		<cilia:processor name="groovy-processor" />
 		<cilia:scheduler name="immediate-scheduler" />
 		<cilia:dispatcher name="multicast-dispatcher" />
-<!--  Uncomment this when the new cilia version will be released -->
-<!-- 		<ports> -->
-<!-- 			<in-port name="in" /> -->
-<!-- 			<out-port name="out" /> -->
-<!-- 		</ports> -->
+		<ports>
+			<in-port name="in" />
+			<out-port name="out" />
+		</ports>
 	</mediator-component>
 
 
