@@ -85,16 +85,16 @@ public class JarContentProvider extends GenericContentProvider {
 						addRelationship(true, mc, p);
 				}
 
-				for (Processor p : ipojo.getProcessors()) {
-					addRelationship(true, bundle, p);
-					for (Parameter param : p.getParameters())
-						addRelationship(true, p, param);
-				}
-
 				for (Scheduler s : ipojo.getSchedulers()) {
 					addRelationship(true, bundle, s);
 					for (Parameter param : s.getParameters())
 						addRelationship(true, s, param);
+				}
+
+				for (Processor p : ipojo.getProcessors()) {
+					addRelationship(true, bundle, p);
+					for (Parameter param : p.getParameters())
+						addRelationship(true, p, param);
 				}
 
 				for (Dispatcher d : ipojo.getDispatchers()) {
