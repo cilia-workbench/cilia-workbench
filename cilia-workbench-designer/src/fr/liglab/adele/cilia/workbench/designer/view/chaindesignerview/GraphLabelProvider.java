@@ -31,11 +31,11 @@ public class GraphLabelProvider extends LabelProvider {
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 
 		ImageDescriptorEnum imageName;
-		if (obj instanceof AdapterInstance)
+		if (isCompatible(obj, AdapterInstance.class))
 			imageName = ImageDescriptorEnum.ADAPTER_IN;
-		else if (obj instanceof MediatorInstance)
+		else if (isCompatible(obj, MediatorInstance.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
-		else if (obj instanceof EntityConnectionData)
+		else if (isCompatible(obj, EntityConnectionData.class))
 			imageName = ImageDescriptorEnum.NOTHING;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());

@@ -39,7 +39,8 @@ public class JarMetadataLabelProvider extends LabelProvider {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider#getImageDescriptor(java.lang.Object)
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
+	 * #getImageDescriptor(java.lang.Object)
 	 */
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
@@ -49,29 +50,29 @@ public class JarMetadataLabelProvider extends LabelProvider {
 				imageName = ImageDescriptorEnum.ADAPTER_IN;
 			else
 				imageName = ImageDescriptorEnum.ADAPTER_OUT;
-		} else if (obj instanceof CiliaJarFile)
+		} else if (isCompatible(obj, CiliaJarFile.class))
 			imageName = ImageDescriptorEnum.REPOSITORY;
-		else if (obj instanceof Collector)
+		else if (isCompatible(obj, Collector.class))
 			imageName = ImageDescriptorEnum.COLLECTOR;
-		else if (obj instanceof Dispatcher)
+		else if (isCompatible(obj, Dispatcher.class))
 			imageName = ImageDescriptorEnum.DISPATCHER;
-		else if (obj instanceof MediatorComponent)
+		else if (isCompatible(obj, MediatorComponent.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
-		else if (obj instanceof Processor)
+		else if (isCompatible(obj, Processor.class))
 			imageName = ImageDescriptorEnum.PROCESSOR;
-		else if (obj instanceof Scheduler)
+		else if (isCompatible(obj, Scheduler.class))
 			imageName = ImageDescriptorEnum.SCHEDULER;
-		else if (obj instanceof Sender)
+		else if (isCompatible(obj, Sender.class))
 			imageName = ImageDescriptorEnum.SENDER;
-		else if (obj instanceof Property)
+		else if (isCompatible(obj, Property.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
-		else if (obj instanceof InPort)
+		else if (isCompatible(obj, InPort.class))
 			imageName = ImageDescriptorEnum.PORT_IN;
-		else if (obj instanceof OutPort)
+		else if (isCompatible(obj, OutPort.class))
 			imageName = ImageDescriptorEnum.PORT_OUT;
-		else if (obj instanceof Parameter)
+		else if (isCompatible(obj, Parameter.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
-		
+
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
 

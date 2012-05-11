@@ -36,29 +36,30 @@ public class SpecLabelProvider extends LabelProvider {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider#getImageDescriptor(java.lang.Object)
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
+	 * #getImageDescriptor(java.lang.Object)
 	 */
 	@Override
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
 
-		if (obj instanceof SpecFile)
+		if (isCompatible(obj, SpecFile.class))
 			imageName = ImageDescriptorEnum.FILE;
-		else if (obj instanceof MediatorSpec)
+		else if (isCompatible(obj, MediatorSpec.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
-		else if (obj instanceof Scheduler)
+		else if (isCompatible(obj, Scheduler.class))
 			imageName = ImageDescriptorEnum.SCHEDULER;
-		else if (obj instanceof Processor)
+		else if (isCompatible(obj, Processor.class))
 			imageName = ImageDescriptorEnum.PROCESSOR;
-		else if (obj instanceof Dispatcher)
+		else if (isCompatible(obj, Dispatcher.class))
 			imageName = ImageDescriptorEnum.DISPATCHER;
-		else if (obj instanceof Property)
+		else if (isCompatible(obj, Property.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
-		else if (obj instanceof Parameter)
+		else if (isCompatible(obj, Parameter.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
-		else if (obj instanceof InPort)
+		else if (isCompatible(obj, InPort.class))
 			imageName = ImageDescriptorEnum.PORT_IN;
-		else if (obj instanceof OutPort)
+		else if (isCompatible(obj, OutPort.class))
 			imageName = ImageDescriptorEnum.PORT_OUT;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());

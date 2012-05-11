@@ -214,14 +214,14 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	}
 
 	public void createMediatorInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
-		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
+		DsciliaFile repo = (DsciliaFile) getContentProvider().getParent(chain);
 		if (repo == null)
 			return;
 		repo.getModel().createMediatorInstance(chain, id, type);
 	}
 
 	public void createAdapterInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
-		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
+		DsciliaFile repo = (DsciliaFile) getContentProvider().getParent(chain);
 		if (repo == null)
 			return;
 		repo.getModel().createAdapterInstance(chain, id, type);
@@ -229,7 +229,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 
 	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
 			throws CiliaException {
-		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
+		DsciliaFile repo = (DsciliaFile) getContentProvider().getParent(chain);
 		if (repo == null)
 			return;
 		repo.getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort);

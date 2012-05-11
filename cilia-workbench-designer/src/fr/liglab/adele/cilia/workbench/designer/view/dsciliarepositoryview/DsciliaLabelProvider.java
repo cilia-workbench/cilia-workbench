@@ -32,22 +32,23 @@ public class DsciliaLabelProvider extends LabelProvider {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider#getImageDescriptor(java.lang.Object)
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
+	 * #getImageDescriptor(java.lang.Object)
 	 */
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
 
-		if (obj instanceof DsciliaFile)
+		if (isCompatible(obj, DsciliaFile.class))
 			imageName = ImageDescriptorEnum.FILE;
-		else if (obj instanceof Chain)
+		else if (isCompatible(obj, Chain.class))
 			imageName = ImageDescriptorEnum.CHAIN;
-		else if (obj instanceof AdapterInstance)
+		else if (isCompatible(obj, AdapterInstance.class))
 			imageName = ImageDescriptorEnum.ADAPTER_IN;
-		else if (obj instanceof MediatorInstance)
+		else if (isCompatible(obj, MediatorInstance.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
-		else if (obj instanceof Binding)
+		else if (isCompatible(obj, Binding.class))
 			imageName = ImageDescriptorEnum.BINDING;
-		
+
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
 

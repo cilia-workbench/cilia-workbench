@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarModel;
@@ -52,6 +53,31 @@ public class JarContentProvider extends GenericContentProvider {
 			if (ipojo != null) {
 				for (MediatorComponent mc : ipojo.getMediatorComponents()) {
 					addRelationship(true, bundle, mc);
+
+					NameNamespaceID schedulerID = mc.getSchedulerNameNamespace();
+					Scheduler scheduler = JarRepoService.getScheduler(model, schedulerID);
+					if (scheduler != null)
+						addRelationship(true, mc, scheduler);
+					else
+						addRelationship(true, mc, new FakeElement(schedulerID.toString(), "Unknown scheduler "
+								+ schedulerID.toString(), Scheduler.class));
+
+					NameNamespaceID processorID = mc.getProcessorNameNamespace();
+					Processor processor = JarRepoService.getProcessor(model, processorID);
+					if (processor != null)
+						addRelationship(true, mc, processor);
+					else
+						addRelationship(true, mc, new FakeElement(processorID.toString(), "Unknown processor "
+								+ processorID.toString(), Scheduler.class));
+
+					NameNamespaceID dispatcherID = mc.getDispatcherNameNamespace();
+					Dispatcher dispatcher = JarRepoService.getDispatcher(model, dispatcherID);
+					if (dispatcher != null)
+						addRelationship(true, mc, dispatcher);
+					else
+						addRelationship(true, mc, new FakeElement(dispatcherID.toString(), "Unknown dispatcher "
+								+ dispatcherID.toString(), Scheduler.class));
+
 					for (Port p : mc.getPorts())
 						addRelationship(true, mc, p);
 

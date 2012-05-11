@@ -73,8 +73,8 @@ public class MediatorComponent extends Element {
 
 		Node dispatcherNode = XMLHelpers.findChild(node, "dispatcher");
 		if (dispatcherNode != null) {
-			ReflectionUtil.setAttribute(dispatcherNode, "name", this, "dispatcherName", defNs);
-			ReflectionUtil.setAttribute(dispatcherNode, "namespace", this, "dispatcherNamespace");
+			ReflectionUtil.setAttribute(dispatcherNode, "name", this, "dispatcherName");
+			ReflectionUtil.setAttribute(dispatcherNode, "namespace", this, "dispatcherNamespace", defNs);
 		}
 
 		Node portsNode = XMLHelpers.findChild(node, "ports");

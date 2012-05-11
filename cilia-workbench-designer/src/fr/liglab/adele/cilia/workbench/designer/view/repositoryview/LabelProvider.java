@@ -27,6 +27,7 @@ import org.eclipse.swt.graphics.Image;
 import fr.liglab.adele.cilia.workbench.common.Activator;
 import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.CiliaMarkerUtil;
 import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.SourceProviderField;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider.FakeElement;
 
 /**
  * The base class for implementing label providers. Thanks to this class, images
@@ -180,5 +181,17 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 			return "";
 		else
 			return def;
+	}
+
+	protected static boolean isCompatible(Object obj, Class<?> theClass) {
+
+		if (obj instanceof FakeElement) {
+			FakeElement fe = (FakeElement) obj;
+			if (fe.getFakeClass().isAssignableFrom(theClass))
+				return true;
+			return false;
+		}
+
+		return obj.getClass().isAssignableFrom(theClass);
 	}
 }

@@ -24,6 +24,10 @@ import java.util.Set;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+
 /**
  * Base abstract class for implementing content providers. A ContentProvider
  * knows relationships between objects. It's useful for navigating an abstract
@@ -172,5 +176,34 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 	 */
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	}
+
+	public class FakeElement implements ErrorsAndWarningsFinder {
+
+		private final String displayName;
+		private final String errorMessage;
+		private final Class<?> fakeClass;
+
+		public FakeElement(String displayName, String errorMessage, Class<?> fakeClass) {
+			this.displayName = displayName;
+			this.errorMessage = errorMessage;
+			this.fakeClass = fakeClass;
+		}
+
+		@Override
+		public String toString() {
+			return displayName;
+		}
+
+		public Class<?> getFakeClass() {
+			return fakeClass;
+		}
+
+		@Override
+		public CiliaFlag[] getErrorsAndWarnings() {
+			CiliaError[] retval = new CiliaError[1];
+			retval[0] = new CiliaError(errorMessage, this);
+			return retval;
+		}
 	}
 }

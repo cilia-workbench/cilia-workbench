@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
@@ -129,7 +128,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public List<Scheduler> getSchedulers() {
+	public static List<Scheduler> getSchedulers(List<CiliaJarFile> model) {
 		List<Scheduler> retval = new ArrayList<Scheduler>();
 		for (CiliaJarFile bundle : model)
 			if (bundle.getModel() != null)
@@ -138,14 +137,22 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public Scheduler getScheduler(NameNamespaceID nn) {
-		for (Scheduler s : getSchedulers())
+	public static Scheduler getScheduler(List<CiliaJarFile> model, NameNamespaceID nn) {
+		for (Scheduler s : getSchedulers(model))
 			if (s.getId().equals(nn))
 				return s;
 		return null;
 	}
 
-	public List<Processor> getProcessors() {
+	public List<Scheduler> getSchedulers() {
+		return getSchedulers(model);
+	}
+
+	public Scheduler getScheduler(NameNamespaceID nn) {
+		return getScheduler(model, nn);
+	}
+
+	public static List<Processor> getProcessors(List<CiliaJarFile> model) {
 		List<Processor> retval = new ArrayList<Processor>();
 		for (CiliaJarFile bundle : model)
 			if (bundle.getModel() != null)
@@ -154,11 +161,43 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public Processor getProcessor(NameNamespaceID nn) {
-		for (Processor p : getProcessors())
+	public static Processor getProcessor(List<CiliaJarFile> model, NameNamespaceID nn) {
+		for (Processor p : getProcessors(model))
 			if (p.getId().equals(nn))
 				return p;
 		return null;
+	}
+
+	public List<Processor> getProcessors() {
+		return getProcessors(model);
+	}
+
+	public Processor getProcessor(NameNamespaceID nn) {
+		return getProcessor(model, nn);
+	}
+
+	public static List<Dispatcher> getDispatchers(List<CiliaJarFile> model) {
+		List<Dispatcher> retval = new ArrayList<Dispatcher>();
+		for (CiliaJarFile bundle : model)
+			if (bundle.getModel() != null)
+				retval.addAll(bundle.getModel().getDispatchers());
+
+		return retval;
+	}
+
+	public static Dispatcher getDispatcher(List<CiliaJarFile> model, NameNamespaceID nn) {
+		for (Dispatcher d : getDispatchers(model))
+			if (d.getId().equals(nn))
+				return d;
+		return null;
+	}
+
+	public List<Dispatcher> getDispatchers() {
+		return getDispatchers(model);
+	}
+
+	public Dispatcher getDispatcher(NameNamespaceID nn) {
+		return getDispatcher(model, nn);
 	}
 
 	public List<Collector> getCollectors() {
@@ -174,22 +213,6 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		for (Collector c : getCollectors())
 			if (c.getId().equals(nn))
 				return c;
-		return null;
-	}
-
-	public List<Dispatcher> getDispatchers() {
-		List<Dispatcher> retval = new ArrayList<Dispatcher>();
-		for (CiliaJarFile bundle : model)
-			if (bundle.getModel() != null)
-				retval.addAll(bundle.getModel().getDispatchers());
-
-		return retval;
-	}
-
-	public Dispatcher getDispatcher(NameNamespaceID nn) {
-		for (Dispatcher d : getDispatchers())
-			if (d.getId().equals(nn))
-				return d;
 		return null;
 	}
 
@@ -235,9 +258,9 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	/**
 	 * Gets a mediator, by its id, using the chain criteria. If the id given in
 	 * parameter has its namespace defined, the functions calls
-	 * {@link #getMediator(NameNamespaceID)}. If the namespace is undefined (null
-	 * or empty), the comparison is ONLY based on the name, and the namespace is
-	 * IGNORED.
+	 * {@link #getMediator(NameNamespaceID)}. If the namespace is undefined
+	 * (null or empty), the comparison is ONLY based on the name, and the
+	 * namespace is IGNORED.
 	 * 
 	 * @param id
 	 * @return the mediator, or null if not found
@@ -311,21 +334,6 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getCollectors()));
 		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getSenders()));
 		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getAdapters()));
-
-		for (MediatorComponent mediator : getMediators()) {
-			NameNamespaceID snn = mediator.getSchedulerNameNamespace();
-			NameNamespaceID pnn = mediator.getProcessorNameNamespace();
-			NameNamespaceID dnn = mediator.getDispatcherNameNamespace();
-
-			if (getScheduler(snn) == null)
-				errorList.add(new CiliaError("can't find scheduler " + snn, mediator));
-
-			if (getProcessor(pnn) == null)
-				errorList.add(new CiliaError("can't find processor " + pnn, mediator));
-
-			if (getDispatcher(dnn) == null)
-				errorList.add(new CiliaError("can't find dispatcher " + dnn, mediator));
-		}
 
 		return CiliaFlag.generateTab(errorList);
 	}
