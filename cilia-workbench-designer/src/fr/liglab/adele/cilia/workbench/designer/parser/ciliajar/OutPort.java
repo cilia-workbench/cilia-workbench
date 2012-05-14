@@ -29,6 +29,11 @@ public class OutPort extends Port implements DisplayedInPropertiesView {
 		super(node);
 	}
 
+	@Override
+	public Object getId() {
+		return "out:" + getName();
+	}
+
 	public boolean isInPort() {
 		return false;
 	}

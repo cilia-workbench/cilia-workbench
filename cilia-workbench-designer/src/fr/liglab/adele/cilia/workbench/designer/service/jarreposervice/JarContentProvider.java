@@ -54,6 +54,9 @@ public class JarContentProvider extends GenericContentProvider {
 				for (MediatorComponent mc : ipojo.getMediatorComponents()) {
 					addRelationship(true, bundle, mc);
 
+					if (mc.getSpec() != null)
+						addRelationship(true, mc, mc.getSpec());
+
 					NameNamespaceID schedulerID = mc.getSchedulerNameNamespace();
 					Scheduler scheduler = JarRepoService.getScheduler(model, schedulerID);
 					if (scheduler != null)

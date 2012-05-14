@@ -1,34 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-specifications>
 
-	<mediator-specification id="sum-mediator"
-		namespace="fr.imag.adele.cilia.workbench.spec">
-		<ports>
-			<in-port name="in" />
-			<out-port name="out" />
-		</ports>
-	</mediator-specification>
+	
 
-	<mediator-specification id="average-mediator"
-		namespace="fr.imag.adele.cilia.workbench.spec">
+	<mediator-specification id="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
 		<ports>
-			<in-port name="in" />
-			<out-port name="out" />
+			<in-port name="in"/>
+			<out-port name="out"/>
 		</ports>
 		<properties>
-			<property key="category" value="sample" />
+			<property key="category" value="sample"/>
 		</properties>
 	</mediator-specification>
 
-	<mediator-specification id="increment-mediator"
-		namespace="fr.imag.adele.cilia.workbench.spec">
+	<mediator-specification id="increment-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
 		<ports>
-			<in-port name="in" />
-			<out-port name="out" />
+			<in-port name="in"/>
+			<out-port name="out"/>
 		</ports>
 		<properties>
-			<property key="category" value="sample" />
+			<property key="category" value="sample"/>
 		</properties>
 	</mediator-specification>
 
+<mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+</mediator-specification>
 </cilia-specifications>

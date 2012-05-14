@@ -72,6 +72,15 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		return retval;
 	}
 
+	public MediatorSpec getMediatorSpec(NameNamespaceID id) {
+
+		for (MediatorSpec spec : getMediatorSpecs())
+			if (spec.getId().equals(id))
+				return spec;
+
+		return null;
+	}
+
 	/**
 	 * Instantiates a new jar repo service.
 	 */

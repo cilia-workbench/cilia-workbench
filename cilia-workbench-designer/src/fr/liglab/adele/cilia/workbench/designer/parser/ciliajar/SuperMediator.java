@@ -14,44 +14,38 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
-import org.w3c.dom.Node;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
+ * Represents a link to a mediator specification.
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
+public class SuperMediator extends NameNamespaceID implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
-	private String name;
-
-	public Port(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, "name", this, "name");
+	public SuperMediator(String name, String namespace) {
+		super(name, namespace);
 	}
 
-	@Override
-	public String toString() {
-		return name;
+	public MediatorSpec getMediatorSpec() {
+		return SpecRepoService.getInstance().getMediatorSpec(this);
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public abstract boolean isInPort();
-
-	public abstract boolean isOutPort();
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+
+		CiliaError e = null;
+
+		MediatorSpec spec = getMediatorSpec();
+		if (spec == null)
+			e = new CiliaError("Can't find mediator spec " + getNamespace() + "." + getName(), this);
+
 		return CiliaFlag.generateTab(e);
 	}
 }

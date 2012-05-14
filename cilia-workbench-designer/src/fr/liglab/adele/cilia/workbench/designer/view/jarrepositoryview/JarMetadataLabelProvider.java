@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector;
@@ -72,6 +73,8 @@ public class JarMetadataLabelProvider extends LabelProvider {
 			imageName = ImageDescriptorEnum.PORT_OUT;
 		else if (isCompatible(obj, Parameter.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
+		else if (isCompatible(obj, NameNamespaceID.class))
+			imageName = ImageDescriptorEnum.SUPER_TYPE;
 
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());

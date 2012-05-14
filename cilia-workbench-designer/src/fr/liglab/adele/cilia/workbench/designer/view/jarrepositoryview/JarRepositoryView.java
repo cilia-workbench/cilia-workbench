@@ -53,7 +53,9 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile, CiliaJarMode
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets .Composite)
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
@@ -71,8 +73,8 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile, CiliaJarMode
 	}
 
 	/**
-	 * Opens an editor with the content of the related metadata. Does'nt open an editor twice. Only bring to top the
-	 * second time.
+	 * Opens an editor with the content of the related metadata. Does'nt open an
+	 * editor twice. Only bring to top the second time.
 	 */
 	private void openMetadataInEditor() {
 

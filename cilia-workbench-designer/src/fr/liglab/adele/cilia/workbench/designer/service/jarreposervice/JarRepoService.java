@@ -33,13 +33,17 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IRepoServiceListener;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
 /**
  * JarRepoService.
  * 
  * @author Etienne Gandrille
  */
-public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarModel> implements ErrorsAndWarningsFinder {
+public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarModel> implements
+		ErrorsAndWarningsFinder, IRepoServiceListener {
 
 	/** Singleton instance */
 	private static JarRepoService INSTANCE;
@@ -69,6 +73,8 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	 */
 	private JarRepoService() {
 		super(PREFERENCE_PATH_KEY, ext, repositoryName);
+
+		SpecRepoService.getInstance().registerListener(this);
 	}
 
 	public void updateModel() {
@@ -336,5 +342,10 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getAdapters()));
 
 		return CiliaFlag.generateTab(errorList);
+	}
+
+	@Override
+	public void repositoryContentUpdated(List<Changeset> changes) {
+		updateModel();
 	}
 }

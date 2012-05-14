@@ -29,6 +29,11 @@ public class InPort extends Port implements DisplayedInPropertiesView {
 		super(node);
 	}
 
+	@Override
+	public Object getId() {
+		return "in:" + getName();
+	}
+
 	public boolean isInPort() {
 		return true;
 	}

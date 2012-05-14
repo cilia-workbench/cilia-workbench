@@ -55,7 +55,7 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 		NOTHING(null), FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT("adapterOut.png"), REPOSITORY(
 				"repo.png"), MEDIATOR("mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR("processor.png"), DISPATCHER(
 				"dispatcher.png"), COLLECTOR("collector.png"), SENDER("sender.png"), PORT_IN("portIn.png"), PORT_OUT(
-				"portOut.png"), PROPERTY("property.png"), BINDING("binding.png");
+				"portOut.png"), PROPERTY("property.png"), BINDING("binding.png"), SUPER_TYPE("super-type.png");
 
 		/** Path to find the physical image in the bundle */
 		private String fileName;
@@ -187,11 +187,11 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 
 		if (obj instanceof FakeElement) {
 			FakeElement fe = (FakeElement) obj;
-			if (fe.getFakeClass().isAssignableFrom(theClass))
+			if (theClass.isAssignableFrom(fe.getFakeClass()))
 				return true;
 			return false;
 		}
 
-		return obj.getClass().isAssignableFrom(theClass);
+		return theClass.isAssignableFrom(obj.getClass());
 	}
 }

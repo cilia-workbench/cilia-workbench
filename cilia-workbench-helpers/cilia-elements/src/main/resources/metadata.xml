@@ -9,14 +9,15 @@
 
 <ipojo xmlns:cilia="fr.liglab.adele.cilia">
 
-    <!-- Sum mediator -->
+	<!-- Sum mediator -->
 
 	<processor name="sum-processor"
 		classname="fr.liglab.adele.cilia.workbench.helpers.mediators.MathProcessor">
 		<cilia:method name="sum" data.type="fr.liglab.adele.cilia.Data" />
 	</processor>
-	
-	<mediator-component name="sum-mediator" category="samples">
+
+	<mediator-component name="sum-mediator" category="samples"
+		spec-name="sum-mediator" spec-namespace="fr.imag.adele.cilia.workbench.spec">
 		<cilia:processor name="sum-processor" />
 		<cilia:scheduler name="immediate-scheduler" />
 		<cilia:dispatcher name="multicast-dispatcher" />
@@ -27,14 +28,15 @@
 	</mediator-component>
 
 
-    <!-- Average mediator -->
+	<!-- Average mediator -->
 
 	<processor name="average-processor"
 		classname="fr.liglab.adele.cilia.workbench.helpers.mediators.MathProcessor">
 		<cilia:method name="average" data.type="fr.liglab.adele.cilia.Data" />
 	</processor>
 
-	<mediator-component name="average-mediator" category="samples">
+	<mediator-component name="average-mediator"
+		category="samples" spec-name="average-mediator" spec-namespace="fr.imag.adele.cilia.workbench.spec">
 		<cilia:processor name="average-processor" />
 		<cilia:scheduler name="immediate-scheduler" />
 		<cilia:dispatcher name="multicast-dispatcher" />
@@ -45,7 +47,7 @@
 	</mediator-component>
 
 
-    <!-- increment mediator -->
+	<!-- increment mediator -->
 
 	<processor name="increment-processor"
 		classname="fr.liglab.adele.cilia.workbench.helpers.mediators.IncrementProcessor">
@@ -55,7 +57,8 @@
 		</properties>
 	</processor>
 
-	<mediator-component name="increment-mediator" category="samples">
+	<mediator-component name="increment-mediator"
+		category="samples" spec-name="average-mediator" spec-namespace="fr.imag.adele.cilia.workbench.spec">
 		<cilia:processor name="increment-processor" />
 		<cilia:scheduler name="immediate-scheduler" />
 		<cilia:dispatcher name="multicast-dispatcher" />
@@ -66,7 +69,7 @@
 	</mediator-component>
 
 
-    <!-- Groovy mediator -->
+	<!-- Groovy mediator -->
 
 	<processor name="groovy-processor"
 		classname="fr.liglab.adele.cilia.workbench.helpers.mediators.GroovyProcessor">
@@ -84,7 +87,7 @@
 	</mediator-component>
 
 
-    <!-- Random generator adapter -->
+	<!-- Random generator adapter -->
 
 	<collector name="random-collector"
 		classname="fr.liglab.adele.cilia.workbench.helpers.collectors.RandomCollector">
@@ -96,7 +99,7 @@
 	</adapter>
 
 
-    <!-- Counter adapter -->
+	<!-- Counter adapter -->
 
 	<collector name="counter-collector"
 		classname="fr.liglab.adele.cilia.workbench.helpers.collectors.CounterCollector">
@@ -108,7 +111,7 @@
 	</adapter>
 
 
-    <!-- Console writer adapter -->
+	<!-- Console writer adapter -->
 
 	<sender name="console-writer"
 		classname="fr.liglab.adele.cilia.workbench.helpers.senders.ConsoleWriter">

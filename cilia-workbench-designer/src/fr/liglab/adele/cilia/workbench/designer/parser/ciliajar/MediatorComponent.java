@@ -28,12 +28,15 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 
 /**
  * 
  * @author Etienne Gandrille
  */
 public class MediatorComponent extends Element {
+
+	private final SuperMediator spec;
 
 	private String schedulerName;
 	private String schedulerNamespace;
@@ -52,12 +55,23 @@ public class MediatorComponent extends Element {
 		super(node);
 
 		String defNs = CiliaConstants.getDefaultNamespace();
+		String specName = null;
+		String specNamespace = null;
 
 		Map<String, String> attrMap = XMLHelpers.findAttributesValues(node);
 		for (String attr : attrMap.keySet()) {
-			if (!attr.equalsIgnoreCase("name") && !attr.equalsIgnoreCase("namespace"))
+			if (attr.equalsIgnoreCase("spec-name"))
+				specName = attrMap.get(attr);
+			else if (attr.equalsIgnoreCase("spec-namespace"))
+				specNamespace = attrMap.get(attr);
+			else if (!attr.equalsIgnoreCase("name") && !attr.equalsIgnoreCase("namespace"))
 				properties.add(new Property(attr, attrMap.get(attr)));
 		}
+
+		if (specName != null)
+			spec = new SuperMediator(specName, specNamespace);
+		else
+			spec = null;
 
 		Node schedulerNode = XMLHelpers.findChild(node, "scheduler");
 		if (schedulerNode != null) {
@@ -108,6 +122,10 @@ public class MediatorComponent extends Element {
 		return retval;
 	}
 
+	public SuperMediator getSpec() {
+		return spec;
+	}
+
 	public NameNamespaceID getSchedulerNameNamespace() {
 		return new NameNamespaceID(schedulerName, schedulerNamespace);
 	}
@@ -137,6 +155,10 @@ public class MediatorComponent extends Element {
 		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, dispatcherName, "dispatcher name");
 		CiliaFlag e4 = null;
 		CiliaFlag e5 = null;
+		CiliaFlag e6 = null;
+		CiliaFlag e7 = null;
+		CiliaFlag e8 = null;
+		CiliaFlag e9 = null;
 
 		// ports
 		if (getInPorts().size() == 0)
@@ -149,6 +171,18 @@ public class MediatorComponent extends Element {
 		// properties
 		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, properties));
 
-		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4, e5);
+		// Spec
+		if (getSpec() != null && getSpec().getMediatorSpec() != null) {
+			MediatorSpec mediatorSpec = getSpec().getMediatorSpec();
+
+			if (!IdentifiableUtils.isSameListId(mediatorSpec.getInPorts(), getInPorts()))
+				e6 = new CiliaError("In ports list doesn't respect it's specification", getSpec());
+
+			if (!IdentifiableUtils.isSameListId(mediatorSpec.getOutPorts(), getOutPorts()))
+				e7 = new CiliaError("Out ports list doesn't respect it's specification", getSpec());
+
+		}
+
+		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4, e5, e6, e7);
 	}
 }

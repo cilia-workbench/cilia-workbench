@@ -61,4 +61,27 @@ public abstract class IdentifiableUtils {
 
 		return retval;
 	}
+
+	/**
+	 * Checks if two lists contains the same objects, form the identifiable
+	 * point of view.
+	 * 
+	 * @param list1
+	 * @param list2
+	 * @return
+	 */
+	public static boolean isSameListId(Iterable<? extends Identifiable> list1, Iterable<? extends Identifiable> list2) {
+		List<Object> l1 = new ArrayList<Object>();
+		List<Object> l2 = new ArrayList<Object>();
+
+		for (Identifiable item : list1)
+			l1.add(item.getId());
+		for (Identifiable item : list2)
+			l2.add(item.getId());
+
+		if (l1.size() != l2.size())
+			return false;
+
+		return (l1.containsAll(l2) && l2.containsAll(l1));
+	}
 }
