@@ -113,12 +113,12 @@
 
 	<!-- Console writer adapter -->
 
-	<sender name="console-writer"
+	<sender name="console-writer-sender"
 		classname="fr.liglab.adele.cilia.workbench.helpers.senders.ConsoleWriter">
 	</sender>
 
-	<adapter name="console-adapter" pattern="out-only">
-		<sender type="console-writer" />
+	<adapter name="console-writer" pattern="out-only">
+		<sender type="console-writer-sender" />
 	</adapter>
 
 </ipojo>

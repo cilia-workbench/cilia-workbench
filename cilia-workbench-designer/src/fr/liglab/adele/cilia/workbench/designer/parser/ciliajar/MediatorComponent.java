@@ -198,10 +198,10 @@ public class MediatorComponent extends Element {
 				Property curProp = getProperty(specKey);
 				if (curProp == null)
 					flagsTab.add(new CiliaError("Mediator must have \"" + specKey + "\" property defined with value \""
-							+ specValue + "\" to respect its specification", this));
+							+ specValue + "\" to respect its specification", getSpec()));
 				else if (!curProp.getValue().equalsIgnoreCase(specValue))
 					flagsTab.add(new CiliaError("Mediator must have \"" + specKey + "\" property defined with value \""
-							+ specValue + "\" to respect its specification", this));
+							+ specValue + "\" to respect its specification", getSpec()));
 			}
 		}
 

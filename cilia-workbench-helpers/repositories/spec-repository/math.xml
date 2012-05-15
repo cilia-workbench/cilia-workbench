@@ -37,15 +37,7 @@
 
 
 
-<mediator-specification id="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-<properties>
-<property key="category" value="samples"/>
-</properties>
-</mediator-specification>
+
 
 
 
@@ -62,5 +54,19 @@
 <parameter name="increment"/>
 </parameters>
 </processor>
+</mediator-specification>
+
+
+
+
+
+<mediator-specification id="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+<properties>
+<property key="category" value="samples"/>
+</properties>
 </mediator-specification>
 </cilia-specifications>
