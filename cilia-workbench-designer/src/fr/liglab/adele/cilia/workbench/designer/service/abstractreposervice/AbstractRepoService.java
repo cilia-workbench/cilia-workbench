@@ -94,8 +94,6 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 
 		model = new ArrayList<ModelType>();
 		listeners = new ArrayList<IRepoServiceListener>();
-
-		updateModel();
 	}
 
 	/**

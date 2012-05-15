@@ -20,12 +20,7 @@
 
 
 
-<mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-</mediator-specification>
+
 
 
 
@@ -68,5 +63,13 @@
 <properties>
 <property key="category" value="samples"/>
 </properties>
+</mediator-specification>
+
+
+<mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
 </mediator-specification>
 </cilia-specifications>

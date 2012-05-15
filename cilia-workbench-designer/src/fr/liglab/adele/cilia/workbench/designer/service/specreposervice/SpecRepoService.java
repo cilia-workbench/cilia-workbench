@@ -56,8 +56,10 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 	 * @return the instance.
 	 */
 	public static SpecRepoService getInstance() {
-		if (INSTANCE == null)
+		if (INSTANCE == null) {
 			INSTANCE = new SpecRepoService();
+			INSTANCE.updateModel();
+		}
 		return INSTANCE;
 	}
 

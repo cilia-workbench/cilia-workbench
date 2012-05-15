@@ -203,33 +203,34 @@ public class MediatorComponent extends Element {
 					flagsTab.add(new CiliaError("Mediator must have \"" + specKey + "\" property defined with value \""
 							+ specValue + "\" to respect its specification", getSpec()));
 			}
+
+			// Parameters
+			flagsTab.addAll(checkMediatorParameters(this));
 		}
 
 		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4, e5, e6, e7);
 	}
 
-	public static List<CiliaFlag> checkSPDParameters(JarRepoService repo, MediatorComponent mediator) {
+	public static List<CiliaFlag> checkMediatorParameters(MediatorComponent mediator) {
 		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
 
-		if (mediator.getSpec() != null && mediator.getSpec().getMediatorSpec() != null) {
-			MediatorSpec mediatorSpec = mediator.getSpec().getMediatorSpec();
+		JarRepoService repo = JarRepoService.getInstance();
+		MediatorSpec mediatorSpec = mediator.getSpec().getMediatorSpec();
 
-			// Scheduler parameters
-			Scheduler scheduler = repo.getScheduler(mediator.getSchedulerNameNamespace());
-			if (scheduler != null)
-				flagsTab.addAll(checkParameters(mediator, mediatorSpec.getScheduler(), scheduler, "scheduler"));
+		// Scheduler parameters
+		Scheduler scheduler = repo.getScheduler(mediator.getSchedulerNameNamespace());
+		if (scheduler != null)
+			flagsTab.addAll(checkParameters(mediator, mediatorSpec.getScheduler(), scheduler, "scheduler"));
 
-			// Processor parameters
-			Processor processor = repo.getProcessor(mediator.getProcessorNameNamespace());
-			if (processor != null)
-				flagsTab.addAll(checkParameters(mediator, mediatorSpec.getProcessor(), processor, "processor"));
+		// Processor parameters
+		Processor processor = repo.getProcessor(mediator.getProcessorNameNamespace());
+		if (processor != null)
+			flagsTab.addAll(checkParameters(mediator, mediatorSpec.getProcessor(), processor, "processor"));
 
-			// Dispatcher parameters
-			Dispatcher dispatcher = repo.getDispatcher(mediator.getDispatcherNameNamespace());
-			if (dispatcher != null)
-				flagsTab.addAll(checkParameters(mediator, mediatorSpec.getDispatcher(), dispatcher, "dispatcher"));
-
-		}
+		// Dispatcher parameters
+		Dispatcher dispatcher = repo.getDispatcher(mediator.getDispatcherNameNamespace());
+		if (dispatcher != null)
+			flagsTab.addAll(checkParameters(mediator, mediatorSpec.getDispatcher(), dispatcher, "dispatcher"));
 
 		return flagsTab;
 	}

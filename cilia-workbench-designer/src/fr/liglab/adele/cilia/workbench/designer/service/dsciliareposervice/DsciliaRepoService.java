@@ -61,8 +61,10 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	 * @return the instance.
 	 */
 	public static DsciliaRepoService getInstance() {
-		if (INSTANCE == null)
+		if (INSTANCE == null) {
 			INSTANCE = new DsciliaRepoService();
+			INSTANCE.updateModel();
+		}
 		return INSTANCE;
 	}
 
