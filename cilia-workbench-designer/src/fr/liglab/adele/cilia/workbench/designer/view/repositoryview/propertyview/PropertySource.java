@@ -48,7 +48,8 @@ public class PropertySource implements IPropertySource {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
+	 * @see
+	 * org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
 	 */
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
@@ -70,7 +71,7 @@ public class PropertySource implements IPropertySource {
 			if (type.equals(String.class)) {
 				String name = field.getName();
 				if (isFieldDisplayed(name)) {
-					PropertyDescriptor descriptor = new PropertyDescriptor(name, name);
+					PropertyDescriptor descriptor = new PropertyDescriptor(name, name.replaceAll("_", " "));
 					descriptor.setCategory(PROPERTIES_CATEGORY);
 					retval.add(descriptor);
 				}
@@ -81,7 +82,8 @@ public class PropertySource implements IPropertySource {
 	}
 
 	/**
-	 * Returns true if the field should be displayed according to its name, false otherwise.
+	 * Returns true if the field should be displayed according to its name,
+	 * false otherwise.
 	 * 
 	 * @param fieldName
 	 * @return
@@ -109,7 +111,9 @@ public class PropertySource implements IPropertySource {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java.lang.Object)
+	 * @see
+	 * org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java
+	 * .lang.Object)
 	 */
 	@Override
 	public Object getPropertyValue(Object id) {
@@ -149,7 +153,9 @@ public class PropertySource implements IPropertySource {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
+	 * @see
+	 * org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang
+	 * .Object)
 	 */
 	@Override
 	public boolean isPropertySet(Object id) {
@@ -159,7 +165,9 @@ public class PropertySource implements IPropertySource {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
+	 * @see
+	 * org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java
+	 * .lang.Object)
 	 */
 	@Override
 	public void resetPropertyValue(Object id) {
@@ -168,7 +176,9 @@ public class PropertySource implements IPropertySource {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java.lang.Object, java.lang.Object)
+	 * @see
+	 * org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java
+	 * .lang.Object, java.lang.Object)
 	 */
 	@Override
 	public void setPropertyValue(Object id, Object value) {

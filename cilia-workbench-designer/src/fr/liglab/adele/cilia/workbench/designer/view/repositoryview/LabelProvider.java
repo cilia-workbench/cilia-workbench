@@ -16,6 +16,8 @@ package fr.liglab.adele.cilia.workbench.designer.view.repositoryview;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -27,6 +29,7 @@ import org.eclipse.swt.graphics.Image;
 import fr.liglab.adele.cilia.workbench.common.Activator;
 import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.CiliaMarkerUtil;
 import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.SourceProviderField;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider.FakeElement;
 
 /**
@@ -45,6 +48,8 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 	 * @return the Image descriptor
 	 */
 	protected abstract ImageDescriptorEnum getImageDescriptor(Object obj);
+
+	protected abstract GenericContentProvider getContentProvider();
 
 	/**
 	 * Represents ans stores an image.
@@ -151,27 +156,53 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 	public Image getImage(Object obj) {
 
 		ImageDescriptorEnum descriptor = getImageDescriptor(obj);
-		boolean warning = false;
+
+		switch (getImageModifier(obj)) {
+		case IMarker.SEVERITY_INFO:
+			return descriptor.getImageOK();
+		case IMarker.SEVERITY_WARNING:
+			return descriptor.getImageWarning();
+		case IMarker.SEVERITY_ERROR:
+			return descriptor.getImageError();
+		}
+
+		// impossible ?!
+		return null;
+	}
+
+	private int getImageModifier(Object obj) {
+
+		List<Object> list = new ArrayList<Object>();
+		list.add(obj);
+
+		if (getContentProvider() != null) {
+			for (Object o : getContentProvider().getAllSubItems(obj))
+				list.add(o);
+		}
 
 		try {
+
+			boolean warning = false;
+
 			for (IMarker marker : CiliaMarkerUtil.findMarkers()) {
-				if (marker.getAttribute(SourceProviderField.FIELD_ID) == obj) {
+				Object object = marker.getAttribute(SourceProviderField.FIELD_ID);
+				if (list.contains(object)) {
 					int severity = marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
 
 					if (severity == IMarker.SEVERITY_ERROR)
-						return descriptor.getImageError();
+						return IMarker.SEVERITY_ERROR;
 					else if (severity == IMarker.SEVERITY_WARNING)
 						warning = true;
 				}
 			}
+
+			if (warning)
+				return IMarker.SEVERITY_WARNING;
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 
-		if (warning == true)
-			return descriptor.getImageWarning();
-
-		return descriptor.getImageOK();
+		return IMarker.SEVERITY_INFO;
 	}
 
 	@Override

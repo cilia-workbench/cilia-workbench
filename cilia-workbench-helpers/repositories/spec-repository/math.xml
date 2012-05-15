@@ -3,30 +3,64 @@
 
 	
 
-	<mediator-specification id="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
-		</ports>
-		<properties>
-			<property key="category" value="sample"/>
-		</properties>
-	</mediator-specification>
+	
 
-	<mediator-specification id="increment-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
-		</ports>
-		<properties>
-			<property key="category" value="sample"/>
-		</properties>
-	</mediator-specification>
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
 <ports>
 <in-port name="in"/>
 <out-port name="out"/>
 </ports>
+</mediator-specification>
+
+
+
+
+
+
+
+
+
+
+
+<mediator-specification id="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+<properties>
+<property key="category" value="samples"/>
+</properties>
+</mediator-specification>
+
+
+
+<mediator-specification id="increment-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+<properties>
+<property key="category" value="samples"/>
+</properties>
+<processor>
+<parameters>
+<parameter name="increment"/>
+</parameters>
+</processor>
 </mediator-specification>
 </cilia-specifications>

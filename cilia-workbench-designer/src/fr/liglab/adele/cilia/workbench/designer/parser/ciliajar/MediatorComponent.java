@@ -15,6 +15,7 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,9 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.ComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
  * 
@@ -142,6 +145,13 @@ public class MediatorComponent extends Element {
 		return properties;
 	}
 
+	public Property getProperty(String key) {
+		for (Property p : getProperties())
+			if (p.getKey().equalsIgnoreCase(key))
+				return p;
+		return null;
+	}
+
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag[] tab = super.getErrorsAndWarnings();
@@ -157,8 +167,6 @@ public class MediatorComponent extends Element {
 		CiliaFlag e5 = null;
 		CiliaFlag e6 = null;
 		CiliaFlag e7 = null;
-		CiliaFlag e8 = null;
-		CiliaFlag e9 = null;
 
 		// ports
 		if (getInPorts().size() == 0)
@@ -175,14 +183,79 @@ public class MediatorComponent extends Element {
 		if (getSpec() != null && getSpec().getMediatorSpec() != null) {
 			MediatorSpec mediatorSpec = getSpec().getMediatorSpec();
 
+			// In ports
 			if (!IdentifiableUtils.isSameListId(mediatorSpec.getInPorts(), getInPorts()))
-				e6 = new CiliaError("In ports list doesn't respect it's specification", getSpec());
+				e6 = new CiliaError("In ports list doesn't respect the specification", getSpec());
 
+			// Out ports
 			if (!IdentifiableUtils.isSameListId(mediatorSpec.getOutPorts(), getOutPorts()))
-				e7 = new CiliaError("Out ports list doesn't respect it's specification", getSpec());
+				e7 = new CiliaError("Out ports list doesn't respect the specification", getSpec());
 
+			// Properties
+			for (fr.liglab.adele.cilia.workbench.designer.parser.spec.Property mediaProp : mediatorSpec.getProperties()) {
+				String specKey = mediaProp.getKey();
+				String specValue = mediaProp.getValue();
+				Property curProp = getProperty(specKey);
+				if (curProp == null)
+					flagsTab.add(new CiliaError("Mediator must have \"" + specKey + "\" property defined with value \""
+							+ specValue + "\" to respect its specification", this));
+				else if (!curProp.getValue().equalsIgnoreCase(specValue))
+					flagsTab.add(new CiliaError("Mediator must have \"" + specKey + "\" property defined with value \""
+							+ specValue + "\" to respect its specification", this));
+			}
 		}
 
 		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4, e5, e6, e7);
+	}
+
+	public static List<CiliaFlag> checkSPDParameters(JarRepoService repo, MediatorComponent mediator) {
+		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
+
+		if (mediator.getSpec() != null && mediator.getSpec().getMediatorSpec() != null) {
+			MediatorSpec mediatorSpec = mediator.getSpec().getMediatorSpec();
+
+			// Scheduler parameters
+			Scheduler scheduler = repo.getScheduler(mediator.getSchedulerNameNamespace());
+			if (scheduler != null)
+				flagsTab.addAll(checkParameters(mediator, mediatorSpec.getScheduler(), scheduler, "scheduler"));
+
+			// Processor parameters
+			Processor processor = repo.getProcessor(mediator.getProcessorNameNamespace());
+			if (processor != null)
+				flagsTab.addAll(checkParameters(mediator, mediatorSpec.getProcessor(), processor, "processor"));
+
+			// Dispatcher parameters
+			Dispatcher dispatcher = repo.getDispatcher(mediator.getDispatcherNameNamespace());
+			if (dispatcher != null)
+				flagsTab.addAll(checkParameters(mediator, mediatorSpec.getDispatcher(), dispatcher, "dispatcher"));
+
+		}
+
+		return flagsTab;
+	}
+
+	private static List<CiliaFlag> checkParameters(MediatorComponent mediator, ComponentPart spec, SPDElement implem,
+			String elementTypeName) {
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
+
+		if (spec == null)
+			return retval;
+
+		for (fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter param : spec.getParameters()) {
+			String paramName = param.getName();
+
+			boolean found = false;
+
+			for (Iterator<Parameter> iterator = implem.getParameters().iterator(); iterator.hasNext() && !found;) {
+				if (iterator.next().getName().equalsIgnoreCase(paramName))
+					found = true;
+			}
+
+			if (!found)
+				retval.add(new CiliaError(elementTypeName + " must have a parameter named " + paramName
+						+ " to respect its specification", mediator.getSpec()));
+		}
+
+		return retval;
 	}
 }

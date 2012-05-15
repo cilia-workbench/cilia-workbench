@@ -41,13 +41,13 @@ public class Parameter implements DisplayedInPropertiesView, ErrorsAndWarningsFi
 
 	private String name;
 	private String method;
-	private String value;
+	private String default_value;
 	private String field;
 
 	public Parameter(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 		ReflectionUtil.setAttribute(node, XML_ATTR_METHOD, this, "method");
-		ReflectionUtil.setAttribute(node, XML_ATTR_VALUE, this, "value");
+		ReflectionUtil.setAttribute(node, XML_ATTR_VALUE, this, "default_value");
 		ReflectionUtil.setAttribute(node, XML_ATTR_FIELD, this, "field");
 	}
 
@@ -78,8 +78,8 @@ public class Parameter implements DisplayedInPropertiesView, ErrorsAndWarningsFi
 	public String toString() {
 		String retval = name;
 
-		if (value != null)
-			retval = retval + " = " + value;
+		if (default_value != null)
+			retval = retval + " = " + default_value;
 		if (method != null)
 			retval = retval + " [" + method + "]";
 		if (field != null)

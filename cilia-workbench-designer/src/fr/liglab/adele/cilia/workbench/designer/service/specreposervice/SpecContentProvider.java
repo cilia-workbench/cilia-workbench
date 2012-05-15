@@ -65,11 +65,11 @@ public class SpecContentProvider extends GenericContentProvider {
 						for (Parameter p : dispatcher.getParameters())
 							addRelationship(true, dispatcher, p);
 
-					for (Property property : spec.getProperties())
-						addRelationship(true, spec, property);
-
 					for (Port port : spec.getPorts())
 						addRelationship(true, spec, port);
+
+					for (Property property : spec.getProperties())
+						addRelationship(true, spec, property);
 				}
 			}
 		}

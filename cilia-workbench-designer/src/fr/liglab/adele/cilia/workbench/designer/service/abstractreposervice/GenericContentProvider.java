@@ -178,6 +178,27 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 
+	/**
+	 * Returns a table with all the sub items of the parameter. The parameter is
+	 * NOT present in the computed table.
+	 * 
+	 * @param obj
+	 *            an object
+	 * @return
+	 */
+	public Object[] getAllSubItems(Object obj) {
+		List<Object> retval = new ArrayList<Object>();
+
+		Object[] elements = getAllChildren(obj);
+		for (Object e : elements) {
+			retval.add(e);
+			for (Object o : getAllSubItems(e))
+				retval.add(o);
+		}
+
+		return retval.toArray();
+	}
+
 	public class FakeElement implements ErrorsAndWarningsFinder {
 
 		private final String displayName;

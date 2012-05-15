@@ -23,6 +23,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.spec.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
@@ -31,6 +33,18 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvide
  * @author Etienne Gandrille
  */
 public class SpecLabelProvider extends LabelProvider {
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
+	 * #getContentProvider()
+	 */
+	@Override
+	protected GenericContentProvider getContentProvider() {
+		return SpecRepoService.getInstance().getContentProvider();
+	}
 
 	/*
 	 * (non-Javadoc)

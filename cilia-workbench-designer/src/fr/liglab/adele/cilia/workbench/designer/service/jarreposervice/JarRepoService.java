@@ -341,6 +341,9 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getSenders()));
 		errorList.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getAdapters()));
 
+		for (MediatorComponent mediator : getMediators())
+			errorList.addAll(MediatorComponent.checkSPDParameters(this, mediator));
+
 		return CiliaFlag.generateTab(errorList);
 	}
 

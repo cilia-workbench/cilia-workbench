@@ -27,6 +27,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
@@ -35,6 +37,18 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvide
  * @author Etienne Gandrille
  */
 public class JarMetadataLabelProvider extends LabelProvider {
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
+	 * #getContentProvider()
+	 */
+	@Override
+	protected GenericContentProvider getContentProvider() {
+		return JarRepoService.getInstance().getContentProvider();
+	}
 
 	/*
 	 * (non-Javadoc)

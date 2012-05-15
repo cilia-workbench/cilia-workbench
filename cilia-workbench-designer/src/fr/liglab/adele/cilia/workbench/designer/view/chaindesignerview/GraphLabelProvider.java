@@ -18,6 +18,7 @@ import org.eclipse.zest.core.viewers.EntityConnectionData;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
@@ -26,6 +27,18 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvide
  * @author Etienne Gandrille
  */
 public class GraphLabelProvider extends LabelProvider {
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
+	 * #getContentProvider()
+	 */
+	@Override
+	protected GenericContentProvider getContentProvider() {
+		return null;
+	}
 
 	@Override
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {

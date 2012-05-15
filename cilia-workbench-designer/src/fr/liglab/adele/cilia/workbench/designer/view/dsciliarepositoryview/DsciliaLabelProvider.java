@@ -19,6 +19,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
@@ -27,6 +29,18 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvide
  * @author Etienne Gandrille
  */
 public class DsciliaLabelProvider extends LabelProvider {
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
+	 * #getContentProvider()
+	 */
+	@Override
+	protected GenericContentProvider getContentProvider() {
+		return DsciliaRepoService.getInstance().getContentProvider();
+	}
 
 	/*
 	 * (non-Javadoc)

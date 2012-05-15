@@ -58,7 +58,7 @@
 	</processor>
 
 	<mediator-component name="increment-mediator"
-		category="samples" spec-name="average-mediator" spec-namespace="fr.imag.adele.cilia.workbench.spec">
+		category="samples" spec-name="increment-mediator" spec-namespace="fr.imag.adele.cilia.workbench.spec">
 		<cilia:processor name="increment-processor" />
 		<cilia:scheduler name="immediate-scheduler" />
 		<cilia:dispatcher name="multicast-dispatcher" />
