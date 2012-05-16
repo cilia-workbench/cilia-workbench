@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector;
@@ -27,6 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.SuperMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
@@ -87,7 +87,7 @@ public class JarMetadataLabelProvider extends LabelProvider {
 			imageName = ImageDescriptorEnum.PORT_OUT;
 		else if (isCompatible(obj, Parameter.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
-		else if (isCompatible(obj, NameNamespaceID.class))
+		else if (isCompatible(obj, SuperMediator.class))
 			imageName = ImageDescriptorEnum.SUPER_TYPE;
 
 		else

@@ -12,38 +12,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
-import org.w3c.dom.Node;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
- * Represents a basic XML element, with name and namespace attributes.
+ * A base class for implementing objects having a name and a namespace.
+ * 
+ * This class is semantically different from {@link NameNamespaceID}.
+ * {@link NameNamespace} represents a base class whereas {@link NameNamespaceID}
+ * represents an id, for a class implementing {@link NameNamespace}.
  * 
  * @author Etienne Gandrille
  */
-public abstract class Element implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
+public abstract class NameNamespace implements ErrorsAndWarningsFinder, Identifiable {
 
+	/** Name */
 	private String name;
+	/** Namespace */
 	private String namespace;
 
-	public Element(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, "name", this, "name");
-		ReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.getDefaultNamespace());
+	public NameNamespace() {
+	}
+
+	public NameNamespace(String name, String namespace) {
+		this.name = name;
+		this.namespace = namespace;
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * The qualified name is composed by the namespace and the name. If the
+	 * namespace is unavailable, this function returns the name.
+	 * 
+	 * @return the qualified name
+	 */
+	public String getQualifiedName() {
+		if (namespace == null || namespace.length() == 0)
+			return name;
+		else
+			return namespace + "." + name;
 	}
 
 	public String getNamespace() {
@@ -56,7 +72,7 @@ public abstract class Element implements DisplayedInPropertiesView, ErrorsAndWar
 	}
 
 	@Override
-	public Object getId() {
+	public NameNamespaceID getId() {
 		return new NameNamespaceID(name, namespace);
 	}
 

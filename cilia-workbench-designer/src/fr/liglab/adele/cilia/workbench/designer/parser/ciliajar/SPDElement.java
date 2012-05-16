@@ -19,11 +19,14 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * Base class for implementing {@link Scheduler}, {@link Processor} and
@@ -31,13 +34,14 @@ import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
  * 
  * @author Etienne Gandrille
  */
-public abstract class SPDElement extends Element {
+public abstract class SPDElement extends NameNamespace implements DisplayedInPropertiesView {
 
 	private String classname;
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 
 	public SPDElement(Node node) throws CiliaException {
-		super(node);
+		ReflectionUtil.setAttribute(node, "name", this, "name");
+		ReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.getDefaultNamespace());
 		parameters = Parameter.findParameters(node);
 		ReflectionUtil.setAttribute(node, "classname", this, "classname");
 	}

@@ -20,6 +20,11 @@ import com.google.common.base.Strings;
  * Helper class, which represents an id from the {@link Identifiable} point of
  * view.
  * 
+ * This class is semantically different from {@link NameNamespace}.
+ * {@link NameNamespace} represents a base class whereas {@link NameNamespaceID}
+ * represents an id, for a class implementing {@link NameNamespace}.
+ * 
+ * 
  * @author Etienne Gandrille
  */
 public class NameNamespaceID {

@@ -29,15 +29,17 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.ComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorComponent extends Element {
+public class MediatorComponent extends NameNamespace implements DisplayedInPropertiesView {
 
 	private final SuperMediator spec;
 
@@ -55,7 +57,9 @@ public class MediatorComponent extends Element {
 	private List<Property> properties = new ArrayList<Property>();
 
 	public MediatorComponent(Node node) throws CiliaException {
-		super(node);
+
+		ReflectionUtil.setAttribute(node, "name", this, "name");
+		ReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.getDefaultNamespace());
 
 		String defNs = CiliaConstants.getDefaultNamespace();
 		String specName = null;

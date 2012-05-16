@@ -14,10 +14,10 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
@@ -27,25 +27,25 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class SuperMediator extends NameNamespaceID implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public class SuperMediator extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	public SuperMediator(String name, String namespace) {
 		super(name, namespace);
 	}
 
 	public MediatorSpec getMediatorSpec() {
-		return SpecRepoService.getInstance().getMediatorSpec(this);
+		return SpecRepoService.getInstance().getMediatorSpec(getId());
 	}
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
 
 		CiliaError e = null;
 
-		MediatorSpec spec = getMediatorSpec();
-		if (spec == null)
-			e = new CiliaError("Can't find mediator spec " + getNamespace() + "." + getName(), this);
+		if (getMediatorSpec() == null)
+			e = new CiliaError("Can't find mediator spec " + getQualifiedName(), this);
 
-		return CiliaFlag.generateTab(e);
+		return CiliaFlag.generateTab(tab, e);
 	}
 }

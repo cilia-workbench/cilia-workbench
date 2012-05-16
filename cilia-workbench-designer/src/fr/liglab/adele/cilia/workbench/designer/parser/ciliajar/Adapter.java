@@ -16,17 +16,20 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Adapter extends Element {
+public class Adapter extends NameNamespace implements DisplayedInPropertiesView {
 
 	private Node node;
 
@@ -38,7 +41,8 @@ public class Adapter extends Element {
 	public static String OUT_PATTERN = "out-only";
 
 	public Adapter(Node node) throws CiliaException {
-		super(node);
+		ReflectionUtil.setAttribute(node, "name", this, "name");
+		ReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.getDefaultNamespace());
 
 		this.node = node;
 		ReflectionUtil.setAttribute(node, "pattern", this, "pattern");
