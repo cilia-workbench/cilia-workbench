@@ -50,7 +50,7 @@ public class MediatorComponent extends Element {
 	private String dispatcherName;
 	private String dispatcherNamespace;
 
-	private List<Port> ports = new ArrayList<Port>();
+	private List<JarPort> ports = new ArrayList<JarPort>();
 
 	private List<Property> properties = new ArrayList<Property>();
 
@@ -105,21 +105,21 @@ public class MediatorComponent extends Element {
 		}
 	}
 
-	public List<Port> getPorts() {
+	public List<JarPort> getPorts() {
 		return ports;
 	}
 
-	public List<Port> getInPorts() {
-		List<Port> retval = new ArrayList<Port>();
-		for (Port p : ports)
+	public List<JarPort> getInPorts() {
+		List<JarPort> retval = new ArrayList<JarPort>();
+		for (JarPort p : ports)
 			if (p.isInPort())
 				retval.add(p);
 		return retval;
 	}
 
-	public List<Port> getOutPorts() {
-		List<Port> retval = new ArrayList<Port>();
-		for (Port p : ports)
+	public List<JarPort> getOutPorts() {
+		List<JarPort> retval = new ArrayList<JarPort>();
+		for (JarPort p : ports)
 			if (p.isOutPort())
 				retval.add(p);
 		return retval;

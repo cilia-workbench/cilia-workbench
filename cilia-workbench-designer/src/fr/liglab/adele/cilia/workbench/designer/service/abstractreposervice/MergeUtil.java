@@ -21,7 +21,6 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.PullElementUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
@@ -66,7 +65,7 @@ public abstract class MergeUtil {
 			Identifiable old = itr.next();
 			Object oldID = old.getId();
 
-			Identifiable updated = PullElementUtil.pullProperty(newList, oldID);
+			Identifiable updated = pullProperty(newList, oldID);
 			if (updated == null) {
 				itr.remove();
 				retval.add(new Changeset(Operation.REMOVE, old));
@@ -82,6 +81,17 @@ public abstract class MergeUtil {
 		}
 
 		return retval;
+	}
+
+	private static Identifiable pullProperty(Iterable<? extends Identifiable> list, Object id) {
+		for (Iterator<? extends Identifiable> itr = list.iterator(); itr.hasNext();) {
+			Identifiable element = itr.next();
+			if (element.getId().equals(id)) {
+				itr.remove();
+				return element;
+			}
+		}
+		return null;
 	}
 
 	public static List<Changeset> mergeObjectsFields(Object newInstance, Object oldInstance, String fieldName)

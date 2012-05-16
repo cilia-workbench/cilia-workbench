@@ -14,14 +14,12 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 
 /**
+ * Interface for tagging port implementation.
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
-
+public interface JarPort extends IGenericPort {
 }

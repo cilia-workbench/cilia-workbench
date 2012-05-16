@@ -12,27 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.common;
+package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
-import java.util.Iterator;
-
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 
 /**
+ * Interface for tagging port specification.
  * 
  * @author Etienne Gandrille
  */
-public class PullElementUtil implements DisplayedInPropertiesView {
-
-	public static Identifiable pullProperty(Iterable<? extends Identifiable> list, Object id) {
-		for (Iterator<? extends Identifiable> itr = list.iterator(); itr.hasNext();) {
-			Identifiable element = itr.next();
-			if (element.getId().equals(id)) {
-				itr.remove();
-				return element;
-			}
-		}
-		return null;
-	}
+public interface SpecPort extends IGenericPort {
 }

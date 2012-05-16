@@ -33,9 +33,9 @@ import com.google.common.base.Preconditions;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.InPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.JarPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.OutPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Port;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.ComponentInstance;
@@ -292,7 +292,7 @@ public class NewBindingWindow extends Dialog {
 						MediatorComponent m = JarRepoService.getInstance().getMediator(
 								new NameNamespaceID(i.getType(), i.getNamespace()));
 						if (m != null) {
-							for (Port p : m.getPorts()) {
+							for (JarPort p : m.getPorts()) {
 								if (p instanceof InPort && portType.equals(IN_PORT))
 									comboPort.add(p.getName());
 								if (p instanceof OutPort && portType.equals(OUT_PORT))

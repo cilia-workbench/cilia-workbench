@@ -19,12 +19,12 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecPort;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
@@ -65,7 +65,7 @@ public class SpecContentProvider extends GenericContentProvider {
 						for (Parameter p : dispatcher.getParameters())
 							addRelationship(true, dispatcher, p);
 
-					for (Port port : spec.getPorts())
+					for (SpecPort port : spec.getPorts())
 						addRelationship(true, spec, port);
 
 					for (Property property : spec.getProperties())

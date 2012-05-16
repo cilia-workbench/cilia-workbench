@@ -17,28 +17,16 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericOutPort;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class OutPort extends Port implements DisplayedInPropertiesView {
+public class OutPort extends GenericOutPort implements JarPort {
 
 	public OutPort(Node node) throws CiliaException {
-		super(node);
-	}
-
-	@Override
-	public Object getId() {
-		return "out:" + getName();
-	}
-
-	public boolean isInPort() {
-		return false;
-	}
-
-	public boolean isOutPort() {
-		return true;
+		ReflectionUtil.setAttribute(node, "name", this, "name");
 	}
 }

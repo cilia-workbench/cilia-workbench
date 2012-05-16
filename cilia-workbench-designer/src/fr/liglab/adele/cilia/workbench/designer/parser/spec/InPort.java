@@ -18,19 +18,23 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInPort;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class InPort extends Port implements DisplayedInPropertiesView {
+public class InPort extends GenericInPort implements DisplayedInPropertiesView, Identifiable, SpecPort {
 
+	public static final String XML_ATTR_NAME = "name";
 	private static String XMLtag = "in-port";
 
 	public InPort(Node node) throws CiliaException {
-		super(node, XMLtag);
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 	}
 
 	public static String getXMLtag() {
@@ -39,10 +43,5 @@ public class InPort extends Port implements DisplayedInPropertiesView {
 
 	public static Node createXMLPort(Document document, Node parent, String portName) {
 		return XMLHelpers.createNode(document, parent, XMLtag, XML_ATTR_NAME, portName);
-	}
-
-	@Override
-	public Object getId() {
-		return "in:" + getName();
 	}
 }

@@ -14,25 +14,14 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericProperty;
 
 /**
  * The Class Property.
  * 
  * @author Etienne Gandrille
  */
-public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
-
-	/** The key. */
-	private final String key;
-
-	/** The value. */
-	private final String value;
+public class Property extends GenericProperty {
 
 	/**
 	 * Instantiates a new property.
@@ -45,71 +34,5 @@ public class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFin
 	public Property(String key, String value) {
 		this.key = key;
 		this.value = value;
-	}
-
-	@Override
-	public Object getId() {
-		return key;
-	}
-
-	/**
-	 * Gets the key.
-	 * 
-	 * @return the key
-	 */
-	public String getKey() {
-		return key;
-	}
-
-	/**
-	 * Gets the value.
-	 * 
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		if (key == null || key.length() == 0)
-			return "<undefined> = " + value;
-		if (value == null || value.length() == 0)
-			return key + " = <undefined>";
-
-		return key + " = " + value;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object arg0) {
-		if (arg0 == null)
-			return false;
-		if (!(arg0 instanceof Property))
-			return false;
-
-		Property prop = (Property) arg0;
-
-		if (prop.getKey() != key || prop.getValue() != value)
-			return false;
-
-		return true;
-	}
-
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, key, "key");
-		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, value, "value");
-
-		return CiliaFlag.generateTab(e1, e2);
 	}
 }

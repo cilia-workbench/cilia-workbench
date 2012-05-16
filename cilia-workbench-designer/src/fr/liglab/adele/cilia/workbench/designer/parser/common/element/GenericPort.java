@@ -12,30 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.spec;
+package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
-import org.w3c.dom.Node;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
+ * Represents a port, in or out. It can be a spec or an implementation.
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
+public abstract class GenericPort implements ErrorsAndWarningsFinder, IGenericPort {
 
-	public static final String XML_ATTR_NAME = "name";
+	/** The port name */
 	private String name;
-
-	public Port(Node node, String XMLtag) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
-	}
 
 	public String getName() {
 		return name;
@@ -46,18 +37,28 @@ public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarnin
 		return name;
 	}
 
-	public boolean isInPort() {
-		return this.getClass().equals(InPort.class);
-	}
-
-	public boolean isOutPort() {
-		return this.getClass().equals(OutPort.class);
-	}
-
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
 
 		return CiliaFlag.generateTab(e1);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort
+	 * #isInPort()
+	 */
+	public abstract boolean isInPort();
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort
+	 * #isOutPort()
+	 */
+	public abstract boolean isOutPort();
 }

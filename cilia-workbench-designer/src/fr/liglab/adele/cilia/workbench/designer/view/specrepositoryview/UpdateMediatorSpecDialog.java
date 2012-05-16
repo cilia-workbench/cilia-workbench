@@ -41,8 +41,8 @@ import fr.liglab.adele.cilia.workbench.common.view.TextValidatorListener;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Port;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Property;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecPort;
 
 /**
  * This dialog is used to update a mediator specification.
@@ -110,7 +110,7 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		this.namespaceValue = ((NameNamespaceID) mediatorSpec.getId()).getNamespace();
 
 		// Ports
-		for (Port port : mediatorSpec.getPorts())
+		for (SpecPort port : mediatorSpec.getPorts())
 			if (port.getClass().equals(InPort.class))
 				synchroPortsValue.add(port.getName());
 			else

@@ -51,7 +51,7 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 	private String namespace;
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	private List<Port> ports = new ArrayList<Port>();
+	private List<SpecPort> ports = new ArrayList<SpecPort>();
 	private List<Property> properties = new ArrayList<Property>();
 	private Processor processor = null;
 	private Scheduler scheduler = null;
@@ -118,21 +118,21 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 		return properties;
 	}
 
-	public List<Port> getPorts() {
+	public List<SpecPort> getPorts() {
 		return ports;
 	}
 
-	public List<Port> getInPorts() {
-		List<Port> retval = new ArrayList<Port>();
-		for (Port p : ports)
+	public List<SpecPort> getInPorts() {
+		List<SpecPort> retval = new ArrayList<SpecPort>();
+		for (SpecPort p : ports)
 			if (p.isInPort())
 				retval.add(p);
 		return retval;
 	}
 
-	public List<Port> getOutPorts() {
-		List<Port> retval = new ArrayList<Port>();
-		for (Port p : ports)
+	public List<SpecPort> getOutPorts() {
+		List<SpecPort> retval = new ArrayList<SpecPort>();
+		for (SpecPort p : ports)
 			if (p.isOutPort())
 				retval.add(p);
 		return retval;

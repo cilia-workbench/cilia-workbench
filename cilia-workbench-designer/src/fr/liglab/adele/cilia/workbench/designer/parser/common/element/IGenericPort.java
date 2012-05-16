@@ -12,16 +12,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
+ * Represents a port, in or out. It can be a spec or an implementation.
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
+public interface IGenericPort extends Identifiable {
 
+	/**
+	 * Gets the port name.
+	 * 
+	 * @return the port name.
+	 */
+	public String getName();
+
+	/**
+	 * Tests if a port is an in port
+	 * 
+	 * @return true if it is an in port, false otherwise.
+	 */
+	public boolean isInPort();
+
+	/**
+	 * Tests if a port is an out port
+	 * 
+	 * @return true if it is an out port, false otherwise.
+	 */
+	public boolean isOutPort();
 }
