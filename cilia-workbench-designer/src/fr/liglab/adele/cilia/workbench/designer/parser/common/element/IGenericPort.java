@@ -15,13 +15,14 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 
 /**
  * Represents a port, in or out. It can be a spec or an implementation.
  * 
  * @author Etienne Gandrille
  */
-public interface IGenericPort extends Identifiable {
+public interface IGenericPort extends Identifiable, ErrorsAndWarningsFinder {
 
 	/**
 	 * Gets the port name.

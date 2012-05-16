@@ -17,22 +17,16 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInAdapter;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class InAdapter extends Adapter {
+public class InAdapter extends GenericInAdapter implements DisplayedInPropertiesView {
 
 	public InAdapter(Node node) throws CiliaException {
-		super(node, "collector");
-	}
-
-	public boolean isInAdapter() {
-		return true;
-	}
-
-	public boolean isOutAdapter() {
-		return false;
+		AdapterFactory.initAdapter(node, this, "collector");
 	}
 }

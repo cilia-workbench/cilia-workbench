@@ -24,6 +24,7 @@ import org.w3c.dom.NodeList;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
@@ -39,7 +40,7 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 	private List<Dispatcher> dispatchers = new ArrayList<Dispatcher>();
 	private List<Collector> collectors = new ArrayList<Collector>();
 	private List<Sender> senders = new ArrayList<Sender>();
-	private List<Adapter> adapters = new ArrayList<Adapter>();
+	private List<GenericAdapter> adapters = new ArrayList<GenericAdapter>();
 
 	public CiliaJarModel(String filePath) throws CiliaException {
 
@@ -67,7 +68,7 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 					else if (nodeName.equals("sender"))
 						senders.add(new Sender(child));
 					else if (nodeName.equals("adapter")) {
-						Adapter a = Adapter.createAdapter(child);
+						GenericAdapter a = AdapterFactory.createAdapter(child);
 						if (a != null)
 							adapters.add(a);
 					} else if (nodeName.equals("mediator-component"))
@@ -105,7 +106,7 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 		return senders;
 	}
 
-	public List<Adapter> getAdapters() {
+	public List<GenericAdapter> getAdapters() {
 		return adapters;
 	}
 }

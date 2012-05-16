@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher;
@@ -27,6 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.SuperMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
@@ -59,8 +59,8 @@ public class JarMetadataLabelProvider extends LabelProvider {
 	 */
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
-		if (obj instanceof Adapter) {
-			Adapter adapt = (Adapter) obj;
+		if (obj instanceof GenericAdapter) {
+			GenericAdapter adapt = (GenericAdapter) obj;
 			if (adapt.isInAdapter())
 				imageName = ImageDescriptorEnum.ADAPTER_IN;
 			else

@@ -18,20 +18,15 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Adapter extends NameNamespace implements DisplayedInPropertiesView {
-
-	String elementType;
+public class AdapterFactory {
 
 	private static String IN_PATTERN = "in-only";
 	private static String OUT_PATTERN = "out-only";
@@ -44,8 +39,8 @@ public abstract class Adapter extends NameNamespace implements DisplayedInProper
 	 * @return {@link InAdapter}, an {@link OutAdapter} or <code>null</code> in
 	 *         case of error.
 	 */
-	public static Adapter createAdapter(Node node) {
-		Adapter retval = null;
+	public static GenericAdapter createAdapter(Node node) {
+		GenericAdapter retval = null;
 
 		try {
 			String pattern = XMLHelpers.findAttributeValue(node, "pattern");
@@ -63,36 +58,16 @@ public abstract class Adapter extends NameNamespace implements DisplayedInProper
 		return retval;
 	}
 
-	protected Adapter(Node node, String subNodeName) throws CiliaException {
-		ReflectionUtil.setAttribute(node, "name", this, "name");
-		ReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.getDefaultNamespace());
+	static void initAdapter(Node node, GenericAdapter adapter, String subXMLNodeName) throws CiliaException {
+		ReflectionUtil.setAttribute(node, "name", adapter, "name");
+		ReflectionUtil.setAttribute(node, "namespace", adapter, "namespace", CiliaConstants.getDefaultNamespace());
 
 		try {
-			Node subNode = XMLHelpers.findChild(node, subNodeName);
+			Node subNode = XMLHelpers.findChild(node, subXMLNodeName);
 			if (subNode != null)
-				ReflectionUtil.setAttribute(subNode, "type", this, "elementType");
+				ReflectionUtil.setAttribute(subNode, "type", adapter, subXMLNodeName);
 		} catch (Exception e) {
 			// Error reported by getErrorsAndWarnings
 		}
-	}
-
-	public abstract boolean isInAdapter();
-
-	public abstract boolean isOutAdapter();
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder
-	 * #createErrorsAndWarnings(java.lang.Object)
-	 */
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] flagsTab = super.getErrorsAndWarnings();
-
-		CiliaError e1 = CiliaError.checkStringNotNullOrEmpty(this, elementType, "elementType");
-
-		return CiliaFlag.generateTab(flagsTab, e1);
 	}
 }

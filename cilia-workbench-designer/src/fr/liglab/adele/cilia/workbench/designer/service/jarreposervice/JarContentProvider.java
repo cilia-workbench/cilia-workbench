@@ -16,7 +16,6 @@ package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector;
@@ -28,6 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
@@ -114,7 +114,7 @@ public class JarContentProvider extends GenericContentProvider {
 						addRelationship(true, s, param);
 				}
 
-				for (Adapter a : ipojo.getAdapters())
+				for (GenericAdapter a : ipojo.getAdapters())
 					addRelationship(true, bundle, a);
 			}
 		}

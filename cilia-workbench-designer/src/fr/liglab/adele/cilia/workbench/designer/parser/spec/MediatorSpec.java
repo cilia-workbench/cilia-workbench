@@ -30,6 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
@@ -53,7 +54,7 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 	private String namespace;
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	private List<SpecPort> ports = new ArrayList<SpecPort>();
+	private List<GenericPort> ports = new ArrayList<GenericPort>();
 	private List<Property> properties = new ArrayList<Property>();
 	private Processor processor = null;
 	private Scheduler scheduler = null;
@@ -116,23 +117,23 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 		return properties;
 	}
 
-	public List<SpecPort> getPorts() {
+	public List<GenericPort> getPorts() {
 		return ports;
 	}
 
-	public List<SpecPort> getInPorts() {
-		List<SpecPort> retval = new ArrayList<SpecPort>();
-		for (SpecPort p : ports)
+	public List<InPort> getInPorts() {
+		List<InPort> retval = new ArrayList<InPort>();
+		for (GenericPort p : ports)
 			if (p.isInPort())
-				retval.add(p);
+				retval.add((InPort) p);
 		return retval;
 	}
 
-	public List<SpecPort> getOutPorts() {
-		List<SpecPort> retval = new ArrayList<SpecPort>();
-		for (SpecPort p : ports)
+	public List<OutPort> getOutPorts() {
+		List<OutPort> retval = new ArrayList<OutPort>();
+		for (GenericPort p : ports)
 			if (p.isOutPort())
-				retval.add(p);
+				retval.add((OutPort) p);
 		return retval;
 	}
 

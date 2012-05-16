@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
@@ -202,7 +202,7 @@ public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder
 			String type = in.getType();
 			String namespace = in.getNamespace();
 			NameNamespaceID nn = new NameNamespaceID(type, namespace);
-			Adapter ta = JarRepoService.getInstance().getAdapterForChain(nn);
+			GenericAdapter ta = JarRepoService.getInstance().getAdapterForChain(nn);
 			if (ta != null) {
 				if (ta.isInAdapter())
 					return src.id + " is an in-adapter. It can't be a binding source.";
@@ -218,7 +218,7 @@ public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder
 			String type = out.getType();
 			String namespace = out.getNamespace();
 			NameNamespaceID nn = new NameNamespaceID(type, namespace);
-			Adapter ta = JarRepoService.getInstance().getAdapterForChain(nn);
+			GenericAdapter ta = JarRepoService.getInstance().getAdapterForChain(nn);
 			if (ta != null) {
 				if (ta.isOutAdapter())
 					return dst.id + " is an out-adapter. It can't be a binding destination.";

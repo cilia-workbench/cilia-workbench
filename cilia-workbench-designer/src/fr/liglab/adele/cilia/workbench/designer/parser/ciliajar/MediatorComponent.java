@@ -114,19 +114,19 @@ public class MediatorComponent extends NameNamespace implements IMediator, Displ
 		return ports;
 	}
 
-	public List<JarPort> getInPorts() {
-		List<JarPort> retval = new ArrayList<JarPort>();
+	public List<InPort> getInPorts() {
+		List<InPort> retval = new ArrayList<InPort>();
 		for (JarPort p : ports)
 			if (p.isInPort())
-				retval.add(p);
+				retval.add((InPort) p);
 		return retval;
 	}
 
-	public List<JarPort> getOutPorts() {
-		List<JarPort> retval = new ArrayList<JarPort>();
+	public List<OutPort> getOutPorts() {
+		List<OutPort> retval = new ArrayList<OutPort>();
 		for (JarPort p : ports)
 			if (p.isOutPort())
-				retval.add(p);
+				retval.add((OutPort) p);
 		return retval;
 	}
 

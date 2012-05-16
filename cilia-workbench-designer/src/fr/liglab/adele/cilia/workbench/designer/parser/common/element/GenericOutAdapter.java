@@ -14,32 +14,34 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-
 /**
- * Represents a port, in or out. It can be a spec or an implementation.
  * 
  * @author Etienne Gandrille
  */
-public abstract class GenericPort implements IGenericPort {
+public class GenericOutAdapter extends GenericAdapter {
 
-	/** The port name */
-	private String name;
+	String sender;
 
-	public String getName() {
-		return name;
+	@Override
+	public boolean isInAdapter() {
+		return false;
 	}
 
 	@Override
-	public String toString() {
-		return name;
+	public boolean isOutAdapter() {
+		return true;
+	}
+
+	public String getSender() {
+		return sender;
+	}
+
+	protected void setSubElement(String subElement) {
+		sender = subElement;
 	}
 
 	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-
-		return CiliaFlag.generateTab(e1);
+	protected String getSubElement() {
+		return sender;
 	}
 }
