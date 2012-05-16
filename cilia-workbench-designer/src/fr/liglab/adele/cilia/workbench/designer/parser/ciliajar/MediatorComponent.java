@@ -29,6 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.ComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
@@ -39,7 +40,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class MediatorComponent extends NameNamespace implements DisplayedInPropertiesView {
+public class MediatorComponent extends NameNamespace implements IMediator, DisplayedInPropertiesView {
 
 	private final SuperMediator spec;
 
@@ -133,18 +134,6 @@ public class MediatorComponent extends NameNamespace implements DisplayedInPrope
 		return spec;
 	}
 
-	public NameNamespaceID getSchedulerNameNamespace() {
-		return new NameNamespaceID(schedulerName, schedulerNamespace);
-	}
-
-	public NameNamespaceID getProcessorNameNamespace() {
-		return new NameNamespaceID(processorName, processorNamespace);
-	}
-
-	public NameNamespaceID getDispatcherNameNamespace() {
-		return new NameNamespaceID(dispatcherName, dispatcherNamespace);
-	}
-
 	public List<Property> getProperties() {
 		return properties;
 	}
@@ -154,6 +143,33 @@ public class MediatorComponent extends NameNamespace implements DisplayedInPrope
 			if (p.getKey().equalsIgnoreCase(key))
 				return p;
 		return null;
+	}
+
+	public NameNamespaceID getSchedulerID() {
+		return new NameNamespaceID(schedulerName, schedulerNamespace);
+	}
+
+	public Scheduler getScheduler() {
+		NameNamespaceID id = getSchedulerID();
+		return JarRepoService.getInstance().getScheduler(id);
+	}
+
+	public NameNamespaceID getProcessorID() {
+		return new NameNamespaceID(processorName, processorNamespace);
+	}
+
+	public Processor getProcessor() {
+		NameNamespaceID id = getProcessorID();
+		return JarRepoService.getInstance().getProcessor(id);
+	}
+
+	public NameNamespaceID getDispatcherID() {
+		return new NameNamespaceID(dispatcherName, dispatcherNamespace);
+	}
+
+	public Dispatcher getDispatcher() {
+		NameNamespaceID id = getDispatcherID();
+		return JarRepoService.getInstance().getDispatcher(id);
 	}
 
 	@Override
@@ -218,21 +234,20 @@ public class MediatorComponent extends NameNamespace implements DisplayedInPrope
 	public static List<CiliaFlag> checkMediatorParameters(MediatorComponent mediator) {
 		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
 
-		JarRepoService repo = JarRepoService.getInstance();
 		MediatorSpec mediatorSpec = mediator.getSpec().getMediatorSpec();
 
 		// Scheduler parameters
-		Scheduler scheduler = repo.getScheduler(mediator.getSchedulerNameNamespace());
+		Scheduler scheduler = mediator.getScheduler();
 		if (scheduler != null)
 			flagsTab.addAll(checkParameters(mediator, mediatorSpec.getScheduler(), scheduler, "scheduler"));
 
 		// Processor parameters
-		Processor processor = repo.getProcessor(mediator.getProcessorNameNamespace());
+		Processor processor = mediator.getProcessor();
 		if (processor != null)
 			flagsTab.addAll(checkParameters(mediator, mediatorSpec.getProcessor(), processor, "processor"));
 
 		// Dispatcher parameters
-		Dispatcher dispatcher = repo.getDispatcher(mediator.getDispatcherNameNamespace());
+		Dispatcher dispatcher = mediator.getDispatcher();
 		if (dispatcher != null)
 			flagsTab.addAll(checkParameters(mediator, mediatorSpec.getDispatcher(), dispatcher, "dispatcher"));
 

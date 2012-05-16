@@ -17,12 +17,13 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IDispatcher;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Dispatcher extends SPDElement {
+public class Dispatcher extends SPDElement implements IDispatcher {
 
 	public Dispatcher(Node node) throws CiliaException {
 		super(node);

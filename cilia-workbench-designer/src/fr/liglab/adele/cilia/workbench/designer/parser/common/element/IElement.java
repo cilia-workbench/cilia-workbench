@@ -12,20 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
-import org.w3c.dom.Node;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IProcessor;
+import java.util.List;
 
 /**
+ * Base interface for implementing IScheduler, IProcessor, IDispatcher.
  * 
  * @author Etienne Gandrille
  */
-public class Processor extends SPDElement implements IProcessor {
-
-	public Processor(Node node) throws CiliaException {
-		super(node);
-	}
+public abstract interface IElement {
+	List<? extends GenericParameter> getParameters();
 }

@@ -17,12 +17,13 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IScheduler;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Scheduler extends SPDElement {
+public class Scheduler extends SPDElement implements IScheduler {
 
 	public Scheduler(Node node) throws CiliaException {
 		super(node);

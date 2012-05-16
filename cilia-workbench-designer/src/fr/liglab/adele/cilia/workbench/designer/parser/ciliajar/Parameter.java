@@ -20,28 +20,25 @@ import java.util.List;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericParameter;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Parameter implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
+public class Parameter extends GenericParameter implements DisplayedInPropertiesView {
 
 	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_METHOD = "method";
 	public static final String XML_ATTR_VALUE = "value";
 	public static final String XML_ATTR_FIELD = "field";
 
-	private String name;
 	private String method;
-	private String default_value;
 	private String field;
 
 	public Parameter(Node node) throws CiliaException {
@@ -66,20 +63,9 @@ public class Parameter implements DisplayedInPropertiesView, ErrorsAndWarningsFi
 	}
 
 	@Override
-	public Object getId() {
-		return name;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	@Override
 	public String toString() {
-		String retval = name;
+		String retval = super.toString();
 
-		if (default_value != null)
-			retval = retval + " = " + default_value;
 		if (method != null)
 			retval = retval + " [" + method + "]";
 		if (field != null)
@@ -90,11 +76,12 @@ public class Parameter implements DisplayedInPropertiesView, ErrorsAndWarningsFi
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-		CiliaFlag e2 = null;
-		if (method != null && field != null)
-			e2 = new CiliaError("method and field parameters are excusive", this);
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
+		CiliaFlag e = null;
 
-		return CiliaFlag.generateTab(e1, e2);
+		if (method != null && field != null)
+			e = new CiliaError("method and field parameters are excusive", this);
+
+		return CiliaFlag.generateTab(tab, e);
 	}
 }

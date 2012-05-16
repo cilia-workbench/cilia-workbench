@@ -30,6 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
@@ -39,7 +40,8 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
+public class MediatorSpec implements IMediator, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable,
+		Mergeable {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
 
@@ -96,10 +98,6 @@ public class MediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarning
 
 	public Object getId() {
 		return new NameNamespaceID(id, namespace);
-	}
-
-	public String getNamespace() {
-		return namespace;
 	}
 
 	public Processor getProcessor() {

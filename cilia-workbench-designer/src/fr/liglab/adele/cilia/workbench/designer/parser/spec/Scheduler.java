@@ -18,13 +18,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IScheduler;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Scheduler extends ComponentPart implements DisplayedInPropertiesView {
+public class Scheduler extends ComponentPart implements IScheduler, DisplayedInPropertiesView {
 
 	public static final String XML_NODE_NAME = "scheduler";
 

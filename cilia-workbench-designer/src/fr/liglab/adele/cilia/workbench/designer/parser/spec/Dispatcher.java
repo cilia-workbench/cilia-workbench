@@ -18,13 +18,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IDispatcher;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Dispatcher extends ComponentPart implements DisplayedInPropertiesView {
+public class Dispatcher extends ComponentPart implements IDispatcher, DisplayedInPropertiesView {
 
 	public static final String XML_NODE_NAME = "dispatcher";
 

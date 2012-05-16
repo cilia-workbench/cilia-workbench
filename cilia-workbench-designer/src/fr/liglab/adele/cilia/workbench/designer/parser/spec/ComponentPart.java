@@ -25,6 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IElement;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
@@ -34,7 +35,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentPart implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
+public abstract class ComponentPart implements IElement, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
 
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 

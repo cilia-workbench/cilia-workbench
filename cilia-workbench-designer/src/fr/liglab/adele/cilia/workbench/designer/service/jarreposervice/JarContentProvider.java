@@ -16,7 +16,6 @@ package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarModel;
@@ -57,29 +56,26 @@ public class JarContentProvider extends GenericContentProvider {
 					if (mc.getSpec() != null)
 						addRelationship(true, mc, mc.getSpec());
 
-					NameNamespaceID schedulerID = mc.getSchedulerNameNamespace();
-					Scheduler scheduler = JarRepoService.getScheduler(model, schedulerID);
+					Scheduler scheduler = mc.getScheduler();
 					if (scheduler != null)
 						addRelationship(true, mc, scheduler);
 					else
-						addRelationship(true, mc, new FakeElement(schedulerID.toString(), "Unknown scheduler "
-								+ schedulerID.toString(), Scheduler.class));
+						addRelationship(true, mc, new FakeElement(mc.getSchedulerID().toString(), "Unknown scheduler "
+								+ mc.getSchedulerID().toString(), Scheduler.class));
 
-					NameNamespaceID processorID = mc.getProcessorNameNamespace();
-					Processor processor = JarRepoService.getProcessor(model, processorID);
+					Processor processor = mc.getProcessor();
 					if (processor != null)
 						addRelationship(true, mc, processor);
 					else
-						addRelationship(true, mc, new FakeElement(processorID.toString(), "Unknown processor "
-								+ processorID.toString(), Scheduler.class));
+						addRelationship(true, mc, new FakeElement(mc.getProcessorID().toString(), "Unknown processor "
+								+ mc.getProcessorID().toString(), Scheduler.class));
 
-					NameNamespaceID dispatcherID = mc.getDispatcherNameNamespace();
-					Dispatcher dispatcher = JarRepoService.getDispatcher(model, dispatcherID);
+					Dispatcher dispatcher = mc.getDispatcher();
 					if (dispatcher != null)
 						addRelationship(true, mc, dispatcher);
 					else
-						addRelationship(true, mc, new FakeElement(dispatcherID.toString(), "Unknown dispatcher "
-								+ dispatcherID.toString(), Scheduler.class));
+						addRelationship(true, mc, new FakeElement(mc.getDispatcherID().toString(),
+								"Unknown dispatcher " + mc.getDispatcherID().toString(), Scheduler.class));
 
 					for (JarPort p : mc.getPorts())
 						addRelationship(true, mc, p);

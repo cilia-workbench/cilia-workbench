@@ -12,20 +12,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
-
-import org.w3c.dom.Node;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IProcessor;
+package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
 /**
+ * Represents a Scheduler specification or implementation.
  * 
  * @author Etienne Gandrille
  */
-public class Processor extends SPDElement implements IProcessor {
-
-	public Processor(Node node) throws CiliaException {
-		super(node);
-	}
+public interface IScheduler extends IElement {
 }

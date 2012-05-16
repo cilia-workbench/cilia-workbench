@@ -45,8 +45,17 @@ public abstract class NameNamespace implements ErrorsAndWarningsFinder, Identifi
 		this.namespace = namespace;
 	}
 
+	@Override
+	public NameNamespaceID getId() {
+		return new NameNamespaceID(name, namespace);
+	}
+
 	public String getName() {
 		return name;
+	}
+
+	public String getNamespace() {
+		return namespace;
 	}
 
 	/**
@@ -62,18 +71,9 @@ public abstract class NameNamespace implements ErrorsAndWarningsFinder, Identifi
 			return namespace + "." + name;
 	}
 
-	public String getNamespace() {
-		return namespace;
-	}
-
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	@Override
-	public NameNamespaceID getId() {
-		return new NameNamespaceID(name, namespace);
 	}
 
 	@Override

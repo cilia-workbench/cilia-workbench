@@ -12,20 +12,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
-import org.w3c.dom.Node;
+import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IProcessor;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 
 /**
+ * Represents a spec or an implementation of a Mediator.
  * 
  * @author Etienne Gandrille
  */
-public class Processor extends SPDElement implements IProcessor {
+public interface IMediator extends Identifiable {
 
-	public Processor(Node node) throws CiliaException {
-		super(node);
-	}
+	public List<? extends IGenericPort> getPorts();
+
+	public List<? extends IGenericPort> getInPorts();
+
+	public List<? extends IGenericPort> getOutPorts();
+
+	public List<? extends GenericProperty> getProperties();
+
+	public IScheduler getScheduler();
+
+	public IProcessor getProcessor();
+
+	public IDispatcher getDispatcher();
 }
