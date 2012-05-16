@@ -61,7 +61,7 @@ public class JarMetadataLabelProvider extends LabelProvider {
 		ImageDescriptorEnum imageName;
 		if (obj instanceof Adapter) {
 			Adapter adapt = (Adapter) obj;
-			if (adapt.getPattern().equals("in-only"))
+			if (adapt.isInAdapter())
 				imageName = ImageDescriptorEnum.ADAPTER_IN;
 			else
 				imageName = ImageDescriptorEnum.ADAPTER_OUT;

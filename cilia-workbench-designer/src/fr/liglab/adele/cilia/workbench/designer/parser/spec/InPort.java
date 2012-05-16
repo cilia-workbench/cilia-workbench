@@ -31,17 +31,17 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
 public class InPort extends GenericInPort implements DisplayedInPropertiesView, Identifiable, SpecPort {
 
 	public static final String XML_ATTR_NAME = "name";
-	private static String XMLtag = "in-port";
+	private static String XML_TAG = "in-port";
 
 	public InPort(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 	}
 
 	public static String getXMLtag() {
-		return XMLtag;
+		return XML_TAG;
 	}
 
 	public static Node createXMLPort(Document document, Node parent, String portName) {
-		return XMLHelpers.createNode(document, parent, XMLtag, XML_ATTR_NAME, portName);
+		return XMLHelpers.createNode(document, parent, XML_TAG, XML_ATTR_NAME, portName);
 	}
 }

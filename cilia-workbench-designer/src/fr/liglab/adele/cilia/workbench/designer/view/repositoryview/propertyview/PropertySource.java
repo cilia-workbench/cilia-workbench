@@ -57,13 +57,11 @@ public class PropertySource implements IPropertySource {
 
 		List<Field> fields = new ArrayList<Field>();
 
-		for (Field f : modelObject.getClass().getDeclaredFields())
-			fields.add(f);
-		try {
-			for (Field f : modelObject.getClass().getSuperclass().getDeclaredFields())
+		Class<? extends Object> claz = modelObject.getClass();
+		while (claz != null) {
+			for (Field f : claz.getDeclaredFields())
 				fields.add(f);
-		} catch (Exception e) {
-			// no super class
+			claz = claz.getSuperclass();
 		}
 
 		for (Field field : fields) {
@@ -92,6 +90,12 @@ public class PropertySource implements IPropertySource {
 
 		char[] chars = new char[fieldName.length()];
 		fieldName.getChars(0, chars.length, chars, 0);
+
+		// names beginning with '_' should NOT been displayed
+		if (chars[0] == '_')
+			return false;
+
+		// names with ONLY special char should NOT been displayed
 		for (int i = 0; i < chars.length; i++) {
 			boolean nb = (chars[i] >= '0' && chars[i] <= '9');
 			// boolean min = (chars[i] >= 'a' && chars[i] <= 'z');
@@ -119,12 +123,23 @@ public class PropertySource implements IPropertySource {
 	public Object getPropertyValue(Object id) {
 		String name = (String) id;
 		try {
-			Field field;
-			try {
-				field = modelObject.getClass().getDeclaredField(name);
-			} catch (NoSuchFieldException e) {
-				field = modelObject.getClass().getSuperclass().getDeclaredField(name);
+			Field field = null;
+
+			// finds field
+			Class<? extends Object> claz = modelObject.getClass();
+			while (claz != null && field == null) {
+				try {
+					field = claz.getDeclaredField(name);
+				} catch (NoSuchFieldException e) {
+					claz = claz.getSuperclass();
+				}
 			}
+
+			// field not found
+			if (field == null)
+				throw new NoSuchFieldException("field " + name + " not found in class hierarchy.");
+
+			// getting field
 			field.setAccessible(true);
 			Object value = field.get(modelObject);
 			return value;

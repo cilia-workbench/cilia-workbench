@@ -14,13 +14,25 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
+import org.w3c.dom.Node;
+
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 
 /**
- * Interface for tagging port implementation.
  * 
  * @author Etienne Gandrille
  */
-public interface JarPort extends IGenericPort, DisplayedInPropertiesView {
+public class InAdapter extends Adapter {
+
+	public InAdapter(Node node) throws CiliaException {
+		super(node, "collector");
+	}
+
+	public boolean isInAdapter() {
+		return true;
+	}
+
+	public boolean isOutAdapter() {
+		return false;
+	}
 }

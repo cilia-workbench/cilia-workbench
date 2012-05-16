@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public class OutPort extends GenericOutPort implements DisplayedInPropertiesView, Identifiable, SpecPort {
 
-	private static String XMLtag = "out-port";
+	private static String XML_TAG = "out-port";
 	public static final String XML_ATTR_NAME = "name";
 
 	public OutPort(Node node) throws CiliaException {
@@ -38,10 +38,10 @@ public class OutPort extends GenericOutPort implements DisplayedInPropertiesView
 	}
 
 	public static String getXMLtag() {
-		return XMLtag;
+		return XML_TAG;
 	}
 
 	public static Node createXMLPort(Document document, Node parent, String portName) {
-		return XMLHelpers.createNode(document, parent, XMLtag, XML_ATTR_NAME, portName);
+		return XMLHelpers.createNode(document, parent, XML_TAG, XML_ATTR_NAME, portName);
 	}
 }

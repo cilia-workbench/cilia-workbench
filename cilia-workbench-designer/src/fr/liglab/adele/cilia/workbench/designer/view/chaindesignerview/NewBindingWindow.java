@@ -141,9 +141,9 @@ public class NewBindingWindow extends Dialog {
 			if (a == null) {
 				srcElemCombo.add(item.getId());
 				dstElemCombo.add(item.getId());
-			} else if (a.getPattern().equalsIgnoreCase(Adapter.IN_PATTERN))
+			} else if (a.isInAdapter())
 				dstElemCombo.add(item.getId());
-			else if (a.getPattern().equalsIgnoreCase(Adapter.OUT_PATTERN))
+			else if (a.isOutAdapter())
 				srcElemCombo.add(item.getId());
 			else {
 				srcElemCombo.add(item.getId());

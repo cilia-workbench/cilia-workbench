@@ -204,7 +204,7 @@ public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder
 			NameNamespaceID nn = new NameNamespaceID(type, namespace);
 			Adapter ta = JarRepoService.getInstance().getAdapterForChain(nn);
 			if (ta != null) {
-				if (ta.getPattern().equals(Adapter.IN_PATTERN))
+				if (ta.isInAdapter())
 					return src.id + " is an in-adapter. It can't be a binding source.";
 			} else {
 				for (Binding b : bindings)
@@ -220,7 +220,7 @@ public class Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder
 			NameNamespaceID nn = new NameNamespaceID(type, namespace);
 			Adapter ta = JarRepoService.getInstance().getAdapterForChain(nn);
 			if (ta != null) {
-				if (ta.getPattern().equals(Adapter.OUT_PATTERN))
+				if (ta.isOutAdapter())
 					return dst.id + " is an out-adapter. It can't be a binding destination.";
 			} else {
 				for (Binding b : bindings)

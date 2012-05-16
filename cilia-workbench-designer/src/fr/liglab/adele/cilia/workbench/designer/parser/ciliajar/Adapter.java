@@ -29,60 +29,56 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class Adapter extends NameNamespace implements DisplayedInPropertiesView {
+public abstract class Adapter extends NameNamespace implements DisplayedInPropertiesView {
 
-	private Node node;
+	String elementType;
 
-	private String pattern;
-	// collector or sender type
-	private String elementType;
+	private static String IN_PATTERN = "in-only";
+	private static String OUT_PATTERN = "out-only";
 
-	public static String IN_PATTERN = "in-only";
-	public static String OUT_PATTERN = "out-only";
+	/**
+	 * Factory for creating an adapter.
+	 * 
+	 * @param node
+	 * 
+	 * @return {@link InAdapter}, an {@link OutAdapter} or <code>null</code> in
+	 *         case of error.
+	 */
+	public static Adapter createAdapter(Node node) {
+		Adapter retval = null;
 
-	public Adapter(Node node) throws CiliaException {
+		try {
+			String pattern = XMLHelpers.findAttributeValue(node, "pattern");
+			if (pattern.equalsIgnoreCase(IN_PATTERN))
+				retval = new InAdapter(node);
+			else if (pattern.equalsIgnoreCase(OUT_PATTERN))
+				retval = new OutAdapter(node);
+			else
+				throw new CiliaException("Unknown pattern : addapter can't be created");
+		} catch (CiliaException e) {
+			// ERROR : pattern not found...
+			e.printStackTrace();
+		}
+
+		return retval;
+	}
+
+	protected Adapter(Node node, String subNodeName) throws CiliaException {
 		ReflectionUtil.setAttribute(node, "name", this, "name");
 		ReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.getDefaultNamespace());
 
-		this.node = node;
-		ReflectionUtil.setAttribute(node, "pattern", this, "pattern");
-
 		try {
-			Node subNode = getSubNode(node, pattern);
-			ReflectionUtil.setAttribute(subNode, "type", this, "elementType");
+			Node subNode = XMLHelpers.findChild(node, subNodeName);
+			if (subNode != null)
+				ReflectionUtil.setAttribute(subNode, "type", this, "elementType");
 		} catch (Exception e) {
-			e.printStackTrace();
+			// Error reported by getErrorsAndWarnings
 		}
 	}
 
-	public String getPattern() {
-		return pattern;
-	}
+	public abstract boolean isInAdapter();
 
-	public boolean isInAdapter() {
-		return pattern.equals(IN_PATTERN);
-	}
-
-	public boolean isOutAdapter() {
-		return pattern.equals(OUT_PATTERN);
-	}
-
-	private static Node getSubNode(Node rootNode, String pattern) throws CiliaException {
-		String subNodeName;
-		if (pattern.equals(IN_PATTERN))
-			subNodeName = "collector";
-		else if (pattern.equals(OUT_PATTERN))
-			subNodeName = "sender";
-		else
-			throw new CiliaException("Invalid pattern : " + pattern);
-
-		Node subNode = XMLHelpers.findChild(rootNode, subNodeName);
-
-		if (subNode == null)
-			throw new CiliaException("Adapter with pattern " + pattern + " must have a " + subNodeName);
-
-		return subNode;
-	}
+	public abstract boolean isOutAdapter();
 
 	/*
 	 * (non-Javadoc)
@@ -95,19 +91,8 @@ public class Adapter extends NameNamespace implements DisplayedInPropertiesView 
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag[] flagsTab = super.getErrorsAndWarnings();
 
-		CiliaError e1 = null;
-		CiliaError e2 = null;
+		CiliaError e1 = CiliaError.checkStringNotNullOrEmpty(this, elementType, "elementType");
 
-		// pattern and element type validation
-		try {
-			// pattern validation
-			getSubNode(node, pattern);
-			// element type validation
-			e1 = CiliaError.checkStringNotNullOrEmpty(this, elementType, "elementType");
-		} catch (CiliaException e) {
-			e2 = new CiliaError(e.getMessage(), this);
-		}
-
-		return CiliaFlag.generateTab(flagsTab, e1, e2);
+		return CiliaFlag.generateTab(flagsTab, e1);
 	}
 }
