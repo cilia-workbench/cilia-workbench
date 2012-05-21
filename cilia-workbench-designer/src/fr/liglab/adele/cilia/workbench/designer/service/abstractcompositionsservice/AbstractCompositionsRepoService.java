@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
+package fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,9 +25,9 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -40,11 +40,11 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Merg
  * 
  * @author Etienne Gandrille
  */
-public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, DsciliaModel> implements
-		ErrorsAndWarningsFinder {
+public class AbstractCompositionsRepoService extends
+		AbstractRepoService<AbstractCompositionFile, AbstractCompositionModel> implements ErrorsAndWarningsFinder {
 
 	/** Singleton instance */
-	private static DsciliaRepoService INSTANCE;
+	private static AbstractCompositionsRepoService INSTANCE;
 
 	/** The key used to search the repository path into the preferences store. */
 	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.DSCILIA_REPOSITORY_PATH;
@@ -60,9 +60,9 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	 * 
 	 * @return the instance.
 	 */
-	public static DsciliaRepoService getInstance() {
+	public static AbstractCompositionsRepoService getInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new DsciliaRepoService();
+			INSTANCE = new AbstractCompositionsRepoService();
 			INSTANCE.updateModel();
 		}
 		return INSTANCE;
@@ -72,7 +72,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	 * Constructor. Registers for repository path update and constructs the
 	 * model.
 	 */
-	private DsciliaRepoService() {
+	private AbstractCompositionsRepoService() {
 		super(PREFERENCE_PATH_KEY, ext, repositoryName);
 	}
 
@@ -82,10 +82,10 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	public void updateModel() {
 
 		File[] list = getFiles();
-		List<DsciliaFile> elements = new ArrayList<DsciliaFile>();
+		List<AbstractCompositionFile> elements = new ArrayList<AbstractCompositionFile>();
 		for (File jar : list) {
 			String path = jar.getPath();
-			elements.add(new DsciliaFile(path));
+			elements.add(new AbstractCompositionFile(path));
 		}
 
 		// Updates existing model with computed model
@@ -97,7 +97,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 		}
 
 		// Update content provider
-		contentProvider = new DsciliaContentProvider(model);
+		contentProvider = new AbstractCompositionsContentProvider(model);
 
 		// Update markers relative to this repository
 		updateMarkers();
@@ -115,7 +115,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	 * @return a list of changesets, which can be empty.
 	 * @throws CiliaException
 	 */
-	private List<Changeset> merge(List<DsciliaFile> repoElements) throws CiliaException {
+	private List<Changeset> merge(List<AbstractCompositionFile> repoElements) throws CiliaException {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
@@ -137,36 +137,39 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	 */
 	@Override
 	protected String getContentForNewFile() {
-		return "<" + DsciliaModel.ROOT_NODE_NAME + ">\n</" + DsciliaModel.ROOT_NODE_NAME + ">";
+		return "<" + AbstractCompositionModel.ROOT_NODE_NAME + ">\n</" + AbstractCompositionModel.ROOT_NODE_NAME + ">";
 	}
 
-	public String isNewChainNameAllowed(String chainName) {
+	public String isNewChainNameAllowed(NameNamespaceID id) {
 
-		if (isNameUsesAllowedChar(chainName) != null)
-			return isNameUsesAllowedChar(chainName);
+		if (isNameUsesAllowedChar(id.getName()) != null)
+			return isNameUsesAllowedChar(id.getName());
 
-		if (chainName.length() == 0) {
+		if (isNameUsesAllowedChar(id.getNamespace()) != null)
+			return isNameUsesAllowedChar(id.getNamespace());
+
+		if (id.getName().length() == 0) {
 			return "Empty name is not allowed";
 		}
 
-		Chain chain = findChain(chainName);
+		Chain chain = findChain(id);
 		if (chain != null) {
-			return "A chain with this name already exists in the repository.";
+			return "A chain with this name/namespace already exists in the repository.";
 		}
 
 		return null;
 	}
 
-	private Chain findChain(String chainName) {
+	private Chain findChain(NameNamespaceID chainName) {
 		for (Chain chain : getChains())
-			if (chain.getId().equalsIgnoreCase(chainName))
+			if (chain.getId().equals(chainName))
 				return chain;
 		return null;
 	}
 
 	private List<Chain> getChains() {
 		List<Chain> retval = new ArrayList<Chain>();
-		for (DsciliaModel model : findAbstractElements())
+		for (AbstractCompositionModel model : findAbstractElements())
 			retval.addAll(model.getChains());
 		return retval;
 	}
@@ -179,21 +182,21 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	 * @param chainName
 	 *            the chain name
 	 */
-	public void createChain(DsciliaFile repo, String chainName) {
+	public void createChain(AbstractCompositionFile repo, NameNamespaceID id) {
 		if (repo.getModel() == null)
 			return;
-		if (isNewChainNameAllowed(chainName) != null)
+		if (isNewChainNameAllowed(id) != null)
 			return;
 
 		try {
-			repo.getModel().createChain(chainName);
+			repo.getModel().createChain(id);
 		} catch (CiliaException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void deleteChain(Chain chain) {
-		DsciliaFile repo = (DsciliaFile) contentProvider.getParent(chain);
+		AbstractCompositionFile repo = (AbstractCompositionFile) contentProvider.getParent(chain);
 		if (repo == null)
 			return;
 		try {
@@ -203,11 +206,11 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 		}
 	}
 
-	public DsciliaFile getRepoElement(Object object) {
+	public AbstractCompositionFile getRepoElement(Object object) {
 		Preconditions.checkNotNull(object);
 
-		if (object instanceof DsciliaFile)
-			return (DsciliaFile) object;
+		if (object instanceof AbstractCompositionFile)
+			return (AbstractCompositionFile) object;
 		Object parent = getContentProvider().getParent(object);
 		if (parent != null)
 			return getRepoElement(parent);
@@ -216,14 +219,14 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 	}
 
 	public void createMediatorInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
-		DsciliaFile repo = (DsciliaFile) getContentProvider().getParent(chain);
+		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
 		if (repo == null)
 			return;
 		repo.getModel().createMediatorInstance(chain, id, type);
 	}
 
 	public void createAdapterInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
-		DsciliaFile repo = (DsciliaFile) getContentProvider().getParent(chain);
+		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
 		if (repo == null)
 			return;
 		repo.getModel().createAdapterInstance(chain, id, type);
@@ -231,7 +234,7 @@ public class DsciliaRepoService extends AbstractRepoService<DsciliaFile, Dscilia
 
 	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
 			throws CiliaException {
-		DsciliaFile repo = (DsciliaFile) getContentProvider().getParent(chain);
+		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
 		if (repo == null)
 			return;
 		repo.getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort);

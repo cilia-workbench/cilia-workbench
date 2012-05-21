@@ -12,15 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
+package fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
@@ -39,7 +39,7 @@ public class DsciliaLabelProvider extends LabelProvider {
 	 */
 	@Override
 	protected GenericContentProvider getContentProvider() {
-		return DsciliaRepoService.getInstance().getContentProvider();
+		return AbstractCompositionsRepoService.getInstance().getContentProvider();
 	}
 
 	/*
@@ -52,7 +52,7 @@ public class DsciliaLabelProvider extends LabelProvider {
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
 
-		if (isCompatible(obj, DsciliaFile.class))
+		if (isCompatible(obj, AbstractCompositionFile.class))
 			imageName = ImageDescriptorEnum.FILE;
 		else if (isCompatible(obj, Chain.class))
 			imageName = ImageDescriptorEnum.CHAIN;

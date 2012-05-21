@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
+package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,21 +31,20 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Merg
  * 
  * @author Etienne Gandrille
  */
-public class DsciliaFile extends AbstractFile<DsciliaModel> implements Mergeable {
+public class AbstractCompositionFile extends AbstractFile<AbstractCompositionModel> implements Mergeable {
 
 	/**
-	 * Instantiates a new DsciliaFile
+	 * Instantiates a new AbstractCompositionFile
 	 * 
 	 * @param path
 	 *            the path on the file system.
 	 * @param model
-	 *            the dscilia
 	 */
-	public DsciliaFile(String path) {
+	public AbstractCompositionFile(String path) {
 		super(path);
 
 		try {
-			model = new DsciliaModel(path);
+			model = new AbstractCompositionModel(path);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model = null;
@@ -55,11 +54,11 @@ public class DsciliaFile extends AbstractFile<DsciliaModel> implements Mergeable
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-		DsciliaFile newInstance = (DsciliaFile) other;
+		AbstractCompositionFile newInstance = (AbstractCompositionFile) other;
 
-		DsciliaModel oldModel = this.getModel();
+		AbstractCompositionModel oldModel = this.getModel();
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");
-		DsciliaModel newModel = this.getModel();
+		AbstractCompositionModel newModel = this.getModel();
 
 		// Because DSCilia Model is not displayed in the view, here is a little
 		// piece of code for handling this very special case...

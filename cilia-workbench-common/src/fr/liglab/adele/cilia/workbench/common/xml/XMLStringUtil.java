@@ -17,7 +17,8 @@ package fr.liglab.adele.cilia.workbench.common.xml;
 import com.google.common.base.Preconditions;
 
 /**
- * This few functions can split an XML attribute into namespace and attribute part.
+ * This few functions can split an XML attribute into namespace and attribute
+ * part.
  * 
  * @author Etienne Gandrille
  */
@@ -51,6 +52,16 @@ public class XMLStringUtil {
 		int index = name.indexOf(SEPARATOR);
 		if (index == -1)
 			return name;
+		else
+			return name.substring(index + 1);
+	}
+
+	public static String getAfterSeparatorOrNothing(String name) {
+		Preconditions.checkNotNull(name);
+
+		int index = name.indexOf(SEPARATOR);
+		if (index == -1)
+			return "";
 		else
 			return name.substring(index + 1);
 	}

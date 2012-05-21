@@ -36,7 +36,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 
 /**
  * 

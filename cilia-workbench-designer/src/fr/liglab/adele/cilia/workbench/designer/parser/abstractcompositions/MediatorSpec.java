@@ -12,28 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
+package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 
-import java.util.List;
+import org.w3c.dom.Node;
+
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 
 /**
- * Represents a spec or an implementation of a Mediator.
  * 
  * @author Etienne Gandrille
  */
-public interface IMediator extends IComponent {
+public class MediatorSpec extends MediatorComponent {
 
-	public List<? extends IGenericPort> getPorts();
+	public static final String XML_NODE_NAME = "mediator-specification";
 
-	public List<? extends IGenericPort> getInPorts();
-
-	public List<? extends IGenericPort> getOutPorts();
-
-	public List<? extends GenericProperty> getProperties();
-
-	public IScheduler getScheduler();
-
-	public IProcessor getProcessor();
-
-	public IDispatcher getDispatcher();
+	public MediatorSpec(Node node) throws CiliaException {
+		super(node);
+	}
 }

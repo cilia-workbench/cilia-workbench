@@ -12,15 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
+package fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
  * DeleteChainHandler.
@@ -42,7 +42,7 @@ public class DeleteChainHandler extends DsciliaViewHandler {
 			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required",
 					"Do you want to delete " + chain.getId() + "?");
 			if (result == true)
-				DsciliaRepoService.getInstance().deleteChain(chain);
+				AbstractCompositionsRepoService.getInstance().deleteChain(chain);
 		} else {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", "You must select a chain first.");
 		}

@@ -24,13 +24,13 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvider;
 import fr.liglab.adele.cilia.workbench.common.view.GraphView;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IRepoServiceListener;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DsciliaRepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.AbstractCompositionsView;
 
 /**
  * The chain designer view.
@@ -57,20 +57,20 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 		// Registers the instance in the selection service
 		ISelectionService s = getSite().getWorkbenchWindow().getSelectionService();
-		s.addSelectionListener(DsciliaRepositoryView.VIEW_ID, this);
+		s.addSelectionListener(AbstractCompositionsView.VIEW_ID, this);
 
 		setPartName(DEFAULT_PART_NAME);
 		viewer.setContentProvider(contentProvider);
 		viewer.setLabelProvider(new GraphLabelProvider());
 		viewer.setInput(new Object[0]);
-		DsciliaRepoService.getInstance().registerListener(this);
+		AbstractCompositionsRepoService.getInstance().registerListener(this);
 	}
 
 	private void setModel(Chain chain) {
 		contentProvider.setModel(chain);
 		if (chain != null) {
-			viewer.setInput(chain.getElements());
-			setPartName(chain.getId());
+			viewer.setInput(chain.getComponents());
+			setPartName(chain.getName());
 		} else {
 			viewer.setInput(new Object[0]);
 			setPartName(DEFAULT_PART_NAME);
@@ -97,14 +97,14 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 	public void repositoryContentUpdated(List<Changeset> changes) {
 		// if model = null, no need to check anything...
 		if (model != null) {
-			DsciliaRepoService srv = DsciliaRepoService.getInstance();
+			AbstractCompositionsRepoService srv = AbstractCompositionsRepoService.getInstance();
 
 			boolean needUpdate = false;
 			for (Changeset change : changes) {
 
 				// Repository removed
-				if (change.getObject() instanceof DsciliaFile && change.getOperation() == Operation.REMOVE) {
-					DsciliaFile curRepo = srv.getRepoElement(model);
+				if (change.getObject() instanceof AbstractCompositionFile && change.getOperation() == Operation.REMOVE) {
+					AbstractCompositionFile curRepo = srv.getRepoElement(model);
 					if (curRepo == change.getObject()) { // pointer equality
 						setModel(null);
 						return;

@@ -97,7 +97,7 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 		}
 	}
 
-	public Object getId() {
+	public NameNamespaceID getId() {
 		return new NameNamespaceID(id, namespace);
 	}
 

@@ -34,7 +34,7 @@ public abstract class IdentifiableUtils {
 	 * @param sourceProvider
 	 *            the source provider, for error generation
 	 * @param data
-	 * @return an array (which can be null) with errors if two objects have the
+	 * @return a list (which can be empty) with errors if two objects have the
 	 *         same id from the {@link Identifiable} point of view.
 	 */
 	public static List<CiliaFlag> getErrorsNonUniqueId(Object sourceProvider, Iterable<? extends Identifiable> data) {
@@ -60,6 +60,22 @@ public abstract class IdentifiableUtils {
 		}
 
 		return retval;
+	}
+
+	/**
+	 * Checks if the array does not contains multiple objects with the same id.
+	 * 
+	 * @param sourceProvider
+	 *            the source provider, for error generation
+	 * @param data
+	 * @return a list (which can be empty) with errors if two objects have the
+	 *         same id from the {@link Identifiable} point of view.
+	 */
+	public static List<CiliaFlag> getErrorsNonUniqueId(Object sourceProvider, Identifiable[] data) {
+		List<Identifiable> list = new ArrayList<Identifiable>();
+		for (Identifiable item : data)
+			list.add(item);
+		return getErrorsNonUniqueId(sourceProvider, list);
 	}
 
 	/**

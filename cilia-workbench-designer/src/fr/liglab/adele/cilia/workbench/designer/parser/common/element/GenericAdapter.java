@@ -23,21 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
  * 
  * @author Etienne Gandrille
  */
-public abstract class GenericAdapter extends NameNamespace implements Identifiable, ErrorsAndWarningsFinder {
-
-	/**
-	 * Tests if an adapter is an in adapter
-	 * 
-	 * @return true if it is an in adapter, false otherwise.
-	 */
-	public abstract boolean isInAdapter();
-
-	/**
-	 * Tests if an adapter is an out adapter
-	 * 
-	 * @return true if it is an out adapter, false otherwise.
-	 */
-	public abstract boolean isOutAdapter();
+public abstract class GenericAdapter extends NameNamespace implements IAdapter, Identifiable, ErrorsAndWarningsFinder {
 
 	protected abstract void setSubElement(String subElement);
 

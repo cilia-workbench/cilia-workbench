@@ -20,8 +20,8 @@ import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
  * 
@@ -41,7 +41,7 @@ public class CreateBindingHandler extends ChainDesignerHandler {
 				String dstPort = window.getDstPort();
 
 				try {
-					DsciliaRepoService.getInstance().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
+					AbstractCompositionsRepoService.getInstance().createBinding(chain, srcElem, srcPort, dstElem, dstPort);
 				} catch (CiliaException e) {
 					e.printStackTrace();
 				}

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
+package fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -22,8 +22,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
 
 /**
  * CreateChainHandler.
@@ -35,18 +34,20 @@ public class CreateChainHandler extends DsciliaViewHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
 		// Gets the dscilia file first
 		Object object = getFirstSelectedElementInRepositoryView(event);
-		if (!(object instanceof DsciliaFile)) {
+		if (!(object instanceof AbstractCompositionFile)) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Please select a dscilia file first.");
 			return null;
 		}
-		final DsciliaFile repo = (DsciliaFile) object;
+		final AbstractCompositionFile repo = (AbstractCompositionFile) object;
 		if (repo.getModel() == null) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error",
 					"Dscilia file must be in a valid state. Please check xml.");
@@ -57,7 +58,10 @@ public class CreateChainHandler extends DsciliaViewHandler {
 		IInputValidator validator = new IInputValidator() {
 			@Override
 			public String isValid(String newText) {
-				return DsciliaRepoService.getInstance().isNewChainNameAllowed(newText);
+				return null;
+				// TODO validates nothing here !
+				// return
+				// AbstractCompositionsRepoService.getInstance().isNewChainNameAllowed(newText);
 			}
 		};
 
@@ -67,7 +71,10 @@ public class CreateChainHandler extends DsciliaViewHandler {
 
 		if (dialog.open() == Window.OK) {
 			String chainName = dialog.getValue();
-			DsciliaRepoService.getInstance().createChain(repo, chainName);
+
+			// TODO
+			// AbstractCompositionsRepoService.getInstance().createChain(repo,
+			// chainName);
 		}
 
 		return null;

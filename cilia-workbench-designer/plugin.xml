@@ -2,8 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
 	<extension point="org.eclipse.ui.services">
-		<sourceProvider
-			provider="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.ToolbarEnabler">
+		<sourceProvider	provider="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.ToolbarEnabler">
 			<variable
 				name="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable"
 				priorityLevel="workbench">
@@ -27,14 +26,14 @@
 			class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.JarRepositoryView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
 			id="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview"
-			name="Jar repository" restorable="true">
+			name="Implementations" restorable="true">
 	  </view>
 	
 		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
-			class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DsciliaRepositoryView"
+			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.AbstractCompositionsView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
-			id="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview"
-			name="Dscilia repository" restorable="true">
+			id="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview"
+			name="Abstract compositions" restorable="true">
 		</view>
 		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
 			class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.ChainDesignerView"
@@ -46,7 +45,7 @@
 			class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.SpecRepositoryView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
 			id="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview"
-			name="Spec repository" restorable="true">
+			name="Specifications" restorable="true">
 		</view>
 	</extension>
 	<extension point="org.eclipse.ui.commands">
@@ -264,23 +263,23 @@
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.reload">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.ReloadHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.ReloadHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.reload">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.CreateFileHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.CreateFileHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.createFile">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DeleteFileHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.DeleteFileHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.deleteFile">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.CreateChainHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.CreateChainHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.createChain">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.DeleteChainHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.DeleteChainHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview.deleteChain">
 		</handler>
 		<handler

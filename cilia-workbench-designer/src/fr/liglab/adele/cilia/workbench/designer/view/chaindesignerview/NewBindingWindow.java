@@ -31,15 +31,15 @@ import org.eclipse.swt.widgets.Shell;
 import com.google.common.base.Preconditions;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.JarPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.OutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.ComponentInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
@@ -131,12 +131,12 @@ public class NewBindingWindow extends Dialog {
 		dstElemCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// populating
-		for (MediatorInstance item : chain.getMediators()) {
+		for (MediatorComponent item : chain.getMediators()) {
 			srcElemCombo.add(item.getId());
 			dstElemCombo.add(item.getId());
 		}
-		for (AdapterInstance item : chain.getAdapters()) {
-			NameNamespaceID id = new NameNamespaceID(item.getType(), item.getNamespace());
+		for (AdapterComponent item : chain.getAdapters()) {
+			NameNamespaceID id = item.getReferencedTypeID();
 			GenericAdapter a = JarRepoService.getInstance().getAdapter(id);
 			if (a == null) {
 				srcElemCombo.add(item.getId());
@@ -281,7 +281,7 @@ public class NewBindingWindow extends Dialog {
 		public void modifyText(ModifyEvent e) {
 			comboPort.removeAll();
 
-			for (ComponentInstance i : chain.getElements()) {
+			for (Component i : chain.getComponents()) {
 				if (i.getId().equalsIgnoreCase(comboElem.getText())) {
 					if (i instanceof AdapterInstance) {
 						comboPort.setEnabled(false);
@@ -289,8 +289,8 @@ public class NewBindingWindow extends Dialog {
 						return;
 					} else {
 						comboPort.setEnabled(true);
-						MediatorComponent m = JarRepoService.getInstance().getMediator(
-								new NameNamespaceID(i.getType(), i.getNamespace()));
+						fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent m = JarRepoService
+								.getInstance().getMediator(i.getReferencedTypeID());
 						if (m != null) {
 							for (JarPort p : m.getPorts()) {
 								if (p instanceof InPort && portType.equals(IN_PORT))

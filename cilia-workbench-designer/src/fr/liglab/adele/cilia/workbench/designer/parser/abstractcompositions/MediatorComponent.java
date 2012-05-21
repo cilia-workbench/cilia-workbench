@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
+package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 
 import org.w3c.dom.Node;
 
@@ -22,9 +22,9 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
  * 
  * @author Etienne Gandrille
  */
-public class AdapterInstance extends ComponentInstance {
+public abstract class MediatorComponent extends Component {
 
-	public AdapterInstance(Node node) throws CiliaException {
+	public MediatorComponent(Node node) throws CiliaException {
 		super(node);
 	}
 }

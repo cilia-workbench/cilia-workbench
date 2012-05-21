@@ -12,28 +12,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
+package fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview;
 
-import java.util.List;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 
 /**
- * Represents a spec or an implementation of a Mediator.
+ * DeleteFileHandler.
  * 
  * @author Etienne Gandrille
  */
-public interface IMediator extends IComponent {
+public class DeleteFileHandler extends DsciliaViewHandler {
 
-	public List<? extends IGenericPort> getPorts();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		return deleteFile(event);
+	}
 
-	public List<? extends IGenericPort> getInPorts();
-
-	public List<? extends IGenericPort> getOutPorts();
-
-	public List<? extends GenericProperty> getProperties();
-
-	public IScheduler getScheduler();
-
-	public IProcessor getProcessor();
-
-	public IDispatcher getDispatcher();
 }

@@ -17,7 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
@@ -49,7 +49,7 @@ public class Activator extends AbstractUIPlugin {
 		// loads repositories, for displaying markers
 		SpecRepoService.getInstance();
 		JarRepoService.getInstance();
-		DsciliaRepoService.getInstance();
+		AbstractCompositionsRepoService.getInstance();
 	}
 
 	/*

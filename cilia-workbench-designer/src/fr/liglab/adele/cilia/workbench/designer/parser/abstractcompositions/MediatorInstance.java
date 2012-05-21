@@ -12,21 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
+package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryViewHandler;
+import org.w3c.dom.Node;
+
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 
 /**
- * Base class for implementing handlers, relatives to the DSCilia View.
  * 
  * @author Etienne Gandrille
  */
-public abstract class DsciliaViewHandler extends RepositoryViewHandler {
+public class MediatorInstance extends MediatorComponent {
 
-	/**
-	 * Instantiates a new dscilia handler, providing the view ID to the super class.
-	 */
-	public DsciliaViewHandler() {
-		super(DsciliaRepositoryView.VIEW_ID);
+	public static final String XML_NODE_NAME = "mediator-instance";
+
+	public MediatorInstance(Node node) throws CiliaException {
+		super(node);
 	}
 }

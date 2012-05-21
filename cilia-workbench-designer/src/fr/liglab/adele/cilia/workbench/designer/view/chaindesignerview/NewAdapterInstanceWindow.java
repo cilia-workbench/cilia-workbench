@@ -17,7 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
@@ -42,6 +42,6 @@ public class NewAdapterInstanceWindow extends NewComponentInstanceWindow {
 
 	@Override
 	protected String checkValidValues(String id, NameNamespaceID type) {
-		return chain.isNewAdapterInstanceAllowed(id, type);
+		return chain.isNewComponentAllowed(id, type);
 	}
 }

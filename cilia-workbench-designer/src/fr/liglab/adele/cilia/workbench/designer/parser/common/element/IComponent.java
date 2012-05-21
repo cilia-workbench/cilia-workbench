@@ -12,25 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
+package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 
 /**
- * CreateFileHandler.
  * 
  * @author Etienne Gandrille
  */
-public class CreateFileHandler extends DsciliaViewHandler {
+public interface IComponent extends Identifiable {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
-	 */
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return createFile(event);
-	}
 }

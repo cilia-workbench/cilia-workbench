@@ -12,19 +12,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
-
-import org.w3c.dom.Node;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorInstance extends ComponentInstance {
+public interface IAdapter extends IComponent {
 
-	public MediatorInstance(Node node) throws CiliaException {
-		super(node);
-	}
+	/**
+	 * Tests if an adapter is an in adapter
+	 * 
+	 * @return true if it is an in adapter, false otherwise.
+	 */
+	public abstract boolean isInAdapter();
+
+	/**
+	 * Tests if an adapter is an out adapter
+	 * 
+	 * @return true if it is an out adapter, false otherwise.
+	 */
+	public abstract boolean isOutAdapter();
+
 }

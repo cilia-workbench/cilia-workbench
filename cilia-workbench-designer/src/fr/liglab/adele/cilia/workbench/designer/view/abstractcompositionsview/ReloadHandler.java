@@ -12,14 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
+package fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
  * ReloadHandler.
@@ -38,11 +38,11 @@ public class ReloadHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		DsciliaRepoService.getInstance().updateModel();
+		AbstractCompositionsRepoService.getInstance().updateModel();
 
 		// Force refresh
-		DsciliaRepositoryView view = (DsciliaRepositoryView) ViewUtil.findViewWithId(event,
-				DsciliaRepositoryView.VIEW_ID);
+		AbstractCompositionsView view = (AbstractCompositionsView) ViewUtil.findViewWithId(event,
+				AbstractCompositionsView.VIEW_ID);
 		view.refresh();
 
 		return null;

@@ -229,4 +229,25 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 
 		return CiliaFlag.generateTab(errorList);
 	}
+
+	/**
+	 * Gets a mediator, by its id, using the chain criteria. If the id given in
+	 * parameter has its namespace defined, the functions calls
+	 * {@link #getMediator(NameNamespaceID)}. If the namespace is undefined
+	 * (null or empty), the comparison is ONLY based on the name, and the
+	 * namespace is IGNORED.
+	 * 
+	 * @param id
+	 * @return the mediator, or null if not found
+	 */
+	public MediatorSpec getMediatorForChain(NameNamespaceID id) {
+		if (id.getNamespace() != null && id.getNamespace().length() != 0)
+			return findMediatorSpec(id);
+
+		for (MediatorSpec spec : getMediatorSpecs())
+			if (spec.getId().getName().equals(id.getName()))
+				return spec;
+
+		return null;
+	}
 }

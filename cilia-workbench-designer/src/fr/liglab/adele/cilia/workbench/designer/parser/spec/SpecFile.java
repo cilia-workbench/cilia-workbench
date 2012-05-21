@@ -59,7 +59,6 @@ public class SpecFile extends AbstractFile<SpecModel> implements Mergeable {
 	 */
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
-
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		SpecFile newInstance = (SpecFile) other;
 

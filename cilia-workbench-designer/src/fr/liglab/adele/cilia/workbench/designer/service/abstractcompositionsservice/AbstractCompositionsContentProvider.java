@@ -12,15 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice;
+package fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice;
 
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
@@ -28,26 +28,26 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Gene
  * 
  * @author Etienne Gandrille
  */
-public class DsciliaContentProvider extends GenericContentProvider {
+public class AbstractCompositionsContentProvider extends GenericContentProvider {
 
 	/**
 	 * Initialize maps from model.
 	 */
-	public DsciliaContentProvider(List<DsciliaFile> repo) {
+	public AbstractCompositionsContentProvider(List<AbstractCompositionFile> repo) {
 
 		addRoot(repo);
 
-		for (DsciliaFile re : repo) {
+		for (AbstractCompositionFile re : repo) {
 			addRelationship(true, repo, re);
 
 			if (re.getModel() != null) {
 				for (Chain c : re.getModel().getChains()) {
 					addRelationship(true, re, c);
 
-					for (AdapterInstance a : c.getAdapters())
+					for (AdapterComponent a : c.getAdapters())
 						addRelationship(false, c, a);
 
-					for (MediatorInstance m : c.getMediators())
+					for (MediatorComponent m : c.getMediators())
 						addRelationship(false, c, m);
 
 					for (Binding b : c.getBindings())

@@ -16,8 +16,8 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.AdapterInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorInstance;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.dscilia;
+package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +25,8 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
@@ -34,49 +34,54 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentInstance implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable,
-		Mergeable {
+public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
 
-	protected String id;
-	protected String type;
-	protected String namespace;
+	public static final String XML_NODE_NAME = "binding";
 
-	public ComponentInstance(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, "id", this, "id");
-		ReflectionUtil.setAttribute(node, "type", this, "type");
-		ReflectionUtil.setAttribute(node, "namespace", this, "namespace");
+	private String from;
+	private String to;
+
+	public Binding(Node node) throws CiliaException {
+		ReflectionUtil.setAttribute(node, "from", this, "from");
+		ReflectionUtil.setAttribute(node, "to", this, "to");
 	}
 
-	public String getId() {
-		return id;
+	public String getSourceId() {
+		return XMLStringUtil.getBeforeSeparatorOrAll(from);
 	}
 
-	public String getType() {
-		return type;
+	public String getDestinationId() {
+		return XMLStringUtil.getBeforeSeparatorOrAll(to);
 	}
 
-	public String getNamespace() {
-		return namespace;
+	public String getSourcePort() {
+		return XMLStringUtil.getAfterSeparatorOrNothing(from);
+	}
+
+	public String getDestinationPort() {
+		return XMLStringUtil.getAfterSeparatorOrNothing(to);
 	}
 
 	@Override
 	public String toString() {
-		return id;
+		return from + " - " + to;
 	}
 
+	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id, "id");
-		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, type, "type");
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, from, "from");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, to, "to");
 
 		return CiliaFlag.generateTab(e1, e2);
 	}
 
+	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
-		List<Changeset> retval = new ArrayList<Changeset>();
+		return new ArrayList<Changeset>();
+	}
 
-		retval.addAll(MergeUtil.computeUpdateChangeset(other, this, "type"));
-		retval.addAll(MergeUtil.computeUpdateChangeset(other, this, "namespace"));
-
-		return retval;
+	@Override
+	public Object getId() {
+		return from + " - " + to;
 	}
 }

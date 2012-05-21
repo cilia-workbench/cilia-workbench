@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<cilia>
+<cilia-composition-specifications>
 
 	<chain id="increment">
 
@@ -18,8 +18,8 @@
 
 		<bindings>
 			<binding from="random" to="increment" />
-			<binding from="increment" to="console" />
+			<binding from="increment" to="console"  />
 		</bindings>
 	</chain>
 
-</cilia>
+</cilia-composition-specifications>

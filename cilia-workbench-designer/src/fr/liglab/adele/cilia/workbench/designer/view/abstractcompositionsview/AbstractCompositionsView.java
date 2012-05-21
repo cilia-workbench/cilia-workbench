@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview;
+package fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview;
 
 import java.util.List;
 
@@ -21,12 +21,12 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorReference;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.dscilia.DsciliaModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionModel;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliareposervice.DsciliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
 
 /**
@@ -34,12 +34,12 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryVi
  * 
  * @author Etienne Gandrille
  */
-public class DsciliaRepositoryView extends RepositoryView<DsciliaFile, DsciliaModel> {
+public class AbstractCompositionsView extends RepositoryView<AbstractCompositionFile, AbstractCompositionModel> {
 
-	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.dsciliarepositoryview";
+	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview";
 
-	public DsciliaRepositoryView() {
-		super(DsciliaRepoService.getInstance());
+	public AbstractCompositionsView() {
+		super(AbstractCompositionsRepoService.getInstance());
 	}
 
 	/*
@@ -80,12 +80,12 @@ public class DsciliaRepositoryView extends RepositoryView<DsciliaFile, DsciliaMo
 			Object object = change.getObject();
 			Operation operation = change.getOperation();
 			if (operation != Operation.UPDATE) {
-				if (object instanceof DsciliaFile || object instanceof Chain) {
+				if (object instanceof AbstractCompositionFile || object instanceof Chain) {
 					refresh();
 					return;
 				}
 			} else {
-				if (object instanceof DsciliaFile) {
+				if (object instanceof AbstractCompositionFile) {
 					refresh();
 					return;
 				}
