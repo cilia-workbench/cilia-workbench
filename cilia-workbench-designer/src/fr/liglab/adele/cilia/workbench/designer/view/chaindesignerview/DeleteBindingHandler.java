@@ -28,7 +28,13 @@ public class DeleteBindingHandler extends ChainDesignerHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		MessageDialog.openInformation(ViewUtil.getShell(event), "Handler", this.getClass().getName());
+
+		Object sel = getChainDesignerView(event).getFirstSelectedElement();
+
+		if (sel != null)
+			MessageDialog.openInformation(ViewUtil.getShell(event), "Handler", sel.getClass() + " " + sel.toString());
+		else
+			MessageDialog.openInformation(ViewUtil.getShell(event), "Handler", this.getClass().getName());
 		return null;
 	}
 

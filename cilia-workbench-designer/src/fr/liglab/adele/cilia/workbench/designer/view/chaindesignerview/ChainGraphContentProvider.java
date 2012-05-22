@@ -17,9 +17,8 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterInstance;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
 
 /**
  * Content provider for graph renderer.
@@ -39,13 +38,10 @@ public class ChainGraphContentProvider extends ArrayContentProvider implements I
 		if (model == null)
 			return new Object[0];
 
-		if (entity instanceof AdapterInstance) {
-			AdapterInstance ai = (AdapterInstance) entity;
+		if (entity instanceof Component) {
+			Component ai = (Component) entity;
 			return model.getDestinations(ai);
 
-		} else if (entity instanceof MediatorInstance) {
-			MediatorInstance mi = (MediatorInstance) entity;
-			return model.getDestinations(mi);
 		}
 
 		return new Object[0];

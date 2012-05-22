@@ -35,6 +35,7 @@ import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.GraphCo
 
 /**
  * The Class ChainView.
+ * 
  * @author Etienne Gandrille
  */
 public class ChainView extends GraphView {
@@ -45,17 +46,21 @@ public class ChainView extends GraphView {
 	public ChainView() {
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		super.createPartControl(parent);
-		
-		// Registers the instance in the selection service 
+		super.createPartControl(parent, viewId);
+
+		// Registers the instance in the selection service
 		ISelectionService s = getSite().getWorkbenchWindow().getSelectionService();
 		s.addSelectionListener(TopologyView.viewId, this);
- 
+
 		viewer.setContentProvider(new GraphContentProvider());
 		viewer.setLabelProvider(new NodeElement(null));
 		viewer.setInput(new Object[0]);
@@ -63,8 +68,9 @@ public class ChainView extends GraphView {
 
 	/**
 	 * Sets the model.
-	 *
-	 * @param chain the new model
+	 * 
+	 * @param chain
+	 *            the new model
 	 */
 	private void setModel(ChainReadOnly chain) {
 		List<Object> list = new ArrayList<Object>();
@@ -83,10 +89,11 @@ public class ChainView extends GraphView {
 		viewer.refresh();
 	}
 
-	
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.
+	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {

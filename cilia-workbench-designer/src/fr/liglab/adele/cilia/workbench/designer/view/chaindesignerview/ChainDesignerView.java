@@ -53,7 +53,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 	@Override
 	public void createPartControl(Composite parent) {
-		super.createPartControl(parent);
+		super.createPartControl(parent, viewId);
 
 		// Registers the instance in the selection service
 		ISelectionService s = getSite().getWorkbenchWindow().getSelectionService();

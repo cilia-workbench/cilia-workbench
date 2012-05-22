@@ -14,10 +14,13 @@
  */
 package fr.liglab.adele.cilia.workbench.common.view;
 
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
@@ -38,7 +41,7 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 	/** The viewer. */
 	protected GraphViewer viewer;
 
-	public void createPartControl(Composite parent) {
+	public void createPartControl(Composite parent, String viewId) {
 
 		viewer = new GraphViewer(parent, SWT.BORDER);
 
@@ -101,5 +104,16 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 	@Override
 	public AbstractZoomableViewer getZoomableViewer() {
 		return viewer;
+	}
+
+	public Object getFirstSelectedElement() {
+		ISelectionService selServ = getSite().getWorkbenchWindow().getSelectionService();
+		ISelection sel = selServ.getSelection();
+		if (sel != null && sel instanceof StructuredSelection) {
+			StructuredSelection ss = (StructuredSelection) sel;
+			return ss.getFirstElement();
+		}
+
+		return null;
 	}
 }

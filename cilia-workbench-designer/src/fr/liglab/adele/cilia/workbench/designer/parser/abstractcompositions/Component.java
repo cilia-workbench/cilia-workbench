@@ -66,6 +66,11 @@ public abstract class Component implements DisplayedInPropertiesView, ErrorsAndW
 		return id;
 	}
 
+	@Override
+	public String toString() {
+		return id;
+	}
+
 	public NameNamespaceID getReferencedTypeID() {
 		return new NameNamespaceID(type, namespace);
 	}

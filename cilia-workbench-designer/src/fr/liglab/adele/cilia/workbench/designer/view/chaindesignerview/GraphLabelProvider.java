@@ -16,8 +16,8 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterInstance;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
@@ -44,9 +44,9 @@ public class GraphLabelProvider extends LabelProvider {
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 
 		ImageDescriptorEnum imageName;
-		if (isCompatible(obj, AdapterInstance.class))
+		if (isCompatible(obj, AdapterComponent.class))
 			imageName = ImageDescriptorEnum.ADAPTER_IN;
-		else if (isCompatible(obj, MediatorInstance.class))
+		else if (isCompatible(obj, MediatorComponent.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
 		else if (isCompatible(obj, EntityConnectionData.class))
 			imageName = ImageDescriptorEnum.NOTHING;
