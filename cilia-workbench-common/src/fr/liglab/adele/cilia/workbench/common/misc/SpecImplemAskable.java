@@ -12,30 +12,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
-
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+package fr.liglab.adele.cilia.workbench.common.misc;
 
 /**
+ * For asking objects if they are Specification or implementation.
  * 
  * @author Etienne Gandrille
  */
-public interface IAdapter extends IComponent, Identifiable {
+public interface SpecImplemAskable {
+
+	/** Nature posibilities */
+	public enum Nature {
+
+		SPEC("spec", "specification"), IMPLEM("implem", "implementation");
+
+		private String shortName;
+		private String longName;
+
+		Nature(String shortName, String longName) {
+			this.shortName = shortName;
+			this.longName = longName;
+		}
+
+		public String getShortName() {
+			return shortName;
+		}
+
+		public String getLongName() {
+			return longName;
+		}
+	}
 
 	/**
-	 * Tests if an adapter is an in adapter
+	 * Ask the object nature : specification or implementation.
 	 * 
-	 * @return true if it is an in adapter, false otherwise.
+	 * @return the object nature.
 	 */
-	public abstract boolean isInAdapter();
-
-	/**
-	 * Tests if an adapter is an out adapter
-	 * 
-	 * @return true if it is an out adapter, false otherwise.
-	 */
-	public abstract boolean isOutAdapter();
-
-	public NameNamespaceID getId();
+	Nature getNature();
 }

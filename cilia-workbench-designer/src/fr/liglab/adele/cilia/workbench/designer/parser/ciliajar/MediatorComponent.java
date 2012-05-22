@@ -278,4 +278,9 @@ public class MediatorComponent extends NameNamespace implements IMediator, Displ
 
 		return retval;
 	}
+
+	@Override
+	public Nature getNature() {
+		return Nature.IMPLEM;
+	}
 }

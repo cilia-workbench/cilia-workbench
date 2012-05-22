@@ -26,7 +26,10 @@ import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.misc.SpecImplemAskable.Nature;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
@@ -122,8 +125,13 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 	private Node findXMLChainNode(Document document, NameNamespaceID id) throws CiliaException {
 		Node root = getRootNode(document);
-		Node[] results = XMLHelpers.findChildren(root, Chain.XML_NODE_NAME, Chain.XML_ATTR_ID, id.getName(),
-				Chain.XML_ATTR_NAMESPACE, id.getNamespace());
+		Node[] results;
+
+		if (Strings.isNullOrEmpty(id.getNamespace()))
+			results = XMLHelpers.findChildren(root, Chain.XML_NODE_NAME, Chain.XML_ATTR_ID, id.getName());
+		else
+			results = XMLHelpers.findChildren(root, Chain.XML_NODE_NAME, Chain.XML_ATTR_ID, id.getName(),
+					Chain.XML_ATTR_NAMESPACE, id.getNamespace());
 
 		if (results.length == 0)
 			return null;
@@ -131,24 +139,36 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			return results[0];
 	}
 
-	public void createMediatorInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
-		if (chain.isNewComponentAllowed(id, type) == null)
-			createComponentInstanceInternal(chain, id, type, "mediator");
+	public void createMediator(Chain chain, String id, IMediator type) throws CiliaException {
+		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
+			if (type.getNature().equals(Nature.SPEC))
+				createComponentInstanceInternal(chain, id, type.getId(), "mediators", MediatorSpec.XML_NODE_NAME);
+			else if (type.getNature().equals(Nature.IMPLEM))
+				createComponentInstanceInternal(chain, id, type.getId(), "mediators", MediatorInstance.XML_NODE_NAME);
+			else
+				throw new RuntimeException("Not a spec nor an implem...");
+		}
 	}
 
-	public void createAdapterInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
-		if (chain.isNewComponentAllowed(id, type) == null)
-			createComponentInstanceInternal(chain, id, type, "adapter");
+	public void createAdapter(Chain chain, String id, IAdapter type) throws CiliaException {
+		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
+			if (type.getNature().equals(Nature.SPEC))
+				throw new RuntimeException("Not yet implemented in spec repository view...");
+			else if (type.getNature().equals(Nature.IMPLEM))
+				createComponentInstanceInternal(chain, id, type.getId(), "adapters", AdapterInstance.XML_NODE_NAME);
+			else
+				throw new RuntimeException("Not a spec nor an implem...");
+		}
 	}
 
-	private void createComponentInstanceInternal(Chain chain, String id, NameNamespaceID type, String componentName)
-			throws CiliaException {
+	private void createComponentInstanceInternal(Chain chain, String id, NameNamespaceID type, String rootNode,
+			String elementNode) throws CiliaException {
 		File file = new File(filePath);
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node componentNode = XMLHelpers.getOrCreateNode(document, chainNode, componentName + "s");
+		Node componentNode = XMLHelpers.getOrCreateNode(document, chainNode, rootNode);
 
-		Element child = document.createElement(componentName + "-instance");
+		Element child = document.createElement(elementNode);
 		child.setAttribute("id", id);
 		child.setAttribute("type", type.getName());
 		if (!Strings.isNullOrEmpty(type.getNamespace()))

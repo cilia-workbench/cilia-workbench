@@ -12,9 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.common.view;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -32,29 +34,16 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class NewComponentInstanceWindow extends Dialog {
-
-	/** The component id, found in the jar repository. */
-	protected NameNamespaceID[] componentsId = new NameNamespaceID[0];
-
-	Map<String, NameNamespaceID> stringToId = new HashMap<String, NameNamespaceID>();
-
-	private final String componentName;
+public abstract class NewIdListDialog extends Dialog {
 
 	/** The listener. */
 	private final WindowModifyListener listener = new WindowModifyListener();
-	/** The chain model element. */
-	protected final Chain chain;
 	/** Margin used by the GridLayout. */
 	private final int margin = 10;
 
@@ -65,9 +54,11 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	/** The window title. */
 	private final String windowTitle;
 	/** Label for the ID field. */
-	private final String idLabelText = "ID";
-	/** Label for the Type field */
-	private final String typeLabelText = "Type";
+	private final String idLabelText;
+	/** Label for the list field */
+	private final String listLabelText;
+	/** Values for the list */
+	private final Map<String, Object> listValues;
 
 	/* ====== */
 	/* Fields */
@@ -76,7 +67,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	/** The id field. */
 	private Text idText;
 	/** The type field. */
-	private Combo typeCombo;
+	private Combo listCombo;
 	/** The message area. */
 	Label messageArea;
 
@@ -85,9 +76,9 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	/* ====== */
 
 	/** The component id. */
-	private String componentId;
+	private String id;
 	/** The component type. */
-	private NameNamespaceID componentType;
+	private Object value;
 
 	/**
 	 * Instantiates a new new component instance window.
@@ -97,13 +88,21 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	 * @param chain
 	 *            the chain
 	 */
-	protected NewComponentInstanceWindow(String componentName, Shell parentShell, Chain chain) {
+	protected NewIdListDialog(Shell parentShell, String windowTitle, String idLabelText, String listLabelText,
+			Map<String, Object> listValues) {
 		super(parentShell);
-		Preconditions.checkNotNull(chain);
-		Preconditions.checkNotNull(componentName);
-		this.componentName = componentName;
-		windowTitle = "New " + componentName + " instance";
-		this.chain = chain;
+		this.windowTitle = windowTitle;
+		this.idLabelText = idLabelText;
+		this.listLabelText = listLabelText;
+		this.listValues = listValues;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public Object getValue() {
+		return value;
 	}
 
 	/*
@@ -126,7 +125,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 		layout.verticalSpacing = margin;
 		container.setLayout(layout);
 
-		// IdLabel
+		// Id Label
 		final Label idLabel = new Label(container, SWT.WRAP);
 		idLabel.setText(idLabelText);
 		idLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -135,21 +134,19 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 		idText = new Text(container, SWT.NONE);
 		idText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		// Type Label
-		final Label typeLabel = new Label(container, SWT.WRAP);
-		typeLabel.setText(typeLabelText);
-		typeLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		// List Label
+		final Label listLabel = new Label(container, SWT.WRAP);
+		listLabel.setText(listLabelText);
+		listLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		// Type Combo
-		typeCombo = new Combo(container, SWT.NONE);
-		for (NameNamespaceID compoId : componentsId) {
-			String str = compoId.getName();
-			if (!Strings.isNullOrEmpty(compoId.getNamespace()))
-				str = str + " (" + compoId.getNamespace() + ")";
-			typeCombo.add(str);
-			stringToId.put(str, compoId);
-		}
-		typeCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		// List Combo
+		listCombo = new Combo(container, SWT.READ_ONLY);
+
+		List<String> list = new ArrayList<String>(listValues.keySet());
+		Collections.sort(list);
+		for (String item : list)
+			listCombo.add(item);
+		listCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// Message Area
 		messageArea = new Label(container, SWT.WRAP);
@@ -158,7 +155,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 
 		// Listeners
 		idText.addModifyListener(listener);
-		typeCombo.addModifyListener(listener);
+		listCombo.addModifyListener(listener);
 
 		return container;
 	}
@@ -173,24 +170,6 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 		super.initializeBounds();
 		getButton(IDialogConstants.OK_ID).setEnabled(false);
 
-	}
-
-	/**
-	 * Gets the component id.
-	 * 
-	 * @return the component id
-	 */
-	public String getComponentId() {
-		return componentId;
-	}
-
-	/**
-	 * Gets the component type.
-	 * 
-	 * @return the component type
-	 */
-	public NameNamespaceID getComponentType() {
-		return componentType;
 	}
 
 	/*
@@ -211,7 +190,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 	 * @see org.eclipse.jface.dialogs.Dialog#getInitialSize()
 	 */
 	protected Point getInitialSize() {
-		return new Point(300, 250);
+		return new Point(500, 250);
 	}
 
 	/*
@@ -223,7 +202,7 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 		return true;
 	}
 
-	protected abstract String checkValidValues(String id, NameNamespaceID type);
+	protected abstract String checkValidValues(String id, Object object);
 
 	/**
 	 * Listener invoked each time the user modifies a field in this window.
@@ -241,29 +220,14 @@ public abstract class NewComponentInstanceWindow extends Dialog {
 		 */
 		@Override
 		public void modifyText(ModifyEvent e) {
-			String id = idText.getText();
-			String str = typeCombo.getText();
-			NameNamespaceID nn = stringToId.get(str);
+			// updates result
+			id = idText.getText();
+			value = listValues.get(listCombo.getText());
 
-			String msg = checkValidValues(id, nn);
-
+			// updates message
+			String msg = checkValidValues(id, value);
 			getButton(IDialogConstants.OK_ID).setEnabled(msg == null);
-
-			boolean found = false;
-			for (int i = 0; i < componentsId.length && !found; i++)
-				if (componentsId[i].equals(nn))
-					found = true;
-
-			if (msg == null && !found)
-				messageArea.setText("Warning: " + componentName + " type " + str + " doesn't exists in repository.");
-			else
-				messageArea.setText(Strings.nullToEmpty(msg));
-
-			componentId = idText.getText();
-			if (nn != null)
-				componentType = nn;
-			else
-				throw new RuntimeException("BUG TO BE FIX");
+			messageArea.setText(Strings.nullToEmpty(msg));
 		}
 	}
 }

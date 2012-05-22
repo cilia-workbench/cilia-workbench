@@ -65,10 +65,7 @@ public abstract class NameNamespace implements ErrorsAndWarningsFinder, Identifi
 	 * @return the qualified name
 	 */
 	public String getQualifiedName() {
-		if (namespace == null || namespace.length() == 0)
-			return name;
-		else
-			return namespace + "." + name;
+		return new NameNamespaceID(name, namespace).getQualifiedName();
 	}
 
 	@Override

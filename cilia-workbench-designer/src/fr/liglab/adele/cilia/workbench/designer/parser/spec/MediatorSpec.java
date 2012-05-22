@@ -204,6 +204,11 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 	}
 
 	@Override
+	public Nature getNature() {
+		return Nature.SPEC;
+	}
+
+	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 
 		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();

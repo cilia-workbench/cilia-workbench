@@ -19,9 +19,9 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
@@ -32,14 +32,15 @@ public class CreateAdapterHandler extends ChainDesignerHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+
 		Chain chain = getChainDesignerView(event).getModel();
 		if (chain != null) {
-			NewAdapterInstanceWindow window = new NewAdapterInstanceWindow(ViewUtil.getShell(event), chain);
+			NewAdapterWindow window = new NewAdapterWindow(ViewUtil.getShell(event), chain);
 			if (window.open() == Window.OK) {
-				String id = window.getComponentId();
-				NameNamespaceID type = window.getComponentType();
+				String id = window.getId();
+				IAdapter adapter = (IAdapter) window.getValue();
 				try {
-					AbstractCompositionsRepoService.getInstance().createAdapterInstance(chain, id, type);
+					AbstractCompositionsRepoService.getInstance().createAdapter(chain, id, adapter);
 				} catch (CiliaException e) {
 					e.printStackTrace();
 				}
@@ -48,5 +49,4 @@ public class CreateAdapterHandler extends ChainDesignerHandler {
 
 		return null;
 	}
-
 }

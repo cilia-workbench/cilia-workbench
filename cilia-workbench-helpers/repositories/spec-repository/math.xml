@@ -77,11 +77,11 @@
 <property key="memory" value=""/>
 </properties>
 </mediator-specification>
+
 <mediator-specification id="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
 <ports>
 <in-port name="in"/>
 <out-port name="out"/>
-<out-port name="out2"/>
 </ports>
 <properties>
 <property key="category" value="samples"/>

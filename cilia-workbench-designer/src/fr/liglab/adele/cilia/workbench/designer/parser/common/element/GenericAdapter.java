@@ -44,4 +44,9 @@ public abstract class GenericAdapter extends NameNamespace implements IAdapter, 
 
 		return CiliaFlag.generateTab(flagsTab, e1);
 	}
+
+	@Override
+	public Nature getNature() {
+		return Nature.IMPLEM;
+	}
 }

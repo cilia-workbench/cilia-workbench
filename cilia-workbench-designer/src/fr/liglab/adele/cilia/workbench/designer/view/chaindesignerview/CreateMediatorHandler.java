@@ -19,9 +19,9 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
@@ -35,12 +35,12 @@ public class CreateMediatorHandler extends ChainDesignerHandler {
 
 		Chain chain = getChainDesignerView(event).getModel();
 		if (chain != null) {
-			NewMediatorInstanceWindow window = new NewMediatorInstanceWindow(ViewUtil.getShell(event), chain);
+			NewMediatorWindow window = new NewMediatorWindow(ViewUtil.getShell(event), chain);
 			if (window.open() == Window.OK) {
-				String id = window.getComponentId();
-				NameNamespaceID type = window.getComponentType();
+				String id = window.getId();
+				IMediator mediator = (IMediator) window.getValue();
 				try {
-					AbstractCompositionsRepoService.getInstance().createMediatorInstance(chain, id, type);
+					AbstractCompositionsRepoService.getInstance().createMediator(chain, id, mediator);
 				} catch (CiliaException e) {
 					e.printStackTrace();
 				}

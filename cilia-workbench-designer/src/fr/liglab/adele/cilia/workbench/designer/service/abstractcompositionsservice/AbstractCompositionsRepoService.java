@@ -28,6 +28,8 @@ import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -218,18 +220,18 @@ public class AbstractCompositionsRepoService extends
 			return null;
 	}
 
-	public void createMediatorInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
-		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
-		if (repo == null)
+	public void createMediator(Chain chain, String id, IMediator type) throws CiliaException {
+		AbstractCompositionFile file = (AbstractCompositionFile) getContentProvider().getParent(chain);
+		if (file == null)
 			return;
-		repo.getModel().createMediatorInstance(chain, id, type);
+		file.getModel().createMediator(chain, id, type);
 	}
 
-	public void createAdapterInstance(Chain chain, String id, NameNamespaceID type) throws CiliaException {
+	public void createAdapter(Chain chain, String id, IAdapter type) throws CiliaException {
 		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
 		if (repo == null)
 			return;
-		repo.getModel().createAdapterInstance(chain, id, type);
+		repo.getModel().createAdapter(chain, id, type);
 	}
 
 	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)

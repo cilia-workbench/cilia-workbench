@@ -65,4 +65,17 @@ public class NameNamespaceID {
 	public String toString() {
 		return name;
 	}
+
+	/**
+	 * The qualified name is composed by the namespace and the name. If the
+	 * namespace is unavailable, this function returns the name.
+	 * 
+	 * @return the qualified name
+	 */
+	public String getQualifiedName() {
+		if (namespace == null || namespace.length() == 0)
+			return name;
+		else
+			return namespace + "." + name;
+	}
 }

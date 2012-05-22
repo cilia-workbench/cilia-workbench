@@ -15,11 +15,12 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.misc.SpecImplemAskable;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public interface IComponent extends Identifiable {
+public interface IComponent extends Identifiable, SpecImplemAskable {
 
 }
