@@ -75,6 +75,8 @@ public abstract class Component implements DisplayedInPropertiesView, ErrorsAndW
 		return new NameNamespaceID(type, namespace);
 	}
 
+	public abstract Object getReferencedObject();
+
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id, "id");
 		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, type, "type");

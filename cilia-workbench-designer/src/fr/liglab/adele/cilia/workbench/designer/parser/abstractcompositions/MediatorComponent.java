@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 
 /**
  * 
@@ -27,4 +28,6 @@ public abstract class MediatorComponent extends Component {
 	public MediatorComponent(Node node) throws CiliaException {
 		super(node);
 	}
+
+	public abstract IMediator getReferencedObject();
 }

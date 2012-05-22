@@ -42,15 +42,7 @@
 
 
 
-<mediator-specification id="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-<properties>
-<property key="category" value="samples"/>
-</properties>
-</mediator-specification>
+
 
 
 <mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
@@ -73,5 +65,26 @@
 <parameter name="increment"/>
 </parameters>
 </processor>
+</mediator-specification>
+
+<mediator-specification id="regression" namespace="fr.liglab.cube">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+<properties>
+<property key="time" value=""/>
+<property key="memory" value=""/>
+</properties>
+</mediator-specification>
+<mediator-specification id="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+<out-port name="out2"/>
+</ports>
+<properties>
+<property key="category" value="samples"/>
+</properties>
 </mediator-specification>
 </cilia-specifications>

@@ -44,9 +44,16 @@ public class GraphLabelProvider extends LabelProvider {
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 
 		ImageDescriptorEnum imageName;
-		if (isCompatible(obj, AdapterComponent.class))
-			imageName = ImageDescriptorEnum.ADAPTER_IN;
-		else if (isCompatible(obj, MediatorComponent.class))
+		if (isCompatible(obj, AdapterComponent.class)) {
+			AdapterComponent adapter = (AdapterComponent) obj;
+			if (adapter.getReferencedObject() != null) {
+				if (adapter.getReferencedObject().isInAdapter())
+					imageName = ImageDescriptorEnum.ADAPTER_IN;
+				else
+					imageName = ImageDescriptorEnum.ADAPTER_OUT;
+			} else
+				imageName = ImageDescriptorEnum.ADAPTER_IN;
+		} else if (isCompatible(obj, MediatorComponent.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
 		else if (isCompatible(obj, EntityConnectionData.class))
 			imageName = ImageDescriptorEnum.NOTHING;
