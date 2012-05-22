@@ -94,6 +94,9 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 			refresh();
 			return;
 		}
+
+		// updates labels and icons
+		viewer.refresh(true);
 	}
 
 	private void editMediatorSpec(DoubleClickEvent event, MediatorSpec element) {
