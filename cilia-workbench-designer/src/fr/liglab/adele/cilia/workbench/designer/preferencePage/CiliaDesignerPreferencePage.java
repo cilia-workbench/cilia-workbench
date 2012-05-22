@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.designer.Activator;
 public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	public static final String JAR_REPOSITORY_PATH = "jarRepositoryPath";
-	public static final String DSCILIA_REPOSITORY_PATH = "dsciliaRepositoryPath";
+	public static final String ABSTRACT_COMPO_REPOSITORY_PATH = "abstractCompoRepositoryPath";
 	public static final String SPEC_REPOSITORY_PATH = "specRepositoryPath";
 
 	/** Page header. */
@@ -51,7 +51,8 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage imple
 	 */
 	public void createFieldEditors() {
 		addField(new DirectoryFieldEditor(JAR_REPOSITORY_PATH, "&Jar repository path:", getFieldEditorParent()));
-		addField(new DirectoryFieldEditor(DSCILIA_REPOSITORY_PATH, "&Dscilia repository path:", getFieldEditorParent()));
+		addField(new DirectoryFieldEditor(ABSTRACT_COMPO_REPOSITORY_PATH, "&Abstract compositions repository path:",
+				getFieldEditorParent()));
 		addField(new DirectoryFieldEditor(SPEC_REPOSITORY_PATH, "&Specification repository path:",
 				getFieldEditorParent()));
 	}

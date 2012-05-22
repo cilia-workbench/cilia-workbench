@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
 
 /**
- * DsciliaRepositoryView.
+ * AbstractCompositionsView.
  * 
  * @author Etienne Gandrille
  */

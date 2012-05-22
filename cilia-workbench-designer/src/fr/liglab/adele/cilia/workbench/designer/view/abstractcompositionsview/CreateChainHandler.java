@@ -16,13 +16,13 @@ package fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.IInputValidator;
-import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
  * CreateChainHandler.
@@ -44,37 +44,22 @@ public class CreateChainHandler extends DsciliaViewHandler {
 		// Gets the dscilia file first
 		Object object = getFirstSelectedElementInRepositoryView(event);
 		if (!(object instanceof AbstractCompositionFile)) {
-			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Please select a dscilia file first.");
+			MessageDialog.openError(ViewUtil.getShell(event), "Error",
+					"Please select an abstract composition file first.");
 			return null;
 		}
 		final AbstractCompositionFile repo = (AbstractCompositionFile) object;
 		if (repo.getModel() == null) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error",
-					"Dscilia file must be in a valid state. Please check xml.");
+					"Abstract composition file must be in a valid state. Please check xml.");
 			return null;
 		}
 
-		// Validator
-		IInputValidator validator = new IInputValidator() {
-			@Override
-			public String isValid(String newText) {
-				return null;
-				// TODO validates nothing here !
-				// return
-				// AbstractCompositionsRepoService.getInstance().isNewChainNameAllowed(newText);
-			}
-		};
-
 		// Dialog creation
-		InputDialog dialog = new InputDialog(ViewUtil.getShell(event), "Chain creation",
-				"Please give a name for the new chain.", "", validator);
-
+		NewChainDialog dialog = new NewChainDialog(ViewUtil.getShell(event));
 		if (dialog.open() == Window.OK) {
-			String chainName = dialog.getValue();
-
-			// TODO
-			// AbstractCompositionsRepoService.getInstance().createChain(repo,
-			// chainName);
+			NameNamespaceID nn = dialog.getValue();
+			AbstractCompositionsRepoService.getInstance().createChain(repo, nn);
 		}
 
 		return null;

@@ -60,13 +60,10 @@ public class CreateMediatorHandler extends SpecHandler {
 		SpecModel modelFile = specFile.getModel();
 
 		NewMediatorDialog dialog = new NewMediatorDialog(shell);
-
 		if (dialog.open() == Window.OK) {
-			String id = dialog.getId();
-			String namespace = dialog.getNamespace();
-
+			NameNamespaceID value = dialog.getValue();
 			SpecRepoService repoService = SpecRepoService.getInstance();
-			return repoService.createMediatorSpec(modelFile, new NameNamespaceID(id, namespace));
+			return repoService.createMediatorSpec(modelFile, value);
 		}
 
 		return null;

@@ -47,10 +47,10 @@ public class AbstractCompositionsRepoService extends
 	private static AbstractCompositionsRepoService INSTANCE;
 
 	/** The key used to search the repository path into the preferences store. */
-	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.DSCILIA_REPOSITORY_PATH;
+	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.ABSTRACT_COMPO_REPOSITORY_PATH;
 
 	/** DScilia files extension. */
-	private final static String ext = ".dscilia";
+	private final static String ext = ".compo";
 
 	/** Repository Name */
 	private final static String repositoryName = "DSCilia repo service";

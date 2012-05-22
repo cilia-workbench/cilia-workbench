@@ -12,26 +12,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
+package fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview;
 
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.view.NewNameNamespaceDialog;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class NewMediatorDialog extends NewNameNamespaceDialog {
+public class NewChainDialog extends NewNameNamespaceDialog {
 
-	protected NewMediatorDialog(Shell parentShell) {
-		super(parentShell, "New mediator specification", "id", "namespace", false);
+	protected NewChainDialog(Shell parentShell) {
+		super(parentShell, "New abstract chain", "name", "namespace", true);
 	}
 
 	@Override
 	protected String checkValidValue(NameNamespaceID value) {
-		return SpecRepoService.getInstance().isNewMediatorSpecAllowed(value);
+		return AbstractCompositionsRepoService.getInstance().isNewChainNameAllowed(value);
 	}
 }
