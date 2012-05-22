@@ -1,0 +1,20 @@
+#!/bin/bash
+
+progName=`basename $0`
+dirName=`dirname $0`
+
+
+dir=$dirName/../
+
+function getLines() {
+	find $dir -name "*.java" -print0 | xargs -0 cat | tr '\011' ' ' | tr -s ' ' | sed "s/^ //" | grep -vE "^$" | tr -s '\n' 
+}
+
+
+total=`getLines | wc -l`
+code=`getLines | grep -Ev "^\/\/" | grep -v "*" | wc -l`
+
+
+echo "Nombre de lignes non vides : $total"
+echo "Nombre de lignes de code   : $code"
+
