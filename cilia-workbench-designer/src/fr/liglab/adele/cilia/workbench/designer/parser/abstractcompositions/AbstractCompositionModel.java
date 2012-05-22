@@ -141,9 +141,9 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 	public void createMediator(Chain chain, String id, IMediator type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
-			if (type.getNature().equals(Nature.SPEC))
+			if (type.getNature() == Nature.SPEC)
 				createComponentInstanceInternal(chain, id, type.getId(), "mediators", MediatorSpec.XML_NODE_NAME);
-			else if (type.getNature().equals(Nature.IMPLEM))
+			else if (type.getNature() == Nature.IMPLEM)
 				createComponentInstanceInternal(chain, id, type.getId(), "mediators", MediatorInstance.XML_NODE_NAME);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
@@ -152,9 +152,9 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 	public void createAdapter(Chain chain, String id, IAdapter type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
-			if (type.getNature().equals(Nature.SPEC))
+			if (type.getNature() == Nature.SPEC)
 				throw new RuntimeException("Not yet implemented in spec repository view...");
-			else if (type.getNature().equals(Nature.IMPLEM))
+			else if (type.getNature() == Nature.IMPLEM)
 				createComponentInstanceInternal(chain, id, type.getId(), "adapters", AdapterInstance.XML_NODE_NAME);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
