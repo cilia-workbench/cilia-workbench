@@ -16,9 +16,16 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.ListDialog;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
  * 
@@ -29,13 +36,37 @@ public class DeleteBindingHandler extends ChainDesignerHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
-		Object sel = getChainDesignerView(event).getFirstSelectedElement();
+		Chain chain = getChainDesignerView(event).getModel();
+		if (chain != null) {
+			DeleteBindingDialog window = new DeleteBindingDialog(ViewUtil.getShell(event), chain);
+			if (window.open() == Window.OK) {
+				Object[] objects = window.getResult();
+				if (objects.length != 0) {
+					Binding binding = (Binding) objects[0];
+					try {
+						AbstractCompositionsRepoService.getInstance().deleteBinding(chain, binding);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 
-		if (sel != null)
-			MessageDialog.openInformation(ViewUtil.getShell(event), "Handler", sel.getClass() + " " + sel.toString());
-		else
-			MessageDialog.openInformation(ViewUtil.getShell(event), "Handler", this.getClass().getName());
 		return null;
 	}
 
+	private class DeleteBindingDialog extends ListDialog {
+
+		public DeleteBindingDialog(Shell parent, Chain chain) {
+			super(parent);
+
+			setTitle("Remove binding");
+			setMessage("Select the binding to be removed");
+			setInput(chain.getBindings());
+
+			setContentProvider(new ArrayContentProvider());
+			setLabelProvider(new LabelProvider());
+			setHelpAvailable(false);
+		}
+	}
 }

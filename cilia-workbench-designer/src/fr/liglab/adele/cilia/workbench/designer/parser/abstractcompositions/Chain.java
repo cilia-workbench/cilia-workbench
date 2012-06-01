@@ -31,6 +31,7 @@ import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -264,7 +265,12 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 				} else if (src instanceof IMediator) {
 					if (!Strings.isNullOrEmpty(b.getSourcePort())) {
 						IMediator mediator = (IMediator) src;
-						if (!mediator.getOutPorts().contains(b.getSourcePort()))
+
+						boolean found = false;
+						for (IGenericPort p : mediator.getOutPorts())
+							if (p.getName().equalsIgnoreCase(b.getSourcePort()))
+								found = true;
+						if (!found)
 							list.add(new CiliaError("Binding " + b + " doesn't reference a valid source port", this));
 					}
 				} else {
@@ -286,7 +292,12 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 				} else if (dst instanceof IMediator) {
 					if (!Strings.isNullOrEmpty(b.getDestinationPort())) {
 						IMediator mediator = (IMediator) dst;
-						if (!mediator.getInPorts().contains(b.getDestinationPort()))
+
+						boolean found = false;
+						for (IGenericPort p : mediator.getInPorts())
+							if (p.getName().equalsIgnoreCase(b.getDestinationPort()))
+								found = true;
+						if (!found)
 							list.add(new CiliaError("Binding " + b + " doesn't reference a valid destination port",
 									this));
 					}

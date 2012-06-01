@@ -293,4 +293,22 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			subNode.removeChild(binding);
 		}
 	}
+
+	public void deleteBinding(Chain chain, Binding binding) throws CiliaException {
+		File file = new File(filePath);
+		Document document = XMLHelpers.getDocument(file);
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node subNode = XMLHelpers.findChild(chainNode, "bindings");
+		if (subNode == null)
+			return;
+
+		Node[] nodes = XMLHelpers.findChildren(subNode, "binding", "from", binding.getSource(), "to",
+				binding.getDestination());
+		if (nodes.length == 0)
+			throw new CiliaException("Can't find binding " + binding);
+		subNode.removeChild(nodes[0]);
+
+		XMLHelpers.writeDOM(document, filePath);
+		AbstractCompositionsRepoService.getInstance().updateModel();
+	}
 }

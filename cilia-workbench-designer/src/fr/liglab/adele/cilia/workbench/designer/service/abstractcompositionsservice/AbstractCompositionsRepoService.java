@@ -27,6 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
@@ -255,5 +256,12 @@ public class AbstractCompositionsRepoService extends
 		List<CiliaFlag> errorList = IdentifiableUtils.getErrorsNonUniqueId(this, getChains());
 
 		return CiliaFlag.generateTab(errorList);
+	}
+
+	public void deleteBinding(Chain chain, Binding binding) throws CiliaException {
+		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
+		if (repo == null)
+			return;
+		repo.getModel().deleteBinding(chain, binding);
 	}
 }

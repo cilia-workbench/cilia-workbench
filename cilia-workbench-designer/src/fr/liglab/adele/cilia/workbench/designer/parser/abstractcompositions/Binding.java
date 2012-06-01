@@ -62,6 +62,14 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 		return XMLStringUtil.getAfterSeparatorOrNothing(to);
 	}
 
+	public String getSource() {
+		return from;
+	}
+
+	public String getDestination() {
+		return to;
+	}
+
 	@Override
 	public String toString() {
 		return from + " - " + to;
