@@ -110,7 +110,7 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 		return retval.toArray(new Component[0]);
 	}
 
-	private Component getComponent(String componentId) {
+	public Component getComponent(String componentId) {
 		for (AdapterComponent adapter : adapters)
 			if (adapter.getId().equals(componentId))
 				return adapter;

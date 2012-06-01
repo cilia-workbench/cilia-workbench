@@ -30,17 +30,13 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.base.Preconditions;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterInstance;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.InPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.JarPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.OutPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 
 /**
  * 
@@ -48,8 +44,8 @@ import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoSe
  */
 public class NewBindingWindow extends Dialog {
 
-	public static final String IN_PORT = "IN";
-	public static final String OUT_PORT = "OUT";
+	public static final String DST_COLUMN = "IN";
+	public static final String SRC_COLUMN = "OUT";
 
 	private final Chain chain;
 
@@ -136,16 +132,15 @@ public class NewBindingWindow extends Dialog {
 			dstElemCombo.add(item.getId());
 		}
 		for (AdapterComponent item : chain.getAdapters()) {
-			NameNamespaceID id = item.getReferencedTypeID();
-			GenericAdapter a = JarRepoService.getInstance().getAdapter(id);
-			if (a == null) {
+			IAdapter adapter = item.getReferencedObject();
+			if (adapter == null) {
 				srcElemCombo.add(item.getId());
 				dstElemCombo.add(item.getId());
-			} else if (a.isInAdapter())
-				dstElemCombo.add(item.getId());
-			else if (a.isOutAdapter())
+			} else if (adapter.isInAdapter()) {
 				srcElemCombo.add(item.getId());
-			else {
+			} else if (adapter.isOutAdapter()) {
+				dstElemCombo.add(item.getId());
+			} else {
 				srcElemCombo.add(item.getId());
 				dstElemCombo.add(item.getId());
 			}
@@ -157,11 +152,11 @@ public class NewBindingWindow extends Dialog {
 		label5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// Source port Combo
-		srcPortCombo = new Combo(container, SWT.NONE);
+		srcPortCombo = new Combo(container, SWT.READ_ONLY);
 		srcPortCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// Destination port Combo
-		dstPortCombo = new Combo(container, SWT.NONE);
+		dstPortCombo = new Combo(container, SWT.READ_ONLY);
 		dstPortCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// Message Area
@@ -174,8 +169,8 @@ public class NewBindingWindow extends Dialog {
 		dstElemCombo.addModifyListener(iListener);
 		srcPortCombo.addModifyListener(iListener);
 		dstPortCombo.addModifyListener(iListener);
-		srcElemCombo.addModifyListener(new ComboUpdate(srcElemCombo, srcPortCombo, OUT_PORT));
-		dstElemCombo.addModifyListener(new ComboUpdate(dstElemCombo, dstPortCombo, IN_PORT));
+		srcElemCombo.addModifyListener(new ComboUpdate(srcElemCombo, srcPortCombo, SRC_COLUMN));
+		dstElemCombo.addModifyListener(new ComboUpdate(dstElemCombo, dstPortCombo, DST_COLUMN));
 
 		return container;
 	}
@@ -281,29 +276,28 @@ public class NewBindingWindow extends Dialog {
 		public void modifyText(ModifyEvent e) {
 			comboPort.removeAll();
 
-			for (Component i : chain.getComponents()) {
-				if (i.getId().equalsIgnoreCase(comboElem.getText())) {
-					if (i instanceof AdapterInstance) {
-						comboPort.setEnabled(false);
-						updateResult();
-						return;
-					} else {
-						comboPort.setEnabled(true);
-						fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent m = JarRepoService
-								.getInstance().getMediator(i.getReferencedTypeID());
-						if (m != null) {
-							for (JarPort p : m.getPorts()) {
-								if (p instanceof InPort && portType.equals(IN_PORT))
-									comboPort.add(p.getName());
-								if (p instanceof OutPort && portType.equals(OUT_PORT))
-									comboPort.add(p.getName());
-							}
-						}
-						updateResult();
-						return;
-					}
-				}
+			Component i = chain.getComponent(comboElem.getText());
+
+			// adapter
+			if (i instanceof AdapterComponent) {
+				comboPort.setEnabled(false);
 			}
+
+			// mediator
+			if (i instanceof MediatorComponent) {
+				comboPort.setEnabled(true);
+				IMediator mediator = ((MediatorComponent) i).getReferencedObject();
+				if (portType.equals(DST_COLUMN)) {
+					for (IGenericPort port : mediator.getInPorts())
+						comboPort.add(port.getName());
+				} else {
+					for (IGenericPort port : mediator.getOutPorts())
+						comboPort.add(port.getName());
+				}
+
+				comboPort.select(0);
+			}
+
 			updateResult();
 			return;
 		}
