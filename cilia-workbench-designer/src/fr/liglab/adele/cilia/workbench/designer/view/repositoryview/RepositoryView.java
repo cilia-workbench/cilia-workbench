@@ -15,12 +15,12 @@
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
@@ -288,13 +288,11 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	protected void openFileEditor(String filePath) {
 		IFileStore fileStore;
 		try {
-			fileStore = EFS.getLocalFileSystem().getStore(new URI(filePath));
+			fileStore = EFS.getLocalFileSystem().getStore(new Path(filePath));
 			IWorkbenchPage page = getViewSite().getPage();
 			IEditorPart editor = IDE.openEditorOnFileStore(page, fileStore);
 			addEditorSavedListener(editor);
 		} catch (PartInitException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 	}
