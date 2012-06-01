@@ -1,0 +1,138 @@
+<cilia-composition-specifications>
+
+	<chain id="generator-mesures" type="generator-mesures">
+
+		<adapters>
+			<adapter-instance id="presence-collector" type="PresenceDetectorAdapter">
+			</adapter-instance>
+
+			<adapter-instance id="event-webservice" type="EventServiceAdapter">
+			</adapter-instance>
+		</adapters>
+
+		<mediators>
+
+			<mediator-instance id="filter" type="MeasureFilterMediator">
+				<ports>
+					<in-port name="in" />
+					<out-port name="out" />
+				</ports>
+			</mediator-instance>
+
+			<mediator-instance id="enricher" type="MeasureEnricherMediator">
+				<ports>
+					<in-port name="in" />
+					<out-port name="out" />
+				</ports>
+			</mediator-instance>
+
+			<mediator-instance id="transformer" type="MeasureTransformerMediator">
+				<processor>
+					<property name="user" value="Aurelie" />
+				</processor>
+				<ports>
+					<in-port name="in" />
+					<out-port name="out" />
+				</ports>
+			</mediator-instance>
+
+		</mediators>
+		<bindings>
+			<binding from="presence-collector" to="filter:in" />
+			<binding from="filter:out" to="enricher:in" />
+			<binding from="enricher:out" to="transformer:in" />
+			<binding from="transformer:out" to="event-webservice" />
+		</bindings>
+	</chain>
+
+	<chain id="generator-mesures-paul" type="generator-mesures">
+
+		<adapters>
+			<adapter-instance id="presence-collector" type="PresenceDetectorAdapter">
+			</adapter-instance>
+
+			<adapter-instance id="event-webservice" type="EventServiceAdapter">
+			</adapter-instance>
+		</adapters>
+
+		<mediators>
+
+			<mediator-instance id="filter" type="MeasureFilterMediator">
+				<ports>
+					<in-port name="in" />
+					<out-port name="out" />
+				</ports>
+			</mediator-instance>
+
+			<mediator-instance id="enricher" type="MeasureEnricherMediator">
+				<ports>
+					<in-port name="in" />
+					<out-port name="out" />
+				</ports>
+			</mediator-instance>
+
+			<mediator-instance id="transformer" type="MeasureTransformerMediator">
+				<processor>
+					<property name="user" value="Paul" />
+				</processor>
+				<ports>
+					<in-port name="in" />
+					<out-port name="out" />
+				</ports>
+			</mediator-instance>
+
+		</mediators>
+		<bindings>
+			<binding from="presence-collector" to="filter:in" />
+			<binding from="filter:out" to="enricher:in" />
+			<binding from="enricher:out" to="transformer:in" />
+			<binding from="transformer:out" to="event-webservice" />
+		</bindings>
+	</chain>
+
+
+	<chain id="generator-mesures-aurelie" type="generator-mesures">
+		<adapters>
+			<adapter-instance id="presence-collector" type="PresenceDetectorAdapter">
+			</adapter-instance>
+
+			<adapter-instance id="event-webservice" type="EventServiceAdapter">
+			</adapter-instance>
+		</adapters>
+
+		<mediators>
+
+			<mediator-instance id="filter" type="MeasureFilterMediator">
+				<ports>
+					<in-port name="in" />
+					<out-port name="out" />
+				</ports>
+			</mediator-instance>
+
+			<mediator-instance id="enricher" type="MeasureEnricherMediator">
+				<ports>
+					<in-port name="in" />
+					<out-port name="out" />
+				</ports>
+			</mediator-instance>
+
+			<mediator-instance id="transformer" type="MeasureTransformerMediator">
+				<processor>
+					<property name="user" value="Aurelie" />
+				</processor>
+				<ports>
+					<in-port name="in" />
+					<out-port name="out" />
+				</ports>
+			</mediator-instance>
+
+		</mediators>
+		<bindings>
+			<binding from="presence-collector" to="filter:in" />
+			<binding from="filter:out" to="enricher:in" />
+			<binding from="enricher:out" to="transformer:in" />
+			<binding from="transformer:out" to="event-webservice" />
+		</bindings>
+	</chain>
+
+</cilia-composition-specifications>
