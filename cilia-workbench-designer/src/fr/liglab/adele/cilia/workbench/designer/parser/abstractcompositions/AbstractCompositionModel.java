@@ -28,6 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.SpecImplemAskable.Nature;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
@@ -213,6 +214,83 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 			// Notifies Repository
 			AbstractCompositionsRepoService.getInstance().updateModel();
+		}
+	}
+
+	public void deleteComponent(Chain chain, Component component) throws CiliaException {
+		if (component instanceof AdapterComponent)
+			deleteAdapter(chain, (AdapterComponent) component);
+		else
+			deleteMediator(chain, (MediatorComponent) component);
+	}
+
+	private void deleteMediator(Chain chain, MediatorComponent mediator) throws CiliaException {
+		File file = new File(filePath);
+		Document document = XMLHelpers.getDocument(file);
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node subNode = XMLHelpers.findChild(chainNode, "mediators");
+
+		Node leafs[] = null;
+		if (mediator instanceof MediatorInstance)
+			leafs = XMLHelpers.findChildren(subNode, "mediator-instance", "id", mediator.getId());
+		if (mediator instanceof MediatorSpec)
+			leafs = XMLHelpers.findChildren(subNode, "mediator-specification", "id", mediator.getId());
+
+		if (leafs == null || leafs.length == 0)
+			throw new CiliaException("Can't find mediator with id " + mediator.getId() + " in XML file");
+
+		for (Node leaf : leafs)
+			subNode.removeChild(leaf);
+
+		deleteBindingsWithReferenceToComponent(chainNode, mediator.getId());
+		XMLHelpers.writeDOM(document, filePath);
+		AbstractCompositionsRepoService.getInstance().updateModel();
+	}
+
+	private void deleteAdapter(Chain chain, AdapterComponent adapter) throws CiliaException {
+		File file = new File(filePath);
+		Document document = XMLHelpers.getDocument(file);
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node subNode = XMLHelpers.findChild(chainNode, "adapters");
+
+		Node leafs[] = null;
+		if (adapter instanceof AdapterInstance)
+			leafs = XMLHelpers.findChildren(subNode, "adapter-instance", "id", adapter.getId());
+		// Adapter spec...
+
+		if (leafs == null || leafs.length == 0)
+			throw new CiliaException("Can't find adapter with id " + adapter.getId() + " in XML file");
+
+		for (Node leaf : leafs)
+			subNode.removeChild(leaf);
+
+		deleteBindingsWithReferenceToComponent(chainNode, adapter.getId());
+		XMLHelpers.writeDOM(document, filePath);
+		AbstractCompositionsRepoService.getInstance().updateModel();
+	}
+
+	private void deleteBindingsWithReferenceToComponent(Node chainNode, String componentID) throws CiliaException {
+		Node subNode = XMLHelpers.findChild(chainNode, "bindings");
+		if (subNode == null)
+			return;
+
+		// finds nodes
+		List<Node> nodes = new ArrayList<Node>();
+		Node bindings[] = XMLHelpers.findChildren(subNode, "binding");
+		for (Node binding : bindings) {
+			String from = XMLHelpers.findAttributeValue(binding, "from");
+			String to = XMLHelpers.findAttributeValue(binding, "to");
+
+			String fromID = XMLStringUtil.getBeforeSeparatorOrAll(from);
+			String toID = XMLStringUtil.getBeforeSeparatorOrAll(to);
+
+			if (fromID.equalsIgnoreCase(componentID) || toID.equalsIgnoreCase(componentID))
+				nodes.add(binding);
+		}
+
+		// remove nodes
+		for (Node binding : nodes) {
+			subNode.removeChild(binding);
 		}
 	}
 }

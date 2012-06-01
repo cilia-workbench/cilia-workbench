@@ -395,7 +395,7 @@ public class XMLHelpers {
 	 *            the node
 	 * @param childName
 	 *            the child name
-	 * @return the node
+	 * @return the node, or null if not found
 	 */
 	public static Node findChild(Node node, String childName) {
 		Node[] children = findChildren(node, childName);

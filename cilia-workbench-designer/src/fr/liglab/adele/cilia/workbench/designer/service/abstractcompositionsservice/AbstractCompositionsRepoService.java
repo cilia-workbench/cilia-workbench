@@ -28,6 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
@@ -232,6 +233,13 @@ public class AbstractCompositionsRepoService extends
 		if (repo == null)
 			return;
 		repo.getModel().createAdapter(chain, id, type);
+	}
+
+	public void deleteComponent(Chain chain, Component component) throws CiliaException {
+		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
+		if (repo == null)
+			return;
+		repo.getModel().deleteComponent(chain, component);
 	}
 
 	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)

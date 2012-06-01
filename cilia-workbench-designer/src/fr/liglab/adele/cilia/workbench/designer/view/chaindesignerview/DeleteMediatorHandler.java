@@ -16,9 +16,16 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.ListDialog;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
  * 
@@ -28,8 +35,38 @@ public class DeleteMediatorHandler extends ChainDesignerHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		MessageDialog.openInformation(ViewUtil.getShell(event), "Handler", this.getClass().getName());
+
+		Chain chain = getChainDesignerView(event).getModel();
+		if (chain != null) {
+			DeleteMediatorDialog window = new DeleteMediatorDialog(ViewUtil.getShell(event), chain);
+			if (window.open() == Window.OK) {
+				Object[] objects = window.getResult();
+				if (objects.length != 0) {
+					MediatorComponent component = (MediatorComponent) objects[0];
+					try {
+						AbstractCompositionsRepoService.getInstance().deleteComponent(chain, component);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
 		return null;
 	}
 
+	private class DeleteMediatorDialog extends ListDialog {
+
+		public DeleteMediatorDialog(Shell parent, Chain chain) {
+			super(parent);
+
+			setTitle("Remove mediator");
+			setMessage("Select the mediator to be removed");
+			setInput(chain.getMediators());
+
+			setContentProvider(new ArrayContentProvider());
+			setLabelProvider(new LabelProvider());
+			setHelpAvailable(false);
+		}
+	}
 }
