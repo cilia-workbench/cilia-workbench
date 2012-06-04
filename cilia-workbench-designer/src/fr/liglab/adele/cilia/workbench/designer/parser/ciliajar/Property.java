@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericProperty;
 
 /**
@@ -23,16 +25,56 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericPro
  */
 public class Property extends GenericProperty {
 
+	/** The value */
+	protected String value;
+
+	public String getValue() {
+		return value;
+	}
+
+	@Override
+	public String toString() {
+		if (name == null || name.length() == 0)
+			return "<undefined> = " + value;
+		if (value == null || value.length() == 0)
+			return name + " = <undefined>";
+
+		return name + " = " + value;
+	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		if (arg0 == null)
+			return false;
+		if (!(arg0 instanceof GenericProperty))
+			return false;
+
+		Property prop = (Property) arg0;
+
+		if (prop.getName() != name || prop.getValue() != value)
+			return false;
+
+		return true;
+	}
+
 	/**
 	 * Instantiates a new property.
 	 * 
-	 * @param key
+	 * @param name
 	 *            the key
 	 * @param value
 	 *            the value
 	 */
-	public Property(String key, String value) {
-		this.key = key;
+	public Property(String name, String value) {
+		this.name = name;
 		this.value = value;
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
+		CiliaFlag e1 = CiliaWarning.checkStringNotNullOrEmpty(this, value, "value");
+
+		return CiliaFlag.generateTab(tab, e1);
 	}
 }

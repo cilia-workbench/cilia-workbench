@@ -17,7 +17,6 @@ package fr.liglab.adele.cilia.workbench.designer.service.specreposervice;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
@@ -161,7 +160,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 	}
 
 	public void updateMediatorSpec(MediatorSpec mediator, List<String> inPorts, List<String> outPorts,
-			Map<String, String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
+			List<String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
 			List<String> dispatcherParam) {
 		SpecFile file = (SpecFile) contentProvider.getParent(mediator);
 		if (file == null)

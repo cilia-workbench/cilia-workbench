@@ -186,9 +186,9 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 		return OutPort.createXMLPort(document, ports, portName);
 	}
 
-	public static Node createMediatorProperty(Document document, Element spec, String key, String value) {
-		Node properties = XMLHelpers.getOrCreateNode(document, spec, XML_NODE_PROPERTIES_CONTAINER);
-		return Property.createXMLProperty(document, properties, key, value);
+	public static Node createMediatorProperty(Document document, Element spec, String key) {
+		Node root = XMLHelpers.getOrCreateNode(document, spec, XML_NODE_PROPERTIES_CONTAINER);
+		return XMLHelpers.createNode(document, root, Property.XML_NODE_NAME, "name", key);
 	}
 
 	public static Node createSchedulerParameter(Document document, Element spec, String param) {

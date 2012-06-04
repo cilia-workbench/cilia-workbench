@@ -140,7 +140,7 @@ public class MediatorComponent extends NameNamespace implements IMediator, Displ
 
 	public Property getProperty(String key) {
 		for (Property p : getProperties())
-			if (p.getKey().equalsIgnoreCase(key))
+			if (p.getName().equalsIgnoreCase(key))
 				return p;
 		return null;
 	}
@@ -213,15 +213,11 @@ public class MediatorComponent extends NameNamespace implements IMediator, Displ
 
 			// Properties
 			for (fr.liglab.adele.cilia.workbench.designer.parser.spec.Property mediaProp : mediatorSpec.getProperties()) {
-				String specKey = mediaProp.getKey();
-				String specValue = mediaProp.getValue();
+				String specKey = mediaProp.getName();
 				Property curProp = getProperty(specKey);
 				if (curProp == null)
-					flagsTab.add(new CiliaError("Mediator must have \"" + specKey + "\" property defined with value \""
-							+ specValue + "\" to respect its specification", getSpec()));
-				else if (!curProp.getValue().equalsIgnoreCase(specValue))
-					flagsTab.add(new CiliaError("Mediator must have \"" + specKey + "\" property defined with value \""
-							+ specValue + "\" to respect its specification", getSpec()));
+					flagsTab.add(new CiliaError("Mediator must have \"" + specKey
+							+ "\" property defined to respect its specification", getSpec()));
 			}
 
 			// Parameters

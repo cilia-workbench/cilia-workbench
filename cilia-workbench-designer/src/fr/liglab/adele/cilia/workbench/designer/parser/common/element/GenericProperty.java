@@ -17,44 +17,32 @@ package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
- * A property is a key value pair. This is a base class.
+ * A property contains a single name. This is a base class, for implementing
+ * properties definition or properties implementation.
  * 
  * @author Etienne Gandrille
  */
 public abstract class GenericProperty implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
 	/** The key */
-	protected String key;
+	protected String name;
 
-	/** The value */
-	protected String value;
-
-	public String getKey() {
-		return key;
-	}
-
-	public String getValue() {
-		return value;
+	public String getName() {
+		return name;
 	}
 
 	@Override
 	public Object getId() {
-		return key;
+		return name;
 	}
 
 	@Override
 	public String toString() {
-		if (key == null || key.length() == 0)
-			return "<undefined> = " + value;
-		if (value == null || value.length() == 0)
-			return key + " = <undefined>";
-
-		return key + " = " + value;
+		return name;
 	}
 
 	@Override
@@ -66,17 +54,13 @@ public abstract class GenericProperty implements DisplayedInPropertiesView, Erro
 
 		GenericProperty prop = (GenericProperty) arg0;
 
-		if (prop.getKey() != key || prop.getValue() != value)
-			return false;
-
-		return true;
+		return (prop.getName() == name);
 	}
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, key, "key");
-		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, value, "value");
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "key");
 
-		return CiliaFlag.generateTab(e1, e2);
+		return CiliaFlag.generateTab(e1);
 	}
 }

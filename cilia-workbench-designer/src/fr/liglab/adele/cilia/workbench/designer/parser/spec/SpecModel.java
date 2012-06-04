@@ -17,7 +17,6 @@ package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -127,7 +126,7 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 	}
 
 	public void updateMediatorSpec(NameNamespaceID id, List<String> inPorts, List<String> outPorts,
-			Map<String, String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
+			List<String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
 			List<String> dispatcherParam) throws CiliaException {
 
 		// Finding target node
@@ -149,8 +148,8 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 			MediatorSpec.createXMLOutPort(document, spec, outPort);
 
 		// mediatorProperties
-		for (String key : mediatorProperties.keySet())
-			MediatorSpec.createMediatorProperty(document, spec, key, mediatorProperties.get(key));
+		for (String key : mediatorProperties)
+			MediatorSpec.createMediatorProperty(document, spec, key);
 
 		// scheduler params
 		for (String param : schedulerParam)
