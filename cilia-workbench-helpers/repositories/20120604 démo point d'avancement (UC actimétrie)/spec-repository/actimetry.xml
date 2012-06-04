@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cilia-specifications>
+
+<mediator-specification id="MeasureFilterMediator" namespace="fr.orange">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+</mediator-specification>
+
+<mediator-specification id="MeasureEnricherMediator" namespace="fr.orange">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+</mediator-specification>
+
+<mediator-specification id="MeasureTransformerMediator" namespace="fr.orange">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+</mediator-specification>
+
+<mediator-specification id="MeasureTranslatorMediator" namespace="fr.orange">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+</mediator-specification>
+</cilia-specifications>
