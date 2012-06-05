@@ -14,12 +14,10 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-
 /**
  * 
  * @author Etienne Gandrille
  */
-public interface IComponent extends Identifiable, ComponentNatureAskable {
-
+public enum PortNature {
+	IN, OUT;
 }

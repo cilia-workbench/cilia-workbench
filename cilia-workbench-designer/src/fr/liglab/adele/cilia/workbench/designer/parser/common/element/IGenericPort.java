@@ -32,16 +32,9 @@ public interface IGenericPort extends Identifiable, ErrorsAndWarningsFinder {
 	public String getName();
 
 	/**
-	 * Tests if a port is an in port
+	 * Tests the nature of this port : IN or OUT ?
 	 * 
-	 * @return true if it is an in port, false otherwise.
+	 * @return
 	 */
-	public boolean isInPort();
-
-	/**
-	 * Tests if a port is an out port
-	 * 
-	 * @return true if it is an out port, false otherwise.
-	 */
-	public boolean isOutPort();
+	public PortNature getNature();
 }

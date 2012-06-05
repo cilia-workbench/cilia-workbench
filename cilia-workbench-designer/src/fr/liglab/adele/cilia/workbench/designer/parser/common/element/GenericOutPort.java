@@ -21,28 +21,9 @@ package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
  */
 public class GenericOutPort extends GenericPort {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericPort
-	 * #isInPort()
-	 */
 	@Override
-	public boolean isInPort() {
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericPort
-	 * #isOutPort()
-	 */
-	@Override
-	public boolean isOutPort() {
-		return true;
+	public PortNature getNature() {
+		return PortNature.OUT;
 	}
 
 	/*

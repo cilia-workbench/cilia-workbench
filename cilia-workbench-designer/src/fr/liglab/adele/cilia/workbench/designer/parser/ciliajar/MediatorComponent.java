@@ -31,6 +31,7 @@ import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.ComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
@@ -117,7 +118,7 @@ public class MediatorComponent extends NameNamespace implements IMediator, Displ
 	public List<InPort> getInPorts() {
 		List<InPort> retval = new ArrayList<InPort>();
 		for (JarPort p : ports)
-			if (p.isInPort())
+			if (p.getNature() == PortNature.IN)
 				retval.add((InPort) p);
 		return retval;
 	}
@@ -125,7 +126,7 @@ public class MediatorComponent extends NameNamespace implements IMediator, Displ
 	public List<OutPort> getOutPorts() {
 		List<OutPort> retval = new ArrayList<OutPort>();
 		for (JarPort p : ports)
-			if (p.isOutPort())
+			if (p.getNature() == PortNature.OUT)
 				retval.add((OutPort) p);
 		return retval;
 	}
@@ -276,7 +277,7 @@ public class MediatorComponent extends NameNamespace implements IMediator, Displ
 	}
 
 	@Override
-	public Nature getNature() {
-		return Nature.IMPLEM;
+	public ComponentNature getNature() {
+		return ComponentNature.IMPLEM;
 	}
 }

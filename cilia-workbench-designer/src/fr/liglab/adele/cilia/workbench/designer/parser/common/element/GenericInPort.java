@@ -25,34 +25,22 @@ public class GenericInPort extends GenericPort {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericPort
-	 * #isInPort()
-	 */
-	@Override
-	public boolean isInPort() {
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericPort
-	 * #isOutPort()
-	 */
-	@Override
-	public boolean isOutPort() {
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable#getId()
 	 */
 	@Override
 	public Object getId() {
 		return "in:" + getName();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort
+	 * #getNature()
+	 */
+	@Override
+	public PortNature getNature() {
+		return PortNature.IN;
 	}
 }

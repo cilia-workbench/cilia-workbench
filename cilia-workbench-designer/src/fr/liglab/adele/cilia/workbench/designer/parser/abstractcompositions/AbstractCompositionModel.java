@@ -26,11 +26,11 @@ import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.common.misc.SpecImplemAskable.Nature;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.ComponentNatureAskable.ComponentNature;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
@@ -142,9 +142,9 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 	public void createMediator(Chain chain, String id, IMediator type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
-			if (type.getNature() == Nature.SPEC)
+			if (type.getNature() == ComponentNature.SPEC)
 				createComponentInstanceInternal(chain, id, type.getId(), "mediators", MediatorSpec.XML_NODE_NAME);
-			else if (type.getNature() == Nature.IMPLEM)
+			else if (type.getNature() == ComponentNature.IMPLEM)
 				createComponentInstanceInternal(chain, id, type.getId(), "mediators", MediatorInstance.XML_NODE_NAME);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
@@ -153,9 +153,9 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 	public void createAdapter(Chain chain, String id, IAdapter type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
-			if (type.getNature() == Nature.SPEC)
+			if (type.getNature() == ComponentNature.SPEC)
 				throw new RuntimeException("Not yet implemented in spec repository view...");
-			else if (type.getNature() == Nature.IMPLEM)
+			else if (type.getNature() == ComponentNature.IMPLEM)
 				createComponentInstanceInternal(chain, id, type.getId(), "adapters", AdapterInstance.XML_NODE_NAME);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");

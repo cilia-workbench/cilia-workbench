@@ -32,6 +32,7 @@ import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
@@ -124,7 +125,7 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 	public List<InPort> getInPorts() {
 		List<InPort> retval = new ArrayList<InPort>();
 		for (GenericPort p : ports)
-			if (p.isInPort())
+			if (p.getNature() == PortNature.IN)
 				retval.add((InPort) p);
 		return retval;
 	}
@@ -132,7 +133,7 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 	public List<OutPort> getOutPorts() {
 		List<OutPort> retval = new ArrayList<OutPort>();
 		for (GenericPort p : ports)
-			if (p.isOutPort())
+			if (p.getNature() == PortNature.OUT)
 				retval.add((OutPort) p);
 		return retval;
 	}
@@ -204,8 +205,8 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 	}
 
 	@Override
-	public Nature getNature() {
-		return Nature.SPEC;
+	public ComponentNature getNature() {
+		return ComponentNature.SPEC;
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public abstract class GenericAdapter extends NameNamespace implements IAdapter, 
 	}
 
 	@Override
-	public Nature getNature() {
-		return Nature.IMPLEM;
+	public ComponentNature getNature() {
+		return ComponentNature.IMPLEM;
 	}
 }

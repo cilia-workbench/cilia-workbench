@@ -12,24 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.misc;
+package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
 /**
  * For asking objects if they are Specification or implementation.
  * 
  * @author Etienne Gandrille
  */
-public interface SpecImplemAskable {
+public interface ComponentNatureAskable {
 
 	/** Nature posibilities */
-	public enum Nature {
+	public enum ComponentNature {
 
 		SPEC("spec", "specification"), IMPLEM("implem", "implementation");
 
 		private String shortName;
 		private String longName;
 
-		Nature(String shortName, String longName) {
+		ComponentNature(String shortName, String longName) {
 			this.shortName = shortName;
 			this.longName = longName;
 		}
@@ -48,5 +48,5 @@ public interface SpecImplemAskable {
 	 * 
 	 * @return the object nature.
 	 */
-	Nature getNature();
+	ComponentNature getNature();
 }
