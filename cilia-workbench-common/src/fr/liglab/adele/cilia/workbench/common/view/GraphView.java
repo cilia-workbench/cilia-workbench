@@ -37,19 +37,13 @@ import org.eclipse.zest.layouts.algorithms.HorizontalTreeLayoutAlgorithm;
  */
 public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPart, ISelectionListener {
 
-	/** The viewer. */
 	protected GraphViewer viewer;
 
 	public void createPartControl(Composite parent, String viewId) {
-
 		viewer = new GraphViewer(parent, SWT.BORDER);
-
-		// Layout
 		viewer.setLayoutAlgorithm(getLayout(), true);
 		viewer.applyLayout();
-
 		fillToolBar();
-
 		getSite().setSelectionProvider(viewer);
 	}
 
