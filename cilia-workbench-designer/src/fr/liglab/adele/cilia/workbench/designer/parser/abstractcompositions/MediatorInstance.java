@@ -29,8 +29,8 @@ public class MediatorInstance extends MediatorComponent {
 
 	public static final String XML_NODE_NAME = "mediator-instance";
 
-	public MediatorInstance(Node node) throws CiliaException {
-		super(node);
+	public MediatorInstance(Node node, Chain parent) throws CiliaException {
+		super(node, parent);
 	}
 
 	@Override

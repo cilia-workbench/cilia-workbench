@@ -51,14 +51,17 @@ public abstract class Component implements DisplayedInPropertiesView, ErrorsAndW
 	 */
 	private String namespace;
 
+	private Chain chain;
+
 	public static final String XML_ATTR_ID = "id";
 	public static final String XML_ATTR_TYPE = "type";
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	public Component(Node node) throws CiliaException {
+	public Component(Node node, Chain parent) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "id");
 		ReflectionUtil.setAttribute(node, XML_ATTR_TYPE, this, "type");
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
+		this.chain = parent;
 	}
 
 	@Override
@@ -69,6 +72,10 @@ public abstract class Component implements DisplayedInPropertiesView, ErrorsAndW
 	@Override
 	public String toString() {
 		return id;
+	}
+
+	public Chain getChain() {
+		return chain;
 	}
 
 	public NameNamespaceID getReferencedTypeID() {

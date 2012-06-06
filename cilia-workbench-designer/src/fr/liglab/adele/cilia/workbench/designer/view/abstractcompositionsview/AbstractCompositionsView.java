@@ -53,7 +53,7 @@ public class AbstractCompositionsView extends RepositoryView<AbstractComposition
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 
-		viewer.setLabelProvider(new DsciliaLabelProvider());
+		viewer.setLabelProvider(new AbstractCompoistionLabelProvider());
 
 		// TreeViewer listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {

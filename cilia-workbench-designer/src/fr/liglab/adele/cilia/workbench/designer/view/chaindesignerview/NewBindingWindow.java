@@ -34,6 +34,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Adap
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
@@ -62,6 +63,10 @@ public class NewBindingWindow extends Dialog {
 
 	private Combo dstPortCombo;
 
+	private Combo srcCardinalityCombo;
+
+	private Combo dstCardinalityCombo;
+
 	private Label messageArea;
 
 	private final IntegrityListener iListener = new IntegrityListener();
@@ -70,6 +75,8 @@ public class NewBindingWindow extends Dialog {
 	private String dstElem;
 	private String srcPort;
 	private String dstPort;
+	private String srcCardinality;
+	private String dstCardinality;
 
 	protected NewBindingWindow(Shell parentShell, Chain chain) {
 		super(parentShell);
@@ -159,6 +166,27 @@ public class NewBindingWindow extends Dialog {
 		dstPortCombo = new Combo(container, SWT.READ_ONLY);
 		dstPortCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
+		// Cardinalities
+		Label label6 = new Label(container, SWT.WRAP);
+		label6.setText("Cardinalities");
+		label6.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+
+		// Source cardinality
+		srcCardinalityCombo = new Combo(container, SWT.READ_ONLY);
+		srcCardinalityCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+
+		// Destination cardinality
+		dstCardinalityCombo = new Combo(container, SWT.READ_ONLY);
+		dstCardinalityCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+
+		// populating
+		for (Cardinality c : Cardinality.values()) {
+			srcCardinalityCombo.add(c.stringId());
+			dstCardinalityCombo.add(c.stringId());
+		}
+		srcCardinalityCombo.select(2); // 1...1
+		dstCardinalityCombo.select(2); // 1...1
+
 		// Message Area
 		messageArea = new Label(container, SWT.WRAP);
 		messageArea.setText("");
@@ -169,6 +197,8 @@ public class NewBindingWindow extends Dialog {
 		dstElemCombo.addModifyListener(iListener);
 		srcPortCombo.addModifyListener(iListener);
 		dstPortCombo.addModifyListener(iListener);
+		srcCardinalityCombo.addModifyListener(iListener);
+		dstCardinalityCombo.addModifyListener(iListener);
 		srcElemCombo.addModifyListener(new ComboUpdate(srcElemCombo, srcPortCombo, SRC_COLUMN));
 		dstElemCombo.addModifyListener(new ComboUpdate(dstElemCombo, dstPortCombo, DST_COLUMN));
 
@@ -189,6 +219,14 @@ public class NewBindingWindow extends Dialog {
 
 	public String getDstPort() {
 		return dstPort;
+	}
+
+	public Cardinality getSrcCardinality() {
+		return Cardinality.getCardinality(srcCardinality);
+	}
+
+	public Cardinality getDstCardinality() {
+		return Cardinality.getCardinality(dstCardinality);
 	}
 
 	/*
@@ -220,7 +258,7 @@ public class NewBindingWindow extends Dialog {
 	 * @see org.eclipse.jface.dialogs.Dialog#getInitialSize()
 	 */
 	protected Point getInitialSize() {
-		return new Point(550, 250);
+		return new Point(550, 300);
 	}
 
 	/*
@@ -237,6 +275,8 @@ public class NewBindingWindow extends Dialog {
 		dstElem = dstElemCombo.getText();
 		srcPort = srcPortCombo.getText();
 		dstPort = dstPortCombo.getText();
+		srcCardinality = srcCardinalityCombo.getText();
+		dstCardinality = dstCardinalityCombo.getText();
 	}
 
 	private class IntegrityListener implements ModifyListener {

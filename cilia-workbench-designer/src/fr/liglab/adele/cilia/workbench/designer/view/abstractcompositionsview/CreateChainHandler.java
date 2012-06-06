@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsserv
  * 
  * @author Etienne Gandrille
  */
-public class CreateChainHandler extends DsciliaViewHandler {
+public class CreateChainHandler extends AbstractCompoistionViewHandler {
 
 	/*
 	 * (non-Javadoc)

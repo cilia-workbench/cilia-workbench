@@ -25,8 +25,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
  */
 public abstract class AdapterComponent extends Component {
 
-	public AdapterComponent(Node node) throws CiliaException {
-		super(node);
+	public AdapterComponent(Node node, Chain parent) throws CiliaException {
+		super(node, parent);
 	}
 
 	public abstract IAdapter getReferencedObject();

@@ -17,6 +17,9 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
@@ -56,10 +59,33 @@ public class GraphLabelProvider extends LabelProvider {
 		} else if (isCompatible(obj, MediatorComponent.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
 		else if (isCompatible(obj, EntityConnectionData.class))
-			imageName = ImageDescriptorEnum.NOTHING;
+			imageName = ImageDescriptorEnum.ONLY_TEXT;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());
 
 		return imageName;
 	}
+
+	@Override
+	public String getText(Object element) {
+		String defval = super.getText(element);
+
+		if (isCompatible(element, EntityConnectionData.class)) {
+			EntityConnectionData ecd = (EntityConnectionData) element;
+			Component src = (Component) ecd.source;
+			Component dst = (Component) ecd.dest;
+			Chain chain = src.getChain();
+			Binding binding = chain.getBinding(src, dst);
+
+			if (binding == null)
+				return "";
+			else {
+				String from = binding.getFromCardinality().stringId();
+				String to = binding.getToCardinality().stringId();
+				return from + " --> " + to;
+			}
+		} else
+			return defval;
+	}
+
 }

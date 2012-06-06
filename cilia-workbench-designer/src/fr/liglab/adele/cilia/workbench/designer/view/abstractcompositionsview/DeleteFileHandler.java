@@ -22,7 +22,7 @@ import org.eclipse.core.commands.ExecutionException;
  * 
  * @author Etienne Gandrille
  */
-public class DeleteFileHandler extends DsciliaViewHandler {
+public class DeleteFileHandler extends AbstractCompoistionViewHandler {
 
 	/*
 	 * (non-Javadoc)

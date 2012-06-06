@@ -28,9 +28,10 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.ComponentNatureAskable.ComponentNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.ComponentNatureAskable.ComponentNature;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
@@ -183,8 +184,8 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		AbstractCompositionsRepoService.getInstance().updateModel();
 	}
 
-	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort)
-			throws CiliaException {
+	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort,
+			Cardinality srcCard, Cardinality dstCard) throws CiliaException {
 		if (chain.isNewBindingAllowed(srcElem, srcPort, dstElem, dstPort) == null) {
 
 			String from;
@@ -207,6 +208,8 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			Element child = document.createElement("binding");
 			child.setAttribute("from", from);
 			child.setAttribute("to", to);
+			child.setAttribute("from-cardinality", srcCard.stringId());
+			child.setAttribute("to-cardinality", dstCard.stringId());
 			componentNode.appendChild(child);
 
 			// Write it back to file system

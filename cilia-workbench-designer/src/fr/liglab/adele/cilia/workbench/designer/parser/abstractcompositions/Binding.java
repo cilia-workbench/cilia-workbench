@@ -25,7 +25,9 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
@@ -40,10 +42,16 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 
 	private String from;
 	private String to;
+	private Cardinality fromCardinality;
+	private Cardinality toCardinality;
 
 	public Binding(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, "from", this, "from");
 		ReflectionUtil.setAttribute(node, "to", this, "to");
+		String fc = XMLHelpers.findAttributeValue(node, "from-cardinality");
+		fromCardinality = Cardinality.getCardinality(fc);
+		String tc = XMLHelpers.findAttributeValue(node, "to-cardinality");
+		toCardinality = Cardinality.getCardinality(tc);
 	}
 
 	public String getSourceId() {
@@ -60,6 +68,14 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 
 	public String getDestinationPort() {
 		return XMLStringUtil.getAfterSeparatorOrNothing(to);
+	}
+
+	public Cardinality getFromCardinality() {
+		return fromCardinality;
+	}
+
+	public Cardinality getToCardinality() {
+		return toCardinality;
 	}
 
 	public String getSource() {

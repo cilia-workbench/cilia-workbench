@@ -22,7 +22,7 @@ import org.eclipse.core.commands.ExecutionException;
  * 
  * @author Etienne Gandrille
  */
-public class CreateFileHandler extends DsciliaViewHandler {
+public class CreateFileHandler extends AbstractCompoistionViewHandler {
 
 	/*
 	 * (non-Javadoc)

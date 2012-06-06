@@ -25,8 +25,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
  */
 public abstract class MediatorComponent extends Component {
 
-	public MediatorComponent(Node node) throws CiliaException {
-		super(node);
+	public MediatorComponent(Node node, Chain parent) throws CiliaException {
+		super(node, parent);
 	}
 
 	public abstract IMediator getReferencedObject();

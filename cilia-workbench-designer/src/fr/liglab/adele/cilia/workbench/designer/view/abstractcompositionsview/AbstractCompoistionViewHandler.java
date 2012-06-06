@@ -21,12 +21,12 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryVi
  * 
  * @author Etienne Gandrille
  */
-public abstract class DsciliaViewHandler extends RepositoryViewHandler {
+public abstract class AbstractCompoistionViewHandler extends RepositoryViewHandler {
 
 	/**
 	 * Instantiates a new dscilia handler, providing the view ID to the super class.
 	 */
-	public DsciliaViewHandler() {
+	public AbstractCompoistionViewHandler() {
 		super(AbstractCompositionsView.VIEW_ID);
 	}
 }

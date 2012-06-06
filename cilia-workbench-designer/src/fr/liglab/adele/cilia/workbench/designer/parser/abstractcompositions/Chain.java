@@ -63,15 +63,15 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 		Node rootAdapters = XMLHelpers.findChild(node, "adapters");
 		if (rootAdapters != null) {
 			for (Node instance : XMLHelpers.findChildren(rootAdapters, AdapterInstance.XML_NODE_NAME))
-				adapters.add(new AdapterInstance(instance));
+				adapters.add(new AdapterInstance(instance, this));
 		}
 
 		Node rootMediators = XMLHelpers.findChild(node, "mediators");
 		if (rootMediators != null) {
 			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorInstance.XML_NODE_NAME))
-				mediators.add(new MediatorInstance(instance));
+				mediators.add(new MediatorInstance(instance, this));
 			for (Node spec : XMLHelpers.findChildren(rootMediators, MediatorSpec.XML_NODE_NAME))
-				mediators.add(new MediatorSpec(spec));
+				mediators.add(new MediatorSpec(spec, this));
 		}
 
 		Node rootBindings = XMLHelpers.findChild(node, "bindings");
@@ -91,6 +91,15 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 
 	public List<Binding> getBindings() {
 		return bindings;
+	}
+
+	public Binding getBinding(Component source, Component dest) {
+		for (Binding b : bindings) {
+			if (b.getSourceId().equals(source.getId()) && b.getDestinationId().equals(dest.getId()))
+				return b;
+		}
+
+		return null;
 	}
 
 	public Component[] getDestinations(Component component) {

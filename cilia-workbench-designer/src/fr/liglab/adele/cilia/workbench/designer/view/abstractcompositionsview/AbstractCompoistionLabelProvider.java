@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvide
  * 
  * @author Etienne Gandrille
  */
-public class DsciliaLabelProvider extends LabelProvider {
+public class AbstractCompoistionLabelProvider extends LabelProvider {
 
 	/*
 	 * (non-Javadoc)

@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsserv
  * 
  * @author Etienne Gandrille
  */
-public class DeleteChainHandler extends DsciliaViewHandler {
+public class DeleteChainHandler extends AbstractCompoistionViewHandler {
 
 	/*
 	 * (non-Javadoc)

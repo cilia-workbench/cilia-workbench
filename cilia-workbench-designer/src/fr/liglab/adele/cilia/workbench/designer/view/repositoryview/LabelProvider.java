@@ -57,10 +57,11 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 	 * @author Etienne Gandrille
 	 */
 	public enum ImageDescriptorEnum {
-		NOTHING(null), FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT("adapterOut.png"), REPOSITORY(
-				"repo.png"), MEDIATOR("mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR("processor.png"), DISPATCHER(
-				"dispatcher.png"), COLLECTOR("collector.png"), SENDER("sender.png"), PORT_IN("portIn.png"), PORT_OUT(
-				"portOut.png"), PROPERTY("property.png"), BINDING("binding.png"), SUPER_TYPE("super-type.png");
+		NOTHING(null), ONLY_TEXT(null), FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT(
+				"adapterOut.png"), REPOSITORY("repo.png"), MEDIATOR("mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR(
+				"processor.png"), DISPATCHER("dispatcher.png"), COLLECTOR("collector.png"), SENDER("sender.png"), PORT_IN(
+				"portIn.png"), PORT_OUT("portOut.png"), PROPERTY("property.png"), BINDING("binding.png"), SUPER_TYPE(
+				"super-type.png");
 
 		/** Path to find the physical image in the bundle */
 		private String fileName;
