@@ -26,7 +26,6 @@ import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
 import org.eclipse.zest.core.viewers.ZoomContributionViewItem;
-import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.HorizontalTreeLayoutAlgorithm;
@@ -45,12 +44,8 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 
 		viewer = new GraphViewer(parent, SWT.BORDER);
 
-		// Connection style MUST be set at the beginning
-		viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED);
-
 		// Layout
-		LayoutAlgorithm layout = getLayout();
-		viewer.setLayoutAlgorithm(layout, true);
+		viewer.setLayoutAlgorithm(getLayout(), true);
 		viewer.applyLayout();
 
 		fillToolBar();

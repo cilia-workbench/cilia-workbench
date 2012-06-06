@@ -14,7 +14,13 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
+import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
+import org.eclipse.zest.core.widgets.ZestStyles;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
@@ -29,7 +35,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvide
  * 
  * @author Etienne Gandrille
  */
-public class GraphLabelProvider extends LabelProvider {
+public class GraphLabelProvider extends LabelProvider implements IConnectionStyleProvider {
 
 	/*
 	 * (non-Javadoc)
@@ -88,4 +94,29 @@ public class GraphLabelProvider extends LabelProvider {
 			return defval;
 	}
 
+	@Override
+	public int getConnectionStyle(Object rel) {
+		return ZestStyles.CONNECTIONS_DIRECTED;
+	}
+
+	@Override
+	public Color getColor(Object rel) {
+		return Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+	}
+
+	@Override
+	public Color getHighlightColor(Object rel) {
+		return Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
+	}
+
+	@Override
+	public int getLineWidth(Object rel) {
+		return 2; // -1 = default value
+	}
+
+	@Override
+	public IFigure getTooltip(Object entity) {
+		// return new Label("something");
+		return null;
+	}
 }
