@@ -31,6 +31,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -121,7 +122,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	public List<GenericAdapter> getInAdapters() {
 		List<GenericAdapter> retval = new ArrayList<GenericAdapter>();
 		for (GenericAdapter a : getAdapters())
-			if (a.isInAdapter())
+			if (a.getType() == AdapterType.IN)
 				retval.add(a);
 
 		return retval;
@@ -130,7 +131,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	public List<GenericAdapter> getOutAdapters() {
 		List<GenericAdapter> retval = new ArrayList<GenericAdapter>();
 		for (GenericAdapter a : getAdapters())
-			if (a.isOutAdapter())
+			if (a.getType() == AdapterType.OUT)
 				retval.add(a);
 
 		return retval;

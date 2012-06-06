@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
+
 /**
  * 
  * @author Etienne Gandrille
@@ -23,13 +24,8 @@ public class GenericOutAdapter extends GenericAdapter {
 	String sender;
 
 	@Override
-	public boolean isInAdapter() {
-		return false;
-	}
-
-	@Override
-	public boolean isOutAdapter() {
-		return true;
+	public AdapterType getType() {
+		return AdapterType.OUT;
 	}
 
 	public String getSender() {

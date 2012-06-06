@@ -23,19 +23,11 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
  */
 public interface IAdapter extends IComponent, Identifiable {
 
-	/**
-	 * Tests if an adapter is an in adapter
-	 * 
-	 * @return true if it is an in adapter, false otherwise.
-	 */
-	public abstract boolean isInAdapter();
+	public enum AdapterType {
+		IN, OUT;
+	}
 
-	/**
-	 * Tests if an adapter is an out adapter
-	 * 
-	 * @return true if it is an out adapter, false otherwise.
-	 */
-	public abstract boolean isOutAdapter();
+	public abstract AdapterType getType();
 
 	public NameNamespaceID getId();
 }

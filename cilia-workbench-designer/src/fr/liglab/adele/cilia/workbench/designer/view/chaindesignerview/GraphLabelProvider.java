@@ -27,6 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Bind
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
@@ -56,7 +57,7 @@ public class GraphLabelProvider extends LabelProvider implements IConnectionStyl
 		if (isCompatible(obj, AdapterComponent.class)) {
 			AdapterComponent adapter = (AdapterComponent) obj;
 			if (adapter.getReferencedObject() != null) {
-				if (adapter.getReferencedObject().isInAdapter())
+				if (adapter.getReferencedObject().getType() == AdapterType.IN)
 					imageName = ImageDescriptorEnum.ADAPTER_IN;
 				else
 					imageName = ImageDescriptorEnum.ADAPTER_OUT;

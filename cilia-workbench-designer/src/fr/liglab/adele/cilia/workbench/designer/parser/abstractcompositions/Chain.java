@@ -30,6 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
@@ -231,13 +232,13 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 
 		if (src instanceof IAdapter) {
 			IAdapter adapter = (IAdapter) src;
-			if (adapter.isOutAdapter())
+			if (adapter.getType() == AdapterType.OUT)
 				return srcElem + " is an out-adapter. It can't be a binding source.";
 		}
 
 		if (dst instanceof IAdapter) {
 			IAdapter adapter = (IAdapter) dst;
-			if (adapter.isInAdapter())
+			if (adapter.getType() == AdapterType.IN)
 				return dstElem + " is an in-adapter. It can't be a binding destination.";
 		}
 
@@ -266,7 +267,7 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 			try {
 				IComponent src = getReferencedComponent(b.getSourceId());
 				if (src instanceof IAdapter) {
-					if (((IAdapter) src).isOutAdapter())
+					if (((IAdapter) src).getType() == AdapterType.OUT)
 						list.add(new CiliaError("Binding " + b + " has its source connected to an out adapter", this));
 					else if (!Strings.isNullOrEmpty(b.getSourcePort()))
 						list.add(new CiliaError("Binding " + b
@@ -293,7 +294,7 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 			try {
 				IComponent dst = getReferencedComponent(b.getDestinationId());
 				if (dst instanceof IAdapter) {
-					if (((IAdapter) dst).isInAdapter())
+					if (((IAdapter) dst).getType() == AdapterType.IN)
 						list.add(new CiliaError("Binding " + b + " has its dstination connected to an in adapter", this));
 					else if (!Strings.isNullOrEmpty(b.getDestinationPort()))
 						list.add(new CiliaError("Binding " + b

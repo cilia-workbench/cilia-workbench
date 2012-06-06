@@ -36,6 +36,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Comp
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 
@@ -143,9 +144,9 @@ public class NewBindingWindow extends Dialog {
 			if (adapter == null) {
 				srcElemCombo.add(item.getId());
 				dstElemCombo.add(item.getId());
-			} else if (adapter.isInAdapter()) {
+			} else if (adapter.getType() == AdapterType.IN) {
 				srcElemCombo.add(item.getId());
-			} else if (adapter.isOutAdapter()) {
+			} else if (adapter.getType() == AdapterType.OUT) {
 				dstElemCombo.add(item.getId());
 			} else {
 				srcElemCombo.add(item.getId());

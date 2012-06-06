@@ -23,13 +23,8 @@ public class GenericInAdapter extends GenericAdapter {
 	String collector;
 
 	@Override
-	public boolean isInAdapter() {
-		return true;
-	}
-
-	@Override
-	public boolean isOutAdapter() {
-		return false;
+	public AdapterType getType() {
+		return AdapterType.IN;
 	}
 
 	public String getCollector() {
