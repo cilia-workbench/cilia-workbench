@@ -29,10 +29,10 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
@@ -52,8 +52,8 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 	public static final String XML_ATTR_ID = "id";
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	private List<AdapterComponent> adapters = new ArrayList<AdapterComponent>();
-	private List<MediatorComponent> mediators = new ArrayList<MediatorComponent>();
+	private List<AdapterRef> adapters = new ArrayList<AdapterRef>();
+	private List<MediatorRef> mediators = new ArrayList<MediatorRef>();
 	private List<Binding> bindings = new ArrayList<Binding>();
 
 	public Chain(Node node) throws CiliaException {
@@ -62,16 +62,16 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 
 		Node rootAdapters = XMLHelpers.findChild(node, "adapters");
 		if (rootAdapters != null) {
-			for (Node instance : XMLHelpers.findChildren(rootAdapters, AdapterInstance.XML_NODE_NAME))
-				adapters.add(new AdapterInstance(instance, this));
+			for (Node instance : XMLHelpers.findChildren(rootAdapters, AdapterInstanceRef.XML_NODE_NAME))
+				adapters.add(new AdapterInstanceRef(instance, this));
 		}
 
 		Node rootMediators = XMLHelpers.findChild(node, "mediators");
 		if (rootMediators != null) {
-			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorInstance.XML_NODE_NAME))
-				mediators.add(new MediatorInstance(instance, this));
-			for (Node spec : XMLHelpers.findChildren(rootMediators, MediatorSpec.XML_NODE_NAME))
-				mediators.add(new MediatorSpec(spec, this));
+			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorInstanceRef.XML_NODE_NAME))
+				mediators.add(new MediatorInstanceRef(instance, this));
+			for (Node spec : XMLHelpers.findChildren(rootMediators, MediatorSpecRef.XML_NODE_NAME))
+				mediators.add(new MediatorSpecRef(spec, this));
 		}
 
 		Node rootBindings = XMLHelpers.findChild(node, "bindings");
@@ -81,11 +81,11 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 		}
 	}
 
-	public List<AdapterComponent> getAdapters() {
+	public List<AdapterRef> getAdapters() {
 		return adapters;
 	}
 
-	public List<MediatorComponent> getMediators() {
+	public List<MediatorRef> getMediators() {
 		return mediators;
 	}
 
@@ -93,23 +93,23 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 		return bindings;
 	}
 
-	public Component getComponent(String componentId) {
-		for (AdapterComponent adapter : adapters)
+	public ComponentRef getComponent(String componentId) {
+		for (AdapterRef adapter : adapters)
 			if (adapter.getId().equals(componentId))
 				return adapter;
-		for (MediatorComponent mediator : mediators)
+		for (MediatorRef mediator : mediators)
 			if (mediator.getId().equals(componentId))
 				return mediator;
 		return null;
 	}
 
-	public Component[] getComponents() {
-		List<Component> retval = new ArrayList<Component>();
-		for (AdapterComponent adapter : adapters)
+	public ComponentRef[] getComponents() {
+		List<ComponentRef> retval = new ArrayList<ComponentRef>();
+		for (AdapterRef adapter : adapters)
 			retval.add(adapter);
-		for (MediatorComponent mediator : mediators)
+		for (MediatorRef mediator : mediators)
 			retval.add(mediator);
-		return retval.toArray(new Component[0]);
+		return retval.toArray(new ComponentRef[0]);
 	}
 
 	@Override
@@ -161,24 +161,24 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 		if (Strings.isNullOrEmpty(chainComponentID))
 			throw new CiliaException("id is null or empty");
 
-		Component component = getComponent(chainComponentID);
+		ComponentRef component = getComponent(chainComponentID);
 		if (component == null)
 			throw new CiliaException("can't find component with id " + chainComponentID);
 
 		NameNamespaceID referencedID = component.getReferencedTypeID();
-		if (component instanceof AdapterInstance) {
-			IAdapter adapterInstance = JarRepoService.getInstance().getAdapterForChain(referencedID);
+		if (component instanceof AdapterInstanceRef) {
+			IGenericAdapter adapterInstance = JarRepoService.getInstance().getAdapterForChain(referencedID);
 			if (adapterInstance == null)
 				throw new CiliaException("Adapter " + chainComponentID + " doesn't reference a valid adapter instance.");
 			return adapterInstance;
-		} else if (component instanceof MediatorSpec) {
-			IMediator mediatorSpec = SpecRepoService.getInstance().getMediatorForChain(referencedID);
+		} else if (component instanceof MediatorSpecRef) {
+			IGenericMediator mediatorSpec = SpecRepoService.getInstance().getMediatorForChain(referencedID);
 			if (mediatorSpec == null)
 				throw new CiliaException("Mediator " + chainComponentID
 						+ " doesn't reference a valid mediator instance.");
 			return mediatorSpec;
-		} else if (component instanceof MediatorInstance) {
-			IMediator mediatorInstance = JarRepoService.getInstance().getMediatorForChain(referencedID);
+		} else if (component instanceof MediatorInstanceRef) {
+			IGenericMediator mediatorInstance = JarRepoService.getInstance().getMediatorForChain(referencedID);
 			if (mediatorInstance == null)
 				throw new CiliaException("Mediator " + chainComponentID
 						+ " doesn't reference a valid mediator specification.");
@@ -202,14 +202,14 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 			return e.getMessage();
 		}
 
-		if (src instanceof IAdapter) {
-			IAdapter adapter = (IAdapter) src;
+		if (src instanceof IGenericAdapter) {
+			IGenericAdapter adapter = (IGenericAdapter) src;
 			if (adapter.getType() == AdapterType.OUT)
 				return srcElem + " is an out-adapter. It can't be a binding source.";
 		}
 
-		if (dst instanceof IAdapter) {
-			IAdapter adapter = (IAdapter) dst;
+		if (dst instanceof IGenericAdapter) {
+			IGenericAdapter adapter = (IGenericAdapter) dst;
 			if (adapter.getType() == AdapterType.IN)
 				return dstElem + " is an in-adapter. It can't be a binding destination.";
 		}
@@ -225,7 +225,7 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 		for (CiliaFlag flag : tab)
 			list.add(flag);
 
-		for (Component c : getComponents()) {
+		for (ComponentRef c : getComponents()) {
 			try {
 				getReferencedComponent(c.getId());
 			} catch (CiliaException e) {

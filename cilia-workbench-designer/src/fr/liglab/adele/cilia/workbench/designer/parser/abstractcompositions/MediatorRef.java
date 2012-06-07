@@ -17,26 +17,36 @@ package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class AdapterInstance extends AdapterComponent {
+public abstract class MediatorRef extends ComponentRef {
 
-	public static final String XML_NODE_NAME = "adapter-instance";
-
-	public AdapterInstance(Node node, Chain parent) throws CiliaException {
+	public MediatorRef(Node node, Chain parent) throws CiliaException {
 		super(node, parent);
 	}
 
+	public abstract IGenericMediator getReferencedObject();
+
 	@Override
-	public IAdapter getReferencedObject() {
-		NameNamespaceID id = getReferencedTypeID();
-		return JarRepoService.getInstance().getAdapterForChain(id);
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
+
+		CiliaError e1 = null;
+		CiliaError e2 = null;
+
+		if (getIncommingBindings().length == 0)
+			e1 = new CiliaError(this + " doesn't have an incomming binding", this);
+
+		if (getOutgoingBindings().length == 0)
+			e2 = new CiliaError(this + " doesn't have an outgoing binding", this);
+
+		return CiliaFlag.generateTab(tab, e1, e2);
 	}
 
 }

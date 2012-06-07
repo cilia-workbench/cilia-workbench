@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
@@ -42,7 +42,7 @@ public class DeleteAdapterHandler extends ChainDesignerHandler {
 			if (window.open() == Window.OK) {
 				Object[] objects = window.getResult();
 				if (objects.length != 0) {
-					AdapterComponent component = (AdapterComponent) objects[0];
+					AdapterRef component = (AdapterRef) objects[0];
 					try {
 						AbstractCompositionsRepoService.getInstance().deleteComponent(chain, component);
 					} catch (Exception e) {

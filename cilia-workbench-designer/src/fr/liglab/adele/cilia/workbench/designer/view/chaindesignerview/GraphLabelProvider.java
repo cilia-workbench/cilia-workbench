@@ -22,11 +22,11 @@ import org.eclipse.zest.core.viewers.EntityConnectionData;
 import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
 import org.eclipse.zest.core.widgets.ZestStyles;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
@@ -53,8 +53,8 @@ public class GraphLabelProvider extends LabelProvider implements IConnectionStyl
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 
 		ImageDescriptorEnum imageName;
-		if (isCompatible(obj, AdapterComponent.class)) {
-			AdapterComponent adapter = (AdapterComponent) obj;
+		if (isCompatible(obj, AdapterRef.class)) {
+			AdapterRef adapter = (AdapterRef) obj;
 			if (adapter.getReferencedObject() != null) {
 				if (adapter.getReferencedObject().getType() == AdapterType.IN)
 					imageName = ImageDescriptorEnum.ADAPTER_IN;
@@ -62,7 +62,7 @@ public class GraphLabelProvider extends LabelProvider implements IConnectionStyl
 					imageName = ImageDescriptorEnum.ADAPTER_OUT;
 			} else
 				imageName = ImageDescriptorEnum.ADAPTER_IN;
-		} else if (isCompatible(obj, MediatorComponent.class))
+		} else if (isCompatible(obj, MediatorRef.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
 		else if (isCompatible(obj, EntityConnectionData.class))
 			imageName = ImageDescriptorEnum.ONLY_TEXT;
@@ -78,8 +78,8 @@ public class GraphLabelProvider extends LabelProvider implements IConnectionStyl
 
 		if (isCompatible(element, EntityConnectionData.class)) {
 			EntityConnectionData ecd = (EntityConnectionData) element;
-			Component src = (Component) ecd.source;
-			Component dst = (Component) ecd.dest;
+			ComponentRef src = (ComponentRef) ecd.source;
+			ComponentRef dst = (ComponentRef) ecd.dest;
 			Binding binding = src.getOutgoingBinding(dst);
 
 			if (binding == null)

@@ -27,6 +27,6 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
 public class InAdapter extends GenericInAdapter implements DisplayedInPropertiesView {
 
 	public InAdapter(Node node) throws CiliaException {
-		AdapterFactory.initAdapter(node, this, "collector");
+		AdapterUtil.initAdapter(node, this, "collector");
 	}
 }

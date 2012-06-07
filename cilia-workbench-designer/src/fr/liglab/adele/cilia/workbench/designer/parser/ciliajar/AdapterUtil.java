@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAda
  * 
  * @author Etienne Gandrille
  */
-public class AdapterFactory {
+public class AdapterUtil {
 
 	private static String IN_PATTERN = "in-only";
 	private static String OUT_PATTERN = "out-only";

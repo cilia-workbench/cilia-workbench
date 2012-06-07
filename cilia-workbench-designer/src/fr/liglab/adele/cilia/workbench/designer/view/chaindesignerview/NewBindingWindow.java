@@ -30,15 +30,15 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.base.Preconditions;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
 
 /**
  * 
@@ -135,12 +135,12 @@ public class NewBindingWindow extends Dialog {
 		dstElemCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// populating
-		for (MediatorComponent item : chain.getMediators()) {
+		for (MediatorRef item : chain.getMediators()) {
 			srcElemCombo.add(item.getId());
 			dstElemCombo.add(item.getId());
 		}
-		for (AdapterComponent item : chain.getAdapters()) {
-			IAdapter adapter = item.getReferencedObject();
+		for (AdapterRef item : chain.getAdapters()) {
+			IGenericAdapter adapter = item.getReferencedObject();
 			if (adapter == null) {
 				srcElemCombo.add(item.getId());
 				dstElemCombo.add(item.getId());
@@ -317,17 +317,17 @@ public class NewBindingWindow extends Dialog {
 		public void modifyText(ModifyEvent e) {
 			comboPort.removeAll();
 
-			Component i = chain.getComponent(comboElem.getText());
+			ComponentRef i = chain.getComponent(comboElem.getText());
 
 			// adapter
-			if (i instanceof AdapterComponent) {
+			if (i instanceof AdapterRef) {
 				comboPort.setEnabled(false);
 			}
 
 			// mediator
-			if (i instanceof MediatorComponent) {
+			if (i instanceof MediatorRef) {
 				comboPort.setEnabled(true);
-				IMediator mediator = ((MediatorComponent) i).getReferencedObject();
+				IGenericMediator mediator = ((MediatorRef) i).getReferencedObject();
 				if (portType.equals(DST_COLUMN)) {
 					for (IGenericPort port : mediator.getInPorts())
 						comboPort.add(port.getName());

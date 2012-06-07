@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInP
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericOutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort.PortNature;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.ComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
@@ -44,7 +44,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class MediatorComponent extends NameNamespace implements IMediator, DisplayedInPropertiesView {
+public class MediatorComponent extends NameNamespace implements IGenericMediator, DisplayedInPropertiesView {
 
 	private final SuperMediator spec;
 

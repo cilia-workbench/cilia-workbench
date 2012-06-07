@@ -18,25 +18,25 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpec extends MediatorComponent {
+public class AdapterInstanceRef extends AdapterRef {
 
-	public static final String XML_NODE_NAME = "mediator-specification";
+	public static final String XML_NODE_NAME = "adapter-instance";
 
-	public MediatorSpec(Node node, Chain parent) throws CiliaException {
+	public AdapterInstanceRef(Node node, Chain parent) throws CiliaException {
 		super(node, parent);
 	}
 
 	@Override
-	public IMediator getReferencedObject() {
+	public IGenericAdapter getReferencedObject() {
 		NameNamespaceID id = getReferencedTypeID();
-		return SpecRepoService.getInstance().getMediatorForChain(id);
+		return JarRepoService.getInstance().getAdapterForChain(id);
 	}
 
 }

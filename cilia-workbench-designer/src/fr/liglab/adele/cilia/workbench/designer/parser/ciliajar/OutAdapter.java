@@ -27,6 +27,6 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
 public class OutAdapter extends GenericOutAdapter implements DisplayedInPropertiesView {
 
 	public OutAdapter(Node node) throws CiliaException {
-		AdapterFactory.initAdapter(node, this, "sender");
+		AdapterUtil.initAdapter(node, this, "sender");
 	}
 }

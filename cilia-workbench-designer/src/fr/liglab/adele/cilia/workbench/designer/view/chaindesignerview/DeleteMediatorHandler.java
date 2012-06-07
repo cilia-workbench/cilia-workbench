@@ -24,7 +24,7 @@ import org.eclipse.ui.dialogs.ListDialog;
 
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
@@ -42,7 +42,7 @@ public class DeleteMediatorHandler extends ChainDesignerHandler {
 			if (window.open() == Window.OK) {
 				Object[] objects = window.getResult();
 				if (objects.length != 0) {
-					MediatorComponent component = (MediatorComponent) objects[0];
+					MediatorRef component = (MediatorRef) objects[0];
 					try {
 						AbstractCompositionsRepoService.getInstance().deleteComponent(chain, component);
 					} catch (Exception e) {

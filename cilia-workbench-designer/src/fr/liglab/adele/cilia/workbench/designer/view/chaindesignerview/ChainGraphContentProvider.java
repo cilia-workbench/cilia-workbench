@@ -22,7 +22,7 @@ import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
 
 /**
  * Content provider for graph renderer.
@@ -40,11 +40,11 @@ public class ChainGraphContentProvider extends ArrayContentProvider implements I
 	public Object[] getConnectedTo(Object entity) {
 		List<Object> retval = new ArrayList<Object>();
 
-		if (model != null && entity instanceof Component) {
-			Component component = (Component) entity;
+		if (model != null && entity instanceof ComponentRef) {
+			ComponentRef component = (ComponentRef) entity;
 			Binding[] bindings = component.getOutgoingBindings();
 			for (Binding binding : bindings) {
-				Object ro = binding.getDestinationReferencedObject();
+				ComponentRef ro = binding.getDestinationComponent();
 				if (ro != null)
 					retval.add(ro);
 			}

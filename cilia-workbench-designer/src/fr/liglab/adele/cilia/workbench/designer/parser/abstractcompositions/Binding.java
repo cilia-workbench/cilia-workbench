@@ -30,8 +30,8 @@ import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
@@ -84,23 +84,23 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 		return toCardinality;
 	}
 
-	public Component getSourceComponent() {
+	public ComponentRef getSourceComponent() {
 		return chain.getComponent(getSourceId());
 	}
 
-	public Component getDestinationComponent() {
+	public ComponentRef getDestinationComponent() {
 		return chain.getComponent(getDestinationId());
 	}
 
 	public Object getSourceReferencedObject() {
-		Component component = getSourceComponent();
+		ComponentRef component = getSourceComponent();
 		if (component == null)
 			return null;
 		return component.getReferencedObject();
 	}
 
 	public Object getDestinationReferencedObject() {
-		Component component = getDestinationComponent();
+		ComponentRef component = getDestinationComponent();
 		if (component == null)
 			return null;
 		return component.getReferencedObject();
@@ -123,14 +123,14 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 	public CiliaFlag[] getErrorsAndWarnings() {
 		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
 
-		Component src = getSourceComponent();
-		Component dst = getDestinationComponent();
+		ComponentRef src = getSourceComponent();
+		ComponentRef dst = getDestinationComponent();
 
 		CiliaFlag e1 = CiliaError.checkNotNull(this, src, "binding source");
 		CiliaFlag e2 = CiliaError.checkNotNull(this, dst, "binding destination");
 
-		if (src != null && src instanceof AdapterComponent) {
-			IAdapter ro = ((AdapterComponent) src).getReferencedObject();
+		if (src != null && src instanceof AdapterRef) {
+			IGenericAdapter ro = ((AdapterRef) src).getReferencedObject();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.OUT) {
 					list.add(new CiliaError("Binding " + this + " has its source connected to an out adapter", this));
@@ -143,8 +143,8 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 			}
 		}
 
-		if (dst != null && dst instanceof AdapterComponent) {
-			IAdapter ro = ((AdapterComponent) dst).getReferencedObject();
+		if (dst != null && dst instanceof AdapterRef) {
+			IGenericAdapter ro = ((AdapterRef) dst).getReferencedObject();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.IN) {
 					list.add(new CiliaError("Binding " + this + " has its destination connected to an in adapter", this));

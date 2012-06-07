@@ -17,36 +17,17 @@ package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class MediatorComponent extends Component {
+public abstract class AdapterRef extends ComponentRef {
 
-	public MediatorComponent(Node node, Chain parent) throws CiliaException {
+	public AdapterRef(Node node, Chain parent) throws CiliaException {
 		super(node, parent);
 	}
 
-	public abstract IMediator getReferencedObject();
-
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] tab = super.getErrorsAndWarnings();
-
-		CiliaError e1 = null;
-		CiliaError e2 = null;
-
-		if (getIncommingBindings().length == 0)
-			e1 = new CiliaError(this + " doesn't have an incomming binding", this);
-
-		if (getOutgoingBindings().length == 0)
-			e2 = new CiliaError(this + " doesn't have an outgoing binding", this);
-
-		return CiliaFlag.generateTab(tab, e1, e2);
-	}
-
+	public abstract IGenericAdapter getReferencedObject();
 }

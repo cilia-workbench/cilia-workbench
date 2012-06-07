@@ -26,7 +26,7 @@ import com.google.common.base.Strings;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.view.NewIdListDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
@@ -47,11 +47,11 @@ public class NewMediatorWindow extends NewIdListDialog {
 	private static Map<String, Object> getListValues() {
 		Map<String, Object> retval = new HashMap<String, Object>();
 
-		List<IMediator> list = new ArrayList<IMediator>();
+		List<IGenericMediator> list = new ArrayList<IGenericMediator>();
 		list.addAll(JarRepoService.getInstance().getMediators());
 		list.addAll(SpecRepoService.getInstance().getMediatorSpecs());
 
-		for (IMediator m : list) {
+		for (IGenericMediator m : list) {
 			NameNamespaceID id = m.getId();
 			String str = m.getNature().getShortName() + " ";
 			String key = str + id.getName();
@@ -67,7 +67,7 @@ public class NewMediatorWindow extends NewIdListDialog {
 	protected String checkValidValues(String id, Object object) {
 		if (object == null)
 			return "Please select an element in the combo";
-		IMediator m = (IMediator) object;
+		IGenericMediator m = (IGenericMediator) object;
 		return chain.isNewComponentAllowed(id, m.getId());
 	}
 }

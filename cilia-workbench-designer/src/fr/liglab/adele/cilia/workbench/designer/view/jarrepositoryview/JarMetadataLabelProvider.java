@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.SuperMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericOutPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;

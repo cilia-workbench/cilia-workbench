@@ -40,7 +40,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public abstract class Component implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
+public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
 
 	/** The component id, unique in the chain */
 	private String id;
@@ -58,7 +58,7 @@ public abstract class Component implements DisplayedInPropertiesView, ErrorsAndW
 	public static final String XML_ATTR_TYPE = "type";
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	public Component(Node node, Chain parent) throws CiliaException {
+	public ComponentRef(Node node, Chain parent) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "id");
 		ReflectionUtil.setAttribute(node, XML_ATTR_TYPE, this, "type");
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
@@ -116,14 +116,14 @@ public abstract class Component implements DisplayedInPropertiesView, ErrorsAndW
 		return retval.toArray(new Binding[0]);
 	}
 
-	public Binding getIncommingBinding(Component source) {
+	public Binding getIncommingBinding(ComponentRef source) {
 		for (Binding b : getIncommingBindings())
 			if (b.getSourceComponent().equals(source))
 				return b;
 		return null;
 	}
 
-	public Binding getOutgoingBinding(Component destination) {
+	public Binding getOutgoingBinding(ComponentRef destination) {
 		for (Binding b : getOutgoingBindings())
 			if (b.getDestinationComponent().equals(destination))
 				return b;

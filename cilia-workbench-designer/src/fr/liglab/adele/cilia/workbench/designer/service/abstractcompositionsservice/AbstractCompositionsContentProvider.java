@@ -17,10 +17,10 @@ package fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsser
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
@@ -44,10 +44,10 @@ public class AbstractCompositionsContentProvider extends GenericContentProvider 
 				for (Chain c : re.getModel().getChains()) {
 					addRelationship(true, re, c);
 
-					for (AdapterComponent a : c.getAdapters())
+					for (AdapterRef a : c.getAdapters())
 						addRelationship(false, c, a);
 
-					for (MediatorComponent m : c.getMediators())
+					for (MediatorRef m : c.getMediators())
 						addRelationship(false, c, m);
 
 					for (Binding b : c.getBindings())

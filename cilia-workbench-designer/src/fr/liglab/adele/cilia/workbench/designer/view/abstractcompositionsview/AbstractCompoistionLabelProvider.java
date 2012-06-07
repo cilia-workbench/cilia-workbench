@@ -14,11 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterInstanceRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorInstanceRef;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
@@ -56,9 +56,9 @@ public class AbstractCompoistionLabelProvider extends LabelProvider {
 			imageName = ImageDescriptorEnum.FILE;
 		else if (isCompatible(obj, Chain.class))
 			imageName = ImageDescriptorEnum.CHAIN;
-		else if (isCompatible(obj, AdapterInstance.class))
+		else if (isCompatible(obj, AdapterInstanceRef.class))
 			imageName = ImageDescriptorEnum.ADAPTER_IN;
-		else if (isCompatible(obj, MediatorInstance.class))
+		else if (isCompatible(obj, MediatorInstanceRef.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
 		else if (isCompatible(obj, Binding.class))
 			imageName = ImageDescriptorEnum.BINDING;
