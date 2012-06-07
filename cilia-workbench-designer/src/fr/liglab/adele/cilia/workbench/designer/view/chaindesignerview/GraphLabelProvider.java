@@ -24,7 +24,6 @@ import org.eclipse.zest.core.widgets.ZestStyles;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
@@ -81,14 +80,13 @@ public class GraphLabelProvider extends LabelProvider implements IConnectionStyl
 			EntityConnectionData ecd = (EntityConnectionData) element;
 			Component src = (Component) ecd.source;
 			Component dst = (Component) ecd.dest;
-			Chain chain = src.getChain();
-			Binding binding = chain.getBinding(src, dst);
+			Binding binding = src.getOutgoingBinding(dst);
 
 			if (binding == null)
 				return "";
 			else {
-				String from = binding.getFromCardinality().stringId();
-				String to = binding.getToCardinality().stringId();
+				String from = binding.getSourceCardinality().stringId();
+				String to = binding.getDestinationCardinality().stringId();
 				return from + " --> " + to;
 			}
 		} else

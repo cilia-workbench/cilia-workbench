@@ -14,9 +14,13 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Component;
 
@@ -34,17 +38,19 @@ public class ChainGraphContentProvider extends ArrayContentProvider implements I
 
 	@Override
 	public Object[] getConnectedTo(Object entity) {
+		List<Object> retval = new ArrayList<Object>();
 
-		if (model == null)
-			return new Object[0];
-
-		if (entity instanceof Component) {
-			Component ai = (Component) entity;
-			return model.getDestinations(ai);
-
+		if (model != null && entity instanceof Component) {
+			Component component = (Component) entity;
+			Binding[] bindings = component.getOutgoingBindings();
+			for (Binding binding : bindings) {
+				Object ro = binding.getDestinationReferencedObject();
+				if (ro != null)
+					retval.add(ro);
+			}
 		}
 
-		return new Object[0];
+		return retval.toArray();
 	}
 
 	public void setModel(Chain model) {

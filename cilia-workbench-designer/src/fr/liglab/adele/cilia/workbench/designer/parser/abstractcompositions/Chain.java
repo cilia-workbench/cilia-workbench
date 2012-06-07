@@ -32,7 +32,6 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -78,7 +77,7 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 		Node rootBindings = XMLHelpers.findChild(node, "bindings");
 		if (rootBindings != null) {
 			for (Node bi : XMLHelpers.findChildren(rootBindings, Binding.XML_NODE_NAME))
-				bindings.add(new Binding(bi));
+				bindings.add(new Binding(bi, this));
 		}
 	}
 
@@ -92,33 +91,6 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 
 	public List<Binding> getBindings() {
 		return bindings;
-	}
-
-	public Binding getBinding(Component source, Component dest) {
-		for (Binding b : bindings) {
-			if (b.getSourceId().equals(source.getId()) && b.getDestinationId().equals(dest.getId()))
-				return b;
-		}
-
-		return null;
-	}
-
-	public Component[] getDestinations(Component component) {
-		return getDestinations(component.getId());
-	}
-
-	public Component[] getDestinations(String componentId) {
-		List<Component> retval = new ArrayList<Component>();
-		for (Binding binding : bindings) {
-			String sourceId = binding.getSourceId();
-			if (sourceId.equals(componentId)) {
-				String destinationId = binding.getDestinationId();
-				Component component = getComponent(destinationId);
-				if (component != null)
-					retval.add(component);
-			}
-		}
-		return retval.toArray(new Component[0]);
 	}
 
 	public Component getComponent(String componentId) {
@@ -258,64 +230,6 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 				getReferencedComponent(c.getId());
 			} catch (CiliaException e) {
 				list.add(new CiliaError(e.getMessage(), this));
-			}
-		}
-
-		for (Binding b : getBindings()) {
-
-			// source
-			try {
-				IComponent src = getReferencedComponent(b.getSourceId());
-				if (src instanceof IAdapter) {
-					if (((IAdapter) src).getType() == AdapterType.OUT)
-						list.add(new CiliaError("Binding " + b + " has its source connected to an out adapter", this));
-					else if (!Strings.isNullOrEmpty(b.getSourcePort()))
-						list.add(new CiliaError("Binding " + b
-								+ " reference an in port but it's linked to an in adapter", this));
-				} else if (src instanceof IMediator) {
-					if (!Strings.isNullOrEmpty(b.getSourcePort())) {
-						IMediator mediator = (IMediator) src;
-
-						boolean found = false;
-						for (IGenericPort p : mediator.getOutPorts())
-							if (p.getName().equalsIgnoreCase(b.getSourcePort()))
-								found = true;
-						if (!found)
-							list.add(new CiliaError("Binding " + b + " doesn't reference a valid source port", this));
-					}
-				} else {
-					throw new RuntimeException(src.getClass() + "unknown");
-				}
-			} catch (CiliaException e) {
-				list.add(new CiliaError("Binding " + b + " doesn't have a valid source", this));
-			}
-
-			// destination
-			try {
-				IComponent dst = getReferencedComponent(b.getDestinationId());
-				if (dst instanceof IAdapter) {
-					if (((IAdapter) dst).getType() == AdapterType.IN)
-						list.add(new CiliaError("Binding " + b + " has its dstination connected to an in adapter", this));
-					else if (!Strings.isNullOrEmpty(b.getDestinationPort()))
-						list.add(new CiliaError("Binding " + b
-								+ " reference an out port but it's linked to an out adapter", this));
-				} else if (dst instanceof IMediator) {
-					if (!Strings.isNullOrEmpty(b.getDestinationPort())) {
-						IMediator mediator = (IMediator) dst;
-
-						boolean found = false;
-						for (IGenericPort p : mediator.getInPorts())
-							if (p.getName().equalsIgnoreCase(b.getDestinationPort()))
-								found = true;
-						if (!found)
-							list.add(new CiliaError("Binding " + b + " doesn't reference a valid destination port",
-									this));
-					}
-				} else {
-					throw new RuntimeException(dst.getClass() + "unknown");
-				}
-			} catch (CiliaException e) {
-				list.add(new CiliaError("Binding " + b + " doesn't have a valid destination", this));
 			}
 		}
 

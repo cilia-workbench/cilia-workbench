@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
+import com.google.common.base.Strings;
+
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
@@ -28,6 +30,8 @@ import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
@@ -40,12 +44,14 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 
 	public static final String XML_NODE_NAME = "binding";
 
+	private Chain chain;
 	private String from;
 	private String to;
 	private Cardinality fromCardinality;
 	private Cardinality toCardinality;
 
-	public Binding(Node node) throws CiliaException {
+	public Binding(Node node, Chain chain) throws CiliaException {
+		this.chain = chain;
 		ReflectionUtil.setAttribute(node, "from", this, "from");
 		ReflectionUtil.setAttribute(node, "to", this, "to");
 		String fc = XMLHelpers.findAttributeValue(node, "from-cardinality");
@@ -70,12 +76,34 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 		return XMLStringUtil.getAfterSeparatorOrNothing(to);
 	}
 
-	public Cardinality getFromCardinality() {
+	public Cardinality getSourceCardinality() {
 		return fromCardinality;
 	}
 
-	public Cardinality getToCardinality() {
+	public Cardinality getDestinationCardinality() {
 		return toCardinality;
+	}
+
+	public Component getSourceComponent() {
+		return chain.getComponent(getSourceId());
+	}
+
+	public Component getDestinationComponent() {
+		return chain.getComponent(getDestinationId());
+	}
+
+	public Object getSourceReferencedObject() {
+		Component component = getSourceComponent();
+		if (component == null)
+			return null;
+		return component.getReferencedObject();
+	}
+
+	public Object getDestinationReferencedObject() {
+		Component component = getDestinationComponent();
+		if (component == null)
+			return null;
+		return component.getReferencedObject();
 	}
 
 	public String getSource() {
@@ -93,10 +121,43 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, from, "from");
-		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, to, "to");
+		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
 
-		return CiliaFlag.generateTab(e1, e2);
+		Component src = getSourceComponent();
+		Component dst = getDestinationComponent();
+
+		CiliaFlag e1 = CiliaError.checkNotNull(this, src, "binding source");
+		CiliaFlag e2 = CiliaError.checkNotNull(this, dst, "binding destination");
+
+		if (src != null && src instanceof AdapterComponent) {
+			IAdapter ro = ((AdapterComponent) src).getReferencedObject();
+			if (ro != null) {
+				if (ro.getType() == AdapterType.OUT) {
+					list.add(new CiliaError("Binding " + this + " has its source connected to an out adapter", this));
+				}
+
+				if (ro.getType() == AdapterType.IN && !Strings.isNullOrEmpty(getSourcePort())) {
+					list.add(new CiliaError("Binding " + this + " reference an in port but it's linked to an adapter",
+							this));
+				}
+			}
+		}
+
+		if (dst != null && dst instanceof AdapterComponent) {
+			IAdapter ro = ((AdapterComponent) dst).getReferencedObject();
+			if (ro != null) {
+				if (ro.getType() == AdapterType.IN) {
+					list.add(new CiliaError("Binding " + this + " has its destination connected to an in adapter", this));
+				}
+
+				if (ro.getType() == AdapterType.OUT && !Strings.isNullOrEmpty(getDestinationPort())) {
+					list.add(new CiliaError("Binding " + this + " reference an out port but it's linked to an adapter",
+							this));
+				}
+			}
+		}
+
+		return CiliaFlag.generateTab(list, e1, e2);
 	}
 
 	@Override

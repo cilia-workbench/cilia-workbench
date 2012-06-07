@@ -27,6 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IComponent;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
@@ -74,15 +75,60 @@ public abstract class Component implements DisplayedInPropertiesView, ErrorsAndW
 		return id;
 	}
 
-	public Chain getChain() {
-		return chain;
-	}
-
 	public NameNamespaceID getReferencedTypeID() {
 		return new NameNamespaceID(type, namespace);
 	}
 
-	public abstract Object getReferencedObject();
+	public abstract IComponent getReferencedObject();
+
+	public Binding[] getBindings() {
+		List<Binding> retval = new ArrayList<Binding>();
+
+		for (Binding b : chain.getBindings()) {
+			if (b.getDestinationId().equals(id))
+				retval.add(b);
+			else if (b.getSourceId().equals(id))
+				retval.add(b);
+		}
+
+		return retval.toArray(new Binding[0]);
+	}
+
+	public Binding[] getIncommingBindings() {
+		List<Binding> retval = new ArrayList<Binding>();
+
+		for (Binding b : getBindings()) {
+			if (b.getDestinationId().equals(id))
+				retval.add(b);
+		}
+
+		return retval.toArray(new Binding[0]);
+	}
+
+	public Binding[] getOutgoingBindings() {
+		List<Binding> retval = new ArrayList<Binding>();
+
+		for (Binding b : getBindings()) {
+			if (b.getSourceId().equals(id))
+				retval.add(b);
+		}
+
+		return retval.toArray(new Binding[0]);
+	}
+
+	public Binding getIncommingBinding(Component source) {
+		for (Binding b : getIncommingBindings())
+			if (b.getSourceComponent().equals(source))
+				return b;
+		return null;
+	}
+
+	public Binding getOutgoingBinding(Component destination) {
+		for (Binding b : getOutgoingBindings())
+			if (b.getDestinationComponent().equals(destination))
+				return b;
+		return null;
+	}
 
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id, "id");
