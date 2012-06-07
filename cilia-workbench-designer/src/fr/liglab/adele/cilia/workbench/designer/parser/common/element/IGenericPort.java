@@ -24,6 +24,10 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
  */
 public interface IGenericPort extends Identifiable, ErrorsAndWarningsFinder {
 
+	public enum PortNature {
+		IN, OUT;
+	}
+
 	/**
 	 * Gets the port name.
 	 * 

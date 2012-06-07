@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class InPort extends GenericInPort implements DisplayedInPropertiesView, SpecPort {
+public class InPort extends GenericInPort implements DisplayedInPropertiesView {
 
 	public static final String XML_ATTR_NAME = "name";
 	private static String XML_TAG = "in-port";

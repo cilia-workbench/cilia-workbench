@@ -20,7 +20,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.JarPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
@@ -28,6 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
@@ -77,7 +77,7 @@ public class JarContentProvider extends GenericContentProvider {
 						addRelationship(true, mc, new FakeElement(mc.getDispatcherID().toString(),
 								"Unknown dispatcher " + mc.getDispatcherID().toString(), Scheduler.class));
 
-					for (JarPort p : mc.getPorts())
+					for (IGenericPort p : mc.getPorts())
 						addRelationship(true, mc, p);
 
 					for (Property p : mc.getProperties())

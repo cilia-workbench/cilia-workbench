@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class OutPort extends GenericOutPort implements DisplayedInPropertiesView, Identifiable, SpecPort {
+public class OutPort extends GenericOutPort implements DisplayedInPropertiesView, Identifiable {
 
 	private static String XML_TAG = "out-port";
 	public static final String XML_ATTR_NAME = "name";

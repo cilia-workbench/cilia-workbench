@@ -30,9 +30,11 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericOutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
@@ -55,7 +57,7 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 	private String namespace;
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	private List<GenericPort> ports = new ArrayList<GenericPort>();
+	private List<IGenericPort> ports = new ArrayList<IGenericPort>();
 	private List<Property> properties = new ArrayList<Property>();
 	private Processor processor = null;
 	private Scheduler scheduler = null;
@@ -118,23 +120,23 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 		return properties;
 	}
 
-	public List<GenericPort> getPorts() {
+	public List<IGenericPort> getPorts() {
 		return ports;
 	}
 
-	public List<InPort> getInPorts() {
-		List<InPort> retval = new ArrayList<InPort>();
-		for (GenericPort p : ports)
+	public List<GenericInPort> getInPorts() {
+		List<GenericInPort> retval = new ArrayList<GenericInPort>();
+		for (IGenericPort p : ports)
 			if (p.getNature() == PortNature.IN)
-				retval.add((InPort) p);
+				retval.add((GenericInPort) p);
 		return retval;
 	}
 
-	public List<OutPort> getOutPorts() {
-		List<OutPort> retval = new ArrayList<OutPort>();
-		for (GenericPort p : ports)
+	public List<GenericOutPort> getOutPorts() {
+		List<GenericOutPort> retval = new ArrayList<GenericOutPort>();
+		for (IGenericPort p : ports)
 			if (p.getNature() == PortNature.OUT)
-				retval.add((OutPort) p);
+				retval.add((GenericOutPort) p);
 		return retval;
 	}
 

@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.service.specreposervice;
 
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
@@ -65,7 +65,7 @@ public class SpecContentProvider extends GenericContentProvider {
 						for (Parameter p : dispatcher.getParameters())
 							addRelationship(true, dispatcher, p);
 
-					for (GenericPort port : spec.getPorts())
+					for (IGenericPort port : spec.getPorts())
 						addRelationship(true, spec, port);
 
 					for (Property property : spec.getProperties())

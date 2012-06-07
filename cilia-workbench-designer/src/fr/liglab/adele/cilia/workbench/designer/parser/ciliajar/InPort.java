@@ -19,12 +19,13 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInPort;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class InPort extends GenericInPort implements JarPort {
+public class InPort extends GenericInPort implements DisplayedInPropertiesView {
 
 	public InPort(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, "name", this, "name");
