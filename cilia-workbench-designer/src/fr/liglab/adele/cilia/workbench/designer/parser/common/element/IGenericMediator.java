@@ -33,6 +33,8 @@ public interface IGenericMediator extends IComponent {
 
 	public List<? extends GenericProperty> getProperties();
 
+	public GenericProperty getProperty(String name);
+
 	public IScheduler getScheduler();
 
 	public IProcessor getProcessor();

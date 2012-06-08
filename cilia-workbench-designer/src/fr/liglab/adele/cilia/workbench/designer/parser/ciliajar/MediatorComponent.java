@@ -31,9 +31,9 @@ import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericOutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort.PortNature;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.ComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
@@ -216,7 +216,8 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 				e7 = new CiliaError("Out ports list doesn't respect the specification", getSpec());
 
 			// Properties
-			for (fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty mediaProp : mediatorSpec.getProperties()) {
+			for (fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty mediaProp : mediatorSpec
+					.getProperties()) {
 				String specKey = mediaProp.getName();
 				NameValueProperty curProp = getProperty(specKey);
 				if (curProp == null)

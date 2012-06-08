@@ -21,6 +21,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Adap
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorSpecRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.PropertyConstraint;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
@@ -47,8 +49,13 @@ public class AbstractCompositionsContentProvider extends GenericContentProvider 
 					for (AdapterRef a : c.getAdapters())
 						addRelationship(false, c, a);
 
-					for (MediatorRef m : c.getMediators())
+					for (MediatorRef m : c.getMediators()) {
 						addRelationship(false, c, m);
+						if (m instanceof MediatorSpecRef) {
+							for (PropertyConstraint p : ((MediatorSpecRef) m).getConstraints())
+								addRelationship(false, m, p);
+						}
+					}
 
 					for (Binding b : c.getBindings())
 						addRelationship(false, c, b);
