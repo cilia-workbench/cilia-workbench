@@ -29,8 +29,8 @@ public class MediatorSpecRef extends MediatorRef {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
 
-	public MediatorSpecRef(Node node, Chain parent) throws CiliaException {
-		super(node, parent);
+	public MediatorSpecRef(Node node, NameNamespaceID chainId) throws CiliaException {
+		super(node, chainId);
 	}
 
 	@Override

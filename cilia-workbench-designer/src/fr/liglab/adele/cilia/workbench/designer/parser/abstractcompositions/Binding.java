@@ -23,6 +23,7 @@ import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
@@ -32,6 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
@@ -44,14 +46,14 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 
 	public static final String XML_NODE_NAME = "binding";
 
-	private Chain chain;
+	private NameNamespaceID chainId;
 	private String from;
 	private String to;
 	private Cardinality fromCardinality;
 	private Cardinality toCardinality;
 
-	public Binding(Node node, Chain chain) throws CiliaException {
-		this.chain = chain;
+	public Binding(Node node, NameNamespaceID chainId) throws CiliaException {
+		this.chainId = chainId;
 		ReflectionUtil.setAttribute(node, "from", this, "from");
 		ReflectionUtil.setAttribute(node, "to", this, "to");
 		String fc = XMLHelpers.findAttributeValue(node, "from-cardinality");
@@ -84,12 +86,16 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 		return toCardinality;
 	}
 
+	private Chain getChain() {
+		return AbstractCompositionsRepoService.getInstance().findChain(chainId);
+	}
+
 	public ComponentRef getSourceComponent() {
-		return chain.getComponent(getSourceId());
+		return getChain().getComponent(getSourceId());
 	}
 
 	public ComponentRef getDestinationComponent() {
-		return chain.getComponent(getDestinationId());
+		return getChain().getComponent(getDestinationId());
 	}
 
 	public Object getSourceReferencedObject() {

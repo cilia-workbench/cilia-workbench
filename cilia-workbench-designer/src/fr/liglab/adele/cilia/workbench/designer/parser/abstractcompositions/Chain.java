@@ -29,9 +29,9 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -63,21 +63,21 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 		Node rootAdapters = XMLHelpers.findChild(node, "adapters");
 		if (rootAdapters != null) {
 			for (Node instance : XMLHelpers.findChildren(rootAdapters, AdapterInstanceRef.XML_NODE_NAME))
-				adapters.add(new AdapterInstanceRef(instance, this));
+				adapters.add(new AdapterInstanceRef(instance, getId()));
 		}
 
 		Node rootMediators = XMLHelpers.findChild(node, "mediators");
 		if (rootMediators != null) {
 			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorInstanceRef.XML_NODE_NAME))
-				mediators.add(new MediatorInstanceRef(instance, this));
+				mediators.add(new MediatorInstanceRef(instance, getId()));
 			for (Node spec : XMLHelpers.findChildren(rootMediators, MediatorSpecRef.XML_NODE_NAME))
-				mediators.add(new MediatorSpecRef(spec, this));
+				mediators.add(new MediatorSpecRef(spec, getId()));
 		}
 
 		Node rootBindings = XMLHelpers.findChild(node, "bindings");
 		if (rootBindings != null) {
 			for (Node bi : XMLHelpers.findChildren(rootBindings, Binding.XML_NODE_NAME))
-				bindings.add(new Binding(bi, this));
+				bindings.add(new Binding(bi, getId()));
 		}
 	}
 

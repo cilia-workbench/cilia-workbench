@@ -28,6 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.reflection.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IComponent;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
@@ -40,29 +41,31 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
+public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable,
+		Mergeable {
 
 	/** The component id, unique in the chain */
 	private String id;
 	/** The id of the specification or implementation pointed by the component */
 	protected String type;
+
+	NameNamespaceID chainId;
+
 	/**
 	 * The namespace of the specification or implementation pointed by the
 	 * component
 	 */
 	private String namespace;
 
-	private Chain chain;
-
 	public static final String XML_ATTR_ID = "id";
 	public static final String XML_ATTR_TYPE = "type";
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	public ComponentRef(Node node, Chain parent) throws CiliaException {
+	public ComponentRef(Node node, NameNamespaceID chainId) throws CiliaException {
+		this.chainId = chainId;
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "id");
 		ReflectionUtil.setAttribute(node, XML_ATTR_TYPE, this, "type");
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
-		this.chain = parent;
 	}
 
 	@Override
@@ -75,6 +78,10 @@ public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsA
 		return id;
 	}
 
+	private Chain getChain() {
+		return AbstractCompositionsRepoService.getInstance().findChain(chainId);
+	}
+
 	public NameNamespaceID getReferencedTypeID() {
 		return new NameNamespaceID(type, namespace);
 	}
@@ -84,7 +91,7 @@ public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsA
 	public Binding[] getBindings() {
 		List<Binding> retval = new ArrayList<Binding>();
 
-		for (Binding b : chain.getBindings()) {
+		for (Binding b : getChain().getBindings()) {
 			if (b.getDestinationId().equals(id))
 				retval.add(b);
 			else if (b.getSourceId().equals(id))

@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
 
 /**
@@ -25,8 +26,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAd
  */
 public abstract class AdapterRef extends ComponentRef {
 
-	public AdapterRef(Node node, Chain parent) throws CiliaException {
-		super(node, parent);
+	public AdapterRef(Node node, NameNamespaceID chainId) throws CiliaException {
+		super(node, chainId);
 	}
 
 	public abstract IGenericAdapter getReferencedObject();

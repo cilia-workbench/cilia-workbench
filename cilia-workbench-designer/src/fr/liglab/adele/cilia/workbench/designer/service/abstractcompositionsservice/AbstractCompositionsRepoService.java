@@ -165,7 +165,7 @@ public class AbstractCompositionsRepoService extends
 		return null;
 	}
 
-	private Chain findChain(NameNamespaceID chainName) {
+	public Chain findChain(NameNamespaceID chainName) {
 		for (Chain chain : getChains())
 			if (chain.getId().equals(chainName))
 				return chain;

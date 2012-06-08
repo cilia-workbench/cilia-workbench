@@ -29,8 +29,8 @@ public class AdapterInstanceRef extends AdapterRef {
 
 	public static final String XML_NODE_NAME = "adapter-instance";
 
-	public AdapterInstanceRef(Node node, Chain parent) throws CiliaException {
-		super(node, parent);
+	public AdapterInstanceRef(Node node, NameNamespaceID chainId) throws CiliaException {
+		super(node, chainId);
 	}
 
 	@Override

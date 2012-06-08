@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
@@ -27,8 +28,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMe
  */
 public abstract class MediatorRef extends ComponentRef {
 
-	public MediatorRef(Node node, Chain parent) throws CiliaException {
-		super(node, parent);
+	public MediatorRef(Node node, NameNamespaceID chainId) throws CiliaException {
+		super(node, chainId);
 	}
 
 	public abstract IGenericMediator getReferencedObject();
