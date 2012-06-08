@@ -23,7 +23,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericPro
  * 
  * @author Etienne Gandrille
  */
-public class Property extends GenericProperty {
+public class NameValueProperty extends GenericProperty {
 
 	/** The value */
 	protected String value;
@@ -49,7 +49,7 @@ public class Property extends GenericProperty {
 		if (!(arg0 instanceof GenericProperty))
 			return false;
 
-		Property prop = (Property) arg0;
+		NameValueProperty prop = (NameValueProperty) arg0;
 
 		if (prop.getName() != name || prop.getValue() != value)
 			return false;
@@ -65,7 +65,7 @@ public class Property extends GenericProperty {
 	 * @param value
 	 *            the value
 	 */
-	public Property(String name, String value) {
+	public NameValueProperty(String name, String value) {
 		this.name = name;
 		this.value = value;
 	}

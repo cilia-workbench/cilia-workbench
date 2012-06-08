@@ -29,13 +29,13 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  * 
  * @author Etienne Gandrille
  */
-public class Property extends GenericProperty implements DisplayedInPropertiesView, ErrorsAndWarningsFinder,
+public class NameProperty extends GenericProperty implements DisplayedInPropertiesView, ErrorsAndWarningsFinder,
 		Identifiable {
 
 	public static final String XML_NODE_NAME = "property";
 	public static final String XML_ATTR_NAME = "name";
 
-	public Property(Node node) throws CiliaException {
+	public NameProperty(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 	}
 

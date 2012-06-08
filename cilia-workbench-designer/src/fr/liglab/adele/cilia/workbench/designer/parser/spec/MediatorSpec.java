@@ -58,7 +58,7 @@ public class MediatorSpec implements IGenericMediator, DisplayedInPropertiesView
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
 	private List<IGenericPort> ports = new ArrayList<IGenericPort>();
-	private List<Property> properties = new ArrayList<Property>();
+	private List<NameProperty> properties = new ArrayList<NameProperty>();
 	private Processor processor = null;
 	private Scheduler scheduler = null;
 	private Dispatcher dispatcher = null;
@@ -79,9 +79,9 @@ public class MediatorSpec implements IGenericMediator, DisplayedInPropertiesView
 
 		Node rootProperties = XMLHelpers.findChild(node, XML_NODE_PROPERTIES_CONTAINER);
 		if (rootProperties != null) {
-			Node[] props = XMLHelpers.findChildren(rootProperties, Property.XML_NODE_NAME);
+			Node[] props = XMLHelpers.findChildren(rootProperties, NameProperty.XML_NODE_NAME);
 			for (Node prop : props)
-				properties.add(new Property(prop));
+				properties.add(new NameProperty(prop));
 		}
 
 		Node rootProcessor = XMLHelpers.findChild(node, Processor.XML_NODE_NAME);
@@ -116,7 +116,7 @@ public class MediatorSpec implements IGenericMediator, DisplayedInPropertiesView
 		return dispatcher;
 	}
 
-	public List<Property> getProperties() {
+	public List<NameProperty> getProperties() {
 		return properties;
 	}
 
@@ -191,7 +191,7 @@ public class MediatorSpec implements IGenericMediator, DisplayedInPropertiesView
 
 	public static Node createMediatorProperty(Document document, Element spec, String key) {
 		Node root = XMLHelpers.getOrCreateNode(document, spec, XML_NODE_PROPERTIES_CONTAINER);
-		return XMLHelpers.createNode(document, root, Property.XML_NODE_NAME, "name", key);
+		return XMLHelpers.createNode(document, root, NameProperty.XML_NODE_NAME, "name", key);
 	}
 
 	public static Node createSchedulerParameter(Document document, Element spec, String param) {

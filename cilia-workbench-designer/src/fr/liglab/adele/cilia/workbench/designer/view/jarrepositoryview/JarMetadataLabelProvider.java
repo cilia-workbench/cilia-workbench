@@ -20,7 +20,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Property;
+import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.NameValueProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.SuperMediator;
@@ -80,7 +80,7 @@ public class JarMetadataLabelProvider extends LabelProvider {
 			imageName = ImageDescriptorEnum.SCHEDULER;
 		else if (isCompatible(obj, Sender.class))
 			imageName = ImageDescriptorEnum.SENDER;
-		else if (isCompatible(obj, Property.class))
+		else if (isCompatible(obj, NameValueProperty.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
 		else if (isCompatible(obj, GenericInPort.class))
 			imageName = ImageDescriptorEnum.PORT_IN;

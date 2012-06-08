@@ -21,7 +21,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.spec.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Property;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
@@ -68,7 +68,7 @@ public class SpecContentProvider extends GenericContentProvider {
 					for (IGenericPort port : spec.getPorts())
 						addRelationship(true, spec, port);
 
-					for (Property property : spec.getProperties())
+					for (NameProperty property : spec.getProperties())
 						addRelationship(true, spec, property);
 				}
 			}

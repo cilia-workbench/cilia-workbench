@@ -59,7 +59,7 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 
 	private List<IGenericPort> ports = new ArrayList<IGenericPort>();
 
-	private List<Property> properties = new ArrayList<Property>();
+	private List<NameValueProperty> properties = new ArrayList<NameValueProperty>();
 
 	public MediatorComponent(Node node) throws CiliaException {
 
@@ -77,7 +77,7 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 			else if (attr.equalsIgnoreCase("spec-namespace"))
 				specNamespace = attrMap.get(attr);
 			else if (!attr.equalsIgnoreCase("name") && !attr.equalsIgnoreCase("namespace"))
-				properties.add(new Property(attr, attrMap.get(attr)));
+				properties.add(new NameValueProperty(attr, attrMap.get(attr)));
 		}
 
 		if (specName != null)
@@ -138,12 +138,12 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 		return spec;
 	}
 
-	public List<Property> getProperties() {
+	public List<NameValueProperty> getProperties() {
 		return properties;
 	}
 
-	public Property getProperty(String key) {
-		for (Property p : getProperties())
+	public NameValueProperty getProperty(String key) {
+		for (NameValueProperty p : getProperties())
 			if (p.getName().equalsIgnoreCase(key))
 				return p;
 		return null;
@@ -216,9 +216,9 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 				e7 = new CiliaError("Out ports list doesn't respect the specification", getSpec());
 
 			// Properties
-			for (fr.liglab.adele.cilia.workbench.designer.parser.spec.Property mediaProp : mediatorSpec.getProperties()) {
+			for (fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty mediaProp : mediatorSpec.getProperties()) {
 				String specKey = mediaProp.getName();
-				Property curProp = getProperty(specKey);
+				NameValueProperty curProp = getProperty(specKey);
 				if (curProp == null)
 					flagsTab.add(new CiliaError("Mediator must have \"" + specKey
 							+ "\" property defined to respect its specification", getSpec()));
