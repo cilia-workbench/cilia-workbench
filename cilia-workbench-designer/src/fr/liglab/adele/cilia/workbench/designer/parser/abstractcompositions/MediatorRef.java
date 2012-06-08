@@ -14,6 +14,9 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
@@ -21,6 +24,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 
 /**
  * 
@@ -33,6 +37,24 @@ public abstract class MediatorRef extends ComponentRef {
 	}
 
 	public abstract IGenericMediator getReferencedObject();
+
+	public List<? extends IGenericPort> getPorts() {
+		if (getReferencedObject() != null)
+			return getReferencedObject().getPorts();
+		return new ArrayList<IGenericPort>();
+	}
+
+	public List<? extends IGenericPort> getInPorts() {
+		if (getReferencedObject() != null)
+			return getReferencedObject().getInPorts();
+		return new ArrayList<IGenericPort>();
+	}
+
+	public List<? extends IGenericPort> getOutPorts() {
+		if (getReferencedObject() != null)
+			return getReferencedObject().getOutPorts();
+		return new ArrayList<IGenericPort>();
+	}
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
