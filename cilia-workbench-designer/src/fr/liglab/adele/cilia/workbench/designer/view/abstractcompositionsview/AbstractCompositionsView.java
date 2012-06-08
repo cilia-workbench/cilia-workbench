@@ -64,7 +64,7 @@ public class AbstractCompositionsView extends RepositoryView<AbstractComposition
 		});
 
 		// Linking already opened editors for getting save notifications
-		for (IEditorReference editor : getRelevantFileStoreEditors(".dscilia"))
+		for (IEditorReference editor : getRelevantFileStoreEditors(AbstractCompositionsRepoService.ext))
 			addEditorSavedListener(editor.getPart(true));
 	}
 
