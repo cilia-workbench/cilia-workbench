@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -144,9 +145,11 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	public void createMediator(Chain chain, String id, IGenericMediator type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
 			if (type.getNature() == ComponentNature.SPEC)
-				createComponentInstanceInternal(chain, id, type.getId(), "mediators", MediatorSpecRef.XML_NODE_NAME);
+				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_MEDIATORS_NAME,
+						MediatorSpecRef.XML_NODE_NAME);
 			else if (type.getNature() == ComponentNature.IMPLEM)
-				createComponentInstanceInternal(chain, id, type.getId(), "mediators", MediatorInstanceRef.XML_NODE_NAME);
+				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_MEDIATORS_NAME,
+						MediatorInstanceRef.XML_NODE_NAME);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
 		}
@@ -157,7 +160,8 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			if (type.getNature() == ComponentNature.SPEC)
 				throw new RuntimeException("Not yet implemented in spec repository view...");
 			else if (type.getNature() == ComponentNature.IMPLEM)
-				createComponentInstanceInternal(chain, id, type.getId(), "adapters", AdapterInstanceRef.XML_NODE_NAME);
+				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_ADAPTERS_NAME,
+						AdapterInstanceRef.XML_NODE_NAME);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
 		}
@@ -171,10 +175,10 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		Node componentNode = XMLHelpers.getOrCreateNode(document, chainNode, rootNode);
 
 		Element child = document.createElement(elementNode);
-		child.setAttribute("id", id);
-		child.setAttribute("type", type.getName());
+		child.setAttribute(ComponentRef.XML_ATTR_ID, id);
+		child.setAttribute(ComponentRef.XML_ATTR_TYPE, type.getName());
 		if (!Strings.isNullOrEmpty(type.getNamespace()))
-			child.setAttribute("namespace", type.getNamespace());
+			child.setAttribute(ComponentRef.XML_ATTR_NAMESPACE, type.getNamespace());
 		componentNode.appendChild(child);
 
 		// Write it back to file system
@@ -203,13 +207,13 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			File file = new File(filePath);
 			Document document = XMLHelpers.getDocument(file);
 			Node chainNode = findXMLChainNode(document, chain.getId());
-			Node componentNode = XMLHelpers.getOrCreateNode(document, chainNode, "bindings");
+			Node componentNode = XMLHelpers.getOrCreateNode(document, chainNode, Chain.XML_ROOT_BINDINGS_NAME);
 
-			Element child = document.createElement("binding");
-			child.setAttribute("from", from);
-			child.setAttribute("to", to);
-			child.setAttribute("from-cardinality", srcCard.stringId());
-			child.setAttribute("to-cardinality", dstCard.stringId());
+			Element child = document.createElement(Binding.XML_NODE_NAME);
+			child.setAttribute(Binding.XML_FROM_ATTR, from);
+			child.setAttribute(Binding.XML_TO_ATTR, to);
+			child.setAttribute(Binding.XML_FROM_CARD_ATTR, srcCard.stringId());
+			child.setAttribute(Binding.XML_TO_CARD_ATTR, dstCard.stringId());
 			componentNode.appendChild(child);
 
 			// Write it back to file system
@@ -231,13 +235,15 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		File file = new File(filePath);
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node subNode = XMLHelpers.findChild(chainNode, "mediators");
+		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
 
 		Node leafs[] = null;
 		if (mediator instanceof MediatorInstanceRef)
-			leafs = XMLHelpers.findChildren(subNode, "mediator-instance", "id", mediator.getId());
+			leafs = XMLHelpers.findChildren(subNode, MediatorInstanceRef.XML_NODE_NAME,
+					MediatorInstanceRef.XML_ATTR_ID, mediator.getId());
 		if (mediator instanceof MediatorSpecRef)
-			leafs = XMLHelpers.findChildren(subNode, "mediator-specification", "id", mediator.getId());
+			leafs = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID,
+					mediator.getId());
 
 		if (leafs == null || leafs.length == 0)
 			throw new CiliaException("Can't find mediator with id " + mediator.getId() + " in XML file");
@@ -254,11 +260,12 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		File file = new File(filePath);
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node subNode = XMLHelpers.findChild(chainNode, "adapters");
+		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_ADAPTERS_NAME);
 
 		Node leafs[] = null;
 		if (adapter instanceof AdapterInstanceRef)
-			leafs = XMLHelpers.findChildren(subNode, "adapter-instance", "id", adapter.getId());
+			leafs = XMLHelpers.findChildren(subNode, AdapterInstanceRef.XML_NODE_NAME, AdapterInstanceRef.XML_ATTR_ID,
+					adapter.getId());
 		// Adapter spec...
 
 		if (leafs == null || leafs.length == 0)
@@ -273,16 +280,16 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	}
 
 	private void deleteBindingsWithReferenceToComponent(Node chainNode, String componentID) throws CiliaException {
-		Node subNode = XMLHelpers.findChild(chainNode, "bindings");
+		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_BINDINGS_NAME);
 		if (subNode == null)
 			return;
 
 		// finds nodes
 		List<Node> nodes = new ArrayList<Node>();
-		Node bindings[] = XMLHelpers.findChildren(subNode, "binding");
+		Node bindings[] = XMLHelpers.findChildren(subNode, Binding.XML_NODE_NAME);
 		for (Node binding : bindings) {
-			String from = XMLHelpers.findAttributeValue(binding, "from");
-			String to = XMLHelpers.findAttributeValue(binding, "to");
+			String from = XMLHelpers.findAttributeValue(binding, Binding.XML_FROM_ATTR);
+			String to = XMLHelpers.findAttributeValue(binding, Binding.XML_TO_ATTR);
 
 			String fromID = XMLStringUtil.getBeforeSeparatorOrAll(from);
 			String toID = XMLStringUtil.getBeforeSeparatorOrAll(to);
@@ -301,15 +308,39 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		File file = new File(filePath);
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node subNode = XMLHelpers.findChild(chainNode, "bindings");
+		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_BINDINGS_NAME);
 		if (subNode == null)
 			return;
 
-		Node[] nodes = XMLHelpers.findChildren(subNode, "binding", "from", binding.getSource(), "to",
-				binding.getDestination());
+		Node[] nodes = XMLHelpers.findChildren(subNode, Binding.XML_NODE_NAME, Binding.XML_FROM_ATTR,
+				binding.getSource(), Binding.XML_TO_ATTR, binding.getDestination());
 		if (nodes.length == 0)
 			throw new CiliaException("Can't find binding " + binding);
 		subNode.removeChild(nodes[0]);
+
+		XMLHelpers.writeDOM(document, filePath);
+		AbstractCompositionsRepoService.getInstance().updateModel();
+	}
+
+	public void updateProperties(Chain chain, MediatorSpecRef mediator, Map<String, String> properties)
+			throws CiliaException {
+		File file = new File(filePath);
+		Document document = XMLHelpers.getDocument(file);
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
+		Node media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID,
+				mediator.getId())[0];
+
+		// first, delete
+		for (Node n : XMLHelpers.findChildren(media, MediatorSpecRef.XML_SELECTION_CONSTRAINT))
+			media.removeChild(n);
+
+		// then (re)create
+		Node select = XMLHelpers.getOrCreateNode(document, media, MediatorSpecRef.XML_SELECTION_CONSTRAINT);
+		for (String key : properties.keySet()) {
+			XMLHelpers.createNode(document, select, PropertyConstraint.XML_PROPERTY_CONSTRAINT,
+					PropertyConstraint.XML_ATTR_NAME, key, PropertyConstraint.XML_ATTR_VALUE, properties.get(key));
+		}
 
 		XMLHelpers.writeDOM(document, filePath);
 		AbstractCompositionsRepoService.getInstance().updateModel();

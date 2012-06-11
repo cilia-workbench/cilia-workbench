@@ -46,6 +46,11 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 
 	public static final String XML_NODE_NAME = "binding";
 
+	public static final String XML_FROM_ATTR = "from";
+	public static final String XML_TO_ATTR = "to";
+	public static final String XML_FROM_CARD_ATTR = "from-cardinality";
+	public static final String XML_TO_CARD_ATTR = "to-cardinality";
+
 	private NameNamespaceID chainId;
 	private String from;
 	private String to;
@@ -54,11 +59,11 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 
 	public Binding(Node node, NameNamespaceID chainId) throws CiliaException {
 		this.chainId = chainId;
-		ReflectionUtil.setAttribute(node, "from", this, "from");
-		ReflectionUtil.setAttribute(node, "to", this, "to");
-		String fc = XMLHelpers.findAttributeValue(node, "from-cardinality");
+		ReflectionUtil.setAttribute(node, XML_FROM_ATTR, this, "from");
+		ReflectionUtil.setAttribute(node, XML_TO_ATTR, this, "to");
+		String fc = XMLHelpers.findAttributeValue(node, XML_FROM_CARD_ATTR);
 		fromCardinality = Cardinality.getCardinality(fc);
-		String tc = XMLHelpers.findAttributeValue(node, "to-cardinality");
+		String tc = XMLHelpers.findAttributeValue(node, XML_TO_CARD_ATTR);
 		toCardinality = Cardinality.getCardinality(tc);
 	}
 

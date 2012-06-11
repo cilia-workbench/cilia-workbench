@@ -52,6 +52,10 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 	public static final String XML_ATTR_ID = "id";
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
+	public static final String XML_ROOT_MEDIATORS_NAME = "mediators";
+	public static final String XML_ROOT_ADAPTERS_NAME = "adapters";
+	public static final String XML_ROOT_BINDINGS_NAME = "bindings";
+
 	private List<AdapterRef> adapters = new ArrayList<AdapterRef>();
 	private List<MediatorRef> mediators = new ArrayList<MediatorRef>();
 	private List<Binding> bindings = new ArrayList<Binding>();
@@ -60,13 +64,13 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "name");
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
 
-		Node rootAdapters = XMLHelpers.findChild(node, "adapters");
+		Node rootAdapters = XMLHelpers.findChild(node, XML_ROOT_ADAPTERS_NAME);
 		if (rootAdapters != null) {
 			for (Node instance : XMLHelpers.findChildren(rootAdapters, AdapterInstanceRef.XML_NODE_NAME))
 				adapters.add(new AdapterInstanceRef(instance, getId()));
 		}
 
-		Node rootMediators = XMLHelpers.findChild(node, "mediators");
+		Node rootMediators = XMLHelpers.findChild(node, XML_ROOT_MEDIATORS_NAME);
 		if (rootMediators != null) {
 			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorInstanceRef.XML_NODE_NAME))
 				mediators.add(new MediatorInstanceRef(instance, getId()));
@@ -74,7 +78,7 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 				mediators.add(new MediatorSpecRef(spec, getId()));
 		}
 
-		Node rootBindings = XMLHelpers.findChild(node, "bindings");
+		Node rootBindings = XMLHelpers.findChild(node, XML_ROOT_BINDINGS_NAME);
 		if (rootBindings != null) {
 			for (Node bi : XMLHelpers.findChildren(rootBindings, Binding.XML_NODE_NAME))
 				bindings.add(new Binding(bi, getId()));

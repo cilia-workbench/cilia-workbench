@@ -36,7 +36,8 @@ public class ComboKeyValueEditor extends KeyValueEditor {
 		Combo combo = (Combo) getKeyControl();
 		for (String key : keyList)
 			combo.add(key);
-		combo.select(0);
+		// combo.select(0); // less visual confusion is nothing is selected at
+		// startup
 	}
 
 	@Override

@@ -156,12 +156,12 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 	}
 
 	private void updateMediatorSpecProperties(MediatorSpecRef mediator) {
-
 		UpdateComboKeyValueDialog dialog = new UpdatePropertiesDialog(ViewUtil.getShell(parent), mediator);
-
-		if (dialog.open() == Window.OK) {
-			for (String key : dialog.getModel().keySet())
-				System.out.println(key + " - " + dialog.getModel().get(key) + "\n");
-		}
+		if (dialog.open() == Window.OK)
+			try {
+				AbstractCompositionsRepoService.getInstance().updateProperties(model, mediator, dialog.getModel());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	}
 }

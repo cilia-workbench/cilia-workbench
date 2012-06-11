@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-composition-specifications>
-<chain id="actimetry" namespace="fr.orange"/>
+	<chain id="actimetry" namespace="fr.orange">
+		<mediators>
+			<mediator-instance id="groovy" namespace="fr.liglab.adele.cilia" type="groovy-mediator"/>
+			<mediator-specification id="regression" namespace="fr.liglab.cube" type="regression">
+				<selection-constraint>
+					<property name="memoire" value="100Mo"/>
+				</selection-constraint>
+			</mediator-specification>
+			<mediator-specification id="reg" namespace="fr.liglab.cube" type="regression">
+				
+			<selection-constraint>
+<property name="vitesse" value="rapide"/>
+</selection-constraint>
+</mediator-specification>
+		</mediators>
+		<adapters>
+			<adapter-instance id="console" namespace="fr.liglab.adele.cilia" type="console-adapter"/>
+			<adapter-instance id="generator" namespace="fr.liglab.adele.cilia" type="number-generator-adapter"/>
+		</adapters>
+		<bindings>
+			<binding from="generator" from-cardinality="1...1" to="groovy:in" to-cardinality="1...n"/>
+			<binding from="groovy:out" from-cardinality="1...1" to="regression:in" to-cardinality="1...n"/>
+			<binding from="regression:out" from-cardinality="0...1" to="console" to-cardinality="0...n"/>
+			<binding from="generator" from-cardinality="1...1" to="reg:in" to-cardinality="1...n"/>
+			<binding from="reg:out" from-cardinality="1...1" to="regression:in" to-cardinality="1...1"/>
+		</bindings>
+	</chain>
 </cilia-composition-specifications>
