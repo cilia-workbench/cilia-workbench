@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.common.view;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
@@ -66,5 +67,16 @@ public class ViewUtil {
 	 */
 	public static Shell getShell(DoubleClickEvent event) {
 		return event.getViewer().getControl().getShell();
+	}
+
+	public static Shell getShell(Control control) {
+
+		while (control != null && !(control instanceof Shell))
+			control = control.getParent();
+
+		if (control == null)
+			return null;
+
+		return (Shell) control;
 	}
 }

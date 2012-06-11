@@ -25,6 +25,8 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
@@ -53,6 +55,17 @@ public class MediatorSpecRef extends MediatorRef {
 
 	public List<PropertyConstraint> getConstraints() {
 		return constraints;
+	}
+
+	public List<NameProperty> getPossibleConstraints() {
+
+		IGenericMediator ro = getReferencedObject();
+		if (ro != null && ro instanceof MediatorSpec) {
+			MediatorSpec spec = (MediatorSpec) ro;
+			return spec.getProperties();
+		}
+
+		return new ArrayList<NameProperty>();
 	}
 
 	@Override

@@ -115,7 +115,6 @@ public class GraphLabelProvider extends LabelProvider implements IConnectionStyl
 
 	@Override
 	public IFigure getTooltip(Object entity) {
-		// return new Label("something");
 		return null;
 	}
 }

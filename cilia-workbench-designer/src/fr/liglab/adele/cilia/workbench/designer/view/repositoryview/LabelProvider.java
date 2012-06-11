@@ -52,7 +52,7 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 	protected abstract GenericContentProvider getContentProvider();
 
 	/**
-	 * Represents ans stores an image.
+	 * Represents and stores an image.
 	 * 
 	 * @author Etienne Gandrille
 	 */

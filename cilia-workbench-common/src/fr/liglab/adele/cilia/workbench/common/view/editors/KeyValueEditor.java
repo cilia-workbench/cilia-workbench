@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.jface;
+package fr.liglab.adele.cilia.workbench.common.view.editors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,82 +46,41 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * A simple map<String, String> editor.
+ * Base class for implementing key value editors.
  * 
  * @author Etienne Gandrille
  */
-public class KeyValueEditor extends AbstractEditor {
+public abstract class KeyValueEditor extends AbstractEditor {
 
-	/* Main fields */
-	/* =========== */
+	private final Map<String, String> model;
 
-	/** Text field for adding a key */
-	private final Text text1;
+	private final Control keyWidget;
+	private final Text textWidget;
 
-	/** Text field for adding a value */
-	private final Text text2;
+	private final String keyLabel;
+	private final String valueLabel;
 
-	/** The Model object : the Map. */
-	private final Map<String, String> input;
-
-	/* Labels */
-	/* ====== */
-
-	/** The key label. */
-	private final String keyLabel = "key";
-
-	/** The value label. */
-	private final String valueLabel = "value";
-
-	/* Listeners */
-	/* ========= */
-
-	/** The resize listener. */
 	private final ResizeListener resizeListener;
 
-	/* Validators */
-	/* ========== */
-
-	/** Validator for validating the key field. */
 	private IInputValidator keyValidator = null;
-
-	/** Validator for validating the value field. */
 	private IInputValidator valueValidator = null;
 
-	public void setKeyValidator(IInputValidator keyValidator) {
-		this.keyValidator = keyValidator;
-	}
-
-	public void setValueValidator(IInputValidator valueValidator) {
-		this.valueValidator = valueValidator;
-	}
-
-	public Map<String, String> getMap() {
-		return input;
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param parent
-	 *            parent composite
-	 * @param input
-	 *            values for viewer initialization. The map can be empty, but mustn't be null.
-	 */
-	public KeyValueEditor(Composite parent, Map<String, String> input) {
+	public KeyValueEditor(Composite parent, Map<String, String> input, String keyLabel, String valueLabel) {
 		super(parent);
 
-		this.input = input;
+		this.model = input;
+		this.keyLabel = keyLabel;
+		this.valueLabel = valueLabel;
 
 		// Composite
 		widgetComposite = new Composite(parent, SWT.NONE);
 		widgetComposite.setLayout(new GridLayout(3, false));
 
 		// Text
-		text1 = new Text(widgetComposite, SWT.NONE);
-		text1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		text2 = new Text(widgetComposite, SWT.NONE);
-		text2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		keyWidget = createKeyControl();
+		keyWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		textWidget = new Text(widgetComposite, SWT.NONE);
+		textWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// Add Button
 		final Button btnAdd = new Button(widgetComposite, SWT.NONE);
@@ -148,12 +107,36 @@ public class KeyValueEditor extends AbstractEditor {
 		btnRemove.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
 
 		// Listeners
-		btnAdd.addMouseListener(new AddButtonListener(text1, text2, jFaceViewer));
+		btnAdd.addMouseListener(new AddButtonListener(keyWidget, textWidget, jFaceViewer));
 		resizeListener = new ResizeListener(col1, col2, jFaceViewer);
 		widgetComposite.addControlListener(resizeListener);
-		jFaceViewer.addSelectionChangedListener(new SelectTableListener(text1, text2));
+		jFaceViewer.addSelectionChangedListener(new SelectTableListener(keyWidget, textWidget));
 		btnRemove.addMouseListener(new RemoveButtonListener(parent.getShell(), jFaceViewer));
 	}
+
+	public Map<String, String> getModel() {
+		return model;
+	}
+
+	public void setKeyValidator(IInputValidator keyValidator) {
+		this.keyValidator = keyValidator;
+	}
+
+	public void setValueValidator(IInputValidator valueValidator) {
+		this.valueValidator = valueValidator;
+	}
+
+	protected Control getKeyControl() {
+		return keyWidget;
+	}
+
+	protected abstract Control createKeyControl();
+
+	protected abstract String getKeyValue();
+
+	protected abstract void setKeyValue(String value);
+
+	protected abstract void resetKeyValue();
 
 	/**
 	 * Convert the map into Object[].
@@ -163,7 +146,9 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
+		 * java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -197,8 +182,9 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse .jface.viewers.Viewer,
-		 * java.lang.Object, java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
@@ -237,9 +223,10 @@ public class KeyValueEditor extends AbstractEditor {
 	}
 
 	/**
-	 * The listener interface for receiving addButton events. The class that is interested in processing a addButton
-	 * event implements this interface, and the object created with that class is registered with a component using the
-	 * component's <code>addAddButtonListener<code> method. When
+	 * The listener interface for receiving addButton events. The class that is
+	 * interested in processing a addButton event implements this interface, and
+	 * the object created with that class is registered with a component using
+	 * the component's <code>addAddButtonListener<code> method. When
 	 * the addButton event occurs, that object's appropriate
 	 * method is invoked.
 	 * 
@@ -248,10 +235,10 @@ public class KeyValueEditor extends AbstractEditor {
 	private class AddButtonListener implements MouseListener {
 
 		/** The text1. */
-		private Text text1;
+		private Control keyWidget;
 
 		/** The text2. */
-		private Text text2;
+		private Text valueWidget;
 
 		/** The table. */
 		private StructuredViewer table;
@@ -259,23 +246,25 @@ public class KeyValueEditor extends AbstractEditor {
 		/**
 		 * Instantiates a new adds the button listener.
 		 * 
-		 * @param text1
+		 * @param keyWidget
 		 *            the text1
-		 * @param text2
+		 * @param valueWidget
 		 *            the text2
 		 * @param table
 		 *            the table
 		 */
-		public AddButtonListener(Text text1, Text text2, StructuredViewer table) {
-			this.text1 = text1;
-			this.text2 = text2;
+		public AddButtonListener(Control keyWidget, Text valueWidget, StructuredViewer table) {
+			this.keyWidget = keyWidget;
+			this.valueWidget = valueWidget;
 			this.table = table;
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse .swt.events.MouseEvent)
+		 * @see
+		 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse
+		 * .swt.events.MouseEvent)
 		 */
 		@Override
 		public void mouseDoubleClick(MouseEvent e) {
@@ -285,7 +274,9 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events .MouseEvent)
+		 * @see
+		 * org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events
+		 * .MouseEvent)
 		 */
 		@Override
 		public void mouseDown(MouseEvent e) {
@@ -295,40 +286,42 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events .MouseEvent)
+		 * @see
+		 * org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events
+		 * .MouseEvent)
 		 */
 		@Override
 		public void mouseUp(MouseEvent e) {
-			String str1 = text1.getText().trim();
-			String str2 = text2.getText().trim();
+			String str1 = getKeyValue().trim();
+			String str2 = valueWidget.getText().trim();
 
 			if (keyValidator != null) {
 				String msg = keyValidator.isValid(str1);
 				if (msg != null) {
 					String title = "Invalid \"" + keyLabel + "\" value";
 					MessageDialog.openError(shell, title, msg);
-					text1.setFocus();
+					keyWidget.setFocus();
 					return;
 				}
 			}
 
 			if (valueValidator != null) {
-				String msg = valueValidator.isValid(str1);
+				String msg = valueValidator.isValid(str2);
 				if (msg != null) {
 					String title = "Invalid \"" + valueLabel + "\" value";
 					MessageDialog.openError(shell, title, msg);
-					text2.setFocus();
+					valueWidget.setFocus();
 					return;
 				}
 			}
 
-			input.remove(str1);
-			input.put(str1, str2);
+			model.remove(str1);
+			model.put(str1, str2);
 			table.refresh();
 
-			text1.setText("");
-			text2.setText("");
-			text1.setFocus();
+			resetKeyValue();
+			valueWidget.setText("");
+			keyWidget.setFocus();
 		}
 	}
 
@@ -367,7 +360,9 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.swt.events.ControlListener#controlResized(org.eclipse .swt.events.ControlEvent)
+		 * @see
+		 * org.eclipse.swt.events.ControlListener#controlResized(org.eclipse
+		 * .swt.events.ControlEvent)
 		 */
 		@Override
 		public void controlResized(ControlEvent e) {
@@ -380,7 +375,9 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt .events.ControlEvent)
+		 * @see
+		 * org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt
+		 * .events.ControlEvent)
 		 */
 		@Override
 		public void controlMoved(ControlEvent e) {
@@ -395,29 +392,25 @@ public class KeyValueEditor extends AbstractEditor {
 	 */
 	public class SelectTableListener implements ISelectionChangedListener {
 
-		/** The text1. */
-		private final Text text1;
-
-		/** The text2. */
-		private final Text text2;
+		private final Text valueWidget;
 
 		/**
 		 * Instantiates a new select table listener.
 		 * 
-		 * @param text1
+		 * @param keyWidget
 		 *            the text1
-		 * @param text2
+		 * @param valueWidget
 		 *            the text2
 		 */
-		public SelectTableListener(Text text1, Text text2) {
-			this.text1 = text1;
-			this.text2 = text2;
+		public SelectTableListener(Control keyWidget, Text valueWidget) {
+			this.valueWidget = valueWidget;
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged
+		 * @see
+		 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged
 		 * (org.eclipse.jface.viewers.SelectionChangedEvent)
 		 */
 		@Override
@@ -429,8 +422,8 @@ public class KeyValueEditor extends AbstractEditor {
 				String key = line[0];
 				String value = line[1];
 
-				text1.setText(key);
-				text2.setText(value);
+				setKeyValue(key);
+				valueWidget.setText(value);
 			}
 		}
 	}
@@ -464,7 +457,9 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse .swt.events.MouseEvent)
+		 * @see
+		 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse
+		 * .swt.events.MouseEvent)
 		 */
 		@Override
 		public void mouseDoubleClick(MouseEvent e) {
@@ -473,7 +468,9 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events .MouseEvent)
+		 * @see
+		 * org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events
+		 * .MouseEvent)
 		 */
 		@Override
 		public void mouseDown(MouseEvent e) {
@@ -482,7 +479,9 @@ public class KeyValueEditor extends AbstractEditor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events .MouseEvent)
+		 * @see
+		 * org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events
+		 * .MouseEvent)
 		 */
 		@Override
 		public void mouseUp(MouseEvent e) {
@@ -492,7 +491,7 @@ public class KeyValueEditor extends AbstractEditor {
 			if (line == null) {
 				MessageDialog.openError(shell, "Error", "Please select an element first.");
 			} else {
-				input.remove(line[0]);
+				model.remove(line[0]);
 				table.refresh();
 			}
 		}

@@ -149,7 +149,6 @@ public abstract class NewNameNamespaceDialog extends Dialog {
 	protected void initializeBounds() {
 		super.initializeBounds();
 		getButton(IDialogConstants.OK_ID).setEnabled(false);
-
 	}
 
 	/*

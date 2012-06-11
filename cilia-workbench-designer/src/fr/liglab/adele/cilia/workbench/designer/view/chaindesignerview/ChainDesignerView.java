@@ -16,16 +16,22 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
 import java.util.List;
 
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 
 import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvider;
 import fr.liglab.adele.cilia.workbench.common.view.GraphView;
+import fr.liglab.adele.cilia.workbench.common.view.UpdateComboKeyValueDialog;
+import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
@@ -46,6 +52,8 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 	private Chain model;
 
+	private Composite parent = null;
+
 	private final String DEFAULT_PART_NAME = "Chain Viewer";
 
 	public ChainDesignerView() {
@@ -54,6 +62,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent, viewId);
+		this.parent = parent;
 
 		// Registers the instance in the selection service
 		ISelectionService s = getSite().getWorkbenchWindow().getSelectionService();
@@ -64,6 +73,19 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 		viewer.setLabelProvider(new GraphLabelProvider());
 		viewer.setInput(new Object[0]);
 		AbstractCompositionsRepoService.getInstance().registerListener(this);
+
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				Object element = getFirstSelectedElement();
+				if (element != null && element instanceof MediatorSpecRef)
+					updateMediatorSpecProperties((MediatorSpecRef) element);
+			}
+		});
+	}
+
+	public Chain getModel() {
+		return model;
 	}
 
 	private void setModel(Chain chain) {
@@ -133,7 +155,13 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 		}
 	}
 
-	public Chain getModel() {
-		return model;
+	private void updateMediatorSpecProperties(MediatorSpecRef mediator) {
+
+		UpdateComboKeyValueDialog dialog = new UpdatePropertiesDialog(ViewUtil.getShell(parent), mediator);
+
+		if (dialog.open() == Window.OK) {
+			for (String key : dialog.getModel().keySet())
+				System.out.println(key + " - " + dialog.getModel().get(key) + "\n");
+		}
 	}
 }
