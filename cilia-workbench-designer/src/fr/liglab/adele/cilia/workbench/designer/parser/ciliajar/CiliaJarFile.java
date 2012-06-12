@@ -14,7 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.AbstractFile;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well

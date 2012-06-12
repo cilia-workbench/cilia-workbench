@@ -28,6 +28,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAda
  */
 public class AdapterUtil {
 
+	public static final String XML_NODE_NAME = "adapter";
+	public static final String XML_ATTR_PATTERN = "pattern";
+
 	private static String IN_PATTERN = "in-only";
 	private static String OUT_PATTERN = "out-only";
 
@@ -43,7 +46,7 @@ public class AdapterUtil {
 		GenericAdapter retval = null;
 
 		try {
-			String pattern = XMLHelpers.findAttributeValue(node, "pattern");
+			String pattern = XMLHelpers.findAttributeValue(node, XML_ATTR_PATTERN);
 			if (pattern.equalsIgnoreCase(IN_PATTERN))
 				retval = new InAdapter(node);
 			else if (pattern.equalsIgnoreCase(OUT_PATTERN))

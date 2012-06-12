@@ -53,6 +53,13 @@ public abstract class ComponentPart implements IElement, DisplayedInPropertiesVi
 		return parameters;
 	}
 
+	public Parameter getParameter(String name) {
+		for (Parameter p : parameters)
+			if (p.getName().equalsIgnoreCase(name))
+				return p;
+		return null;
+	}
+
 	public List<Changeset> merge(Object newInstance) throws CiliaException {
 		return MergeUtil.mergeLists(((ComponentPart) newInstance).getParameters(), parameters);
 	}

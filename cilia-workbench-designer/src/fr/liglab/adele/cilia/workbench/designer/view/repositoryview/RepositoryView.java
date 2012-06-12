@@ -43,7 +43,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;

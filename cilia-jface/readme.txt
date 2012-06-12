@@ -1,1 +1,0 @@
-A basic JFace dialog... just for a first training.

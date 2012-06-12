@@ -25,6 +25,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IScheduler
  */
 public class Scheduler extends SPDElement implements IScheduler {
 
+	public static final String XML_NODE_NAME = "scheduler";
+
 	public Scheduler(Node node) throws CiliaException {
 		super(node);
 	}

@@ -21,7 +21,7 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.NameValueProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameValueProperty;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;

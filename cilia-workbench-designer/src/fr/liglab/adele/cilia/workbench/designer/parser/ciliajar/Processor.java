@@ -25,6 +25,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IProcessor
  */
 public class Processor extends SPDElement implements IProcessor {
 
+	public static final String XML_NODE_NAME = "processor";
+
 	public Processor(Node node) throws CiliaException {
 		super(node);
 	}

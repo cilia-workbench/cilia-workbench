@@ -33,6 +33,8 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public class Parameter extends GenericParameter implements DisplayedInPropertiesView {
 
+	public static final String XML_NODE_NAME = "property";
+
 	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_METHOD = "method";
 	public static final String XML_ATTR_VALUE = "value";
@@ -54,7 +56,7 @@ public class Parameter extends GenericParameter implements DisplayedInProperties
 
 		Node rootParam = XMLHelpers.findChild(node, "properties");
 		if (rootParam != null) {
-			Node[] params = XMLHelpers.findChildren(rootParam, "property");
+			Node[] params = XMLHelpers.findChildren(rootParam, XML_NODE_NAME);
 			for (Node param : params)
 				retval.add(new Parameter(param));
 		}

@@ -34,6 +34,8 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public class CiliaJarModel implements DisplayedInPropertiesView {
 
+	public static final String ROOT_NODE_NAME = "ipojo";
+
 	private List<MediatorComponent> mediatorComponents = new ArrayList<MediatorComponent>();
 	private List<Processor> processors = new ArrayList<Processor>();
 	private List<Scheduler> schedulers = new ArrayList<Scheduler>();
@@ -57,21 +59,21 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 
 					String nodeName = child.getNodeName().toLowerCase();
 
-					if (nodeName.equals("processor"))
+					if (nodeName.equals(Processor.XML_NODE_NAME))
 						processors.add(new Processor(child));
-					else if (nodeName.equals("scheduler"))
+					else if (nodeName.equals(Scheduler.XML_NODE_NAME))
 						schedulers.add(new Scheduler(child));
-					else if (nodeName.equals("dispatcher"))
+					else if (nodeName.equals(Dispatcher.XML_NODE_NAME))
 						dispatchers.add(new Dispatcher(child));
-					else if (nodeName.equals("collector"))
+					else if (nodeName.equals(Collector.XML_NODE_NAME))
 						collectors.add(new Collector(child));
-					else if (nodeName.equals("sender"))
+					else if (nodeName.equals(Sender.XML_NODE_NAME))
 						senders.add(new Sender(child));
-					else if (nodeName.equals("adapter")) {
+					else if (nodeName.equals(AdapterUtil.XML_NODE_NAME)) {
 						GenericAdapter a = AdapterUtil.createAdapter(child);
 						if (a != null)
 							adapters.add(a);
-					} else if (nodeName.equals("mediator-component"))
+					} else if (nodeName.equals(MediatorComponent.XML_NODE_NAME))
 						mediatorComponents.add(new MediatorComponent(child));
 				}
 			}
@@ -79,7 +81,7 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 	}
 
 	private static Node getRootNode(Document document) throws CiliaException {
-		return XMLHelpers.getRootNode(document, "ipojo");
+		return XMLHelpers.getRootNode(document, ROOT_NODE_NAME);
 	}
 
 	public List<MediatorComponent> getMediatorComponents() {

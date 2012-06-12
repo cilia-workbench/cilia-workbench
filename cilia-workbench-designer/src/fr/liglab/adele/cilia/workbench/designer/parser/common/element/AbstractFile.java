@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.common;
+package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;

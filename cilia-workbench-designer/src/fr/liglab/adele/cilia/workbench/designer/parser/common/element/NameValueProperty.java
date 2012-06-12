@@ -12,11 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericProperty;
 
 /**
  * The Class Property.

@@ -27,6 +27,8 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public class InPort extends GenericInPort implements DisplayedInPropertiesView {
 
+	public static final String XML_NODE_NAME = "in-port";
+
 	public InPort(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, "name", this, "name");
 	}

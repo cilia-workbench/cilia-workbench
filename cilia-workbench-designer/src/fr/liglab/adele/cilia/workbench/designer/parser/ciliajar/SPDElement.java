@@ -37,18 +37,29 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public abstract class SPDElement extends NameNamespace implements IElement, DisplayedInPropertiesView {
 
+	public static final String XML_ATTR_NAME = "name";
+	public static final String XML_ATTR_NAMESPACE = "namespace";
+	public static final String XML_ATTR_CLASSNAME = "classname";
+
 	private String classname;
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 
 	public SPDElement(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, "name", this, "name");
-		ReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.getDefaultNamespace());
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace", CiliaConstants.getDefaultNamespace());
 		parameters = Parameter.findParameters(node);
-		ReflectionUtil.setAttribute(node, "classname", this, "classname");
+		ReflectionUtil.setAttribute(node, XML_ATTR_CLASSNAME, this, "classname");
 	}
 
 	public List<Parameter> getParameters() {
 		return parameters;
+	}
+
+	public Parameter getParameter(String name) {
+		for (Parameter p : parameters)
+			if (p.getName().equalsIgnoreCase(name))
+				return p;
+		return null;
 	}
 
 	@Override

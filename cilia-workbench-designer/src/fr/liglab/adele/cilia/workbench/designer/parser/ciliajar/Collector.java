@@ -24,6 +24,8 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
  */
 public class Collector extends SCElement {
 
+	public static final String XML_NODE_NAME = "collector";
+
 	public Collector(Node node) throws CiliaException {
 		super(node);
 	}

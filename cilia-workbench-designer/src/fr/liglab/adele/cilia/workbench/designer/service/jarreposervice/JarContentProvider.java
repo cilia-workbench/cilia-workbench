@@ -23,11 +23,11 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.NameValueProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameValueProperty;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**

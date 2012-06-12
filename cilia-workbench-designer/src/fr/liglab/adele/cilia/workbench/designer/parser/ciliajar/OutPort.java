@@ -27,6 +27,8 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public class OutPort extends GenericOutPort implements DisplayedInPropertiesView {
 
+	public static final String XML_NODE_NAME = "out-port";
+
 	public OutPort(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, "name", this, "name");
 	}

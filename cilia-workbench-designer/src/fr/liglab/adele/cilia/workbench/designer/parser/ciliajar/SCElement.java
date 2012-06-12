@@ -34,14 +34,17 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public abstract class SCElement implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
+	public static final String XML_ATTR_NAME = "name";
+	public static final String XML_ATTR_CLASSNAME = "classname";
+
 	private String name;
 	private String classname;
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 
 	public SCElement(Node node) throws CiliaException {
 		parameters = Parameter.findParameters(node);
-		ReflectionUtil.setAttribute(node, "name", this, "name");
-		ReflectionUtil.setAttribute(node, "classname", this, "classname");
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
+		ReflectionUtil.setAttribute(node, XML_ATTR_CLASSNAME, this, "classname");
 	}
 
 	public List<Parameter> getParameters() {

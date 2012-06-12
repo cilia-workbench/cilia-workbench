@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.CiliaMarkerUtil;
 import fr.liglab.adele.cilia.workbench.designer.Activator;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.AbstractFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.AbstractFile;
 
 /**
  * Represents a repository, from a model point of view.

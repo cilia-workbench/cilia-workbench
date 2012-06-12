@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
+import com.google.common.base.Strings;
+
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
@@ -49,6 +51,10 @@ public class GenericParameter implements ErrorsAndWarningsFinder, Identifiable {
 			retval = retval + " = " + default_value;
 
 		return retval;
+	}
+
+	public boolean hasDefaultValue() {
+		return !Strings.isNullOrEmpty(default_value);
 	}
 
 	@Override

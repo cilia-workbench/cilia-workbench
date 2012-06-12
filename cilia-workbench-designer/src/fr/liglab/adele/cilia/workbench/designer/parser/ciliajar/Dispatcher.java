@@ -25,6 +25,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IDispatche
  */
 public class Dispatcher extends SPDElement implements IDispatcher {
 
+	public static final String XML_NODE_NAME = "dispatcher";
+
 	public Dispatcher(Node node) throws CiliaException {
 		super(node);
 	}
