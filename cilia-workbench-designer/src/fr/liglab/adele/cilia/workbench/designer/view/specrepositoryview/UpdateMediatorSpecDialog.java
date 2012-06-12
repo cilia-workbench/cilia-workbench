@@ -186,11 +186,11 @@ public class UpdateMediatorSpecDialog extends Dialog {
 
 		// In ports
 		ListEditor inPortsEditor = new ListEditor(portsComposite, synchroPortsValue);
-		inPortsEditor.getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		inPortsEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		// Out Ports
 		ListEditor outPortsEditor = new ListEditor(portsComposite, dispatchPortsValue);
-		outPortsEditor.getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		outPortsEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		// Properties
 		// ==========
@@ -239,7 +239,7 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		createLabel(container, message, true);
 
 		ListEditor listEditor = new ListEditor(container, elements);
-		listEditor.getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		listEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		return container;
 	}

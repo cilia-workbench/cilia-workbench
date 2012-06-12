@@ -110,7 +110,7 @@ public class UpdateComboKeyValueDialog extends Dialog {
 
 		// Main widget
 		editor = new ComboKeyValueEditor(container, keyList, model, keyLabel, valueLabel);
-		editor.getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		editor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		editor.setKeyValidator(keyValidator);
 		editor.setValueValidator(valueValidator);

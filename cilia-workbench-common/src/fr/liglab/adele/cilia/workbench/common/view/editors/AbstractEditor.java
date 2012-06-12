@@ -17,9 +17,7 @@ package fr.liglab.adele.cilia.workbench.common.view.editors;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-
 
 /**
  * Base class for implementing editors, such as list editors and map editors.
@@ -32,45 +30,46 @@ public abstract class AbstractEditor {
 	protected final String addLabel = "Add";
 
 	/** The remove label. */
-	protected final String removeLabel = "Remove";	
-	
+	protected final String removeLabel = "Remove";
+
 	/** The JFace viewer */
 	protected StructuredViewer jFaceViewer;
 
 	/** The parent Shell */
 	protected Shell shell;
-	
+
 	/** The main composite for this widget. */
 	protected Composite widgetComposite;
-	
+
 	public AbstractEditor(Composite parent) {
 		this.shell = parent.getShell();
 	}
-	
+
 	/**
 	 * Sets the comparator, for sorting values in the table.
-	 *
-	 * @param comparator the new comparator
+	 * 
+	 * @param comparator
+	 *            the new comparator
 	 */
 	public void setComparator(ViewerComparator comparator) {
 		jFaceViewer.setComparator(comparator);
 		refresh();
 	}
-	
+
 	/**
 	 * Gets the default comparator.
-	 *
+	 * 
 	 * @return the default comparator
 	 */
-	protected abstract ViewerComparator getDefaultComparator() ;
-	
+	protected abstract ViewerComparator getDefaultComparator();
+
 	/**
 	 * Gets the composite.
 	 * 
 	 * @return the composite
 	 */
-	public Control getComposite() {
-		return widgetComposite;
+	public void setLayoutData(Object layoutData) {
+		widgetComposite.setLayoutData(layoutData);
 	}
 
 	/**
