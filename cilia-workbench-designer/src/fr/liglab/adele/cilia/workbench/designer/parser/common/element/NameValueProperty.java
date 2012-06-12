@@ -14,8 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 
 /**
  * The Class Property.
@@ -72,7 +72,7 @@ public class NameValueProperty extends GenericProperty {
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag[] tab = super.getErrorsAndWarnings();
-		CiliaFlag e1 = CiliaWarning.checkStringNotNullOrEmpty(this, value, "value");
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, value, "value");
 
 		return CiliaFlag.generateTab(tab, e1);
 	}

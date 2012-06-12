@@ -59,7 +59,7 @@ public abstract class GenericProperty implements DisplayedInPropertiesView, Erro
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "key");
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
 
 		return CiliaFlag.generateTab(e1);
 	}

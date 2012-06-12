@@ -46,15 +46,11 @@ public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsA
 
 	/** The component id, unique in the chain */
 	private String id;
-	/** The id of the specification or implementation pointed by the component */
-	protected String type;
 
 	NameNamespaceID chainId;
 
-	/**
-	 * The namespace of the specification or implementation pointed by the
-	 * component
-	 */
+	// pointed by the component
+	protected String type;
 	private String namespace;
 
 	public static final String XML_ATTR_ID = "id";

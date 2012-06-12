@@ -2,8 +2,7 @@
 <cilia-composition-specifications>
 	<chain id="actimetry" namespace="fr.orange">
 		<mediators>
-			<mediator-instance id="groovy" namespace="fr.liglab.adele.cilia"
-				type="groovy-mediator" />
+
 			<mediator-specification id="regression"
 				namespace="fr.liglab.cube" type="regression">
 				<selection-constraint>
@@ -16,6 +15,12 @@
 					<property name="vitesse" value="rapide" />
 				</selection-constraint>
 			</mediator-specification>
+			<mediator-instance id="increment" namespace="fr.liglab.adele.cilia"
+				type="increment-mediator">
+				<processor>
+					<property name="increment" value="12" />
+				</processor>
+			</mediator-instance>
 		</mediators>
 		<adapters>
 			<adapter-instance id="console" namespace="fr.liglab.adele.cilia"
@@ -24,16 +29,18 @@
 				type="number-generator-adapter" />
 		</adapters>
 		<bindings>
-			<binding from="generator" from-cardinality="1...1" to="groovy:in"
-				to-cardinality="1...n" />
-			<binding from="groovy:out" from-cardinality="1...1" to="regression:in"
-				to-cardinality="1...n" />
+
+
 			<binding from="regression:out" from-cardinality="0...1" to="console"
 				to-cardinality="0...n" />
 			<binding from="generator" from-cardinality="1...1" to="reg:in"
 				to-cardinality="1...n" />
 			<binding from="reg:out" from-cardinality="1...1" to="regression:in"
 				to-cardinality="1...1" />
+			<binding from="generator" from-cardinality="1...1" to="increment:in"
+				to-cardinality="1...1" />
+			<binding from="increment:out" from-cardinality="1...1"
+				to="regression:in" to-cardinality="0...n" />
 		</bindings>
 	</chain>
 </cilia-composition-specifications>
