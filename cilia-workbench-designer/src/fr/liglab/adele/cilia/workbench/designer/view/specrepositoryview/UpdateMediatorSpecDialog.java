@@ -37,8 +37,8 @@ import fr.liglab.adele.cilia.workbench.common.view.editors.ListEditor;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
 
 /**
  * This dialog is used to update a mediator specification.
@@ -70,8 +70,7 @@ public class UpdateMediatorSpecDialog extends Dialog {
 	private final String dispatchPortsMessage = "Out ports:";
 
 	/* Mediator properties */
-	private final String mediatorTitle = "mediator";
-	private final String propertiesMessage = "You can edit the properties list";
+	private final String propertiesMessage = "Properties list";
 	private List<String> mediatorProperties = new ArrayList<String>();
 
 	/* Scheduler params */
@@ -142,8 +141,7 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		getShell().setText(title);
 
 		// Global layout
-		GridLayout mainLayout = new GridLayout(1, false);
-		container.setLayout(mainLayout);
+		container.setLayout(new GridLayout(1, false));
 
 		// Main composites
 		Composite generalComposite = new Composite(container, SWT.NONE);
@@ -152,14 +150,16 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		Composite portsComposite = new Composite(container, SWT.NONE);
 		portsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
+		Composite propertiesComposite = new Composite(container, SWT.NONE);
+		propertiesComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 		Composite advancedComposite = new Composite(container, SWT.NONE);
 		advancedComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		// General composite
 		// =================
 
-		GridLayout generalLayout = new GridLayout(2, false);
-		generalComposite.setLayout(generalLayout);
+		generalComposite.setLayout(new GridLayout(2, false));
 
 		// intro
 		final Label introLabel = new Label(generalComposite, SWT.WRAP);
@@ -179,8 +179,7 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		// Ports composite
 		// ===============
 
-		GridLayout portsLayout = new GridLayout(2, false);
-		portsComposite.setLayout(portsLayout);
+		portsComposite.setLayout(new GridLayout(2, false));
 
 		createLabel(portsComposite, synchroPortsMessage, false);
 		createLabel(portsComposite, dispatchPortsMessage, false);
@@ -193,14 +192,21 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		ListEditor outPortsEditor = new ListEditor(portsComposite, dispatchPortsValue);
 		outPortsEditor.getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
+		// Properties
+		// ==========
+
+		propertiesComposite.setLayout(new GridLayout(1, false));
+
+		Composite compo = createComposite(propertiesComposite, propertiesMessage, mediatorProperties);
+		compo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 		// Advanced composite
 		// =================
-		GridLayout detailsLayout = new GridLayout(1, false);
-		advancedComposite.setLayout(detailsLayout);
+
+		advancedComposite.setLayout(new GridLayout(1, false));
 
 		CTabFolder folder = new CTabFolder(advancedComposite, SWT.BORDER);
 
-		createTab(folder, mediatorTitle, propertiesMessage, mediatorProperties);
 		createSPDTab(folder, schedulerTitle, schedulerParam);
 		createSPDTab(folder, processorTitle, processorParam);
 		createSPDTab(folder, dispatcherTitle, dispatcherParam);
@@ -223,27 +229,30 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		// editor.refresh();
 	}
 
-	private static void createTab(CTabFolder folder, String title, String message, List<String> elements) {
-		CTabItem item = new CTabItem(folder, SWT.NONE);
-		item.setText(title);
+	private static Composite createComposite(Composite parent, String message, List<String> elements) {
 
-		// Composite
-		Composite container = new Composite(folder, SWT.NONE);
+		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		GridLayout layout = new GridLayout(1, false);
 		container.setLayout(layout);
-		item.setControl(container);
 
-		// Label info
 		createLabel(container, message, true);
 
 		ListEditor listEditor = new ListEditor(container, elements);
 		listEditor.getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		return container;
 	}
 
 	private static void createSPDTab(CTabFolder folder, String title, List<String> elements) {
 		String label = "You can add parameters, for adding variabiliy on the " + title;
-		createTab(folder, title, label, elements);
+
+		CTabItem item = new CTabItem(folder, SWT.NONE);
+		item.setText(title);
+
+		Composite container = createComposite(folder, label, elements);
+
+		item.setControl(container);
 	}
 
 	private static Text createText(final Composite container, boolean readOnly) {
@@ -281,7 +290,7 @@ public class UpdateMediatorSpecDialog extends Dialog {
 	 * @see org.eclipse.jface.dialogs.Dialog#getInitialSize()
 	 */
 	protected Point getInitialSize() {
-		return new Point(450, 650);
+		return new Point(450, 800);
 	}
 
 	/*

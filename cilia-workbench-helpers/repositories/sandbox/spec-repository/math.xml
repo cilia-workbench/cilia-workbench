@@ -7,15 +7,7 @@
 
 	
 	
-	<mediator-specification id="filter" namespace="toto">
-		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
-		</ports>
-		<properties>
-			<property name="aaa"/>
-		</properties>
-	</mediator-specification>
+	
 	
 
 
@@ -48,15 +40,7 @@
 
 
 
-<mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-<properties>
-<property name="category"/>
-</properties>
-</mediator-specification>
+
 
 
 
@@ -87,5 +71,23 @@
 <parameter name="increment"/>
 </parameters>
 </processor>
+</mediator-specification>
+
+
+
+<mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+<properties>
+<property name="category"/>
+</properties>
+</mediator-specification>
+<mediator-specification id="filter" namespace="toto">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
 </mediator-specification>
 </cilia-specifications>
