@@ -176,4 +176,25 @@ public abstract class UpdateMediatorRefDialog extends Dialog {
 			}
 		};
 	}
+
+	public Map<String, String> getSchedulerParameters() {
+		return getParameters(schedulerPrefix);
+	}
+
+	public Map<String, String> getProcessorParameters() {
+		return getParameters(processorPrefix);
+	}
+
+	public Map<String, String> getDispatcherParameters() {
+		return getParameters(dispatcherPrefix);
+	}
+
+	private Map<String, String> getParameters(String prefix) {
+		Map<String, String> retval = new HashMap<String, String>();
+		for (String key : peModel.keySet()) {
+			if (key.startsWith(prefix))
+				retval.put(key.substring(prefix.length()), peModel.get(key));
+		}
+		return retval;
+	}
 }

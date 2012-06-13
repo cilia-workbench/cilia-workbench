@@ -91,4 +91,8 @@ public class UpdateMediatorSpecRefDialog extends UpdateMediatorRefDialog {
 		super.initializeBounds();
 		constraintEditor.refresh();
 	}
+
+	public Map<String, String> getConstraints() {
+		return ceModel;
+	}
 }

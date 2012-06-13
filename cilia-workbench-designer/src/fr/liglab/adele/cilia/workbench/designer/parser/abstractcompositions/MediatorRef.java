@@ -41,6 +41,10 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Merg
  */
 public abstract class MediatorRef extends ComponentRef {
 
+	public static String XML_SCHEDULER_NODE = "scheduler";
+	public static String XML_PROCESSOR_NODE = "processor";
+	public static String XML_DISPATCHER_NODE = "dispatcher";
+
 	private List<Parameter> schedulerParameters = new ArrayList<Parameter>();
 	private List<Parameter> processorParameters = new ArrayList<Parameter>();
 	private List<Parameter> dispatcherParameters = new ArrayList<Parameter>();
@@ -48,9 +52,9 @@ public abstract class MediatorRef extends ComponentRef {
 	public MediatorRef(Node node, NameNamespaceID chainId) throws CiliaException {
 		super(node, chainId);
 
-		initSPD(node, "scheduler", schedulerParameters);
-		initSPD(node, "processor", processorParameters);
-		initSPD(node, "dispatcher", dispatcherParameters);
+		initSPD(node, XML_SCHEDULER_NODE, schedulerParameters);
+		initSPD(node, XML_PROCESSOR_NODE, processorParameters);
+		initSPD(node, XML_DISPATCHER_NODE, dispatcherParameters);
 	}
 
 	public List<Parameter> getSchedulerParameters() {

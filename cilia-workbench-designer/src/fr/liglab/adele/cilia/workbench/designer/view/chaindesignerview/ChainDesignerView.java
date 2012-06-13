@@ -15,11 +15,13 @@
 package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.ISelectionService;
@@ -160,21 +162,33 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 		Shell shell = ViewUtil.getShell(parent);
 
-		if (mediator instanceof MediatorSpecRef) {
+		UpdateMediatorRefDialog dialog;
+		if (mediator instanceof MediatorSpecRef)
+			dialog = new UpdateMediatorSpecRefDialog(shell, (MediatorSpecRef) mediator);
+		else
+			dialog = new UpdateMediatorInstanceRefDialog(shell, (MediatorInstanceRef) mediator);
 
-			UpdateMediatorSpecRefDialog dialog = new UpdateMediatorSpecRefDialog(shell, (MediatorSpecRef) mediator);
-			dialog.open();
-		} else {
-			UpdateMediatorInstanceRefDialog dialog = new UpdateMediatorInstanceRefDialog(shell,
-					(MediatorInstanceRef) mediator);
-			dialog.open();
+		if (dialog.open() == Window.OK) {
+
+			// Constraints
+			if (mediator instanceof MediatorSpecRef) {
+				try {
+					AbstractCompositionsRepoService.getInstance().updateProperties(model, (MediatorSpecRef) mediator,
+							((UpdateMediatorSpecRefDialog) dialog).getConstraints());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			// Parameters
+			Map<String, String> sParam = dialog.getSchedulerParameters();
+			Map<String, String> pParam = dialog.getProcessorParameters();
+			Map<String, String> dParam = dialog.getDispatcherParameters();
+			try {
+				AbstractCompositionsRepoService.getInstance().updateParameters(model, mediator, sParam, pParam, dParam);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-
-		/*
-		 * if (dialog.open() == Window.OK) try {
-		 * AbstractCompositionsRepoService.getInstance().updateProperties(model,
-		 * mediator, dialog.getModel()); } catch (Exception e) {
-		 * e.printStackTrace(); }
-		 */
 	}
 }

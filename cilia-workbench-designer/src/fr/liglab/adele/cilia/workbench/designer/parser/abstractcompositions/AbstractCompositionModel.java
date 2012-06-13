@@ -345,4 +345,45 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		XMLHelpers.writeDOM(document, filePath);
 		AbstractCompositionsRepoService.getInstance().updateModel();
 	}
+
+	public void updateParameters(Chain chain, MediatorRef mediator, Map<String, String> schedulerParam,
+			Map<String, String> processorParam, Map<String, String> dispatcherParam) throws CiliaException {
+		Document document = XMLHelpers.getDocument(new File(filePath));
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
+
+		Node media = null;
+		if (mediator instanceof MediatorSpecRef)
+			media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID,
+					mediator.getId())[0];
+		else
+			media = XMLHelpers.findChildren(subNode, MediatorInstanceRef.XML_NODE_NAME,
+					MediatorInstanceRef.XML_ATTR_ID, mediator.getId())[0];
+
+		updateParameterInternal(document, media, MediatorRef.XML_SCHEDULER_NODE, schedulerParam);
+		updateParameterInternal(document, media, MediatorRef.XML_PROCESSOR_NODE, processorParam);
+		updateParameterInternal(document, media, MediatorRef.XML_DISPATCHER_NODE, dispatcherParam);
+
+		XMLHelpers.writeDOM(document, filePath);
+		AbstractCompositionsRepoService.getInstance().updateModel();
+	}
+
+	private static void updateParameterInternal(Document document, Node mediatorRoot, String xmlPartName,
+			Map<String, String> parameters) {
+
+		// first, delete
+		Node sub = XMLHelpers.findChild(mediatorRoot, xmlPartName);
+		if (sub != null)
+			for (Node n : XMLHelpers.findChildren(sub, Parameter.XML_ROOT_NAME))
+				sub.removeChild(n);
+
+		// then (re)create
+		if (parameters.size() != 0) {
+			if (sub == null)
+				sub = XMLHelpers.createNode(document, mediatorRoot, xmlPartName);
+			for (String key : parameters.keySet())
+				XMLHelpers.createNode(document, sub, Parameter.XML_ROOT_NAME, Parameter.XML_ATTR_NAME, key,
+						Parameter.XML_ATTR_VALUE, parameters.get(key));
+		}
+	}
 }

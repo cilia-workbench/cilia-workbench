@@ -31,6 +31,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Abst
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
@@ -274,5 +275,13 @@ public class AbstractCompositionsRepoService extends
 		if (repo == null)
 			return;
 		repo.getModel().updateProperties(chain, mediator, properties);
+	}
+
+	public void updateParameters(Chain chain, MediatorRef mediator, Map<String, String> schedulerParam,
+			Map<String, String> processorParam, Map<String, String> dispatcherParam) throws CiliaException {
+		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
+		if (repo == null)
+			return;
+		repo.getModel().updateParameters(chain, mediator, schedulerParam, processorParam, dispatcherParam);
 	}
 }
