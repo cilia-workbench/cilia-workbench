@@ -20,17 +20,18 @@ import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 
 import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvider;
 import fr.liglab.adele.cilia.workbench.common.view.GraphView;
-import fr.liglab.adele.cilia.workbench.common.view.UpdateComboKeyValueDialog;
 import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
@@ -78,8 +79,8 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				Object element = getFirstSelectedElement();
-				if (element != null && element instanceof MediatorSpecRef)
-					updateMediatorSpecProperties((MediatorSpecRef) element);
+				if (element != null && element instanceof MediatorRef)
+					updateMediatorConfiguration((MediatorRef) element);
 			}
 		});
 	}
@@ -155,13 +156,25 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 		}
 	}
 
-	private void updateMediatorSpecProperties(MediatorSpecRef mediator) {
-		UpdateComboKeyValueDialog dialog = new UpdatePropertiesDialog(ViewUtil.getShell(parent), mediator);
-		if (dialog.open() == Window.OK)
-			try {
-				AbstractCompositionsRepoService.getInstance().updateProperties(model, mediator, dialog.getModel());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+	private void updateMediatorConfiguration(MediatorRef mediator) {
+
+		Shell shell = ViewUtil.getShell(parent);
+
+		if (mediator instanceof MediatorSpecRef) {
+
+			UpdateMediatorSpecRefDialog dialog = new UpdateMediatorSpecRefDialog(shell, (MediatorSpecRef) mediator);
+			dialog.open();
+		} else {
+			UpdateMediatorInstanceRefDialog dialog = new UpdateMediatorInstanceRefDialog(shell,
+					(MediatorInstanceRef) mediator);
+			dialog.open();
+		}
+
+		/*
+		 * if (dialog.open() == Window.OK) try {
+		 * AbstractCompositionsRepoService.getInstance().updateProperties(model,
+		 * mediator, dialog.getModel()); } catch (Exception e) {
+		 * e.printStackTrace(); }
+		 */
 	}
 }

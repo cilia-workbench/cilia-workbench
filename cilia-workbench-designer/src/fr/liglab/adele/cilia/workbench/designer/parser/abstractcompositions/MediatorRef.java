@@ -81,7 +81,7 @@ public abstract class MediatorRef extends ComponentRef {
 
 	public abstract IGenericMediator getReferencedObject();
 
-	private List<? extends GenericParameter> getReferencedObjectSchedulerParameters() {
+	public List<? extends GenericParameter> getReferencedObjectSchedulerParameters() {
 
 		IGenericMediator ro = getReferencedObject();
 		if (ro == null)
@@ -94,7 +94,7 @@ public abstract class MediatorRef extends ComponentRef {
 		return part.getParameters();
 	}
 
-	private List<? extends GenericParameter> getReferencedObjectProcessorParameters() {
+	public List<? extends GenericParameter> getReferencedObjectProcessorParameters() {
 
 		IGenericMediator ro = getReferencedObject();
 		if (ro == null)
@@ -107,7 +107,7 @@ public abstract class MediatorRef extends ComponentRef {
 		return part.getParameters();
 	}
 
-	private List<? extends GenericParameter> getReferencedObjectDispatcherParameters() {
+	public List<? extends GenericParameter> getReferencedObjectDispatcherParameters() {
 
 		IGenericMediator ro = getReferencedObject();
 		if (ro == null)
