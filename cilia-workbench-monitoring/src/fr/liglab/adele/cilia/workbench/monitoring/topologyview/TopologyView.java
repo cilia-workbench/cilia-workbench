@@ -34,7 +34,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import fr.liglab.adele.cilia.event.CiliaFrameworkEvent;
 import fr.liglab.adele.cilia.management.monitoring.MonitoredApplication;
-import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvider;
+import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
 import fr.liglab.adele.cilia.workbench.monitoring.Activator;
 import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.CiliaLabelProvider;

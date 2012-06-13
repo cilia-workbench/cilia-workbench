@@ -14,7 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
-import fr.liglab.adele.cilia.workbench.common.sourceprovider.ToggleSourceProvider;
+import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
 
 /**
  * Toggle variable used to enable and disable toolbar buttons.
