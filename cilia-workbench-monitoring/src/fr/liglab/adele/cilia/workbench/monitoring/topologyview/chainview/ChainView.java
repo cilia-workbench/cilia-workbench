@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.AdapterReadOnly;
 import fr.liglab.adele.cilia.ChainReadOnly;
 import fr.liglab.adele.cilia.CiliaContextReadOnly;
 import fr.liglab.adele.cilia.MediatorReadOnly;
-import fr.liglab.adele.cilia.workbench.common.view.GraphView;
+import fr.liglab.adele.cilia.workbench.common.ui.view.GraphView;
 import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.TopologyView;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.GraphContentProvider;

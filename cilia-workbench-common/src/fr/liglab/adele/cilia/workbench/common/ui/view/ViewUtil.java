@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.view;
+package fr.liglab.adele.cilia.workbench.common.ui.view;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -29,15 +29,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
  */
 public class ViewUtil {
 
-	/**
-	 * Finds a view using its id.
-	 * 
-	 * @param event
-	 *            an event
-	 * @param viewId
-	 *            the view id
-	 * @return the view
-	 */
 	public static IViewPart findViewWithId(ExecutionEvent event, String viewId) {
 		IViewReference[] views = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getViewReferences();
 		for (IViewReference view : views)
@@ -47,30 +38,15 @@ public class ViewUtil {
 		throw new RuntimeException("view with id " + viewId + " not found.");
 	}
 
-	/**
-	 * Gets the parent shell. Useful for creating modal dialogs.
-	 * 
-	 * @param event
-	 *            the event
-	 * @return the shell
-	 */
 	public static Shell getShell(ExecutionEvent event) {
 		return HandlerUtil.getActiveWorkbenchWindow(event).getShell();
 	}
 
-	/**
-	 * Gets the parent shell. Useful for creating modal dialogs.
-	 * 
-	 * @param event
-	 *            the event
-	 * @return the shell
-	 */
 	public static Shell getShell(DoubleClickEvent event) {
 		return event.getViewer().getControl().getShell();
 	}
 
 	public static Shell getShell(Control control) {
-
 		while (control != null && !(control instanceof Shell))
 			control = control.getParent();
 

@@ -75,9 +75,9 @@ public abstract class ComponentPart implements IElement, DisplayedInPropertiesVi
 	}
 
 	public static Node createXMLParameter(Document document, Node mediatorSpec, String param, String componentName) {
-		Node component = XMLHelpers.getOrCreateNode(document, mediatorSpec, componentName);
-		Node parameters = XMLHelpers.getOrCreateNode(document, component, "parameters");
-		return XMLHelpers.createNode(document, parameters, "parameter", "name", param);
+		Node component = XMLHelpers.getOrCreateChild(document, mediatorSpec, componentName);
+		Node parameters = XMLHelpers.getOrCreateChild(document, component, "parameters");
+		return XMLHelpers.createChild(document, parameters, "parameter", "name", param);
 	}
 
 	@Override

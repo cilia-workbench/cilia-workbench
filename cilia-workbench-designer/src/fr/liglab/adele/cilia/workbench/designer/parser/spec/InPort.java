@@ -41,6 +41,6 @@ public class InPort extends GenericInPort implements DisplayedInPropertiesView {
 	}
 
 	public static Node createXMLPort(Document document, Node parent, String portName) {
-		return XMLHelpers.createNode(document, parent, XML_TAG, XML_ATTR_NAME, portName);
+		return XMLHelpers.createChild(document, parent, XML_TAG, XML_ATTR_NAME, portName);
 	}
 }

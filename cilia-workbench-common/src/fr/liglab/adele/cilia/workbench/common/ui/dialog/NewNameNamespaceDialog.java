@@ -12,9 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.view;
+package fr.liglab.adele.cilia.workbench.common.ui.dialog;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -36,14 +35,12 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
  * 
  * @author Etienne Gandrille
  */
-public abstract class NewNameNamespaceDialog extends Dialog {
+public abstract class NewNameNamespaceDialog extends WorkbenchDialog {
 
 	private NameNamespaceID value;
 
 	/** The listener. */
 	private final WindowModifyListener listener = new WindowModifyListener();
-	/** Margin used by the GridLayout. */
-	private final int margin = 10;
 
 	private final boolean emptyNamespaceAllowed;
 
@@ -51,8 +48,6 @@ public abstract class NewNameNamespaceDialog extends Dialog {
 	/* Text and labels */
 	/* =============== */
 
-	/** The window title. */
-	private final String windowTitle;
 	/** Label for the ID field. */
 	private final String nameLabelText;
 	/** Label for the Type field */
@@ -79,8 +74,7 @@ public abstract class NewNameNamespaceDialog extends Dialog {
 	 */
 	protected NewNameNamespaceDialog(Shell parentShell, String windowTitle, String nameLabelText,
 			String namespaceLabelText, boolean emptyNamespaceAllowed) {
-		super(parentShell);
-		this.windowTitle = windowTitle;
+		super(parentShell, windowTitle, new Point(300, 250), false);
 		this.nameLabelText = nameLabelText;
 		this.namespaceLabelText = namespaceLabelText;
 		this.emptyNamespaceAllowed = emptyNamespaceAllowed;
@@ -100,15 +94,8 @@ public abstract class NewNameNamespaceDialog extends Dialog {
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
 
-		getShell().setText(windowTitle);
-
 		// Global layout
-		GridLayout layout = new GridLayout(2, false);
-		layout.marginWidth = margin;
-		layout.marginHeight = margin;
-		layout.horizontalSpacing = margin;
-		layout.verticalSpacing = margin;
-		container.setLayout(layout);
+		container.setLayout(new GridLayout(2, false));
 
 		// Name label
 		final Label nameLabel = new Label(container, SWT.WRAP);
@@ -138,47 +125,6 @@ public abstract class NewNameNamespaceDialog extends Dialog {
 		namespaceText.addModifyListener(listener);
 
 		return container;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
-	 */
-	@Override
-	protected void initializeBounds() {
-		super.initializeBounds();
-		getButton(IDialogConstants.OK_ID).setEnabled(false);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
-	 * .swt.widgets.Composite)
-	 */
-	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#getInitialSize()
-	 */
-	protected Point getInitialSize() {
-		return new Point(300, 250);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#isResizable()
-	 */
-	protected boolean isResizable() {
-		return true;
 	}
 
 	protected abstract String checkValidValue(NameNamespaceID value);

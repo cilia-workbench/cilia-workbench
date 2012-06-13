@@ -17,7 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 
-import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 
 /**
  * Base Handler for the chain designer view.

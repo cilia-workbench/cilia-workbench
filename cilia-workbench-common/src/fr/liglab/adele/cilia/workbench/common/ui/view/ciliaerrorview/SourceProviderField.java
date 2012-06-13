@@ -12,26 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview;
+package fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview;
 
 import org.eclipse.ui.views.markers.MarkerField;
 import org.eclipse.ui.views.markers.MarkerItem;
 
 /**
- * The root source provider field, for rendering in the error view.
+ * The source provider field, for rendering in the error view.
  * 
  * @author Etienne Gandrille
  */
-public class RootSourceProviderField extends MarkerField {
+public class SourceProviderField extends MarkerField {
 
 	/** The field ID, used to store and find the attributes. */
-	public final static String FIELD_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.rootsourceproviderfield";
+	public final static String FIELD_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.sourceproviderfield";
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.views.markers.MarkerField#getValue(org.eclipse.ui.views.markers.MarkerItem)
-	 */
 	@Override
 	public String getValue(MarkerItem item) {
 		return item.getAttributeValue(FIELD_ID, "");

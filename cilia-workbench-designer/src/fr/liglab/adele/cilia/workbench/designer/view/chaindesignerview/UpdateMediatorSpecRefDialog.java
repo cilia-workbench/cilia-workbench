@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import fr.liglab.adele.cilia.workbench.common.view.editors.ComboKeyValueEditor;
+import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.PropertyConstraint;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
@@ -47,7 +47,7 @@ public class UpdateMediatorSpecRefDialog extends UpdateMediatorRefDialog {
 	private final String ceValueLabel = "constraint";
 
 	protected UpdateMediatorSpecRefDialog(Shell parent, MediatorSpecRef mediator) {
-		super(parent, mediator);
+		super(parent, mediator, new Point(500, 700));
 		ceKeys = getConstraintKeys(mediator);
 		ceModel = getConsltraintValues(mediator);
 	}
@@ -64,11 +64,6 @@ public class UpdateMediatorSpecRefDialog extends UpdateMediatorRefDialog {
 		for (PropertyConstraint p : mediator.getConstraints())
 			values.put(p.getName(), p.getValue());
 		return values;
-	}
-
-	@Override
-	protected Point getInitialSize() {
-		return new Point(500, 700);
 	}
 
 	@Override

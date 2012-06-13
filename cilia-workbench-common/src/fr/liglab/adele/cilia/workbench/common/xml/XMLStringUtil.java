@@ -24,7 +24,6 @@ import com.google.common.base.Preconditions;
  */
 public class XMLStringUtil {
 
-	/** The separator between namespace and attribute name */
 	private static final String SEPARATOR = ":";
 
 	public static String getBeforeSeparatorOrAll(String name) {

@@ -15,21 +15,10 @@
 package fr.liglab.adele.cilia.workbench.common.cilia;
 
 /**
- * Cilia Constants.
  * 
  * @author Etienne Gandrille
  */
 public class CiliaConstants {
 
-	/** The default namespace */
-	private static String DEFAULT_NAMESPACE = "fr.liglab.adele.cilia";
-
-	/**
-	 * Gets the default namespace.
-	 * 
-	 * @return the default namespace
-	 */
-	public static String getDefaultNamespace() {
-		return DEFAULT_NAMESPACE;
-	}
+	public static String CILIA_DEFAULT_NAMESPACE = "fr.liglab.adele.cilia";
 }

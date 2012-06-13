@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.view.editors;
+package fr.liglab.adele.cilia.workbench.common.ui.editors;
 
 import java.util.Map;
 
@@ -29,15 +29,6 @@ import org.eclipse.swt.widgets.Text;
  */
 public class StandardKeyValueEditor extends KeyValueEditor {
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param parent
-	 *            parent composite
-	 * @param input
-	 *            values for viewer initialization. The map can be empty, but
-	 *            mustn't be null.
-	 */
 	public StandardKeyValueEditor(Composite parent, Map<String, String> input, String keyLabel, String valueLabel) {
 		super(parent, input, keyLabel, valueLabel);
 	}

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.view.editors;
+package fr.liglab.adele.cilia.workbench.common.ui.editors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +54,11 @@ public abstract class KeyValueEditor extends AbstractEditor {
 
 	private final Map<String, String> model;
 
+	// header widgets
 	private final Control keyWidget;
 	private final Text textWidget;
 
+	// table labels
 	private final String keyLabel;
 	private final String valueLabel;
 
@@ -138,18 +140,8 @@ public abstract class KeyValueEditor extends AbstractEditor {
 
 	protected abstract void resetKeyValue();
 
-	/**
-	 * Convert the map into Object[].
-	 */
 	private static class TableContentProvider implements IStructuredContentProvider {
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
-		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
 
@@ -169,40 +161,17 @@ public abstract class KeyValueEditor extends AbstractEditor {
 			return retval.toArray();
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-		 */
 		@Override
 		public void dispose() {
 			// do nothing
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
-		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
-		 */
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			// do nothing
 		}
 	}
 
-	/**
-	 * Creates a column in the table viewer.
-	 * 
-	 * @param viewer
-	 *            the viewer
-	 * @param index
-	 *            the column number
-	 * @param title
-	 *            the column name
-	 * @return the column JFace object
-	 */
 	private static TableViewerColumn createTableViewerColumn(StructuredViewer viewer, final int index, String title) {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(((TableViewer) viewer), SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
@@ -222,16 +191,6 @@ public abstract class KeyValueEditor extends AbstractEditor {
 		return viewerColumn;
 	}
 
-	/**
-	 * The listener interface for receiving addButton events. The class that is
-	 * interested in processing a addButton event implements this interface, and
-	 * the object created with that class is registered with a component using
-	 * the component's <code>addAddButtonListener<code> method. When
-	 * the addButton event occurs, that object's appropriate
-	 * method is invoked.
-	 * 
-	 * @see AddButtonEvent
-	 */
 	private class AddButtonListener implements MouseListener {
 
 		/** The text1. */
@@ -243,53 +202,22 @@ public abstract class KeyValueEditor extends AbstractEditor {
 		/** The table. */
 		private StructuredViewer table;
 
-		/**
-		 * Instantiates a new adds the button listener.
-		 * 
-		 * @param keyWidget
-		 *            the text1
-		 * @param valueWidget
-		 *            the text2
-		 * @param table
-		 *            the table
-		 */
 		public AddButtonListener(Control keyWidget, Text valueWidget, StructuredViewer table) {
 			this.keyWidget = keyWidget;
 			this.valueWidget = valueWidget;
 			this.table = table;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse
-		 * .swt.events.MouseEvent)
-		 */
 		@Override
 		public void mouseDoubleClick(MouseEvent e) {
 			// do nothing
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events
-		 * .MouseEvent)
-		 */
 		@Override
 		public void mouseDown(MouseEvent e) {
 			// do nothing
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events
-		 * .MouseEvent)
-		 */
 		@Override
 		public void mouseUp(MouseEvent e) {
 			String str1 = getKeyValue().trim();
@@ -332,38 +260,16 @@ public abstract class KeyValueEditor extends AbstractEditor {
 	 */
 	private class ResizeListener implements ControlListener {
 
-		/** The col1. */
 		final TableViewerColumn col1;
-
-		/** The col2. */
 		final TableViewerColumn col2;
-
-		/** The table. */
 		final StructuredViewer table;
 
-		/**
-		 * Constructor.
-		 * 
-		 * @param col1
-		 *            the first column
-		 * @param col2
-		 *            the second one
-		 * @param table
-		 *            the table
-		 */
 		public ResizeListener(TableViewerColumn col1, TableViewerColumn col2, StructuredViewer table) {
 			this.col1 = col1;
 			this.col2 = col2;
 			this.table = table;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.ControlListener#controlResized(org.eclipse
-		 * .swt.events.ControlEvent)
-		 */
 		@Override
 		public void controlResized(ControlEvent e) {
 			Control control = table.getControl();
@@ -372,13 +278,6 @@ public abstract class KeyValueEditor extends AbstractEditor {
 			col2.getColumn().setWidth(width);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt
-		 * .events.ControlEvent)
-		 */
 		@Override
 		public void controlMoved(ControlEvent e) {
 			// do nothing
@@ -394,25 +293,10 @@ public abstract class KeyValueEditor extends AbstractEditor {
 
 		private final Text valueWidget;
 
-		/**
-		 * Instantiates a new select table listener.
-		 * 
-		 * @param keyWidget
-		 *            the text1
-		 * @param valueWidget
-		 *            the text2
-		 */
 		public SelectTableListener(Control keyWidget, Text valueWidget) {
 			this.valueWidget = valueWidget;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged
-		 * (org.eclipse.jface.viewers.SelectionChangedEvent)
-		 */
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			StructuredSelection sel = (StructuredSelection) jFaceViewer.getSelection();
@@ -428,61 +312,24 @@ public abstract class KeyValueEditor extends AbstractEditor {
 		}
 	}
 
-	/**
-	 * Listener called when clicking on the remove button.
-	 * 
-	 * @see RemoveButtonEvent
-	 */
 	private class RemoveButtonListener implements MouseListener {
 
-		/** The shell. */
 		private Shell shell;
-
-		/** The table. */
 		private StructuredViewer table;
 
-		/**
-		 * Instantiates a new removes the button listener.
-		 * 
-		 * @param shell
-		 *            the shell
-		 * @param table
-		 *            the table
-		 */
 		public RemoveButtonListener(Shell shell, StructuredViewer table) {
 			this.shell = shell;
 			this.table = table;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse
-		 * .swt.events.MouseEvent)
-		 */
 		@Override
 		public void mouseDoubleClick(MouseEvent e) {
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events
-		 * .MouseEvent)
-		 */
 		@Override
 		public void mouseDown(MouseEvent e) {
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events
-		 * .MouseEvent)
-		 */
 		@Override
 		public void mouseUp(MouseEvent e) {
 			StructuredSelection sel = (StructuredSelection) table.getSelection();
@@ -497,9 +344,6 @@ public abstract class KeyValueEditor extends AbstractEditor {
 		}
 	}
 
-	/**
-	 * Refresh the viewer.
-	 */
 	public void refresh() {
 		resizeListener.controlResized(null);
 	}

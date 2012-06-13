@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.preferencePage;
+package fr.liglab.adele.cilia.workbench.common.ui.preferencePage;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -22,8 +22,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * A root page in the preference menu.
- * Should be used by all Cilia Designer sub pages.  
+ * A root page in the preference menu. Should be used by all Cilia Designer sub
+ * pages.
+ * 
  * @author Etienne Gandrille
  */
 public class CiliaRootPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
@@ -42,17 +43,11 @@ public class CiliaRootPreferencePage extends PreferencePage implements IWorkbenc
 		super(title, image);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
-	 */
 	@Override
 	public void init(IWorkbench workbench) {
 		setDescription(PAGE_DESCRIPTION);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
-	 */
 	@Override
 	protected Control createContents(Composite parent) {
 		return null;

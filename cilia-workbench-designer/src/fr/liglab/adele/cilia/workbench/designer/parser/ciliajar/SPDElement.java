@@ -46,7 +46,7 @@ public abstract class SPDElement extends NameNamespace implements IElement, Disp
 
 	public SPDElement(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace", CiliaConstants.getDefaultNamespace());
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
 		parameters = Parameter.findParameters(node);
 		ReflectionUtil.setAttribute(node, XML_ATTR_CLASSNAME, this, "classname");
 	}

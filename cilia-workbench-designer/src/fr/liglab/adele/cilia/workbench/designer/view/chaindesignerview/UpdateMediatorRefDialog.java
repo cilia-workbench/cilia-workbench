@@ -19,8 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -31,7 +29,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import fr.liglab.adele.cilia.workbench.common.view.editors.ComboKeyValueEditor;
+import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
+import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericParameter;
@@ -40,12 +39,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericPar
  * 
  * @author Etienne Gandrille
  */
-public abstract class UpdateMediatorRefDialog extends Dialog {
+public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 
-	private final String windowTitle = "Mediator configuration";
-
-	/** Margin used by the GridLayout. */
-	private final int margin = 10;
+	private final static String windowTitle = "Mediator configuration";
 
 	protected final static IInputValidator defaultValidator = getNonNullOrEmptyValidator();
 
@@ -61,8 +57,8 @@ public abstract class UpdateMediatorRefDialog extends Dialog {
 	private static final String processorPrefix = "processor: ";
 	private static final String dispatcherPrefix = "dispatcher: ";
 
-	protected UpdateMediatorRefDialog(Shell parent, MediatorRef mediator) {
-		super(parent);
+	protected UpdateMediatorRefDialog(Shell parent, MediatorRef mediator, Point initialSize) {
+		super(parent, windowTitle, initialSize, true);
 		peKeys = getConstraintKeys(mediator);
 		peModel = getConstraintValues(mediator);
 	}
@@ -102,15 +98,8 @@ public abstract class UpdateMediatorRefDialog extends Dialog {
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
 
-		getShell().setText(windowTitle);
-
 		// Global layout
-		GridLayout layout = new GridLayout(1, false);
-		layout.marginWidth = margin;
-		layout.marginHeight = margin;
-		layout.horizontalSpacing = margin;
-		layout.verticalSpacing = margin;
-		container.setLayout(layout);
+		container.setLayout(new GridLayout(1, false));
 
 		// Sub class fields
 		populateDialogArea(container);
@@ -139,31 +128,7 @@ public abstract class UpdateMediatorRefDialog extends Dialog {
 	@Override
 	protected void initializeBounds() {
 		super.initializeBounds();
-		getButton(IDialogConstants.OK_ID).setEnabled(true);
 		paramEditor.refresh();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
-	 * .swt.widgets.Composite)
-	 */
-	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
-	}
-
-	protected abstract Point getInitialSize();
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#isResizable()
-	 */
-	protected boolean isResizable() {
-		return true;
 	}
 
 	private static IInputValidator getNonNullOrEmptyValidator() {

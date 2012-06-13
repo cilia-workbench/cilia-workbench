@@ -43,21 +43,11 @@ public abstract class ToggleSourceProvider extends AbstractSourceProvider {
 		value = defaultValue;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.ISourceProvider#getProvidedSourceNames()
-	 */
 	@Override
 	public String[] getProvidedSourceNames() {
 		return new String[] { VARIABLE_NAME };
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.ISourceProvider#getCurrentState()
-	 */
 	@Override
 	@SuppressWarnings("rawtypes")
 	public Map getCurrentState() {
@@ -81,20 +71,10 @@ public abstract class ToggleSourceProvider extends AbstractSourceProvider {
 		fireSourceChanged(ISources.WORKBENCH, VARIABLE_NAME, currentState);
 	}
 
-	/**
-	 * Gets the state of the reload required variable.
-	 * 
-	 * @return the state of the reload required variable.
-	 */
 	public boolean getValue() {
 		return value;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.ISourceProvider#dispose()
-	 */
 	@Override
 	public void dispose() {
 	}
@@ -107,18 +87,18 @@ public abstract class ToggleSourceProvider extends AbstractSourceProvider {
 	/**
 	 * Helper method for setting a toggle variable to a value.
 	 * 
-	 * @param variable
+	 * @param variableName
 	 *            the toggle variable name.
 	 * @param newValue
 	 *            the new value.
 	 */
-	public static void setToggleVariable(String variable, boolean newValue) {
+	public static void setToggleVariable(String variableName, boolean newValue) {
 		// ISourceProviderService sourceProviderService =
 		// (ISourceProviderService) getSite().getService();
 		ISourceProviderService sourceProviderService = (ISourceProviderService) PlatformUI.getWorkbench().getService(
 				ISourceProviderService.class);
 		if (sourceProviderService != null) {
-			ISourceProvider provider = sourceProviderService.getSourceProvider(variable);
+			ISourceProvider provider = sourceProviderService.getSourceProvider(variableName);
 
 			if (provider instanceof ToggleSourceProvider) {
 				((ToggleSourceProvider) provider).setValue(newValue);

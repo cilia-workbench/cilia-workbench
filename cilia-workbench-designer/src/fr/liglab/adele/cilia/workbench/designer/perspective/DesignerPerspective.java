@@ -18,7 +18,7 @@ import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
-import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.CiliaErrorView;
+import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.CiliaErrorView;
 import fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.AbstractCompositionsView;
 import fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.JarRepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.SpecRepositoryView;

@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -59,8 +58,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	public AbstractCompositionModel(String filePath) throws Exception {
 		this.filePath = filePath;
 
-		File file = new File(filePath);
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(filePath);
 		Node root = getRootNode(document);
 
 		for (Node node : XMLHelpers.findChildren(root, Chain.XML_NODE_NAME))
@@ -95,8 +93,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	public void createChain(NameNamespaceID id) throws CiliaException {
 
 		// Document creation
-		File file = new File(filePath);
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(filePath);
 		Node root = getRootNode(document);
 		Element child = document.createElement(Chain.XML_NODE_NAME);
 		child.setAttribute(Chain.XML_ATTR_ID, id.getName());
@@ -113,8 +110,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	public void deleteChain(NameNamespaceID id) throws CiliaException {
 
 		// Finding target node
-		File file = new File(filePath);
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(filePath);
 		Node target = findXMLChainNode(document, id);
 
 		if (target != null) {
@@ -169,10 +165,9 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 	private void createComponentInstanceInternal(Chain chain, String id, NameNamespaceID type, String rootNode,
 			String elementNode) throws CiliaException {
-		File file = new File(filePath);
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(filePath);
 		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node componentNode = XMLHelpers.getOrCreateNode(document, chainNode, rootNode);
+		Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, rootNode);
 
 		Element child = document.createElement(elementNode);
 		child.setAttribute(ComponentRef.XML_ATTR_ID, id);
@@ -204,10 +199,9 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			else
 				to = dstElem + ":" + dstPort;
 
-			File file = new File(filePath);
-			Document document = XMLHelpers.getDocument(file);
+			Document document = XMLHelpers.getDocument(filePath);
 			Node chainNode = findXMLChainNode(document, chain.getId());
-			Node componentNode = XMLHelpers.getOrCreateNode(document, chainNode, Chain.XML_ROOT_BINDINGS_NAME);
+			Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, Chain.XML_ROOT_BINDINGS_NAME);
 
 			Element child = document.createElement(Binding.XML_NODE_NAME);
 			child.setAttribute(Binding.XML_FROM_ATTR, from);
@@ -232,8 +226,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	}
 
 	private void deleteMediator(Chain chain, MediatorRef mediator) throws CiliaException {
-		File file = new File(filePath);
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(filePath);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
 
@@ -257,8 +250,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	}
 
 	private void deleteAdapter(Chain chain, AdapterRef adapter) throws CiliaException {
-		File file = new File(filePath);
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(filePath);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_ADAPTERS_NAME);
 
@@ -305,8 +297,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	}
 
 	public void deleteBinding(Chain chain, Binding binding) throws CiliaException {
-		File file = new File(filePath);
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(filePath);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_BINDINGS_NAME);
 		if (subNode == null)
@@ -324,8 +315,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 	public void updateProperties(Chain chain, MediatorSpecRef mediator, Map<String, String> properties)
 			throws CiliaException {
-		File file = new File(filePath);
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(filePath);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
 		Node media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID,
@@ -336,9 +326,9 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			media.removeChild(n);
 
 		// then (re)create
-		Node select = XMLHelpers.getOrCreateNode(document, media, MediatorSpecRef.XML_SELECTION_CONSTRAINT);
+		Node select = XMLHelpers.getOrCreateChild(document, media, MediatorSpecRef.XML_SELECTION_CONSTRAINT);
 		for (String key : properties.keySet()) {
-			XMLHelpers.createNode(document, select, PropertyConstraint.XML_PROPERTY_CONSTRAINT,
+			XMLHelpers.createChild(document, select, PropertyConstraint.XML_PROPERTY_CONSTRAINT,
 					PropertyConstraint.XML_ATTR_NAME, key, PropertyConstraint.XML_ATTR_VALUE, properties.get(key));
 		}
 
@@ -348,7 +338,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 	public void updateParameters(Chain chain, MediatorRef mediator, Map<String, String> schedulerParam,
 			Map<String, String> processorParam, Map<String, String> dispatcherParam) throws CiliaException {
-		Document document = XMLHelpers.getDocument(new File(filePath));
+		Document document = XMLHelpers.getDocument(filePath);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
 
@@ -380,9 +370,9 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		// then (re)create
 		if (parameters.size() != 0) {
 			if (sub == null)
-				sub = XMLHelpers.createNode(document, mediatorRoot, xmlPartName);
+				sub = XMLHelpers.createChild(document, mediatorRoot, xmlPartName);
 			for (String key : parameters.keySet())
-				XMLHelpers.createNode(document, sub, Parameter.XML_ROOT_NAME, Parameter.XML_ATTR_NAME, key,
+				XMLHelpers.createChild(document, sub, Parameter.XML_ROOT_NAME, Parameter.XML_ATTR_NAME, key,
 						Parameter.XML_ATTR_VALUE, parameters.get(key));
 		}
 	}

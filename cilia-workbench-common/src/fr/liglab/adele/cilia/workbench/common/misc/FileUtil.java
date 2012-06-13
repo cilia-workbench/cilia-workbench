@@ -20,7 +20,6 @@ import java.io.File;
 import com.google.common.base.Preconditions;
 
 /**
- * File utils.
  * 
  * @author Etienne Gandrille
  */

@@ -22,17 +22,17 @@ import com.google.common.base.Strings;
  * 
  * This class is semantically different from {@link NameNamespace}.
  * {@link NameNamespace} represents a base class whereas {@link NameNamespaceID}
- * represents an id, for a class implementing {@link NameNamespace}.
- * 
+ * represents an id, for a class implementing {@link Identifiable}.
  * 
  * @author Etienne Gandrille
  */
 public class NameNamespaceID {
 
-	/** Name */
 	private final String name;
-	/** Namespace */
 	private final String namespace;
+
+	/** separator used between name and namespace, for display purpose */
+	private final String separator = ".";
 
 	public NameNamespaceID(String name, String namespace) {
 		this.name = name;
@@ -76,6 +76,6 @@ public class NameNamespaceID {
 		if (namespace == null || namespace.length() == 0)
 			return name;
 		else
-			return namespace + "." + name;
+			return namespace + separator + name;
 	}
 }

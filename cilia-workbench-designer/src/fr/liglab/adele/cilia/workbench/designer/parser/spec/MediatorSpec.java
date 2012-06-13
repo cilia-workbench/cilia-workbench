@@ -187,18 +187,18 @@ public class MediatorSpec implements IGenericMediator, DisplayedInPropertiesView
 	}
 
 	public static Node createXMLInPort(Document document, Element spec, String portName) {
-		Node ports = XMLHelpers.getOrCreateNode(document, spec, XML_NODE_PORTS_CONTAINER);
+		Node ports = XMLHelpers.getOrCreateChild(document, spec, XML_NODE_PORTS_CONTAINER);
 		return InPort.createXMLPort(document, ports, portName);
 	}
 
 	public static Node createXMLOutPort(Document document, Element spec, String portName) {
-		Node ports = XMLHelpers.getOrCreateNode(document, spec, XML_NODE_PORTS_CONTAINER);
+		Node ports = XMLHelpers.getOrCreateChild(document, spec, XML_NODE_PORTS_CONTAINER);
 		return OutPort.createXMLPort(document, ports, portName);
 	}
 
 	public static Node createMediatorProperty(Document document, Element spec, String key) {
-		Node root = XMLHelpers.getOrCreateNode(document, spec, XML_NODE_PROPERTIES_CONTAINER);
-		return XMLHelpers.createNode(document, root, NameProperty.XML_NODE_NAME, "name", key);
+		Node root = XMLHelpers.getOrCreateChild(document, spec, XML_NODE_PROPERTIES_CONTAINER);
+		return XMLHelpers.createChild(document, root, NameProperty.XML_NODE_NAME, "name", key);
 	}
 
 	public static Node createSchedulerParameter(Document document, Element spec, String param) {

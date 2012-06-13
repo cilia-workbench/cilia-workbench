@@ -17,8 +17,6 @@ package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -32,8 +30,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.common.view.TextValidatorListener;
-import fr.liglab.adele.cilia.workbench.common.view.editors.ListEditor;
+import fr.liglab.adele.cilia.workbench.common.ui.TextValidatorListener;
+import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
+import fr.liglab.adele.cilia.workbench.common.ui.editors.ListEditor;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
@@ -45,9 +44,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
  * 
  * @author Etienne Gandrille
  */
-public class UpdateMediatorSpecDialog extends Dialog {
+public class UpdateMediatorSpecDialog extends WorkbenchDialog {
 
-	private final String title = "Spec editor";
+	private static final String windowTitle = "Spec editor";
 
 	private final String introMessage = "You can edit or create a new specification.";
 
@@ -95,7 +94,7 @@ public class UpdateMediatorSpecDialog extends Dialog {
 	 *            initial list
 	 */
 	public UpdateMediatorSpecDialog(Shell parent, MediatorSpec mediatorSpec) {
-		super(parent);
+		super(parent, windowTitle, new Point(450, 800), true);
 
 		// Global parameters
 		this.idValue = ((NameNamespaceID) mediatorSpec.getId()).getName();
@@ -137,8 +136,6 @@ public class UpdateMediatorSpecDialog extends Dialog {
 	 */
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
-
-		getShell().setText(title);
 
 		// Global layout
 		container.setLayout(new GridLayout(1, false));
@@ -218,17 +215,6 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		return container;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
-	 */
-	@Override
-	protected void initializeBounds() {
-		super.initializeBounds();
-		// editor.refresh();
-	}
-
 	private static Composite createComposite(Composite parent, String message, List<String> elements) {
 
 		Composite container = new Composite(parent, SWT.NONE);
@@ -270,36 +256,6 @@ public class UpdateMediatorSpecDialog extends Dialog {
 		label.setText(message);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, horizontalFill, false));
 		return label;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
-	 * .swt.widgets.Composite)
-	 */
-	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#getInitialSize()
-	 */
-	protected Point getInitialSize() {
-		return new Point(450, 800);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#isResizable()
-	 */
-	protected boolean isResizable() {
-		return true;
 	}
 
 	public List<String> getInPorts() {

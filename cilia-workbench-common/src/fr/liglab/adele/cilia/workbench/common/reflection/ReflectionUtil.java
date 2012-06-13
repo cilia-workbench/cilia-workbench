@@ -22,7 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
- * A few methods, for reading XML and injecting values into fields.
+ * A few methods, for reading XML and injecting values into objects fields.
  * 
  * @author Etienne Gandrille
  */

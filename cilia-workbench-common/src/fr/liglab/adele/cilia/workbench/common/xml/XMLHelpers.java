@@ -74,15 +74,16 @@ public class XMLHelpers {
 	}
 
 	/**
-	 * Gets a {@link Document} from a {@link File}.
+	 * Gets a {@link Document} from a file path.
 	 * 
-	 * @param file
-	 *            the file
+	 * @param filePath
+	 *            the file path
 	 * @return the dom document
 	 * @throws CiliaException
 	 *             if any error during parsing.
 	 */
-	public static Document getDocument(File file) throws CiliaException {
+	public static Document getDocument(String filePath) throws CiliaException {
+		File file = new File(filePath);
 		try {
 			return getDocumentBuilder().parse(file);
 		} catch (SAXException e) {
@@ -111,13 +112,6 @@ public class XMLHelpers {
 		}
 	}
 
-	/**
-	 * Gets a document builder.
-	 * 
-	 * @return the document builder
-	 * @throws CiliaException
-	 *             if can't get builder
-	 */
 	private static DocumentBuilder getDocumentBuilder() throws CiliaException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
@@ -131,7 +125,7 @@ public class XMLHelpers {
 	}
 
 	/**
-	 * Gets an Input stream from file embedded in a jar archive.
+	 * Gets an Input stream from a file embedded in a jar archive.
 	 * 
 	 * @param archivePath
 	 *            the archive path, on the hard disk.
@@ -213,94 +207,28 @@ public class XMLHelpers {
 		throw new CiliaException("Can't find root node " + nodeName);
 	}
 
-	/**
-	 * Creates a child node, if it doesn't exists.
-	 * 
-	 * @param document
-	 * @param parent
-	 * @param nodeName
-	 * @return
-	 */
-	public static Node getOrCreateNode(Document document, Node parent, String nodeName) {
-		Node dstNode = findChild(parent, nodeName);
+	public static Node getOrCreateChild(Document document, Node parent, String childNodeName) {
+		Node dstNode = findChild(parent, childNodeName);
 		if (dstNode == null) {
-			dstNode = createNode(document, parent, nodeName);
+			dstNode = createChild(document, parent, childNodeName);
 		}
 		return dstNode;
 	}
 
-	/**
-	 * Creates a child node.
-	 * 
-	 * @param document
-	 *            the document
-	 * @param parent
-	 *            the parent
-	 * @param nodeName
-	 *            the node name
-	 * @return the node
-	 */
-	public static Node createNode(Document document, Node parent, String nodeName) {
-		return createNodeInternal(document, parent, nodeName);
+	public static Node createChild(Document document, Node parent, String childNodeName) {
+		return createChildInternal(document, parent, childNodeName);
 	}
 
-	/**
-	 * Creates a child node, with an attribute and its value.
-	 * 
-	 * @param document
-	 *            the document
-	 * @param parent
-	 *            the parent
-	 * @param nodeName
-	 *            the node name
-	 * @param attrName
-	 *            the attr name
-	 * @param attrValue
-	 *            the attr value
-	 * @return the node
-	 */
-	public static Node createNode(Document document, Node parent, String nodeName, String attrName, String attrValue) {
-		return createNodeInternal(document, parent, nodeName, attrName, attrValue);
+	public static Node createChild(Document document, Node parent, String nodeName, String attrName, String attrValue) {
+		return createChildInternal(document, parent, nodeName, attrName, attrValue);
 	}
 
-	/**
-	 * Creates a child node, with two attributes and their values.
-	 * 
-	 * @param document
-	 *            the document
-	 * @param parent
-	 *            the parent
-	 * @param nodeName
-	 *            the node name
-	 * @param attrName1
-	 *            the attr name1
-	 * @param attrValue1
-	 *            the attr value1
-	 * @param attrName2
-	 *            the attr name2
-	 * @param attrValue2
-	 *            the attr value2
-	 * @return the node
-	 */
-	public static Node createNode(Document document, Node parent, String nodeName, String attrName1, String attrValue1,
-			String attrName2, String attrValue2) {
-		return createNodeInternal(document, parent, nodeName, attrName1, attrValue1, attrName2, attrValue2);
+	public static Node createChild(Document document, Node parent, String nodeName, String attrName1,
+			String attrValue1, String attrName2, String attrValue2) {
+		return createChildInternal(document, parent, nodeName, attrName1, attrValue1, attrName2, attrValue2);
 	}
 
-	/**
-	 * Internal method for creating a node whith attributes.
-	 * 
-	 * @param document
-	 *            the document
-	 * @param parent
-	 *            the parent
-	 * @param nodeName
-	 *            the node name
-	 * @param attr_name_and_value
-	 *            the attr_name_and_value
-	 * @return the node
-	 */
-	private static Node createNodeInternal(Document document, Node parent, String nodeName,
+	private static Node createChildInternal(Document document, Node parent, String nodeName,
 			String... attr_name_and_value) {
 		Element newNode = document.createElement(nodeName);
 
@@ -313,18 +241,6 @@ public class XMLHelpers {
 		return newNode;
 	}
 
-	/**
-	 * Finds an attribute value on a node. If the attribute does't exists, throw
-	 * an exception.
-	 * 
-	 * @param node
-	 *            the node
-	 * @param attrName
-	 *            the attr name
-	 * @return the string
-	 * @throws CiliaException
-	 *             the metadata exception
-	 */
 	public static String findAttributeValue(Node node, String attrName) throws CiliaException {
 
 		Map<String, String> attrMap = findAttributesValues(node);
@@ -342,13 +258,6 @@ public class XMLHelpers {
 		throw new CiliaException("Attribute " + attrName + " not found");
 	}
 
-	/**
-	 * Finds all the attributes and their values in a given node.
-	 * 
-	 * @param node
-	 *            the node
-	 * @return the map
-	 */
 	public static Map<String, String> findAttributesValues(Node node) {
 
 		Map<String, String> retval = new HashMap<String, String>();
@@ -366,20 +275,6 @@ public class XMLHelpers {
 		return retval;
 	}
 
-	/**
-	 * Find an attribute value on a node. If the attribute does't exists,
-	 * returns a default value.
-	 * 
-	 * @param node
-	 *            the node
-	 * @param attrName
-	 *            the attr name
-	 * @param defaultValue
-	 *            the default value
-	 * @return the string
-	 * @throws CiliaException
-	 *             the metadata exception
-	 */
 	public static String findAttributeValue(Node node, String attrName, String defaultValue) throws CiliaException {
 		try {
 			return findAttributeValue(node, attrName);
@@ -388,15 +283,6 @@ public class XMLHelpers {
 		}
 	}
 
-	/**
-	 * Returns the first child node with a given name, or null if not found.
-	 * 
-	 * @param node
-	 *            the node
-	 * @param childName
-	 *            the child name
-	 * @return the node, or null if not found
-	 */
 	public static Node findChild(Node node, String childName) {
 		Node[] children = findChildren(node, childName);
 		if (children.length == 0)
@@ -405,51 +291,14 @@ public class XMLHelpers {
 			return children[0];
 	}
 
-	/**
-	 * Finds all children nodes with the given name.
-	 * 
-	 * @param root
-	 *            the root
-	 * @param nodeName
-	 *            the node name
-	 * @return the node[]
-	 */
 	public static Node[] findChildren(Node root, String nodeName) {
 		return findChildrenInternal(root, nodeName);
 	}
 
-	/**
-	 * Finds all children nodes with the given name, and with an attribute with
-	 * a given value.
-	 * 
-	 * @param root
-	 *            the root
-	 * @param nodeName
-	 *            the node name
-	 * @param attributeName
-	 *            the node attribute
-	 * @param attributeValue
-	 *            the attribute value
-	 * @return the node[]
-	 */
 	public static Node[] findChildren(Node root, String nodeName, String attributeName, String attributeValue) {
 		return findChildrenInternal(root, nodeName, attributeName, attributeValue);
 	}
 
-	/**
-	 * Finds all children nodes with the given name, and with two attribute with
-	 * their given values.
-	 * 
-	 * @param root
-	 *            the root
-	 * @param nodeName
-	 *            the node name
-	 * @param attributeName
-	 *            the node attribute
-	 * @param attributeValue
-	 *            the attribute value
-	 * @return the node[]
-	 */
 	public static Node[] findChildren(Node root, String nodeName, String attributeName1, String attributeValue1,
 			String attributeName2, String attributeValue2) {
 		return findChildrenInternal(root, nodeName, attributeName1, attributeValue1, attributeName2, attributeValue2);

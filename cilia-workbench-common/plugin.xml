@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage"
+            class="fr.liglab.adele.cilia.workbench.common.ui.preferencePage.CiliaRootPreferencePage"
             id="fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage"
             name="CILIA workbench">
       </page>
@@ -15,7 +15,7 @@
 		</category>
       <view
             category="fr.liglab.adele.cilia.workbench.common.view.rootCategory"
-            class="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.CiliaErrorView"
+            class="fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.CiliaErrorView"
             icon="icons/16/error.png"
             id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview"
             name="Cilia error view"
@@ -44,12 +44,12 @@
          </markerFieldReference>
       </markerContentGenerator>
       <markerField
-            class="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.SourceProviderField"
+            class="fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.SourceProviderField"
             id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.sourceproviderfield"
             name="Source Provider">
       </markerField>
       <markerField
-            class="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.RootSourceProviderField"
+            class="fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.RootSourceProviderField"
             id="fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.rootsourceproviderfield"
             name="Root Source Provider">
       </markerField>

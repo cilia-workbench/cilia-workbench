@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview;
+package fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview;
 
 import org.eclipse.ui.views.markers.MarkerSupportView;
 
@@ -23,7 +23,6 @@ import org.eclipse.ui.views.markers.MarkerSupportView;
  */
 public class CiliaErrorView extends MarkerSupportView {
 
-	/** View ID */
 	public static final String VIEW_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview";
 
 	/**
@@ -32,11 +31,7 @@ public class CiliaErrorView extends MarkerSupportView {
 	 */
 	public static final String CONTENT_GENERATOR_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.generator";
 
-	/**
-	 * Instantiates a new error view.
-	 */
 	public CiliaErrorView() {
 		super(CONTENT_GENERATOR_ID);
 	}
-
 }

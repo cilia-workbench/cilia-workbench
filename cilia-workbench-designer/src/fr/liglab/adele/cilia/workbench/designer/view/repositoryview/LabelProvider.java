@@ -27,8 +27,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import fr.liglab.adele.cilia.workbench.common.Activator;
-import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.SourceProviderField;
+import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.CiliaMarkerUtil;
+import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.SourceProviderField;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider.FakeElement;
 
@@ -136,7 +136,7 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 		 * @return the Image object.
 		 */
 		private static Image createImageFromPath(String imagePath) {
-			org.osgi.framework.Bundle bundle = Activator.getDefault().getBundle();
+			org.osgi.framework.Bundle bundle = Activator.getInstance().getBundle();
 			URL url = FileLocator.find(bundle, new Path(imagePath), null);
 			try {
 				url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imagePath);

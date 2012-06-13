@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.view.editors;
+package fr.liglab.adele.cilia.workbench.common.ui.editors;
 
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.ViewerComparator;
@@ -20,23 +20,23 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * Base class for implementing editors, such as list editors and map editors.
+ * An editor is a dialog part. From SWT point of view, it's a composite composed
+ * of a few SWT widgets. Here is a base class for implementing editors, such as
+ * list editors and map editors.
  * 
  * @author Etienne Gandrille
  */
 public abstract class AbstractEditor {
 
-	/** The add label. */
-	protected final String addLabel = "Add";
+	/** The parent Shell */
+	protected Shell shell;
 
-	/** The remove label. */
+	// labels
+	protected final String addLabel = "Add";
 	protected final String removeLabel = "Remove";
 
 	/** The JFace viewer */
 	protected StructuredViewer jFaceViewer;
-
-	/** The parent Shell */
-	protected Shell shell;
 
 	/** The main composite for this widget. */
 	protected Composite widgetComposite;
@@ -46,7 +46,7 @@ public abstract class AbstractEditor {
 	}
 
 	/**
-	 * Sets the comparator, for sorting values in the table.
+	 * Sets the comparator, for sorting values.
 	 * 
 	 * @param comparator
 	 *            the new comparator
@@ -64,9 +64,7 @@ public abstract class AbstractEditor {
 	protected abstract ViewerComparator getDefaultComparator();
 
 	/**
-	 * Gets the composite.
-	 * 
-	 * @return the composite
+	 * Sets the composite layout data.
 	 */
 	public void setLayoutData(Object layoutData) {
 		widgetComposite.setLayoutData(layoutData);

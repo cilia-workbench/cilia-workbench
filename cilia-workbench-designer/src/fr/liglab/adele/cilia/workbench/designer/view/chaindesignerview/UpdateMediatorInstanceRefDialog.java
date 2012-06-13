@@ -27,12 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Medi
 public class UpdateMediatorInstanceRefDialog extends UpdateMediatorRefDialog {
 
 	protected UpdateMediatorInstanceRefDialog(Shell parent, MediatorInstanceRef mediator) {
-		super(parent, mediator);
-	}
-
-	@Override
-	protected Point getInitialSize() {
-		return new Point(500, 400);
+		super(parent, mediator, new Point(500, 400));
 	}
 
 	@Override

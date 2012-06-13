@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.view;
+package fr.liglab.adele.cilia.workbench.common.ui.view;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -47,21 +47,12 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 		getSite().setSelectionProvider(viewer);
 	}
 
-	/**
-	 * Fill tool bar.
-	 */
 	protected void fillToolBar() {
 		ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
 		IActionBars bars = getViewSite().getActionBars();
 		bars.getMenuManager().add(toolbarZoomContributionViewItem);
-
 	}
 
-	/**
-	 * Sets the viewer layout.
-	 * 
-	 * @return the layout algorithm
-	 */
 	private LayoutAlgorithm getLayout() {
 		LayoutAlgorithm layout;
 		// layout = new
@@ -77,19 +68,10 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 
 	}
 
-	/**
-	 * Passing the focus request to the viewer's control.
-	 */
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.zest.core.viewers.IZoomableWorkbenchPart#getZoomableViewer()
-	 */
 	@Override
 	public AbstractZoomableViewer getZoomableViewer() {
 		return viewer;

@@ -63,7 +63,7 @@ public class AdapterUtil {
 
 	static void initAdapter(Node node, GenericAdapter adapter, String subXMLNodeName) throws CiliaException {
 		ReflectionUtil.setAttribute(node, "name", adapter, "name");
-		ReflectionUtil.setAttribute(node, "namespace", adapter, "namespace", CiliaConstants.getDefaultNamespace());
+		ReflectionUtil.setAttribute(node, "namespace", adapter, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
 
 		try {
 			Node subNode = XMLHelpers.findChild(node, subXMLNodeName);

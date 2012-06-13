@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,8 +57,7 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 	public SpecModel(String filePath) throws CiliaException {
 		this.filePath = filePath;
 
-		File file = new File(filePath);
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(filePath);
 		Node root = getRootNode(document);
 
 		for (Node node : XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME))
@@ -112,8 +110,7 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 	public void deleteMediatorSpec(NameNamespaceID id) throws CiliaException {
 
 		// Finding target node
-		File file = new File(filePath);
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(filePath);
 		Node target = findXMLMediatorNode(document, id);
 
 		if (target != null) {
@@ -130,8 +127,7 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 			List<String> dispatcherParam) throws CiliaException {
 
 		// Finding target node
-		File file = new File(filePath);
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(filePath);
 		Node target = findXMLMediatorNode(document, id);
 		Node parent = getRootNode(document);
 
@@ -183,8 +179,7 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 	public void createMediatorSpec(NameNamespaceID id) throws CiliaException {
 
 		if (SpecRepoService.getInstance().isNewMediatorSpecAllowed(id) == null) {
-			File file = new File(filePath);
-			Document document = XMLHelpers.getDocument(file);
+			Document document = XMLHelpers.getDocument(filePath);
 			Node parent = getRootNode(document);
 
 			MediatorSpec.createXMLSpec(document, parent, id);

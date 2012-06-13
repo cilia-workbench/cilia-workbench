@@ -22,9 +22,10 @@ package fr.liglab.adele.cilia.workbench.common.identifiable;
 public interface Identifiable {
 
 	/**
-	 * Gets the object identifier.
+	 * Gets the object identifier. The object identifier must be understood as a
+	 * primary key in a database.
 	 * 
-	 * @return the object identifier.
+	 * @return the object id.
 	 */
 	Object getId();
 }

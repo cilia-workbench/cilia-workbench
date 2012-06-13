@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.view.editors;
+package fr.liglab.adele.cilia.workbench.common.ui.editors;
 
 import java.util.Comparator;
 import java.util.List;
@@ -41,8 +41,7 @@ import org.eclipse.swt.widgets.Text;
  */
 public class ListEditor extends AbstractEditor {
 
-	/** the list contents */
-	private List<String> input;
+	private List<String> model;
 
 	private Text text;
 
@@ -51,13 +50,13 @@ public class ListEditor extends AbstractEditor {
 	 * 
 	 * @param parent
 	 *            the parent composite.
-	 * @param input
+	 * @param model
 	 *            the input, which can be an empty list, but mustn't be null.
 	 */
-	public ListEditor(Composite parent, List<String> input) {
+	public ListEditor(Composite parent, List<String> model) {
 		super(parent);
 
-		this.input = input;
+		this.model = model;
 
 		// Composite
 		widgetComposite = new Composite(parent, SWT.NONE);
@@ -76,7 +75,7 @@ public class ListEditor extends AbstractEditor {
 		jFaceViewer = new ListViewer(widgetComposite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		jFaceViewer.setContentProvider(new ArrayContentProvider());
 		jFaceViewer.setLabelProvider(new LabelProvider());
-		jFaceViewer.setInput(input);
+		jFaceViewer.setInput(model);
 		jFaceViewer.setComparator(getDefaultComparator());
 		jFaceViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -90,9 +89,6 @@ public class ListEditor extends AbstractEditor {
 		btnRemove.addMouseListener(new RemoveButtonListener(shell, jFaceViewer));
 	}
 
-	/**
-	 * Listener called when clicking on the Add Button.
-	 */
 	private class AddButtonListener implements MouseListener {
 
 		private Text text;
@@ -121,15 +117,15 @@ public class ListEditor extends AbstractEditor {
 				MessageDialog.openError(shell, "Error", "Can't add an empty string");
 			} else {
 				boolean found = false;
-				for (int i = 0; i < input.size() && !found; i++) {
-					if (input.get(i).equalsIgnoreCase(str))
+				for (int i = 0; i < model.size() && !found; i++) {
+					if (model.get(i).equalsIgnoreCase(str))
 						found = true;
 				}
 
 				if (found) {
 					MessageDialog.openError(shell, "Error", "\"" + str + "\"" + " is already in the list.");
 				} else {
-					input.add(str);
+					model.add(str);
 					list.refresh();
 				}
 			}
@@ -167,7 +163,7 @@ public class ListEditor extends AbstractEditor {
 			if (str == null)
 				MessageDialog.openError(shell, "Error", "Please select an element first.");
 			else
-				input.remove(str);
+				model.remove(str);
 			list.refresh();
 		}
 	}
@@ -176,11 +172,6 @@ public class ListEditor extends AbstractEditor {
 	public void refresh() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.liglab.adele.cilia.dialog.editor.AbstractEditor#getDefaultComparator()
-	 */
 	@Override
 	protected ViewerComparator getDefaultComparator() {
 		return new ViewerComparator(new Comparator<String>() {

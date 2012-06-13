@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -30,6 +29,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.base.Preconditions;
 
+import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
@@ -37,24 +37,21 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Medi
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class NewBindingWindow extends Dialog {
+public class NewBindingWindow extends WorkbenchDialog {
 
 	public static final String DST_COLUMN = "IN";
 	public static final String SRC_COLUMN = "OUT";
 
 	private final Chain chain;
 
-	private final String windowTitle = "New binding";
-
-	/** Margin used by the GridLayout. */
-	private final int margin = 10;
+	private static final String windowTitle = "New binding";
 
 	private Combo srcElemCombo;
 
@@ -80,7 +77,7 @@ public class NewBindingWindow extends Dialog {
 	private String dstCardinality;
 
 	protected NewBindingWindow(Shell parentShell, Chain chain) {
-		super(parentShell);
+		super(parentShell, windowTitle, new Point(550, 300), false);
 		Preconditions.checkNotNull(chain);
 		Preconditions.checkNotNull(parentShell);
 		this.chain = chain;
@@ -96,15 +93,8 @@ public class NewBindingWindow extends Dialog {
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
 
-		getShell().setText(windowTitle);
-
 		// Global layout
-		GridLayout layout = new GridLayout(3, false);
-		layout.marginWidth = margin;
-		layout.marginHeight = margin;
-		layout.horizontalSpacing = margin;
-		layout.verticalSpacing = margin;
-		container.setLayout(layout);
+		container.setLayout(new GridLayout(3, false));
 
 		// Empty element
 		Label label1 = new Label(container, SWT.WRAP);
@@ -228,47 +218,6 @@ public class NewBindingWindow extends Dialog {
 
 	public Cardinality getDstCardinality() {
 		return Cardinality.getCardinality(dstCardinality);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
-	 */
-	@Override
-	protected void initializeBounds() {
-		super.initializeBounds();
-		getButton(IDialogConstants.OK_ID).setEnabled(false);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
-	 * .swt.widgets.Composite)
-	 */
-	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#getInitialSize()
-	 */
-	protected Point getInitialSize() {
-		return new Point(550, 300);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#isResizable()
-	 */
-	protected boolean isResizable() {
-		return true;
 	}
 
 	protected void updateResult() {

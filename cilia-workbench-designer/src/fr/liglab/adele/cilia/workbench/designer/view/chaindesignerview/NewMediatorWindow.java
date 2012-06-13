@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Shell;
 import com.google.common.base.Strings;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.common.view.NewIdListDialog;
+import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
@@ -35,7 +35,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepo
  * 
  * @author Etienne Gandrille
  */
-public class NewMediatorWindow extends NewIdListDialog {
+public class NewMediatorWindow extends TextListDialog {
 
 	private final Chain chain;
 

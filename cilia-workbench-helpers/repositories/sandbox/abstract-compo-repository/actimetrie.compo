@@ -18,7 +18,7 @@
 			<mediator-instance id="increment" namespace="fr.liglab.adele.cilia"
 				type="increment-mediator">
 				<processor>
-					<property name="increment" value="14" />
+					<property name="increment" value="17" />
 				</processor>
 			</mediator-instance>
 		</mediators>

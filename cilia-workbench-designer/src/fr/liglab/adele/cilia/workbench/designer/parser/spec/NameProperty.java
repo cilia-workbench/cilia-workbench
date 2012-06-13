@@ -40,6 +40,6 @@ public class NameProperty extends GenericProperty implements DisplayedInProperti
 	}
 
 	public static Node createXMLProperty(Document document, Node parent, String name) {
-		return XMLHelpers.createNode(document, parent, XML_NODE_NAME, XML_ATTR_NAME, name);
+		return XMLHelpers.createChild(document, parent, XML_NODE_NAME, XML_ATTR_NAME, name);
 	}
 }

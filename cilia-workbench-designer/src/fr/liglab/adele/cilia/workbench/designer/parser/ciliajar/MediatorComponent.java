@@ -32,9 +32,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInP
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericOutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameValueProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameNamespace;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameValueProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.ComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
@@ -67,9 +67,9 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 	public MediatorComponent(Node node) throws CiliaException {
 
 		ReflectionUtil.setAttribute(node, "name", this, "name");
-		ReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.getDefaultNamespace());
+		ReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
 
-		String defNs = CiliaConstants.getDefaultNamespace();
+		String defNs = CiliaConstants.CILIA_DEFAULT_NAMESPACE;
 		String specName = null;
 		String specNamespace = null;
 

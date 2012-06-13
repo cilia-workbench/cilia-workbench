@@ -16,7 +16,8 @@ package fr.liglab.adele.cilia.workbench.monitoring.command;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
-import fr.liglab.adele.cilia.workbench.common.view.ViewUtil;
+
+import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.TopologyView;
 
