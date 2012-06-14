@@ -63,7 +63,7 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 		if (object != null && object instanceof AbstractFile<?>) {
 			AbstractFile<?> file = (AbstractFile<?>) object;
 			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required",
-					"Do you want to delete " + file.getFilePath() + "?");
+					"Do you want to delete " + file.getFile() + "?");
 			if (result == true) {
 				AbstractRepoService<?, ?> repoService = view.getRepoService();
 				repoService.deleteRepoElement(file);

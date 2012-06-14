@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,14 +48,14 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 	public static final String ROOT_NODE_NAME = "cilia-composition-specifications";
 
-	private String filePath;
+	private File file;
 
 	private List<Chain> model = new ArrayList<Chain>();
 
-	public AbstractCompositionModel(String filePath) throws Exception {
-		this.filePath = filePath;
+	public AbstractCompositionModel(File file) throws Exception {
+		this.file = file;
 
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
 
 		for (Node node : XMLHelpers.findChildren(root, Chain.XML_NODE_NAME))
@@ -69,8 +70,8 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		return XMLHelpers.getRootNode(document, ROOT_NODE_NAME);
 	}
 
-	public String getFilePath() {
-		return filePath;
+	public File getFile() {
+		return file;
 	}
 
 	@Override
@@ -89,7 +90,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	public void createChain(NameNamespaceID id) throws CiliaException {
 
 		// Document creation
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
 		Element child = document.createElement(Chain.XML_NODE_NAME);
 		child.setAttribute(Chain.XML_ATTR_ID, id.getName());
@@ -97,7 +98,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		root.appendChild(child);
 
 		// Write it back to file system
-		XMLHelpers.writeDOM(document, filePath);
+		XMLHelpers.writeDOM(document, file);
 
 		// Notifies Repository
 		AbstractCompositionsRepoService.getInstance().updateModel();
@@ -106,12 +107,12 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	public void deleteChain(NameNamespaceID id) throws CiliaException {
 
 		// Finding target node
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node target = findXMLChainNode(document, id);
 
 		if (target != null) {
 			getRootNode(document).removeChild(target);
-			XMLHelpers.writeDOM(document, filePath);
+			XMLHelpers.writeDOM(document, file);
 
 			// Notifies Repository
 			AbstractCompositionsRepoService.getInstance().updateModel();
@@ -161,7 +162,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 	private void createComponentInstanceInternal(Chain chain, String id, NameNamespaceID type, String rootNode,
 			String elementNode) throws CiliaException {
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, rootNode);
 
@@ -173,7 +174,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		componentNode.appendChild(child);
 
 		// Write it back to file system
-		XMLHelpers.writeDOM(document, filePath);
+		XMLHelpers.writeDOM(document, file);
 
 		// Notifies Repository
 		AbstractCompositionsRepoService.getInstance().updateModel();
@@ -195,7 +196,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			else
 				to = dstElem + ":" + dstPort;
 
-			Document document = XMLHelpers.getDocument(filePath);
+			Document document = XMLHelpers.getDocument(file);
 			Node chainNode = findXMLChainNode(document, chain.getId());
 			Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, Chain.XML_ROOT_BINDINGS_NAME);
 
@@ -207,7 +208,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			componentNode.appendChild(child);
 
 			// Write it back to file system
-			XMLHelpers.writeDOM(document, filePath);
+			XMLHelpers.writeDOM(document, file);
 
 			// Notifies Repository
 			AbstractCompositionsRepoService.getInstance().updateModel();
@@ -222,7 +223,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	}
 
 	private void deleteMediator(Chain chain, MediatorRef mediator) throws CiliaException {
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
 
@@ -241,12 +242,12 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			subNode.removeChild(leaf);
 
 		deleteBindingsWithReferenceToComponent(chainNode, mediator.getId());
-		XMLHelpers.writeDOM(document, filePath);
+		XMLHelpers.writeDOM(document, file);
 		AbstractCompositionsRepoService.getInstance().updateModel();
 	}
 
 	private void deleteAdapter(Chain chain, AdapterRef adapter) throws CiliaException {
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_ADAPTERS_NAME);
 
@@ -263,7 +264,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			subNode.removeChild(leaf);
 
 		deleteBindingsWithReferenceToComponent(chainNode, adapter.getId());
-		XMLHelpers.writeDOM(document, filePath);
+		XMLHelpers.writeDOM(document, file);
 		AbstractCompositionsRepoService.getInstance().updateModel();
 	}
 
@@ -293,7 +294,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	}
 
 	public void deleteBinding(Chain chain, Binding binding) throws CiliaException {
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_BINDINGS_NAME);
 		if (subNode == null)
@@ -305,13 +306,13 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			throw new CiliaException("Can't find binding " + binding);
 		subNode.removeChild(nodes[0]);
 
-		XMLHelpers.writeDOM(document, filePath);
+		XMLHelpers.writeDOM(document, file);
 		AbstractCompositionsRepoService.getInstance().updateModel();
 	}
 
 	public void updateProperties(Chain chain, MediatorSpecRef mediator, Map<String, String> properties)
 			throws CiliaException {
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
 		Node media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID,
@@ -328,13 +329,13 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 					PropertyConstraint.XML_ATTR_NAME, key, PropertyConstraint.XML_ATTR_VALUE, properties.get(key));
 		}
 
-		XMLHelpers.writeDOM(document, filePath);
+		XMLHelpers.writeDOM(document, file);
 		AbstractCompositionsRepoService.getInstance().updateModel();
 	}
 
 	public void updateParameters(Chain chain, MediatorRef mediator, Map<String, String> schedulerParam,
 			Map<String, String> processorParam, Map<String, String> dispatcherParam) throws CiliaException {
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
 
@@ -350,7 +351,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		updateParameterInternal(document, media, MediatorRef.XML_PROCESSOR_NODE, processorParam);
 		updateParameterInternal(document, media, MediatorRef.XML_DISPATCHER_NODE, dispatcherParam);
 
-		XMLHelpers.writeDOM(document, filePath);
+		XMLHelpers.writeDOM(document, file);
 		AbstractCompositionsRepoService.getInstance().updateModel();
 	}
 

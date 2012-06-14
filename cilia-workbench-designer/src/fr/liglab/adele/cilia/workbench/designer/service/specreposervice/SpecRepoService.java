@@ -85,8 +85,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		File[] list = getFiles();
 		List<SpecFile> elements = new ArrayList<SpecFile>();
 		for (File file : list) {
-			String path = file.getPath();
-			elements.add(new SpecFile(path));
+			elements.add(new SpecFile(file));
 		}
 
 		// Updates existing model with computed model

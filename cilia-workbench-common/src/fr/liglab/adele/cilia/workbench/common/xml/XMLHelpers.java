@@ -74,16 +74,15 @@ public class XMLHelpers {
 	}
 
 	/**
-	 * Gets a {@link Document} from a file path.
+	 * Gets a {@link Document} from a file.
 	 * 
-	 * @param filePath
-	 *            the file path
+	 * @param file
+	 *            the file
 	 * @return the dom document
 	 * @throws CiliaException
 	 *             if any error during parsing.
 	 */
-	public static Document getDocument(String filePath) throws CiliaException {
-		File file = new File(filePath);
+	public static Document getDocument(File file) throws CiliaException {
 		try {
 			return getDocumentBuilder().parse(file);
 		} catch (SAXException e) {
@@ -127,8 +126,8 @@ public class XMLHelpers {
 	/**
 	 * Gets an Input stream from a file embedded in a jar archive.
 	 * 
-	 * @param archivePath
-	 *            the archive path, on the hard disk.
+	 * @param jarFile
+	 *            the jar archive file, on the hard disk.
 	 * @param fileName
 	 *            the file name, in the archive. The file must be located at the
 	 *            archive root.
@@ -136,26 +135,25 @@ public class XMLHelpers {
 	 * @throws CiliaException
 	 *             if any error.
 	 */
-	public static InputStream inputStreamFromFileInJarArchive(String archivePath, String fileName)
-			throws CiliaException {
+	public static InputStream inputStreamFromFileInJarArchive(File jarFile, String fileName) throws CiliaException {
 		// Jar file
 		JarFile file;
 		try {
-			file = new JarFile(archivePath);
+			file = new JarFile(jarFile);
 		} catch (IOException e) {
-			throw new CiliaException("Can't open jar file " + archivePath, e);
+			throw new CiliaException("Can't open jar file " + jarFile.getAbsolutePath(), e);
 		}
 
 		// File
 		ZipEntry entry = file.getEntry(fileName);
 		if (entry == null)
-			throw new CiliaException("File " + fileName + " not found in " + archivePath);
+			throw new CiliaException("File " + fileName + " not found in " + jarFile.getAbsolutePath());
 
 		BufferedInputStream is;
 		try {
 			is = new BufferedInputStream(file.getInputStream(entry));
 		} catch (IOException e) {
-			throw new CiliaException("Can't access file " + fileName + " in jar file " + archivePath, e);
+			throw new CiliaException("Can't access file " + fileName + " in jar file " + jarFile.getAbsolutePath(), e);
 		}
 
 		return is;
@@ -166,18 +164,18 @@ public class XMLHelpers {
 	 * 
 	 * @param document
 	 *            the document
-	 * @param filePath
-	 *            the file path, on the local file system.
+	 * @param file
+	 *            the file, on the local file system.
 	 * @throws CiliaException
 	 *             the metadata exception
 	 */
-	public static void writeDOM(Document document, String filePath) throws CiliaException {
+	public static void writeDOM(Document document, File file) throws CiliaException {
 		Source source = new DOMSource(document);
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		try {
 			Transformer xformer = transformerFactory.newTransformer();
 			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			StreamResult result = new StreamResult(new File(filePath));
+			StreamResult result = new StreamResult(file);
 			xformer.transform(source, result);
 		} catch (TransformerException e) {
 			throw new CiliaException("XML transformer error", e);

@@ -85,8 +85,7 @@ public class AbstractCompositionsRepoService extends
 		File[] list = getFiles();
 		List<AbstractCompositionFile> elements = new ArrayList<AbstractCompositionFile>();
 		for (File jar : list) {
-			String path = jar.getPath();
-			elements.add(new AbstractCompositionFile(path));
+			elements.add(new AbstractCompositionFile(jar));
 		}
 
 		// Updates existing model with computed model

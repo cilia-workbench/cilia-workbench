@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview;
 
+import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,16 +112,21 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		viewer.getControl().setFocus();
 	}
 
-	protected String getRepositoryDirectory() {
-		return repoService.getRepositoryPath();
+	/**
+	 * Gets the repository directory.
+	 * 
+	 * @return null, if not available
+	 */
+	protected File getRepositoryDirectory() {
+		return repoService.getRepositoryLocation();
 	}
 
 	protected String computeMessageAreaText() {
-		String dir = getRepositoryDirectory();
-		if (dir == null || dir.length() == 0)
+		File dir = getRepositoryDirectory();
+		if (dir == null)
 			return messageAreaPrefix + "not available";
 		else
-			return messageAreaPrefix + dir;
+			return messageAreaPrefix + dir.getAbsolutePath();
 	}
 
 	/**
@@ -209,7 +215,7 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 					String scheme = uri.getScheme();
 					if (scheme.equals("file")) {
 						String path = uri.getPath();
-						if (path.startsWith(getRepositoryDirectory()))
+						if (path.startsWith(getRepositoryDirectory().getAbsolutePath()))
 							if (editor.getTitle().toLowerCase().endsWith(prefix))
 								retval.add(editor);
 					}
@@ -230,7 +236,7 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 				@SuppressWarnings("unchecked")
 				AbstractFile<ModelType> repoElement = (AbstractFile<ModelType>) element;
 				// Even files with an invalid model can be open.
-				openFileEditor(repoElement.getFilePath());
+				openFileEditor(repoElement.getFile());
 
 			} catch (Exception e) {
 				// do nothing
@@ -245,13 +251,13 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	 * Registers a listener to update the repo model as soon as the editor
 	 * saves.
 	 * 
-	 * @param filePath
+	 * @param file
 	 *            the file path
 	 */
-	protected void openFileEditor(String filePath) {
+	protected void openFileEditor(File file) {
 		IFileStore fileStore;
 		try {
-			fileStore = EFS.getLocalFileSystem().getStore(new Path(filePath));
+			fileStore = EFS.getLocalFileSystem().getStore(new Path(file.getAbsolutePath()));
 			IWorkbenchPage page = getViewSite().getPage();
 			IEditorPart editor = IDE.openEditorOnFileStore(page, fileStore);
 			addEditorSavedListener(editor);

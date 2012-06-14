@@ -30,15 +30,15 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
  */
 class StreamFromFileStorage implements IStorage {
 
-	private String filePath;
+	private File file;
 
-	StreamFromFileStorage(String filePath) {
-		this.filePath = filePath;
+	StreamFromFileStorage(File file) {
+		this.file = file;
 	}
 
 	public InputStream getContents() throws CoreException {
 		try {
-			return XMLHelpers.inputStreamFromFileInJarArchive(filePath, "metadata.xml");
+			return XMLHelpers.inputStreamFromFileInJarArchive(file, "metadata.xml");
 		} catch (CiliaException e) {
 			e.printStackTrace();
 			return null;
@@ -55,11 +55,7 @@ class StreamFromFileStorage implements IStorage {
 	}
 
 	public String getName() {
-		int index = filePath.lastIndexOf(File.separator, filePath.length());
-		if (index == -1)
-			return filePath;
-		else
-			return filePath.substring(index + 1);
+		return file.getName();
 	}
 
 	public boolean isReadOnly() {

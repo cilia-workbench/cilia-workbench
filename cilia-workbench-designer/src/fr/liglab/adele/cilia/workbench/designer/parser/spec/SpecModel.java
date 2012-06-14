@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,13 +40,13 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 
 	public static final String XML_NODE_NAME = "cilia-specifications";
 
-	private String filePath;
+	private File file;
 	private List<MediatorSpec> mediatorSpecs = new ArrayList<MediatorSpec>();
 
-	public SpecModel(String filePath) throws CiliaException {
-		this.filePath = filePath;
+	public SpecModel(File file) throws CiliaException {
+		this.file = file;
 
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
 
 		for (Node node : XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME))
@@ -77,12 +78,12 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 	public void deleteMediatorSpec(NameNamespaceID id) throws CiliaException {
 
 		// Finding target node
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node target = findXMLMediatorNode(document, id);
 
 		if (target != null) {
 			getRootNode(document).removeChild(target);
-			XMLHelpers.writeDOM(document, filePath);
+			XMLHelpers.writeDOM(document, file);
 
 			// Notifies Repository
 			SpecRepoService.getInstance().updateModel();
@@ -94,7 +95,7 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 			List<String> dispatcherParam) throws CiliaException {
 
 		// Finding target node
-		Document document = XMLHelpers.getDocument(filePath);
+		Document document = XMLHelpers.getDocument(file);
 		Node target = findXMLMediatorNode(document, id);
 		Node parent = getRootNode(document);
 
@@ -126,7 +127,7 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 		for (String param : dispatcherParam)
 			MediatorSpec.createDispatcherParameter(document, spec, param);
 
-		XMLHelpers.writeDOM(document, filePath);
+		XMLHelpers.writeDOM(document, file);
 
 		// Notifies Repository
 		SpecRepoService.getInstance().updateModel();
@@ -146,13 +147,13 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 	public void createMediatorSpec(NameNamespaceID id) throws CiliaException {
 
 		if (SpecRepoService.getInstance().isNewMediatorSpecAllowed(id) == null) {
-			Document document = XMLHelpers.getDocument(filePath);
+			Document document = XMLHelpers.getDocument(file);
 			Node parent = getRootNode(document);
 
 			MediatorSpec.createXMLSpec(document, parent, id);
 
 			// Write it back to file system
-			XMLHelpers.writeDOM(document, filePath);
+			XMLHelpers.writeDOM(document, file);
 
 			// Notifies Repository
 			SpecRepoService.getInstance().updateModel();

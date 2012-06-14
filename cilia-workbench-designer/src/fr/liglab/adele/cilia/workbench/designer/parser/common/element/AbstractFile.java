@@ -14,11 +14,12 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
+import java.io.File;
+
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
@@ -33,23 +34,23 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, DisplayedInPropertiesView, Identifiable {
 
-	/** Path on the file system. */
-	private String path;
+	/** File on the file system. */
+	private File file;
 
 	/** The model object, which represents the file. */
 	protected ModelType model;
 
-	public AbstractFile(String path) {
-		this.path = path;
+	public AbstractFile(File file) {
+		this.file = file;
 	}
 
 	@Override
 	public Object getId() {
-		return path;
+		return file;
 	}
 
-	public String getFilePath() {
-		return path;
+	public File getFile() {
+		return file;
 	}
 
 	public ModelType getModel() {
@@ -58,7 +59,7 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 
 	@Override
 	public String toString() {
-		return FileUtil.getFileName(path);
+		return file.getName();
 	}
 
 	@Override

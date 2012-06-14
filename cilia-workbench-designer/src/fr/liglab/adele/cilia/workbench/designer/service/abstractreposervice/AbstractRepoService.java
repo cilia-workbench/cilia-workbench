@@ -131,9 +131,14 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	 * 
 	 * @return the repository path
 	 */
-	public String getRepositoryPath() {
+	public File getRepositoryLocation() {
 		IPreferenceStore store = Activator.getInstance().getPreferenceStore();
-		return store.getString(PREFERENCE_PATH_KEY);
+		File dir = new File(store.getString(PREFERENCE_PATH_KEY));
+
+		if (!dir.isDirectory())
+			return null;
+
+		return dir;
 	}
 
 	/**
@@ -142,7 +147,7 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	 * @return the files
 	 */
 	protected File[] getFiles() {
-		File dir = new File(getRepositoryPath());
+		File dir = getRepositoryLocation();
 		File[] list = dir.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
@@ -240,7 +245,7 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 			return "file name can't be empty";
 
 		/* Already exists checking */
-		File dir = new File(getRepositoryPath());
+		File dir = getRepositoryLocation();
 		File[] list = dir.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
@@ -272,34 +277,43 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	 * @return null if success, an error message otherwise.
 	 */
 	public String createFile(String fileName) {
-
-		String content = getContentForNewFile();
+		File destination = new File(getRepositoryLocation(), fileName);
 
 		if (isNewFileNameAllowed(fileName) != null)
 			return "file name is not allowed : " + isNewFileNameAllowed(fileName);
 
-		String repoPath = getRepositoryPath();
-		String path;
-		if (repoPath.endsWith(File.separator))
-			path = repoPath + fileName;
-		else
-			path = repoPath + File.separator + fileName;
+		// write
+		boolean hasError = false;
+		BufferedWriter out = null;
 		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(path));
-			out.write(content);
-			out.close();
+			out = new BufferedWriter(new FileWriter(destination));
+			out.write(getContentForNewFile());
 		} catch (IOException e) {
 			e.printStackTrace();
-			return "i/o error while writing file";
+			hasError = true;
+		}
+
+		// close writer
+		if (out != null) {
+			try {
+				out.close();
+			} catch (IOException e) {
+				hasError = true;
+				e.printStackTrace();
+			}
 		}
 
 		updateModel();
-		return null;
+
+		// return
+		if (hasError)
+			return "i/o error while writing file";
+		else
+			return null;
 	}
 
 	public boolean deleteRepoElement(AbstractFile<?> element) {
-		File file = new File(element.getFilePath());
-		boolean retval = file.delete();
+		boolean retval = element.getFile().delete();
 		updateModel();
 		return retval;
 	}

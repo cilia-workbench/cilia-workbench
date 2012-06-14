@@ -14,21 +14,24 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
+import java.io.File;
+
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.AbstractFile;
 
 /**
- * Represents a file, from a "physical" point of view. This file, which must exists on the file system, can be well
- * formed or not. If it is "well formed", the model field is not null, and represents a model of the file.
+ * Represents a file, from a "physical" point of view. This file, which must
+ * exists on the file system, can be well formed or not. If it is "well formed",
+ * the model field is not null, and represents a model of the file.
  * 
  * @author Etienne Gandrille
  */
 public class CiliaJarFile extends AbstractFile<CiliaJarModel> {
 
-	public CiliaJarFile(String path) {
-		super(path);
+	public CiliaJarFile(File file) {
+		super(file);
 
 		try {
-			model = new CiliaJarModel(path);
+			model = new CiliaJarModel(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model = null;

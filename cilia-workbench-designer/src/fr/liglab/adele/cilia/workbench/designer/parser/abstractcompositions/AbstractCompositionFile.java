@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +34,11 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Merg
  */
 public class AbstractCompositionFile extends AbstractFile<AbstractCompositionModel> implements Mergeable {
 
-	public AbstractCompositionFile(String path) {
-		super(path);
+	public AbstractCompositionFile(File file) {
+		super(file);
 
 		try {
-			model = new AbstractCompositionModel(path);
+			model = new AbstractCompositionModel(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model = null;

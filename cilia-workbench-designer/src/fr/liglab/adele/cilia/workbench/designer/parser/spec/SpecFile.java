@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.spec;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +34,11 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Merg
  */
 public class SpecFile extends AbstractFile<SpecModel> implements Mergeable {
 
-	public SpecFile(String path) {
-		super(path);
+	public SpecFile(File file) {
+		super(file);
 
 		try {
-			model = new SpecModel(path);
+			model = new SpecModel(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model = null;

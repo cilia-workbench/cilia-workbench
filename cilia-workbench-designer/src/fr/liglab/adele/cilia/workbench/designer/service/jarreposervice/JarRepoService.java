@@ -75,8 +75,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		File[] list = getFiles();
 		List<CiliaJarFile> bundles = new ArrayList<CiliaJarFile>();
 		for (File jar : list) {
-			String path = jar.getPath();
-			bundles.add(new CiliaJarFile(path));
+			bundles.add(new CiliaJarFile(jar));
 		}
 
 		// Updates model with computed one

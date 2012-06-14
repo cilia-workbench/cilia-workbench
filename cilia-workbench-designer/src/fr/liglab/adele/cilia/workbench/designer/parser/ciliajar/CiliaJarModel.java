@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +45,9 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 	private List<Sender> senders = new ArrayList<Sender>();
 	private List<GenericAdapter> adapters = new ArrayList<GenericAdapter>();
 
-	public CiliaJarModel(String filePath) throws CiliaException {
+	public CiliaJarModel(File file) throws CiliaException {
 
-		InputStream is = XMLHelpers.inputStreamFromFileInJarArchive(filePath, "metadata.xml");
+		InputStream is = XMLHelpers.inputStreamFromFileInJarArchive(file, "metadata.xml");
 		Document document = XMLHelpers.getDocument(is);
 		Node root = getRootNode(document);
 

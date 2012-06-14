@@ -70,7 +70,6 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile, CiliaJarMode
 		Object element = getFirstSelectedElement();
 		if (element != null && element instanceof CiliaJarFile) {
 			CiliaJarFile bundle = (CiliaJarFile) element;
-			String bundleName = bundle.getFilePath();
 
 			IWorkbenchPage page = getViewSite().getPage();
 
@@ -92,7 +91,7 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile, CiliaJarMode
 				}
 			}
 
-			IStorage storage = new StreamFromFileStorage(bundleName);
+			IStorage storage = new StreamFromFileStorage(bundle.getFile());
 			IStorageEditorInput input = new StringInput(storage);
 			try {
 				IEditorRegistry registry = PlatformUI.getWorkbench().getEditorRegistry();
