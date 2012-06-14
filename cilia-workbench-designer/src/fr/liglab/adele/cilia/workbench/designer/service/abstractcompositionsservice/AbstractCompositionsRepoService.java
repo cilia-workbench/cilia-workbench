@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Preconditions;
-
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
@@ -215,8 +213,6 @@ public class AbstractCompositionsRepoService extends
 	}
 
 	public AbstractCompositionFile getRepoElement(Object object) {
-		Preconditions.checkNotNull(object);
-
 		if (object instanceof AbstractCompositionFile)
 			return (AbstractCompositionFile) object;
 		Object parent = getContentProvider().getParent(object);

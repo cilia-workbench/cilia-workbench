@@ -17,8 +17,6 @@ package fr.liglab.adele.cilia.workbench.common.misc;
 
 import java.io.File;
 
-import com.google.common.base.Preconditions;
-
 /**
  * 
  * @author Etienne Gandrille
@@ -33,8 +31,6 @@ public class FileUtil {
 	 * @return only the file part.
 	 */
 	public static String getFileName(String path) {
-		Preconditions.checkNotNull(path);
-
 		int index = path.lastIndexOf(File.separator, path.length());
 		if (index == -1)
 			return path;

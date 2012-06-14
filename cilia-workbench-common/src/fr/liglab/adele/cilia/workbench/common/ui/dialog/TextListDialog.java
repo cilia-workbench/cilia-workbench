@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import com.google.common.base.Strings;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 
 /**
  * Base class for implementing small dialogs composed with

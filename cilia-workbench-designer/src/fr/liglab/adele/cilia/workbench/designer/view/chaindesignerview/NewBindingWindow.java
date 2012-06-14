@@ -27,8 +27,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import com.google.common.base.Preconditions;
-
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
@@ -78,8 +76,6 @@ public class NewBindingWindow extends WorkbenchDialog {
 
 	protected NewBindingWindow(Shell parentShell, Chain chain) {
 		super(parentShell, windowTitle, new Point(550, 300), false);
-		Preconditions.checkNotNull(chain);
-		Preconditions.checkNotNull(parentShell);
 		this.chain = chain;
 	}
 

@@ -21,15 +21,15 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
-
 import fr.liglab.adele.cilia.management.monitoring.RuntimePerformance;
 import fr.liglab.adele.cilia.management.monitoring.StateVariableSet;
 import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
 
 /**
  * A high level abstract class, used to handle Cilia PropertySource.
- *
- * @param <T> the generic type
+ * 
+ * @param <T>
+ *            the generic type
  * @author Etienne Gandrille
  */
 public abstract class CommonPropertySource<T> implements IPropertySource {
@@ -63,15 +63,16 @@ public abstract class CommonPropertySource<T> implements IPropertySource {
 
 	/**
 	 * Gets an array with all the basic property descriptors.
-	 *
+	 * 
 	 * @return the basic property descriptors
 	 */
 	public abstract IPropertyDescriptor[] getBasicPropertyDescriptors();
 
 	/**
 	 * Gets a basic property value from its id.
-	 *
-	 * @param id the id
+	 * 
+	 * @param id
+	 *            the id
 	 * @return the basic property value
 	 */
 	public abstract Object getBasicPropertyValue(Object id);
@@ -82,9 +83,11 @@ public abstract class CommonPropertySource<T> implements IPropertySource {
 
 	/**
 	 * Creates the new basic property descriptor.
-	 *
-	 * @param propertyId the property id
-	 * @param displayName the display name
+	 * 
+	 * @param propertyId
+	 *            the property id
+	 * @param displayName
+	 *            the display name
 	 * @return the property descriptor
 	 */
 	protected IPropertyDescriptor createBasicPropertyDescriptor(String propertyId, String displayName) {
@@ -97,9 +100,9 @@ public abstract class CommonPropertySource<T> implements IPropertySource {
 	 * Returns true if the elements has state variables. This method is not
 	 * designed to be overwritten. If you want to specify if an element has
 	 * state variable, please use
-	 *
+	 * 
 	 * @return true, if successful
-	 * {@link CommonPropertySource#getRuntimeElement()} instead.
+	 *         {@link CommonPropertySource#getRuntimeElement()} instead.
 	 */
 	public final boolean hasStateVariable() {
 		return getRuntimeElement() != null;
@@ -113,20 +116,23 @@ public abstract class CommonPropertySource<T> implements IPropertySource {
 
 	/**
 	 * Gets the runtime element, or null if not available.
-	 *
+	 * 
 	 * @return the runtime element
 	 */
 	private RuntimePerformance getRuntimeElement() {
-		
+
 		Object me = CiliaUtil.getMonitoredElement(modelObject);
 		if (me != null && me instanceof RuntimePerformance)
 			return (RuntimePerformance) me;
-		
+
 		return null;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
 	 */
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
@@ -149,7 +155,7 @@ public abstract class CommonPropertySource<T> implements IPropertySource {
 
 	/**
 	 * Gets a propertyDescriptor array for all the state variables.
-	 *
+	 * 
 	 * @return the array.
 	 */
 	private IPropertyDescriptor[] getStateVariablePropertyDescriptors() {
@@ -159,7 +165,7 @@ public abstract class CommonPropertySource<T> implements IPropertySource {
 			return null;
 
 		List<IPropertyDescriptor> list = new ArrayList<IPropertyDescriptor>();
-		for (String key : runtimePerf.getStateVariableSet().keysStateVariable()) {
+		for (String key : runtimePerf.getStateVariableSet().getStateVariableId()) {
 			PropertyDescriptor descriptor = new PropertyDescriptor(PROPERTY_PREFIX + key, key.replaceAll("\\.", " "));
 			descriptor.setCategory(STATE_VARIABLES_CATEGORY);
 			list.add(descriptor);
@@ -167,9 +173,13 @@ public abstract class CommonPropertySource<T> implements IPropertySource {
 
 		return list.toArray(new IPropertyDescriptor[0]);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java.lang.Object)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java
+	 * .lang.Object)
 	 */
 	@Override
 	public Object getPropertyValue(Object id) {
@@ -188,8 +198,9 @@ public abstract class CommonPropertySource<T> implements IPropertySource {
 
 	/**
 	 * Gets the state variable value from its id.
-	 *
-	 * @param id the id
+	 * 
+	 * @param id
+	 *            the id
 	 * @return the state variable value, or null if not available.
 	 */
 	private Object getStateVariableValue(Object id) {

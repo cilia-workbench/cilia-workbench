@@ -14,7 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.common.identifiable;
 
-import com.google.common.base.Strings;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 
 /**
  * Helper class, which represents an id from the {@link Identifiable} point of

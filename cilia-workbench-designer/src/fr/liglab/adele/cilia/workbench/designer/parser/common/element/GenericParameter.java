@@ -14,12 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
 
-import com.google.common.base.Strings;
-
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 
 /**
  * Represents a parameter, used in Schedulers, Processors, Dispatchers.

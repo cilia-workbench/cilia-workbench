@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.common.xml;
 
-import com.google.common.base.Preconditions;
 
 /**
  * This few functions can split an XML attribute into namespace and attribute
@@ -27,8 +26,6 @@ public class XMLStringUtil {
 	private static final String SEPARATOR = ":";
 
 	public static String getBeforeSeparatorOrAll(String name) {
-		Preconditions.checkNotNull(name);
-
 		int index = name.indexOf(SEPARATOR);
 		if (index == -1)
 			return name;
@@ -36,8 +33,6 @@ public class XMLStringUtil {
 	}
 
 	public static String getBeforeSeparatorOrNothing(String name) {
-		Preconditions.checkNotNull(name);
-
 		int index = name.indexOf(SEPARATOR);
 		if (index == -1 || name.startsWith(SEPARATOR))
 			return "";
@@ -46,8 +41,6 @@ public class XMLStringUtil {
 	}
 
 	public static String getAfterSeparatorOrAll(String name) {
-		Preconditions.checkNotNull(name);
-
 		int index = name.indexOf(SEPARATOR);
 		if (index == -1)
 			return name;
@@ -56,8 +49,6 @@ public class XMLStringUtil {
 	}
 
 	public static String getAfterSeparatorOrNothing(String name) {
-		Preconditions.checkNotNull(name);
-
 		int index = name.indexOf(SEPARATOR);
 		if (index == -1)
 			return "";
