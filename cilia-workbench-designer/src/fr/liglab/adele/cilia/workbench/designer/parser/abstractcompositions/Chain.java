@@ -153,7 +153,7 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 	/**
 	 * Finds the {@link IComponent} referenced by the chain component with id
 	 * given into parameter. If the component can't be located, throws an
-	 * exceprion containing an error message.
+	 * exception containing an error message.
 	 * 
 	 * @param chainComponentID
 	 * @return

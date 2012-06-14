@@ -35,7 +35,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoSe
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
 
 /**
- * The Class RepositoryView.
  * 
  * @author Etienne Gandrille
  */
@@ -43,20 +42,10 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile, CiliaJarMode
 
 	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview";
 
-	/**
-	 * Instantiates a new repository view.
-	 */
 	public JarRepositoryView() {
 		super(JarRepoService.getInstance());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
-	 * .Composite)
-	 */
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);

@@ -19,9 +19,9 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
@@ -34,9 +34,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Gene
  */
 public class SpecContentProvider extends GenericContentProvider {
 
-	/**
-	 * Initialize maps from model.
-	 */
 	public SpecContentProvider(List<SpecFile> root) {
 
 		addRoot(root);

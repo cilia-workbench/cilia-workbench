@@ -17,15 +17,13 @@ package fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryViewHandler;
 
 /**
- * Base class for implementing handlers, relatives to the DSCilia View.
+ * Base class for implementing handlers, relatives to the
+ * {@link AbstractCompositionsView} View.
  * 
  * @author Etienne Gandrille
  */
 public abstract class AbstractCompoistionViewHandler extends RepositoryViewHandler {
 
-	/**
-	 * Instantiates a new dscilia handler, providing the view ID to the super class.
-	 */
 	public AbstractCompoistionViewHandler() {
 		super(AbstractCompositionsView.VIEW_ID);
 	}

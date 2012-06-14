@@ -25,19 +25,11 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Abst
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
- * CreateChainHandler.
  * 
  * @author Etienne Gandrille
  */
 public class CreateChainHandler extends AbstractCompoistionViewHandler {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
-	 * .ExecutionEvent)
-	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 

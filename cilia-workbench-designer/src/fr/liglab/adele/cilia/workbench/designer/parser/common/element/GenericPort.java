@@ -24,7 +24,6 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
  */
 public abstract class GenericPort implements IGenericPort {
 
-	/** The port name */
 	private String name;
 
 	public String getName() {

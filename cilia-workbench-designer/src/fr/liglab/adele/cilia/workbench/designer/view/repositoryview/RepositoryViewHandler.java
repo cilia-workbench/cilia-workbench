@@ -27,8 +27,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.AbstractFi
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 
 /**
- * Base class for implementing handlers dealing with repositories. This class should be subclassed, to provide the view
- * id using the constructor.
+ * Base class for implementing handlers dealing with repositories. This class
+ * should be subclassed, to provide the view id using the constructor.
  * 
  * @author Etienne Gandrille
  */
@@ -37,58 +37,23 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 	/** ViewID, used to find the repository view. */
 	private final String viewID;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param viewID
-	 */
 	public RepositoryViewHandler(String viewID) {
 		this.viewID = viewID;
 	}
 
-	/**
-	 * Finds the repository view.
-	 * 
-	 * @param event
-	 *            the handler event
-	 * @return the repository view
-	 */
 	protected RepositoryView<?, ?> getRepositoryView(ExecutionEvent event) {
 		return (RepositoryView<?, ?>) ViewUtil.findViewWithId(event, viewID);
 	}
 
-	/**
-	 * Finds the repository service, which is displayed using the repository view.
-	 * 
-	 * @param event
-	 *            the handler event
-	 * @return the repo service
-	 */
 	protected AbstractRepoService<?, ?> getRepoService(ExecutionEvent event) {
 		return getRepositoryView(event).getRepoService();
 	}
 
-	/**
-	 * Gets the first element selected in the repository view, or null, if no element is selected.
-	 * 
-	 * @param the
-	 *            handler event
-	 * @return
-	 */
 	protected Object getFirstSelectedElementInRepositoryView(ExecutionEvent event) {
 		RepositoryView<?, ?> view = (RepositoryView<?, ?>) getRepositoryView(event);
 		return view.getFirstSelectedElement();
 	}
 
-	/**
-	 * Delete a file, selected in the repository view.
-	 * 
-	 * @param event
-	 *            the event
-	 * @return the object
-	 * @throws ExecutionException
-	 *             the execution exception
-	 */
 	public Object deleteFile(ExecutionEvent event) throws ExecutionException {
 
 		// Important ! must be recorded in a variable to prevent focus problems.
@@ -110,8 +75,9 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 	}
 
 	/**
-	 * Creates a file in a repository. Check if the new file name is allowed, and creates a new file in a repository
-	 * with the associated default content.
+	 * Creates a file in a repository. Check if the new file name is allowed,
+	 * and creates a new file in a repository with the associated default
+	 * content.
 	 * 
 	 * @param the
 	 *            handler event

@@ -40,13 +40,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Gene
  */
 public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvider {
 
-	/**
-	 * Finds the ImageDescriptor enum which corresponds ton an object.
-	 * 
-	 * @param obj
-	 *            source object.
-	 * @return the Image descriptor
-	 */
 	protected abstract ImageDescriptorEnum getImageDescriptor(Object obj);
 
 	protected abstract GenericContentProvider getContentProvider();
@@ -63,20 +56,11 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 				"portIn.png"), PORT_OUT("portOut.png"), PROPERTY("property.png"), BINDING("binding.png"), SUPER_TYPE(
 				"super-type.png");
 
-		/** Path to find the physical image in the bundle */
 		private String fileName;
-
-		/** Image object, for rendering */
 		private Image imageOK;
 		private Image imageError;
 		private Image imageWarning;
 
-		/**
-		 * Contructor.
-		 * 
-		 * @param path
-		 *            the path
-		 */
 		private ImageDescriptorEnum(String fileName) {
 			this.fileName = fileName;
 			this.imageOK = null;
@@ -84,12 +68,6 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 			this.imageWarning = null;
 		}
 
-		/**
-		 * Gets the Image object for rendering. Creates the Image object if
-		 * needed.
-		 * 
-		 * @return The Image object.
-		 */
 		public Image getImageOK() {
 			if (fileName == null)
 				return null;
@@ -99,12 +77,6 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 			return imageOK;
 		}
 
-		/**
-		 * Gets the Image object for rendering. Creates the Image object if
-		 * needed.
-		 * 
-		 * @return The Image object.
-		 */
 		public Image getImageError() {
 			if (fileName == null)
 				return null;
@@ -114,12 +86,6 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 			return imageError;
 		}
 
-		/**
-		 * Gets the Image object for rendering. Creates the Image object if
-		 * needed.
-		 * 
-		 * @return The Image object.
-		 */
 		public Image getImageWarning() {
 			if (fileName == null)
 				return null;
@@ -129,12 +95,6 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 			return imageWarning;
 		}
 
-		/**
-		 * Creates an image object from a path in the bundle.
-		 * 
-		 * @param imagePath
-		 * @return the Image object.
-		 */
 		private static Image createImageFromPath(String imagePath) {
 			org.osgi.framework.Bundle bundle = Activator.getInstance().getBundle();
 			URL url = FileLocator.find(bundle, new Path(imagePath), null);
@@ -149,11 +109,6 @@ public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvi
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
-	 */
 	public Image getImage(Object obj) {
 
 		ImageDescriptorEnum descriptor = getImageDescriptor(obj);

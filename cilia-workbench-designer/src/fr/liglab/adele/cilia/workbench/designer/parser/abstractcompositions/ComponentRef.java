@@ -47,9 +47,10 @@ public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsA
 	/** The component id, unique in the chain */
 	private String id;
 
+	/** the chainID, which hosts the current {@link ComponentRef} */
 	NameNamespaceID chainId;
 
-	// pointed by the component
+	// "real" component, pointed by this component
 	protected String type;
 	private String namespace;
 

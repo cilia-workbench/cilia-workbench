@@ -25,30 +25,17 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
- * The Class StreamFromFileStorage.
  * 
  * @author Etienne Gandrille
  */
 class StreamFromFileStorage implements IStorage {
 
-	/** The file path. */
 	private String filePath;
 
-	/**
-	 * Instantiates a new stream from file storage.
-	 * 
-	 * @param filePath
-	 *            the file path
-	 */
 	StreamFromFileStorage(String filePath) {
 		this.filePath = filePath;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.resources.IStorage#getContents()
-	 */
 	public InputStream getContents() throws CoreException {
 		try {
 			return XMLHelpers.inputStreamFromFileInJarArchive(filePath, "metadata.xml");
@@ -58,30 +45,15 @@ class StreamFromFileStorage implements IStorage {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.resources.IStorage#getFullPath()
-	 */
 	public IPath getFullPath() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
-	 */
 	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class adapter) {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.resources.IStorage#getName()
-	 */
 	public String getName() {
 		int index = filePath.lastIndexOf(File.separator, filePath.length());
 		if (index == -1)
@@ -90,11 +62,6 @@ class StreamFromFileStorage implements IStorage {
 			return filePath.substring(index + 1);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.resources.IStorage#isReadOnly()
-	 */
 	public boolean isReadOnly() {
 		return true;
 	}

@@ -32,39 +32,22 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage imple
 	public static final String ABSTRACT_COMPO_REPOSITORY_PATH = "abstractCompoRepositoryPath";
 	public static final String SPEC_REPOSITORY_PATH = "specRepositoryPath";
 
-	/** Page header. */
-	public static final String HEADER = "Preferences for Cilia Workbench Designer.";
+	public static final String DESCRIPTION = "Preferences for Cilia Workbench Designer.";
 
-	/**
-	 * Instantiates a new Cilia designer preference page.
-	 */
 	public CiliaDesignerPreferencePage() {
 		super(GRID);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors
-	 * ()
-	 */
 	public void createFieldEditors() {
+		addField(new DirectoryFieldEditor(SPEC_REPOSITORY_PATH, "&Specification repository path:",
+				getFieldEditorParent()));
 		addField(new DirectoryFieldEditor(JAR_REPOSITORY_PATH, "&Jar repository path:", getFieldEditorParent()));
 		addField(new DirectoryFieldEditor(ABSTRACT_COMPO_REPOSITORY_PATH, "&Abstract compositions repository path:",
 				getFieldEditorParent()));
-		addField(new DirectoryFieldEditor(SPEC_REPOSITORY_PATH, "&Specification repository path:",
-				getFieldEditorParent()));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
-	 */
 	public void init(IWorkbench workbench) {
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription(HEADER);
+		setPreferenceStore(Activator.getInstance().getPreferenceStore());
+		setDescription(DESCRIPTION);
 	}
 }

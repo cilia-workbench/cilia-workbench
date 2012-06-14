@@ -25,7 +25,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chai
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
 
 /**
- * Content provider for graph renderer.
  * 
  * @author Etienne Gandrille
  */

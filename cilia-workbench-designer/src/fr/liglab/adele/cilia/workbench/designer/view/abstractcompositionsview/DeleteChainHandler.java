@@ -23,17 +23,11 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chai
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
- * DeleteChainHandler.
  * 
  * @author Etienne Gandrille
  */
 public class DeleteChainHandler extends AbstractCompoistionViewHandler {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
-	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		Object object = getFirstSelectedElementInRepositoryView(event);

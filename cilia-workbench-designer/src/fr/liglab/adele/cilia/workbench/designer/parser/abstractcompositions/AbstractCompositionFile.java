@@ -33,13 +33,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Merg
  */
 public class AbstractCompositionFile extends AbstractFile<AbstractCompositionModel> implements Mergeable {
 
-	/**
-	 * Instantiates a new AbstractCompositionFile
-	 * 
-	 * @param path
-	 *            the path on the file system.
-	 * @param model
-	 */
 	public AbstractCompositionFile(String path) {
 		super(path);
 
@@ -60,7 +53,7 @@ public class AbstractCompositionFile extends AbstractFile<AbstractCompositionMod
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");
 		AbstractCompositionModel newModel = this.getModel();
 
-		// Because DSCilia Model is not displayed in the view, here is a little
+		// Because the Model file is not displayed in the view, here is a little
 		// piece of code for handling this very special case...
 		for (Changeset c : result) {
 

@@ -50,7 +50,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IRepoServiceListener;
 
 /**
- * RepositoryView.
  * 
  * @author Etienne Gandrille
  */
@@ -75,13 +74,6 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		this.repoService = repoService;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
-	 * .Composite)
-	 */
 	public void createPartControl(Composite parent) {
 		// Global layout
 		GridLayout layout = new GridLayout(1, false);
@@ -106,9 +98,6 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		getSite().setSelectionProvider(viewer);
 	}
 
-	/**
-	 * Refresh viewer.
-	 */
 	public void refresh() {
 		messageArea.setText(computeMessageAreaText());
 		model = repoService.getModel();
@@ -117,30 +106,15 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		viewer.refresh();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
-	 */
 	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
 
-	/**
-	 * Gets the repository directory.
-	 * 
-	 * @return the repository directory
-	 */
 	protected String getRepositoryDirectory() {
 		return repoService.getRepositoryPath();
 	}
 
-	/**
-	 * Computes the message area text.
-	 * 
-	 * @return the message area text
-	 */
 	protected String computeMessageAreaText() {
 		String dir = getRepositoryDirectory();
 		if (dir == null || dir.length() == 0)
@@ -187,11 +161,6 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
-	 */
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -253,12 +222,6 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		return retval;
 	}
 
-	/**
-	 * Opens an editor.
-	 * 
-	 * @param event
-	 *            the event
-	 */
 	protected void openFileEditor(DoubleClickEvent event) {
 		Object element = getFirstSelectedElement();
 

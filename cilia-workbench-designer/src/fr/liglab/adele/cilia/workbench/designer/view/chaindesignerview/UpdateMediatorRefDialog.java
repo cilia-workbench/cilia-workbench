@@ -53,6 +53,7 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 	private final String peKeyLabel = "parameter";
 	private final String peValueLabel = "value";
 
+	// Display prefix
 	private static final String schedulerPrefix = "scheduler: ";
 	private static final String processorPrefix = "processor: ";
 	private static final String dispatcherPrefix = "dispatcher: ";
@@ -88,13 +89,6 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 		return values;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
-	 * .Composite)
-	 */
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
 
@@ -120,11 +114,6 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 
 	protected abstract void populateDialogArea(Composite container);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
-	 */
 	@Override
 	protected void initializeBounds() {
 		super.initializeBounds();

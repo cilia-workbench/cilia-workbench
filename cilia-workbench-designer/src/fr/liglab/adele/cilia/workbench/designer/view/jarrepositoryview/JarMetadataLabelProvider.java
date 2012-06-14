@@ -26,38 +26,23 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.SuperMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericOutPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameValueProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameValueProperty;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
- * LabelProvider for the JAR repository view.
  * 
  * @author Etienne Gandrille
  */
 public class JarMetadataLabelProvider extends LabelProvider {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
-	 * #getContentProvider()
-	 */
 	@Override
 	protected GenericContentProvider getContentProvider() {
 		return JarRepoService.getInstance().getContentProvider();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
-	 * #getImageDescriptor(java.lang.Object)
-	 */
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
 		if (obj instanceof GenericAdapter) {

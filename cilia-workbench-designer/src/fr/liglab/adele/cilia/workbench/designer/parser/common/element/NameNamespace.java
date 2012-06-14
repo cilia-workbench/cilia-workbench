@@ -32,9 +32,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
  */
 public abstract class NameNamespace implements ErrorsAndWarningsFinder, Identifiable {
 
-	/** Name */
 	private String name;
-	/** Namespace */
 	private String namespace;
 
 	public NameNamespace() {

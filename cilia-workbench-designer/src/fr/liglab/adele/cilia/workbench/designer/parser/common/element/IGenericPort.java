@@ -28,17 +28,12 @@ public interface IGenericPort extends Identifiable, ErrorsAndWarningsFinder {
 		IN, OUT;
 	}
 
-	/**
-	 * Gets the port name.
-	 * 
-	 * @return the port name.
-	 */
 	public String getName();
 
 	/**
 	 * Tests the nature of this port : IN or OUT ?
 	 * 
-	 * @return
+	 * @return the {@link PortNature}
 	 */
 	public PortNature getNature();
 }

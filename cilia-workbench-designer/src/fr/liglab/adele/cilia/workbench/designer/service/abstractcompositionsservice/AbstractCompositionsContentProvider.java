@@ -27,15 +27,11 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Prop
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
- * Content provider used by the DSCilia repository.
  * 
  * @author Etienne Gandrille
  */
 public class AbstractCompositionsContentProvider extends GenericContentProvider {
 
-	/**
-	 * Initialize maps from model.
-	 */
 	public AbstractCompositionsContentProvider(List<AbstractCompositionFile> repo) {
 
 		addRoot(repo);

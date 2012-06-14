@@ -26,78 +26,36 @@ import org.eclipse.ui.IStorageEditorInput;
  */
 class StringInput implements IStorageEditorInput {
 
-	/** The storage. */
 	private IStorage storage;
 
-	/**
-	 * Instantiates a new string input.
-	 * 
-	 * @param storage
-	 *            the storage
-	 */
 	StringInput(IStorage storage) {
 		this.storage = storage;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IEditorInput#exists()
-	 */
 	public boolean exists() {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
-	 */
 	public ImageDescriptor getImageDescriptor() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IEditorInput#getName()
-	 */
 	public String getName() {
 		return storage.getName();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IEditorInput#getPersistable()
-	 */
 	public IPersistableElement getPersistable() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IStorageEditorInput#getStorage()
-	 */
 	public IStorage getStorage() {
 		return storage;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IEditorInput#getToolTipText()
-	 */
 	public String getToolTipText() {
 		return "Metadata file of " + storage.getName();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
-	 */
 	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class adapter) {
 		return null;

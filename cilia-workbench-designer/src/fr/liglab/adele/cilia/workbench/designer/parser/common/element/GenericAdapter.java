@@ -23,19 +23,26 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
  * 
  * @author Etienne Gandrille
  */
-public abstract class GenericAdapter extends NameNamespace implements IGenericAdapter, Identifiable, ErrorsAndWarningsFinder {
+public abstract class GenericAdapter extends NameNamespace implements IGenericAdapter, Identifiable,
+		ErrorsAndWarningsFinder {
 
+	/**
+	 * Sub element is a collector or a sender, depending on the
+	 * {@link AdapterType}.
+	 * 
+	 * @param subElement
+	 *            the new sub element
+	 */
 	protected abstract void setSubElement(String subElement);
 
+	/**
+	 * Sub element is a collector or a sender, depending on the
+	 * {@link AdapterType}.
+	 * 
+	 * @return the sub element
+	 */
 	protected abstract String getSubElement();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder
-	 * #createErrorsAndWarnings(java.lang.Object)
-	 */
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag[] flagsTab = super.getErrorsAndWarnings();

@@ -37,23 +37,11 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 
-	/** XML Root node name */
 	public static final String XML_NODE_NAME = "cilia-specifications";
 
-	/** Physical file path. */
 	private String filePath;
-
-	/** Specs owned by the file. */
 	private List<MediatorSpec> mediatorSpecs = new ArrayList<MediatorSpec>();
 
-	/**
-	 * Instantiates a new spec model.
-	 * 
-	 * @param filePath
-	 *            the file path
-	 * @throws CiliaException
-	 *             the metadata exception
-	 */
 	public SpecModel(String filePath) throws CiliaException {
 		this.filePath = filePath;
 
@@ -64,35 +52,14 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 			mediatorSpecs.add(new MediatorSpec(node));
 	}
 
-	/**
-	 * Gets the mediator specs.
-	 * 
-	 * @return the mediator specs
-	 */
 	public List<MediatorSpec> getMediatorSpecs() {
 		return mediatorSpecs;
 	}
 
-	/**
-	 * Gets the root node.
-	 * 
-	 * @param document
-	 *            the document
-	 * @return the root node
-	 * @throws CiliaException
-	 *             the metadata exception
-	 */
 	private static Node getRootNode(Document document) throws CiliaException {
 		return XMLHelpers.getRootNode(document, XML_NODE_NAME);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.
-	 * Mergeable#merge(java.lang.Object)
-	 */
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 

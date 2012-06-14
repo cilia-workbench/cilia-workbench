@@ -18,9 +18,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInP
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericOutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Dispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
@@ -34,25 +34,11 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvide
  */
 public class SpecLabelProvider extends LabelProvider {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
-	 * #getContentProvider()
-	 */
 	@Override
 	protected GenericContentProvider getContentProvider() {
 		return SpecRepoService.getInstance().getContentProvider();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
-	 * #getImageDescriptor(java.lang.Object)
-	 */
 	@Override
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;

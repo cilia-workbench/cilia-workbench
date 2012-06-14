@@ -21,24 +21,11 @@ package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
  */
 public class GenericInPort extends GenericPort {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable#getId()
-	 */
 	@Override
 	public Object getId() {
 		return "in:" + getName();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort
-	 * #getNature()
-	 */
 	@Override
 	public PortNature getNature() {
 		return PortNature.IN;

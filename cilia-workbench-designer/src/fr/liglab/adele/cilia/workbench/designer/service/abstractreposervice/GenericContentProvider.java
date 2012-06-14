@@ -48,12 +48,6 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 	/** List which contains only visible objects */
 	private List<Object> visibleObjects = new ArrayList<Object>();
 
-	/**
-	 * Adds the root.
-	 * 
-	 * @param root
-	 *            the root object
-	 */
 	protected void addRoot(Object root) {
 		parent.put(root, new Object[0]);
 		children.put(root, new ArrayList<Object>());
@@ -89,13 +83,6 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
-	 * )
-	 */
 	@Override
 	public Object getParent(Object element) {
 		return parent.get(element);
@@ -158,22 +145,10 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 		return retval;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-	 */
 	@Override
 	public void dispose() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
-	 * .viewers.Viewer, java.lang.Object, java.lang.Object)
-	 */
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}

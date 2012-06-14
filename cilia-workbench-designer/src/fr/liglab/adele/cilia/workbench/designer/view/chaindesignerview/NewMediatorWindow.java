@@ -30,7 +30,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoSe
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
 /**
- * NewMediatorInstanceWindow.
  * 
  * @author Etienne Gandrille
  */

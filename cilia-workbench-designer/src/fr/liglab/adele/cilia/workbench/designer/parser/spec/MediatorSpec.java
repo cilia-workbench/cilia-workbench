@@ -147,13 +147,6 @@ public class MediatorSpec implements IGenericMediator, DisplayedInPropertiesView
 		return retval;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.
-	 * Mergeable#merge(java.lang.Object)
-	 */
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 

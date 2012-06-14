@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepo
  */
 public class NewMediatorDialog extends NewNameNamespaceDialog {
 
-	protected NewMediatorDialog(Shell parentShell) {
+	public NewMediatorDialog(Shell parentShell) {
 		super(parentShell, "New mediator specification", "id", "namespace", false);
 	}
 

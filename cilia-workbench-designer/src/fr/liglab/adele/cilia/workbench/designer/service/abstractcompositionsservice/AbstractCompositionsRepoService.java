@@ -61,11 +61,6 @@ public class AbstractCompositionsRepoService extends
 	/** Repository Name */
 	private final static String repositoryName = "Abstract compositions repo service";
 
-	/**
-	 * Gets the singleton instance.
-	 * 
-	 * @return the instance.
-	 */
 	public static AbstractCompositionsRepoService getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new AbstractCompositionsRepoService();
@@ -134,13 +129,6 @@ public class AbstractCompositionsRepoService extends
 		return retval;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.
-	 * AbstractRepoService#getContentForNewFile()
-	 */
 	@Override
 	protected String getContentForNewFile() {
 		return "<" + AbstractCompositionModel.ROOT_NODE_NAME + ">\n</" + AbstractCompositionModel.ROOT_NODE_NAME + ">";
@@ -180,14 +168,6 @@ public class AbstractCompositionsRepoService extends
 		return retval;
 	}
 
-	/**
-	 * Creates the chain in a repository element.
-	 * 
-	 * @param repo
-	 *            the repo
-	 * @param chainName
-	 *            the chain name
-	 */
 	public void createChain(AbstractCompositionFile repo, NameNamespaceID id) {
 		if (repo.getModel() == null)
 			return;

@@ -18,17 +18,11 @@ import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
- * The Class ChainPropertiesAdapter.
  * 
  * @author Etienne Gandrille
  */
 public class PropertiesAdapter implements IAdapterFactory {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapter(java.lang.Object, java.lang.Class)
-	 */
 	@Override
 	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
@@ -37,11 +31,6 @@ public class PropertiesAdapter implements IAdapterFactory {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapterList()
-	 */
 	@Override
 	@SuppressWarnings("rawtypes")
 	public Class[] getAdapterList() {

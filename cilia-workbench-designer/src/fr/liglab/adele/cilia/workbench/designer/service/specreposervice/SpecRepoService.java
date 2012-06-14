@@ -49,11 +49,6 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 	/** Repository Name */
 	private final static String repositoryName = "Spec repo service";
 
-	/**
-	 * Gets the singleton instance.
-	 * 
-	 * @return the instance.
-	 */
 	public static SpecRepoService getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new SpecRepoService();
@@ -82,9 +77,6 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		return null;
 	}
 
-	/**
-	 * Instantiates a new jar repo service.
-	 */
 	private SpecRepoService() {
 		super(PREFERENCE_PATH_KEY, ext, repositoryName);
 	}
@@ -136,13 +128,6 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		return retval;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.
-	 * AbstractRepoService#getContentForNewFile()
-	 */
 	@Override
 	protected String getContentForNewFile() {
 		return "<" + SpecModel.XML_NODE_NAME + ">\n</" + SpecModel.XML_NODE_NAME + ">";
@@ -215,13 +200,6 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.common.marker.MarkerFinder#createMarkers
-	 * (java.lang.Object)
-	 */
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		List<CiliaFlag> errorList = IdentifiableUtils.getErrorsNonUniqueId(this, getMediatorSpecs());

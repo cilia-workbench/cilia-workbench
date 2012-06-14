@@ -29,7 +29,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAd
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 
 /**
- * NewMediatorInstanceWindow.
  * 
  * @author Etienne Gandrille
  */

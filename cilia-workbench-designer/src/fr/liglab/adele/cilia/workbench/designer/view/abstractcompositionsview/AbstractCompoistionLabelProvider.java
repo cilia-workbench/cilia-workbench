@@ -14,41 +14,27 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterInstanceRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorInstanceRef;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
- * LabelProvider for the DSCilia repository view.
+ * LabelProvider for the {@link AbstractCompositionsRepoService}.
  * 
  * @author Etienne Gandrille
  */
 public class AbstractCompoistionLabelProvider extends LabelProvider {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
-	 * #getContentProvider()
-	 */
 	@Override
 	protected GenericContentProvider getContentProvider() {
 		return AbstractCompositionsRepoService.getInstance().getContentProvider();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
-	 * #getImageDescriptor(java.lang.Object)
-	 */
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
 

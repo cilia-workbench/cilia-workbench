@@ -44,29 +44,12 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPo
  */
 public class NewBindingWindow extends WorkbenchDialog {
 
-	public static final String DST_COLUMN = "IN";
-	public static final String SRC_COLUMN = "OUT";
-
+	// The parent chain
 	private final Chain chain;
 
 	private static final String windowTitle = "New binding";
 
-	private Combo srcElemCombo;
-
-	private Combo dstElemCombo;
-
-	private Combo srcPortCombo;
-
-	private Combo dstPortCombo;
-
-	private Combo srcCardinalityCombo;
-
-	private Combo dstCardinalityCombo;
-
-	private Label messageArea;
-
-	private final IntegrityListener iListener = new IntegrityListener();
-
+	// Results
 	private String srcElem;
 	private String dstElem;
 	private String srcPort;
@@ -74,18 +57,27 @@ public class NewBindingWindow extends WorkbenchDialog {
 	private String srcCardinality;
 	private String dstCardinality;
 
+	// SWT widgets
+	private Combo srcElemCombo;
+	private Combo dstElemCombo;
+	private Combo srcPortCombo;
+	private Combo dstPortCombo;
+	private Combo srcCardinalityCombo;
+	private Combo dstCardinalityCombo;
+	private Label messageArea;
+
+	// Listeners
+	private final IntegrityListener iListener = new IntegrityListener();
+
+	// internal
+	private static final String DST_COLUMN_KEY = "IN";
+	private static final String SRC_COLUMN_KEY = "OUT";
+
 	protected NewBindingWindow(Shell parentShell, Chain chain) {
 		super(parentShell, windowTitle, new Point(550, 300), false);
 		this.chain = chain;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
-	 * .Composite)
-	 */
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
 
@@ -186,8 +178,8 @@ public class NewBindingWindow extends WorkbenchDialog {
 		dstPortCombo.addModifyListener(iListener);
 		srcCardinalityCombo.addModifyListener(iListener);
 		dstCardinalityCombo.addModifyListener(iListener);
-		srcElemCombo.addModifyListener(new ComboUpdate(srcElemCombo, srcPortCombo, SRC_COLUMN));
-		dstElemCombo.addModifyListener(new ComboUpdate(dstElemCombo, dstPortCombo, DST_COLUMN));
+		srcElemCombo.addModifyListener(new ComboUpdate(srcElemCombo, srcPortCombo, SRC_COLUMN_KEY));
+		dstElemCombo.addModifyListener(new ComboUpdate(dstElemCombo, dstPortCombo, DST_COLUMN_KEY));
 
 		return container;
 	}
@@ -273,7 +265,7 @@ public class NewBindingWindow extends WorkbenchDialog {
 			if (i instanceof MediatorRef) {
 				comboPort.setEnabled(true);
 				IGenericMediator mediator = ((MediatorRef) i).getReferencedObject();
-				if (portType.equals(DST_COLUMN)) {
+				if (portType.equals(DST_COLUMN_KEY)) {
 					for (IGenericPort port : mediator.getInPorts())
 						comboPort.add(port.getName());
 				} else {

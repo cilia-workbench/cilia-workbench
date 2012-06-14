@@ -70,20 +70,12 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	/** Extension used by files hosted in the repository. */
 	public final String ext;
 
-	/**
-	 * Instantiates a new repository.
-	 * 
-	 * @param preferenceKey
-	 *            the preference key
-	 * @param ext
-	 *            the extension
-	 */
 	protected AbstractRepoService(String preferenceKey, String ext, String repoName) {
 		PREFERENCE_PATH_KEY = preferenceKey;
 		this.ext = ext;
 		this.name = repoName;
 
-		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
+		Activator.getInstance().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 				if (event.getProperty().equals(PREFERENCE_PATH_KEY)) {
@@ -140,12 +132,12 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	 * @return the repository path
 	 */
 	public String getRepositoryPath() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		IPreferenceStore store = Activator.getInstance().getPreferenceStore();
 		return store.getString(PREFERENCE_PATH_KEY);
 	}
 
 	/**
-	 * Gets files list in the physical repository.
+	 * Gets files list of the physical repository.
 	 * 
 	 * @return the files
 	 */
@@ -164,42 +156,19 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 			return list;
 	}
 
-	/**
-	 * Gets the model.
-	 * 
-	 * @return the model
-	 */
 	public List<ModelType> getModel() {
 		return model;
 	}
 
-	/**
-	 * Gets the content provider.
-	 * 
-	 * @return the content provider
-	 */
 	public GenericContentProvider getContentProvider() {
 		return contentProvider;
 	}
 
-	/**
-	 * Register a new listener.
-	 * 
-	 * @param listener
-	 *            the listener
-	 */
 	public void registerListener(IRepoServiceListener listener) {
 		if (listener != null && !listeners.contains(listener))
 			listeners.add(listener);
 	}
 
-	/**
-	 * Unregister listener.
-	 * 
-	 * @param listener
-	 *            the listener
-	 * @return true, if successful
-	 */
 	public boolean unregisterListener(IRepoServiceListener listener) {
 		if (listener != null)
 			return listeners.remove(listener);
@@ -207,12 +176,6 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 			return false;
 	}
 
-	/**
-	 * Notifies listeners with given change set table.
-	 * 
-	 * @param changes
-	 *            the change set table.
-	 */
 	protected void notifyListeners(List<Changeset> changes) {
 		for (IRepoServiceListener listener : listeners) {
 			listener.repositoryContentUpdated(changes);
@@ -334,11 +297,6 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 		return null;
 	}
 
-	/**
-	 * Delete an element in the file system repository.
-	 * 
-	 * @param element
-	 */
 	public boolean deleteRepoElement(AbstractFile<?> element) {
 		File file = new File(element.getFilePath());
 		boolean retval = file.delete();

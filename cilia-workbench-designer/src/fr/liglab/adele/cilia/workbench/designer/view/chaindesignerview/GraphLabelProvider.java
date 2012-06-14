@@ -31,19 +31,11 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Gene
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
- * Label provider for the tree viewer.
  * 
  * @author Etienne Gandrille
  */
 public class GraphLabelProvider extends LabelProvider implements IConnectionStyleProvider {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider
-	 * #getContentProvider()
-	 */
 	@Override
 	protected GenericContentProvider getContentProvider() {
 		return null;

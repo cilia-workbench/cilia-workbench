@@ -28,11 +28,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepo
  */
 public class DeleteMediatorHandler extends SpecHandler {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
-	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 

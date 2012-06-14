@@ -33,12 +33,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Merg
  */
 public class SpecFile extends AbstractFile<SpecModel> implements Mergeable {
 
-	/**
-	 * Instantiates a new spec file.
-	 * 
-	 * @param path
-	 *            the path
-	 */
 	public SpecFile(String path) {
 		super(path);
 
@@ -50,13 +44,6 @@ public class SpecFile extends AbstractFile<SpecModel> implements Mergeable {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.
-	 * Mergeable#merge(java.lang.Object)
-	 */
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();

@@ -21,7 +21,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.common.element;
  */
 public interface ComponentNatureAskable {
 
-	/** Nature posibilities */
+	/** Nature possibilities */
 	public enum ComponentNature {
 
 		SPEC("spec", "specification"), IMPLEM("implem", "implementation");

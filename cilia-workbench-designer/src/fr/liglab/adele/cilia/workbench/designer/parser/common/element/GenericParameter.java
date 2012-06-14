@@ -27,10 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.Strings;
  */
 public class GenericParameter implements ErrorsAndWarningsFinder, Identifiable {
 
-	/** Name */
 	private String name;
-
-	/** Default Value */
 	private String default_value;
 
 	@Override

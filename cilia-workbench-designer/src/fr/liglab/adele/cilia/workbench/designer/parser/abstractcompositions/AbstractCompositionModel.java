@@ -45,14 +45,11 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public class AbstractCompositionModel implements DisplayedInPropertiesView, Mergeable {
 
-	/** XML Root node name */
 	public static final String ROOT_NODE_NAME = "cilia-composition-specifications";
 
-	/** Physical file path */
 	private String filePath;
 
-	/** Chains owned by this file */
-	private List<Chain> chains = new ArrayList<Chain>();
+	private List<Chain> model = new ArrayList<Chain>();
 
 	public AbstractCompositionModel(String filePath) throws Exception {
 		this.filePath = filePath;
@@ -61,11 +58,11 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		Node root = getRootNode(document);
 
 		for (Node node : XMLHelpers.findChildren(root, Chain.XML_NODE_NAME))
-			chains.add(new Chain(node));
+			model.add(new Chain(node));
 	}
 
 	public List<Chain> getChains() {
-		return chains;
+		return model;
 	}
 
 	private static Node getRootNode(Document document) throws CiliaException {
@@ -81,7 +78,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		AbstractCompositionModel newInstance = (AbstractCompositionModel) other;
 
-		retval.addAll(MergeUtil.mergeLists(newInstance.getChains(), chains));
+		retval.addAll(MergeUtil.mergeLists(newInstance.getChains(), model));
 
 		for (Changeset c : retval)
 			c.pushPathElement(this);

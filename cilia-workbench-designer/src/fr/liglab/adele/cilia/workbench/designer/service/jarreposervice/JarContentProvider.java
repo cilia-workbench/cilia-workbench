@@ -37,9 +37,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Gene
  */
 public class JarContentProvider extends GenericContentProvider {
 
-	/**
-	 * Initialize maps from model.
-	 */
 	public JarContentProvider(List<CiliaJarFile> model) {
 
 		addRoot(model);

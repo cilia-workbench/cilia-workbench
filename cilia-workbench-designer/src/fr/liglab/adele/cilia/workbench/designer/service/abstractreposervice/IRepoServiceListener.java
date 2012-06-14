@@ -21,11 +21,6 @@ import java.util.List;
  * @author Etienne Gandrille
  */
 public interface IRepoServiceListener {
-	/**
-	 * Repository change.
-	 * 
-	 * @param changes
-	 *            the changes
-	 */
+
 	public void repositoryContentUpdated(List<Changeset> changes);
 }

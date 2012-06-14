@@ -28,7 +28,6 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview
  */
 public abstract class GenericProperty implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
-	/** The key */
 	protected String name;
 
 	public String getName() {

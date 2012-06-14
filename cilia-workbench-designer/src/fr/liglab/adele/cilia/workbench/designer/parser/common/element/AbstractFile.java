@@ -39,12 +39,6 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 	/** The model object, which represents the file. */
 	protected ModelType model;
 
-	/**
-	 * Instantiates a new abstract file.
-	 * 
-	 * @param path
-	 *            the path
-	 */
 	public AbstractFile(String path) {
 		this.path = path;
 	}
@@ -54,29 +48,14 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 		return path;
 	}
 
-	/**
-	 * Gets the file path.
-	 * 
-	 * @return the file path
-	 */
 	public String getFilePath() {
 		return path;
 	}
 
-	/**
-	 * Gets the model.
-	 * 
-	 * @return the model
-	 */
 	public ModelType getModel() {
 		return model;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return FileUtil.getFileName(path);

@@ -42,7 +42,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IRep
 import fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.AbstractCompositionsView;
 
 /**
- * The chain designer view.
  * 
  * @author Etienne Gandrille
  */

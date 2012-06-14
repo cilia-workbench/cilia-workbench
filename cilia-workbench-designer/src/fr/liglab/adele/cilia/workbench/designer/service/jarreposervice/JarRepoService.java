@@ -39,7 +39,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IRep
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
 /**
- * JarRepoService.
  * 
  * @author Etienne Gandrille
  */
@@ -58,11 +57,6 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	/** Repository Name */
 	private final static String repositoryName = "Jar repo service";
 
-	/**
-	 * Gets the singleton instance.
-	 * 
-	 * @return the instance.
-	 */
 	public static JarRepoService getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new JarRepoService();
@@ -71,9 +65,6 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return INSTANCE;
 	}
 
-	/**
-	 * Instantiates a new jar repo service.
-	 */
 	private JarRepoService() {
 		super(PREFERENCE_PATH_KEY, ext, repositoryName);
 
@@ -320,13 +311,6 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.
-	 * AbstractRepoService#getContentForNewFile()
-	 */
 	@Override
 	protected String getContentForNewFile() {
 		throw new RuntimeException("File creation is not allowed");

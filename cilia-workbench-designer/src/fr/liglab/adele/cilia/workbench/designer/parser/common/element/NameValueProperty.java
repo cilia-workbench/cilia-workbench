@@ -18,13 +18,11 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 
 /**
- * The Class Property.
  * 
  * @author Etienne Gandrille
  */
 public class NameValueProperty extends GenericProperty {
 
-	/** The value */
 	protected String value;
 
 	public String getValue() {
@@ -56,14 +54,6 @@ public class NameValueProperty extends GenericProperty {
 		return true;
 	}
 
-	/**
-	 * Instantiates a new property.
-	 * 
-	 * @param name
-	 *            the key
-	 * @param value
-	 *            the value
-	 */
 	public NameValueProperty(String name, String value) {
 		this.name = name;
 		this.value = value;

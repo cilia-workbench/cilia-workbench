@@ -30,7 +30,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Chan
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
 
 /**
- * AbstractCompositionsView.
  * 
  * @author Etienne Gandrille
  */
@@ -42,13 +41,6 @@ public class AbstractCompositionsView extends RepositoryView<AbstractComposition
 		super(AbstractCompositionsRepoService.getInstance());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.repositoryview.RepositoryView
-	 * #createPartControl(org.eclipse.swt.widgets.Composite)
-	 */
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
@@ -68,12 +60,6 @@ public class AbstractCompositionsView extends RepositoryView<AbstractComposition
 			addEditorSavedListener(editor.getPart(true));
 	}
 
-	/**
-	 * Called when DScilia repository changes. Refresh view if needed.
-	 * 
-	 * @param changes
-	 *            the changes
-	 */
 	@Override
 	public void repositoryContentUpdated(List<Changeset> changes) {
 		for (Changeset change : changes) {

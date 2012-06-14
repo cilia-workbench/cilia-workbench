@@ -26,12 +26,6 @@ public class GenericOutPort extends GenericPort {
 		return PortNature.OUT;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable#getId()
-	 */
 	@Override
 	public Object getId() {
 		return "out:" + getName();

@@ -40,7 +40,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
 
 /**
- * This dialog is used to update a mediator specification.
  * 
  * @author Etienne Gandrille
  */
@@ -50,37 +49,37 @@ public class UpdateMediatorSpecDialog extends WorkbenchDialog {
 
 	private final String introMessage = "You can edit or create a new specification.";
 
-	/* ID */
+	// ID
 	private String idValue;
 	private final String idMessage = "id";
 	private Text idControl;
 
-	/* namespace */
+	// namespace
 	private String namespaceValue;
 	private final String namespaceMessage = "namespace";
 	private Text namespaceControl;
 
-	/* IN ports */
+	// IN ports
 	private List<String> synchroPortsValue = new ArrayList<String>();
 	private final String synchroPortsMessage = "In ports:";
 
-	/* OUT ports */
+	// OUT ports
 	private List<String> dispatchPortsValue = new ArrayList<String>();
 	private final String dispatchPortsMessage = "Out ports:";
 
-	/* Mediator properties */
+	// Mediator properties
 	private final String propertiesMessage = "Properties list";
 	private List<String> mediatorProperties = new ArrayList<String>();
 
-	/* Scheduler params */
+	// Scheduler params
 	private final String schedulerTitle = "scheduler";
 	private List<String> schedulerParam = new ArrayList<String>();
 
-	/* processor params */
+	// processor params
 	private final String processorTitle = "processor";
 	private List<String> processorParam = new ArrayList<String>();
 
-	/* dispatcher params */
+	// dispatcher params
 	private final String dispatcherTitle = "dispatcher";
 	private List<String> dispatcherParam = new ArrayList<String>();
 
@@ -127,13 +126,6 @@ public class UpdateMediatorSpecDialog extends WorkbenchDialog {
 				dispatcherParam.add(param.getName());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
-	 * .Composite)
-	 */
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
 

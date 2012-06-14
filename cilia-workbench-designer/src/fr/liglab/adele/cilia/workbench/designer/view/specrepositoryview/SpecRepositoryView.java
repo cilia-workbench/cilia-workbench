@@ -31,7 +31,6 @@ import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepo
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
 
 /**
- * SpecRepositoryView.
  * 
  * @author Etienne Gandrille
  */
@@ -39,20 +38,10 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 
 	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview";
 
-	/**
-	 * Instantiates a new spec repository view.
-	 */
 	public SpecRepositoryView() {
 		super(SpecRepoService.getInstance());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView
-	 * #createPartControl(org.eclipse.swt .widgets.Composite)
-	 */
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
