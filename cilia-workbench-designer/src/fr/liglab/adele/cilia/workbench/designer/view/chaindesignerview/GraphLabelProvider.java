@@ -14,31 +14,28 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
 
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
-import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
-import org.eclipse.zest.core.widgets.ZestStyles;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class GraphLabelProvider extends LabelProvider implements IConnectionStyleProvider {
+public class GraphLabelProvider extends AbstractGraphLabelProvider {
+
+	public GraphLabelProvider() {
+	}
 
 	@Override
 	protected GenericContentProvider getContentProvider() {
-		return null;
+		return AbstractCompositionsRepoService.getInstance().getContentProvider();
 	}
 
 	@Override
@@ -83,30 +80,5 @@ public class GraphLabelProvider extends LabelProvider implements IConnectionStyl
 			}
 		} else
 			return defval;
-	}
-
-	@Override
-	public int getConnectionStyle(Object rel) {
-		return ZestStyles.CONNECTIONS_DIRECTED;
-	}
-
-	@Override
-	public Color getColor(Object rel) {
-		return Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
-	}
-
-	@Override
-	public Color getHighlightColor(Object rel) {
-		return Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-	}
-
-	@Override
-	public int getLineWidth(Object rel) {
-		return 2; // -1 = default value
-	}
-
-	@Override
-	public IFigure getTooltip(Object entity) {
-		return null;
 	}
 }
