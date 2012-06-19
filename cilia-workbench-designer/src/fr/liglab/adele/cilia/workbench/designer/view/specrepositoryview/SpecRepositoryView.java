@@ -26,6 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
@@ -69,16 +70,8 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 		viewer.setAutoExpandLevel(3);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView
-	 * #repositoryContentUpdated(fr.liglab
-	 * .adele.cilia.workbench.designer.service.abstractreposervice.Changeset[])
-	 */
 	@Override
-	public void repositoryContentUpdated(List<Changeset> changes) {
+	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes) {
 		if (changes != null && changes.size() != 0) {
 			refresh();
 			return;

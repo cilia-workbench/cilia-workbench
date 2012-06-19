@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.ciliajar;
 
 import java.io.File;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.AbstractFile;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractFile;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must

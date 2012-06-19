@@ -12,26 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
+import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.AbstractGraphLabelProvider;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class GraphLabelProvider extends AbstractGraphLabelProvider {
-
-	public GraphLabelProvider() {
-	}
+public class AbstractChainLabelProvider extends AbstractGraphLabelProvider {
 
 	@Override
 	protected GenericContentProvider getContentProvider() {

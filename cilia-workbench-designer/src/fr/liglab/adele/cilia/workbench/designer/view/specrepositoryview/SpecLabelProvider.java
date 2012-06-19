@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview;
 
+import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
+import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericOutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Dispatcher;
@@ -23,16 +25,14 @@ import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Processor;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.Scheduler;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
  * LabelProvider for the Spec repository view.
  * 
  * @author Etienne Gandrille
  */
-public class SpecLabelProvider extends LabelProvider {
+public class SpecLabelProvider extends CiliaLabelProvider {
 
 	@Override
 	protected GenericContentProvider getContentProvider() {

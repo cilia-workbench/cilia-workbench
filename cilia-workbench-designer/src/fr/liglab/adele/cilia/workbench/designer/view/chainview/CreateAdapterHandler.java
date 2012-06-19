@@ -12,28 +12,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview;
 
-import org.eclipse.core.runtime.IAdapterFactory;
-import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class PropertiesAdapter implements IAdapterFactory {
+public class CreateAdapterHandler extends ChainDesignerHandler {
 
 	@Override
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		if (adapterType == IPropertySource.class)
-			return new PropertySource(adaptableObject);
-		return null;
-	}
-
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Class[] getAdapterList() {
-		return new Class[] { IPropertySource.class };
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		return getConfiguration(event).createAdapterHandler(event);
 	}
 }

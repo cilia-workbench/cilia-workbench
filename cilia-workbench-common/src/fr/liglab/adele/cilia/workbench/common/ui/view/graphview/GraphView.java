@@ -12,14 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.ui.view;
+package fr.liglab.adele.cilia.workbench.common.ui.view.graphview;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
@@ -35,7 +34,7 @@ import org.eclipse.zest.layouts.algorithms.HorizontalTreeLayoutAlgorithm;
  * 
  * @author Etienne Gandrille
  */
-public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPart, ISelectionListener {
+public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPart {
 
 	protected GraphViewer viewer;
 

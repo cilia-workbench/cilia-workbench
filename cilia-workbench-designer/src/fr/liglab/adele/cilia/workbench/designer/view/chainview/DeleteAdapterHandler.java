@@ -12,23 +12,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview;
 
-import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 
 /**
- * Toggle variable used to enable and disable toolbar buttons.
  * 
  * @author Etienne Gandrille
  */
-public class ToolbarEnabler extends ToggleSourceProvider {
+public class DeleteAdapterHandler extends ChainDesignerHandler {
 
-	public final static String VARIABLE_NAME = "fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable";
-	private final static String TOOLBAR_ENABLE = "enable";
-	private final static String TOOLBAR_DISABLE = "disable";
-	private final static boolean defaultValue = false;
-
-	public ToolbarEnabler() {
-		super(VARIABLE_NAME, TOOLBAR_ENABLE, TOOLBAR_DISABLE, defaultValue);
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		return getConfiguration(event).deleteAdapterHandler(event);
 	}
 }

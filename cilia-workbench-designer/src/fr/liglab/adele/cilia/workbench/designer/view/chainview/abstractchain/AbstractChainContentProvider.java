@@ -12,34 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
-
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.AbstractGraphContentProvider;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class ChainGraphContentProvider extends ArrayContentProvider implements IGraphEntityContentProvider {
-
-	private Chain model = null;
-
-	public ChainGraphContentProvider() {
-	}
+public class AbstractChainContentProvider extends AbstractGraphContentProvider<Chain> {
 
 	@Override
 	public Object[] getConnectedTo(Object entity) {
 		List<Object> retval = new ArrayList<Object>();
 
-		if (model != null && entity instanceof ComponentRef) {
+		if (getModel() != null && entity instanceof ComponentRef) {
 			ComponentRef component = (ComponentRef) entity;
 			Binding[] bindings = component.getOutgoingBindings();
 			for (Binding binding : bindings) {
@@ -50,9 +43,5 @@ public class ChainGraphContentProvider extends ArrayContentProvider implements I
 		}
 
 		return retval.toArray();
-	}
-
-	public void setModel(Chain model) {
-		this.model = model;
 	}
 }

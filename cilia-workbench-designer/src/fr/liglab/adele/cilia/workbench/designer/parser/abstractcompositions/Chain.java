@@ -27,6 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
@@ -38,13 +39,14 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Merg
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.GraphDrawable;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Chain extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
+public class Chain extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable,
+		GraphDrawable {
 
 	public static final String XML_NODE_NAME = "chain";
 
@@ -113,6 +115,11 @@ public class Chain extends NameNamespace implements DisplayedInPropertiesView, E
 		for (MediatorRef mediator : mediators)
 			retval.add(mediator);
 		return retval.toArray(new ComponentRef[0]);
+	}
+
+	@Override
+	public Object[] getElements() {
+		return getComponents();
 	}
 
 	@Override

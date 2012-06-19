@@ -21,6 +21,5 @@ import java.util.List;
  * @author Etienne Gandrille
  */
 public interface IRepoServiceListener {
-
-	public void repositoryContentUpdated(List<Changeset> changes);
+	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes);
 }

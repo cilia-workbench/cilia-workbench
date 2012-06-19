@@ -12,24 +12,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.spec;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview;
 
-import org.w3c.dom.Node;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericParameter;
+import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
 
 /**
+ * Toggle variable used to enable and disable toolbar buttons.
  * 
  * @author Etienne Gandrille
  */
-public class Parameter extends GenericParameter implements DisplayedInPropertiesView {
+public class ToolbarEnabler extends ToggleSourceProvider {
 
-	public static final String XML_ATTR_NAME = "name";
+	public final static String VARIABLE_NAME = "fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable";
+	private final static String TOOLBAR_ENABLE = "enable";
+	private final static String TOOLBAR_DISABLE = "disable";
+	private final static boolean defaultValue = false;
 
-	public Parameter(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
+	public ToolbarEnabler() {
+		super(VARIABLE_NAME, TOOLBAR_ENABLE, TOOLBAR_DISABLE, defaultValue);
 	}
 }

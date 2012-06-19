@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview;
 
+import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
+import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher;
@@ -28,15 +30,13 @@ import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInP
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericOutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameValueProperty;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class JarMetadataLabelProvider extends LabelProvider {
+public class JarMetadataLabelProvider extends CiliaLabelProvider {
 
 	@Override
 	protected GenericContentProvider getContentProvider() {

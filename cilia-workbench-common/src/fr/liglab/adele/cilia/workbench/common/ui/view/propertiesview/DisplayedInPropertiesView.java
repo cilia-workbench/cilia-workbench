@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview;
+package fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview;
 
 /**
  * This interface is used for selecting classes which attributes should be displayed in the properties view using {@link PropertiesAdapter}.

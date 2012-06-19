@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
 	<extension point="org.eclipse.ui.services">
-		<sourceProvider	provider="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.ToolbarEnabler">
+		<sourceProvider	provider="fr.liglab.adele.cilia.workbench.designer.view.chainview.ToolbarEnabler">
 			<variable
 				name="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable"
 				priorityLevel="workbench">
@@ -36,7 +36,7 @@
 			name="Abstract compositions" restorable="true">
 		</view>
 		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
-			class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.ChainDesignerView"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.ChainDesignerView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chain.png"
 			id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview"
 			name="Chain Designer" restorable="true">
@@ -285,7 +285,7 @@
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.deleteChain">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.CreateMediatorHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.CreateMediatorHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createMediator">
 			<enabledWhen>
 				<with
@@ -296,7 +296,7 @@
 			</enabledWhen>
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.DeleteMediatorHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.DeleteMediatorHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteMediator">
 			<enabledWhen>
 				<with
@@ -307,7 +307,7 @@
 			</enabledWhen>
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.CreateAdapterHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.CreateAdapterHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createAdapter">
 			<enabledWhen>
 				<with
@@ -318,7 +318,7 @@
 			</enabledWhen>
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.DeleteAdapterHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.DeleteAdapterHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteAdapter">
 			<enabledWhen>
 				<with
@@ -329,7 +329,7 @@
 			</enabledWhen>
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.CreateBindingHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.CreateBindingHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createBinding">
 			<enabledWhen>
 				<with
@@ -340,7 +340,7 @@
 			</enabledWhen>
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.DeleteBindingHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.DeleteBindingHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteBinding">
 			<enabledWhen>
 				<with
@@ -373,8 +373,8 @@
 	</extension>
 	<extension point="org.eclipse.core.runtime.adapters">
 		<factory
-			adaptableType="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView"
-			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.PropertiesAdapter">
+			adaptableType="fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView"
+			class="fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.PropertiesAdapter">
 			<adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
 		</factory>
 	</extension>

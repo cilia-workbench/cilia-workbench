@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -26,7 +26,8 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
  */
 public abstract class ChainDesignerHandler extends AbstractHandler {
 
-	ChainDesignerView getChainDesignerView(ExecutionEvent event) {
-		return (ChainDesignerView) ViewUtil.findViewWithId(event, ChainDesignerView.viewId);
+	ChainDesignerConfiguration<?, ?> getConfiguration(ExecutionEvent event) {
+		ChainDesignerView view = (ChainDesignerView) ViewUtil.findViewWithId(event, ChainDesignerView.viewId);
+		return view.getCurrentConfig();
 	}
 }

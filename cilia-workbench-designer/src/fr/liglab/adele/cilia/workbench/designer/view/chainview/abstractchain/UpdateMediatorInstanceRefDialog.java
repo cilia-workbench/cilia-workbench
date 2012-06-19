@@ -12,24 +12,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.spec;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 
-import org.w3c.dom.Node;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorInstanceRef;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Parameter extends GenericParameter implements DisplayedInPropertiesView {
+public class UpdateMediatorInstanceRefDialog extends UpdateMediatorRefDialog {
 
-	public static final String XML_ATTR_NAME = "name";
+	public UpdateMediatorInstanceRefDialog(Shell parent, MediatorInstanceRef mediator) {
+		super(parent, mediator, new Point(500, 400));
+	}
 
-	public Parameter(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
+	@Override
+	protected void populateDialogArea(Composite container) {
+		// nothing to add here
 	}
 }

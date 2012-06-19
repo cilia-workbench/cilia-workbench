@@ -17,20 +17,13 @@ package fr.liglab.adele.cilia.workbench.monitoring.topologyview.chainview;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISelectionService;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IWorkbenchPart;
 
 import fr.liglab.adele.cilia.AdapterReadOnly;
 import fr.liglab.adele.cilia.ChainReadOnly;
-import fr.liglab.adele.cilia.CiliaContextReadOnly;
 import fr.liglab.adele.cilia.MediatorReadOnly;
-import fr.liglab.adele.cilia.workbench.common.ui.view.GraphView;
-import fr.liglab.adele.cilia.workbench.monitoring.CiliaUtil;
-import fr.liglab.adele.cilia.workbench.monitoring.topologyview.TopologyView;
+import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.monitoring.topologyview.providers.GraphContentProvider;
 
 /**
@@ -59,7 +52,7 @@ public class ChainView extends GraphView {
 
 		// Registers the instance in the selection service
 		ISelectionService s = getSite().getWorkbenchWindow().getSelectionService();
-		s.addSelectionListener(TopologyView.viewId, this);
+		// TODO rework this ! s.addSelectionListener(TopologyView.viewId, this);
 
 		viewer.setContentProvider(new GraphContentProvider());
 		viewer.setLabelProvider(new NodeElement(null));
@@ -89,38 +82,32 @@ public class ChainView extends GraphView {
 		viewer.refresh();
 	}
 
+	// TODO rework this !
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.
 	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	 * 
+	 * @Override public void selectionChanged(IWorkbenchPart part, ISelection
+	 * selection) {
+	 * 
+	 * if (selection instanceof TreeSelection) { TreeSelection treeSelection =
+	 * (TreeSelection) selection; Object element =
+	 * treeSelection.getFirstElement();
+	 * 
+	 * if (element instanceof ChainReadOnly) { ChainReadOnly chain =
+	 * (ChainReadOnly) element; setModel(chain); }
+	 * 
+	 * if (element instanceof MediatorReadOnly) { MediatorReadOnly mediator =
+	 * (MediatorReadOnly) element;
+	 * 
+	 * IViewReference[] views = getSite().getPage().getViewReferences(); for
+	 * (IViewReference view : views) { if
+	 * (view.getId().equals(TopologyView.viewId)) { TopologyView tv =
+	 * (TopologyView) view.getView(true); CiliaContextReadOnly ccro =
+	 * tv.getModel().getCiliaContextRO(); ChainReadOnly parent =
+	 * CiliaUtil.getMediatorParent(ccro, mediator); if (parent != null)
+	 * setModel(parent); } } } } }
 	 */
-	@Override
-	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-
-		if (selection instanceof TreeSelection) {
-			TreeSelection treeSelection = (TreeSelection) selection;
-			Object element = treeSelection.getFirstElement();
-
-			if (element instanceof ChainReadOnly) {
-				ChainReadOnly chain = (ChainReadOnly) element;
-				setModel(chain);
-			}
-
-			if (element instanceof MediatorReadOnly) {
-				MediatorReadOnly mediator = (MediatorReadOnly) element;
-
-				IViewReference[] views = getSite().getPage().getViewReferences();
-				for (IViewReference view : views) {
-					if (view.getId().equals(TopologyView.viewId)) {
-						TopologyView tv = (TopologyView) view.getView(true);
-						CiliaContextReadOnly ccro = tv.getModel().getCiliaContextRO();
-						ChainReadOnly parent = CiliaUtil.getMediatorParent(ccro, mediator);
-						if (parent != null)
-							setModel(parent);
-					}
-				}
-			}
-		}
-	}
 }

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,11 +33,11 @@ import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepo
  * 
  * @author Etienne Gandrille
  */
-public class NewMediatorWindow extends TextListDialog {
+public class NewMediatorDialog extends TextListDialog {
 
 	private final Chain chain;
 
-	protected NewMediatorWindow(Shell parentShell, Chain chain) {
+	protected NewMediatorDialog(Shell parentShell, Chain chain) {
 		super(parentShell, "New Mediator", "id", "type", getListValues());
 		this.chain = chain;
 	}

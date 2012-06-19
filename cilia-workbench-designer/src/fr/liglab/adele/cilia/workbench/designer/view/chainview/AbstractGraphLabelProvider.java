@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.SWT;
@@ -21,13 +21,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
 import org.eclipse.zest.core.widgets.ZestStyles;
 
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.LabelProvider;
+import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class AbstractGraphLabelProvider extends LabelProvider implements IConnectionStyleProvider {
+public abstract class AbstractGraphLabelProvider extends CiliaLabelProvider implements IConnectionStyleProvider {
 
 	public static GraphConfig defaultConfig = new GraphConfig(null, null, -1);
 	public static GraphConfig videoConfig = new GraphConfig(Display.getDefault().getSystemColor(SWT.COLOR_BLACK),

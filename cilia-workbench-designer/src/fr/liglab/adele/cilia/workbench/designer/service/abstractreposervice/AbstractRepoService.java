@@ -31,9 +31,9 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.CiliaMarkerUtil;
 import fr.liglab.adele.cilia.workbench.designer.Activator;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.AbstractFile;
 
 /**
  * Represents a repository, from a model point of view.
@@ -148,6 +148,8 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	 */
 	protected File[] getFiles() {
 		File dir = getRepositoryLocation();
+		if (dir == null)
+			return new File[0];
 		File[] list = dir.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
@@ -183,7 +185,7 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 
 	protected void notifyListeners(List<Changeset> changes) {
 		for (IRepoServiceListener listener : listeners) {
-			listener.repositoryContentUpdated(changes);
+			listener.repositoryContentUpdated(this, changes);
 		}
 	}
 

@@ -44,11 +44,11 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.AbstractFile;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.IRepoServiceListener;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
  * 
@@ -152,7 +152,7 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	 *            the changes
 	 */
 	@Override
-	public void repositoryContentUpdated(List<Changeset> changes) {
+	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes) {
 		// Force refresh
 		if (changes == null) {
 			refresh();

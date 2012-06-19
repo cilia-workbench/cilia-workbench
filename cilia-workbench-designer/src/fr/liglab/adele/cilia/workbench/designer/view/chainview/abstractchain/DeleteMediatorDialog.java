@@ -12,26 +12,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.ListDialog;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class UpdateMediatorInstanceRefDialog extends UpdateMediatorRefDialog {
+public class DeleteMediatorDialog extends ListDialog {
 
-	protected UpdateMediatorInstanceRefDialog(Shell parent, MediatorInstanceRef mediator) {
-		super(parent, mediator, new Point(500, 400));
-	}
+	public DeleteMediatorDialog(Shell parent, Chain chain) {
+		super(parent);
 
-	@Override
-	protected void populateDialogArea(Composite container) {
-		// nothing to add here
+		setTitle("Remove mediator");
+		setMessage("Select the mediator to be removed");
+		setInput(chain.getMediators());
+
+		setContentProvider(new ArrayContentProvider());
+		setLabelProvider(new LabelProvider());
+		setHelpAvailable(false);
 	}
 }

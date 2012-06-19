@@ -331,7 +331,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	}
 
 	@Override
-	public void repositoryContentUpdated(List<Changeset> changes) {
+	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes) {
 		updateModel();
 	}
 }

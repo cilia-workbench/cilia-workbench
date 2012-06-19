@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.repositoryview;
+package fr.liglab.adele.cilia.workbench.common.ui.view;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,13 +24,13 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 import fr.liglab.adele.cilia.workbench.common.Activator;
+import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider.FakeElement;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.CiliaMarkerUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.SourceProviderField;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider.FakeElement;
 
 /**
  * The base class for implementing label providers. Thanks to this class, images
@@ -38,7 +38,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Gene
  * 
  * @author Etienne Gandrille
  */
-public abstract class LabelProvider extends org.eclipse.jface.viewers.LabelProvider {
+public abstract class CiliaLabelProvider extends LabelProvider {
 
 	protected abstract ImageDescriptorEnum getImageDescriptor(Object obj);
 

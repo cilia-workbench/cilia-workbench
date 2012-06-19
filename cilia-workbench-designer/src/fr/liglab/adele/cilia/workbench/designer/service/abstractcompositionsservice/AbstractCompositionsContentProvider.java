@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsser
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
@@ -24,7 +25,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Medi
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.PropertyConstraint;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
  * 

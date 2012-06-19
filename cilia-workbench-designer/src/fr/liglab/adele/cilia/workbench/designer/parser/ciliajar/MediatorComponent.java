@@ -27,6 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericInPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericOutPort;
@@ -39,7 +40,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.spec.ComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.propertyview.DisplayedInPropertiesView;
 
 /**
  * 

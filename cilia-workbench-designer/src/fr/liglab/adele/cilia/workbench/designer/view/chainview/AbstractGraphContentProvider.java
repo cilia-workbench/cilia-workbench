@@ -12,24 +12,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.spec;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview;
 
-import org.w3c.dom.Node;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericParameter;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Parameter extends GenericParameter implements DisplayedInPropertiesView {
+public abstract class AbstractGraphContentProvider<ModelType> extends ArrayContentProvider implements
+		IGraphEntityContentProvider {
 
-	public static final String XML_ATTR_NAME = "name";
+	private ModelType model = null;
 
-	public Parameter(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
+	public ModelType getModel() {
+		return model;
+	}
+
+	public void setModel(ModelType model) {
+		this.model = model;
 	}
 }

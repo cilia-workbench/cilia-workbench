@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ public class UpdateMediatorSpecRefDialog extends UpdateMediatorRefDialog {
 	private final String ceKeyLabel = "property";
 	private final String ceValueLabel = "constraint";
 
-	protected UpdateMediatorSpecRefDialog(Shell parent, MediatorSpecRef mediator) {
+	public UpdateMediatorSpecRefDialog(Shell parent, MediatorSpecRef mediator) {
 		super(parent, mediator, new Point(500, 700));
 		ceKeys = getConstraintKeys(mediator);
 		ceModel = getConsltraintValues(mediator);

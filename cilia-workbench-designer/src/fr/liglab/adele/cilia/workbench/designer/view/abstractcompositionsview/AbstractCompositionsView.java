@@ -25,6 +25,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Abst
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.RepositoryView;
@@ -61,7 +62,7 @@ public class AbstractCompositionsView extends RepositoryView<AbstractComposition
 	}
 
 	@Override
-	public void repositoryContentUpdated(List<Changeset> changes) {
+	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes) {
 		for (Changeset change : changes) {
 			Object object = change.getObject();
 			Operation operation = change.getOperation();

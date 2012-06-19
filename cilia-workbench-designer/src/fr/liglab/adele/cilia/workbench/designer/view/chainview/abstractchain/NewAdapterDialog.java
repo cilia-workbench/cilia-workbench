@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,11 +32,11 @@ import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoSe
  * 
  * @author Etienne Gandrille
  */
-public class NewAdapterWindow extends TextListDialog {
+public class NewAdapterDialog extends TextListDialog {
 
 	private final Chain chain;
 
-	protected NewAdapterWindow(Shell parentShell, Chain chain) {
+	protected NewAdapterDialog(Shell parentShell, Chain chain) {
 		super(parentShell, "New Adapter", "id", "type", getListValues());
 		this.chain = chain;
 	}

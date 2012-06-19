@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector;
@@ -28,7 +29,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameValueProperty;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.GenericContentProvider;
 
 /**
  * Content provider used by the jar repository.

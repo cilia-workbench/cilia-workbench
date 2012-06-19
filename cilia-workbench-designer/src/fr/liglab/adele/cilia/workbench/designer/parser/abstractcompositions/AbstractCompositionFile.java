@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.AbstractFile;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Mergeable;
+import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must

@@ -12,24 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.spec;
+package fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview;
 
-import org.w3c.dom.Node;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericParameter;
+import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Parameter extends GenericParameter implements DisplayedInPropertiesView {
+public class PropertiesAdapter implements IAdapterFactory {
 
-	public static final String XML_ATTR_NAME = "name";
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adapterType == IPropertySource.class)
+			return new PropertySource(adaptableObject);
+		return null;
+	}
 
-	public Parameter(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Class[] getAdapterList() {
+		return new Class[] { IPropertySource.class };
 	}
 }
