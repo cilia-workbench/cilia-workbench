@@ -23,13 +23,13 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
-import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecModel;
+import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 
 /**
  * 

@@ -31,9 +31,9 @@ import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Parameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
 
 /**
  * 

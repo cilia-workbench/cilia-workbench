@@ -25,7 +25,7 @@ import org.eclipse.ui.views.markers.MarkerItem;
 public class RootSourceProviderField extends MarkerField {
 
 	/** The field ID, used to store and find the attributes. */
-	public final static String FIELD_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.rootsourceproviderfield";
+	public final static String FIELD_ID = "fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.rootsourceproviderfield";
 
 	@Override
 	public String getValue(MarkerItem item) {

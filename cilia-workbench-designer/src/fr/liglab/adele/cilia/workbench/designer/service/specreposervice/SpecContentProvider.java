@@ -17,15 +17,15 @@ package fr.liglab.adele.cilia.workbench.designer.service.specreposervice;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Dispatcher;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.Scheduler;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.SpecModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Dispatcher;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Parameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Processor;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Scheduler;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecModel;
 
 /**
  * Content provider used by the spec repository.

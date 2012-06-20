@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
 
 /**
  * 

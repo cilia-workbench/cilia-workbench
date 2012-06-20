@@ -17,13 +17,13 @@ package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AdapterRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.AbstractGraphLabelProvider;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.AbstractGraphLabelProvider;
 
 /**
  * 

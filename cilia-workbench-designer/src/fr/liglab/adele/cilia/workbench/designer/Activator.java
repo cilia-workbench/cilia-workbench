@@ -18,6 +18,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.dsciliaservice.DSCiliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
 
@@ -42,6 +43,7 @@ public class Activator extends AbstractUIPlugin {
 		SpecRepoService.getInstance();
 		JarRepoService.getInstance();
 		AbstractCompositionsRepoService.getInstance();
+		DSCiliaRepoService.getInstance();
 	}
 
 	public void stop(BundleContext context) throws Exception {

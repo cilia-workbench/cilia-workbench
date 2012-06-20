@@ -24,25 +24,25 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionModel;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorSpecRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
-import fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 
 /**
- * A central place for managing the DScilia repository. The repository can be
- * asked to refresh the model. The repository can be asked to send model update
- * notifications.
+ * A central place for managing the abstract composition repository. The
+ * repository can be asked to refresh the model. The repository can be asked to
+ * send model update notifications.
  * 
  * @author Etienne Gandrille
  */
@@ -133,6 +133,13 @@ public class AbstractCompositionsRepoService extends
 		return "<" + AbstractCompositionModel.ROOT_NODE_NAME + ">\n</" + AbstractCompositionModel.ROOT_NODE_NAME + ">";
 	}
 
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		List<CiliaFlag> errorList = IdentifiableUtils.getErrorsNonUniqueId(this, getChains());
+
+		return CiliaFlag.generateTab(errorList);
+	}
+
 	public String isNewChainNameAllowed(NameNamespaceID id) {
 
 		if (isNameUsesAllowedChar(id.getName()) != null)
@@ -153,18 +160,18 @@ public class AbstractCompositionsRepoService extends
 		return null;
 	}
 
-	public Chain findChain(NameNamespaceID chainName) {
-		for (Chain chain : getChains())
-			if (chain.getId().equals(chainName))
-				return chain;
-		return null;
-	}
-
 	private List<Chain> getChains() {
 		List<Chain> retval = new ArrayList<Chain>();
 		for (AbstractCompositionModel model : findAbstractElements())
 			retval.addAll(model.getChains());
 		return retval;
+	}
+
+	public Chain findChain(NameNamespaceID chainName) {
+		for (Chain chain : getChains())
+			if (chain.getId().equals(chainName))
+				return chain;
+		return null;
 	}
 
 	public void createChain(AbstractCompositionFile repo, NameNamespaceID id) {
@@ -228,13 +235,6 @@ public class AbstractCompositionsRepoService extends
 		if (repo == null)
 			return;
 		repo.getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort, srcCard, dstCard);
-	}
-
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		List<CiliaFlag> errorList = IdentifiableUtils.getErrorsNonUniqueId(this, getChains());
-
-		return CiliaFlag.generateTab(errorList);
 	}
 
 	public void deleteBinding(Chain chain, Binding binding) throws CiliaException {

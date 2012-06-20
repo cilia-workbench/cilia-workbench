@@ -27,9 +27,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorSpecRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.PropertyConstraint;
-import fr.liglab.adele.cilia.workbench.designer.parser.spec.NameProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.PropertyConstraint;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
 
 /**
  * 

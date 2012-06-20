@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
 	<extension point="org.eclipse.ui.services">
-		<sourceProvider	provider="fr.liglab.adele.cilia.workbench.designer.view.chainview.ToolbarEnabler">
+		<sourceProvider	provider="fr.liglab.adele.cilia.workbench.designer.view.chainview.common.ToolbarEnabler">
 			<variable
 				name="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable"
 				priorityLevel="workbench">
@@ -12,7 +12,7 @@
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
 			category="fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage"
-			class="fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage"
+			class="fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage"
 			id="fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage"
 			name="Cilia Designer">
 		</page>
@@ -23,26 +23,35 @@
        name="CILIA designer">
 		</category>
 	       <view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
-			class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.JarRepositoryView"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.jarrepositoryview.JarRepositoryView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
 			id="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview"
 			name="Implementations" restorable="true">
 	  </view>
 	
 		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
-			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.AbstractCompositionsView"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview.AbstractCompositionsView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
 			id="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview"
 			name="Abstract compositions" restorable="true">
 		</view>
+		
 		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
-			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.ChainDesignerView"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.dsciliaview.DSCiliaRepositoryView"
+			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
+			id="fr.liglab.adele.cilia.workbench.designer.view.dsciliaview"
+			name="DSCila compositions" restorable="true">
+		</view>
+		
+		
+		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.common.ChainDesignerView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chain.png"
 			id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview"
 			name="Chain Designer" restorable="true">
 		</view>
 		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
-			class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.SpecRepositoryView"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specrepositoryview.SpecRepositoryView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
 			id="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview"
 			name="Specifications" restorable="true">
@@ -54,6 +63,14 @@
         id="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.reload"
         name="Reload repository">
 		</command>
+		
+		<command
+        description="Reloads the DSCilia Repository"
+        id="fr.liglab.adele.cilia.workbench.designer.view.dsciliaview.reload"
+        name="Reload repository">
+		</command>
+		
+		
 		<command
         description="Reloads the abstract composition repository"
         id="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.reload"
@@ -127,6 +144,14 @@
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.reload"
 				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
 				label="Reload Jar repository" style="push">
+			</command>
+		</menuContribution>
+		<menuContribution allPopups="false"
+			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.dsciliaview">
+			<command
+				commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliaview.reload"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
+				label="Reload DScilia repository" style="push">
 			</command>
 		</menuContribution>
 		<menuContribution allPopups="false"
@@ -261,31 +286,35 @@
 	</extension>
 	<extension point="org.eclipse.ui.handlers">
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.ReloadHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.jarrepositoryview.ReloadHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview.reload">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.ReloadHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.dsciliaview.ReloadHandler"
+			commandId="fr.liglab.adele.cilia.workbench.designer.view.dsciliaview.reload">
+		</handler>
+		<handler
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview.ReloadHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.reload">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.CreateFileHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview.CreateFileHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.createFile">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.DeleteFileHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview.DeleteFileHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.deleteFile">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.CreateChainHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview.CreateChainHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.createChain">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.DeleteChainHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview.DeleteChainHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.deleteChain">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.CreateMediatorHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.common.CreateMediatorHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createMediator">
 			<enabledWhen>
 				<with
@@ -296,7 +325,7 @@
 			</enabledWhen>
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.DeleteMediatorHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.common.DeleteMediatorHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteMediator">
 			<enabledWhen>
 				<with
@@ -307,7 +336,7 @@
 			</enabledWhen>
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.CreateAdapterHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.common.CreateAdapterHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createAdapter">
 			<enabledWhen>
 				<with
@@ -318,7 +347,7 @@
 			</enabledWhen>
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.DeleteAdapterHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.common.DeleteAdapterHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteAdapter">
 			<enabledWhen>
 				<with
@@ -329,7 +358,7 @@
 			</enabledWhen>
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.CreateBindingHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.common.CreateBindingHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.createBinding">
 			<enabledWhen>
 				<with
@@ -340,7 +369,7 @@
 			</enabledWhen>
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.DeleteBindingHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.common.DeleteBindingHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.deleteBinding">
 			<enabledWhen>
 				<with
@@ -351,23 +380,23 @@
 			</enabledWhen>
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.ReloadHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specrepositoryview.ReloadHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.reload">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.CreateFileHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specrepositoryview.CreateFileHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.createFile">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.DeleteFileHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specrepositoryview.DeleteFileHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.deleteFile">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.CreateMediatorHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specrepositoryview.CreateMediatorHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.createMediator">
 		</handler>
 		<handler
-			class="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.DeleteMediatorHandler"
+			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specrepositoryview.DeleteMediatorHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview.deleteMediator">
 		</handler>
 	</extension>
@@ -384,7 +413,7 @@
 	</extension>
 	<extension point="org.eclipse.ui.perspectives">
 		<perspective
-			class="fr.liglab.adele.cilia.workbench.designer.perspective.DesignerPerspective"
+			class="fr.liglab.adele.cilia.workbench.designer.misc.perspective.DesignerPerspective"
 			id="fr.liglab.adele.cilia.workbench.designer.perspective.designerperspective"
 			name="Cilia designer">
 		</perspective>

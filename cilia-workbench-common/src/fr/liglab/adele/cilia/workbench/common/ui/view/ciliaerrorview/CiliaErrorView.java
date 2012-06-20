@@ -23,13 +23,13 @@ import org.eclipse.ui.views.markers.MarkerSupportView;
  */
 public class CiliaErrorView extends MarkerSupportView {
 
-	public static final String VIEW_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview";
+	public static final String VIEW_ID = "fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview";
 
 	/**
 	 * The content generator is used to retrieve the marker type and the fields
 	 * to be displayed. It is defined in the plugin.xml file.
 	 */
-	public static final String CONTENT_GENERATOR_ID = "fr.liglab.adele.cilia.workbench.common.view.ciliaerrorview.generator";
+	public static final String CONTENT_GENERATOR_ID = "fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.generator";
 
 	public CiliaErrorView() {
 		super(CONTENT_GENERATOR_ID);

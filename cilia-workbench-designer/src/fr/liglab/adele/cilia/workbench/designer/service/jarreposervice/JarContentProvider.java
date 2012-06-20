@@ -17,18 +17,18 @@ package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.CiliaJarModel;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Collector;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Dispatcher;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Scheduler;
-import fr.liglab.adele.cilia.workbench.designer.parser.ciliajar.Sender;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.GenericAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.NameValueProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Collector;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Dispatcher;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorComponent;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Parameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Processor;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Scheduler;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Sender;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
 
 /**
  * Content provider used by the jar repository.

@@ -24,23 +24,23 @@ import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AbstractCompositionFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorInstanceRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorSpecRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AdapterRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.AbstractRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview.AbstractCompositionsView;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.ChainDesignerConfiguration;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.ChainDesignerView;
+import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.ChainDesignerConfiguration;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.ChainDesignerView;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview.AbstractCompositionsView;
 
 /**
  * 

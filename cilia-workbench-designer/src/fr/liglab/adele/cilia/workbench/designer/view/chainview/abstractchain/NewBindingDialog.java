@@ -28,15 +28,15 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.ComponentRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.abstractcompositions.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.Cardinality;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.common.element.IGenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AdapterRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
 
 /**
  * 

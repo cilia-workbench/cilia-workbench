@@ -16,5 +16,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.zest.layouts;bundle-version="1.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: fr.liglab.adele.cilia.workbench.designer.service.abstractreposervice,
- fr.liglab.adele.cilia.workbench.designer.view.chainview
+Export-Package: fr.liglab.adele.cilia.workbench.designer.service.common,
+ fr.liglab.adele.cilia.workbench.designer.view.chainview.common
