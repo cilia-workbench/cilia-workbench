@@ -20,7 +20,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**
  * Represents a link to a mediator specification.

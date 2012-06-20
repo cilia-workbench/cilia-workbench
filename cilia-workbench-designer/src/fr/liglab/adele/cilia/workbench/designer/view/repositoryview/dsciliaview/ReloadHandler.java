@@ -4,7 +4,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliaservice.DSCiliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
 public class ReloadHandler extends AbstractHandler {
 

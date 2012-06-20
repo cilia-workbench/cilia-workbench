@@ -4,7 +4,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliaservice.DSCiliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
 public class DSCiliaLabelProvider extends CiliaLabelProvider {
 

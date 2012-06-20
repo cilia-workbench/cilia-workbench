@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.jarreposervice;
+package fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAd
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.IRepoServiceListener;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**
  * 

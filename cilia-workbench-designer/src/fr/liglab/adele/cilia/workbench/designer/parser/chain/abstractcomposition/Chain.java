@@ -36,8 +36,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMe
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphDrawable;
 
 /**

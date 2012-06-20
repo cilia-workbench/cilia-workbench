@@ -10,10 +10,10 @@ import org.eclipse.ui.IEditorReference;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaModel;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.service.dsciliaservice.DSCiliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.RepositoryView;
 
 public class DSCiliaRepositoryView extends RepositoryView<DSCiliaFile, DSCiliaModel> {

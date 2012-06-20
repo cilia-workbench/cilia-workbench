@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecModel;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.RepositoryView;
 
 /**

@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**
  * 

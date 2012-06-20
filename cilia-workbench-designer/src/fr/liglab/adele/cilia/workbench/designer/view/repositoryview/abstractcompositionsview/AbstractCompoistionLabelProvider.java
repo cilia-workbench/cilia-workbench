@@ -21,7 +21,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorInstanceRef;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
  * LabelProvider for the {@link AbstractCompositionsRepoService}.

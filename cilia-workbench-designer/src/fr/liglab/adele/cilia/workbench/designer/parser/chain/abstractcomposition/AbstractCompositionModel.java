@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinalit
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;

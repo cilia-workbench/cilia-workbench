@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice;
+package fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice;
 
 import java.io.File;
 import java.util.ArrayList;

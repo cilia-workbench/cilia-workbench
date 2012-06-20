@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
 

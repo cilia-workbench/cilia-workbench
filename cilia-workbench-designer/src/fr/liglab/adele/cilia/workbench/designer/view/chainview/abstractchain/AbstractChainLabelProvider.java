@@ -22,7 +22,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.AbstractGraphLabelProvider;
 
 /**

@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericInP
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**
  * 

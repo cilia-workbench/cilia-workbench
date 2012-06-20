@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
-import fr.liglab.adele.cilia.workbench.designer.service.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link SpecFile}.

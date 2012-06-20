@@ -31,7 +31,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
-import fr.liglab.adele.cilia.workbench.designer.service.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.IRepoServiceListener;

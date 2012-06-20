@@ -1,4 +1,4 @@
-package fr.liglab.adele.cilia.workbench.designer.service.dsciliaservice;
+package fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice;
 
 import java.util.List;
 

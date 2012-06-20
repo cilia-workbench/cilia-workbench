@@ -39,7 +39,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPo
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
-import fr.liglab.adele.cilia.workbench.designer.service.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**
  * 
