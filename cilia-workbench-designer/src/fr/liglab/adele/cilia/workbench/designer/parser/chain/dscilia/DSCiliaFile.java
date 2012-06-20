@@ -21,6 +21,7 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
 
@@ -57,19 +58,19 @@ public class DSCiliaFile extends AbstractFile<DSCiliaModel> implements Mergeable
 		// piece of code for handling this very special case...
 		for (Changeset c : result) {
 
-			/*
-			 * // XML file becomes valid if
-			 * (c.getOperation().equals(Operation.ADD) && c.getObject() ==
-			 * newModel) for (Chain chain : newModel.getChains()) retval.add(new
-			 * Changeset(Operation.ADD, chain));
-			 * 
-			 * // XML file becomes invalid else if
-			 * (c.getOperation().equals(Operation.REMOVE) && c.getObject() ==
-			 * oldModel) for (Chain chain : oldModel.getChains()) retval.add(new
-			 * Changeset(Operation.REMOVE, chain));
-			 * 
-			 * // Other event, deeper in hierarchy else retval.add(c);
-			 */
+			// XML file becomes valid
+			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel)
+				for (ConcreteChain chain : newModel.getChains())
+					retval.add(new Changeset(Operation.ADD, chain));
+
+			// XML file becomes invalid
+			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel)
+				for (ConcreteChain chain : oldModel.getChains())
+					retval.add(new Changeset(Operation.REMOVE, chain));
+
+			// Other event, deeper in hierarchy
+			else
+				retval.add(c);
 		}
 
 		// path update

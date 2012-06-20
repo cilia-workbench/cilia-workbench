@@ -21,23 +21,19 @@ import java.util.Map;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 
 /**
  * A central place for managing the abstract composition repository. The
@@ -47,19 +43,15 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
  * @author Etienne Gandrille
  */
 public class AbstractCompositionsRepoService extends
-		AbstractRepoService<AbstractCompositionFile, AbstractCompositionModel> implements ErrorsAndWarningsFinder {
+		ChainRepoService<AbstractCompositionFile, AbstractCompositionModel, AbstractChain> {
 
-	/** Singleton instance */
-	private static AbstractCompositionsRepoService INSTANCE;
-
-	/** The key used to search the repository path into the preferences store. */
+	// super type parameters
 	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.ABSTRACT_COMPO_REPOSITORY_PATH;
-
-	/** files extension. */
 	public final static String ext = ".compo";
-
-	/** Repository Name */
 	private final static String repositoryName = "Abstract compositions repo service";
+
+	// Singleton instance
+	private static AbstractCompositionsRepoService INSTANCE;
 
 	public static AbstractCompositionsRepoService getInstance() {
 		if (INSTANCE == null) {
@@ -69,12 +61,8 @@ public class AbstractCompositionsRepoService extends
 		return INSTANCE;
 	}
 
-	/**
-	 * Constructor. Registers for repository path update and constructs the
-	 * model.
-	 */
 	private AbstractCompositionsRepoService() {
-		super(PREFERENCE_PATH_KEY, ext, repositoryName);
+		super(PREFERENCE_PATH_KEY, ext, repositoryName, AbstractCompositionModel.ROOT_NODE_NAME);
 	}
 
 	/**
@@ -106,72 +94,8 @@ public class AbstractCompositionsRepoService extends
 		notifyListeners(changes);
 	}
 
-	/**
-	 * Merge a list of repo element into the current model. Only differences
-	 * between the argument and the model are merge back into the model.
-	 * 
-	 * @param repoElements
-	 *            a new model
-	 * @return a list of changesets, which can be empty.
-	 * @throws CiliaException
-	 */
-	private List<Changeset> merge(List<AbstractCompositionFile> repoElements) throws CiliaException {
-
-		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-
-		retval.addAll(MergeUtil.mergeLists(repoElements, this.model));
-
-		// path update
-		for (Changeset c : retval)
-			c.pushPathElement(this);
-
-		return retval;
-	}
-
-	@Override
-	protected String getContentForNewFile() {
-		return "<" + AbstractCompositionModel.ROOT_NODE_NAME + ">\n</" + AbstractCompositionModel.ROOT_NODE_NAME + ">";
-	}
-
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		List<CiliaFlag> errorList = IdentifiableUtils.getErrorsNonUniqueId(this, getChains());
-
-		return CiliaFlag.generateTab(errorList);
-	}
-
-	public String isNewChainNameAllowed(NameNamespaceID id) {
-
-		if (isNameUsesAllowedChar(id.getName()) != null)
-			return isNameUsesAllowedChar(id.getName());
-
-		if (isNameUsesAllowedChar(id.getNamespace()) != null)
-			return isNameUsesAllowedChar(id.getNamespace());
-
-		if (id.getName().length() == 0) {
-			return "Empty name is not allowed";
-		}
-
-		Chain chain = findChain(id);
-		if (chain != null) {
-			return "A chain with this name/namespace already exists in the repository.";
-		}
-
-		return null;
-	}
-
-	private List<Chain> getChains() {
-		List<Chain> retval = new ArrayList<Chain>();
-		for (AbstractCompositionModel model : findAbstractElements())
-			retval.addAll(model.getChains());
-		return retval;
-	}
-
-	public Chain findChain(NameNamespaceID chainName) {
-		for (Chain chain : getChains())
-			if (chain.getId().equals(chainName))
-				return chain;
-		return null;
+	public AbstractCompositionFile getRepoElement(Object object) {
+		return (AbstractCompositionFile) getContentProvider().getAncestor(object, AbstractCompositionFile.class);
 	}
 
 	public void createChain(AbstractCompositionFile repo, NameNamespaceID id) {
@@ -187,76 +111,59 @@ public class AbstractCompositionsRepoService extends
 		}
 	}
 
-	public void deleteChain(Chain chain) {
-		AbstractCompositionFile repo = (AbstractCompositionFile) contentProvider.getParent(chain);
-		if (repo == null)
+	public void deleteChain(AbstractChain chain) {
+		if (getFileObject(chain) == null)
 			return;
 		try {
-			repo.getModel().deleteChain(chain.getId());
+			getFileObject(chain).getModel().deleteChain(chain.getId());
 		} catch (CiliaException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public AbstractCompositionFile getRepoElement(Object object) {
-		if (object instanceof AbstractCompositionFile)
-			return (AbstractCompositionFile) object;
-		Object parent = getContentProvider().getParent(object);
-		if (parent != null)
-			return getRepoElement(parent);
-		else
-			return null;
-	}
-
-	public void createMediator(Chain chain, String id, IGenericMediator type) throws CiliaException {
-		AbstractCompositionFile file = (AbstractCompositionFile) getContentProvider().getParent(chain);
-		if (file == null)
+	public void createMediator(AbstractChain chain, String id, IGenericMediator type) throws CiliaException {
+		if (getFileObject(chain) == null)
 			return;
-		file.getModel().createMediator(chain, id, type);
+		getFileObject(chain).getModel().createMediator(chain, id, type);
 	}
 
-	public void createAdapter(Chain chain, String id, IGenericAdapter type) throws CiliaException {
-		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
-		if (repo == null)
+	public void createAdapter(AbstractChain chain, String id, IGenericAdapter type) throws CiliaException {
+		if (getFileObject(chain) == null)
 			return;
-		repo.getModel().createAdapter(chain, id, type);
+		getFileObject(chain).getModel().createAdapter(chain, id, type);
 	}
 
-	public void deleteComponent(Chain chain, ComponentRef component) throws CiliaException {
-		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
-		if (repo == null)
+	public void deleteComponent(AbstractChain chain, ComponentRef component) throws CiliaException {
+		if (getFileObject(chain) == null)
 			return;
-		repo.getModel().deleteComponent(chain, component);
+		getFileObject(chain).getModel().deleteComponent(chain, component);
 	}
 
-	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort,
+	public void createBinding(AbstractChain chain, String srcElem, String srcPort, String dstElem, String dstPort,
 			Cardinality srcCard, Cardinality dstCard) throws CiliaException {
-		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
-		if (repo == null)
+		if (getFileObject(chain) == null)
 			return;
-		repo.getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort, srcCard, dstCard);
+		getFileObject(chain).getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort, srcCard, dstCard);
 	}
 
-	public void deleteBinding(Chain chain, Binding binding) throws CiliaException {
-		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
-		if (repo == null)
+	public void deleteBinding(AbstractChain chain, Binding binding) throws CiliaException {
+		if (getFileObject(chain) == null)
 			return;
-		repo.getModel().deleteBinding(chain, binding);
+		getFileObject(chain).getModel().deleteBinding(chain, binding);
 	}
 
-	public void updateProperties(Chain chain, MediatorSpecRef mediator, Map<String, String> properties)
+	public void updateProperties(AbstractChain chain, MediatorSpecRef mediator, Map<String, String> properties)
 			throws CiliaException {
-		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
-		if (repo == null)
+		if (getFileObject(chain) == null)
 			return;
-		repo.getModel().updateProperties(chain, mediator, properties);
+		getFileObject(chain).getModel().updateProperties(chain, mediator, properties);
 	}
 
-	public void updateParameters(Chain chain, MediatorRef mediator, Map<String, String> schedulerParam,
+	public void updateParameters(AbstractChain chain, MediatorRef mediator, Map<String, String> schedulerParam,
 			Map<String, String> processorParam, Map<String, String> dispatcherParam) throws CiliaException {
-		AbstractCompositionFile repo = (AbstractCompositionFile) getContentProvider().getParent(chain);
-		if (repo == null)
+		if (getFileObject(chain) == null)
 			return;
-		repo.getModel().updateParameters(chain, mediator, schedulerParam, processorParam, dispatcherParam);
+		getFileObject(chain).getModel().updateParameters(chain, mediator, schedulerParam, processorParam,
+				dispatcherParam);
 	}
 }

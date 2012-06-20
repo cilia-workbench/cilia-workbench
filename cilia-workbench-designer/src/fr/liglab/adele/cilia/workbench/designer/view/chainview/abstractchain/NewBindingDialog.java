@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
@@ -45,7 +45,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAd
 public class NewBindingDialog extends WorkbenchDialog {
 
 	// The parent chain
-	private final Chain chain;
+	private final AbstractChain chain;
 
 	private static final String windowTitle = "New binding";
 
@@ -73,7 +73,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 	private static final String DST_COLUMN_KEY = "IN";
 	private static final String SRC_COLUMN_KEY = "OUT";
 
-	protected NewBindingDialog(Shell parentShell, Chain chain) {
+	protected NewBindingDialog(Shell parentShell, AbstractChain chain) {
 		super(parentShell, windowTitle, new Point(550, 300), false);
 		this.chain = chain;
 	}

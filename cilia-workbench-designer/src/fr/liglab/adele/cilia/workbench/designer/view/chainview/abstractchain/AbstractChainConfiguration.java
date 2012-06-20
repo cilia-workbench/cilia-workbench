@@ -24,10 +24,10 @@ import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorInstanceRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
@@ -46,7 +46,8 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcomp
  * 
  * @author Etienne Gandrille
  */
-public class AbstractChainConfiguration extends ChainDesignerConfiguration<AbstractCompositionsRepoService, Chain> {
+public class AbstractChainConfiguration extends
+		ChainDesignerConfiguration<AbstractCompositionsRepoService, AbstractChain> {
 
 	public AbstractChainConfiguration(ChainDesignerView parent) {
 		super(parent, AbstractCompositionsRepoService.getInstance(), AbstractCompositionsView.VIEW_ID,
@@ -223,7 +224,7 @@ public class AbstractChainConfiguration extends ChainDesignerConfiguration<Abstr
 				}
 
 				// Chain removed
-				if (change.getObject() instanceof Chain && change.getOperation() == Operation.REMOVE) {
+				if (change.getObject() instanceof AbstractChain && change.getOperation() == Operation.REMOVE) {
 					if (model == change.getObject()) { // pointer equality
 						setModel(null);
 						return;

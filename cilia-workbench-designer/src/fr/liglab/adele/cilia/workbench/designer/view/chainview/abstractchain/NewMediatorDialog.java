@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Shell;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
@@ -35,9 +35,9 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  */
 public class NewMediatorDialog extends TextListDialog {
 
-	private final Chain chain;
+	private final AbstractChain chain;
 
-	protected NewMediatorDialog(Shell parentShell, Chain chain) {
+	protected NewMediatorDialog(Shell parentShell, AbstractChain chain) {
 		super(parentShell, "New Mediator", "id", "type", getListValues());
 		this.chain = chain;
 	}

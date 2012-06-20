@@ -20,7 +20,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Parameter;
@@ -40,7 +40,7 @@ public class AbstractCompositionsContentProvider extends GenericContentProvider 
 			addRelationship(true, repo, re);
 
 			if (re.getModel() != null) {
-				for (Chain c : re.getModel().getChains()) {
+				for (AbstractChain c : re.getModel().getChains()) {
 					addRelationship(true, re, c);
 
 					for (AdapterRef a : c.getAdapters())

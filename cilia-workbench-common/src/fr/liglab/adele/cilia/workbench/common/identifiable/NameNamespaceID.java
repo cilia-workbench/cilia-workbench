@@ -62,6 +62,11 @@ public class NameNamespaceID {
 	}
 
 	@Override
+	public int hashCode() {
+		return new String(name + namespace).hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return name;
 	}

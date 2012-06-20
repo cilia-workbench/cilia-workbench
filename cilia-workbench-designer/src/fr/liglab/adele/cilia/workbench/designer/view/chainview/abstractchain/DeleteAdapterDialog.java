@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 
 /**
  * 
@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
  */
 public class DeleteAdapterDialog extends ListDialog {
 
-	public DeleteAdapterDialog(Shell parent, Chain chain) {
+	public DeleteAdapterDialog(Shell parent, AbstractChain chain) {
 		super(parent);
 
 		setTitle("Remove adapter");

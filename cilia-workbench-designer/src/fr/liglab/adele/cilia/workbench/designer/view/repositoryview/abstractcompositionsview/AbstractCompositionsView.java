@@ -23,7 +23,7 @@ import org.eclipse.ui.IEditorReference;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionModel;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
@@ -67,7 +67,7 @@ public class AbstractCompositionsView extends RepositoryView<AbstractComposition
 			Object object = change.getObject();
 			Operation operation = change.getOperation();
 			if (operation != Operation.UPDATE) {
-				if (object instanceof AbstractCompositionFile || object instanceof Chain) {
+				if (object instanceof AbstractCompositionFile || object instanceof AbstractChain) {
 					refresh();
 					return;
 				}

@@ -19,7 +19,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
@@ -31,8 +31,8 @@ public class DeleteChainHandler extends AbstractCompoistionViewHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		Object object = getFirstSelectedElementInRepositoryView(event);
-		if (object != null && object instanceof Chain) {
-			Chain chain = (Chain) object;
+		if (object != null && object instanceof AbstractChain) {
+			AbstractChain chain = (AbstractChain) object;
 			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required",
 					"Do you want to delete " + chain.getId() + "?");
 			if (result == true)

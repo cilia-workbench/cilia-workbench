@@ -30,7 +30,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
@@ -48,13 +48,13 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 	private Shell parentShell;
 
-	private Map<String, ChainDesignerConfiguration<AbstractCompositionsRepoService, Chain>> configs = new HashMap<String, ChainDesignerConfiguration<AbstractCompositionsRepoService, Chain>>();
+	private Map<String, ChainDesignerConfiguration<AbstractCompositionsRepoService, AbstractChain>> configs = new HashMap<String, ChainDesignerConfiguration<AbstractCompositionsRepoService, AbstractChain>>();
 	String currentConfig = null;
 
 	public ChainDesignerView() {
 	}
 
-	public ChainDesignerConfiguration<AbstractCompositionsRepoService, Chain> getCurrentConfig() {
+	public ChainDesignerConfiguration<AbstractCompositionsRepoService, AbstractChain> getCurrentConfig() {
 		return configs.get(currentConfig);
 	}
 
@@ -95,7 +95,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 		setPartName(name);
 	}
 
-	public void registerConfig(ChainDesignerConfiguration<AbstractCompositionsRepoService, Chain> config) {
+	public void registerConfig(ChainDesignerConfiguration<AbstractCompositionsRepoService, AbstractChain> config) {
 		String viewID = config.getViewID();
 		if (configs.get(viewID) == null) {
 			configs.put(viewID, config);
@@ -119,7 +119,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 		// Assert the view responsible of this selection is registered
 		String id = part.getSite().getId();
-		ChainDesignerConfiguration<AbstractCompositionsRepoService, Chain> conf = configs.get(id);
+		ChainDesignerConfiguration<AbstractCompositionsRepoService, AbstractChain> conf = configs.get(id);
 		if (conf == null)
 			return;
 

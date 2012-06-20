@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.AbstractGraphContentProvider;
 
@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.AbstractGr
  * 
  * @author Etienne Gandrille
  */
-public class AbstractChainContentProvider extends AbstractGraphContentProvider<Chain> {
+public class AbstractChainContentProvider extends AbstractGraphContentProvider<AbstractChain> {
 
 	@Override
 	public Object[] getConnectedTo(Object entity) {

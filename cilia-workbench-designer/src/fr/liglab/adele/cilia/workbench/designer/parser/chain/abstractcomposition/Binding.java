@@ -90,7 +90,7 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 		return toCardinality;
 	}
 
-	private Chain getChain() {
+	private AbstractChain getChain() {
 		return AbstractCompositionsRepoService.getInstance().findChain(chainId);
 	}
 

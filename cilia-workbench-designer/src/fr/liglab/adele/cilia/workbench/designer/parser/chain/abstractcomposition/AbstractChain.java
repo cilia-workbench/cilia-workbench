@@ -23,10 +23,8 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainCommon;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent;
@@ -35,23 +33,20 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAd
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphDrawable;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Chain extends ChainCommon implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable,
-		GraphDrawable {
+public class AbstractChain extends ChainCommon {
 
 	private List<AdapterRef> adapters = new ArrayList<AdapterRef>();
 	private List<MediatorRef> mediators = new ArrayList<MediatorRef>();
 	private List<Binding> bindings = new ArrayList<Binding>();
 
-	public Chain(Node node) throws CiliaException {
+	public AbstractChain(Node node) throws CiliaException {
 		super(node);
 
 		Node rootAdapters = XMLHelpers.findChild(node, XML_ROOT_ADAPTERS_NAME);
@@ -112,14 +107,9 @@ public class Chain extends ChainCommon implements DisplayedInPropertiesView, Err
 	}
 
 	@Override
-	public String toString() {
-		return getName();
-	}
-
-	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = new ArrayList<Changeset>();
-		Chain newInstance = (Chain) other;
+		AbstractChain newInstance = (AbstractChain) other;
 
 		retval.addAll(MergeUtil.mergeLists(newInstance.getAdapters(), adapters));
 		retval.addAll(MergeUtil.mergeLists(newInstance.getMediators(), mediators));

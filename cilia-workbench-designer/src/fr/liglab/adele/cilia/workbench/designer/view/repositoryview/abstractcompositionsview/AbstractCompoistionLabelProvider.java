@@ -19,7 +19,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AdapterInstanceRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorInstanceRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 
@@ -40,7 +40,7 @@ public class AbstractCompoistionLabelProvider extends CiliaLabelProvider {
 
 		if (isCompatible(obj, AbstractCompositionFile.class))
 			imageName = ImageDescriptorEnum.FILE;
-		else if (isCompatible(obj, Chain.class))
+		else if (isCompatible(obj, AbstractChain.class))
 			imageName = ImageDescriptorEnum.CHAIN;
 		else if (isCompatible(obj, AdapterInstanceRef.class))
 			imageName = ImageDescriptorEnum.ADAPTER_IN;

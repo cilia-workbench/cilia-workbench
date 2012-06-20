@@ -88,6 +88,14 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 		return parent.get(element);
 	}
 
+	public Object getAncestor(Object object, Class<? extends Object> clazz) {
+		if (object == null)
+			return null;
+		if (object.getClass().equals(clazz))
+			return object;
+		return getAncestor(getParent(object), clazz);
+	}
+
 	/**
 	 * Gets the all the visible and non visible children.
 	 * 

@@ -21,21 +21,16 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainCommon;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphDrawable;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Chain extends ChainCommon implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable,
-		GraphDrawable {
+public class ConcreteChain extends ChainCommon {
 
-	public Chain(Node node) throws CiliaException {
+	public ConcreteChain(Node node) throws CiliaException {
 		super(node);
 	}
 
@@ -45,14 +40,9 @@ public class Chain extends ChainCommon implements DisplayedInPropertiesView, Err
 	}
 
 	@Override
-	public String toString() {
-		return getName();
-	}
-
-	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = new ArrayList<Changeset>();
-		Chain newInstance = (Chain) other;
+		ConcreteChain newInstance = (ConcreteChain) other;
 
 		for (Changeset c : retval)
 			c.pushPathElement(this);

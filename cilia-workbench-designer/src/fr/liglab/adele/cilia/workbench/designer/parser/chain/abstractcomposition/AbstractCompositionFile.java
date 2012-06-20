@@ -21,9 +21,9 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must
@@ -60,12 +60,12 @@ public class AbstractCompositionFile extends AbstractFile<AbstractCompositionMod
 
 			// XML file becomes valid
 			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel)
-				for (Chain chain : newModel.getChains())
+				for (AbstractChain chain : newModel.getChains())
 					retval.add(new Changeset(Operation.ADD, chain));
 
 			// XML file becomes invalid
 			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel)
-				for (Chain chain : oldModel.getChains())
+				for (AbstractChain chain : oldModel.getChains())
 					retval.add(new Changeset(Operation.REMOVE, chain));
 
 			// Other event, deeper in hierarchy

@@ -19,16 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaModel;
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 
 /**
  * A central place for managing the DSCilia repository. The repository can be
@@ -37,20 +33,15 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaRepoService extends AbstractRepoService<DSCiliaFile, DSCiliaModel> implements
-		ErrorsAndWarningsFinder {
+public class DSCiliaRepoService extends ChainRepoService<DSCiliaFile, DSCiliaModel, ConcreteChain> {
 
-	/** Singleton instance */
-	private static DSCiliaRepoService INSTANCE;
-
-	/** The key used to search the repository path into the preferences store. */
+	// Super type parameters
 	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.CONCRETE_COMPO_REPOSITORY_PATH;
-
-	/** files extension. */
 	public final static String ext = ".dscilia";
-
-	/** Repository Name */
 	private final static String repositoryName = "DSCilia repo service";
+
+	// Singleton instance
+	private static DSCiliaRepoService INSTANCE;
 
 	public static DSCiliaRepoService getInstance() {
 		if (INSTANCE == null) {
@@ -60,12 +51,8 @@ public class DSCiliaRepoService extends AbstractRepoService<DSCiliaFile, DSCilia
 		return INSTANCE;
 	}
 
-	/**
-	 * Constructor. Registers for repository path update and constructs the
-	 * model.
-	 */
 	private DSCiliaRepoService() {
-		super(PREFERENCE_PATH_KEY, ext, repositoryName);
+		super(PREFERENCE_PATH_KEY, ext, repositoryName, DSCiliaModel.ROOT_NODE_NAME);
 	}
 
 	/**
@@ -95,46 +82,5 @@ public class DSCiliaRepoService extends AbstractRepoService<DSCiliaFile, DSCilia
 
 		// Sends notifications
 		notifyListeners(changes);
-	}
-
-	/**
-	 * Merge a list of repo element into the current model. Only differences
-	 * between the argument and the model are merge back into the model.
-	 * 
-	 * @param repoElements
-	 *            a new model
-	 * @return a list of changesets, which can be empty.
-	 * @throws CiliaException
-	 */
-	private List<Changeset> merge(List<DSCiliaFile> repoElements) throws CiliaException {
-
-		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-
-		retval.addAll(MergeUtil.mergeLists(repoElements, this.model));
-
-		// path update
-		for (Changeset c : retval)
-			c.pushPathElement(this);
-
-		return retval;
-	}
-
-	@Override
-	protected String getContentForNewFile() {
-		return "<" + DSCiliaModel.ROOT_NODE_NAME + ">\n</" + DSCiliaModel.ROOT_NODE_NAME + ">";
-	}
-
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		List<CiliaFlag> errorList = IdentifiableUtils.getErrorsNonUniqueId(this, getChains());
-
-		return CiliaFlag.generateTab(errorList);
-	}
-
-	private List<Chain> getChains() {
-		List<Chain> retval = new ArrayList<Chain>();
-		for (DSCiliaModel model : findAbstractElements())
-			retval.addAll(model.getChains());
-		return retval;
 	}
 }

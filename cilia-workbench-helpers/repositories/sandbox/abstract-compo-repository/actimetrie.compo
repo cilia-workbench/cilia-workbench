@@ -1,43 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-composition-specifications>
+	<chain id="actimetry2" namespace="fr.orange"/>
+	<chain id="actimetry2" namespace="fr.orange"/>
 	<chain id="actimetry" namespace="fr.orange">
 		<mediators>
-			<mediator-specification id="regression" namespace="fr.liglab.cube" type="regression">
+			<mediator-specification id="regression"
+				namespace="fr.liglab.cube" type="regression">
 				<selection-constraint>
-					<property name="memoire" value="100Mo"/>
+					<property name="memoire" value="100Mo" />
 				</selection-constraint>
 			</mediator-specification>
-			<mediator-specification id="reg" namespace="fr.liglab.cube" type="regression">
+			<mediator-specification id="reg" namespace="fr.liglab.cube"
+				type="regression">
 				<selection-constraint>
-					<property name="memoire" value="100Mo"/>
-					<property name="vitesse" value="lente"/>
+					<property name="memoire" value="100Mo" />
+					<property name="vitesse" value="lente" />
 				</selection-constraint>
 			</mediator-specification>
-			<mediator-instance id="increment" namespace="fr.liglab.adele.cilia" type="increment-mediator">
+			<mediator-instance id="increment" namespace="fr.liglab.adele.cilia"
+				type="increment-mediator">
 				<processor>
-					<property name="increment" value="17"/>
+					<property name="increment" value="17" />
 				</processor>
 			</mediator-instance>
-		
-
-
-</mediators>
+		</mediators>
 		<adapters>
-			<adapter-instance id="console" namespace="fr.liglab.adele.cilia" type="console-adapter"/>
-			<adapter-instance id="generator" namespace="fr.liglab.adele.cilia" type="number-generator-adapter"/>
+			<adapter-instance id="console" namespace="fr.liglab.adele.cilia"
+				type="console-adapter" />
+			<adapter-instance id="generator" namespace="fr.liglab.adele.cilia"
+				type="number-generator-adapter" />
 		</adapters>
 		<bindings>
-			<binding from="regression:out" from-cardinality="0...1" to="console" to-cardinality="0...n"/>
-			<binding from="generator" from-cardinality="1...1" to="reg:in" to-cardinality="1...n"/>
-			<binding from="reg:out" from-cardinality="1...1" to="regression:in" to-cardinality="1...1"/>
-			<binding from="generator" from-cardinality="1...1" to="increment:in" to-cardinality="1...1"/>
-			<binding from="increment:out" from-cardinality="1...1" to="regression:in" to-cardinality="0...n"/>
-		
-
-</bindings>
+			<binding from="regression:out" from-cardinality="0...1" to="console"
+				to-cardinality="0...n" />
+			<binding from="generator" from-cardinality="1...1" to="reg:in"
+				to-cardinality="1...n" />
+			<binding from="reg:out" from-cardinality="1...1" to="regression:in"
+				to-cardinality="1...1" />
+			<binding from="generator" from-cardinality="1...1" to="increment:in"
+				to-cardinality="1...1" />
+			<binding from="increment:out" from-cardinality="1...1"
+				to="regression:in" to-cardinality="0...n" />
+		</bindings>
 	</chain>
-
-
-
-
 </cilia-composition-specifications>

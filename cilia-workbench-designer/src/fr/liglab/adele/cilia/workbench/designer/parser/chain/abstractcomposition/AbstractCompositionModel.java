@@ -26,17 +26,15 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainCommon;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.CommonModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
 
 /**
  * A {@link AbstractCompositionModel} represents the content of a <strong>well
@@ -44,57 +42,41 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompositionModel implements DisplayedInPropertiesView, Mergeable {
+public class AbstractCompositionModel extends CommonModel<AbstractChain> {
 
 	public static final String ROOT_NODE_NAME = "cilia-composition-specifications";
 
-	private File file;
-
-	private List<Chain> model = new ArrayList<Chain>();
-
 	public AbstractCompositionModel(File file) throws Exception {
-		this.file = file;
+		super(file, ROOT_NODE_NAME);
 
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
 
-		for (Node node : XMLHelpers.findChildren(root, Chain.XML_NODE_NAME))
-			model.add(new Chain(node));
+		for (Node node : XMLHelpers.findChildren(root, ChainCommon.XML_NODE_NAME))
+			model.add(new AbstractChain(node));
 	}
 
-	public List<Chain> getChains() {
-		return model;
-	}
-
-	private static Node getRootNode(Document document) throws CiliaException {
-		return XMLHelpers.getRootNode(document, ROOT_NODE_NAME);
-	}
-
-	public File getFile() {
-		return file;
-	}
-
-	@Override
-	public List<Changeset> merge(Object other) throws CiliaException {
-		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-		AbstractCompositionModel newInstance = (AbstractCompositionModel) other;
-
-		retval.addAll(MergeUtil.mergeLists(newInstance.getChains(), model));
-
-		for (Changeset c : retval)
-			c.pushPathElement(this);
-
-		return retval;
-	}
+	/*
+	 * @Override public List<Changeset> merge(Object other) throws
+	 * CiliaException { ArrayList<Changeset> retval = new
+	 * ArrayList<Changeset>(); AbstractCompositionModel newInstance =
+	 * (AbstractCompositionModel) other;
+	 * 
+	 * retval.addAll(MergeUtil.mergeLists(newInstance.getChains(), model));
+	 * 
+	 * for (Changeset c : retval) c.pushPathElement(this);
+	 * 
+	 * return retval; }
+	 */
 
 	public void createChain(NameNamespaceID id) throws CiliaException {
 
 		// Document creation
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
-		Element child = document.createElement(Chain.XML_NODE_NAME);
-		child.setAttribute(Chain.XML_ATTR_ID, id.getName());
-		child.setAttribute(Chain.XML_ATTR_NAMESPACE, id.getNamespace());
+		Element child = document.createElement(AbstractChain.XML_NODE_NAME);
+		child.setAttribute(AbstractChain.XML_ATTR_ID, id.getName());
+		child.setAttribute(AbstractChain.XML_ATTR_NAMESPACE, id.getNamespace());
 		root.appendChild(child);
 
 		// Write it back to file system
@@ -124,10 +106,11 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		Node[] results;
 
 		if (Strings.isNullOrEmpty(id.getNamespace()))
-			results = XMLHelpers.findChildren(root, Chain.XML_NODE_NAME, Chain.XML_ATTR_ID, id.getName());
+			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID,
+					id.getName());
 		else
-			results = XMLHelpers.findChildren(root, Chain.XML_NODE_NAME, Chain.XML_ATTR_ID, id.getName(),
-					Chain.XML_ATTR_NAMESPACE, id.getNamespace());
+			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID,
+					id.getName(), AbstractChain.XML_ATTR_NAMESPACE, id.getNamespace());
 
 		if (results.length == 0)
 			return null;
@@ -135,32 +118,32 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 			return results[0];
 	}
 
-	public void createMediator(Chain chain, String id, IGenericMediator type) throws CiliaException {
+	public void createMediator(AbstractChain chain, String id, IGenericMediator type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
 			if (type.getNature() == ComponentNature.SPEC)
-				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_MEDIATORS_NAME,
+				createComponentInstanceInternal(chain, id, type.getId(), AbstractChain.XML_ROOT_MEDIATORS_NAME,
 						MediatorSpecRef.XML_NODE_NAME);
 			else if (type.getNature() == ComponentNature.IMPLEM)
-				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_MEDIATORS_NAME,
+				createComponentInstanceInternal(chain, id, type.getId(), AbstractChain.XML_ROOT_MEDIATORS_NAME,
 						MediatorInstanceRef.XML_NODE_NAME);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
 		}
 	}
 
-	public void createAdapter(Chain chain, String id, IGenericAdapter type) throws CiliaException {
+	public void createAdapter(AbstractChain chain, String id, IGenericAdapter type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
 			if (type.getNature() == ComponentNature.SPEC)
 				throw new RuntimeException("Not yet implemented in spec repository view...");
 			else if (type.getNature() == ComponentNature.IMPLEM)
-				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_ADAPTERS_NAME,
+				createComponentInstanceInternal(chain, id, type.getId(), AbstractChain.XML_ROOT_ADAPTERS_NAME,
 						AdapterInstanceRef.XML_NODE_NAME);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
 		}
 	}
 
-	private void createComponentInstanceInternal(Chain chain, String id, NameNamespaceID type, String rootNode,
+	private void createComponentInstanceInternal(AbstractChain chain, String id, NameNamespaceID type, String rootNode,
 			String elementNode) throws CiliaException {
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
@@ -180,7 +163,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		AbstractCompositionsRepoService.getInstance().updateModel();
 	}
 
-	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort,
+	public void createBinding(AbstractChain chain, String srcElem, String srcPort, String dstElem, String dstPort,
 			Cardinality srcCard, Cardinality dstCard) throws CiliaException {
 		if (chain.isNewBindingAllowed(srcElem, srcPort, dstElem, dstPort) == null) {
 
@@ -198,7 +181,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 
 			Document document = XMLHelpers.getDocument(file);
 			Node chainNode = findXMLChainNode(document, chain.getId());
-			Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, Chain.XML_ROOT_BINDINGS_NAME);
+			Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, AbstractChain.XML_ROOT_BINDINGS_NAME);
 
 			Element child = document.createElement(Binding.XML_NODE_NAME);
 			child.setAttribute(Binding.XML_FROM_ATTR, from);
@@ -215,17 +198,17 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		}
 	}
 
-	public void deleteComponent(Chain chain, ComponentRef component) throws CiliaException {
+	public void deleteComponent(AbstractChain chain, ComponentRef component) throws CiliaException {
 		if (component instanceof AdapterRef)
 			deleteAdapter(chain, (AdapterRef) component);
 		else
 			deleteMediator(chain, (MediatorRef) component);
 	}
 
-	private void deleteMediator(Chain chain, MediatorRef mediator) throws CiliaException {
+	private void deleteMediator(AbstractChain chain, MediatorRef mediator) throws CiliaException {
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
+		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_MEDIATORS_NAME);
 
 		Node leafs[] = null;
 		if (mediator instanceof MediatorInstanceRef)
@@ -246,10 +229,10 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		AbstractCompositionsRepoService.getInstance().updateModel();
 	}
 
-	private void deleteAdapter(Chain chain, AdapterRef adapter) throws CiliaException {
+	private void deleteAdapter(AbstractChain chain, AdapterRef adapter) throws CiliaException {
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_ADAPTERS_NAME);
+		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_ADAPTERS_NAME);
 
 		Node leafs[] = null;
 		if (adapter instanceof AdapterInstanceRef)
@@ -269,7 +252,7 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 	}
 
 	private void deleteBindingsWithReferenceToComponent(Node chainNode, String componentID) throws CiliaException {
-		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_BINDINGS_NAME);
+		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_BINDINGS_NAME);
 		if (subNode == null)
 			return;
 
@@ -293,10 +276,10 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		}
 	}
 
-	public void deleteBinding(Chain chain, Binding binding) throws CiliaException {
+	public void deleteBinding(AbstractChain chain, Binding binding) throws CiliaException {
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_BINDINGS_NAME);
+		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_BINDINGS_NAME);
 		if (subNode == null)
 			return;
 
@@ -310,11 +293,11 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		AbstractCompositionsRepoService.getInstance().updateModel();
 	}
 
-	public void updateProperties(Chain chain, MediatorSpecRef mediator, Map<String, String> properties)
+	public void updateProperties(AbstractChain chain, MediatorSpecRef mediator, Map<String, String> properties)
 			throws CiliaException {
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
+		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_MEDIATORS_NAME);
 		Node media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID,
 				mediator.getId())[0];
 
@@ -333,11 +316,11 @@ public class AbstractCompositionModel implements DisplayedInPropertiesView, Merg
 		AbstractCompositionsRepoService.getInstance().updateModel();
 	}
 
-	public void updateParameters(Chain chain, MediatorRef mediator, Map<String, String> schedulerParam,
+	public void updateParameters(AbstractChain chain, MediatorRef mediator, Map<String, String> schedulerParam,
 			Map<String, String> processorParam, Map<String, String> dispatcherParam) throws CiliaException {
 		Document document = XMLHelpers.getDocument(file);
 		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node subNode = XMLHelpers.findChild(chainNode, Chain.XML_ROOT_MEDIATORS_NAME);
+		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_MEDIATORS_NAME);
 
 		Node media = null;
 		if (mediator instanceof MediatorSpecRef)
