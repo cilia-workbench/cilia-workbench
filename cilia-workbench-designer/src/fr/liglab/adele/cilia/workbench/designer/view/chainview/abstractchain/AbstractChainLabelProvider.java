@@ -17,10 +17,11 @@ package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ComponentRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractBinding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.AbstractGraphLabelProvider;
@@ -41,7 +42,8 @@ public class AbstractChainLabelProvider extends AbstractGraphLabelProvider {
 
 		ImageDescriptorEnum imageName;
 		if (isCompatible(obj, AdapterRef.class)) {
-			AdapterRef adapter = (AdapterRef) obj;
+			@SuppressWarnings("unchecked")
+			AdapterRef<AbstractChain> adapter = (AdapterRef<AbstractChain>) obj;
 			if (adapter.getReferencedObject() != null) {
 				if (adapter.getReferencedObject().getType() == AdapterType.IN)
 					imageName = ImageDescriptorEnum.ADAPTER_IN;
@@ -65,9 +67,12 @@ public class AbstractChainLabelProvider extends AbstractGraphLabelProvider {
 
 		if (isCompatible(element, EntityConnectionData.class)) {
 			EntityConnectionData ecd = (EntityConnectionData) element;
-			ComponentRef src = (ComponentRef) ecd.source;
-			ComponentRef dst = (ComponentRef) ecd.dest;
-			Binding binding = src.getOutgoingBinding(dst);
+			@SuppressWarnings("unchecked")
+			ComponentRef<AbstractChain> src = (ComponentRef<AbstractChain>) ecd.source;
+			@SuppressWarnings("unchecked")
+			ComponentRef<AbstractChain> dst = (ComponentRef<AbstractChain>) ecd.dest;
+			// Be careful during refactoring with AbstractBinding !
+			AbstractBinding binding = (AbstractBinding) src.getOutgoingBinding(dst);
 
 			if (binding == null)
 				return "";

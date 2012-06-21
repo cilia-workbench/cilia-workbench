@@ -31,8 +31,9 @@ import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Parameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
 
 /**
@@ -58,13 +59,13 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 	private static final String processorPrefix = "processor: ";
 	private static final String dispatcherPrefix = "dispatcher: ";
 
-	protected UpdateMediatorRefDialog(Shell parent, MediatorRef mediator, Point initialSize) {
+	protected UpdateMediatorRefDialog(Shell parent, MediatorRef<AbstractChain> mediator, Point initialSize) {
 		super(parent, windowTitle, initialSize, true);
 		peKeys = getConstraintKeys(mediator);
 		peModel = getConstraintValues(mediator);
 	}
 
-	private static List<String> getConstraintKeys(MediatorRef mediator) {
+	private static List<String> getConstraintKeys(MediatorRef<AbstractChain> mediator) {
 		List<String> names = new ArrayList<String>();
 		if (mediator.getReferencedObjectSchedulerParameters() != null)
 			for (GenericParameter p : mediator.getReferencedObjectSchedulerParameters())
@@ -78,7 +79,7 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 		return names;
 	}
 
-	private static Map<String, String> getConstraintValues(MediatorRef mediator) {
+	private static Map<String, String> getConstraintValues(MediatorRef<AbstractChain> mediator) {
 		Map<String, String> values = new HashMap<String, String>();
 		for (Parameter p : mediator.getSchedulerParameters())
 			values.put(schedulerPrefix + p.getName(), p.getValue());

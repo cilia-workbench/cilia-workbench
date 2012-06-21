@@ -20,37 +20,40 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class AbstractChain extends ChainElement<AbstractChain> {
+public class AbstractBinding extends Binding {
 
-	public AbstractChain(Node node) throws CiliaException {
-		super(node);
+	public static final String XML_FROM_CARD_ATTR = "from-cardinality";
+	public static final String XML_TO_CARD_ATTR = "to-cardinality";
 
-		// Adapters specifications references must be added here as soon as they
-		// will be implemented
+	private Cardinality fromCardinality;
+	private Cardinality toCardinality;
 
-		// Mediators spec
-		Node rootMediators = XMLHelpers.findChild(node, XML_ROOT_MEDIATORS_NAME);
-		if (rootMediators != null) {
-			for (Node spec : XMLHelpers.findChildren(rootMediators, MediatorSpecRef.XML_NODE_NAME))
-				mediators.add(new MediatorSpecRef<AbstractChain>(spec, getId(), getRepository()));
-		}
+	public AbstractBinding(Node node, NameNamespaceID chainId) throws CiliaException {
+		super(node, chainId);
+
+		String fc = XMLHelpers.findAttributeValue(node, XML_FROM_CARD_ATTR);
+		fromCardinality = Cardinality.getCardinality(fc);
+		String tc = XMLHelpers.findAttributeValue(node, XML_TO_CARD_ATTR);
+		toCardinality = Cardinality.getCardinality(tc);
 	}
 
-	@Override
-	protected ChainRepoService<?, ?, AbstractChain> getRepository() {
-		return AbstractCompositionsRepoService.getInstance();
+	protected AbstractChain getChain() {
+		return AbstractCompositionsRepoService.getInstance().findChain(chainId);
 	}
 
-	@Override
-	public Binding createBinding(Node node, NameNamespaceID chainId) throws CiliaException {
-		return new AbstractBinding(node, chainId);
+	public Cardinality getSourceCardinality() {
+		return fromCardinality;
 	}
+
+	public Cardinality getDestinationCardinality() {
+		return toCardinality;
+	}
+
 }

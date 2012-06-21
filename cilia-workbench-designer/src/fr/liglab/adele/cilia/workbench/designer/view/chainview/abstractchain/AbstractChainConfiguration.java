@@ -26,11 +26,11 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorInstanceRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
@@ -77,7 +77,8 @@ public class AbstractChainConfiguration extends
 			if (window.open() == Window.OK) {
 				Object[] objects = window.getResult();
 				if (objects.length != 0) {
-					AdapterRef component = (AdapterRef) objects[0];
+					@SuppressWarnings("unchecked")
+					AdapterRef<AbstractChain> component = (AdapterRef<AbstractChain>) objects[0];
 					try {
 						AbstractCompositionsRepoService.getInstance().deleteComponent(model, component);
 					} catch (Exception e) {
@@ -113,7 +114,8 @@ public class AbstractChainConfiguration extends
 			if (window.open() == Window.OK) {
 				Object[] objects = window.getResult();
 				if (objects.length != 0) {
-					MediatorRef component = (MediatorRef) objects[0];
+					@SuppressWarnings("unchecked")
+					MediatorRef<AbstractChain> component = (MediatorRef<AbstractChain>) objects[0];
 					try {
 						AbstractCompositionsRepoService.getInstance().deleteComponent(model, component);
 					} catch (Exception e) {
@@ -171,13 +173,14 @@ public class AbstractChainConfiguration extends
 	@Override
 	public void doubleClickHandler(Shell shell, Object element) {
 		if (element instanceof MediatorRef && model != null) {
-			MediatorRef mediator = (MediatorRef) element;
+			@SuppressWarnings("unchecked")
+			MediatorRef<AbstractChain> mediator = (MediatorRef<AbstractChain>) element;
 
 			UpdateMediatorRefDialog dialog;
 			if (mediator instanceof MediatorSpecRef)
-				dialog = new UpdateMediatorSpecRefDialog(shell, (MediatorSpecRef) mediator);
+				dialog = new UpdateMediatorSpecRefDialog(shell, (MediatorSpecRef<AbstractChain>) mediator);
 			else
-				dialog = new UpdateMediatorInstanceRefDialog(shell, (MediatorInstanceRef) mediator);
+				dialog = new UpdateMediatorInstanceRefDialog(shell, (MediatorInstanceRef<AbstractChain>) mediator);
 
 			if (dialog.open() == Window.OK) {
 
@@ -185,7 +188,8 @@ public class AbstractChainConfiguration extends
 				if (mediator instanceof MediatorSpecRef) {
 					try {
 						AbstractCompositionsRepoService.getInstance().updateProperties(model,
-								(MediatorSpecRef) mediator, ((UpdateMediatorSpecRefDialog) dialog).getConstraints());
+								(MediatorSpecRef<AbstractChain>) mediator,
+								((UpdateMediatorSpecRefDialog) dialog).getConstraints());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

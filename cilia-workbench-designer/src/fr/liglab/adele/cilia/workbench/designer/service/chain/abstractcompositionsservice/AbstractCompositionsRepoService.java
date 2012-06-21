@@ -25,10 +25,10 @@ import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesigne
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionModel;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ComponentRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
@@ -133,7 +133,7 @@ public class AbstractCompositionsRepoService extends
 		getFileObject(chain).getModel().createAdapter(chain, id, type);
 	}
 
-	public void deleteComponent(AbstractChain chain, ComponentRef component) throws CiliaException {
+	public void deleteComponent(AbstractChain chain, ComponentRef<AbstractChain> component) throws CiliaException {
 		if (getFileObject(chain) == null)
 			return;
 		getFileObject(chain).getModel().deleteComponent(chain, component);
@@ -152,15 +152,16 @@ public class AbstractCompositionsRepoService extends
 		getFileObject(chain).getModel().deleteBinding(chain, binding);
 	}
 
-	public void updateProperties(AbstractChain chain, MediatorSpecRef mediator, Map<String, String> properties)
-			throws CiliaException {
+	public void updateProperties(AbstractChain chain, MediatorSpecRef<AbstractChain> mediator,
+			Map<String, String> properties) throws CiliaException {
 		if (getFileObject(chain) == null)
 			return;
 		getFileObject(chain).getModel().updateProperties(chain, mediator, properties);
 	}
 
-	public void updateParameters(AbstractChain chain, MediatorRef mediator, Map<String, String> schedulerParam,
-			Map<String, String> processorParam, Map<String, String> dispatcherParam) throws CiliaException {
+	public void updateParameters(AbstractChain chain, MediatorRef<AbstractChain> mediator,
+			Map<String, String> schedulerParam, Map<String, String> processorParam, Map<String, String> dispatcherParam)
+			throws CiliaException {
 		if (getFileObject(chain) == null)
 			return;
 		getFileObject(chain).getModel().updateParameters(chain, mediator, schedulerParam, processorParam,

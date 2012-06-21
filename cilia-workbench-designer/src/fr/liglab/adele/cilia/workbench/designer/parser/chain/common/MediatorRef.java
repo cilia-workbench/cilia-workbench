@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
+package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,6 +32,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMe
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IProcessor;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IScheduler;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 
@@ -39,7 +40,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
  * 
  * @author Etienne Gandrille
  */
-public abstract class MediatorRef extends ComponentRef {
+public abstract class MediatorRef<ChainType extends ChainElement<?>> extends ComponentRef<ChainType> {
 
 	public static String XML_SCHEDULER_NODE = "scheduler";
 	public static String XML_PROCESSOR_NODE = "processor";
@@ -49,8 +50,9 @@ public abstract class MediatorRef extends ComponentRef {
 	private List<Parameter> processorParameters = new ArrayList<Parameter>();
 	private List<Parameter> dispatcherParameters = new ArrayList<Parameter>();
 
-	public MediatorRef(Node node, NameNamespaceID chainId) throws CiliaException {
-		super(node, chainId);
+	public MediatorRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo)
+			throws CiliaException {
+		super(node, chainId, repo);
 
 		initSPD(node, XML_SCHEDULER_NODE, schedulerParameters);
 		initSPD(node, XML_PROCESSOR_NODE, processorParameters);
@@ -146,7 +148,8 @@ public abstract class MediatorRef extends ComponentRef {
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = super.merge(other);
 
-		MediatorRef newInstance = (MediatorRef) other;
+		@SuppressWarnings("unchecked")
+		MediatorRef<ChainType> newInstance = (MediatorRef<ChainType>) other;
 
 		retval.addAll(MergeUtil.mergeLists(newInstance.getSchedulerParameters(), schedulerParameters));
 		retval.addAll(MergeUtil.mergeLists(newInstance.getProcessorParameters(), processorParameters));

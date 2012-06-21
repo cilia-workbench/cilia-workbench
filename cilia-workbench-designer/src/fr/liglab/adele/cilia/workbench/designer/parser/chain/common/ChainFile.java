@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainFile<FileType, ModelType extends ChainModel<? extends ChainElement>> extends
+public abstract class ChainFile<FileType, ModelType extends ChainModel<? extends ChainElement<?>>> extends
 		AbstractFile<ModelType> implements Mergeable {
 
 	public ChainFile(File file) {
@@ -52,12 +52,12 @@ public abstract class ChainFile<FileType, ModelType extends ChainModel<? extends
 
 			// XML file becomes valid
 			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel)
-				for (ChainElement chain : newModel.getChains())
+				for (ChainElement<?> chain : newModel.getChains())
 					retval.add(new Changeset(Operation.ADD, chain));
 
 			// XML file becomes invalid
 			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel)
-				for (ChainElement chain : oldModel.getChains())
+				for (ChainElement<?> chain : oldModel.getChains())
 					retval.add(new Changeset(Operation.REMOVE, chain));
 
 			// Other event, deeper in hierarchy

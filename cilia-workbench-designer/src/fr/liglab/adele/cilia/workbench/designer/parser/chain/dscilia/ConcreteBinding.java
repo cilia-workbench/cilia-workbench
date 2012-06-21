@@ -12,31 +12,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
+package fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class AdapterInstanceRef extends AdapterRef {
+public class ConcreteBinding extends Binding {
 
-	public static final String XML_NODE_NAME = "adapter-instance";
-
-	public AdapterInstanceRef(Node node, NameNamespaceID chainId) throws CiliaException {
+	public ConcreteBinding(Node node, NameNamespaceID chainId) throws CiliaException {
 		super(node, chainId);
 	}
 
-	@Override
-	public IGenericAdapter getReferencedObject() {
-		NameNamespaceID id = getReferencedTypeID();
-		return JarRepoService.getInstance().getAdapterForChain(id);
+	protected ConcreteChain getChain() {
+		return DSCiliaRepoService.getInstance().findChain(chainId);
 	}
-
 }

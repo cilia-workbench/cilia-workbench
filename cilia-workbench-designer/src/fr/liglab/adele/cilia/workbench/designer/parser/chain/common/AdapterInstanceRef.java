@@ -12,30 +12,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
+package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorInstanceRef extends MediatorRef {
+public class AdapterInstanceRef<ChainType extends ChainElement<?>> extends AdapterRef<ChainType> {
 
-	public static final String XML_NODE_NAME = "mediator-instance";
+	public static final String XML_NODE_NAME = "adapter-instance";
 
-	public MediatorInstanceRef(Node node, NameNamespaceID chainId) throws CiliaException {
-		super(node, chainId);
+	public AdapterInstanceRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo)
+			throws CiliaException {
+		super(node, chainId, repo);
 	}
 
 	@Override
-	public IGenericMediator getReferencedObject() {
+	public IGenericAdapter getReferencedObject() {
 		NameNamespaceID id = getReferencedTypeID();
-		return JarRepoService.getInstance().getMediatorForChain(id);
+		return JarRepoService.getInstance().getAdapterForChain(id);
 	}
+
 }

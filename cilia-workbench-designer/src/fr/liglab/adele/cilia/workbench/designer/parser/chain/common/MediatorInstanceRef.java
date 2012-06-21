@@ -12,34 +12,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia;
+package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class ConcreteChain extends ChainElement<ConcreteChain> {
+public class MediatorInstanceRef<ChainType extends ChainElement<?>> extends MediatorRef<ChainType> {
 
-	public ConcreteChain(Node node) throws CiliaException {
-		super(node);
+	public static final String XML_NODE_NAME = "mediator-instance";
+
+	public MediatorInstanceRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo)
+			throws CiliaException {
+		super(node, chainId, repo);
 	}
 
 	@Override
-	public Binding createBinding(Node node, NameNamespaceID chainId) throws CiliaException {
-		return new ConcreteBinding(node, chainId);
-	}
-
-	@Override
-	protected ChainRepoService<?, ?, ConcreteChain> getRepository() {
-		return DSCiliaRepoService.getInstance();
+	public IGenericMediator getReferencedObject() {
+		NameNamespaceID id = getReferencedTypeID();
+		return JarRepoService.getInstance().getMediatorForChain(id);
 	}
 }

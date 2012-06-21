@@ -12,22 +12,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
+package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class AdapterRef extends ComponentRef {
+public abstract class AdapterRef<ChainType extends ChainElement<?>> extends ComponentRef<ChainType> {
 
-	public AdapterRef(Node node, NameNamespaceID chainId) throws CiliaException {
-		super(node, chainId);
+	public AdapterRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo) throws CiliaException {
+		super(node, chainId, repo);
 	}
 
 	public abstract IGenericAdapter getReferencedObject();

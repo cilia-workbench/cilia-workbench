@@ -24,9 +24,12 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
@@ -35,15 +38,16 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpecRef extends MediatorRef {
+public class MediatorSpecRef<ChainType extends ChainElement<?>> extends MediatorRef<ChainType> {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
 	public static final String XML_SELECTION_CONSTRAINT = "selection-constraint";
 
 	private List<PropertyConstraint> constraints = new ArrayList<PropertyConstraint>();
 
-	public MediatorSpecRef(Node node, NameNamespaceID chainId) throws CiliaException {
-		super(node, chainId);
+	public MediatorSpecRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo)
+			throws CiliaException {
+		super(node, chainId, repo);
 		Node rootConstraint = XMLHelpers.findChild(node, XML_SELECTION_CONSTRAINT);
 		if (rootConstraint != null) {
 			Node[] sub = XMLHelpers.findChildren(rootConstraint, PropertyConstraint.XML_PROPERTY_CONSTRAINT);
@@ -77,7 +81,8 @@ public class MediatorSpecRef extends MediatorRef {
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = super.merge(other);
-		MediatorSpecRef newInstance = (MediatorSpecRef) other;
+		@SuppressWarnings("unchecked")
+		MediatorSpecRef<AbstractChain> newInstance = (MediatorSpecRef<AbstractChain>) other;
 		retval.addAll(MergeUtil.mergeLists(newInstance.getConstraints(), constraints));
 		return retval;
 	}

@@ -17,10 +17,10 @@ package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcom
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AdapterInstanceRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorInstanceRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**

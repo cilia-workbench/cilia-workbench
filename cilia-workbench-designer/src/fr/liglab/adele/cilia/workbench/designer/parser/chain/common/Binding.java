@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
+package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +28,9 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
 
@@ -41,30 +38,24 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
+public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
 
 	public static final String XML_NODE_NAME = "binding";
 
 	public static final String XML_FROM_ATTR = "from";
 	public static final String XML_TO_ATTR = "to";
-	public static final String XML_FROM_CARD_ATTR = "from-cardinality";
-	public static final String XML_TO_CARD_ATTR = "to-cardinality";
 
-	private NameNamespaceID chainId;
+	protected NameNamespaceID chainId;
 	private String from;
 	private String to;
-	private Cardinality fromCardinality;
-	private Cardinality toCardinality;
 
 	public Binding(Node node, NameNamespaceID chainId) throws CiliaException {
 		this.chainId = chainId;
 		ReflectionUtil.setAttribute(node, XML_FROM_ATTR, this, "from");
 		ReflectionUtil.setAttribute(node, XML_TO_ATTR, this, "to");
-		String fc = XMLHelpers.findAttributeValue(node, XML_FROM_CARD_ATTR);
-		fromCardinality = Cardinality.getCardinality(fc);
-		String tc = XMLHelpers.findAttributeValue(node, XML_TO_CARD_ATTR);
-		toCardinality = Cardinality.getCardinality(tc);
 	}
+
+	protected abstract ChainElement<?> getChain();
 
 	public String getSourceId() {
 		return XMLStringUtil.getBeforeSeparatorOrAll(from);
@@ -82,35 +73,23 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 		return XMLStringUtil.getAfterSeparatorOrNothing(to);
 	}
 
-	public Cardinality getSourceCardinality() {
-		return fromCardinality;
-	}
-
-	public Cardinality getDestinationCardinality() {
-		return toCardinality;
-	}
-
-	private AbstractChain getChain() {
-		return AbstractCompositionsRepoService.getInstance().findChain(chainId);
-	}
-
-	public ComponentRef getSourceComponent() {
+	public ComponentRef<?> getSourceComponent() {
 		return getChain().getComponent(getSourceId());
 	}
 
-	public ComponentRef getDestinationComponent() {
+	public ComponentRef<?> getDestinationComponent() {
 		return getChain().getComponent(getDestinationId());
 	}
 
 	public Object getSourceReferencedObject() {
-		ComponentRef component = getSourceComponent();
+		ComponentRef<?> component = getSourceComponent();
 		if (component == null)
 			return null;
 		return component.getReferencedObject();
 	}
 
 	public Object getDestinationReferencedObject() {
-		ComponentRef component = getDestinationComponent();
+		ComponentRef<?> component = getDestinationComponent();
 		if (component == null)
 			return null;
 		return component.getReferencedObject();
@@ -133,14 +112,14 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 	public CiliaFlag[] getErrorsAndWarnings() {
 		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
 
-		ComponentRef src = getSourceComponent();
-		ComponentRef dst = getDestinationComponent();
+		ComponentRef<?> src = getSourceComponent();
+		ComponentRef<?> dst = getDestinationComponent();
 
 		CiliaFlag e1 = CiliaError.checkNotNull(this, src, "binding source");
 		CiliaFlag e2 = CiliaError.checkNotNull(this, dst, "binding destination");
 
 		if (src != null && src instanceof AdapterRef) {
-			IGenericAdapter ro = ((AdapterRef) src).getReferencedObject();
+			IGenericAdapter ro = ((AdapterRef<?>) src).getReferencedObject();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.OUT) {
 					list.add(new CiliaError("Binding " + this + " has its source connected to an out adapter", this));
@@ -154,7 +133,7 @@ public class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFind
 		}
 
 		if (dst != null && dst instanceof AdapterRef) {
-			IGenericAdapter ro = ((AdapterRef) dst).getReferencedObject();
+			IGenericAdapter ro = ((AdapterRef<?>) dst).getReferencedObject();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.IN) {
 					list.add(new CiliaError("Binding " + this + " has its destination connected to an in adapter", this));

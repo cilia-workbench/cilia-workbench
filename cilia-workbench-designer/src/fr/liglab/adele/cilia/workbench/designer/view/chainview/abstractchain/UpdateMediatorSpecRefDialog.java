@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.PropertyConstraint;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
@@ -46,20 +47,20 @@ public class UpdateMediatorSpecRefDialog extends UpdateMediatorRefDialog {
 	private final String ceKeyLabel = "property";
 	private final String ceValueLabel = "constraint";
 
-	public UpdateMediatorSpecRefDialog(Shell parent, MediatorSpecRef mediator) {
+	public UpdateMediatorSpecRefDialog(Shell parent, MediatorSpecRef<AbstractChain> mediator) {
 		super(parent, mediator, new Point(500, 700));
 		ceKeys = getConstraintKeys(mediator);
 		ceModel = getConsltraintValues(mediator);
 	}
 
-	private static List<String> getConstraintKeys(MediatorSpecRef mediator) {
+	private static List<String> getConstraintKeys(MediatorSpecRef<AbstractChain> mediator) {
 		List<String> names = new ArrayList<String>();
 		for (NameProperty p : mediator.getPossibleConstraints())
 			names.add(p.getName());
 		return names;
 	}
 
-	private static Map<String, String> getConsltraintValues(MediatorSpecRef mediator) {
+	private static Map<String, String> getConsltraintValues(MediatorSpecRef<AbstractChain> mediator) {
 		Map<String, String> values = new HashMap<String, String>();
 		for (PropertyConstraint p : mediator.getConstraints())
 			values.put(p.getName(), p.getValue());

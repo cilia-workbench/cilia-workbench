@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractType>, AbstractType extends ChainModel<ChainType>, ChainType extends ChainElement>
+public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractType>, AbstractType extends ChainModel<ChainType>, ChainType extends ChainElement<?>>
 		extends AbstractRepoService<ModelType, AbstractType> implements ErrorsAndWarningsFinder {
 
 	private final String rootNodeName;
@@ -49,7 +49,7 @@ public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractTy
 	}
 
 	@SuppressWarnings("unchecked")
-	protected ModelType getFileObject(ChainElement chain) {
+	protected ModelType getFileObject(ChainType chain) {
 		return (ModelType) getContentProvider().getParent(chain);
 	}
 

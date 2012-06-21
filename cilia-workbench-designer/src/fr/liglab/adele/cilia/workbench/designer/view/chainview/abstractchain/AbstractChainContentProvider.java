@@ -17,9 +17,9 @@ package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.AbstractGraphContentProvider;
 
 /**
@@ -33,10 +33,11 @@ public class AbstractChainContentProvider extends AbstractGraphContentProvider<A
 		List<Object> retval = new ArrayList<Object>();
 
 		if (getModel() != null && entity instanceof ComponentRef) {
-			ComponentRef component = (ComponentRef) entity;
+			@SuppressWarnings("unchecked")
+			ComponentRef<AbstractChain> component = (ComponentRef<AbstractChain>) entity;
 			Binding[] bindings = component.getOutgoingBindings();
 			for (Binding binding : bindings) {
-				ComponentRef ro = binding.getDestinationComponent();
+				ComponentRef<?> ro = binding.getDestinationComponent();
 				if (ro != null)
 					retval.add(ro);
 			}

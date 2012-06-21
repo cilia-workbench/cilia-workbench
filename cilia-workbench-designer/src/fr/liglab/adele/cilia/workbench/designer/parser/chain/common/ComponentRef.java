@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
+package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
@@ -41,14 +41,16 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable,
-		Mergeable {
+public abstract class ComponentRef<ChainType extends ChainElement<?>> implements DisplayedInPropertiesView,
+		ErrorsAndWarningsFinder, Identifiable, Mergeable {
 
 	/** The component id, unique in the chain */
 	private String id;
 
 	/** the chainID, which hosts the current {@link ComponentRef} */
 	NameNamespaceID chainId;
+
+	private final ChainRepoService<?, ?, ChainType> repo;
 
 	// "real" component, pointed by this component
 	protected String type;
@@ -58,8 +60,10 @@ public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsA
 	public static final String XML_ATTR_TYPE = "type";
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	public ComponentRef(Node node, NameNamespaceID chainId) throws CiliaException {
+	public ComponentRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo)
+			throws CiliaException {
 		this.chainId = chainId;
+		this.repo = repo;
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "id");
 		ReflectionUtil.setAttribute(node, XML_ATTR_TYPE, this, "type");
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
@@ -75,8 +79,8 @@ public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsA
 		return id;
 	}
 
-	private AbstractChain getChain() {
-		return AbstractCompositionsRepoService.getInstance().findChain(chainId);
+	private ChainType getChain() {
+		return repo.findChain(chainId);
 	}
 
 	public NameNamespaceID getReferencedTypeID() {
@@ -120,14 +124,14 @@ public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsA
 		return retval.toArray(new Binding[0]);
 	}
 
-	public Binding getIncommingBinding(ComponentRef source) {
+	public Binding getIncommingBinding(ComponentRef<ChainType> source) {
 		for (Binding b : getIncommingBindings())
 			if (b.getSourceComponent().equals(source))
 				return b;
 		return null;
 	}
 
-	public Binding getOutgoingBinding(ComponentRef destination) {
+	public Binding getOutgoingBinding(ComponentRef<ChainType> destination) {
 		for (Binding b : getOutgoingBindings())
 			if (b.getDestinationComponent().equals(destination))
 				return b;

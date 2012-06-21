@@ -1,6 +1,14 @@
 <cilia>
- 
-  <chain id="chain1">
-  </chain>
+
+	<chain id="chain2">
+		<mediators>
+			<mediator-instance id="increment" namespace="fr.liglab.adele.cilia"
+				type="increment-mediator">
+				<processor>
+					<property name="increment" value="17" />
+				</processor>
+			</mediator-instance>
+		</mediators>
+	</chain>
 
 </cilia>
