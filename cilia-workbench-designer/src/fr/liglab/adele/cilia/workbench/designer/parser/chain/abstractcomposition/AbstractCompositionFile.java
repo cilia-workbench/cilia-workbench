@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcompositio
 
 import java.io.File;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AbstractChainFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must
@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AbstractChai
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompositionFile extends AbstractChainFile<AbstractCompositionFile, AbstractCompositionModel> {
+public class AbstractCompositionFile extends ChainFile<AbstractCompositionFile, AbstractCompositionModel> {
 
 	public AbstractCompositionFile(File file) {
 		super(file);

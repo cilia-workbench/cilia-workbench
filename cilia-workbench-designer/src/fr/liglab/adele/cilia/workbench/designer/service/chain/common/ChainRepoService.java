@@ -22,7 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainCommon;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractType>, AbstractType extends ChainModel<ChainType>, ChainType extends ChainCommon>
+public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractType>, AbstractType extends ChainModel<ChainType>, ChainType extends ChainElement>
 		extends AbstractRepoService<ModelType, AbstractType> implements ErrorsAndWarningsFinder {
 
 	private final String rootNodeName;
@@ -49,7 +49,7 @@ public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractTy
 	}
 
 	@SuppressWarnings("unchecked")
-	protected ModelType getFileObject(ChainCommon chain) {
+	protected ModelType getFileObject(ChainElement chain) {
 		return (ModelType) getContentProvider().getParent(chain);
 	}
 

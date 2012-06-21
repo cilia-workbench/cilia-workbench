@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainCommon;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
@@ -52,22 +52,9 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
 
-		for (Node node : XMLHelpers.findChildren(root, ChainCommon.XML_NODE_NAME))
+		for (Node node : XMLHelpers.findChildren(root, ChainElement.XML_NODE_NAME))
 			model.add(new AbstractChain(node));
 	}
-
-	/*
-	 * @Override public List<Changeset> merge(Object other) throws
-	 * CiliaException { ArrayList<Changeset> retval = new
-	 * ArrayList<Changeset>(); AbstractCompositionModel newInstance =
-	 * (AbstractCompositionModel) other;
-	 * 
-	 * retval.addAll(MergeUtil.mergeLists(newInstance.getChains(), model));
-	 * 
-	 * for (Changeset c : retval) c.pushPathElement(this);
-	 * 
-	 * return retval; }
-	 */
 
 	public void createChain(NameNamespaceID id) throws CiliaException {
 

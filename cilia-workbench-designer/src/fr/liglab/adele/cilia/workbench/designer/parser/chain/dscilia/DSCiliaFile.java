@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia;
 
 import java.io.File;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AbstractChainFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must
@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AbstractChai
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaFile extends AbstractChainFile<DSCiliaFile, DSCiliaModel> {
+public class DSCiliaFile extends ChainFile<DSCiliaFile, DSCiliaModel> {
 
 	public DSCiliaFile(File file) {
 		super(file);

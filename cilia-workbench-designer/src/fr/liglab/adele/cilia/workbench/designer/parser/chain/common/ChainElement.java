@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphDrawa
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainCommon extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder,
+public abstract class ChainElement extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder,
 		Mergeable, GraphDrawable {
 
 	public static final String XML_NODE_NAME = "chain";
@@ -40,7 +40,7 @@ public abstract class ChainCommon extends NameNamespace implements DisplayedInPr
 	public static final String XML_ROOT_ADAPTERS_NAME = "adapters";
 	public static final String XML_ROOT_BINDINGS_NAME = "bindings";
 
-	public ChainCommon(Node node) throws CiliaException {
+	public ChainElement(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "name");
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
 	}

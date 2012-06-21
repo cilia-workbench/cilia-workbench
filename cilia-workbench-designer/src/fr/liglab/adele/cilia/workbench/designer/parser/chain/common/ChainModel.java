@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainModel<ChainType extends ChainCommon> implements DisplayedInPropertiesView, Mergeable {
+public abstract class ChainModel<ChainType extends ChainElement> implements DisplayedInPropertiesView, Mergeable {
 
 	protected File file;
 

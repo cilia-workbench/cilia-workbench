@@ -21,14 +21,14 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainCommon;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class ConcreteChain extends ChainCommon {
+public class ConcreteChain extends ChainElement {
 
 	public ConcreteChain(Node node) throws CiliaException {
 		super(node);
