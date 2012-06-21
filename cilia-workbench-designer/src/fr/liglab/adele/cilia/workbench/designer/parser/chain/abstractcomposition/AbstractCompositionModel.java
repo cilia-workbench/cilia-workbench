@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainCommon;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.CommonModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
@@ -42,7 +42,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositio
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompositionModel extends CommonModel<AbstractChain> {
+public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 
 	public static final String ROOT_NODE_NAME = "cilia-composition-specifications";
 

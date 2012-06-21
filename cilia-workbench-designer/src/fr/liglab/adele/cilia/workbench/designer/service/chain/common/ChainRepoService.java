@@ -23,7 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainCommon;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.CommonModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractType>, AbstractType extends CommonModel<ChainType>, ChainType extends ChainCommon>
+public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractType>, AbstractType extends ChainModel<ChainType>, ChainType extends ChainCommon>
 		extends AbstractRepoService<ModelType, AbstractType> implements ErrorsAndWarningsFinder {
 
 	private final String rootNodeName;

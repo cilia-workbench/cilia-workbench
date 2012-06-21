@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public abstract class CommonModel<ChainType extends ChainCommon> implements DisplayedInPropertiesView, Mergeable {
+public abstract class ChainModel<ChainType extends ChainCommon> implements DisplayedInPropertiesView, Mergeable {
 
 	protected File file;
 
@@ -40,7 +40,7 @@ public abstract class CommonModel<ChainType extends ChainCommon> implements Disp
 
 	private final String rootNodeName;
 
-	public CommonModel(File file, String rootNodeName) {
+	public ChainModel(File file, String rootNodeName) {
 		this.file = file;
 		this.rootNodeName = rootNodeName;
 	}
@@ -65,7 +65,7 @@ public abstract class CommonModel<ChainType extends ChainCommon> implements Disp
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		@SuppressWarnings("unchecked")
-		CommonModel<ChainType> newInstance = (CommonModel<ChainType>) other;
+		ChainModel<ChainType> newInstance = (ChainModel<ChainType>) other;
 
 		retval.addAll(MergeUtil.mergeLists(newInstance.getChains(), model));
 

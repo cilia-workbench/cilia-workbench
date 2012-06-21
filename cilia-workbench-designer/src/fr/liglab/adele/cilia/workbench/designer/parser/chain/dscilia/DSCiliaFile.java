@@ -15,15 +15,8 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractFile;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AbstractChainFile;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must
@@ -32,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaFile extends AbstractFile<DSCiliaModel> implements Mergeable {
+public class DSCiliaFile extends AbstractChainFile<DSCiliaFile, DSCiliaModel> {
 
 	public DSCiliaFile(File file) {
 		super(file);
@@ -45,38 +38,4 @@ public class DSCiliaFile extends AbstractFile<DSCiliaModel> implements Mergeable
 		}
 	}
 
-	@Override
-	public List<Changeset> merge(Object other) throws CiliaException {
-		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-		DSCiliaFile newInstance = (DSCiliaFile) other;
-
-		DSCiliaModel oldModel = this.getModel();
-		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");
-		DSCiliaModel newModel = this.getModel();
-
-		// Because the Model file is not displayed in the view, here is a little
-		// piece of code for handling this very special case...
-		for (Changeset c : result) {
-
-			// XML file becomes valid
-			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel)
-				for (ConcreteChain chain : newModel.getChains())
-					retval.add(new Changeset(Operation.ADD, chain));
-
-			// XML file becomes invalid
-			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel)
-				for (ConcreteChain chain : oldModel.getChains())
-					retval.add(new Changeset(Operation.REMOVE, chain));
-
-			// Other event, deeper in hierarchy
-			else
-				retval.add(c);
-		}
-
-		// path update
-		for (Changeset c : retval)
-			c.pushPathElement(this);
-
-		return retval;
-	}
 }

@@ -20,7 +20,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.CommonModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 
 /**
  * A {@link DSCiliaModel} represents the content of a <strong>well
@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.CommonModel;
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaModel extends CommonModel<ConcreteChain> {
+public class DSCiliaModel extends ChainModel<ConcreteChain> {
 
 	public static final String ROOT_NODE_NAME = "cilia";
 
