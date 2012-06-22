@@ -23,6 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractFile;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
@@ -104,5 +105,18 @@ public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractTy
 		}
 
 		return null;
+	}
+
+	public void createChain(ChainFile<?, ?> repo, NameNamespaceID id) {
+		if (repo.getModel() == null)
+			return;
+		if (isNewChainNameAllowed(id) != null)
+			return;
+
+		try {
+			repo.getModel().createChain(id);
+		} catch (CiliaException e) {
+			e.printStackTrace();
+		}
 	}
 }

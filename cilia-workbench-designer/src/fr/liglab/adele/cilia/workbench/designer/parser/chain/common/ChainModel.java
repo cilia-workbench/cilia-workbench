@@ -19,11 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
@@ -74,4 +77,23 @@ public abstract class ChainModel<ChainType extends ChainElement<?>> implements D
 
 		return retval;
 	}
+
+	public void createChain(NameNamespaceID id) throws CiliaException {
+
+		// Document creation
+		Document document = XMLHelpers.getDocument(file);
+		Node root = getRootNode(document);
+		Element child = document.createElement(ChainElement.XML_NODE_NAME);
+		child.setAttribute(ChainElement.XML_ATTR_ID, id.getName());
+		child.setAttribute(ChainElement.XML_ATTR_NAMESPACE, id.getNamespace());
+		root.appendChild(child);
+
+		// Write it back to file system
+		XMLHelpers.writeDOM(document, file);
+
+		// Notifies Repository
+		getRepository().updateModel();
+	}
+
+	protected abstract ChainRepoService<?, ?, ?> getRepository();
 }

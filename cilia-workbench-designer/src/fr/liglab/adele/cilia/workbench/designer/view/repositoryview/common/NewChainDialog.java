@@ -12,13 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview;
+package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common;
 
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.NewNameNamespaceDialog;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
  * 
@@ -26,12 +26,15 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositio
  */
 public class NewChainDialog extends NewNameNamespaceDialog {
 
-	protected NewChainDialog(Shell parentShell) {
-		super(parentShell, "New abstract chain", "name", "namespace", true);
+	private final ChainRepoService<?, ?, ?> repo;
+
+	NewChainDialog(Shell parentShell, ChainRepoService<?, ?, ?> repo) {
+		super(parentShell, "New chain", "name", "namespace", true);
+		this.repo = repo;
 	}
 
 	@Override
 	protected String checkValidValue(NameNamespaceID value) {
-		return AbstractCompositionsRepoService.getInstance().isNewChainNameAllowed(value);
+		return repo.isNewChainNameAllowed(value);
 	}
 }

@@ -21,6 +21,8 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
 /**
  * A {@link DSCiliaModel} represents the content of a <strong>well
@@ -40,5 +42,10 @@ public class DSCiliaModel extends ChainModel<ConcreteChain> {
 
 		for (Node node : XMLHelpers.findChildren(root, ConcreteChain.XML_NODE_NAME))
 			model.add(new ConcreteChain(node));
+	}
+
+	@Override
+	protected ChainRepoService<?, ?, ?> getRepository() {
+		return DSCiliaRepoService.getInstance();
 	}
 }

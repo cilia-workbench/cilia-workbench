@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
@@ -94,23 +93,6 @@ public class AbstractCompositionsRepoService extends
 		notifyListeners(changes);
 	}
 
-	public AbstractCompositionFile getRepoElement(Object object) {
-		return (AbstractCompositionFile) getContentProvider().getAncestor(object, AbstractCompositionFile.class);
-	}
-
-	public void createChain(AbstractCompositionFile repo, NameNamespaceID id) {
-		if (repo.getModel() == null)
-			return;
-		if (isNewChainNameAllowed(id) != null)
-			return;
-
-		try {
-			repo.getModel().createChain(id);
-		} catch (CiliaException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void deleteChain(AbstractChain chain) {
 		if (getFileObject(chain) == null)
 			return;
@@ -166,5 +148,9 @@ public class AbstractCompositionsRepoService extends
 			return;
 		getFileObject(chain).getModel().updateParameters(chain, mediator, schedulerParam, processorParam,
 				dispatcherParam);
+	}
+
+	public AbstractCompositionFile getRepoElement(Object object) {
+		return (AbstractCompositionFile) getContentProvider().getAncestor(object, AbstractCompositionFile.class);
 	}
 }

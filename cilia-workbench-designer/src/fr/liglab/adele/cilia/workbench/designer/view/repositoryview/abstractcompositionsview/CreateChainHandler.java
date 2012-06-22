@@ -16,12 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcom
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.window.Window;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
@@ -32,28 +27,6 @@ public class CreateChainHandler extends AbstractCompoistionViewHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-
-		// Gets the dscilia file first
-		Object object = getFirstSelectedElementInRepositoryView(event);
-		if (!(object instanceof AbstractCompositionFile)) {
-			MessageDialog.openError(ViewUtil.getShell(event), "Error",
-					"Please select an abstract composition file first.");
-			return null;
-		}
-		final AbstractCompositionFile repo = (AbstractCompositionFile) object;
-		if (repo.getModel() == null) {
-			MessageDialog.openError(ViewUtil.getShell(event), "Error",
-					"Abstract composition file must be in a valid state. Please check xml.");
-			return null;
-		}
-
-		// Dialog creation
-		NewChainDialog dialog = new NewChainDialog(ViewUtil.getShell(event));
-		if (dialog.open() == Window.OK) {
-			NameNamespaceID nn = dialog.getValue();
-			AbstractCompositionsRepoService.getInstance().createChain(repo, nn);
-		}
-
-		return null;
+		return createChain(event, AbstractCompositionsRepoService.getInstance());
 	}
 }

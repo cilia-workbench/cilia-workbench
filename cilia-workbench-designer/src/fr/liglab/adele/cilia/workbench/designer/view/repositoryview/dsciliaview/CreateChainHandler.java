@@ -17,6 +17,8 @@ package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.dsciliaview
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
+import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
+
 /**
  * 
  * @author Etienne Gandrille
@@ -25,7 +27,7 @@ public class CreateChainHandler extends DSCiliaViewHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return null;
+		return createChain(event, DSCiliaRepoService.getInstance());
 	}
 
 }

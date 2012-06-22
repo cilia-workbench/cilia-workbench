@@ -42,6 +42,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentN
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
  * A {@link AbstractCompositionModel} represents the content of a <strong>well
@@ -63,21 +64,9 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 			model.add(new AbstractChain(node));
 	}
 
-	public void createChain(NameNamespaceID id) throws CiliaException {
-
-		// Document creation
-		Document document = XMLHelpers.getDocument(file);
-		Node root = getRootNode(document);
-		Element child = document.createElement(AbstractChain.XML_NODE_NAME);
-		child.setAttribute(AbstractChain.XML_ATTR_ID, id.getName());
-		child.setAttribute(AbstractChain.XML_ATTR_NAMESPACE, id.getNamespace());
-		root.appendChild(child);
-
-		// Write it back to file system
-		XMLHelpers.writeDOM(document, file);
-
-		// Notifies Repository
-		AbstractCompositionsRepoService.getInstance().updateModel();
+	@Override
+	protected ChainRepoService<?, ?, ?> getRepository() {
+		return AbstractCompositionsRepoService.getInstance();
 	}
 
 	public void deleteChain(NameNamespaceID id) throws CiliaException {

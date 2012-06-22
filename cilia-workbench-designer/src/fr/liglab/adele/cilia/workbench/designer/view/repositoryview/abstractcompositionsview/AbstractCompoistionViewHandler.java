@@ -14,7 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview;
 
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.RepositoryViewHandler;
+import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.ChainRepositoryHandler;
 
 /**
  * Base class for implementing handlers, relatives to the
@@ -22,7 +22,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.Repos
  * 
  * @author Etienne Gandrille
  */
-public abstract class AbstractCompoistionViewHandler extends RepositoryViewHandler {
+public abstract class AbstractCompoistionViewHandler extends ChainRepositoryHandler {
 
 	public AbstractCompoistionViewHandler() {
 		super(AbstractCompositionsView.VIEW_ID);
