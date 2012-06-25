@@ -8,7 +8,19 @@
 					<property name="increment" value="17" />
 				</processor>
 			</mediator-instance>
+			
+			<mediator-instance id="increment2" namespace="fr.liglab.adele.cilia"
+				type="increment-mediator">
+				<processor>
+					<property name="increment" value="17" />
+				</processor>
+			</mediator-instance>
+			
 		</mediators>
+		
+		<bindings>
+			<binding from="increment" to="increment2"/>
+		</bindings>
 	</chain>
 
 </cilia>
