@@ -70,22 +70,34 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 		Node rootAdapters = XMLHelpers.findChild(node, XML_ROOT_ADAPTERS_NAME);
 		if (rootAdapters != null) {
 			for (Node instance : XMLHelpers.findChildren(rootAdapters, AdapterInstanceRef.XML_NODE_NAME))
-				adapters.add(new AdapterInstanceRef<ChainType>(instance, getId(), getRepository()));
+				try {
+					adapters.add(new AdapterInstanceRef<ChainType>(instance, getId(), getRepository()));
+				} catch (CiliaException e) {
+					e.printStackTrace();
+				}
 		}
 
 		Node rootMediators = XMLHelpers.findChild(node, XML_ROOT_MEDIATORS_NAME);
 		if (rootMediators != null) {
 			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorInstanceRef.XML_NODE_NAME)) {
-				MediatorInstanceRef<ChainType> mi = new MediatorInstanceRef<ChainType>(instance, getId(),
-						getRepository());
-				mediators.add(mi);
+				try {
+					MediatorInstanceRef<ChainType> mi = new MediatorInstanceRef<ChainType>(instance, getId(),
+							getRepository());
+					mediators.add(mi);
+				} catch (CiliaException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
 		Node rootBindings = XMLHelpers.findChild(node, XML_ROOT_BINDINGS_NAME);
 		if (rootBindings != null) {
 			for (Node bi : XMLHelpers.findChildren(rootBindings, Binding.XML_NODE_NAME))
-				bindings.add(createBinding(bi, getId()));
+				try {
+					bindings.add(createBinding(bi, getId()));
+				} catch (CiliaException e) {
+					e.printStackTrace();
+				}
 		}
 	}
 

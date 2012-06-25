@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
 
+import java.util.List;
+
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
@@ -22,6 +24,8 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
 
 /**
  * 
@@ -56,4 +60,18 @@ public class AbstractBinding extends Binding {
 		return toCardinality;
 	}
 
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
+		List<Changeset> retval = super.merge(other);
+
+		AbstractBinding newInstance = (AbstractBinding) other;
+		if (!fromCardinality.equals(newInstance.getSourceCardinality())
+				|| !toCardinality.equals(newInstance.getDestinationCardinality())) {
+			fromCardinality = newInstance.getSourceCardinality();
+			toCardinality = newInstance.getDestinationCardinality();
+			retval.add(new Changeset(Operation.UPDATE, this));
+		}
+
+		return retval;
+	}
 }

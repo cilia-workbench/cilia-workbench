@@ -54,14 +54,18 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 
 	public static final String ROOT_NODE_NAME = "cilia-composition-specifications";
 
-	public AbstractCompositionModel(File file) throws Exception {
+	public AbstractCompositionModel(File file) throws CiliaException {
 		super(file, ROOT_NODE_NAME);
 
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
 
 		for (Node node : XMLHelpers.findChildren(root, ChainElement.XML_NODE_NAME))
-			model.add(new AbstractChain(node));
+			try {
+				model.add(new AbstractChain(node));
+			} catch (CiliaException e) {
+				e.printStackTrace();
+			}
 	}
 
 	@Override

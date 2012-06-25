@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cilia-specifications>
+	<mediator-specification id="HL7validator"
+		namespace="com.orange">
+		<ports>
+			<in-port name="in" />
+			<out-port name="out" />
+		</ports>
+	</mediator-specification>
+	<mediator-specification id="HL7router"
+		namespace="com.orange">
+		<ports>
+			<in-port name="in" />
+			<out-port name="HL7_2_5" />
+			<out-port name="HL7_2_6" />
+		</ports>
+	</mediator-specification>
+
+	<mediator-specification id="continuaValidator"
+		namespace="com.orange">
+		<ports>
+			<in-port name="in" />
+			<out-port name="out" />
+		</ports>
+	</mediator-specification>
+
+	<mediator-specification id="ContinuaTranslationMediator"
+		namespace="com.orange">
+		<ports>
+			<in-port name="in" />
+			<out-port name="out" />
+		</ports>
+	</mediator-specification>
+</cilia-specifications>

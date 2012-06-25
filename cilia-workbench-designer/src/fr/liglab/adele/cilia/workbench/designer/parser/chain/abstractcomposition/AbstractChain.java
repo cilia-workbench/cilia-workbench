@@ -40,7 +40,11 @@ public class AbstractChain extends ChainElement<AbstractChain> {
 		Node rootMediators = XMLHelpers.findChild(node, XML_ROOT_MEDIATORS_NAME);
 		if (rootMediators != null) {
 			for (Node spec : XMLHelpers.findChildren(rootMediators, MediatorSpecRef.XML_NODE_NAME))
-				mediators.add(new MediatorSpecRef<AbstractChain>(spec, getId(), getRepository()));
+				try {
+					mediators.add(new MediatorSpecRef<AbstractChain>(spec, getId(), getRepository()));
+				} catch (CiliaException e) {
+					e.printStackTrace();
+				}
 		}
 	}
 
