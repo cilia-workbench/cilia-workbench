@@ -11,10 +11,11 @@ function getLines() {
 }
 
 
+nbFic=`find $dir -name "*.java" | wc -l`
 total=`getLines | wc -l`
 code=`getLines | grep -Ev "^\/\/" | grep -v "*" | wc -l`
 
-
+echo "Nombre de fichiers java    : $nbFic"
 echo "Nombre de lignes non vides : $total"
 echo "Nombre de lignes de code   : $code"
 

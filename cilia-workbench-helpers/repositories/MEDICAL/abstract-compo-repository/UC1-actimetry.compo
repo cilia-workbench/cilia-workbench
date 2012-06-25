@@ -1,59 +1,95 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-composition-specifications>
 
-	<chain id="generator-mesures" type="generator-mesures">
+	<chain id="generator-mesures-complet" type="generator-mesures">
 
 		<adapters>
-			<adapter-instance id="set-top-box" type="stb-sensor" />
-			<adapter-instance id="push-button" type="push-button-sensor" />
-			<adapter-instance id="event-webservice" type="console-writer" />
-			<adapter-instance id="motion-sensor" namespace="fr.liglab.adele.cilia"
-				type="motion-sensor" />
+			<adapter-instance id="set-top-box" type="stb-sensor"/>
+			<adapter-instance id="push-button" type="push-button-sensor"/>
+			<adapter-instance id="event-webservice" type="console-writer"/>
+			<adapter-instance id="motion-sensor" namespace="fr.liglab.adele.cilia" type="motion-sensor"/>
 		</adapters>
 
 		<mediators>
-			<mediator-specification id="filter"
-				type="MeasureFilterMediator" />
-			<mediator-specification id="transform"
-				type="MeasureTransformerMediator">
+			<mediator-specification id="filter" type="MeasureFilterMediator"/>
+			<mediator-specification id="transform" type="MeasureTransformerMediator">
 				<processor>
-					<property name="user" value="Aurelie" />
+					<property name="user" value="Aurelie"/>
 				</processor>
 			</mediator-specification>
-			<mediator-specification id="translate"
-				namespace="fr.orange" type="MeasureTranslatorMediator" />
-			<mediator-specification id="button-enrich"
-				namespace="fr.orange" type="MeasureEnricherMediator" />
-			<mediator-specification id="button-translate"
-				namespace="fr.orange" type="MeasureTranslatorMediator" />
-			<mediator-specification id="stb-enrich"
-				namespace="fr.orange" type="MeasureEnricherMediator" />
-			<mediator-specification id="stb-translate"
-				namespace="fr.orange" type="MeasureTranslatorMediator" />
-			<mediator-specification id="motion-enricher"
-				namespace="fr.orange" type="MeasureEnricherMediator" />
-			<mediator-specification id="motion-translator"
-				namespace="fr.orange" type="MeasureTranslatorMediator" />
-			<mediator-specification id="enrich-v3"
-				namespace="fr.orange" type="MeasureEnricherMediator" />
+			<mediator-specification id="translate" namespace="fr.orange" type="MeasureTranslatorMediator"/>
+			<mediator-specification id="button-enrich" namespace="fr.orange" type="MeasureEnricherMediator"/>
+			<mediator-specification id="button-translate" namespace="fr.orange" type="MeasureTranslatorMediator"/>
+			<mediator-specification id="stb-enrich" namespace="fr.orange" type="MeasureEnricherMediator"/>
+			<mediator-specification id="stb-translate" namespace="fr.orange" type="MeasureTranslatorMediator"/>
+			<mediator-specification id="motion-enrich" namespace="fr.orange" type="MeasureEnricherMediator"/>
+			<mediator-specification id="motion-translate" namespace="fr.orange" type="MeasureTranslatorMediator"/>
+			<mediator-specification id="enrich-v3" namespace="fr.orange" type="MeasureEnricherMediator"/>
 		</mediators>
 
 		<bindings>
-			<binding from="transform:out" from-cardinality="1...1" to="translate:in" to-cardinality="1...1" />
-			<binding from="push-button" from-cardinality="1...1" to="button-enrich:in" to-cardinality="1...1" />
-			<binding from="button-enrich:out" from-cardinality="1...1" to="button-translate:in" to-cardinality="1...1" />
-			<binding from="button-translate:out" from-cardinality="0...n" to="filter:in" to-cardinality="1...1" />
-			<binding from="set-top-box" from-cardinality="1...1" to="stb-enrich:in" to-cardinality="1...1" />
-			<binding from="stb-enrich:out" from-cardinality="1...1" to="stb-translate:in" to-cardinality="1...1" />
-			<binding from="stb-translate:out" from-cardinality="0...n" to="filter:in" to-cardinality="1...1" />
-			<binding from="motion-sensor" from-cardinality="1...1" to="motion-enricher:in" to-cardinality="1...1" />
-			<binding from="motion-enricher:out" from-cardinality="1...1" to="motion-translator:in" to-cardinality="1...1" />
-			<binding from="motion-translator:out" from-cardinality="0...n" to="filter:in" to-cardinality="1...1" /> 
-			<binding from="filter:out" from-cardinality="1...1" to="enrich-v3:in" to-cardinality="1...1" />
-			<binding from="enrich-v3:out" from-cardinality="1...1" to="transform:in" to-cardinality="1...1" />
-			<binding from="translate:out" from-cardinality="1...1" to="event-webservice" to-cardinality="1...1" />
+			<binding from="transform:out" from-cardinality="1...1" to="translate:in" to-cardinality="1...1"/>
+			<binding from="push-button" from-cardinality="1...1" to="button-enrich:in" to-cardinality="1...1"/>
+			<binding from="button-enrich:out" from-cardinality="1...1" to="button-translate:in" to-cardinality="1...1"/>
+			<binding from="button-translate:out" from-cardinality="0...n" to="filter:in" to-cardinality="1...1"/>
+			<binding from="set-top-box" from-cardinality="1...1" to="stb-enrich:in" to-cardinality="1...1"/>
+			<binding from="stb-enrich:out" from-cardinality="1...1" to="stb-translate:in" to-cardinality="1...1"/>
+			<binding from="stb-translate:out" from-cardinality="0...n" to="filter:in" to-cardinality="1...1"/>
+			<binding from="motion-sensor" from-cardinality="1...1" to="motion-enrich:in" to-cardinality="1...1"/>
+			<binding from="motion-enrich:out" from-cardinality="1...1" to="motion-translate:in" to-cardinality="1...1"/>
+			<binding from="motion-translate:out" from-cardinality="0...n" to="filter:in" to-cardinality="1...1"/> 
+			<binding from="filter:out" from-cardinality="1...1" to="enrich-v3:in" to-cardinality="1...1"/>
+			<binding from="enrich-v3:out" from-cardinality="1...1" to="transform:in" to-cardinality="1...1"/>
+			<binding from="translate:out" from-cardinality="1...1" to="event-webservice" to-cardinality="1...1"/>
 		</bindings>
 	</chain>
+
+	<chain id="generator-mesures-simple" type="generator-mesures">
+
+		<adapters>
+			<adapter-instance id="set-top-box" type="stb-sensor"/>
+			<adapter-instance id="push-button" type="push-button-sensor"/>
+			<adapter-instance id="event-webservice" type="console-writer"/>
+			<adapter-instance id="motion-sensor" namespace="fr.liglab.adele.cilia" type="motion-sensor"/>
+		</adapters>
+
+		<mediators>
+			<mediator-specification id="filter" type="MeasureFilterMediator"/>
+			<mediator-specification id="transform" type="MeasureTransformerMediator">
+				<processor>
+					<property name="user" value="Aurelie"/>
+				</processor>
+			</mediator-specification>
+			<mediator-specification id="translate" namespace="fr.orange" type="MeasureTranslatorMediator"/>
+			
+			
+			
+			
+			
+			
+			<mediator-specification id="enrich-v3" namespace="fr.orange" type="MeasureEnricherMediator"/>
+		</mediators>
+
+		<bindings>
+			<binding from="transform:out" from-cardinality="1...1" to="translate:in" to-cardinality="1...1"/>
+			
+			
+			
+			
+			
+			
+			
+			
+			 
+			<binding from="filter:out" from-cardinality="1...1" to="enrich-v3:in" to-cardinality="1...1"/>
+			<binding from="enrich-v3:out" from-cardinality="1...1" to="transform:in" to-cardinality="1...1"/>
+			<binding from="translate:out" from-cardinality="1...1" to="event-webservice" to-cardinality="1...1"/>
+		<binding from="set-top-box" from-cardinality="1...1" to="filter:in" to-cardinality="0...n"/>
+<binding from="push-button" from-cardinality="1...1" to="filter:in" to-cardinality="0...n"/>
+<binding from="motion-sensor" from-cardinality="1...1" to="filter:in" to-cardinality="0...n"/>
+</bindings>
+	</chain>
+
 
 	<chain id="generator-mesures-paul-OLD" type="generator-mesures">
 
@@ -67,16 +103,16 @@
 			<mediator-instance id="enricher" type="MeasureEnricherMediator"/>
 			<mediator-instance id="transformer" type="MeasureTransformerMediator">
 				<processor>
-					<property name="user" value="Paul" />
+					<property name="user" value="Paul"/>
 				</processor>
 			</mediator-instance>
 		</mediators>
 		
 		<bindings>
-			<binding from="presence-collector" from-cardinality="1...1" to="filter:in" to-cardinality="1...n" />
-			<binding from="filter:out" from-cardinality="1...1" to="enricher:in" to-cardinality="1...n" />
-			<binding from="enricher:out" from-cardinality="1...1" to="transformer:in" to-cardinality="1...n" />
-			<binding from="transformer:out" from-cardinality="1...1" to="event-webservice" to-cardinality="1...n" />
+			<binding from="presence-collector" from-cardinality="1...1" to="filter:in" to-cardinality="1...n"/>
+			<binding from="filter:out" from-cardinality="1...1" to="enricher:in" to-cardinality="1...n"/>
+			<binding from="enricher:out" from-cardinality="1...1" to="transformer:in" to-cardinality="1...n"/>
+			<binding from="transformer:out" from-cardinality="1...1" to="event-webservice" to-cardinality="1...n"/>
 		</bindings>
 	</chain>
 
