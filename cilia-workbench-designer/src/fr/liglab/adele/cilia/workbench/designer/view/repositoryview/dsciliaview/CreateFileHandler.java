@@ -27,5 +27,4 @@ public class CreateFileHandler extends DSCiliaViewHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		return createFile(event);
 	}
-
 }

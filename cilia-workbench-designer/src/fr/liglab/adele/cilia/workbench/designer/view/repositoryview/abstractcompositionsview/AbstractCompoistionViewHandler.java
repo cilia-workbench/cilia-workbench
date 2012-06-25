@@ -14,6 +14,9 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.ChainRepositoryHandler;
 
 /**
@@ -22,9 +25,14 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.Chain
  * 
  * @author Etienne Gandrille
  */
-public abstract class AbstractCompoistionViewHandler extends ChainRepositoryHandler {
+public abstract class AbstractCompoistionViewHandler extends ChainRepositoryHandler<AbstractChain> {
 
 	public AbstractCompoistionViewHandler() {
 		super(AbstractCompositionsView.VIEW_ID);
+	}
+
+	@Override
+	protected ChainRepoService<?, ?, AbstractChain> getRepository() {
+		return AbstractCompositionsRepoService.getInstance();
 	}
 }

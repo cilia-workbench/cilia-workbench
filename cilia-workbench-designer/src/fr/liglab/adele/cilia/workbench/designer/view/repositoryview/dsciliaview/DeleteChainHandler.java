@@ -25,7 +25,6 @@ public class DeleteChainHandler extends DSCiliaViewHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return null;
+		return deleteChain(event);
 	}
-
 }

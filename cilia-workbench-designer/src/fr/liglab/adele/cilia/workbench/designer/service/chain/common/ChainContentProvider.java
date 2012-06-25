@@ -33,11 +33,11 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Parameter;
  */
 public abstract class ChainContentProvider<ChainType extends ChainElement<ChainType>> extends GenericContentProvider {
 
-	public ChainContentProvider(List<? extends ChainFile<?, ? extends ChainModel<ChainType>>> repo) {
+	public ChainContentProvider(List<? extends ChainFile<? extends ChainModel<ChainType>>> repo) {
 
 		addRoot(repo);
 
-		for (ChainFile<?, ? extends ChainModel<ChainType>> re : repo) {
+		for (ChainFile<? extends ChainModel<ChainType>> re : repo) {
 			addRelationship(true, repo, re);
 
 			if (re.getModel() != null) {

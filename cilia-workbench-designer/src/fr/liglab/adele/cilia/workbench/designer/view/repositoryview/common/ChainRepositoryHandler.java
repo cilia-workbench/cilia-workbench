@@ -15,11 +15,13 @@
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common;
 
 import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
@@ -27,21 +29,23 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainRepositoryHandler extends RepositoryViewHandler {
+public abstract class ChainRepositoryHandler<ChainType extends ChainElement<?>> extends RepositoryViewHandler {
 
 	public ChainRepositoryHandler(String viewID) {
 		super(viewID);
 	}
 
-	public Object createChain(ExecutionEvent event, ChainRepoService<?, ?, ?> repository) {
+	protected abstract ChainRepoService<?, ?, ChainType> getRepository();
+
+	public Object createChain(ExecutionEvent event) {
 
 		// Gets the file
 		Object object = getFirstSelectedElementInRepositoryView(event);
-		if (!(object instanceof ChainFile<?, ?>)) {
+		if (!(object instanceof ChainFile<?>)) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Please select a file.");
 			return null;
 		}
-		final ChainFile<?, ?> repo = (ChainFile<?, ?>) object;
+		final ChainFile<?> repo = (ChainFile<?>) object;
 		if (repo.getModel() == null) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error",
 					"File must be in a valid state. Please check xml.");
@@ -49,12 +53,29 @@ public abstract class ChainRepositoryHandler extends RepositoryViewHandler {
 		}
 
 		// Dialog creation
-		NewChainDialog dialog = new NewChainDialog(ViewUtil.getShell(event), repository);
+		NewChainDialog dialog = new NewChainDialog(ViewUtil.getShell(event), getRepository());
 		if (dialog.open() == Window.OK) {
 			NameNamespaceID nn = dialog.getValue();
-			repository.createChain(repo, nn);
+			getRepository().createChain(repo, nn);
 		}
 
+		return null;
+	}
+
+	public Object deleteChain(ExecutionEvent event) throws ExecutionException {
+
+		Object object = getFirstSelectedElementInRepositoryView(event);
+		if (object != null && object instanceof ChainElement<?>) {
+			@SuppressWarnings("unchecked")
+			ChainType chain = (ChainType) object;
+			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required",
+					"Do you want to delete " + chain.getId() + "?");
+			if (result == true) {
+				getRepository().deleteChain(chain);
+			}
+		} else {
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", "You must select a chain first.");
+		}
 		return null;
 	}
 }

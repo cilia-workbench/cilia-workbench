@@ -34,8 +34,8 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractType>, AbstractType extends ChainModel<ChainType>, ChainType extends ChainElement<?>>
-		extends AbstractRepoService<ModelType, AbstractType> implements ErrorsAndWarningsFinder {
+public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>, ModelType extends ChainModel<ChainType>, ChainType extends ChainElement<?>>
+		extends AbstractRepoService<FileType, ModelType> implements ErrorsAndWarningsFinder {
 
 	private final String rootNodeName;
 
@@ -50,13 +50,13 @@ public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractTy
 	}
 
 	@SuppressWarnings("unchecked")
-	protected ModelType getFileObject(ChainType chain) {
-		return (ModelType) getContentProvider().getParent(chain);
+	protected FileType getFileObject(ChainType chain) {
+		return (FileType) getContentProvider().getParent(chain);
 	}
 
 	protected List<ChainType> getChains() {
 		List<ChainType> retval = new ArrayList<ChainType>();
-		for (AbstractType model : findAbstractElements())
+		for (ModelType model : findAbstractElements())
 			retval.addAll(model.getChains());
 		return retval;
 	}
@@ -75,7 +75,7 @@ public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractTy
 		return null;
 	}
 
-	protected List<Changeset> merge(List<ModelType> repoElements) throws CiliaException {
+	protected List<Changeset> merge(List<FileType> repoElements) throws CiliaException {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		retval.addAll(MergeUtil.mergeLists(repoElements, model));
@@ -107,7 +107,7 @@ public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractTy
 		return null;
 	}
 
-	public void createChain(ChainFile<?, ?> repo, NameNamespaceID id) {
+	public void createChain(ChainFile<?> repo, NameNamespaceID id) {
 		if (repo.getModel() == null)
 			return;
 		if (isNewChainNameAllowed(id) != null)
@@ -115,6 +115,22 @@ public abstract class ChainRepoService<ModelType extends AbstractFile<AbstractTy
 
 		try {
 			repo.getModel().createChain(id);
+		} catch (CiliaException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteChain(ChainType chain) {
+		FileType file = getFileObject(chain);
+		if (file == null)
+			return;
+
+		ModelType fileModel = file.getModel();
+		if (fileModel == null)
+			return;
+
+		try {
+			fileModel.deleteChain(chain.getId());
 		} catch (CiliaException e) {
 			e.printStackTrace();
 		}

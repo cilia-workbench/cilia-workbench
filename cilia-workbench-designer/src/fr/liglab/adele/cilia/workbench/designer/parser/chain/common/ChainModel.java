@@ -24,8 +24,10 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
@@ -93,6 +95,38 @@ public abstract class ChainModel<ChainType extends ChainElement<?>> implements D
 
 		// Notifies Repository
 		getRepository().updateModel();
+	}
+
+	public void deleteChain(NameNamespaceID id) throws CiliaException {
+
+		// Finding target node
+		Document document = XMLHelpers.getDocument(file);
+		Node target = findXMLChainNode(document, id);
+
+		if (target != null) {
+			getRootNode(document).removeChild(target);
+			XMLHelpers.writeDOM(document, file);
+
+			// Notifies Repository
+			getRepository().updateModel();
+		}
+	}
+
+	protected Node findXMLChainNode(Document document, NameNamespaceID id) throws CiliaException {
+		Node root = getRootNode(document);
+		Node[] results;
+
+		if (Strings.isNullOrEmpty(id.getNamespace()))
+			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID,
+					id.getName());
+		else
+			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID,
+					id.getName(), AbstractChain.XML_ATTR_NAMESPACE, id.getNamespace());
+
+		if (results.length == 0)
+			return null;
+		else
+			return results[0];
 	}
 
 	protected abstract ChainRepoService<?, ?, ?> getRepository();

@@ -17,8 +17,6 @@ package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcom
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
-
 /**
  * 
  * @author Etienne Gandrille
@@ -27,6 +25,6 @@ public class CreateChainHandler extends AbstractCompoistionViewHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return createChain(event, AbstractCompositionsRepoService.getInstance());
+		return createChain(event);
 	}
 }

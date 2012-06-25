@@ -73,38 +73,6 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 		return AbstractCompositionsRepoService.getInstance();
 	}
 
-	public void deleteChain(NameNamespaceID id) throws CiliaException {
-
-		// Finding target node
-		Document document = XMLHelpers.getDocument(file);
-		Node target = findXMLChainNode(document, id);
-
-		if (target != null) {
-			getRootNode(document).removeChild(target);
-			XMLHelpers.writeDOM(document, file);
-
-			// Notifies Repository
-			AbstractCompositionsRepoService.getInstance().updateModel();
-		}
-	}
-
-	private Node findXMLChainNode(Document document, NameNamespaceID id) throws CiliaException {
-		Node root = getRootNode(document);
-		Node[] results;
-
-		if (Strings.isNullOrEmpty(id.getNamespace()))
-			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID,
-					id.getName());
-		else
-			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID,
-					id.getName(), AbstractChain.XML_ATTR_NAMESPACE, id.getNamespace());
-
-		if (results.length == 0)
-			return null;
-		else
-			return results[0];
-	}
-
 	public void createMediator(AbstractChain chain, String id, IGenericMediator type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
 			if (type.getNature() == ComponentNature.SPEC)

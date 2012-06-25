@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.common.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainFile<FileType, ModelType extends ChainModel<? extends ChainElement<?>>> extends
+public abstract class ChainFile<ModelType extends ChainModel<? extends ChainElement<?>>> extends
 		AbstractFile<ModelType> implements Mergeable {
 
 	public ChainFile(File file) {
@@ -40,7 +40,7 @@ public abstract class ChainFile<FileType, ModelType extends ChainModel<? extends
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		@SuppressWarnings("unchecked")
-		FileType newInstance = (FileType) other;
+		ChainFile<ChainModel<ChainElement<ChainElement<?>>>> newInstance = (ChainFile<ChainModel<ChainElement<ChainElement<?>>>>) other;
 
 		ModelType oldModel = getModel();
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");

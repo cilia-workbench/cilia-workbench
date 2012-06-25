@@ -27,5 +27,4 @@ public class DeleteFileHandler extends AbstractCompoistionViewHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		return deleteFile(event);
 	}
-
 }

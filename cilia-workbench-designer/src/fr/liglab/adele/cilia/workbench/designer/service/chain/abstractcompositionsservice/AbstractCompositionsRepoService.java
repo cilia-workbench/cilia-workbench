@@ -93,16 +93,6 @@ public class AbstractCompositionsRepoService extends
 		notifyListeners(changes);
 	}
 
-	public void deleteChain(AbstractChain chain) {
-		if (getFileObject(chain) == null)
-			return;
-		try {
-			getFileObject(chain).getModel().deleteChain(chain.getId());
-		} catch (CiliaException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void createMediator(AbstractChain chain, String id, IGenericMediator type) throws CiliaException {
 		if (getFileObject(chain) == null)
 			return;

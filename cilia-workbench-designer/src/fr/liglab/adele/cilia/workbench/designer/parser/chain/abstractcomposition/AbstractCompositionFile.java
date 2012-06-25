@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompositionFile extends ChainFile<AbstractCompositionFile, AbstractCompositionModel> {
+public class AbstractCompositionFile extends ChainFile<AbstractCompositionModel> {
 
 	public AbstractCompositionFile(File file) {
 		super(file);

@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaFile extends ChainFile<DSCiliaFile, DSCiliaModel> {
+public class DSCiliaFile extends ChainFile<DSCiliaModel> {
 
 	public DSCiliaFile(File file) {
 		super(file);
