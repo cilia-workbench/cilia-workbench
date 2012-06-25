@@ -34,8 +34,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.common.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.designer.service.common.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainConfiguration;
 
 /**
@@ -65,6 +65,8 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 		// register configs
 		registerConfig(new AbstractChainConfiguration(this));
+		// TODO remove comment... and refactor a lot !
+		// registerConfig(new DSCiliaConfiguration(this));
 
 		// selects the first config : important for providing content provider,
 		// label provider... to the viewer.
