@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-composition-specifications>
 
+	<!-- 
 	<chain id="continua-mediation" type="continua-mediation">
 		<adapters>
 			<adapter-instance id="HL7MessageCollector" type="HL7MessageAdapter"/>
@@ -42,7 +43,6 @@
 			<binding from="translation:out" from-cardinality="1...1" to="integration:in" to-cardinality="1...1"/>
 			<binding from="integration:out" from-cardinality="1...1" to="acknowledgement:in" to-cardinality="1...1"/>
 			<binding from="acknowledgement:out" from-cardinality="1...1" to="hl7-adapter:in" to-cardinality="1...1"/>
-			<!-- Error Bindings -->
 			<binding from="hapifilter:error" from-cardinality="1...1" to="error-manager:in" to-cardinality="1...1"/>
 			<binding from="continuafilter:error" from-cardinality="1...1" to="error-manager:in" to-cardinality="1...1"/>
 			<binding from="translation:error" from-cardinality="1...1" to="error-manager:in" to-cardinality="1...1"/>
@@ -50,33 +50,34 @@
 			<binding from="error-manager:out" from-cardinality="1...1" to="acknowledgement:in" to-cardinality="1...1"/>
 		</bindings>
 	</chain>
-
+ 	-->
+ 
 	<chain id="continua1" namespace="">
 		<adapters>
-			<adapter-instance id="HL7Box" namespace="fr.liglab.adele.cilia" type="HL7MessageAdapter"/>
-			<adapter-instance id="JLinxAdapter" namespace="fr.liglab.adele.cilia" type="JLinxAdapter"/>
+			<adapter-instance id="AHDbox" namespace="fr.liglab.adele.cilia" type="HL7MessageAdapter"/>
+			<adapter-instance id="IndivoIntegration" namespace="fr.liglab.adele.cilia" type="JLinxAdapter"/>
 		</adapters>
 
 		<mediators>
-			<mediator-specification id="HL7validator_2_6" namespace="com.orange" type="HL7validator"/>
-			<mediator-specification id="continuaValidator_2_5" namespace="com.orange" type="continuaValidator"/>
-			<mediator-specification id="translationHL7_2_6" namespace="fr.orange" type="MeasureTranslatorMediator"/>
+			<mediator-specification id="HL7validator_v2_6" namespace="com.orange" type="HL7validator"/>
+			<mediator-specification id="continuaValidator_v2_0" namespace="com.orange" type="continuaValidator"/>
+			<mediator-specification id="translationHL7_v2_6" namespace="fr.orange" type="MeasureTranslatorMediator"/>
 			<mediator-specification id="HL7Router" namespace="com.orange" type="HL7router"/>
-			<mediator-specification id="HL7validator_2_5" namespace="com.orange" type="HL7validator"/>
-			<mediator-specification id="continuaValidator_2_0" namespace="com.orange" type="continuaValidator"/>
-			<mediator-specification id="translationHL7_2_5" namespace="fr.orange" type="MeasureTranslatorMediator"/>
+			<mediator-specification id="HL7validator_v3" namespace="com.orange" type="HL7validator"/>
+			<mediator-specification id="continuaValidator_v3" namespace="com.orange" type="continuaValidator"/>
+			<mediator-specification id="translationHL7_v3" namespace="fr.orange" type="MeasureTranslatorMediator"/>
 		</mediators>
 
 		<bindings>
-			<binding from="continuaValidator_2_5:out" from-cardinality="1...1" to="translationHL7_2_6:in" to-cardinality="1...1"/>
-			<binding from="translationHL7_2_6:out" from-cardinality="1...1" to="JLinxAdapter" to-cardinality="1...1"/>
-			<binding from="HL7Box" from-cardinality="1...1" to="HL7Router:in" to-cardinality="1...1"/>
-			<binding from="HL7Router:HL7_2_6" from-cardinality="1...1" to="HL7validator_2_6:in" to-cardinality="0...1"/>
-			<binding from="HL7validator_2_6:out" from-cardinality="1...1" to="continuaValidator_2_5:in" to-cardinality="1...1"/>
-			<binding from="HL7Router:HL7_2_5" from-cardinality="1...1" to="HL7validator_2_5:in" to-cardinality="0...1"/>
-			<binding from="HL7validator_2_5:out" from-cardinality="1...1" to="continuaValidator_2_0:in" to-cardinality="1...1"/>
-			<binding from="continuaValidator_2_0:out" from-cardinality="1...1" to="translationHL7_2_5:in" to-cardinality="1...1"/>
-			<binding from="translationHL7_2_5:out" from-cardinality="1...1" to="JLinxAdapter" to-cardinality="1...1"/>
+			<binding from="continuaValidator_v2_0:out" from-cardinality="1...1" to="translationHL7_v2_6:in" to-cardinality="1...1"/>
+			<binding from="translationHL7_v2_6:out" from-cardinality="1...1" to="IndivoIntegration" to-cardinality="1...1"/>
+			<binding from="AHDbox" from-cardinality="1...1" to="HL7Router:in" to-cardinality="1...1"/>
+			<binding from="HL7Router:HL7_2_6" from-cardinality="1...1" to="HL7validator_v2_6:in" to-cardinality="0...1"/>
+			<binding from="HL7validator_v2_6:out" from-cardinality="1...1" to="continuaValidator_v2_0:in" to-cardinality="1...1"/>
+			<binding from="HL7Router:HL7_3_0" from-cardinality="1...1" to="HL7validator_v3:in" to-cardinality="0...1"/>
+			<binding from="HL7validator_v3:out" from-cardinality="1...1" to="continuaValidator_v3:in" to-cardinality="1...1"/>
+			<binding from="continuaValidator_v3:out" from-cardinality="1...1" to="translationHL7_v3:in" to-cardinality="1...1"/>
+			<binding from="translationHL7_v3:out" from-cardinality="1...1" to="IndivoIntegration" to-cardinality="1...1"/>
 		</bindings>
 	</chain>
 </cilia-composition-specifications>
