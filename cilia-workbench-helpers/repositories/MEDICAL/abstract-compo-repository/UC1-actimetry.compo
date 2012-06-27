@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-composition-specifications>
 
-	<chain id="generator-mesures-complet" type="generator-mesures">
+	<chain id="full-archi" type="generator-mesures">
 
 		<adapters>
 			<adapter-instance id="set-top-box" type="stb-sensor"/>
@@ -44,7 +44,7 @@
 		</bindings>
 	</chain>
 
-	<chain id="generator-mesures-simple" type="generator-mesures">
+	<chain id="simple-archi" type="generator-mesures">
 
 		<adapters>
 			<adapter-instance id="set-top-box" type="stb-sensor"/>
@@ -61,37 +61,22 @@
 				</processor>
 			</mediator-specification>
 			<mediator-specification id="translate" namespace="fr.orange" type="MeasureTranslatorMediator"/>
-			
-			
-			
-			
-			
-			
 			<mediator-specification id="enrich-v3" namespace="fr.orange" type="MeasureEnricherMediator"/>
 		</mediators>
 
 		<bindings>
 			<binding from="transform:out" from-cardinality="1...1" to="translate:in" to-cardinality="1...1"/>
-			
-			
-			
-			
-			
-			
-			
-			
-			 
 			<binding from="filter:out" from-cardinality="1...1" to="enrich-v3:in" to-cardinality="1...1"/>
 			<binding from="enrich-v3:out" from-cardinality="1...1" to="transform:in" to-cardinality="1...1"/>
 			<binding from="translate:out" from-cardinality="1...1" to="event-webservice" to-cardinality="1...1"/>
-		<binding from="set-top-box" from-cardinality="1...1" to="filter:in" to-cardinality="0...n"/>
-<binding from="push-button" from-cardinality="1...1" to="filter:in" to-cardinality="0...n"/>
-<binding from="motion-sensor" from-cardinality="1...1" to="filter:in" to-cardinality="0...n"/>
-</bindings>
+			<binding from="set-top-box" from-cardinality="1...1" to="filter:in" to-cardinality="0...n"/>
+			<binding from="push-button" from-cardinality="1...1" to="filter:in" to-cardinality="0...n"/>
+			<binding from="motion-sensor" from-cardinality="1...1" to="filter:in" to-cardinality="0...n"/>
+		</bindings>
 	</chain>
 
 
-	<chain id="generator-mesures-paul-OLD" type="generator-mesures">
+	<chain id="paul-archi-OLD" type="generator-mesures">
 
 		<adapters>
 			<adapter-instance id="presence-collector" type="PresenceDetectorAdapter"/> 

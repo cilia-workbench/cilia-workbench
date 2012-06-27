@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cilia>
+
+	<chain id="a" namespace="a">
+		<adapters>
+			<adapter-instance id="AHDbox" namespace="fr.liglab.adele.cilia" type="HL7MessageAdapter"/>
+			<adapter-instance id="PHRintegration" namespace="fr.liglab.adele.cilia" type="JLinxAdapter"/>
+		</adapters>
+
+		<bindings>
+			<binding from="AHDbox" to="PHRintegration"/>
+		</bindings>
+	</chain>
+
+</cilia>

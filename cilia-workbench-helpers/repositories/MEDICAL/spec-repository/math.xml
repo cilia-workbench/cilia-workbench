@@ -18,20 +18,7 @@
 	</mediator-specification>
 	
 
-<mediator-specification id="increment-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-<properties>
-<property name="category"/>
-</properties>
-<processor>
-<parameters>
-<parameter name="increment"/>
-</parameters>
-</processor>
-</mediator-specification>
+
 <mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
 <ports>
 <in-port name="in"/>
@@ -59,5 +46,20 @@
 <properties>
 <property name="category"/>
 </properties>
+</mediator-specification>
+
+<mediator-specification id="increment-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+<properties>
+<property name="category"/>
+</properties>
+<processor>
+<parameters>
+<parameter name="increment"/>
+</parameters>
+</processor>
 </mediator-specification>
 </cilia-specifications>

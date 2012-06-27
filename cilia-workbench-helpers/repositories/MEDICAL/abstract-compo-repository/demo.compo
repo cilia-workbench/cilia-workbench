@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cilia-composition-specifications>
+	<chain id="exemple" namespace="com.orange">
+
+		<adapters>
+			<adapter-instance id="stb" namespace="fr.liglab.adele.cilia"
+				type="stb-sensor" />
+			<adapter-instance id="JLinx" namespace="fr.liglab.adele.cilia"
+				type="JLinxAdapter" />
+		</adapters>
+
+		<mediators>
+			<mediator-specification id="regression" namespace="fr.liglab.cube" type="regression">
+				<selection-constraint>
+					<property name="memoire" value="10Mo" />
+				</selection-constraint>
+			</mediator-specification>
+			<mediator-instance id="inc" namespace="fr.liglab.adele.cilia" type="increment-mediator">
+				<processor>
+					<property name="increment" value="5" />
+				</processor>
+			</mediator-instance>
+		</mediators>
+		
+		<bindings>
+			<binding from="stb" from-cardinality="0...1" to="regression:in" to-cardinality="1...n" />
+			<binding from="regression:out" from-cardinality="1...1" to="JLinx" to-cardinality="1...1" />
+			<binding from="stb" from-cardinality="1...1" to="inc:in" to-cardinality="1...1" />
+			<binding from="inc:out" from-cardinality="1...1" to="JLinx" to-cardinality="1...1" />
+		</bindings>
+	</chain>
+</cilia-composition-specifications>
