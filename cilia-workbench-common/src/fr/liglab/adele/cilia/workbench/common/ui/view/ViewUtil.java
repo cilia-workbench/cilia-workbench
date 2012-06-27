@@ -15,6 +15,8 @@
 package fr.liglab.adele.cilia.workbench.common.ui.view;
 
 import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -54,5 +56,18 @@ public class ViewUtil {
 			return null;
 
 		return (Shell) control;
+	}
+
+	/**
+	 * An handler, which opens a small dialog with a Non Yet Implemented
+	 * message.
+	 * 
+	 * @param event
+	 * @return
+	 * @throws ExecutionException
+	 */
+	public static Object notYetImplementedHandler(ExecutionEvent event) throws ExecutionException {
+		MessageDialog.openInformation(ViewUtil.getShell(event), "Not yet implemented", event.getCommand().getId());
+		return null;
 	}
 }

@@ -109,17 +109,4 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 
 		return null;
 	}
-
-	/**
-	 * An handler, which opens a small dialog with a Non Yet Implemented
-	 * message.
-	 * 
-	 * @param event
-	 * @return
-	 * @throws ExecutionException
-	 */
-	public Object notYetImplementedHandler(ExecutionEvent event) throws ExecutionException {
-		MessageDialog.openInformation(ViewUtil.getShell(event), "Not yet implemented", this.getClass().toString());
-		return null;
-	}
 }

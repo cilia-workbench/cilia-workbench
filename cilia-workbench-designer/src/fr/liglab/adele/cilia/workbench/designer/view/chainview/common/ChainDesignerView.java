@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IBaseLabelProvider;
+import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
@@ -30,13 +32,13 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.designer.service.common.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainConfiguration;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.dscilia.DSCiliaConfiguration;
 
 /**
  * 
@@ -48,13 +50,13 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 	private Shell parentShell;
 
-	private Map<String, ChainDesignerConfiguration<AbstractCompositionsRepoService, AbstractChain>> configs = new HashMap<String, ChainDesignerConfiguration<AbstractCompositionsRepoService, AbstractChain>>();
+	private Map<String, ChainDesignerConfiguration<? extends ChainRepoService<?, ?, ?>, ? extends GraphDrawable>> configs = new HashMap<String, ChainDesignerConfiguration<? extends ChainRepoService<?, ?, ?>, ? extends GraphDrawable>>();
 	String currentConfig = null;
 
 	public ChainDesignerView() {
 	}
 
-	public ChainDesignerConfiguration<AbstractCompositionsRepoService, AbstractChain> getCurrentConfig() {
+	public ChainDesignerConfiguration<? extends ChainRepoService<?, ?, ?>, ? extends GraphDrawable> getCurrentConfig() {
 		return configs.get(currentConfig);
 	}
 
@@ -66,13 +68,12 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 		// register configs
 		registerConfig(new AbstractChainConfiguration(this));
 		// TODO remove comment... and refactor a lot !
-		// registerConfig(new DSCiliaConfiguration(this));
+		registerConfig(new DSCiliaConfiguration(this));
 
 		// selects the first config : important for providing content provider,
 		// label provider... to the viewer.
 		String conf = configs.keySet().iterator().next();
-		changeConfig(conf);
-		configs.get(conf).setModel(null);
+		updateConfigAndModel(conf, null);
 
 		// double click listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
@@ -89,15 +90,26 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 		viewer.setInput(elements);
 	}
 
-	void refresh() {
-		viewer.refresh();
+	void setContentProvider(IContentProvider contentProvider) {
+		if (viewer.getContentProvider() != contentProvider) // pointer equality
+			viewer.setContentProvider(contentProvider);
+	}
+
+	void setLabelProvider(IBaseLabelProvider labelProvider) {
+		if (viewer.getLabelProvider() != labelProvider) // pointer equality
+			viewer.setLabelProvider(labelProvider);
 	}
 
 	void setViewName(String name) {
 		setPartName(name);
 	}
 
-	public void registerConfig(ChainDesignerConfiguration<AbstractCompositionsRepoService, AbstractChain> config) {
+	void refresh() {
+		viewer.refresh();
+	}
+
+	public void registerConfig(
+			ChainDesignerConfiguration<? extends ChainRepoService<?, ?, ?>, ? extends GraphDrawable> config) {
 		String viewID = config.getViewID();
 		if (configs.get(viewID) == null) {
 			configs.put(viewID, config);
@@ -121,7 +133,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 		// Assert the view responsible of this selection is registered
 		String id = part.getSite().getId();
-		ChainDesignerConfiguration<AbstractCompositionsRepoService, AbstractChain> conf = configs.get(id);
+		ChainDesignerConfiguration<? extends ChainRepoService<?, ?, ?>, ? extends GraphDrawable> conf = configs.get(id);
 		if (conf == null)
 			return;
 
@@ -130,10 +142,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 			return;
 
 		// swap config if needed
-		changeConfig(id);
-
-		// update input
-		conf.setModel(element); // performs refresh
+		updateConfigAndModel(id, element);
 	}
 
 	@Override
@@ -158,17 +167,12 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 			}
 	}
 
-	private void changeConfig(String newConfig) {
-		if (configs.get(newConfig) == null)
-			return;
-		if (newConfig.equals(currentConfig))
+	private void updateConfigAndModel(String newConfigID, Object newModel) {
+
+		if (configs.get(newConfigID) == null)
 			return;
 
-		currentConfig = newConfig;
-
-		setViewName(configs.get(newConfig).getDefaultName());
-		viewer.setContentProvider(configs.get(newConfig).getContentProvider());
-		viewer.setLabelProvider(configs.get(newConfig).getLabelProvider());
-		viewer.setInput(new Object[0]);
+		currentConfig = newConfigID;
+		configs.get(newConfigID).setModel(newModel);
 	}
 }

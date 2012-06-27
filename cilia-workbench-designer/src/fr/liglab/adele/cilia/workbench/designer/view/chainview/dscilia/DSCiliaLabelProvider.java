@@ -18,9 +18,7 @@ import org.eclipse.zest.core.viewers.EntityConnectionData;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteBinding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
@@ -66,21 +64,7 @@ public class DSCiliaLabelProvider extends AbstractGraphLabelProvider {
 		String defval = super.getText(element);
 
 		if (isCompatible(element, EntityConnectionData.class)) {
-			EntityConnectionData ecd = (EntityConnectionData) element;
-			@SuppressWarnings("unchecked")
-			ComponentRef<ConcreteChain> src = (ComponentRef<ConcreteChain>) ecd.source;
-			@SuppressWarnings("unchecked")
-			ComponentRef<ConcreteChain> dst = (ComponentRef<ConcreteChain>) ecd.dest;
-			// Be careful during refactoring with AbstractBinding !
-			ConcreteBinding binding = (ConcreteBinding) src.getOutgoingBinding(dst);
-
-			if (binding == null)
-				return "";
-			else {
-				String from = binding.getSourceId();
-				String to = binding.getDestinationId();
-				return from + " --> " + to;
-			}
+			return "";
 		} else
 			return defval;
 	}

@@ -87,13 +87,20 @@ public abstract class ChainDesignerConfiguration<RepoType extends AbstractRepoSe
 		this.model = (ModelType) element;
 
 		contentProvider.setModel(model);
+		parent.setContentProvider(contentProvider);
+
+		// Do NOT move this line into the else statement !
+		// the model has to be removed before setting the labelprovider...
+		parent.setInput(new Object[0]);
+		parent.setLabelProvider(labelProvider);
+
 		if (model != null) {
 			parent.setInput(model.getElements());
 			parent.setViewName(model.getName());
 		} else {
-			parent.setInput(new Object[0]);
 			parent.setViewName(getDefaultName());
 		}
+
 		ToggleSourceProvider.setToggleVariable(ToolbarEnabler.VARIABLE_NAME, model != null);
 		parent.refresh();
 	}

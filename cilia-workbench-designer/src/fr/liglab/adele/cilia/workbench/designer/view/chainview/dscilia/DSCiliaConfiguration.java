@@ -20,6 +20,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.swt.widgets.Shell;
 
+import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
@@ -40,36 +41,42 @@ public class DSCiliaConfiguration extends ChainDesignerConfiguration<DSCiliaRepo
 	}
 
 	public Object createAdapterHandler(ExecutionEvent event) throws ExecutionException {
-		return null;
+		// TODO Not yet implemented
+		return ViewUtil.notYetImplementedHandler(event);
 	}
 
 	public Object deleteAdapterHandler(ExecutionEvent event) throws ExecutionException {
-		return null;
+		// TODO Not yet implemented
+		return ViewUtil.notYetImplementedHandler(event);
 	}
 
 	public Object createMediatorHandler(ExecutionEvent event) throws ExecutionException {
-		return null;
+		// TODO Not yet implemented
+		return ViewUtil.notYetImplementedHandler(event);
 	}
 
 	public Object deleteMediatorHandler(ExecutionEvent event) throws ExecutionException {
-		return null;
+		// TODO Not yet implemented
+		return ViewUtil.notYetImplementedHandler(event);
 	}
 
 	public Object createBindingHandler(ExecutionEvent event) throws ExecutionException {
-		return null;
+		// TODO Not yet implemented
+		return ViewUtil.notYetImplementedHandler(event);
 	}
 
 	public Object deleteBindingHandler(ExecutionEvent event) throws ExecutionException {
-		return null;
+		// TODO Not yet implemented
+		return ViewUtil.notYetImplementedHandler(event);
 	}
 
 	@Override
 	public void doubleClickHandler(Shell shell, Object element) {
-		// TODO
+		// TODO Not yet implemented
 	}
 
 	@Override
 	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes) {
-		// TODO
+		// TODO Not yet implemented
 	}
 }
