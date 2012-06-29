@@ -3,12 +3,22 @@
 
 	<chain id="a" namespace="a">
 		<adapters>
-			<adapter-instance id="AHDbox" namespace="fr.liglab.adele.cilia" type="HL7MessageAdapter"/>
-			<adapter-instance id="PHRintegration" namespace="fr.liglab.adele.cilia" type="JLinxAdapter"/>
+			<adapter-instance id="sensor" namespace="fr.liglab.adele.cilia" type="HL7MessageAdapter"/>
+			<adapter-instance id="DBstorage" namespace="fr.liglab.adele.cilia" type="JLinxAdapter"/>
+			<adapter-instance id="publish" namespace="fr.liglab.adele.cilia" type="JLinxAdapter"/>
 		</adapters>
 
+		<mediators>
+			<mediator-instance id="filter" type="MeasureFilterMediator"/>
+			<mediator-instance id="transform" type="MeasureFilterMediator"/>
+		</mediators>
+
+
 		<bindings>
-			<binding from="AHDbox" to="PHRintegration"/>
+			<binding from="sensor" to="filter:in"/>
+			<binding from="filter:out" to="transform:in"/>
+			<binding from="transform:out" to="DBstorage"/>
+			<binding from="filter:out" to="publish"/>
 		</bindings>
 	</chain>
 

@@ -25,7 +25,8 @@
 			<mediator-specification id="motion-enrich" namespace="fr.orange" type="MeasureEnricherMediator"/>
 			<mediator-specification id="motion-translate" namespace="fr.orange" type="MeasureTranslatorMediator"/>
 			<mediator-specification id="enrich-v3" namespace="fr.orange" type="MeasureEnricherMediator"/>
-		</mediators>
+		
+</mediators>
 
 		<bindings>
 			<binding from="transform:out" from-cardinality="1...1" to="translate:in" to-cardinality="1...1"/>
