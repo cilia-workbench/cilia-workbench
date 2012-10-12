@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.eclipse.ui.preferencePages">
+   <extension point="org.eclipse.ui.preferencePages">
       <page
             class="fr.liglab.adele.cilia.workbench.common.ui.preferencePage.CiliaRootPreferencePage"
             id="fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage"
@@ -13,7 +12,7 @@
    		<category id="fr.liglab.adele.cilia.workbench.common.view.rootCategory"
 			name="CILIA workbench">
 		</category>
-      <view
+    <view
             category="fr.liglab.adele.cilia.workbench.common.view.rootCategory"
             class="fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.CiliaErrorView"
             icon="icons/16/error.png"
