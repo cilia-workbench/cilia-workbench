@@ -19,7 +19,8 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import fr.liglab.adele.cilia.workbench.designer.Activator;
+import fr.liglab.adele.cilia.workbench.common.Activator;
+
 
 /**
  * Preferences class for Cilia workbench designer.

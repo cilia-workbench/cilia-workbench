@@ -30,13 +30,13 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 
+import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.service.common.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainConfiguration;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.dscilia.DSCiliaConfiguration;
 
@@ -50,6 +50,8 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 	private Shell parentShell;
 
+	private long lastEvent = 0;
+	
 	private Map<String, ChainDesignerConfiguration<? extends ChainRepoService<?, ?, ?>, ? extends GraphDrawable>> configs = new HashMap<String, ChainDesignerConfiguration<? extends ChainRepoService<?, ?, ?>, ? extends GraphDrawable>>();
 	String currentConfig = null;
 
@@ -122,6 +124,11 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 
+		// prevents storm events
+		long cur = System.currentTimeMillis();
+		if(cur-lastEvent < 600)
+			return;
+		
 		// Assert something is selected
 		Object element = null;
 		if (selection instanceof TreeSelection) {
@@ -143,6 +150,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 		// swap config if needed
 		updateConfigAndModel(id, element);
+		lastEvent = System.currentTimeMillis();
 	}
 
 	@Override

@@ -23,6 +23,8 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
@@ -30,8 +32,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMe
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.common.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**

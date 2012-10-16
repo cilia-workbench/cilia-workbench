@@ -21,14 +21,14 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorReference;
 
+import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.RepositoryView;
 
 /**
  * 
@@ -46,7 +46,7 @@ public class AbstractCompositionsView extends RepositoryView<AbstractComposition
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 
-		viewer.setLabelProvider(new AbstractCompoistionLabelProvider());
+		viewer.setLabelProvider(new AbstractCompositionLabelProvider());
 
 		// TreeViewer listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
@@ -80,6 +80,7 @@ public class AbstractCompositionsView extends RepositoryView<AbstractComposition
 		}
 
 		// updates labels and icons
+		refreshMessageArea();
 		viewer.refresh(true);
 	}
 }

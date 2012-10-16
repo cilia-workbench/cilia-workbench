@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.common;
+package fr.liglab.adele.cilia.workbench.common.service;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,11 +29,11 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
+import fr.liglab.adele.cilia.workbench.common.Activator;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.CiliaMarkerUtil;
-import fr.liglab.adele.cilia.workbench.designer.Activator;
 
 /**
  * Represents a repository, from a model point of view.

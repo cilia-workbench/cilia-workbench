@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
@@ -32,7 +33,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinalit
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 
 /**
  * A central place for managing the abstract composition repository. The

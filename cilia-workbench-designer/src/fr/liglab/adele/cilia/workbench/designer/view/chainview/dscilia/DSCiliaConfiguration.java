@@ -20,52 +20,61 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.swt.widgets.Shell;
 
+import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.ChainDesignerConfiguration;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.ChainDesignerView;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.dsciliaview.DSCiliaRepositoryView;
+
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaConfiguration extends ChainDesignerConfiguration<DSCiliaRepoService, ConcreteChain> {
+public class DSCiliaConfiguration extends
+		ChainDesignerConfiguration<DSCiliaRepoService, ConcreteChain> {
 
 	public DSCiliaConfiguration(ChainDesignerView parent) {
-		super(parent, DSCiliaRepoService.getInstance(), DSCiliaRepositoryView.VIEW_ID, new DSCiliaContentProvider(),
+		super(parent, DSCiliaRepoService.getInstance(),
+				DSCiliaRepositoryView.VIEW_ID, new DSCiliaContentProvider(),
 				new DSCiliaLabelProvider());
 	}
 
-	public Object createAdapterHandler(ExecutionEvent event) throws ExecutionException {
+	public Object createAdapterHandler(ExecutionEvent event)
+			throws ExecutionException {
 		// TODO Not yet implemented
 		return ViewUtil.notYetImplementedHandler(event);
 	}
 
-	public Object deleteAdapterHandler(ExecutionEvent event) throws ExecutionException {
+	public Object deleteAdapterHandler(ExecutionEvent event)
+			throws ExecutionException {
 		// TODO Not yet implemented
 		return ViewUtil.notYetImplementedHandler(event);
 	}
 
-	public Object createMediatorHandler(ExecutionEvent event) throws ExecutionException {
+	public Object createMediatorHandler(ExecutionEvent event)
+			throws ExecutionException {
 		// TODO Not yet implemented
 		return ViewUtil.notYetImplementedHandler(event);
 	}
 
-	public Object deleteMediatorHandler(ExecutionEvent event) throws ExecutionException {
+	public Object deleteMediatorHandler(ExecutionEvent event)
+			throws ExecutionException {
 		// TODO Not yet implemented
 		return ViewUtil.notYetImplementedHandler(event);
 	}
 
-	public Object createBindingHandler(ExecutionEvent event) throws ExecutionException {
+	public Object createBindingHandler(ExecutionEvent event)
+			throws ExecutionException {
 		// TODO Not yet implemented
 		return ViewUtil.notYetImplementedHandler(event);
 	}
 
-	public Object deleteBindingHandler(ExecutionEvent event) throws ExecutionException {
+	public Object deleteBindingHandler(ExecutionEvent event)
+			throws ExecutionException {
 		// TODO Not yet implemented
 		return ViewUtil.notYetImplementedHandler(event);
 	}
@@ -76,7 +85,9 @@ public class DSCiliaConfiguration extends ChainDesignerConfiguration<DSCiliaRepo
 	}
 
 	@Override
-	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes) {
+	public void repositoryContentUpdated(
+			AbstractRepoService<?, ?> abstractRepoService,
+			List<Changeset> changes) {
 		// TODO Not yet implemented
 	}
 }

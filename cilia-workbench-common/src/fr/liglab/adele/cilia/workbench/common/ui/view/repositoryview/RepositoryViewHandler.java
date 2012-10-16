@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common;
+package fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -22,9 +22,9 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
+import fr.liglab.adele.cilia.workbench.common.service.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractFile;
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
 
 /**
  * Base class for implementing handlers dealing with repositories. This class

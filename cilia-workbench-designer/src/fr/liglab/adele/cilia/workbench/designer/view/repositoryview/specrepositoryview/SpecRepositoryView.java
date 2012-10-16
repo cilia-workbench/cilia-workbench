@@ -22,14 +22,14 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorReference;
 
+import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecModel;
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.RepositoryView;
 
 /**
  * 
@@ -78,6 +78,7 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 		}
 
 		// updates labels and icons
+		refreshMessageArea();
 		viewer.refresh(true);
 	}
 

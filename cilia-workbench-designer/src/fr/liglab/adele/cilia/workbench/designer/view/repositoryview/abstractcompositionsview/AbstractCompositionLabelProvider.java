@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositio
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompoistionLabelProvider extends CiliaLabelProvider {
+public class AbstractCompositionLabelProvider extends CiliaLabelProvider {
 
 	@Override
 	protected GenericContentProvider getContentProvider() {

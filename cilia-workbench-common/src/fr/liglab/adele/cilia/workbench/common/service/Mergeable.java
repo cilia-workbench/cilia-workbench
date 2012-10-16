@@ -12,14 +12,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.common;
+package fr.liglab.adele.cilia.workbench.common.service;
 
 import java.util.List;
+
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public interface IRepoServiceListener {
-	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes);
+public interface Mergeable {
+
+	List<Changeset> merge(Object other) throws CiliaException;
 }

@@ -33,6 +33,10 @@ public class PropertySource implements IPropertySource {
 	private final String PROPERTIES_CATEGORY = "Basic properties";
 
 	public PropertySource(Object modelObject) {
+		
+		while (modelObject instanceof DisplayedInPropertiesViewWithForward && modelObject != ((DisplayedInPropertiesViewWithForward) modelObject).getObjectForComputingProperties())
+			modelObject = ((DisplayedInPropertiesViewWithForward) modelObject).getObjectForComputingProperties();
+		
 		this.modelObject = modelObject;
 	}
 

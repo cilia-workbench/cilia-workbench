@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Cilia-workbench-rest-monitoring
+Bundle-SymbolicName: cilia-workbench-rest-monitoring;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: fr.liglab.adele.cilia.workbench.restmonitoring.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.apache.httpcomponents.httpclient;bundle-version="4.2.1",
+ org.apache.httpcomponents.httpcore;bundle-version="4.2.2",
+ fr.liglab.adele.cilia.workbench.common;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: fr.liglab.adele.cilia.workbench.restmonitoring.utils
+Bundle-ActivationPolicy: lazy

@@ -21,9 +21,9 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
+import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.IRepoServiceListener;
 
 /**
  * 

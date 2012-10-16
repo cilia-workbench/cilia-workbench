@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common;
+package fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview;
 
 import java.io.File;
 import java.net.URI;
@@ -44,11 +44,11 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractFile;
-import fr.liglab.adele.cilia.workbench.designer.service.common.AbstractRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset;
-import fr.liglab.adele.cilia.workbench.designer.service.common.IRepoServiceListener;
-import fr.liglab.adele.cilia.workbench.designer.service.common.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.common.service.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 
 /**
  * 
@@ -100,13 +100,19 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	}
 
 	public void refresh() {
-		messageArea.setText(computeMessageAreaText());
+		refreshMessageArea();
 		model = repoService.getModel();
 		viewer.setContentProvider(repoService.getContentProvider());
 		viewer.setInput(model);
 		viewer.refresh();
 	}
 
+	
+	public void refreshMessageArea() {
+		messageArea.setText(computeMessageAreaText());
+	}
+	
+	
 	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();

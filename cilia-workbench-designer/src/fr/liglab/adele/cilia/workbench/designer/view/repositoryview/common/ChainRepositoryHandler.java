@@ -21,6 +21,7 @@ import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryViewHandler;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;

@@ -14,7 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specrepositoryview;
 
-import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.RepositoryViewHandler;
+import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryViewHandler;
 
 /**
  * Base class for implementing handlers, relatives to the Spec View.
