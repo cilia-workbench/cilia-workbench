@@ -14,4 +14,5 @@ public class DeleteFileHandler extends PlatformViewHandler {
 		return deleteFile(event);
 	}
 	
+	
 }
