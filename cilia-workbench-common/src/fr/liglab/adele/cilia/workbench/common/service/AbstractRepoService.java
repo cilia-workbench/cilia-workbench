@@ -266,7 +266,7 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	 * 
 	 * @return the content for new file.
 	 */
-	protected abstract String getContentForNewFile();
+	protected abstract String getContentForNewFile(String... parameters);
 
 	/**
 	 * Creates a new file in the repository. This method follows
@@ -278,7 +278,7 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	 *            the file content
 	 * @return null if success, an error message otherwise.
 	 */
-	public String createFile(String fileName) {
+	public String createFile(String fileName, String... parameters) {
 		File destination = new File(getRepositoryLocation(), fileName);
 
 		if (isNewFileNameAllowed(fileName) != null)
@@ -289,7 +289,7 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 		BufferedWriter out = null;
 		try {
 			out = new BufferedWriter(new FileWriter(destination));
-			out.write(getContentForNewFile());
+			out.write(getContentForNewFile(parameters));
 		} catch (IOException e) {
 			e.printStackTrace();
 			hasError = true;

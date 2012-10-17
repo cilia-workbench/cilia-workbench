@@ -63,8 +63,7 @@ public abstract class ChainRepositoryHandler<ChainType extends ChainElement<?>> 
 		return null;
 	}
 
-	public Object deleteChain(ExecutionEvent event) throws ExecutionException {
-
+	public Object deleteChain(ExecutionEvent event) throws ExecutionException {		
 		Object object = getFirstSelectedElementInRepositoryView(event);
 		if (object != null && object instanceof ChainElement<?>) {
 			@SuppressWarnings("unchecked")

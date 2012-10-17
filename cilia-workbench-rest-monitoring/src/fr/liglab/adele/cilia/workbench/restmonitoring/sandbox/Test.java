@@ -18,5 +18,10 @@ public class Test {
 				e.printStackTrace();
 			}
 		}
+		try {
+			http.close();
+		} catch (CiliaException e) {
+			e.printStackTrace();
+		}
 	}
 }

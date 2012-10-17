@@ -67,8 +67,6 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 			if (result == true) {
 				AbstractRepoService<?, ?> repoService = view.getRepoService();
 				repoService.deleteRepoElement(file);
-			} else {
-				MessageDialog.openError(ViewUtil.getShell(event), "Error", "You must select a file.");
 			}
 		}
 		return false;

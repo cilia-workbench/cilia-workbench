@@ -128,7 +128,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 	}
 
 	@Override
-	protected String getContentForNewFile() {
+	protected String getContentForNewFile(String... parameters) {
 		return "<" + SpecModel.XML_NODE_NAME + ">\n</" + SpecModel.XML_NODE_NAME + ">";
 	}
 

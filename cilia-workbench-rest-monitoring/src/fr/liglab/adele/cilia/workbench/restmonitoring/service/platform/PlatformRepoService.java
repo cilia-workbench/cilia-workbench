@@ -15,7 +15,6 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFi
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
 
 public class PlatformRepoService  extends AbstractRepoService<PlatformFile, PlatformModel> implements ErrorsAndWarningsFinder {
-
 	
 	/** Singleton instance */
 	private static PlatformRepoService INSTANCE;
@@ -88,11 +87,8 @@ public class PlatformRepoService  extends AbstractRepoService<PlatformFile, Plat
 	}
 
 	@Override
-	protected String getContentForNewFile() {
-
-		// TODO erreur : la balise racine contient host et port... 
-		
-		return "<" + PlatformModel.XML_NODE_NAME + ">\n</" + PlatformModel.XML_NODE_NAME + ">";
+	protected String getContentForNewFile(String... parameters) {
+		return "<" + PlatformModel.XML_NODE_NAME + " host=\""+ parameters[0] + "\" port=\"" + parameters[1] + "\">\n</" + PlatformModel.XML_NODE_NAME + ">";
 	}
 
 	@Override

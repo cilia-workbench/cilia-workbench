@@ -311,7 +311,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	}
 
 	@Override
-	protected String getContentForNewFile() {
+	protected String getContentForNewFile(String... parameters) {
 		throw new RuntimeException("File creation is not allowed");
 	}
 

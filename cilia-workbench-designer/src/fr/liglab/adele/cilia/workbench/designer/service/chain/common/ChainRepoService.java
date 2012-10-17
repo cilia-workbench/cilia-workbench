@@ -45,7 +45,7 @@ public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>,
 	}
 
 	@Override
-	protected String getContentForNewFile() {
+	protected String getContentForNewFile(String... parameters) {
 		return "<" + rootNodeName + ">\n</" + rootNodeName + ">";
 	}
 
