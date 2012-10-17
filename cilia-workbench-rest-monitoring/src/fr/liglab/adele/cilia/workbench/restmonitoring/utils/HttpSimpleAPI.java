@@ -74,7 +74,7 @@ public class HttpSimpleAPI {
 	}
 	
 	
-	public String httpRequest(DefaultHttpClientConnection conn, HttpHost host, HttpRequestExecutor httpexecutor, ConnectionReuseStrategy connStrategy, String operation, String target) throws CiliaException {
+	public HttpResquestResult httpRequest(DefaultHttpClientConnection conn, HttpHost host, HttpRequestExecutor httpexecutor, ConnectionReuseStrategy connStrategy, String operation, String target) throws CiliaException {
 		
 		// socket
 		if (!conn.isOpen()) {
@@ -138,10 +138,7 @@ public class HttpSimpleAPI {
 			throw new CiliaException("I/O exception while reading status line", e);
 		}
 		
-		
-		System.out.println("<< Response: " + status);
-		System.out.println(message);
-		System.out.println("==============");
+		HttpResquestResult retval = new HttpResquestResult(status, message);
 		
 		if (!connStrategy.keepAlive(response, context))
 			try {
@@ -150,6 +147,6 @@ public class HttpSimpleAPI {
 				e.printStackTrace();
 			}
 		
-		return null;
+		return retval;
 	}
 }

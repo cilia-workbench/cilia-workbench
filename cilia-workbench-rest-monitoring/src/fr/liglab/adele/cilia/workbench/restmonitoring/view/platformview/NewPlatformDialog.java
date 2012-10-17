@@ -5,6 +5,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextsDialog;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 
 /**
@@ -31,28 +32,22 @@ public class NewPlatformDialog extends TextsDialog {
 	private static class NewPlatformValidator implements TextsDialogValidator {
 		@Override
 		public String validate(ModifyEvent event, String[] values) {
+			String msg = null;
 			
 			// File Name validation
-			String msg = PlatformRepoService.getInstance().isNewFileNameAllowed(values[0]);
+			msg = PlatformRepoService.getInstance().isNewFileNameAllowed(values[0]);
+			if (msg != null)
+				return msg;
+						
+			// host validation
+			msg = PlatformModel.hostValidator(values[1]);
 			if (msg != null)
 				return msg;
 			
-			// empty values
-			if (values[0].isEmpty())
-				return "Name can't be empty";
-			if (values[1].isEmpty())
-				return "Host can't be empty";
-			if (values[2].isEmpty())
-				return "Port can't be empty";
-			
 			// Port validator
-			try {
-				Integer port = Integer.valueOf(values[2]);
-				if (port < 10 || port > 65535)
-					return "Wrong port number";
-			} catch (NumberFormatException e) {
-				return "Wrong port format";
-			}
+			msg = PlatformModel.portValidator(values[2]);
+			if (msg != null)
+				return msg;
 
 			return null;
 		}

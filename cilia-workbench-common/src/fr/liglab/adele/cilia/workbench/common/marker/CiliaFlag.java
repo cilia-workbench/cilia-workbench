@@ -32,7 +32,7 @@ public abstract class CiliaFlag {
 	/** a user readable message */
 	private final String message;
 	/** a reference to the object responsible of the creation of this flag */
-	private final Object sourceProvider;
+	private Object sourceProvider;
 
 	/**
 	 * Instantiates a new cilia flag.
@@ -145,5 +145,10 @@ public abstract class CiliaFlag {
 	 */
 	public Object getSourceProvider() {
 		return sourceProvider;
+	}
+	
+	public CiliaFlag changeSourceProvider(Object newSourceProvider) {
+		sourceProvider = newSourceProvider;
+		return this;
 	}
 }

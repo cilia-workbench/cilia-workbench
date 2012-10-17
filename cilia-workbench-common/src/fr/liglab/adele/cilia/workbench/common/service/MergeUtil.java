@@ -44,7 +44,6 @@ public abstract class MergeUtil {
 						ReflectionUtil.setValue(oldInstance, fieldName, newValue);
 						Changeset c = new Changeset(Operation.UPDATE, oldInstance);
 						retval.add(c);
-						return retval;
 					}
 				}
 

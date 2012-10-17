@@ -27,9 +27,13 @@
 	</extension>
 	
 	<extension point="org.eclipse.ui.commands">
-		<command description="Reloads the Platform Repository"
+		<command
 			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.reload"
 			name="Reload repository">
+		</command>
+		<command
+			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.fechchainlist"
+			name="Fetch chain list from platform">
 		</command>
 		<command
 			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.createFile"
@@ -48,6 +52,14 @@
 				commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.reload"
 				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
 				label="Reload repository" style="push">
+			</command>
+		</menuContribution>
+		<menuContribution allPopups="false"
+			locationURI="toolbar:fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview">
+			<command
+				commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.fechchainlist"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/connect.png"
+				label="Fetch chain list from platform" style="push">
 			</command>
 		</menuContribution>
 		<menuContribution allPopups="false"
@@ -72,6 +84,10 @@
 		<handler
 			class="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.ReloadHandler"
 			commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.reload">
+		</handler>
+		<handler
+			class="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.FetchChainListHandler"
+			commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.fechchainlist">
 		</handler>
 		<handler
 			class="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.CreateFileHandler"

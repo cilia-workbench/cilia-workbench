@@ -22,9 +22,9 @@ public class HTTPhelper {
 		this.host = new HttpHost(host, port);
 	}
 	
-	public void get(String target) throws CiliaException {
+	public HttpResquestResult get(String target) throws CiliaException {
 		if (conn != null)
-			HttpSimpleAPI.getInstance().httpRequest(conn, host, httpexecutor, connStrategy, "GET", target);
+			return HttpSimpleAPI.getInstance().httpRequest(conn, host, httpexecutor, connStrategy, "GET", target);
 		else
 			throw new CiliaException("Connexion is closed!");
 	}

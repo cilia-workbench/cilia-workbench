@@ -1,2 +1,2 @@
-<cilia-platform host="zz" port="1254">
+<cilia-platform host="localhost" port="8080">
 </cilia-platform>

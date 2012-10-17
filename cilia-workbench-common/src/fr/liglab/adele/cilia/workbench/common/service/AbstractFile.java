@@ -15,6 +15,8 @@
 package fr.liglab.adele.cilia.workbench.common.service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
@@ -64,7 +66,21 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>(); 
+		
 		CiliaFlag e1 = CiliaError.checkNotNull(this, model, "XML file");
-		return CiliaFlag.generateTab(e1);
+		
+		if (model != null && model instanceof ErrorsAndWarningsFinder) {
+			for (CiliaFlag flag : ((ErrorsAndWarningsFinder) model).getErrorsAndWarnings()) {
+				// little hack... to forward responsability...
+				 if (flag.getSourceProvider() == model) {
+					 retval.add(flag.changeSourceProvider(this));
+				 } else {
+					retval.add(flag);
+				 }
+			}
+		}
+		
+		return CiliaFlag.generateTab(retval, e1);
 	}
 }
