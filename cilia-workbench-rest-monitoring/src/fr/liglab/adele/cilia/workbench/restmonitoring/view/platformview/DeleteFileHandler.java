@@ -13,4 +13,5 @@ public class DeleteFileHandler extends PlatformViewHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		return deleteFile(event);
 	}
+	
 }
