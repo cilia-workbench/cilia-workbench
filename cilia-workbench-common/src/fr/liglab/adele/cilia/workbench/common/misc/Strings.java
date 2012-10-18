@@ -28,4 +28,20 @@ public class Strings {
 	public static boolean isNullOrEmpty(String str) {
 		return str == null || str.isEmpty();
 	}
+	
+	public static String arrayToString(Object[] array) {
+		
+		boolean begin = true;
+		StringBuilder sb = new StringBuilder();
+		
+		for (Object str : array) {
+			if (begin)
+				begin = false;
+			else
+				sb.append(", ");
+			sb.append(str.toString());
+		}
+		
+		return sb.toString();
+	}
 }

@@ -1,16 +1,35 @@
+/**
+ * Copyright Universite Joseph Fourier (www.ujf-grenoble.fr)
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview;
+
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
-import fr.liglab.adele.cilia.workbench.restmonitoring.utils.HTTPhelper;
-import fr.liglab.adele.cilia.workbench.restmonitoring.utils.HttpResquestResult;
+import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
 
+/**
+ * 
+ * @author Etienne Gandrille
+ */
 public class FetchChainListHandler extends PlatformViewHandler {
 
 	@Override
@@ -50,30 +69,16 @@ public class FetchChainListHandler extends PlatformViewHandler {
 
 		// REST 
 		// ====
+		String[] chains;
+		try {
+			chains = CiliaRestHelper.getChainsList(host, Integer.valueOf(port));
+		} catch(CiliaException e) {
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", e.getMessage());
+			return null;
+		}
 
-		HTTPhelper http = new HTTPhelper(host, Integer.valueOf(port));
-		HttpResquestResult response = null;
-		try {
-			response = http.get("/cilia");
-		} catch (CiliaException e) {
-			e.printStackTrace();
-			MessageDialog.openError(ViewUtil.getShell(event), "Can't join " + host + ":" + port, e.getMessage());
-			return null;
-		}
-		try {
-			http.close();
-		} catch (CiliaException e) {
-			e.printStackTrace();
-		}
-	
-		if (response.getStatus().getStatusCode() != 200) {
-			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Can't get list on server. Status code: " + response.getStatus().getStatusCode());
-			return null;
-		}
-		
-		String json = response.getMessage();
-		
-		MessageDialog.openInformation(ViewUtil.getShell(event), "Go!", response.getStatus() + "\n" + json);
+		String message = Strings.arrayToString(chains);
+		MessageDialog.openInformation(ViewUtil.getShell(event), "Success", message);
 		
 		return null;
 	}
