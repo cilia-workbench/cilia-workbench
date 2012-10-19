@@ -27,6 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
@@ -37,7 +38,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
  * @author Etienne Gandrille
  */
 public class PlatformModel implements DisplayedInPropertiesView, Mergeable, ErrorsAndWarningsFinder {
-		
+
 	public static final String XML_NODE_NAME = "cilia-platform";
 
 	private String host;
@@ -45,7 +46,7 @@ public class PlatformModel implements DisplayedInPropertiesView, Mergeable, Erro
 	private File file;
 
 	private List<PlatformChain> chains = new ArrayList<PlatformChain>();
-	
+
 	public PlatformModel(File file) throws CiliaException {
 		this.file = file;
 
@@ -53,17 +54,17 @@ public class PlatformModel implements DisplayedInPropertiesView, Mergeable, Erro
 		Node root = getRootNode(document);
 
 		ReflectionUtil.setAttribute(root, "host", this, "host");
-		ReflectionUtil.setAttribute(root, "port", this, "port");		
+		ReflectionUtil.setAttribute(root, "port", this, "port");
 	}
 
 	public String getHost() {
 		return host;
 	}
-	
+
 	public String getPort() {
 		return port;
 	}
-	
+
 	private static Node getRootNode(Document document) throws CiliaException {
 		return XMLHelpers.getRootNode(document, XML_NODE_NAME);
 	}
@@ -74,23 +75,72 @@ public class PlatformModel implements DisplayedInPropertiesView, Mergeable, Erro
 		PlatformModel newInstance = (PlatformModel) other;
 
 		retval.addAll(MergeUtil.computeUpdateChangeset(newInstance, this, "host", "port"));
+		// if host or port change, we need to remove all chains (because
+		// platform target changed...)
+		if (retval.size() != 0) {
+			for (PlatformChain chain : chains)
+				retval.add(new Changeset(Operation.REMOVE, chain));
+			chains.clear();
+		}
 
 		for (Changeset c : retval)
 			c.pushPathElement(this);
 
 		return retval;
 	}
-	
+
+	public List<Changeset> mergeChains(String[] chainsList) {
+
+		List<Changeset> retval = new ArrayList<Changeset>();
+
+		// ADD
+		for (String chain : chainsList) {
+			if (getChain(chain) == null) {
+				PlatformChain pc = new PlatformChain(chain);
+				chains.add(pc);
+				retval.add(new Changeset(Operation.ADD, pc));
+			}
+		}
+
+		// REMOVE
+		List<String> newList = new ArrayList<String>();
+		for (String name : chainsList)
+			newList.add(name);
+		for (PlatformChain pc : chains) {
+			String name = pc.getName();
+			if (!newList.contains(name)) {
+				retval.add(new Changeset(Operation.REMOVE, pc));
+			}
+		}
+		for (Changeset c : retval)
+			if (c.getOperation().equals(Operation.REMOVE))
+				chains.remove(c.getObject());
+
+		return retval;
+	}
+
+	public List<PlatformChain> getChains() {
+		return chains;
+	}
+
+	private PlatformChain getChain(String chain) {
+		for (PlatformChain pc : chains)
+			if (pc.getName().equals(chain))
+				return pc;
+
+		return null;
+	}
+
 	public static String hostValidator(String host) {
 		if (host.isEmpty())
 			return "Host can't be empty";
 		return null;
 	}
-	
+
 	public static String portValidator(String port) {
 		if (port.isEmpty())
 			return "Port can't be empty";
-		
+
 		try {
 			Integer portValue = Integer.valueOf(port);
 			if (portValue < 10 || portValue > 65535)
@@ -98,20 +148,20 @@ public class PlatformModel implements DisplayedInPropertiesView, Mergeable, Erro
 		} catch (NumberFormatException e) {
 			return "Wrong port format";
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag e1 = null;
 		CiliaFlag e2 = null;
-		
+
 		if (hostValidator(host) != null)
 			e1 = new CiliaError(hostValidator(host), this);
 		if (portValidator(port) != null)
 			e1 = new CiliaError(portValidator(port), this);
-				
+
 		return CiliaFlag.generateTab(e1, e2);
 	}
 }

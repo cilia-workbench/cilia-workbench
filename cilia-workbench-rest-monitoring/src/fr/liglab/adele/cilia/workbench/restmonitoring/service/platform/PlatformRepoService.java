@@ -32,8 +32,8 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformMo
  * 
  * @author Etienne Gandrille
  */
-public class PlatformRepoService  extends AbstractRepoService<PlatformFile, PlatformModel> implements ErrorsAndWarningsFinder {
-	
+public class PlatformRepoService extends AbstractRepoService<PlatformFile, PlatformModel> implements ErrorsAndWarningsFinder {
+
 	/** Singleton instance */
 	private static PlatformRepoService INSTANCE;
 
@@ -106,15 +106,30 @@ public class PlatformRepoService  extends AbstractRepoService<PlatformFile, Plat
 
 	@Override
 	protected String getContentForNewFile(String... parameters) {
-		return "<" + PlatformModel.XML_NODE_NAME + " host=\""+ parameters[0] + "\" port=\"" + parameters[1] + "\">\n</" + PlatformModel.XML_NODE_NAME + ">";
+		return "<" + PlatformModel.XML_NODE_NAME + " host=\"" + parameters[0] + "\" port=\"" + parameters[1] + "\">\n</" + PlatformModel.XML_NODE_NAME + ">";
 	}
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		List<CiliaFlag> errorList = new ArrayList<CiliaFlag>();
 
-		// TODO
-		
+		// Nothing to check
+
 		return CiliaFlag.generateTab(errorList);
+	}
+
+	public void updateChains(String filename, String[] chains) {
+
+		// merge and compute changes
+		List<Changeset> changes = getModelObject(filename).getModel().mergeChains(chains);
+
+		// Update content provider
+		contentProvider = new PlatformContentProvider(model);
+
+		// Update markers relative to this repository
+		updateMarkers();
+
+		// Sends notifications
+		notifyListeners(changes);
 	}
 }

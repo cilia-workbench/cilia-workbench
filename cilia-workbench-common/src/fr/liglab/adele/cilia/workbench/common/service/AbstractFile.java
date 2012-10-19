@@ -48,7 +48,11 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 
 	@Override
 	public Object getId() {
-		return file;
+		return getFilename();
+	}
+
+	public String getFilename() {
+		return file.getName();
 	}
 
 	public File getFile() {
@@ -66,21 +70,21 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		List<CiliaFlag> retval = new ArrayList<CiliaFlag>(); 
-		
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
+
 		CiliaFlag e1 = CiliaError.checkNotNull(this, model, "XML file");
-		
+
 		if (model != null && model instanceof ErrorsAndWarningsFinder) {
 			for (CiliaFlag flag : ((ErrorsAndWarningsFinder) model).getErrorsAndWarnings()) {
 				// little hack... to forward responsability...
-				 if (flag.getSourceProvider() == model) {
-					 retval.add(flag.changeSourceProvider(this));
-				 } else {
+				if (flag.getSourceProvider() == model) {
+					retval.add(flag.changeSourceProvider(this));
+				} else {
 					retval.add(flag);
-				 }
+				}
 			}
 		}
-		
+
 		return CiliaFlag.generateTab(retval, e1);
 	}
 }

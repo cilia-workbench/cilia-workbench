@@ -17,19 +17,28 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.service.platform;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class PlatformContentProvider  extends GenericContentProvider {
+public class PlatformContentProvider extends GenericContentProvider {
 
 	public PlatformContentProvider(List<PlatformFile> root) {
-	
+
 		addRoot(root);
 
-		for (PlatformFile file : root)
+		for (PlatformFile file : root) {
 			addRelationship(true, root, file);
+
+			PlatformModel model = file.getModel();
+			if (model != null) {
+				for (PlatformChain pc : model.getChains())
+					addRelationship(true, file, pc);
+			}
+		}
 	}
 }

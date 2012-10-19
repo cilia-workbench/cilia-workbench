@@ -24,6 +24,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
+import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
 
 /**
@@ -45,7 +46,8 @@ public class FetchChainListHandler extends PlatformViewHandler {
 			return null;
 		}
 		
-		PlatformModel model = ((PlatformFile) element).getModel();
+		PlatformFile file = (PlatformFile) element;
+		PlatformModel model = file.getModel();
 		if (model == null) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Model is in a non valid state");
 			return null;
@@ -77,8 +79,10 @@ public class FetchChainListHandler extends PlatformViewHandler {
 			return null;
 		}
 
-		String message = Strings.arrayToString(chains);
-		MessageDialog.openInformation(ViewUtil.getShell(event), "Success", message);
+		// Model Update
+		// ============
+		
+		PlatformRepoService.getInstance().updateChains(file.getFilename(), chains);
 		
 		return null;
 	}

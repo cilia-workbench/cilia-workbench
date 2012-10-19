@@ -88,6 +88,13 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 		listeners = new ArrayList<IRepoServiceListener>();
 	}
 
+	public ModelType getModelObject(String fileName) {
+		for (ModelType element : model)
+			if (element.getFilename().equals(fileName))
+				return element;
+		return null;
+	}
+
 	/**
 	 * Callback method used as soon as the model should be updated.
 	 */

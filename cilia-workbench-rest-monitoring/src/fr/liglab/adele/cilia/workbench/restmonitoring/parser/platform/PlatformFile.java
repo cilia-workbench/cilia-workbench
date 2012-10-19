@@ -46,7 +46,7 @@ public class PlatformFile extends AbstractFile<PlatformModel> implements Mergeab
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-		
+
 		PlatformFile newInstance = (PlatformFile) other;
 
 		PlatformModel oldModel = getModel();
@@ -59,12 +59,15 @@ public class PlatformFile extends AbstractFile<PlatformModel> implements Mergeab
 
 			// XML file becomes valid
 			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel) {
-				// TODO ajouter tout le NOUVEAU contenu car le XML devient valide
+				// Nothing to do, because new model is empty...
+				// We have not yet contacted the platform to get the chains
+				// list...
 			}
 
 			// XML file becomes invalid
 			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel) {
-				// TODO supprimer tout l'ANCIEN contenu car le XML n'est plus valide
+				for (PlatformChain chain : oldModel.getChains())
+					retval.add(new Changeset(Operation.REMOVE, chain));
 			}
 
 			// Other event, deeper in hierarchy
@@ -78,7 +81,7 @@ public class PlatformFile extends AbstractFile<PlatformModel> implements Mergeab
 
 		return retval;
 	}
-		
+
 	@Override
 	public Object getObjectForComputingProperties() {
 		if (model == null)

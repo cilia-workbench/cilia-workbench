@@ -37,9 +37,18 @@ public class PlatformChain implements ErrorsAndWarningsFinder, DisplayedInProper
 		return name;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
 		return CiliaFlag.generateTab(e1);
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }
