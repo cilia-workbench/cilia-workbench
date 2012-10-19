@@ -18,10 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Composite;
@@ -32,9 +30,8 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
-import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
-import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainConfiguration;
@@ -48,10 +45,8 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 	public static final String viewId = "fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview";
 
-	private Shell parentShell;
-
 	private long lastEvent = 0;
-	
+
 	private Map<String, ChainDesignerConfiguration<? extends ChainRepoService<?, ?, ?>, ? extends GraphDrawable>> configs = new HashMap<String, ChainDesignerConfiguration<? extends ChainRepoService<?, ?, ?>, ? extends GraphDrawable>>();
 	String currentConfig = null;
 
@@ -65,7 +60,6 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent, viewId);
-		parentShell = ViewUtil.getShell(parent);
 
 		// register configs
 		registerConfig(new AbstractChainConfiguration(this));
@@ -76,16 +70,11 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 		// label provider... to the viewer.
 		String conf = configs.keySet().iterator().next();
 		updateConfigAndModel(conf, null);
+	}
 
-		// double click listener
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				Object element = getFirstSelectedElement();
-				if (element != null)
-					configs.get(currentConfig).doubleClickHandler(parentShell, element);
-			}
-		});
+	@Override
+	protected void onDoubleClick(Shell parentShell, Object element) {
+		configs.get(currentConfig).doubleClickHandler(parentShell, element);
 	}
 
 	void setInput(Object[] elements) {
@@ -102,16 +91,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 			viewer.setLabelProvider(labelProvider);
 	}
 
-	void setViewName(String name) {
-		setPartName(name);
-	}
-
-	void refresh() {
-		viewer.refresh();
-	}
-
-	public void registerConfig(
-			ChainDesignerConfiguration<? extends ChainRepoService<?, ?, ?>, ? extends GraphDrawable> config) {
+	public void registerConfig(ChainDesignerConfiguration<? extends ChainRepoService<?, ?, ?>, ? extends GraphDrawable> config) {
 		String viewID = config.getViewID();
 		if (configs.get(viewID) == null) {
 			configs.put(viewID, config);
@@ -126,9 +106,9 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 		// prevents storm events
 		long cur = System.currentTimeMillis();
-		if(cur-lastEvent < 600)
+		if (cur - lastEvent < 600)
 			return;
-		
+
 		// Assert something is selected
 		Object element = null;
 		if (selection instanceof TreeSelection) {
@@ -161,8 +141,7 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 
 		// model removed checking
 		for (Changeset c : changes)
-			if (c.getOperation().equals(Operation.REMOVE)
-					&& c.getObject().equals(configs.get(currentConfig).getModel())) {
+			if (c.getOperation().equals(Operation.REMOVE) && c.getObject().equals(configs.get(currentConfig).getModel())) {
 				configs.get(currentConfig).setModel(null);
 				return;
 			}

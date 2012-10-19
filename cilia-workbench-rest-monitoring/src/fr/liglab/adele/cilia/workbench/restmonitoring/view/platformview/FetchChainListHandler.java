@@ -14,13 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview;
 
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
@@ -35,17 +33,17 @@ public class FetchChainListHandler extends PlatformViewHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		
+
 		// Validity checking
 		// =================
-		
+
 		Object element = getFirstSelectedElementInRepositoryView(event);
-		
-		if (element == null || ! (element instanceof PlatformFile)) {
+
+		if (element == null || !(element instanceof PlatformFile)) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Please select a platform first");
 			return null;
 		}
-		
+
 		PlatformFile file = (PlatformFile) element;
 		PlatformModel model = file.getModel();
 		if (model == null) {
@@ -55,35 +53,35 @@ public class FetchChainListHandler extends PlatformViewHandler {
 
 		String host = model.getHost();
 		String port = model.getPort();
-		
+
 		String hostMsg = PlatformModel.hostValidator(host);
 		String portMsg = PlatformModel.portValidator(port);
-		
+
 		if (hostMsg != null) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", hostMsg);
 			return null;
 		}
-		
+
 		if (portMsg != null) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", portMsg);
 			return null;
 		}
 
-		// REST 
+		// REST
 		// ====
 		String[] chains;
 		try {
 			chains = CiliaRestHelper.getChainsList(host, Integer.valueOf(port));
-		} catch(CiliaException e) {
+		} catch (CiliaException e) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", e.getMessage());
 			return null;
 		}
 
 		// Model Update
 		// ============
-		
+
 		PlatformRepoService.getInstance().updateChains(file.getFilename(), chains);
-		
+
 		return null;
 	}
 }

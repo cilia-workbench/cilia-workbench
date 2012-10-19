@@ -14,10 +14,13 @@
  */
 package fr.liglab.adele.cilia.workbench.common.ui.view.graphview;
 
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.part.ViewPart;
@@ -29,12 +32,16 @@ import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
+import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+
 /**
  * Base class for implementing graphView, using ZEST framework.
  * 
  * @author Etienne Gandrille
  */
 public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPart {
+
+	private Shell parentShell;
 
 	protected GraphViewer viewer;
 
@@ -44,7 +51,20 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 		viewer.applyLayout();
 		fillToolBar();
 		getSite().setSelectionProvider(viewer);
+		parentShell = ViewUtil.getShell(parent);
+
+		// double click listener
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				Object element = getFirstSelectedElement();
+				if (element != null)
+					onDoubleClick(parentShell, element);
+			}
+		});
 	}
+
+	protected abstract void onDoubleClick(Shell parentShell, Object element);
 
 	protected void fillToolBar() {
 		ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
@@ -60,18 +80,27 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 		// TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
 		// layout = new
 		// GridLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
-		// layout = new HorizontalTreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+		// layout = new
+		// HorizontalTreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
 		// layout = new
 		// RadialLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
-		
+
 		layout = new SpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
-		
+
 		return layout;
 
 	}
 
 	public void setFocus() {
 		viewer.getControl().setFocus();
+	}
+
+	public void setViewName(String name) {
+		setPartName(name);
+	}
+
+	public void refresh() {
+		viewer.refresh();
 	}
 
 	@Override
