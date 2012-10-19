@@ -83,9 +83,6 @@ public class PlatformModel implements DisplayedInPropertiesView, Mergeable, Erro
 			chains.clear();
 		}
 
-		for (Changeset c : retval)
-			c.pushPathElement(this);
-
 		return retval;
 	}
 

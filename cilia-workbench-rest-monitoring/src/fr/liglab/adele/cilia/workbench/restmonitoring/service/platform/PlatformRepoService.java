@@ -121,7 +121,14 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 	public void updateChains(String filename, String[] chains) {
 
 		// merge and compute changes
-		List<Changeset> changes = getModelObject(filename).getModel().mergeChains(chains);
+		PlatformFile pfFile = getModelObject(filename);
+		List<Changeset> changes = pfFile.getModel().mergeChains(chains);
+
+		// path update
+		for (Changeset c : changes) {
+			c.pushPathElement(pfFile);
+			c.pushPathElement(this);
+		}
 
 		// Update content provider
 		contentProvider = new PlatformContentProvider(model);

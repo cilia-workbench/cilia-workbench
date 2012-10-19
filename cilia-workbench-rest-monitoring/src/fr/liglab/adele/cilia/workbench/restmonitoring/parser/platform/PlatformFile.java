@@ -59,15 +59,15 @@ public class PlatformFile extends AbstractFile<PlatformModel> implements Mergeab
 
 			// XML file becomes valid
 			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel) {
-				// Nothing to do, because new model is empty...
-				// We have not yet contacted the platform to get the chains
-				// list...
+				// the new model is empty... nothing to add inside the model
+				retval.add(new Changeset(Operation.UPDATE, this));
 			}
 
 			// XML file becomes invalid
 			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel) {
 				for (PlatformChain chain : oldModel.getChains())
 					retval.add(new Changeset(Operation.REMOVE, chain));
+				retval.add(new Changeset(Operation.UPDATE, this));
 			}
 
 			// Other event, deeper in hierarchy

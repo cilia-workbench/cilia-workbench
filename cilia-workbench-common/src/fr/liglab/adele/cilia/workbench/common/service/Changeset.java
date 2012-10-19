@@ -58,7 +58,8 @@ public class Changeset {
 	}
 
 	public void pushPathElement(Object element) {
-		path.add(element);
+		if (!path.contains(element))
+			path.add(element);
 	}
 
 	@Override
@@ -66,9 +67,25 @@ public class Changeset {
 		return operation + " " + object;
 	}
 
-	public static void displayChangeset(List<Changeset> changesets) {
-		System.out.println("Liste des changesets");
-		for (Changeset c : changesets)
-			System.out.println(" * " + c);
+	public static void displayChangeset(List<Changeset> changesets, boolean displayPath) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("Liste des changesets\n");
+		for (Changeset c : changesets) {
+			sb.append(" * ");
+			sb.append(c);
+			sb.append("\n");
+			if (displayPath) {
+				for (Object o : c.getPath()) {
+					sb.append("    - ");
+					sb.append(o);
+					sb.append(" (");
+					sb.append(o.getClass().getName());
+					sb.append(")");
+					sb.append("\n");
+				}
+			}
+		}
+		System.out.println(sb.toString());
 	}
 }
