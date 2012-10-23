@@ -20,13 +20,13 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.AbstractGraphContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphContentProvider;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaContentProvider extends AbstractGraphContentProvider<ConcreteChain> {
+public class DSCiliaContentProvider extends GraphContentProvider<ConcreteChain> {
 
 	@Override
 	public Object[] getConnectedTo(Object entity) {

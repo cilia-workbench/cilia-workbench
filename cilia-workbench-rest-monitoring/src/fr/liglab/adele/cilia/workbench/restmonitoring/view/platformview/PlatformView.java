@@ -18,6 +18,9 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorReference;
 
@@ -33,7 +36,7 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformR
  * 
  * @author Etienne Gandrille
  */
-public class PlatformView extends RepositoryView<PlatformFile, PlatformModel> {
+public class PlatformView extends RepositoryView<PlatformFile, PlatformModel> implements ISelectionChangedListener {
 
 	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview";
 
@@ -45,6 +48,7 @@ public class PlatformView extends RepositoryView<PlatformFile, PlatformModel> {
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 
+		viewer.addSelectionChangedListener(this);
 		viewer.setLabelProvider(new PlatformLabelProvider());
 
 		// TreeViewer listener
@@ -73,5 +77,21 @@ public class PlatformView extends RepositoryView<PlatformFile, PlatformModel> {
 		// updates labels and icons
 		refreshMessageArea();
 		viewer.refresh(true);
+	}
+
+	@Override
+	public void selectionChanged(SelectionChangedEvent event) {
+		// TODO on regarde ce qui est sélectionné...
+		// si c'est une chaine, il faut mettre à jour le modèle par une requête
+		// rest.
+
+		if (event != null && event.getSelection() != null && event.getSelection() instanceof StructuredSelection) {
+			StructuredSelection ss = (StructuredSelection) event.getSelection();
+			Object elm = ss.getFirstElement();
+			if (elm != null)
+				System.out.println(elm);
+		}
+
+		System.out.println(event.getSelection());
 	}
 }

@@ -21,7 +21,7 @@ import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
  * 
  * @author Etienne Gandrille
  */
-public abstract class AbstractGraphContentProvider<ModelType> extends ArrayContentProvider implements
+public abstract class GraphContentProvider<ModelType> extends ArrayContentProvider implements
 		IGraphEntityContentProvider {
 
 	private ModelType model = null;

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.common;
+package fr.liglab.adele.cilia.workbench.common.ui.view.graphview;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.SWT;
@@ -22,6 +22,7 @@ import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
 import org.eclipse.zest.core.widgets.ZestStyles;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
+
 
 /**
  * 

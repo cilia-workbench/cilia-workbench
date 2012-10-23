@@ -34,15 +34,12 @@
 			id="fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview"
 			name="Abstract compositions" restorable="true">
 		</view>
-
 		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
 			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.dsciliaview.DSCiliaRepositoryView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"
 			id="fr.liglab.adele.cilia.workbench.designer.view.dsciliaview" name="DSCila compositions"
 			restorable="true">
 		</view>
-
-
 		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
 			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.common.ChainDesignerView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chain.png"

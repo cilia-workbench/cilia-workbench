@@ -24,6 +24,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.AbstractGraphLabelProvider;
 
 /**
  * 
@@ -40,12 +41,12 @@ public abstract class ChainDesignerConfiguration<RepoType extends AbstractRepoSe
 
 	private final String viewID;
 
-	private final AbstractGraphContentProvider<ModelType> contentProvider;
+	private final GraphContentProvider<ModelType> contentProvider;
 
 	private final AbstractGraphLabelProvider labelProvider;
 
 	public ChainDesignerConfiguration(ChainDesignerView parent, RepoType repo, String viewID,
-			AbstractGraphContentProvider<ModelType> contentProvider, AbstractGraphLabelProvider labelProvider) {
+			GraphContentProvider<ModelType> contentProvider, AbstractGraphLabelProvider labelProvider) {
 		this.parent = parent;
 		this.repo = repo;
 		this.viewID = viewID;

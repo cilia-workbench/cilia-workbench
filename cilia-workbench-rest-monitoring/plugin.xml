@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.eclipse.ui.preferencePages">
+   <extension point="org.eclipse.ui.preferencePages">
       <page
             category="fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage"
             class="fr.liglab.adele.cilia.workbench.restmonitoring.misc.preferencepage.RestMonitoringPreferencePage"
@@ -10,8 +9,7 @@
             name="Cilia Rest Monitoring">
       </page>
    </extension>
-   <extension
-         point="org.eclipse.ui.views">
+   <extension point="org.eclipse.ui.views">
       <view
             category="fr.liglab.adele.cilia.workbench.common.view.rootCategory"
             class="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.PlatformView"
@@ -20,6 +18,13 @@
             name="Platforms"
             restorable="true">
       </view>
+      <view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
+			class="fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.RunningChainView"
+			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chain.png"
+			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview"
+			name="Running chain" 
+			restorable="true">
+		</view>
    </extension>
 	<extension point="org.eclipse.core.contenttype.contentTypes">
 		<file-association content-type="org.eclipse.core.runtime.xml"
