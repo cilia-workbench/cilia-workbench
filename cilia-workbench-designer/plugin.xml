@@ -12,9 +12,9 @@
 		</sourceProvider>
 		
 		<sourceProvider
-			provider="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.ToolbarEnabler">
+			provider="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainToolbarEnabler">
 			<variable
-				name="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.ToolbarEnabler"
+				name="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainToolbarEnabler"
 				priorityLevel="workbench">
 			</variable>
 		</sourceProvider>
@@ -534,7 +534,7 @@
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.createMediator">
 			<enabledWhen>
 				<with
-					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.ToolbarEnabler">
+					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainToolbarEnabler">
 					<equals value="enable">
 					</equals>
 				</with>
@@ -545,7 +545,7 @@
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.deleteMediator">
 			<enabledWhen>
 				<with
-					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.ToolbarEnabler">
+					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainToolbarEnabler">
 					<equals value="enable">
 					</equals>
 				</with>
@@ -556,7 +556,7 @@
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.createAdapter">
 			<enabledWhen>
 				<with
-					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.ToolbarEnabler">
+					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainToolbarEnabler">
 					<equals value="enable">
 					</equals>
 				</with>
@@ -567,7 +567,7 @@
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.deleteAdapter">
 			<enabledWhen>
 				<with
-					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.ToolbarEnabler">
+					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainToolbarEnabler">
 					<equals value="enable">
 					</equals>
 				</with>
@@ -578,7 +578,7 @@
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.createBinding">
 			<enabledWhen>
 				<with
-					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.ToolbarEnabler">
+					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainToolbarEnabler">
 					<equals value="enable">
 					</equals>
 				</with>
@@ -589,7 +589,7 @@
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.deleteBinding">
 			<enabledWhen>
 				<with
-					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.ToolbarEnabler">
+					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainToolbarEnabler">
 					<equals value="enable">
 					</equals>
 				</with>
