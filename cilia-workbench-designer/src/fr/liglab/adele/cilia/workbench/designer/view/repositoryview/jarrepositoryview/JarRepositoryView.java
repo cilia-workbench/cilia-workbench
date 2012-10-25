@@ -43,7 +43,7 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile, CiliaJarMode
 	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview";
 
 	public JarRepositoryView() {
-		super(JarRepoService.getInstance());
+		super(VIEW_ID, JarRepoService.getInstance());
 	}
 
 	@Override

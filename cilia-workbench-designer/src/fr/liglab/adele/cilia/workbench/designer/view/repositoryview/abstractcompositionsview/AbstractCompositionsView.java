@@ -25,9 +25,9 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionModel;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
@@ -39,7 +39,7 @@ public class AbstractCompositionsView extends RepositoryView<AbstractComposition
 	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.abstractcompositionsview";
 
 	public AbstractCompositionsView() {
-		super(AbstractCompositionsRepoService.getInstance());
+		super(VIEW_ID, AbstractCompositionsRepoService.getInstance());
 	}
 
 	@Override

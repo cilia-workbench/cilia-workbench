@@ -20,9 +20,9 @@ import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.IWorkbenchPart;
 
+import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener;
+import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
@@ -35,7 +35,7 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.Platform
  * 
  * @author Etienne Gandrille
  */
-public class RunningChainView extends GraphView implements IRepoServiceListener, ISelectionListener {
+public class RunningChainView extends GraphView implements IRepoServiceListener, SelectionListener {
 
 	public static final String viewId = "fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview";
 
@@ -46,7 +46,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		super.createPartControl(parent, viewId);
 
 		PlatformRepoService.getInstance().registerListener(this);
-		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(PlatformView.VIEW_ID, this);
+		SelectionService.getInstance().addSelectionListener(PlatformView.VIEW_ID, this);
 
 		updateConfigAndModel(null);
 	}
@@ -64,10 +64,8 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 	}
 
 	@Override
-	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+	public void selectionChanged(String partId, ISelection selection) {
 		// TODO Auto-generated method stub
-		// si le changement de sélection a un impact sur ce qui doit être
-		// affiché...
 		System.out.println("RunningChainView - selection changed");
 	}
 

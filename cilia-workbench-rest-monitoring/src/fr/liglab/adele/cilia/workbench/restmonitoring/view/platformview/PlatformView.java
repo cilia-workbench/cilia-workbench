@@ -18,12 +18,13 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorReference;
 
+import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener;
+import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryView;
@@ -36,19 +37,19 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformR
  * 
  * @author Etienne Gandrille
  */
-public class PlatformView extends RepositoryView<PlatformFile, PlatformModel> implements ISelectionChangedListener {
+public class PlatformView extends RepositoryView<PlatformFile, PlatformModel> implements SelectionListener {
 
 	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview";
 
 	public PlatformView() {
-		super(PlatformRepoService.getInstance());
+		super(VIEW_ID, PlatformRepoService.getInstance());
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 
-		viewer.addSelectionChangedListener(this);
+		SelectionService.getInstance().addSelectionListener(VIEW_ID, this);
 		viewer.setLabelProvider(new PlatformLabelProvider());
 
 		// TreeViewer listener
@@ -80,18 +81,18 @@ public class PlatformView extends RepositoryView<PlatformFile, PlatformModel> im
 	}
 
 	@Override
-	public void selectionChanged(SelectionChangedEvent event) {
+	public void selectionChanged(String partId, ISelection selection) {
 		// TODO on regarde ce qui est sélectionné...
 		// si c'est une chaine, il faut mettre à jour le modèle par une requête
 		// rest.
 
-		if (event != null && event.getSelection() != null && event.getSelection() instanceof StructuredSelection) {
-			StructuredSelection ss = (StructuredSelection) event.getSelection();
+		if (selection instanceof StructuredSelection) {
+			StructuredSelection ss = (StructuredSelection) selection;
 			Object elm = ss.getFirstElement();
 			if (elm != null)
 				System.out.println(elm);
 		}
 
-		System.out.println(event.getSelection());
+		System.out.println(selection);
 	}
 }

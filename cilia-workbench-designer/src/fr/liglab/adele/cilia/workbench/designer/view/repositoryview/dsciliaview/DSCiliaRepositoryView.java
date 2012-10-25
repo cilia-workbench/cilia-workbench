@@ -39,7 +39,7 @@ public class DSCiliaRepositoryView extends RepositoryView<DSCiliaFile, DSCiliaMo
 	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.dsciliaview";
 
 	public DSCiliaRepositoryView() {
-		super(DSCiliaRepoService.getInstance());
+		super(VIEW_ID, DSCiliaRepoService.getInstance());
 	}
 
 	@Override

@@ -35,7 +35,6 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPropertyListener;
-import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IURIEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -44,18 +43,18 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 
+import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractFile;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
-import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType>, AbstractType> extends ViewPart
-		implements IRepoServiceListener {
+public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType>, AbstractType> extends ViewPart implements IRepoServiceListener {
 
 	/** Main viewer. */
 	protected TreeViewer viewer;
@@ -71,8 +70,11 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 
 	protected final AbstractRepoService<ModelType, AbstractType> repoService;
 
-	public RepositoryView(AbstractRepoService<ModelType, AbstractType> repoService) {
+	private final String partId;
+
+	public RepositoryView(String partId, AbstractRepoService<ModelType, AbstractType> repoService) {
 		this.repoService = repoService;
+		this.partId = partId;
 	}
 
 	public void createPartControl(Composite parent) {
@@ -96,7 +98,8 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		refresh();
 
 		// Selection provider
-		getSite().setSelectionProvider(viewer);
+		// getSite().setSelectionProvider(viewer);
+		SelectionService.getInstance().addSelectionProvider(partId, viewer);
 	}
 
 	public void refresh() {
@@ -107,12 +110,10 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		viewer.refresh();
 	}
 
-	
 	public void refreshMessageArea() {
 		messageArea.setText(computeMessageAreaText());
 	}
-	
-	
+
 	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();
@@ -141,8 +142,9 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	 * @return the element, or null if not found.
 	 */
 	public Object getFirstSelectedElement() {
-		ISelectionService selServ = getSite().getWorkbenchWindow().getSelectionService();
-		ISelection sel = selServ.getSelection();
+		// ISelection sel =
+		// getSite().getWorkbenchWindow().getSelectionService().getSelection();
+		ISelection sel = viewer.getSelection();
 		if (sel != null && sel instanceof TreeSelection) {
 			TreeSelection ts = (TreeSelection) sel;
 			return ts.getFirstElement();

@@ -104,6 +104,9 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 
+		// TODO plus rien ne va fonctionner ici à cause du changement de
+		// framework de sélection...
+
 		// prevents storm events
 		long cur = System.currentTimeMillis();
 		if (cur - lastEvent < 600)

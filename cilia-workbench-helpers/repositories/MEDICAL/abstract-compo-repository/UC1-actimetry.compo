@@ -89,8 +89,12 @@
 			<mediator-instance id="enricher" type="MeasureEnricherMediator"/>
 			<mediator-instance id="transformer" type="MeasureTransformerMediator">
 				<processor>
-					<property name="user" value="Paul"/>
-				</processor>
+					
+				
+
+
+<property name="user" value="Paul"/>
+</processor>
 			</mediator-instance>
 		</mediators>
 		
@@ -101,5 +105,6 @@
 			<binding from="transformer:out" from-cardinality="1...1" to="event-webservice" to-cardinality="1...n"/>
 		</bindings>
 	</chain>
+
 
 </cilia-composition-specifications>

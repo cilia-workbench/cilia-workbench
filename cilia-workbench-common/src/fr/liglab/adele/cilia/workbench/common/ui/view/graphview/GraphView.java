@@ -22,7 +22,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
@@ -32,6 +31,7 @@ import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
+import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 
 /**
@@ -50,8 +50,10 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 		viewer.setLayoutAlgorithm(getLayout(), true);
 		viewer.applyLayout();
 		fillToolBar();
-		getSite().setSelectionProvider(viewer);
 		parentShell = ViewUtil.getShell(parent);
+
+		// getSite().setSelectionProvider(viewer);
+		SelectionService.getInstance().addSelectionProvider(viewId, viewer);
 
 		// double click listener
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
@@ -109,8 +111,9 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 	}
 
 	public Object getFirstSelectedElement() {
-		ISelectionService selServ = getSite().getWorkbenchWindow().getSelectionService();
-		ISelection sel = selServ.getSelection();
+		// ISelection sel =
+		// getSite().getWorkbenchWindow().getSelectionService().getSelection();
+		ISelection sel = viewer.getSelection();
 		if (sel != null && sel instanceof StructuredSelection) {
 			StructuredSelection ss = (StructuredSelection) sel;
 			return ss.getFirstElement();

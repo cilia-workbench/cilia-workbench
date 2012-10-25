@@ -46,6 +46,13 @@
 			id="fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview"
 			name="Chain Designer" restorable="true">
 		</view>
+		
+		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainView"
+			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/chain.png"
+			id="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview"
+			name="Abstract Chain" restorable="true">
+		</view>
 		<view category="fr.liglab.adele.cilia.workbench.designer.view.rootCategory"
 			class="fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specrepositoryview.SpecRepositoryView"
 			icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/repo.png"

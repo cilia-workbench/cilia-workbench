@@ -40,7 +40,7 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.specrepositoryview";
 
 	public SpecRepositoryView() {
-		super(SpecRepoService.getInstance());
+		super(VIEW_ID, SpecRepoService.getInstance());
 	}
 
 	@Override
@@ -87,9 +87,8 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 		UpdateMediatorSpecDialog dialog = new UpdateMediatorSpecDialog(ViewUtil.getShell(event), element);
 
 		if (dialog.open() == Window.OK) {
-			SpecRepoService.getInstance().updateMediatorSpec(element, dialog.getInPorts(), dialog.getOutPorts(),
-					dialog.getMediatorProperties(), dialog.getSchedulerParam(), dialog.getProcessorParam(),
-					dialog.getDispatcherParam());
+			SpecRepoService.getInstance().updateMediatorSpec(element, dialog.getInPorts(), dialog.getOutPorts(), dialog.getMediatorProperties(),
+					dialog.getSchedulerParam(), dialog.getProcessorParam(), dialog.getDispatcherParam());
 		}
 	}
 }
