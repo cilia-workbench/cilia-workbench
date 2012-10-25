@@ -82,7 +82,8 @@
 		<adapters>
 			<adapter-instance id="presence-collector" type="PresenceDetectorAdapter"/> 
 			<adapter-instance id="event-webservice" type="EventServiceAdapter"/>
-		</adapters>
+		
+</adapters>
 
 		<mediators>
 			<mediator-instance id="filter" type="MeasureFilterMediator"/>
@@ -103,8 +104,10 @@
 			<binding from="filter:out" from-cardinality="1...1" to="enricher:in" to-cardinality="1...n"/>
 			<binding from="enricher:out" from-cardinality="1...1" to="transformer:in" to-cardinality="1...n"/>
 			<binding from="transformer:out" from-cardinality="1...1" to="event-webservice" to-cardinality="1...n"/>
-		</bindings>
+		
+</bindings>
 	</chain>
+
 
 
 </cilia-composition-specifications>

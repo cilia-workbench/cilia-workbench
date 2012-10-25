@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -73,7 +73,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 	private static final String DST_COLUMN_KEY = "IN";
 	private static final String SRC_COLUMN_KEY = "OUT";
 
-	protected NewBindingDialog(Shell parentShell, AbstractChain chain) {
+	public NewBindingDialog(Shell parentShell, AbstractChain chain) {
 		super(parentShell, windowTitle, new Point(550, 300), false);
 		this.chain = chain;
 	}

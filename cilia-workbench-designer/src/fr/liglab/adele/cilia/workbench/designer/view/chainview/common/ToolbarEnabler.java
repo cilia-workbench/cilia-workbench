@@ -23,7 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
  */
 public class ToolbarEnabler extends ToggleSourceProvider {
 
-	public final static String VARIABLE_NAME = "fr.liglab.adele.cilia.workbench.designer.view.chaindesignerview.toolbarEnable";
+	public final static String VARIABLE_NAME = "fr.liglab.adele.cilia.workbench.designer.view.chainview.common.ToolbarEnabler";
 	private final static String TOOLBAR_ENABLE = "enable";
 	private final static String TOOLBAR_DISABLE = "disable";
 	private final static boolean defaultValue = false;

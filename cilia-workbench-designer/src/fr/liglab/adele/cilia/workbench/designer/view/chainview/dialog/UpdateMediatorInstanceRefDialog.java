@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;

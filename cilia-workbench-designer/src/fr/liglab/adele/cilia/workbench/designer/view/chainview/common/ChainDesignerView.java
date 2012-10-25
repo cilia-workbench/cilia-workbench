@@ -34,7 +34,6 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainConfiguration;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.dscilia.DSCiliaConfiguration;
 
 /**
@@ -61,9 +60,6 @@ public class ChainDesignerView extends GraphView implements IRepoServiceListener
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent, viewId);
 
-		// register configs
-		registerConfig(new AbstractChainConfiguration(this));
-		// TODO remove comment... and refactor a lot !
 		registerConfig(new DSCiliaConfiguration(this));
 
 		// selects the first config : important for providing content provider,

@@ -25,6 +25,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
+import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
@@ -38,6 +39,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorInstanceRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog.UpdateMediatorInstanceRefDialog;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog.UpdateMediatorRefDialog;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog.UpdateMediatorSpecRefDialog;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview.AbstractCompositionsView;
 
 /**
@@ -49,7 +53,7 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 	public static final String viewId = "fr.liglab.adele.cilia.workbench.designer.view.abstractchainview";
 
 	private IBaseLabelProvider labelProvider = new AbstractChainLabelProvider();
-	private IContentProvider contentProvider = new AbstractChainContentProviderNEW();
+	private IContentProvider contentProvider = new AbstractChainContentProvider();
 
 	private AbstractChain model = null;
 
@@ -61,6 +65,10 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 		SelectionService.getInstance().addSelectionListener(AbstractCompositionsView.VIEW_ID, this);
 
 		updateConfigAndModel(null);
+	}
+
+	public AbstractChain getModel() {
+		return model;
 	}
 
 	private void updateConfigAndModel(AbstractChain chain) {
@@ -77,6 +85,8 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 			setPartName("Abstract Chain Viewer");
 		else
 			setPartName(model.getName());
+
+		ToggleSourceProvider.setToggleVariable(ToolbarEnabler.VARIABLE_NAME, model != null);
 
 		viewer.refresh();
 	}

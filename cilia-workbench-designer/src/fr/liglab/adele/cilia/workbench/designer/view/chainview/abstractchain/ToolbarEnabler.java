@@ -14,28 +14,20 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.dialogs.ListDialog;
-
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
+import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
 
 /**
+ * Toggle variable used to enable and disable toolbar buttons.
  * 
  * @author Etienne Gandrille
  */
-public class DeleteBindingDialog extends ListDialog {
+public class ToolbarEnabler extends ToggleSourceProvider {
+	public final static String VARIABLE_NAME = "fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.ToolbarEnabler";
+	private final static String TOOLBAR_ENABLE = "enable";
+	private final static String TOOLBAR_DISABLE = "disable";
+	private final static boolean defaultValue = false;
 
-	public DeleteBindingDialog(Shell parent, AbstractChain chain) {
-		super(parent);
-
-		setTitle("Remove binding");
-		setMessage("Select the binding to be removed");
-		setInput(chain.getBindings());
-
-		setContentProvider(new ArrayContentProvider());
-		setLabelProvider(new LabelProvider());
-		setHelpAvailable(false);
+	public ToolbarEnabler() {
+		super(VARIABLE_NAME, TOOLBAR_ENABLE, TOOLBAR_DISABLE, defaultValue);
 	}
 }

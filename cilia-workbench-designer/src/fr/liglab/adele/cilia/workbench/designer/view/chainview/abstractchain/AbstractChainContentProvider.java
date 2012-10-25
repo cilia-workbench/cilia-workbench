@@ -17,22 +17,36 @@ package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
+
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphContentProvider;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class AbstractChainContentProvider extends GraphContentProvider<AbstractChain> {
+public class AbstractChainContentProvider implements IStructuredContentProvider, IGraphEntityContentProvider {
+
+	@Override
+	public Object[] getElements(Object inputElement) {
+
+		if (inputElement == null)
+			return new Object[0];
+		else if (!(inputElement instanceof AbstractChain))
+			throw new RuntimeException("input element must be an Abstract Chain");
+		else
+			return ((AbstractChain) inputElement).getElements();
+	}
 
 	@Override
 	public Object[] getConnectedTo(Object entity) {
 		List<Object> retval = new ArrayList<Object>();
 
-		if (getModel() != null && entity instanceof ComponentRef) {
+		if (entity instanceof ComponentRef) {
 			@SuppressWarnings("unchecked")
 			ComponentRef<AbstractChain> component = (ComponentRef<AbstractChain>) entity;
 			Binding[] bindings = component.getOutgoingBindings();
@@ -44,5 +58,13 @@ public class AbstractChainContentProvider extends GraphContentProvider<AbstractC
 		}
 
 		return retval.toArray();
+	}
+
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	}
+
+	@Override
+	public void dispose() {
 	}
 }
