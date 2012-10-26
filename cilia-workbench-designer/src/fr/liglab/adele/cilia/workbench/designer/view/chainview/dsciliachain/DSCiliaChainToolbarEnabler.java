@@ -12,19 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.common;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
+import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DeleteAdapterHandler extends ChainDesignerHandler {
+public class DSCiliaChainToolbarEnabler extends ToggleSourceProvider {
+	public final static String VARIABLE_NAME = "fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain.DSCiliaChainToolbarEnabler";
+	private final static String TOOLBAR_ENABLE = "enable";
+	private final static String TOOLBAR_DISABLE = "disable";
+	private final static boolean defaultValue = false;
 
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return getConfiguration(event).deleteAdapterHandler(event);
+	public DSCiliaChainToolbarEnabler() {
+		super(VARIABLE_NAME, TOOLBAR_ENABLE, TOOLBAR_DISABLE, defaultValue);
 	}
 }

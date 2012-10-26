@@ -39,9 +39,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorInstanceRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog.UpdateMediatorInstanceRefDialog;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog.UpdateMediatorRefDialog;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog.UpdateMediatorSpecRefDialog;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.UpdateMediatorInstanceRefDialog;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.UpdateMediatorRefDialog;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.UpdateMediatorSpecRefDialog;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview.AbstractCompositionsView;
 
 /**

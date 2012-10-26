@@ -12,27 +12,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.common;
 
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.ListDialog;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorInstanceRef;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class UpdateMediatorInstanceRefDialog extends UpdateMediatorRefDialog {
+public class DeleteBindingDialog extends ListDialog {
 
-	public UpdateMediatorInstanceRefDialog(Shell parent, MediatorInstanceRef<AbstractChain> mediator) {
-		super(parent, mediator, new Point(500, 400));
-	}
+	public DeleteBindingDialog(Shell parent, AbstractChain chain) {
+		super(parent);
 
-	@Override
-	protected void populateDialogArea(Composite container) {
-		// nothing to add here
+		setTitle("Remove binding");
+		setMessage("Select the binding to be removed");
+		setInput(chain.getBindings());
+
+		setContentProvider(new ArrayContentProvider());
+		setLabelProvider(new LabelProvider());
+		setHelpAvailable(false);
 	}
 }

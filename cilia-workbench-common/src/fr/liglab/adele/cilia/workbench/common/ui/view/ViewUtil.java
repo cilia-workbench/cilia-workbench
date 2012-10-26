@@ -70,4 +70,9 @@ public class ViewUtil {
 		MessageDialog.openInformation(ViewUtil.getShell(event), "Not yet implemented", event.getCommand().getId());
 		return null;
 	}
+
+	public static Object notYetImplementedHandler(Shell parentShell) {
+		MessageDialog.openInformation(parentShell, "Not yet implemented", "Not yet implemented");
+		return null;
+	}
 }

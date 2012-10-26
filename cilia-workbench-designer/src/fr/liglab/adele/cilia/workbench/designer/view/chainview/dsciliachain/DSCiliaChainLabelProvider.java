@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.dscilia;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain;
 
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSC
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaLabelProvider extends AbstractGraphLabelProvider {
+public class DSCiliaChainLabelProvider extends AbstractGraphLabelProvider {
 
 	@Override
 	protected GenericContentProvider getContentProvider() {

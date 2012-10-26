@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,36 +25,37 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class NewAdapterDialog extends TextListDialog {
+public class NewMediatorDialog extends TextListDialog {
 
 	private final AbstractChain chain;
 
-	public NewAdapterDialog(Shell parentShell, AbstractChain chain) {
-		super(parentShell, "New Adapter", "id", "type", getListValues());
+	public NewMediatorDialog(Shell parentShell, AbstractChain chain) {
+		super(parentShell, "New Mediator", "id", "type", getListValues());
 		this.chain = chain;
 	}
 
 	private static Map<String, Object> getListValues() {
 		Map<String, Object> retval = new HashMap<String, Object>();
 
-		List<IGenericAdapter> list = new ArrayList<IGenericAdapter>();
-		list.addAll(JarRepoService.getInstance().getAdapters());
-		// list.addAll(SpecRepoService.getInstance().getAdapterSpecs());
+		List<IGenericMediator> list = new ArrayList<IGenericMediator>();
+		list.addAll(JarRepoService.getInstance().getMediators());
+		list.addAll(SpecRepoService.getInstance().getMediatorSpecs());
 
-		for (IGenericAdapter a : list) {
-			NameNamespaceID id = a.getId();
-			String str = a.getNature().getShortName() + " ";
+		for (IGenericMediator m : list) {
+			NameNamespaceID id = m.getId();
+			String str = m.getNature().getShortName() + " ";
 			String key = str + id.getName();
 			if (!Strings.isNullOrEmpty(id.getNamespace()))
 				key = key + " (" + id.getNamespace() + ")";
-			retval.put(key, a);
+			retval.put(key, m);
 		}
 
 		return retval;
@@ -64,7 +65,7 @@ public class NewAdapterDialog extends TextListDialog {
 	protected String checkValidValues(String id, Object object) {
 		if (object == null)
 			return "Please select an element in the combo";
-		IGenericAdapter a = (IGenericAdapter) object;
-		return chain.isNewComponentAllowed(id, a.getId());
+		IGenericMediator m = (IGenericMediator) object;
+		return chain.isNewComponentAllowed(id, m.getId());
 	}
 }

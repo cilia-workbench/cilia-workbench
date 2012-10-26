@@ -12,22 +12,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.common;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
 
 /**
- * Base Handler for the chain designer view.
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainDesignerHandler extends AbstractHandler {
+public abstract class DSCiliaChainHandler extends AbstractHandler {
 
-	ChainDesignerConfiguration<?, ?> getConfiguration(ExecutionEvent event) {
-		ChainDesignerView view = (ChainDesignerView) ViewUtil.findViewWithId(event, ChainDesignerView.viewId);
-		return view.getCurrentConfig();
+	public static DSCiliaChainView getDSCiliaChainView(ExecutionEvent event) {
+		return (DSCiliaChainView) ViewUtil.findViewWithId(event, DSCiliaChainView.viewId);
+	}
+
+	public static ConcreteChain getDisplayedModel(ExecutionEvent event) {
+		DSCiliaChainView view = getDSCiliaChainView(event);
+		return view.getModel();
 	}
 }

@@ -14,17 +14,28 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chainview.common;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.ListDialog;
+
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class CreateMediatorHandler extends ChainDesignerHandler {
+public class DeleteAdapterDialog extends ListDialog {
 
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return getConfiguration(event).createMediatorHandler(event);
+	public DeleteAdapterDialog(Shell parent, AbstractChain chain) {
+		super(parent);
+
+		setTitle("Remove adapter");
+		setMessage("Select the adapter to be removed");
+		setInput(chain.getAdapters());
+
+		setContentProvider(new ArrayContentProvider());
+		setLabelProvider(new LabelProvider());
+		setHelpAvailable(false);
 	}
 }

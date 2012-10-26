@@ -12,25 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.common;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+
+import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class GraphContentProvider<ModelType> extends ArrayContentProvider implements
-		IGraphEntityContentProvider {
+public class DeleteBindingHandler extends DSCiliaChainHandler {
 
-	private ModelType model = null;
-
-	public ModelType getModel() {
-		return model;
-	}
-
-	public void setModel(ModelType model) {
-		this.model = model;
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		return ViewUtil.notYetImplementedHandler(event);
 	}
 }

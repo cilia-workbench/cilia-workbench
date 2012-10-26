@@ -22,7 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog.DeleteMediatorDialog;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.DeleteMediatorDialog;
 
 /**
  * 

@@ -12,27 +12,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.dscilia;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
+
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphContentProvider;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaContentProvider extends GraphContentProvider<ConcreteChain> {
+public class DSCiliaChainContentProvider implements IStructuredContentProvider, IGraphEntityContentProvider {
+
+	@Override
+	public Object[] getElements(Object inputElement) {
+
+		if (inputElement == null)
+			return new Object[0];
+		else if (!(inputElement instanceof ConcreteChain))
+			throw new RuntimeException("input element must be a DSCilia Chain");
+		else
+			return ((ConcreteChain) inputElement).getElements();
+	}
 
 	@Override
 	public Object[] getConnectedTo(Object entity) {
 		List<Object> retval = new ArrayList<Object>();
 
-		if (getModel() != null && entity instanceof ComponentRef) {
+		if (entity instanceof ComponentRef) {
 			@SuppressWarnings("unchecked")
 			ComponentRef<ConcreteChain> component = (ComponentRef<ConcreteChain>) entity;
 			Binding[] bindings = component.getOutgoingBindings();
@@ -44,5 +58,13 @@ public class DSCiliaContentProvider extends GraphContentProvider<ConcreteChain> 
 		}
 
 		return retval.toArray();
+	}
+
+	@Override
+	public void dispose() {
+	}
+
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 }

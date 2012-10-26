@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.dialog;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.common;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -25,14 +25,14 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
  * 
  * @author Etienne Gandrille
  */
-public class DeleteBindingDialog extends ListDialog {
+public class DeleteMediatorDialog extends ListDialog {
 
-	public DeleteBindingDialog(Shell parent, AbstractChain chain) {
+	public DeleteMediatorDialog(Shell parent, AbstractChain chain) {
 		super(parent);
 
-		setTitle("Remove binding");
-		setMessage("Select the binding to be removed");
-		setInput(chain.getBindings());
+		setTitle("Remove mediator");
+		setMessage("Select the mediator to be removed");
+		setInput(chain.getMediators());
 
 		setContentProvider(new ArrayContentProvider());
 		setLabelProvider(new LabelProvider());

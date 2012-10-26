@@ -12,19 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.view.chainview.common;
+package fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+
+import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DeleteMediatorHandler extends ChainDesignerHandler {
+public class CreateBindingHandler extends DSCiliaChainHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return getConfiguration(event).deleteMediatorHandler(event);
+		return ViewUtil.notYetImplementedHandler(event);
 	}
 }
