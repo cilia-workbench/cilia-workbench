@@ -37,7 +37,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.PropertyImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;

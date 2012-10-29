@@ -24,7 +24,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.PropertyImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.PropertyImplem;
 
 /**
  * 

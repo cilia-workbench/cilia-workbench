@@ -23,10 +23,10 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Dispatch
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ParameterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.PropertyImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SenderImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.PropertyImplem;
 
 /**
  * Content provider used by the jar repository.
