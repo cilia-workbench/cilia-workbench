@@ -26,14 +26,14 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CollectorImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.DispatcherImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SenderImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CollectorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.DispatcherImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.ProcessorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.SchedulerImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.SenderImplem;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**

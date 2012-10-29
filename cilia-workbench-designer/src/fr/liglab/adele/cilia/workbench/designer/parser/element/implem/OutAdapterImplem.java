@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
 import org.w3c.dom.Node;
 
@@ -22,11 +22,29 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
  * 
  * @author Etienne Gandrille
  */
-public class CollectorImplem extends AdapterSubElement {
+public class OutAdapterImplem extends AdapterImplem {
 
-	public static final String XML_NODE_NAME = "collector";
+	String sender;
 
-	public CollectorImplem(Node node) throws CiliaException {
-		super(node);
+	public OutAdapterImplem(Node node) throws CiliaException {
+		AdapterImplemUtil.initAdapter(node, this, "sender");
+	}
+
+	@Override
+	public AdapterType getType() {
+		return AdapterType.OUT;
+	}
+
+	public String getSender() {
+		return sender;
+	}
+
+	protected void setSubElement(String subElement) {
+		sender = subElement;
+	}
+
+	@Override
+	protected String getSubElement() {
+		return sender;
 	}
 }

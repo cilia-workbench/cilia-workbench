@@ -26,14 +26,14 @@ import org.w3c.dom.NodeList;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplemUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CollectorImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.DispatcherImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SenderImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplemUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CollectorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.DispatcherImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.ProcessorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.SchedulerImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.SenderImplem;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link CiliaJarFile}.

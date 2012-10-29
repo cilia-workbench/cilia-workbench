@@ -12,24 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class InPortImplem extends InPort implements DisplayedInPropertiesView {
+public class SenderImplem extends AdapterSubElement {
 
-	public static final String XML_NODE_NAME = "in-port";
+	public static final String XML_NODE_NAME = "sender";
 
-	public InPortImplem(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, "name", this, "name");
+	public SenderImplem(Node node) throws CiliaException {
+		super(node);
 	}
 }

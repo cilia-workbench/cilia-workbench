@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
 import java.util.List;
 
@@ -23,19 +23,19 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesViewWithForward;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IDispatcher;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IScheduler;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DispatcherImplem implements IDispatcher, DisplayedInPropertiesViewWithForward, ErrorsAndWarningsFinder, Identifiable {
+public class SchedulerImplem implements IScheduler, DisplayedInPropertiesViewWithForward, ErrorsAndWarningsFinder, Identifiable {
 
-	public static final String XML_NODE_NAME = "dispatcher";
+	public static final String XML_NODE_NAME = "scheduler";
 
 	private final ComponentPartImplemHelper helper;
 
-	public DispatcherImplem(Node node) throws CiliaException {
+	public SchedulerImplem(Node node) throws CiliaException {
 		helper = new ComponentPartImplemHelper(node);
 	}
 

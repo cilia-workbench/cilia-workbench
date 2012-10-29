@@ -21,7 +21,7 @@ import java.util.List;
  * 
  * @author Etienne Gandrille
  */
-public abstract interface IComponentPart {
+public interface IComponentPart {
 
 	List<? extends Parameter> getParameters();
 

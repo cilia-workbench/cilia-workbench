@@ -12,24 +12,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class OutPortImplem extends OutPort implements DisplayedInPropertiesView {
+public class InAdapterImplem extends AdapterImplem {
 
-	public static final String XML_NODE_NAME = "out-port";
+	String collector;
 
-	public OutPortImplem(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, "name", this, "name");
+	public InAdapterImplem(Node node) throws CiliaException {
+		AdapterImplemUtil.initAdapter(node, this, "collector");
+	}
+
+	@Override
+	public AdapterType getType() {
+		return AdapterType.IN;
+	}
+
+	public String getCollector() {
+		return collector;
+	}
+
+	protected void setSubElement(String subElement) {
+		collector = subElement;
+	}
+
+	@Override
+	protected String getSubElement() {
+		return collector;
 	}
 }
