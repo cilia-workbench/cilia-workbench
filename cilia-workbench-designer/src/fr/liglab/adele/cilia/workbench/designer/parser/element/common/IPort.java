@@ -14,20 +14,26 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+
 /**
- * Represents an out port. It can be a spec or an implementation.
+ * Represents a port, in or out. It can be a spec or an implementation.
  * 
  * @author Etienne Gandrille
  */
-public class GenericOutPort extends GenericPort {
+public interface IPort extends Identifiable, ErrorsAndWarningsFinder {
 
-	@Override
-	public PortNature getNature() {
-		return PortNature.OUT;
+	public enum PortNature {
+		IN, OUT;
 	}
 
-	@Override
-	public Object getId() {
-		return "out:" + getName();
-	}
+	public String getName();
+
+	/**
+	 * Tests the nature of this port : IN or OUT ?
+	 * 
+	 * @return the {@link PortNature}
+	 */
+	public PortNature getNature();
 }

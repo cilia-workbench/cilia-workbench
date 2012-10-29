@@ -34,11 +34,11 @@ import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericInPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort.PortNature;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
 
 /**
  * 
@@ -57,7 +57,7 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 	private String namespace;
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	private List<IGenericPort> ports = new ArrayList<IGenericPort>();
+	private List<IPort> ports = new ArrayList<IPort>();
 	private List<NameProperty> properties = new ArrayList<NameProperty>();
 	private ProcessorSpec processor = null;
 	private SchedulerSpec scheduler = null;
@@ -69,12 +69,12 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 
 		Node rootPorts = XMLHelpers.findChild(node, XML_NODE_PORTS_CONTAINER);
 		if (rootPorts != null) {
-			Node[] ips = XMLHelpers.findChildren(rootPorts, InPort.getXMLtag());
+			Node[] ips = XMLHelpers.findChildren(rootPorts, InPortSpec.getXMLtag());
 			for (Node ip : ips)
-				ports.add(new InPort(ip));
-			Node[] ops = XMLHelpers.findChildren(rootPorts, OutPort.getXMLtag());
+				ports.add(new InPortSpec(ip));
+			Node[] ops = XMLHelpers.findChildren(rootPorts, OutPortSpec.getXMLtag());
 			for (Node op : ops)
-				ports.add(new OutPort(op));
+				ports.add(new OutPortSpec(op));
 		}
 
 		Node rootProperties = XMLHelpers.findChild(node, XML_NODE_PROPERTIES_CONTAINER);
@@ -127,23 +127,23 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 		return null;
 	}
 
-	public List<IGenericPort> getPorts() {
+	public List<IPort> getPorts() {
 		return ports;
 	}
 
-	public List<GenericInPort> getInPorts() {
-		List<GenericInPort> retval = new ArrayList<GenericInPort>();
-		for (IGenericPort p : ports)
+	public List<InPort> getInPorts() {
+		List<InPort> retval = new ArrayList<InPort>();
+		for (IPort p : ports)
 			if (p.getNature() == PortNature.IN)
-				retval.add((GenericInPort) p);
+				retval.add((InPort) p);
 		return retval;
 	}
 
-	public List<GenericOutPort> getOutPorts() {
-		List<GenericOutPort> retval = new ArrayList<GenericOutPort>();
-		for (IGenericPort p : ports)
+	public List<OutPort> getOutPorts() {
+		List<OutPort> retval = new ArrayList<OutPort>();
+		for (IPort p : ports)
 			if (p.getNature() == PortNature.OUT)
-				retval.add((GenericOutPort) p);
+				retval.add((OutPort) p);
 		return retval;
 	}
 
@@ -181,12 +181,12 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 
 	public static Node createXMLInPort(Document document, Element spec, String portName) {
 		Node ports = XMLHelpers.getOrCreateChild(document, spec, XML_NODE_PORTS_CONTAINER);
-		return InPort.createXMLPort(document, ports, portName);
+		return InPortSpec.createXMLPort(document, ports, portName);
 	}
 
 	public static Node createXMLOutPort(Document document, Element spec, String portName) {
 		Node ports = XMLHelpers.getOrCreateChild(document, spec, XML_NODE_PORTS_CONTAINER);
-		return OutPort.createXMLPort(document, ports, portName);
+		return OutPortSpec.createXMLPort(document, ports, portName);
 	}
 
 	public static Node createMediatorProperty(Document document, Element spec, String key) {

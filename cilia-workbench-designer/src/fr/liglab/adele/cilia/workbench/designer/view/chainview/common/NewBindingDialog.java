@@ -36,7 +36,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinalit
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 
 /**
  * 
@@ -266,10 +266,10 @@ public class NewBindingDialog extends WorkbenchDialog {
 				comboPort.setEnabled(true);
 				IMediator mediator = ((MediatorRef<AbstractChain>) i).getReferencedObject();
 				if (portType.equals(DST_COLUMN_KEY)) {
-					for (IGenericPort port : mediator.getInPorts())
+					for (IPort port : mediator.getInPorts())
 						comboPort.add(port.getName());
 				} else {
-					for (IGenericPort port : mediator.getOutPorts())
+					for (IPort port : mediator.getOutPorts())
 						comboPort.add(port.getName());
 				}
 

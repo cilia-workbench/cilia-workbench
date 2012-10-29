@@ -12,33 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import org.w3c.dom.Node;
+
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
 
 /**
- * Represents a port, in or out. It can be a spec or an implementation.
  * 
  * @author Etienne Gandrille
  */
-public abstract class GenericPort implements IGenericPort {
+public class OutPortImplem extends OutPort implements DisplayedInPropertiesView {
 
-	private String name;
+	public static final String XML_NODE_NAME = "out-port";
 
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
-
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-
-		return CiliaFlag.generateTab(e1);
+	public OutPortImplem(Node node) throws CiliaException {
+		ReflectionUtil.setAttribute(node, "name", this, "name");
 	}
 }

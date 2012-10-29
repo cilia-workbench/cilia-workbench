@@ -29,12 +29,12 @@ import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericInPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponentPart;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort.PortNature;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
@@ -61,7 +61,7 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 	private String dispatcherName;
 	private String dispatcherNamespace;
 
-	private List<IGenericPort> ports = new ArrayList<IGenericPort>();
+	private List<IPort> ports = new ArrayList<IPort>();
 
 	private List<NameValueProperty> properties = new ArrayList<NameValueProperty>();
 
@@ -109,32 +109,32 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 
 		Node portsNode = XMLHelpers.findChild(node, "ports");
 		if (portsNode != null) {
-			Node[] inPorts = XMLHelpers.findChildren(portsNode, InPort.XML_NODE_NAME);
+			Node[] inPorts = XMLHelpers.findChildren(portsNode, InPortImplem.XML_NODE_NAME);
 			for (Node inPort : inPorts)
-				ports.add(new InPort(inPort));
-			Node[] outPorts = XMLHelpers.findChildren(portsNode, OutPort.XML_NODE_NAME);
+				ports.add(new InPortImplem(inPort));
+			Node[] outPorts = XMLHelpers.findChildren(portsNode, OutPortImplem.XML_NODE_NAME);
 			for (Node outPort : outPorts)
-				ports.add(new OutPort(outPort));
+				ports.add(new OutPortImplem(outPort));
 		}
 	}
 
-	public List<IGenericPort> getPorts() {
+	public List<IPort> getPorts() {
 		return ports;
 	}
 
-	public List<GenericInPort> getInPorts() {
-		List<GenericInPort> retval = new ArrayList<GenericInPort>();
-		for (IGenericPort p : ports)
+	public List<InPort> getInPorts() {
+		List<InPort> retval = new ArrayList<InPort>();
+		for (IPort p : ports)
 			if (p.getNature() == PortNature.IN)
-				retval.add((GenericInPort) p);
+				retval.add((InPort) p);
 		return retval;
 	}
 
-	public List<GenericOutPort> getOutPorts() {
-		List<GenericOutPort> retval = new ArrayList<GenericOutPort>();
-		for (IGenericPort p : ports)
+	public List<OutPort> getOutPorts() {
+		List<OutPort> retval = new ArrayList<OutPort>();
+		for (IPort p : ports)
 			if (p.getNature() == PortNature.OUT)
-				retval.add((GenericOutPort) p);
+				retval.add((OutPort) p);
 		return retval;
 	}
 

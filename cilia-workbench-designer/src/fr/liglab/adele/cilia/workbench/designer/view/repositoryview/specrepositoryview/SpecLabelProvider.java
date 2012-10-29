@@ -16,8 +16,8 @@ package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specreposit
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericInPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.DispatcherSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
@@ -57,9 +57,9 @@ public class SpecLabelProvider extends CiliaLabelProvider {
 			imageName = ImageDescriptorEnum.PROPERTY;
 		else if (isCompatible(obj, ParameterSpec.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
-		else if (isCompatible(obj, GenericInPort.class))
+		else if (isCompatible(obj, InPort.class))
 			imageName = ImageDescriptorEnum.PORT_IN;
-		else if (isCompatible(obj, GenericOutPort.class))
+		else if (isCompatible(obj, OutPort.class))
 			imageName = ImageDescriptorEnum.PORT_OUT;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());

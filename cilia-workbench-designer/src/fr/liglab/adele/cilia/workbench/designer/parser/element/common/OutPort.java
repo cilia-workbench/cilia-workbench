@@ -12,24 +12,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
-
-import org.w3c.dom.Node;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutPort;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
 
 /**
+ * Represents an out port. It can be a spec or an implementation.
  * 
  * @author Etienne Gandrille
  */
-public class OutPort extends GenericOutPort implements DisplayedInPropertiesView {
+public abstract class OutPort extends Port {
 
-	public static final String XML_NODE_NAME = "out-port";
+	@Override
+	public PortNature getNature() {
+		return PortNature.OUT;
+	}
 
-	public OutPort(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, "name", this, "name");
+	@Override
+	public Object getId() {
+		return "out:" + getName();
 	}
 }

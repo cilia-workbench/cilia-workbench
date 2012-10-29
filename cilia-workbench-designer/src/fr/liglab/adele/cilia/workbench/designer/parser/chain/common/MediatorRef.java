@@ -31,7 +31,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IDispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IProcessor;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IScheduler;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
@@ -126,22 +126,22 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 		return part.getParameters();
 	}
 
-	public List<? extends IGenericPort> getPorts() {
+	public List<? extends IPort> getPorts() {
 		if (getReferencedObject() != null)
 			return getReferencedObject().getPorts();
-		return new ArrayList<IGenericPort>();
+		return new ArrayList<IPort>();
 	}
 
-	public List<? extends IGenericPort> getInPorts() {
+	public List<? extends IPort> getInPorts() {
 		if (getReferencedObject() != null)
 			return getReferencedObject().getInPorts();
-		return new ArrayList<IGenericPort>();
+		return new ArrayList<IPort>();
 	}
 
-	public List<? extends IGenericPort> getOutPorts() {
+	public List<? extends IPort> getOutPorts() {
 		if (getReferencedObject() != null)
 			return getReferencedObject().getOutPorts();
-		return new ArrayList<IGenericPort>();
+		return new ArrayList<IPort>();
 	}
 
 	@Override

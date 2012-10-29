@@ -26,8 +26,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Schedule
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SuperMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.AdapterImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericInPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
@@ -67,9 +67,9 @@ public class JarMetadataLabelProvider extends CiliaLabelProvider {
 			imageName = ImageDescriptorEnum.SENDER;
 		else if (isCompatible(obj, NameValueProperty.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
-		else if (isCompatible(obj, GenericInPort.class))
+		else if (isCompatible(obj, InPort.class))
 			imageName = ImageDescriptorEnum.PORT_IN;
-		else if (isCompatible(obj, GenericOutPort.class))
+		else if (isCompatible(obj, OutPort.class))
 			imageName = ImageDescriptorEnum.PORT_OUT;
 		else if (isCompatible(obj, ParameterImplem.class))
 			imageName = ImageDescriptorEnum.PROPERTY;

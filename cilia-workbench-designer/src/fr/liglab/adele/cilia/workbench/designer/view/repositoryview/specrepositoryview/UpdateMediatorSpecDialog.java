@@ -33,8 +33,8 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.ui.TextValidatorListener;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ListEditor;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort.PortNature;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ParameterSpec;
@@ -100,7 +100,7 @@ public class UpdateMediatorSpecDialog extends WorkbenchDialog {
 		this.namespaceValue = ((NameNamespaceID) mediatorSpec.getId()).getNamespace();
 
 		// Ports
-		for (IGenericPort port : mediatorSpec.getPorts())
+		for (IPort port : mediatorSpec.getPorts())
 			if (port.getNature() == PortNature.IN)
 				synchroPortsValue.add(port.getName());
 			else

@@ -22,18 +22,18 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class OutPort extends GenericOutPort implements DisplayedInPropertiesView, Identifiable {
+public class OutPortSpec extends OutPort implements DisplayedInPropertiesView, Identifiable {
 
 	private static String XML_TAG = "out-port";
 	public static final String XML_ATTR_NAME = "name";
 
-	public OutPort(Node node) throws CiliaException {
+	public OutPortSpec(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 	}
 

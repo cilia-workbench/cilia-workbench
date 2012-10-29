@@ -12,35 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericInPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class InPort extends GenericInPort implements DisplayedInPropertiesView {
+public class InPortImplem extends InPort implements DisplayedInPropertiesView {
 
-	public static final String XML_ATTR_NAME = "name";
-	private static String XML_TAG = "in-port";
+	public static final String XML_NODE_NAME = "in-port";
 
-	public InPort(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
-	}
-
-	public static String getXMLtag() {
-		return XML_TAG;
-	}
-
-	public static Node createXMLPort(Document document, Node parent, String portName) {
-		return XMLHelpers.createChild(document, parent, XML_TAG, XML_ATTR_NAME, portName);
+	public InPortImplem(Node node) throws CiliaException {
+		ReflectionUtil.setAttribute(node, "name", this, "name");
 	}
 }
