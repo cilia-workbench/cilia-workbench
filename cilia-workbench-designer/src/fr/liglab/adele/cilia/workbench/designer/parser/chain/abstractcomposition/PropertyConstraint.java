@@ -20,24 +20,72 @@ import java.util.List;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
-import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
+import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.PropertyImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Property;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class PropertyConstraint extends PropertyImplem implements Mergeable {
+public class PropertyConstraint implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
 
 	public static final String XML_PROPERTY_CONSTRAINT = "property";
 	public static String XML_ATTR_NAME = "name";
 	public static String XML_ATTR_VALUE = "value";
 
+	private final String name;
+	private String value;
+
 	public PropertyConstraint(Node n) throws CiliaException {
-		super(XMLHelpers.findAttributeValue(n, XML_ATTR_NAME), XMLHelpers.findAttributeValue(n, XML_ATTR_VALUE));
+		name = XMLHelpers.findAttributeValue(n, XML_ATTR_NAME);
+		value = XMLHelpers.findAttributeValue(n, XML_ATTR_VALUE);
+	}
+
+	@Override
+	public Object getId() {
+		return name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	@Override
+	public String toString() {
+		if (name == null || name.length() == 0)
+			return "<undefined> = " + value;
+		if (value == null || value.length() == 0)
+			return name + " = <undefined>";
+
+		return name + " = " + value;
+	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		if (arg0 == null)
+			return false;
+		if (!(arg0 instanceof Property))
+			return false;
+
+		PropertyImplem prop = (PropertyImplem) arg0;
+
+		if (prop.getName() != name || prop.getValue() != value)
+			return false;
+
+		return true;
 	}
 
 	@Override
@@ -51,5 +99,13 @@ public class PropertyConstraint extends PropertyImplem implements Mergeable {
 		}
 
 		return retval;
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, value, "value");
+
+		return CiliaFlag.generateTab(e1, e2);
 	}
 }
