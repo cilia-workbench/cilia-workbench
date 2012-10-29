@@ -97,9 +97,17 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		// Populates view
 		refresh();
 
-		// Selection provider
-		// getSite().setSelectionProvider(viewer);
+		// IMPORTANT we have 2 selection providers, because
+		// - the eclipse built-in selection provider has a bug : it notifies
+		// twice !
+		// - the eclipse built-in selection provider is mandatory for properties
+		// view...
+
+		// Selection provider for sending events on focus
 		SelectionService.getInstance().addSelectionProvider(partId, viewer);
+
+		// Selection provider for properties view
+		getSite().setSelectionProvider(viewer);
 	}
 
 	public void refresh() {

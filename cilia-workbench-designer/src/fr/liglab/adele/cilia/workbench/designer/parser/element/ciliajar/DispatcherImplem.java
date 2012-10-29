@@ -14,20 +14,55 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
 
+import java.util.List;
+
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesViewWithForward;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IDispatcher;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DispatcherImplem extends ComponentPartImplem implements IDispatcher {
+public class DispatcherImplem implements IDispatcher, DisplayedInPropertiesViewWithForward, ErrorsAndWarningsFinder, Identifiable {
 
 	public static final String XML_NODE_NAME = "dispatcher";
 
+	private final ComponentPartImplemHelper helper;
+
 	public DispatcherImplem(Node node) throws CiliaException {
-		super(node);
+		helper = new ComponentPartImplemHelper(node);
+	}
+
+	public List<ParameterImplem> getParameters() {
+		return helper.getParameters();
+	}
+
+	public ParameterImplem getParameter(String name) {
+		return helper.getParameter(name);
+	}
+
+	public CiliaFlag[] getErrorsAndWarnings() {
+		return helper.getErrorsAndWarnings();
+	}
+
+	@Override
+	public Object getId() {
+		return helper.getId();
+	}
+
+	@Override
+	public String toString() {
+		return helper.toString();
+	}
+
+	@Override
+	public Object getObjectForComputingProperties() {
+		return helper;
 	}
 }

@@ -14,26 +14,57 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
 
+import java.util.List;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IScheduler;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class SchedulerSpec extends ComponentPartSpec implements IScheduler, DisplayedInPropertiesView {
+public class SchedulerSpec implements IScheduler, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
 
 	public static final String XML_NODE_NAME = "scheduler";
 
+	private ParameterSpecList parameters;
+
 	public SchedulerSpec(Node node) throws CiliaException {
-		super(node);
+		parameters = new ParameterSpecList(node);
+	}
+
+	public List<ParameterSpec> getParameters() {
+		return parameters.getList();
+	}
+
+	public ParameterSpec getParameter(String name) {
+		return parameters.getParameter(name);
+	}
+
+	public List<Changeset> merge(Object newInstance) throws CiliaException {
+		return parameters.merge((IComponentPart) newInstance);
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		return parameters.getErrorsAndWarnings();
+	}
+
+	@Override
+	public String toString() {
+		return XML_NODE_NAME;
 	}
 
 	public static Node createXMLParameter(Document document, Node mediatorSpec, String param) {
-		return createXMLParameter(document, mediatorSpec, param, XML_NODE_NAME);
+		return ComponentPartSpecHelper.createXMLParameter(document, mediatorSpec, param, XML_NODE_NAME);
 	}
 }

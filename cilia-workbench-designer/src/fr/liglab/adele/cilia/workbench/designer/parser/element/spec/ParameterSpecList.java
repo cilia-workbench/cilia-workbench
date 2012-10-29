@@ -17,30 +17,35 @@ package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
-import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponentPart;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-abstract class ComponentPartSpec implements IComponentPart, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
+public class ParameterSpecList {
 
-	private List<ParameterSpec> parameters = new ArrayList<ParameterSpec>();
+	private List<ParameterSpec> parameters;
 
-	public ComponentPartSpec(Node node) throws CiliaException {
+	public ParameterSpecList() {
+		parameters = new ArrayList<ParameterSpec>();
+	}
 
+	public ParameterSpecList(List<ParameterSpec> list) {
+		parameters = list;
+	}
+
+	public ParameterSpecList(Node node) throws CiliaException {
+		parameters = new ArrayList<ParameterSpec>();
 		Node rootParam = XMLHelpers.findChild(node, "parameters");
 		if (rootParam != null) {
 			Node[] params = XMLHelpers.findChildren(rootParam, "parameter");
@@ -49,7 +54,12 @@ abstract class ComponentPartSpec implements IComponentPart, DisplayedInPropertie
 		}
 	}
 
-	public List<ParameterSpec> getParameters() {
+	public void add(ParameterSpec parameterSpec) throws CiliaException {
+		// no check. Done with getErrorsAndWarnings
+		parameters.add(parameterSpec);
+	}
+
+	public List<ParameterSpec> getList() {
 		return parameters;
 	}
 
@@ -60,28 +70,16 @@ abstract class ComponentPartSpec implements IComponentPart, DisplayedInPropertie
 		return null;
 	}
 
-	public List<Changeset> merge(Object newInstance) throws CiliaException {
-		return MergeUtil.mergeLists(((ComponentPartSpec) newInstance).getParameters(), parameters);
-	}
-
-	@Override
-	public String toString() {
-		String className = this.getClass().getName();
-		int idx = className.lastIndexOf(".");
-		if (idx == -1)
-			return className;
-		else
-			return className.substring(idx + 1);
-	}
-
-	public static Node createXMLParameter(Document document, Node mediatorSpec, String param, String componentName) {
-		Node component = XMLHelpers.getOrCreateChild(document, mediatorSpec, componentName);
-		Node parameters = XMLHelpers.getOrCreateChild(document, component, "parameters");
-		return XMLHelpers.createChild(document, parameters, "parameter", "name", param);
-	}
-
-	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		return IdentifiableUtils.getErrorsNonUniqueId(this, parameters).toArray(new CiliaFlag[0]);
+	}
+
+	public List<Changeset> merge(IComponentPart newInstance) throws CiliaException {
+		ArrayList<ParameterSpec> oldList = new ArrayList<ParameterSpec>();
+		for (GenericParameter param : newInstance.getParameters()) {
+			oldList.add((ParameterSpec) param);
+		}
+
+		return MergeUtil.mergeLists(oldList, parameters);
 	}
 }

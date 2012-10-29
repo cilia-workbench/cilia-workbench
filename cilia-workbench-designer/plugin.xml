@@ -665,13 +665,6 @@
 		</handler>
 		
 	</extension>
-	<extension point="org.eclipse.core.runtime.adapters">
-		<factory
-			adaptableType="fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView"
-			class="fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.PropertiesAdapter">
-			<adapter type="org.eclipse.ui.views.properties.IPropertySource"></adapter>
-		</factory>
-	</extension>
 	<extension point="org.eclipse.core.contenttype.contentTypes">
 		<file-association content-type="org.eclipse.core.runtime.xml"
 			file-extensions="compo" />

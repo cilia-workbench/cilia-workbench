@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-specifications>
-	
 
-
-
-
-	
-	
-	<mediator-specification id="filter" namespace="toto">
-		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
-		</ports>
-		<properties>
-			<property name="aaa"/>
-		</properties>
-	</mediator-specification>
-	
 
 
 <mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
@@ -26,40 +10,28 @@
 </ports>
 </mediator-specification>
 
-
-<mediator-specification id="regression" namespace="fr.liglab.cube">
+<mediator-specification id="aze" namespace="a">
 <ports>
 <in-port name="in"/>
 <out-port name="out"/>
 </ports>
 <properties>
-<property name="vitesse"/>
-<property name="memoire"/>
+<property name="aa"/>
 </properties>
-</mediator-specification>
-
-<mediator-specification id="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-<properties>
-<property name="category"/>
-</properties>
-</mediator-specification>
-
-<mediator-specification id="increment-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-<properties>
-<property name="category"/>
-</properties>
+<scheduler>
+<parameters>
+<parameter name="aa"/>
+</parameters>
+</scheduler>
 <processor>
 <parameters>
-<parameter name="increment"/>
+<parameter name="zz"/>
 </parameters>
 </processor>
+<dispatcher>
+<parameters>
+<parameter name="ee"/>
+</parameters>
+</dispatcher>
 </mediator-specification>
 </cilia-specifications>
