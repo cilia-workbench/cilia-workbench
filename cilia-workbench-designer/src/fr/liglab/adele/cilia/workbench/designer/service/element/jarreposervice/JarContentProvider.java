@@ -18,8 +18,6 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Collector;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.DispatcherImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorImplem;

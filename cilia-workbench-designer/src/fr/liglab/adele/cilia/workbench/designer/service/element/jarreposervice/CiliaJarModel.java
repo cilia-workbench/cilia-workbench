@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice;
 
 import java.io.File;
 import java.io.InputStream;
@@ -26,6 +26,14 @@ import org.w3c.dom.NodeList;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplemUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Collector;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.DispatcherImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Sender;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link CiliaJarFile}.

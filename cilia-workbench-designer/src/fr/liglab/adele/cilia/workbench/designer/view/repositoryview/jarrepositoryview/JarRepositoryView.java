@@ -30,8 +30,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryView;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarModel;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarFile;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**

@@ -24,7 +24,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ParameterSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ProcessorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SchedulerSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecFile;
+import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**

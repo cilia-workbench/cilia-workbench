@@ -28,8 +28,6 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecModel;
 
 /**
  * 

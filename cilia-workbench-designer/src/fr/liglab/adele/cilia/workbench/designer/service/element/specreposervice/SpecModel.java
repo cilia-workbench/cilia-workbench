@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
+package fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link SpecFile}.
