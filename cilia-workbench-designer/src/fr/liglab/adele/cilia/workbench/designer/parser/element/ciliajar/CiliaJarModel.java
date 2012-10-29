@@ -26,7 +26,6 @@ import org.w3c.dom.NodeList;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.AdapterImplem;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link CiliaJarFile}.

@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Collector;
@@ -26,7 +27,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Paramete
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Sender;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
 

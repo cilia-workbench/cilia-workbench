@@ -26,6 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Collector;
@@ -34,7 +35,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Mediator
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Sender;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 

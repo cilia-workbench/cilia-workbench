@@ -17,7 +17,6 @@ package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.AdapterImplem;
 
 /**
  * 

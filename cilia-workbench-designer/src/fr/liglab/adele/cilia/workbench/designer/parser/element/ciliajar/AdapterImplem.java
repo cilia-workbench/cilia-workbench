@@ -12,13 +12,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 
 /**
  * 
