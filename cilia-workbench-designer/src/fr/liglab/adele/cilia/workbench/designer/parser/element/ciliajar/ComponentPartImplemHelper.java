@@ -14,20 +14,31 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
 
+import java.util.List;
+
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IProcessor;
+import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Processor extends SPDElement implements IProcessor {
+public class ComponentPartImplemHelper {
 
-	public static final String XML_NODE_NAME = "processor";
+	public static final String XML_ATTR_NAME = "name";
+	public static final String XML_ATTR_NAMESPACE = "namespace";
+	public static final String XML_ATTR_CLASSNAME = "classname";
 
-	public Processor(Node node) throws CiliaException {
-		super(node);
+	private ComponentPartImplemHelper() {
+	}
+
+	static List<ParameterImplem> init(Node node, Object object) throws CiliaException {
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, object, "name");
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, object, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
+		ReflectionUtil.setAttribute(node, XML_ATTR_CLASSNAME, object, "classname");
+		return ParameterImplem.findParameters(node);
 	}
 }

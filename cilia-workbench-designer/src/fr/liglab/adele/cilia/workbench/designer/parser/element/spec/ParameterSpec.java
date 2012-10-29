@@ -14,26 +14,22 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IProcessor;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Processor extends ComponentPart implements IProcessor, DisplayedInPropertiesView {
+public class ParameterSpec extends GenericParameter implements DisplayedInPropertiesView {
 
-	public static final String XML_NODE_NAME = "processor";
+	public static final String XML_ATTR_NAME = "name";
 
-	public Processor(Node node) throws CiliaException {
-		super(node);
-	}
-
-	public static Node createXMLParameter(Document document, Node mediatorSpec, String param) {
-		return createXMLParameter(document, mediatorSpec, param, XML_NODE_NAME);
+	public ParameterSpec(Node node) throws CiliaException {
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 	}
 }

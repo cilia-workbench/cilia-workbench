@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IDispatcher;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IProcessor;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IScheduler;
@@ -85,11 +85,11 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 		}
 	}
 
-	public abstract IGenericMediator getReferencedObject();
+	public abstract IMediator getReferencedObject();
 
 	public List<? extends GenericParameter> getReferencedObjectSchedulerParameters() {
 
-		IGenericMediator ro = getReferencedObject();
+		IMediator ro = getReferencedObject();
 		if (ro == null)
 			return null;
 
@@ -102,7 +102,7 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 
 	public List<? extends GenericParameter> getReferencedObjectProcessorParameters() {
 
-		IGenericMediator ro = getReferencedObject();
+		IMediator ro = getReferencedObject();
 		if (ro == null)
 			return null;
 
@@ -115,7 +115,7 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 
 	public List<? extends GenericParameter> getReferencedObjectDispatcherParameters() {
 
-		IGenericMediator ro = getReferencedObject();
+		IMediator ro = getReferencedObject();
 		if (ro == null)
 			return null;
 

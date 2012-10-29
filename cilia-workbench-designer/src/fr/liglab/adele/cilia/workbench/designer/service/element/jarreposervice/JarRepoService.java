@@ -29,13 +29,13 @@ import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesigne
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Collector;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Dispatcher;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Scheduler;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.DispatcherImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Sender;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.AdapterImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**
@@ -91,8 +91,8 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		notifyListeners(null);
 	}
 
-	public List<MediatorComponent> getMediators() {
-		List<MediatorComponent> retval = new ArrayList<MediatorComponent>();
+	public List<MediatorImplem> getMediators() {
+		List<MediatorImplem> retval = new ArrayList<MediatorImplem>();
 		for (CiliaJarFile bundle : model)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getMediatorComponents());
@@ -100,8 +100,8 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public List<GenericAdapter> getAdapters() {
-		List<GenericAdapter> retval = new ArrayList<GenericAdapter>();
+	public List<AdapterImplem> getAdapters() {
+		List<AdapterImplem> retval = new ArrayList<AdapterImplem>();
 		for (CiliaJarFile bundle : model)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getAdapters());
@@ -109,26 +109,26 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public List<GenericAdapter> getInAdapters() {
-		List<GenericAdapter> retval = new ArrayList<GenericAdapter>();
-		for (GenericAdapter a : getAdapters())
+	public List<AdapterImplem> getInAdapters() {
+		List<AdapterImplem> retval = new ArrayList<AdapterImplem>();
+		for (AdapterImplem a : getAdapters())
 			if (a.getType() == AdapterType.IN)
 				retval.add(a);
 
 		return retval;
 	}
 
-	public List<GenericAdapter> getOutAdapters() {
-		List<GenericAdapter> retval = new ArrayList<GenericAdapter>();
-		for (GenericAdapter a : getAdapters())
+	public List<AdapterImplem> getOutAdapters() {
+		List<AdapterImplem> retval = new ArrayList<AdapterImplem>();
+		for (AdapterImplem a : getAdapters())
 			if (a.getType() == AdapterType.OUT)
 				retval.add(a);
 
 		return retval;
 	}
 
-	public static List<Scheduler> getSchedulers(List<CiliaJarFile> model) {
-		List<Scheduler> retval = new ArrayList<Scheduler>();
+	public static List<SchedulerImplem> getSchedulers(List<CiliaJarFile> model) {
+		List<SchedulerImplem> retval = new ArrayList<SchedulerImplem>();
 		for (CiliaJarFile bundle : model)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getSchedulers());
@@ -136,23 +136,23 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public static Scheduler getScheduler(List<CiliaJarFile> model, NameNamespaceID nn) {
-		for (Scheduler s : getSchedulers(model))
+	public static SchedulerImplem getScheduler(List<CiliaJarFile> model, NameNamespaceID nn) {
+		for (SchedulerImplem s : getSchedulers(model))
 			if (s.getId().equals(nn))
 				return s;
 		return null;
 	}
 
-	public List<Scheduler> getSchedulers() {
+	public List<SchedulerImplem> getSchedulers() {
 		return getSchedulers(model);
 	}
 
-	public Scheduler getScheduler(NameNamespaceID nn) {
+	public SchedulerImplem getScheduler(NameNamespaceID nn) {
 		return getScheduler(model, nn);
 	}
 
-	public static List<Processor> getProcessors(List<CiliaJarFile> model) {
-		List<Processor> retval = new ArrayList<Processor>();
+	public static List<ProcessorImplem> getProcessors(List<CiliaJarFile> model) {
+		List<ProcessorImplem> retval = new ArrayList<ProcessorImplem>();
 		for (CiliaJarFile bundle : model)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getProcessors());
@@ -160,23 +160,23 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public static Processor getProcessor(List<CiliaJarFile> model, NameNamespaceID nn) {
-		for (Processor p : getProcessors(model))
+	public static ProcessorImplem getProcessor(List<CiliaJarFile> model, NameNamespaceID nn) {
+		for (ProcessorImplem p : getProcessors(model))
 			if (p.getId().equals(nn))
 				return p;
 		return null;
 	}
 
-	public List<Processor> getProcessors() {
+	public List<ProcessorImplem> getProcessors() {
 		return getProcessors(model);
 	}
 
-	public Processor getProcessor(NameNamespaceID nn) {
+	public ProcessorImplem getProcessor(NameNamespaceID nn) {
 		return getProcessor(model, nn);
 	}
 
-	public static List<Dispatcher> getDispatchers(List<CiliaJarFile> model) {
-		List<Dispatcher> retval = new ArrayList<Dispatcher>();
+	public static List<DispatcherImplem> getDispatchers(List<CiliaJarFile> model) {
+		List<DispatcherImplem> retval = new ArrayList<DispatcherImplem>();
 		for (CiliaJarFile bundle : model)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getDispatchers());
@@ -184,18 +184,18 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public static Dispatcher getDispatcher(List<CiliaJarFile> model, NameNamespaceID nn) {
-		for (Dispatcher d : getDispatchers(model))
+	public static DispatcherImplem getDispatcher(List<CiliaJarFile> model, NameNamespaceID nn) {
+		for (DispatcherImplem d : getDispatchers(model))
 			if (d.getId().equals(nn))
 				return d;
 		return null;
 	}
 
-	public List<Dispatcher> getDispatchers() {
+	public List<DispatcherImplem> getDispatchers() {
 		return getDispatchers(model);
 	}
 
-	public Dispatcher getDispatcher(NameNamespaceID nn) {
+	public DispatcherImplem getDispatcher(NameNamespaceID nn) {
 		return getDispatcher(model, nn);
 	}
 
@@ -226,7 +226,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 
 	public NameNamespaceID[] getMediatorsId() {
 		List<NameNamespaceID> retval = new ArrayList<NameNamespaceID>();
-		for (MediatorComponent mc : getMediators())
+		for (MediatorImplem mc : getMediators())
 			retval.add((NameNamespaceID) mc.getId());
 
 		return retval.toArray(new NameNamespaceID[0]);
@@ -234,7 +234,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 
 	public NameNamespaceID[] getAdaptersId() {
 		List<NameNamespaceID> retval = new ArrayList<NameNamespaceID>();
-		for (GenericAdapter a : getAdapters())
+		for (AdapterImplem a : getAdapters())
 			retval.add(a.getId());
 
 		return retval.toArray(new NameNamespaceID[0]);
@@ -246,8 +246,8 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	 * @param id
 	 * @return the mediator, or null if not found
 	 */
-	public MediatorComponent getMediator(NameNamespaceID id) {
-		for (MediatorComponent m : getMediators())
+	public MediatorImplem getMediator(NameNamespaceID id) {
+		for (MediatorImplem m : getMediators())
 			if (m.getId().equals(id))
 				return m;
 
@@ -264,11 +264,11 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	 * @param id
 	 * @return the mediator, or null if not found
 	 */
-	public MediatorComponent getMediatorForChain(NameNamespaceID id) {
+	public MediatorImplem getMediatorForChain(NameNamespaceID id) {
 		if (id.getNamespace() != null && id.getNamespace().length() != 0)
 			return getMediator(id);
 
-		for (MediatorComponent m : getMediators())
+		for (MediatorImplem m : getMediators())
 			if (((NameNamespaceID) m.getId()).getName().equals(id.getName()))
 				return m;
 
@@ -281,8 +281,8 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	 * @param id
 	 * @return the adapter, or null if not found.
 	 */
-	public GenericAdapter getAdapter(NameNamespaceID id) {
-		for (GenericAdapter a : getAdapters())
+	public AdapterImplem getAdapter(NameNamespaceID id) {
+		for (AdapterImplem a : getAdapters())
 			if (a.getId().equals(id))
 				return a;
 
@@ -299,11 +299,11 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	 * @param id
 	 * @return the adapter, or null if not found
 	 */
-	public GenericAdapter getAdapterForChain(NameNamespaceID id) {
+	public AdapterImplem getAdapterForChain(NameNamespaceID id) {
 		if (id.getNamespace() != null && id.getNamespace().length() != 0)
 			return getAdapter(id);
 
-		for (GenericAdapter a : getAdapters())
+		for (AdapterImplem a : getAdapters())
 			if (a.getId().getName().equals(id.getName()))
 				return a;
 

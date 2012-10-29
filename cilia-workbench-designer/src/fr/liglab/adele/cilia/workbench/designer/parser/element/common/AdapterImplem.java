@@ -23,7 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
  * 
  * @author Etienne Gandrille
  */
-public abstract class GenericAdapter extends NameNamespace implements IGenericAdapter, Identifiable,
+public abstract class AdapterImplem extends NameNamespace implements IAdapter, Identifiable,
 		ErrorsAndWarningsFinder {
 
 	/**

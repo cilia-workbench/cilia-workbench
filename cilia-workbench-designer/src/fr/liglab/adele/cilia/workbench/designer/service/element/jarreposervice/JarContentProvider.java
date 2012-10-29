@@ -20,13 +20,13 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Collector;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Dispatcher;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Scheduler;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.DispatcherImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ParameterImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Sender;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
 
@@ -47,32 +47,32 @@ public class JarContentProvider extends GenericContentProvider {
 			CiliaJarModel ipojo = bundle.getModel();
 
 			if (ipojo != null) {
-				for (MediatorComponent mc : ipojo.getMediatorComponents()) {
+				for (MediatorImplem mc : ipojo.getMediatorComponents()) {
 					addRelationship(true, bundle, mc);
 
 					if (mc.getSpec() != null)
 						addRelationship(true, mc, mc.getSpec());
 
-					Scheduler scheduler = mc.getScheduler();
+					SchedulerImplem scheduler = mc.getScheduler();
 					if (scheduler != null)
 						addRelationship(true, mc, scheduler);
 					else
 						addRelationship(true, mc, new FakeElement(mc.getSchedulerID().toString(), "Unknown scheduler "
-								+ mc.getSchedulerID().toString(), Scheduler.class));
+								+ mc.getSchedulerID().toString(), SchedulerImplem.class));
 
-					Processor processor = mc.getProcessor();
+					ProcessorImplem processor = mc.getProcessor();
 					if (processor != null)
 						addRelationship(true, mc, processor);
 					else
 						addRelationship(true, mc, new FakeElement(mc.getProcessorID().toString(), "Unknown processor "
-								+ mc.getProcessorID().toString(), Scheduler.class));
+								+ mc.getProcessorID().toString(), SchedulerImplem.class));
 
-					Dispatcher dispatcher = mc.getDispatcher();
+					DispatcherImplem dispatcher = mc.getDispatcher();
 					if (dispatcher != null)
 						addRelationship(true, mc, dispatcher);
 					else
 						addRelationship(true, mc, new FakeElement(mc.getDispatcherID().toString(),
-								"Unknown dispatcher " + mc.getDispatcherID().toString(), Scheduler.class));
+								"Unknown dispatcher " + mc.getDispatcherID().toString(), SchedulerImplem.class));
 
 					for (IGenericPort p : mc.getPorts())
 						addRelationship(true, mc, p);
@@ -81,37 +81,37 @@ public class JarContentProvider extends GenericContentProvider {
 						addRelationship(true, mc, p);
 				}
 
-				for (Scheduler s : ipojo.getSchedulers()) {
+				for (SchedulerImplem s : ipojo.getSchedulers()) {
 					addRelationship(true, bundle, s);
-					for (Parameter param : s.getParameters())
+					for (ParameterImplem param : s.getParameters())
 						addRelationship(true, s, param);
 				}
 
-				for (Processor p : ipojo.getProcessors()) {
+				for (ProcessorImplem p : ipojo.getProcessors()) {
 					addRelationship(true, bundle, p);
-					for (Parameter param : p.getParameters())
+					for (ParameterImplem param : p.getParameters())
 						addRelationship(true, p, param);
 				}
 
-				for (Dispatcher d : ipojo.getDispatchers()) {
+				for (DispatcherImplem d : ipojo.getDispatchers()) {
 					addRelationship(true, bundle, d);
-					for (Parameter param : d.getParameters())
+					for (ParameterImplem param : d.getParameters())
 						addRelationship(true, d, param);
 				}
 
 				for (Collector c : ipojo.getCollectors()) {
 					addRelationship(true, bundle, c);
-					for (Parameter param : c.getParameters())
+					for (ParameterImplem param : c.getParameters())
 						addRelationship(true, c, param);
 				}
 
 				for (Sender s : ipojo.getSenders()) {
 					addRelationship(true, bundle, s);
-					for (Parameter param : s.getParameters())
+					for (ParameterImplem param : s.getParameters())
 						addRelationship(true, s, param);
 				}
 
-				for (GenericAdapter a : ipojo.getAdapters())
+				for (AdapterImplem a : ipojo.getAdapters())
 					addRelationship(true, bundle, a);
 			}
 		}

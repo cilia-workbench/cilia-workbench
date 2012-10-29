@@ -12,31 +12,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
+
+import org.w3c.dom.Node;
+
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IProcessor;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class GenericInAdapter extends GenericAdapter {
+public class ProcessorImplem extends ComponentPartImplem implements IProcessor {
 
-	String collector;
+	public static final String XML_NODE_NAME = "processor";
 
-	@Override
-	public AdapterType getType() {
-		return AdapterType.IN;
-	}
-
-	public String getCollector() {
-		return collector;
-	}
-
-	protected void setSubElement(String subElement) {
-		collector = subElement;
-	}
-
-	@Override
-	protected String getSubElement() {
-		return collector;
+	public ProcessorImplem(Node node) throws CiliaException {
+		super(node);
 	}
 }

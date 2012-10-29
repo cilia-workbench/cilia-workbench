@@ -14,49 +14,39 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IElement;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameNamespace;
 
 /**
- * Base class for implementing {@link Scheduler}, {@link Processor} and
- * {@link Dispatcher}.
+ * Base class for implementing {@link SchedulerImplem}, {@link ProcessorImplem}
+ * and {@link DispatcherImplem}.
  * 
  * @author Etienne Gandrille
  */
-public abstract class SPDElement extends NameNamespace implements IElement, DisplayedInPropertiesView {
-
-	public static final String XML_ATTR_NAME = "name";
-	public static final String XML_ATTR_NAMESPACE = "namespace";
-	public static final String XML_ATTR_CLASSNAME = "classname";
+abstract class ComponentPartImplem extends NameNamespace implements IComponentPart, DisplayedInPropertiesView {
 
 	private String classname;
-	private List<Parameter> parameters = new ArrayList<Parameter>();
+	private List<ParameterImplem> parameters;
 
-	public SPDElement(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
-		parameters = Parameter.findParameters(node);
-		ReflectionUtil.setAttribute(node, XML_ATTR_CLASSNAME, this, "classname");
+	public ComponentPartImplem(Node node) throws CiliaException {
+		parameters = ComponentPartImplemHelper.init(node, this);
 	}
 
-	public List<Parameter> getParameters() {
+	public List<ParameterImplem> getParameters() {
 		return parameters;
 	}
 
-	public Parameter getParameter(String name) {
-		for (Parameter p : parameters)
+	public ParameterImplem getParameter(String name) {
+		for (ParameterImplem p : parameters)
 			if (p.getName().equalsIgnoreCase(name))
 				return p;
 		return null;

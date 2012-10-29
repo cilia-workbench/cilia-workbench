@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
@@ -63,7 +63,7 @@ public class MediatorSpecRef<ChainType extends ChainElement<?>> extends Mediator
 
 	public List<NameProperty> getPossibleConstraints() {
 
-		IGenericMediator ro = getReferencedObject();
+		IMediator ro = getReferencedObject();
 		if (ro != null && ro instanceof MediatorSpec) {
 			MediatorSpec spec = (MediatorSpec) ro;
 			return spec.getProperties();
@@ -73,7 +73,7 @@ public class MediatorSpecRef<ChainType extends ChainElement<?>> extends Mediator
 	}
 
 	@Override
-	public IGenericMediator getReferencedObject() {
+	public IMediator getReferencedObject() {
 		NameNamespaceID id = getReferencedTypeID();
 		return SpecRepoService.getInstance().getMediatorForChain(id);
 	}
@@ -95,7 +95,7 @@ public class MediatorSpecRef<ChainType extends ChainElement<?>> extends Mediator
 			retval.add(cf);
 
 		if (getReferencedObject() != null) {
-			IGenericMediator ro = getReferencedObject();
+			IMediator ro = getReferencedObject();
 
 			for (PropertyConstraint pc : constraints)
 				if (ro.getProperty(pc.getName()) == null)

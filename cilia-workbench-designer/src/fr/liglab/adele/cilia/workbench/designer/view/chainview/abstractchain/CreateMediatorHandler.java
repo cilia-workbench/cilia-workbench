@@ -21,7 +21,7 @@ import org.eclipse.jface.window.Window;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.NewMediatorDialog;
 
@@ -39,7 +39,7 @@ public class CreateMediatorHandler extends AbstractChainHandler {
 			NewMediatorDialog window = new NewMediatorDialog(ViewUtil.getShell(event), model);
 			if (window.open() == Window.OK) {
 				String id = window.getText();
-				IGenericMediator mediator = (IGenericMediator) window.getValue();
+				IMediator mediator = (IMediator) window.getValue();
 				try {
 					AbstractCompositionsRepoService.getInstance().createMediator(model, id, mediator);
 				} catch (CiliaException e) {

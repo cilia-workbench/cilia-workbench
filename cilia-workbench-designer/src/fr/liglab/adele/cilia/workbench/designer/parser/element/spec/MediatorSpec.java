@@ -36,7 +36,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericInPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort.PortNature;
 
@@ -44,7 +44,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPo
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpec implements IGenericMediator, DisplayedInPropertiesView, ErrorsAndWarningsFinder,
+public class MediatorSpec implements IMediator, DisplayedInPropertiesView, ErrorsAndWarningsFinder,
 		Identifiable, Mergeable {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
@@ -59,9 +59,9 @@ public class MediatorSpec implements IGenericMediator, DisplayedInPropertiesView
 
 	private List<IGenericPort> ports = new ArrayList<IGenericPort>();
 	private List<NameProperty> properties = new ArrayList<NameProperty>();
-	private Processor processor = null;
-	private Scheduler scheduler = null;
-	private Dispatcher dispatcher = null;
+	private ProcessorSpec processor = null;
+	private SchedulerSpec scheduler = null;
+	private DispatcherSpec dispatcher = null;
 
 	public MediatorSpec(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "id");
@@ -84,19 +84,19 @@ public class MediatorSpec implements IGenericMediator, DisplayedInPropertiesView
 				properties.add(new NameProperty(prop));
 		}
 
-		Node rootProcessor = XMLHelpers.findChild(node, Processor.XML_NODE_NAME);
+		Node rootProcessor = XMLHelpers.findChild(node, ProcessorSpec.XML_NODE_NAME);
 		if (rootProcessor != null) {
-			processor = new Processor(rootProcessor);
+			processor = new ProcessorSpec(rootProcessor);
 		}
 
-		Node rootScheduler = XMLHelpers.findChild(node, Scheduler.XML_NODE_NAME);
+		Node rootScheduler = XMLHelpers.findChild(node, SchedulerSpec.XML_NODE_NAME);
 		if (rootScheduler != null) {
-			scheduler = new Scheduler(rootScheduler);
+			scheduler = new SchedulerSpec(rootScheduler);
 		}
 
-		Node rootDispatcher = XMLHelpers.findChild(node, Dispatcher.XML_NODE_NAME);
+		Node rootDispatcher = XMLHelpers.findChild(node, DispatcherSpec.XML_NODE_NAME);
 		if (rootDispatcher != null) {
-			dispatcher = new Dispatcher(rootDispatcher);
+			dispatcher = new DispatcherSpec(rootDispatcher);
 		}
 	}
 
@@ -104,15 +104,15 @@ public class MediatorSpec implements IGenericMediator, DisplayedInPropertiesView
 		return new NameNamespaceID(id, namespace);
 	}
 
-	public Processor getProcessor() {
+	public ProcessorSpec getProcessor() {
 		return processor;
 	}
 
-	public Scheduler getScheduler() {
+	public SchedulerSpec getScheduler() {
 		return scheduler;
 	}
 
-	public Dispatcher getDispatcher() {
+	public DispatcherSpec getDispatcher() {
 		return dispatcher;
 	}
 
@@ -195,15 +195,15 @@ public class MediatorSpec implements IGenericMediator, DisplayedInPropertiesView
 	}
 
 	public static Node createSchedulerParameter(Document document, Element spec, String param) {
-		return Scheduler.createXMLParameter(document, spec, param);
+		return SchedulerSpec.createXMLParameter(document, spec, param);
 	}
 
 	public static Node createProcessorParameter(Document document, Element spec, String param) {
-		return Processor.createXMLParameter(document, spec, param);
+		return ProcessorSpec.createXMLParameter(document, spec, param);
 	}
 
 	public static Node createDispatcherParameter(Document document, Element spec, String param) {
-		return Dispatcher.createXMLParameter(document, spec, param);
+		return DispatcherSpec.createXMLParameter(document, spec, param);
 	}
 
 	@Override

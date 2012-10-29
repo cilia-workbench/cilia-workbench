@@ -19,5 +19,5 @@ package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
  * 
  * @author Etienne Gandrille
  */
-public interface IDispatcher extends IElement {
+public interface IDispatcher extends IComponentPart {
 }

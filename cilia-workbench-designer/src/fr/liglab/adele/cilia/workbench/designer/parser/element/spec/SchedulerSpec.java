@@ -25,11 +25,11 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IScheduler
  * 
  * @author Etienne Gandrille
  */
-public class Scheduler extends ComponentPart implements IScheduler, DisplayedInPropertiesView {
+public class SchedulerSpec extends ComponentPartSpec implements IScheduler, DisplayedInPropertiesView {
 
 	public static final String XML_NODE_NAME = "scheduler";
 
-	public Scheduler(Node node) throws CiliaException {
+	public SchedulerSpec(Node node) throws CiliaException {
 		super(node);
 	}
 

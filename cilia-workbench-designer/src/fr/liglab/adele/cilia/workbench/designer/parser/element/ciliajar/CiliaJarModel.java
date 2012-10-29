@@ -26,7 +26,7 @@ import org.w3c.dom.NodeList;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.AdapterImplem;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link CiliaJarFile}.
@@ -37,13 +37,13 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 
 	public static final String ROOT_NODE_NAME = "ipojo";
 
-	private List<MediatorComponent> mediatorComponents = new ArrayList<MediatorComponent>();
-	private List<Processor> processors = new ArrayList<Processor>();
-	private List<Scheduler> schedulers = new ArrayList<Scheduler>();
-	private List<Dispatcher> dispatchers = new ArrayList<Dispatcher>();
+	private List<MediatorImplem> mediatorComponents = new ArrayList<MediatorImplem>();
+	private List<ProcessorImplem> processors = new ArrayList<ProcessorImplem>();
+	private List<SchedulerImplem> schedulers = new ArrayList<SchedulerImplem>();
+	private List<DispatcherImplem> dispatchers = new ArrayList<DispatcherImplem>();
 	private List<Collector> collectors = new ArrayList<Collector>();
 	private List<Sender> senders = new ArrayList<Sender>();
-	private List<GenericAdapter> adapters = new ArrayList<GenericAdapter>();
+	private List<AdapterImplem> adapters = new ArrayList<AdapterImplem>();
 
 	public CiliaJarModel(File file) throws CiliaException {
 
@@ -60,22 +60,22 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 
 					String nodeName = child.getNodeName().toLowerCase();
 
-					if (nodeName.equals(Processor.XML_NODE_NAME))
-						processors.add(new Processor(child));
-					else if (nodeName.equals(Scheduler.XML_NODE_NAME))
-						schedulers.add(new Scheduler(child));
-					else if (nodeName.equals(Dispatcher.XML_NODE_NAME))
-						dispatchers.add(new Dispatcher(child));
+					if (nodeName.equals(ProcessorImplem.XML_NODE_NAME))
+						processors.add(new ProcessorImplem(child));
+					else if (nodeName.equals(SchedulerImplem.XML_NODE_NAME))
+						schedulers.add(new SchedulerImplem(child));
+					else if (nodeName.equals(DispatcherImplem.XML_NODE_NAME))
+						dispatchers.add(new DispatcherImplem(child));
 					else if (nodeName.equals(Collector.XML_NODE_NAME))
 						collectors.add(new Collector(child));
 					else if (nodeName.equals(Sender.XML_NODE_NAME))
 						senders.add(new Sender(child));
 					else if (nodeName.equals(AdapterUtil.XML_NODE_NAME)) {
-						GenericAdapter a = AdapterUtil.createAdapter(child);
+						AdapterImplem a = AdapterUtil.createAdapter(child);
 						if (a != null)
 							adapters.add(a);
-					} else if (nodeName.equals(MediatorComponent.XML_NODE_NAME))
-						mediatorComponents.add(new MediatorComponent(child));
+					} else if (nodeName.equals(MediatorImplem.XML_NODE_NAME))
+						mediatorComponents.add(new MediatorImplem(child));
 				}
 			}
 		}
@@ -85,19 +85,19 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 		return XMLHelpers.getRootNode(document, ROOT_NODE_NAME);
 	}
 
-	public List<MediatorComponent> getMediatorComponents() {
+	public List<MediatorImplem> getMediatorComponents() {
 		return mediatorComponents;
 	}
 
-	public List<Processor> getProcessors() {
+	public List<ProcessorImplem> getProcessors() {
 		return processors;
 	}
 
-	public List<Scheduler> getSchedulers() {
+	public List<SchedulerImplem> getSchedulers() {
 		return schedulers;
 	}
 
-	public List<Dispatcher> getDispatchers() {
+	public List<DispatcherImplem> getDispatchers() {
 		return dispatchers;
 	}
 
@@ -109,7 +109,7 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 		return senders;
 	}
 
-	public List<GenericAdapter> getAdapters() {
+	public List<AdapterImplem> getAdapters() {
 		return adapters;
 	}
 }

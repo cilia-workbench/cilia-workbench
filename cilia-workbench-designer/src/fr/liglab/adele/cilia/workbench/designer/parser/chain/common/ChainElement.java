@@ -34,9 +34,9 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
@@ -177,17 +177,17 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 
 		NameNamespaceID referencedID = component.getReferencedTypeID();
 		if (component instanceof AdapterInstanceRef) {
-			IGenericAdapter adapterInstance = JarRepoService.getInstance().getAdapterForChain(referencedID);
+			IAdapter adapterInstance = JarRepoService.getInstance().getAdapterForChain(referencedID);
 			if (adapterInstance == null)
 				throw new CiliaException("Adapter " + componentID + " doesn't reference a valid adapter instance.");
 			return adapterInstance;
 		} else if (component instanceof MediatorSpecRef) {
-			IGenericMediator mediatorSpec = SpecRepoService.getInstance().getMediatorForChain(referencedID);
+			IMediator mediatorSpec = SpecRepoService.getInstance().getMediatorForChain(referencedID);
 			if (mediatorSpec == null)
 				throw new CiliaException("Mediator " + componentID + " doesn't reference a valid mediator instance.");
 			return mediatorSpec;
 		} else if (component instanceof MediatorInstanceRef) {
-			IGenericMediator mediatorInstance = JarRepoService.getInstance().getMediatorForChain(referencedID);
+			IMediator mediatorInstance = JarRepoService.getInstance().getMediatorForChain(referencedID);
 			if (mediatorInstance == null)
 				throw new CiliaException("Mediator " + componentID
 						+ " doesn't reference a valid mediator specification.");
@@ -211,14 +211,14 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 			return e.getMessage();
 		}
 
-		if (src instanceof IGenericAdapter) {
-			IGenericAdapter adapter = (IGenericAdapter) src;
+		if (src instanceof IAdapter) {
+			IAdapter adapter = (IAdapter) src;
 			if (adapter.getType() == AdapterType.OUT)
 				return srcElem + " is an out-adapter. It can't be a binding source.";
 		}
 
-		if (dst instanceof IGenericAdapter) {
-			IGenericAdapter adapter = (IGenericAdapter) dst;
+		if (dst instanceof IAdapter) {
+			IAdapter adapter = (IAdapter) dst;
 			if (adapter.getType() == AdapterType.IN)
 				return dstElem + " is an in-adapter. It can't be a binding destination.";
 		}

@@ -31,8 +31,8 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 
 /**
  * 
@@ -119,7 +119,7 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		CiliaFlag e2 = CiliaError.checkNotNull(this, dst, "binding destination");
 
 		if (src != null && src instanceof AdapterRef) {
-			IGenericAdapter ro = ((AdapterRef<?>) src).getReferencedObject();
+			IAdapter ro = ((AdapterRef<?>) src).getReferencedObject();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.OUT) {
 					list.add(new CiliaError("Binding " + this + " has its source connected to an out adapter", this));
@@ -133,7 +133,7 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		}
 
 		if (dst != null && dst instanceof AdapterRef) {
-			IGenericAdapter ro = ((AdapterRef<?>) dst).getReferencedObject();
+			IAdapter ro = ((AdapterRef<?>) dst).getReferencedObject();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.IN) {
 					list.add(new CiliaError("Binding " + this + " has its destination connected to an in adapter", this));

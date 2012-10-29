@@ -21,7 +21,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.AbstractGraphLab
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
 /**

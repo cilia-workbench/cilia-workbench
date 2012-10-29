@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
@@ -45,11 +45,11 @@ public class NewMediatorDialog extends TextListDialog {
 	private static Map<String, Object> getListValues() {
 		Map<String, Object> retval = new HashMap<String, Object>();
 
-		List<IGenericMediator> list = new ArrayList<IGenericMediator>();
+		List<IMediator> list = new ArrayList<IMediator>();
 		list.addAll(JarRepoService.getInstance().getMediators());
 		list.addAll(SpecRepoService.getInstance().getMediatorSpecs());
 
-		for (IGenericMediator m : list) {
+		for (IMediator m : list) {
 			NameNamespaceID id = m.getId();
 			String str = m.getNature().getShortName() + " ";
 			String key = str + id.getName();
@@ -65,7 +65,7 @@ public class NewMediatorDialog extends TextListDialog {
 	protected String checkValidValues(String id, Object object) {
 		if (object == null)
 			return "Please select an element in the combo";
-		IGenericMediator m = (IGenericMediator) object;
+		IMediator m = (IMediator) object;
 		return chain.isNewComponentAllowed(id, m.getId());
 	}
 }

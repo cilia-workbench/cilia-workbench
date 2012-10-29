@@ -31,12 +31,13 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericInPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort.PortNature;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort.PortNature;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
@@ -45,7 +46,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.J
  * 
  * @author Etienne Gandrille
  */
-public class MediatorComponent extends NameNamespace implements IGenericMediator, DisplayedInPropertiesView {
+public class MediatorImplem extends NameNamespace implements IMediator, DisplayedInPropertiesView {
 
 	public static final String XML_NODE_NAME = "mediator-component";
 
@@ -64,7 +65,7 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 
 	private List<NameValueProperty> properties = new ArrayList<NameValueProperty>();
 
-	public MediatorComponent(Node node) throws CiliaException {
+	public MediatorImplem(Node node) throws CiliaException {
 
 		ReflectionUtil.setAttribute(node, "name", this, "name");
 		ReflectionUtil.setAttribute(node, "namespace", this, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
@@ -156,7 +157,7 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 		return new NameNamespaceID(schedulerName, schedulerNamespace);
 	}
 
-	public Scheduler getScheduler() {
+	public SchedulerImplem getScheduler() {
 		NameNamespaceID id = getSchedulerID();
 		return JarRepoService.getInstance().getScheduler(id);
 	}
@@ -165,7 +166,7 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 		return new NameNamespaceID(processorName, processorNamespace);
 	}
 
-	public Processor getProcessor() {
+	public ProcessorImplem getProcessor() {
 		NameNamespaceID id = getProcessorID();
 		return JarRepoService.getInstance().getProcessor(id);
 	}
@@ -174,7 +175,7 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 		return new NameNamespaceID(dispatcherName, dispatcherNamespace);
 	}
 
-	public Dispatcher getDispatcher() {
+	public DispatcherImplem getDispatcher() {
 		NameNamespaceID id = getDispatcherID();
 		return JarRepoService.getInstance().getDispatcher(id);
 	}
@@ -223,8 +224,7 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 				String specKey = mediaProp.getName();
 				NameValueProperty curProp = getProperty(specKey);
 				if (curProp == null)
-					flagsTab.add(new CiliaError("Mediator must have \"" + specKey
-							+ "\" property defined to respect its specification", getSpec()));
+					flagsTab.add(new CiliaError("Mediator must have \"" + specKey + "\" property defined to respect its specification", getSpec()));
 			}
 
 			// Parameters
@@ -234,47 +234,45 @@ public class MediatorComponent extends NameNamespace implements IGenericMediator
 		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4, e5, e6, e7);
 	}
 
-	public static List<CiliaFlag> checkMediatorParameters(MediatorComponent mediator) {
+	public static List<CiliaFlag> checkMediatorParameters(MediatorImplem mediator) {
 		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
 
 		MediatorSpec mediatorSpec = mediator.getSpec().getMediatorSpec();
+		String mediatorSpecName = mediator.getSpec().toString();
 
 		// Scheduler parameters
-		Scheduler scheduler = mediator.getScheduler();
-		flagsTab.addAll(checkParameters(mediator, mediatorSpec.getScheduler(), scheduler, "scheduler"));
+		SchedulerImplem scheduler = mediator.getScheduler();
+		flagsTab.addAll(checkParameters(mediatorSpecName, mediatorSpec.getScheduler(), scheduler, "scheduler"));
 
 		// Processor parameters
-		Processor processor = mediator.getProcessor();
-		flagsTab.addAll(checkParameters(mediator, mediatorSpec.getProcessor(), processor, "processor"));
+		ProcessorImplem processor = mediator.getProcessor();
+		flagsTab.addAll(checkParameters(mediatorSpecName, mediatorSpec.getProcessor(), processor, "processor"));
 
 		// Dispatcher parameters
-		Dispatcher dispatcher = mediator.getDispatcher();
-		flagsTab.addAll(checkParameters(mediator, mediatorSpec.getDispatcher(), dispatcher, "dispatcher"));
+		DispatcherImplem dispatcher = mediator.getDispatcher();
+		flagsTab.addAll(checkParameters(mediatorSpecName, mediatorSpec.getDispatcher(), dispatcher, "dispatcher"));
 
 		return flagsTab;
 	}
 
-	private static List<CiliaFlag> checkParameters(MediatorComponent mediator, ComponentPart spec, SPDElement implem,
-			String elementTypeName) {
+	private static List<CiliaFlag> checkParameters(String specName, IComponentPart spec, IComponentPart implem, String elementTypeName) {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
 		if (spec != null) {
-			for (fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Parameter param : spec.getParameters()) {
+			for (GenericParameter param : spec.getParameters()) {
 				String paramName = param.getName();
 
 				if (implem == null || implem.getParameter(paramName) == null)
-					retval.add(new CiliaError(elementTypeName + " must have a parameter named " + paramName
-							+ " to respect its specification", mediator.getSpec()));
+					retval.add(new CiliaError(elementTypeName + " must have a parameter named " + paramName + " to respect its specification", specName));
 			}
 		}
 
 		if (implem != null) {
-			for (Parameter param : implem.getParameters()) {
+			for (GenericParameter param : implem.getParameters()) {
 				String paramName = param.getName();
 
 				if (spec == null || spec.getParameter(paramName) == null)
-					retval.add(new CiliaError(elementTypeName + " has an extra parameter named " + paramName
-							+ " not defined in its specification", mediator.getSpec()));
+					retval.add(new CiliaError(elementTypeName + " has an extra parameter named " + paramName + " not defined in its specification", specName));
 			}
 		}
 

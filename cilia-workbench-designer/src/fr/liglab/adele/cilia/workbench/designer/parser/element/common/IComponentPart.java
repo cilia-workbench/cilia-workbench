@@ -21,6 +21,9 @@ import java.util.List;
  * 
  * @author Etienne Gandrille
  */
-public abstract interface IElement {
+public abstract interface IComponentPart {
+
 	List<? extends GenericParameter> getParameters();
+
+	GenericParameter getParameter(String name);
 }

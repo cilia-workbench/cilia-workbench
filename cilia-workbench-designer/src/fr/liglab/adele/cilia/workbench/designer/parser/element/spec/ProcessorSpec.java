@@ -12,22 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IDispatcher;
+import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IProcessor;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class Dispatcher extends SPDElement implements IDispatcher {
+public class ProcessorSpec extends ComponentPartSpec implements IProcessor, DisplayedInPropertiesView {
 
-	public static final String XML_NODE_NAME = "dispatcher";
+	public static final String XML_NODE_NAME = "processor";
 
-	public Dispatcher(Node node) throws CiliaException {
+	public ProcessorSpec(Node node) throws CiliaException {
 		super(node);
+	}
+
+	public static Node createXMLParameter(Document document, Node mediatorSpec, String param) {
+		return createXMLParameter(document, mediatorSpec, param, XML_NODE_NAME);
 	}
 }

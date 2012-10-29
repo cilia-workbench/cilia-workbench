@@ -12,21 +12,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import org.w3c.dom.Node;
+
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IDispatcher;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public interface IGenericAdapter extends IComponent {
+public class DispatcherImplem extends ComponentPartImplem implements IDispatcher {
 
-	public enum AdapterType {
-		IN, OUT;
+	public static final String XML_NODE_NAME = "dispatcher";
+
+	public DispatcherImplem(Node node) throws CiliaException {
+		super(node);
 	}
-
-	public abstract AdapterType getType();
-
-	public NameNamespaceID getId();
 }

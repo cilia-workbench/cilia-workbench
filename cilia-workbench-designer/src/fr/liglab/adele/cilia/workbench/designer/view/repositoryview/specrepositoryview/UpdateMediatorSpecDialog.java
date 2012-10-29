@@ -37,7 +37,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPo
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Parameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ParameterSpec;
 
 /**
  * 
@@ -112,17 +112,17 @@ public class UpdateMediatorSpecDialog extends WorkbenchDialog {
 
 		// Scheduler
 		if (mediatorSpec.getScheduler() != null)
-			for (Parameter param : mediatorSpec.getScheduler().getParameters())
+			for (ParameterSpec param : mediatorSpec.getScheduler().getParameters())
 				schedulerParam.add(param.getName());
 
 		// Processor
 		if (mediatorSpec.getProcessor() != null)
-			for (Parameter param : mediatorSpec.getProcessor().getParameters())
+			for (ParameterSpec param : mediatorSpec.getProcessor().getParameters())
 				processorParam.add(param.getName());
 
 		// Dispatcher
 		if (mediatorSpec.getDispatcher() != null)
-			for (Parameter param : mediatorSpec.getDispatcher().getParameters())
+			for (ParameterSpec param : mediatorSpec.getDispatcher().getParameters())
 				dispatcherParam.add(param.getName());
 	}
 

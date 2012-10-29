@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**
@@ -44,11 +44,11 @@ public class NewAdapterDialog extends TextListDialog {
 	private static Map<String, Object> getListValues() {
 		Map<String, Object> retval = new HashMap<String, Object>();
 
-		List<IGenericAdapter> list = new ArrayList<IGenericAdapter>();
+		List<IAdapter> list = new ArrayList<IAdapter>();
 		list.addAll(JarRepoService.getInstance().getAdapters());
 		// list.addAll(SpecRepoService.getInstance().getAdapterSpecs());
 
-		for (IGenericAdapter a : list) {
+		for (IAdapter a : list) {
 			NameNamespaceID id = a.getId();
 			String str = a.getNature().getShortName() + " ";
 			String key = str + id.getName();
@@ -64,7 +64,7 @@ public class NewAdapterDialog extends TextListDialog {
 	protected String checkValidValues(String id, Object object) {
 		if (object == null)
 			return "Please select an element in the combo";
-		IGenericAdapter a = (IGenericAdapter) object;
+		IAdapter a = (IAdapter) object;
 		return chain.isNewComponentAllowed(id, a.getId());
 	}
 }

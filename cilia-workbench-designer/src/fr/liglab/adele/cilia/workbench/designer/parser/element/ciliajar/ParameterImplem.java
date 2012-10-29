@@ -31,7 +31,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericPar
  * 
  * @author Etienne Gandrille
  */
-public class Parameter extends GenericParameter implements DisplayedInPropertiesView {
+public class ParameterImplem extends GenericParameter implements DisplayedInPropertiesView {
 
 	public static final String XML_NODE_NAME = "property";
 
@@ -43,22 +43,22 @@ public class Parameter extends GenericParameter implements DisplayedInProperties
 	private String method;
 	private String field;
 
-	public Parameter(Node node) throws CiliaException {
+	public ParameterImplem(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 		ReflectionUtil.setAttribute(node, XML_ATTR_METHOD, this, "method");
 		ReflectionUtil.setAttribute(node, XML_ATTR_VALUE, this, "default_value");
 		ReflectionUtil.setAttribute(node, XML_ATTR_FIELD, this, "field");
 	}
 
-	public static List<Parameter> findParameters(Node node) throws CiliaException {
+	public static List<ParameterImplem> findParameters(Node node) throws CiliaException {
 
-		List<Parameter> retval = new ArrayList<Parameter>();
+		List<ParameterImplem> retval = new ArrayList<ParameterImplem>();
 
 		Node rootParam = XMLHelpers.findChild(node, "properties");
 		if (rootParam != null) {
 			Node[] params = XMLHelpers.findChildren(rootParam, XML_NODE_NAME);
 			for (Node param : params)
-				retval.add(new Parameter(param));
+				retval.add(new ParameterImplem(param));
 		}
 
 		return retval;

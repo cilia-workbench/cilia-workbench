@@ -12,21 +12,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterUtil;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class OutAdapter extends GenericOutAdapter implements DisplayedInPropertiesView {
+public class OutAdapterImplem extends AdapterImplem {
 
-	public OutAdapter(Node node) throws CiliaException {
+	String sender;
+
+	public OutAdapterImplem(Node node) throws CiliaException {
 		AdapterUtil.initAdapter(node, this, "sender");
+	}
+
+	@Override
+	public AdapterType getType() {
+		return AdapterType.OUT;
+	}
+
+	public String getSender() {
+		return sender;
+	}
+
+	protected void setSubElement(String subElement) {
+		sender = subElement;
+	}
+
+	@Override
+	protected String getSubElement() {
+		return sender;
 	}
 }

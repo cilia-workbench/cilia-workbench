@@ -18,12 +18,12 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Dispatcher;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.DispatcherSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Scheduler;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ParameterSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ProcessorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SchedulerSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecModel;
 
@@ -47,19 +47,19 @@ public class SpecContentProvider extends GenericContentProvider {
 				for (MediatorSpec spec : model.getMediatorSpecs()) {
 					addRelationship(true, file, spec);
 
-					Scheduler scheduler = spec.getScheduler();
+					SchedulerSpec scheduler = spec.getScheduler();
 					if (addRelationship(true, spec, scheduler))
-						for (Parameter p : scheduler.getParameters())
+						for (ParameterSpec p : scheduler.getParameters())
 							addRelationship(true, scheduler, p);
 
-					Processor processor = spec.getProcessor();
+					ProcessorSpec processor = spec.getProcessor();
 					if (addRelationship(true, spec, processor))
-						for (Parameter p : processor.getParameters())
+						for (ParameterSpec p : processor.getParameters())
 							addRelationship(true, processor, p);
 
-					Dispatcher dispatcher = spec.getDispatcher();
+					DispatcherSpec dispatcher = spec.getDispatcher();
 					if (addRelationship(true, spec, dispatcher))
-						for (Parameter p : dispatcher.getParameters())
+						for (ParameterSpec p : dispatcher.getParameters())
 							addRelationship(true, dispatcher, p);
 
 					for (IGenericPort port : spec.getPorts())

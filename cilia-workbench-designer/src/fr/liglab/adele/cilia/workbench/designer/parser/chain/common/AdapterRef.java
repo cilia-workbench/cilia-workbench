@@ -18,7 +18,7 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
@@ -31,5 +31,5 @@ public abstract class AdapterRef<ChainType extends ChainElement<?>> extends Comp
 		super(node, chainId, repo);
 	}
 
-	public abstract IGenericAdapter getReferencedObject();
+	public abstract IAdapter getReferencedObject();
 }

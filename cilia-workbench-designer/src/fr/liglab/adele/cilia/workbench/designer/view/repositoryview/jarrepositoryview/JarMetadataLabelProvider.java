@@ -18,18 +18,18 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Collector;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Dispatcher;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Scheduler;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.DispatcherImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ParameterImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Sender;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SuperMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericInPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**
@@ -45,8 +45,8 @@ public class JarMetadataLabelProvider extends CiliaLabelProvider {
 
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
-		if (obj instanceof GenericAdapter) {
-			GenericAdapter adapter = (GenericAdapter) obj;
+		if (obj instanceof AdapterImplem) {
+			AdapterImplem adapter = (AdapterImplem) obj;
 			if (adapter.getType() == AdapterType.IN)
 				imageName = ImageDescriptorEnum.ADAPTER_IN;
 			else
@@ -55,13 +55,13 @@ public class JarMetadataLabelProvider extends CiliaLabelProvider {
 			imageName = ImageDescriptorEnum.REPOSITORY;
 		else if (isCompatible(obj, Collector.class))
 			imageName = ImageDescriptorEnum.COLLECTOR;
-		else if (isCompatible(obj, Dispatcher.class))
+		else if (isCompatible(obj, DispatcherImplem.class))
 			imageName = ImageDescriptorEnum.DISPATCHER;
-		else if (isCompatible(obj, MediatorComponent.class))
+		else if (isCompatible(obj, MediatorImplem.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
-		else if (isCompatible(obj, Processor.class))
+		else if (isCompatible(obj, ProcessorImplem.class))
 			imageName = ImageDescriptorEnum.PROCESSOR;
-		else if (isCompatible(obj, Scheduler.class))
+		else if (isCompatible(obj, SchedulerImplem.class))
 			imageName = ImageDescriptorEnum.SCHEDULER;
 		else if (isCompatible(obj, Sender.class))
 			imageName = ImageDescriptorEnum.SENDER;
@@ -71,7 +71,7 @@ public class JarMetadataLabelProvider extends CiliaLabelProvider {
 			imageName = ImageDescriptorEnum.PORT_IN;
 		else if (isCompatible(obj, GenericOutPort.class))
 			imageName = ImageDescriptorEnum.PORT_OUT;
-		else if (isCompatible(obj, Parameter.class))
+		else if (isCompatible(obj, ParameterImplem.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
 		else if (isCompatible(obj, SuperMediator.class))
 			imageName = ImageDescriptorEnum.SUPER_TYPE;

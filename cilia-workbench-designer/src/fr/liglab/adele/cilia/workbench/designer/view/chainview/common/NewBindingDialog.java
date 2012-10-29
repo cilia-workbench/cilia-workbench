@@ -33,9 +33,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Cardinality;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericPort;
 
 /**
@@ -118,7 +118,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 			dstElemCombo.add(item.getId());
 		}
 		for (AdapterRef<AbstractChain> item : chain.getAdapters()) {
-			IGenericAdapter adapter = item.getReferencedObject();
+			IAdapter adapter = item.getReferencedObject();
 			if (adapter == null) {
 				srcElemCombo.add(item.getId());
 				dstElemCombo.add(item.getId());
@@ -264,7 +264,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 			// mediator
 			if (i instanceof MediatorRef) {
 				comboPort.setEnabled(true);
-				IGenericMediator mediator = ((MediatorRef<AbstractChain>) i).getReferencedObject();
+				IMediator mediator = ((MediatorRef<AbstractChain>) i).getReferencedObject();
 				if (portType.equals(DST_COLUMN_KEY)) {
 					for (IGenericPort port : mediator.getInPorts())
 						comboPort.add(port.getName());

@@ -39,15 +39,15 @@ public abstract class SCElement implements DisplayedInPropertiesView, ErrorsAndW
 
 	private String name;
 	private String classname;
-	private List<Parameter> parameters = new ArrayList<Parameter>();
+	private List<ParameterImplem> parameters = new ArrayList<ParameterImplem>();
 
 	public SCElement(Node node) throws CiliaException {
-		parameters = Parameter.findParameters(node);
+		parameters = ParameterImplem.findParameters(node);
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 		ReflectionUtil.setAttribute(node, XML_ATTR_CLASSNAME, this, "classname");
 	}
 
-	public List<Parameter> getParameters() {
+	public List<ParameterImplem> getParameters() {
 		return parameters;
 	}
 

@@ -18,7 +18,7 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
@@ -36,7 +36,7 @@ public class MediatorInstanceRef<ChainType extends ChainElement<?>> extends Medi
 	}
 
 	@Override
-	public IGenericMediator getReferencedObject() {
+	public IMediator getReferencedObject() {
 		NameNamespaceID id = getReferencedTypeID();
 		return JarRepoService.getInstance().getMediatorForChain(id);
 	}

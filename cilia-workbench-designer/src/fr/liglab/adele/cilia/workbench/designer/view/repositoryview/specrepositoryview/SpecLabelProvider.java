@@ -18,12 +18,12 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericInPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericOutPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Dispatcher;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.DispatcherSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Processor;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.Scheduler;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ParameterSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ProcessorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SchedulerSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
@@ -47,15 +47,15 @@ public class SpecLabelProvider extends CiliaLabelProvider {
 			imageName = ImageDescriptorEnum.FILE;
 		else if (isCompatible(obj, MediatorSpec.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
-		else if (isCompatible(obj, Scheduler.class))
+		else if (isCompatible(obj, SchedulerSpec.class))
 			imageName = ImageDescriptorEnum.SCHEDULER;
-		else if (isCompatible(obj, Processor.class))
+		else if (isCompatible(obj, ProcessorSpec.class))
 			imageName = ImageDescriptorEnum.PROCESSOR;
-		else if (isCompatible(obj, Dispatcher.class))
+		else if (isCompatible(obj, DispatcherSpec.class))
 			imageName = ImageDescriptorEnum.DISPATCHER;
 		else if (isCompatible(obj, NameProperty.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
-		else if (isCompatible(obj, Parameter.class))
+		else if (isCompatible(obj, ParameterSpec.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
 		else if (isCompatible(obj, GenericInPort.class))
 			imageName = ImageDescriptorEnum.PORT_IN;

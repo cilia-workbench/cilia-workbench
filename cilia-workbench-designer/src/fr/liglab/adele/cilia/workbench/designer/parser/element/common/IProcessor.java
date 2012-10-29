@@ -19,5 +19,5 @@ package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
  * 
  * @author Etienne Gandrille
  */
-public interface IProcessor extends IElement {
+public interface IProcessor extends IComponentPart {
 }

@@ -29,39 +29,39 @@ import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IElement;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponentPart;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentPart implements IElement, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
+abstract class ComponentPartSpec implements IComponentPart, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
 
-	private List<Parameter> parameters = new ArrayList<Parameter>();
+	private List<ParameterSpec> parameters = new ArrayList<ParameterSpec>();
 
-	public ComponentPart(Node node) throws CiliaException {
+	public ComponentPartSpec(Node node) throws CiliaException {
 
 		Node rootParam = XMLHelpers.findChild(node, "parameters");
 		if (rootParam != null) {
 			Node[] params = XMLHelpers.findChildren(rootParam, "parameter");
 			for (Node param : params)
-				parameters.add(new Parameter(param));
+				parameters.add(new ParameterSpec(param));
 		}
 	}
 
-	public List<Parameter> getParameters() {
+	public List<ParameterSpec> getParameters() {
 		return parameters;
 	}
 
-	public Parameter getParameter(String name) {
-		for (Parameter p : parameters)
+	public ParameterSpec getParameter(String name) {
+		for (ParameterSpec p : parameters)
 			if (p.getName().equalsIgnoreCase(name))
 				return p;
 		return null;
 	}
 
 	public List<Changeset> merge(Object newInstance) throws CiliaException {
-		return MergeUtil.mergeLists(((ComponentPart) newInstance).getParameters(), parameters);
+		return MergeUtil.mergeLists(((ComponentPartSpec) newInstance).getParameters(), parameters);
 	}
 
 	@Override

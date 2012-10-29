@@ -18,7 +18,7 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
@@ -36,7 +36,7 @@ public class AdapterInstanceRef<ChainType extends ChainElement<?>> extends Adapt
 	}
 
 	@Override
-	public IGenericAdapter getReferencedObject() {
+	public IAdapter getReferencedObject() {
 		NameNamespaceID id = getReferencedTypeID();
 		return JarRepoService.getInstance().getAdapterForChain(id);
 	}

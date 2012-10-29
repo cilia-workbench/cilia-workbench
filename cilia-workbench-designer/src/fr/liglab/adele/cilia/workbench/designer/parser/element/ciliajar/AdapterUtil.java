@@ -20,7 +20,9 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.AdapterImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InAdapterImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutAdapterImplem;
 
 /**
  * 
@@ -42,15 +44,15 @@ public class AdapterUtil {
 	 * @return {@link InAdapter}, an {@link OutAdapter} or <code>null</code> in
 	 *         case of error.
 	 */
-	public static GenericAdapter createAdapter(Node node) {
-		GenericAdapter retval = null;
+	public static AdapterImplem createAdapter(Node node) {
+		AdapterImplem retval = null;
 
 		try {
 			String pattern = XMLHelpers.findAttributeValue(node, XML_ATTR_PATTERN);
 			if (pattern.equalsIgnoreCase(IN_PATTERN))
-				retval = new InAdapter(node);
+				retval = new InAdapterImplem(node);
 			else if (pattern.equalsIgnoreCase(OUT_PATTERN))
-				retval = new OutAdapter(node);
+				retval = new OutAdapterImplem(node);
 			else
 				throw new CiliaException("Unknown pattern : addapter can't be created");
 		} catch (CiliaException e) {
@@ -61,7 +63,7 @@ public class AdapterUtil {
 		return retval;
 	}
 
-	static void initAdapter(Node node, GenericAdapter adapter, String subXMLNodeName) throws CiliaException {
+	public static void initAdapter(Node node, AdapterImplem adapter, String subXMLNodeName) throws CiliaException {
 		ReflectionUtil.setAttribute(node, "name", adapter, "name");
 		ReflectionUtil.setAttribute(node, "namespace", adapter, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
 

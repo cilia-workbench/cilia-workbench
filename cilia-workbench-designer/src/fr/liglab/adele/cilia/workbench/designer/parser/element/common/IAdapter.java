@@ -14,32 +14,19 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
 
-import java.util.List;
-
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 
 /**
- * Represents a spec or an implementation of a Mediator.
  * 
  * @author Etienne Gandrille
  */
-public interface IGenericMediator extends IComponent {
+public interface IAdapter extends IComponent {
 
-	public List<? extends IGenericPort> getPorts();
+	public enum AdapterType {
+		IN, OUT;
+	}
 
-	public List<? extends IGenericPort> getInPorts();
-
-	public List<? extends IGenericPort> getOutPorts();
-
-	public List<? extends GenericProperty> getProperties();
-
-	public GenericProperty getProperty(String name);
-
-	public IScheduler getScheduler();
-
-	public IProcessor getProcessor();
-
-	public IDispatcher getDispatcher();
+	public abstract AdapterType getType();
 
 	public NameNamespaceID getId();
 }

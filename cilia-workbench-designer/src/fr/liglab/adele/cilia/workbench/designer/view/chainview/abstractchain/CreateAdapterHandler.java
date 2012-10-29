@@ -21,7 +21,7 @@ import org.eclipse.jface.window.Window;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IGenericAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.NewAdapterDialog;
 
@@ -39,7 +39,7 @@ public class CreateAdapterHandler extends AbstractChainHandler {
 			NewAdapterDialog window = new NewAdapterDialog(ViewUtil.getShell(event), model);
 			if (window.open() == Window.OK) {
 				String id = window.getText();
-				IGenericAdapter adapter = (IGenericAdapter) window.getValue();
+				IAdapter adapter = (IAdapter) window.getValue();
 				try {
 					AbstractCompositionsRepoService.getInstance().createAdapter(model, id, adapter);
 				} catch (CiliaException e) {
