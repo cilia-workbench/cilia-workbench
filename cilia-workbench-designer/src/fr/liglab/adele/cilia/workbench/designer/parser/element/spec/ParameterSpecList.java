@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponentPart;
 
 /**
@@ -76,7 +76,7 @@ public class ParameterSpecList {
 
 	public List<Changeset> merge(IComponentPart newInstance) throws CiliaException {
 		ArrayList<ParameterSpec> oldList = new ArrayList<ParameterSpec>();
-		for (GenericParameter param : newInstance.getParameters()) {
+		for (Parameter param : newInstance.getParameters()) {
 			oldList.add((ParameterSpec) param);
 		}
 

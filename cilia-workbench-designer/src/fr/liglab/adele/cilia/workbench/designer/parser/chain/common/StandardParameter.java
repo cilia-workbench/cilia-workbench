@@ -30,13 +30,13 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueP
  * 
  * @author Etienne Gandrille
  */
-public class Parameter extends NameValueProperty implements Mergeable {
+public class StandardParameter extends NameValueProperty implements Mergeable {
 
 	public static final String XML_ROOT_NAME = "property";
 	public static String XML_ATTR_NAME = "name";
 	public static String XML_ATTR_VALUE = "value";
 
-	public Parameter(Node n) throws CiliaException {
+	public StandardParameter(Node n) throws CiliaException {
 		super(XMLHelpers.findAttributeValue(n, XML_ATTR_NAME), XMLHelpers.findAttributeValue(n, XML_ATTR_VALUE));
 	}
 
@@ -44,7 +44,7 @@ public class Parameter extends NameValueProperty implements Mergeable {
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = new ArrayList<Changeset>();
 
-		String newValue = ((Parameter) other).getValue();
+		String newValue = ((StandardParameter) other).getValue();
 		if (!value.equals(newValue)) {
 			value = newValue;
 			retval.add(new Changeset(Operation.UPDATE, this));

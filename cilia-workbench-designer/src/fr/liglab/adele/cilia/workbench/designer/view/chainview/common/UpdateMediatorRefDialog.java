@@ -33,8 +33,8 @@ import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.StandardParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 
 /**
  * 
@@ -68,24 +68,24 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 	private static List<String> getConstraintKeys(MediatorRef<AbstractChain> mediator) {
 		List<String> names = new ArrayList<String>();
 		if (mediator.getReferencedObjectSchedulerParameters() != null)
-			for (GenericParameter p : mediator.getReferencedObjectSchedulerParameters())
+			for (Parameter p : mediator.getReferencedObjectSchedulerParameters())
 				names.add(schedulerPrefix + p.getName());
 		if (mediator.getReferencedObjectProcessorParameters() != null)
-			for (GenericParameter p : mediator.getReferencedObjectProcessorParameters())
+			for (Parameter p : mediator.getReferencedObjectProcessorParameters())
 				names.add(processorPrefix + p.getName());
 		if (mediator.getReferencedObjectDispatcherParameters() != null)
-			for (GenericParameter p : mediator.getReferencedObjectDispatcherParameters())
+			for (Parameter p : mediator.getReferencedObjectDispatcherParameters())
 				names.add(dispatcherPrefix + p.getName());
 		return names;
 	}
 
 	private static Map<String, String> getConstraintValues(MediatorRef<AbstractChain> mediator) {
 		Map<String, String> values = new HashMap<String, String>();
-		for (Parameter p : mediator.getSchedulerParameters())
+		for (StandardParameter p : mediator.getSchedulerParameters())
 			values.put(schedulerPrefix + p.getName(), p.getValue());
-		for (Parameter p : mediator.getProcessorParameters())
+		for (StandardParameter p : mediator.getProcessorParameters())
 			values.put(processorPrefix + p.getName(), p.getValue());
-		for (Parameter p : mediator.getDispatcherParameters())
+		for (StandardParameter p : mediator.getDispatcherParameters())
 			values.put(dispatcherPrefix + p.getName(), p.getValue());
 		return values;
 	}

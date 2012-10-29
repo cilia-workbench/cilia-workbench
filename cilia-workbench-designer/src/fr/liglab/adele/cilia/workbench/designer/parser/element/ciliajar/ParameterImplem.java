@@ -25,13 +25,13 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class ParameterImplem extends GenericParameter implements DisplayedInPropertiesView {
+public class ParameterImplem extends Parameter implements DisplayedInPropertiesView {
 
 	public static final String XML_NODE_NAME = "property";
 

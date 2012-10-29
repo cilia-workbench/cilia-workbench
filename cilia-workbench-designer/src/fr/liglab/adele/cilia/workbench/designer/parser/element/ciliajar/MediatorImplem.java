@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponentPart;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
@@ -259,7 +259,7 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
 		if (spec != null) {
-			for (GenericParameter param : spec.getParameters()) {
+			for (Parameter param : spec.getParameters()) {
 				String paramName = param.getName();
 
 				if (implem == null || implem.getParameter(paramName) == null)
@@ -268,7 +268,7 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 		}
 
 		if (implem != null) {
-			for (GenericParameter param : implem.getParameters()) {
+			for (Parameter param : implem.getParameters()) {
 				String paramName = param.getName();
 
 				if (spec == null || spec.getParameter(paramName) == null)

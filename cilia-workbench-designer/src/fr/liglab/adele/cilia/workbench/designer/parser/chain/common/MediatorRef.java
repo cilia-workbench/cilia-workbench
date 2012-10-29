@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IDispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
@@ -46,9 +46,9 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 	public static String XML_PROCESSOR_NODE = "processor";
 	public static String XML_DISPATCHER_NODE = "dispatcher";
 
-	private List<Parameter> schedulerParameters = new ArrayList<Parameter>();
-	private List<Parameter> processorParameters = new ArrayList<Parameter>();
-	private List<Parameter> dispatcherParameters = new ArrayList<Parameter>();
+	private List<StandardParameter> schedulerParameters = new ArrayList<StandardParameter>();
+	private List<StandardParameter> processorParameters = new ArrayList<StandardParameter>();
+	private List<StandardParameter> dispatcherParameters = new ArrayList<StandardParameter>();
 
 	public MediatorRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo)
 			throws CiliaException {
@@ -59,25 +59,25 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 		initSPD(node, XML_DISPATCHER_NODE, dispatcherParameters);
 	}
 
-	public List<Parameter> getSchedulerParameters() {
+	public List<StandardParameter> getSchedulerParameters() {
 		return schedulerParameters;
 	}
 
-	public List<Parameter> getProcessorParameters() {
+	public List<StandardParameter> getProcessorParameters() {
 		return processorParameters;
 	}
 
-	public List<Parameter> getDispatcherParameters() {
+	public List<StandardParameter> getDispatcherParameters() {
 		return dispatcherParameters;
 	}
 
-	private static void initSPD(Node node, String subNode, List<Parameter> list) {
+	private static void initSPD(Node node, String subNode, List<StandardParameter> list) {
 		Node root = XMLHelpers.findChild(node, subNode);
 		if (root != null) {
-			Node[] sub = XMLHelpers.findChildren(root, Parameter.XML_ROOT_NAME);
+			Node[] sub = XMLHelpers.findChildren(root, StandardParameter.XML_ROOT_NAME);
 			for (Node n : sub) {
 				try {
-					list.add(new Parameter(n));
+					list.add(new StandardParameter(n));
 				} catch (CiliaException e) {
 					e.printStackTrace();
 				}
@@ -87,7 +87,7 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 
 	public abstract IMediator getReferencedObject();
 
-	public List<? extends GenericParameter> getReferencedObjectSchedulerParameters() {
+	public List<? extends Parameter> getReferencedObjectSchedulerParameters() {
 
 		IMediator ro = getReferencedObject();
 		if (ro == null)
@@ -100,7 +100,7 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 		return part.getParameters();
 	}
 
-	public List<? extends GenericParameter> getReferencedObjectProcessorParameters() {
+	public List<? extends Parameter> getReferencedObjectProcessorParameters() {
 
 		IMediator ro = getReferencedObject();
 		if (ro == null)
@@ -113,7 +113,7 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 		return part.getParameters();
 	}
 
-	public List<? extends GenericParameter> getReferencedObjectDispatcherParameters() {
+	public List<? extends Parameter> getReferencedObjectDispatcherParameters() {
 
 		IMediator ro = getReferencedObject();
 		if (ro == null)
@@ -186,18 +186,18 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 		return CiliaFlag.generateTab(list, e1, e2);
 	}
 
-	private List<CiliaFlag> checkParameters(List<Parameter> curParameters,
-			List<? extends GenericParameter> typeParameters, String displayName) {
+	private List<CiliaFlag> checkParameters(List<StandardParameter> curParameters,
+			List<? extends Parameter> typeParameters, String displayName) {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
 		if (typeParameters == null)
 			return retval;
 
-		for (Parameter p : curParameters) {
+		for (StandardParameter p : curParameters) {
 			String name = p.getName();
 
 			boolean found = false;
-			for (Iterator<? extends GenericParameter> it = typeParameters.iterator(); !found && it.hasNext();) {
+			for (Iterator<? extends Parameter> it = typeParameters.iterator(); !found && it.hasNext();) {
 				if (it.next().getName().equalsIgnoreCase(name))
 					found = true;
 			}

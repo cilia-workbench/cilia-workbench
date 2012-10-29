@@ -23,7 +23,7 @@ import java.util.List;
  */
 public abstract interface IComponentPart {
 
-	List<? extends GenericParameter> getParameters();
+	List<? extends Parameter> getParameters();
 
-	GenericParameter getParameter(String name);
+	Parameter getParameter(String name);
 }

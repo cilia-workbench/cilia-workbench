@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.Strings;
  * 
  * @author Etienne Gandrille
  */
-public class GenericParameter implements ErrorsAndWarningsFinder, Identifiable {
+public abstract class Parameter implements ErrorsAndWarningsFinder, Identifiable {
 
 	private String name;
 	private String default_value;
