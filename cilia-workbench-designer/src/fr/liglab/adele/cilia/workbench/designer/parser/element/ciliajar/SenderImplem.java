@@ -22,11 +22,11 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
  * 
  * @author Etienne Gandrille
  */
-public class Collector extends SCElement {
+public class SenderImplem extends AdapterSubElement {
 
-	public static final String XML_NODE_NAME = "collector";
+	public static final String XML_NODE_NAME = "sender";
 
-	public Collector(Node node) throws CiliaException {
+	public SenderImplem(Node node) throws CiliaException {
 		super(node);
 	}
 }

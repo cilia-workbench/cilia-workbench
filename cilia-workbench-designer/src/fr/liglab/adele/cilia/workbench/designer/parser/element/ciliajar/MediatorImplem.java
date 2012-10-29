@@ -50,7 +50,7 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 
 	public static final String XML_NODE_NAME = "mediator-component";
 
-	private final SuperMediator spec;
+	private final RefMediatorSpec spec;
 
 	private String schedulerName;
 	private String schedulerNamespace;
@@ -85,7 +85,7 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 		}
 
 		if (specName != null)
-			spec = new SuperMediator(specName, specNamespace);
+			spec = new RefMediatorSpec(specName, specNamespace);
 		else
 			spec = null;
 
@@ -138,7 +138,7 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 		return retval;
 	}
 
-	public SuperMediator getSpec() {
+	public RefMediatorSpec getSpec() {
 		return spec;
 	}
 

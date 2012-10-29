@@ -28,12 +28,12 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplemUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Collector;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CollectorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.DispatcherImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Sender;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SenderImplem;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link CiliaJarFile}.
@@ -48,8 +48,8 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 	private List<ProcessorImplem> processors = new ArrayList<ProcessorImplem>();
 	private List<SchedulerImplem> schedulers = new ArrayList<SchedulerImplem>();
 	private List<DispatcherImplem> dispatchers = new ArrayList<DispatcherImplem>();
-	private List<Collector> collectors = new ArrayList<Collector>();
-	private List<Sender> senders = new ArrayList<Sender>();
+	private List<CollectorImplem> collectors = new ArrayList<CollectorImplem>();
+	private List<SenderImplem> senders = new ArrayList<SenderImplem>();
 	private List<AdapterImplem> adapters = new ArrayList<AdapterImplem>();
 
 	public CiliaJarModel(File file) throws CiliaException {
@@ -73,10 +73,10 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 						schedulers.add(new SchedulerImplem(child));
 					else if (nodeName.equals(DispatcherImplem.XML_NODE_NAME))
 						dispatchers.add(new DispatcherImplem(child));
-					else if (nodeName.equals(Collector.XML_NODE_NAME))
-						collectors.add(new Collector(child));
-					else if (nodeName.equals(Sender.XML_NODE_NAME))
-						senders.add(new Sender(child));
+					else if (nodeName.equals(CollectorImplem.XML_NODE_NAME))
+						collectors.add(new CollectorImplem(child));
+					else if (nodeName.equals(SenderImplem.XML_NODE_NAME))
+						senders.add(new SenderImplem(child));
 					else if (nodeName.equals(AdapterImplemUtil.XML_NODE_NAME)) {
 						AdapterImplem a = AdapterImplemUtil.createAdapter(child);
 						if (a != null)
@@ -108,11 +108,11 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 		return dispatchers;
 	}
 
-	public List<Collector> getCollectors() {
+	public List<CollectorImplem> getCollectors() {
 		return collectors;
 	}
 
-	public List<Sender> getSenders() {
+	public List<SenderImplem> getSenders() {
 		return senders;
 	}
 

@@ -27,12 +27,12 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Collector;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CollectorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.DispatcherImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Sender;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SenderImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
@@ -197,8 +197,8 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return getDispatcher(model, nn);
 	}
 
-	public List<Collector> getCollectors() {
-		List<Collector> retval = new ArrayList<Collector>();
+	public List<CollectorImplem> getCollectors() {
+		List<CollectorImplem> retval = new ArrayList<CollectorImplem>();
 		for (CiliaJarFile bundle : model)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getCollectors());
@@ -206,15 +206,15 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		return retval;
 	}
 
-	public Collector getCollector(NameNamespaceID nn) {
-		for (Collector c : getCollectors())
+	public CollectorImplem getCollector(NameNamespaceID nn) {
+		for (CollectorImplem c : getCollectors())
 			if (c.getId().equals(nn))
 				return c;
 		return null;
 	}
 
-	public List<Sender> getSenders() {
-		List<Sender> retval = new ArrayList<Sender>();
+	public List<SenderImplem> getSenders() {
+		List<SenderImplem> retval = new ArrayList<SenderImplem>();
 		for (CiliaJarFile bundle : model)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getSenders());

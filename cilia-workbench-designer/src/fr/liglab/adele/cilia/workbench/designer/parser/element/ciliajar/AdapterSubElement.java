@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
  * 
  * @author Etienne Gandrille
  */
-public abstract class SCElement implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
+public abstract class AdapterSubElement implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
 	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_CLASSNAME = "classname";
@@ -41,7 +41,7 @@ public abstract class SCElement implements DisplayedInPropertiesView, ErrorsAndW
 	private String classname;
 	private List<ParameterImplem> parameters = new ArrayList<ParameterImplem>();
 
-	public SCElement(Node node) throws CiliaException {
+	public AdapterSubElement(Node node) throws CiliaException {
 		parameters = ParameterImplem.findParameters(node);
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 		ReflectionUtil.setAttribute(node, XML_ATTR_CLASSNAME, this, "classname");

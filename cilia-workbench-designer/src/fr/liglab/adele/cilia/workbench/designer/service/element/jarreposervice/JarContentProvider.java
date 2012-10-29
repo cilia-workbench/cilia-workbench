@@ -18,13 +18,13 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.AdapterImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Collector;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.CollectorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.DispatcherImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.MediatorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ParameterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.ProcessorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Sender;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SenderImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
 
@@ -97,13 +97,13 @@ public class JarContentProvider extends GenericContentProvider {
 						addRelationship(true, d, param);
 				}
 
-				for (Collector c : ipojo.getCollectors()) {
+				for (CollectorImplem c : ipojo.getCollectors()) {
 					addRelationship(true, bundle, c);
 					for (ParameterImplem param : c.getParameters())
 						addRelationship(true, c, param);
 				}
 
-				for (Sender s : ipojo.getSenders()) {
+				for (SenderImplem s : ipojo.getSenders()) {
 					addRelationship(true, bundle, s);
 					for (ParameterImplem param : s.getParameters())
 						addRelationship(true, s, param);

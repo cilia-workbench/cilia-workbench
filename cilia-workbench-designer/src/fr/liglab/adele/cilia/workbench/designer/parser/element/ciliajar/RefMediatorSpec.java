@@ -27,9 +27,9 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  * 
  * @author Etienne Gandrille
  */
-public class SuperMediator extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public class RefMediatorSpec extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
-	public SuperMediator(String name, String namespace) {
+	public RefMediatorSpec(String name, String namespace) {
 		super(name, namespace);
 	}
 
