@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
  * 
  * @author Etienne Gandrille
  */
-public class ComponentPartImplemHelper extends NameNamespace {
+class ComponentPartImplemHelper extends NameNamespace {
 
 	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_NAMESPACE = "namespace";

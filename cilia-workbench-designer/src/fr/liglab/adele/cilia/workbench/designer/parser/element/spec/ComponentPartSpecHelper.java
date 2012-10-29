@@ -23,7 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
  * 
  * @author Etienne Gandrille
  */
-public class ComponentPartSpecHelper {
+class ComponentPartSpecHelper {
 
 	public static Node createXMLParameter(Document document, Node mediatorSpec, String param, String componentName) {
 		Node component = XMLHelpers.getOrCreateChild(document, mediatorSpec, componentName);

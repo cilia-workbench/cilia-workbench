@@ -19,17 +19,13 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class AdapterImplem extends NameNamespace implements IAdapter, Identifiable,
-		ErrorsAndWarningsFinder {
+public abstract class AdapterImplem extends NameNamespace implements IAdapter, Identifiable, ErrorsAndWarningsFinder {
 
 	/**
 	 * Sub element is a collector or a sender, depending on the
