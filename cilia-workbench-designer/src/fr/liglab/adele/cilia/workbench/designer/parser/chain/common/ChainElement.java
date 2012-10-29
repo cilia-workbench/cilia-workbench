@@ -20,6 +20,7 @@ import java.util.List;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
@@ -37,7 +38,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;

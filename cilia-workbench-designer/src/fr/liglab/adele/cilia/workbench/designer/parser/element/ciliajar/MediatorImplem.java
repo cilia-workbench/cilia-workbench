@@ -22,6 +22,7 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
@@ -36,7 +37,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;

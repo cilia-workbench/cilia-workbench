@@ -15,6 +15,7 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;

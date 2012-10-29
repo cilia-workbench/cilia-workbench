@@ -20,11 +20,11 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameNamespace;
 
 /**
  * 

@@ -14,11 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameNamespace;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
