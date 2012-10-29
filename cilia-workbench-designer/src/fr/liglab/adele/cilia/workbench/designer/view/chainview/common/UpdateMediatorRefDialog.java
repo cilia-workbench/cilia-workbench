@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.StandardParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 
 /**
@@ -81,11 +81,11 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 
 	private static Map<String, String> getConstraintValues(MediatorRef<AbstractChain> mediator) {
 		Map<String, String> values = new HashMap<String, String>();
-		for (StandardParameter p : mediator.getSchedulerParameters())
+		for (ParameterChain p : mediator.getSchedulerParameters())
 			values.put(schedulerPrefix + p.getName(), p.getValue());
-		for (StandardParameter p : mediator.getProcessorParameters())
+		for (ParameterChain p : mediator.getProcessorParameters())
 			values.put(processorPrefix + p.getName(), p.getValue());
-		for (StandardParameter p : mediator.getDispatcherParameters())
+		for (ParameterChain p : mediator.getDispatcherParameters())
 			values.put(dispatcherPrefix + p.getName(), p.getValue());
 		return values;
 	}

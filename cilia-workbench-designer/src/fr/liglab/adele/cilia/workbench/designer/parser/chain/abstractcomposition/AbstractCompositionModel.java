@@ -37,7 +37,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorInstanceRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.StandardParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
@@ -300,7 +300,7 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 		// first, delete
 		Node sub = XMLHelpers.findChild(mediatorRoot, xmlPartName);
 		if (sub != null)
-			for (Node n : XMLHelpers.findChildren(sub, StandardParameter.XML_ROOT_NAME))
+			for (Node n : XMLHelpers.findChildren(sub, ParameterChain.XML_ROOT_NAME))
 				sub.removeChild(n);
 
 		// then (re)create
@@ -308,8 +308,8 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 			if (sub == null)
 				sub = XMLHelpers.createChild(document, mediatorRoot, xmlPartName);
 			for (String key : parameters.keySet())
-				XMLHelpers.createChild(document, sub, StandardParameter.XML_ROOT_NAME, StandardParameter.XML_ATTR_NAME, key,
-						StandardParameter.XML_ATTR_VALUE, parameters.get(key));
+				XMLHelpers.createChild(document, sub, ParameterChain.XML_ROOT_NAME, ParameterChain.XML_ATTR_NAME, key,
+						ParameterChain.XML_ATTR_VALUE, parameters.get(key));
 		}
 	}
 }

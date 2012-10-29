@@ -46,9 +46,9 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 	public static String XML_PROCESSOR_NODE = "processor";
 	public static String XML_DISPATCHER_NODE = "dispatcher";
 
-	private List<StandardParameter> schedulerParameters = new ArrayList<StandardParameter>();
-	private List<StandardParameter> processorParameters = new ArrayList<StandardParameter>();
-	private List<StandardParameter> dispatcherParameters = new ArrayList<StandardParameter>();
+	private List<ParameterChain> schedulerParameters = new ArrayList<ParameterChain>();
+	private List<ParameterChain> processorParameters = new ArrayList<ParameterChain>();
+	private List<ParameterChain> dispatcherParameters = new ArrayList<ParameterChain>();
 
 	public MediatorRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo)
 			throws CiliaException {
@@ -59,25 +59,25 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 		initSPD(node, XML_DISPATCHER_NODE, dispatcherParameters);
 	}
 
-	public List<StandardParameter> getSchedulerParameters() {
+	public List<ParameterChain> getSchedulerParameters() {
 		return schedulerParameters;
 	}
 
-	public List<StandardParameter> getProcessorParameters() {
+	public List<ParameterChain> getProcessorParameters() {
 		return processorParameters;
 	}
 
-	public List<StandardParameter> getDispatcherParameters() {
+	public List<ParameterChain> getDispatcherParameters() {
 		return dispatcherParameters;
 	}
 
-	private static void initSPD(Node node, String subNode, List<StandardParameter> list) {
+	private static void initSPD(Node node, String subNode, List<ParameterChain> list) {
 		Node root = XMLHelpers.findChild(node, subNode);
 		if (root != null) {
-			Node[] sub = XMLHelpers.findChildren(root, StandardParameter.XML_ROOT_NAME);
+			Node[] sub = XMLHelpers.findChildren(root, ParameterChain.XML_ROOT_NAME);
 			for (Node n : sub) {
 				try {
-					list.add(new StandardParameter(n));
+					list.add(new ParameterChain(n));
 				} catch (CiliaException e) {
 					e.printStackTrace();
 				}
@@ -186,14 +186,14 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 		return CiliaFlag.generateTab(list, e1, e2);
 	}
 
-	private List<CiliaFlag> checkParameters(List<StandardParameter> curParameters,
+	private List<CiliaFlag> checkParameters(List<ParameterChain> curParameters,
 			List<? extends Parameter> typeParameters, String displayName) {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
 		if (typeParameters == null)
 			return retval;
 
-		for (StandardParameter p : curParameters) {
+		for (ParameterChain p : curParameters) {
 			String name = p.getName();
 
 			boolean found = false;

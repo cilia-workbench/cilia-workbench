@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.StandardParameter;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;
 
 /**
  * 
@@ -50,11 +50,11 @@ public abstract class ChainContentProvider<ChainType extends ChainElement<ChainT
 					for (MediatorRef<ChainType> m : c.getMediators()) {
 						addRelationship(false, c, m);
 
-						for (StandardParameter p : m.getSchedulerParameters())
+						for (ParameterChain p : m.getSchedulerParameters())
 							addRelationship(false, m, p);
-						for (StandardParameter p : m.getProcessorParameters())
+						for (ParameterChain p : m.getProcessorParameters())
 							addRelationship(false, m, p);
-						for (StandardParameter p : m.getDispatcherParameters())
+						for (ParameterChain p : m.getDispatcherParameters())
 							addRelationship(false, m, p);
 
 						// Specification specific part. Ignored by
