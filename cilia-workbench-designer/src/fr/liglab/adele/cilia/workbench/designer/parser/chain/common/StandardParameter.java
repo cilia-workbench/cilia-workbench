@@ -24,13 +24,13 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.PropertyImplem;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class StandardParameter extends NameValueProperty implements Mergeable {
+public class StandardParameter extends PropertyImplem implements Mergeable {
 
 	public static final String XML_ROOT_NAME = "property";
 	public static String XML_ATTR_NAME = "name";

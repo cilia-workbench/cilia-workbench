@@ -14,56 +14,52 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
+ * A property contains a single name. This is a base class, for implementing
+ * properties definition or properties implementation.
  * 
  * @author Etienne Gandrille
  */
-public class NameValueProperty extends GenericProperty {
+public abstract class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
-	protected String value;
+	protected String name;
 
-	public String getValue() {
-		return value;
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public Object getId() {
+		return name;
 	}
 
 	@Override
 	public String toString() {
-		if (name == null || name.length() == 0)
-			return "<undefined> = " + value;
-		if (value == null || value.length() == 0)
-			return name + " = <undefined>";
-
-		return name + " = " + value;
+		return name;
 	}
 
 	@Override
 	public boolean equals(Object arg0) {
 		if (arg0 == null)
 			return false;
-		if (!(arg0 instanceof GenericProperty))
+		if (!(arg0 instanceof Property))
 			return false;
 
-		NameValueProperty prop = (NameValueProperty) arg0;
+		Property prop = (Property) arg0;
 
-		if (prop.getName() != name || prop.getValue() != value)
-			return false;
-
-		return true;
-	}
-
-	public NameValueProperty(String name, String value) {
-		this.name = name;
-		this.value = value;
+		return (prop.getName() == name);
 	}
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] tab = super.getErrorsAndWarnings();
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, value, "value");
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
 
-		return CiliaFlag.generateTab(tab, e1);
+		return CiliaFlag.generateTab(e1);
 	}
 }

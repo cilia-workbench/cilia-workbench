@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
@@ -61,7 +61,7 @@ public class MediatorSpecRef<ChainType extends ChainElement<?>> extends Mediator
 		return constraints;
 	}
 
-	public List<NameProperty> getPossibleConstraints() {
+	public List<PropertySpec> getPossibleConstraints() {
 
 		IMediator ro = getReferencedObject();
 		if (ro != null && ro instanceof MediatorSpec) {
@@ -69,7 +69,7 @@ public class MediatorSpecRef<ChainType extends ChainElement<?>> extends Mediator
 			return spec.getProperties();
 		}
 
-		return new ArrayList<NameProperty>();
+		return new ArrayList<PropertySpec>();
 	}
 
 	@Override

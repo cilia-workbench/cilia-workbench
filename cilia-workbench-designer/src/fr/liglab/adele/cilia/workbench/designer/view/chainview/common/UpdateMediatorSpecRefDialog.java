@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.PropertyConstraint;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
 
 /**
  * 
@@ -55,7 +55,7 @@ public class UpdateMediatorSpecRefDialog extends UpdateMediatorRefDialog {
 
 	private static List<String> getConstraintKeys(MediatorSpecRef<AbstractChain> mediator) {
 		List<String> names = new ArrayList<String>();
-		for (NameProperty p : mediator.getPossibleConstraints())
+		for (PropertySpec p : mediator.getPossibleConstraints())
 			names.add(p.getName());
 		return names;
 	}

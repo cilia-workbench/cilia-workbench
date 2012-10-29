@@ -31,9 +31,9 @@ public interface IMediator extends IComponent {
 
 	public List<? extends IPort> getOutPorts();
 
-	public List<? extends GenericProperty> getProperties();
+	public List<? extends Property> getProperties();
 
-	public GenericProperty getProperty(String name);
+	public Property getProperty(String name);
 
 	public IScheduler getScheduler();
 

@@ -20,7 +20,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.DispatcherSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ParameterSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ProcessorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SchedulerSpec;
@@ -53,7 +53,7 @@ public class SpecLabelProvider extends CiliaLabelProvider {
 			imageName = ImageDescriptorEnum.PROCESSOR;
 		else if (isCompatible(obj, DispatcherSpec.class))
 			imageName = ImageDescriptorEnum.DISPATCHER;
-		else if (isCompatible(obj, NameProperty.class))
+		else if (isCompatible(obj, PropertySpec.class))
 			imageName = ImageDescriptorEnum.PROPERTY;
 		else if (isCompatible(obj, ParameterSpec.class))
 			imageName = ImageDescriptorEnum.PROPERTY;

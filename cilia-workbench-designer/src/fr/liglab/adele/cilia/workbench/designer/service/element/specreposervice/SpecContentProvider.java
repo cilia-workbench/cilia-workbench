@@ -20,7 +20,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.DispatcherSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ParameterSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ProcessorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SchedulerSpec;
@@ -63,7 +63,7 @@ public class SpecContentProvider extends GenericContentProvider {
 					for (IPort port : spec.getPorts())
 						addRelationship(true, spec, port);
 
-					for (NameProperty property : spec.getProperties())
+					for (PropertySpec property : spec.getProperties())
 						addRelationship(true, spec, property);
 				}
 			}

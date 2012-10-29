@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.Processo
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SchedulerImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.ciliajar.SenderImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.PropertyImplem;
 
 /**
  * Content provider used by the jar repository.
@@ -75,7 +75,7 @@ public class JarContentProvider extends GenericContentProvider {
 					for (IPort p : mc.getPorts())
 						addRelationship(true, mc, p);
 
-					for (NameValueProperty p : mc.getProperties())
+					for (PropertyImplem p : mc.getProperties())
 						addRelationship(true, mc, p);
 				}
 

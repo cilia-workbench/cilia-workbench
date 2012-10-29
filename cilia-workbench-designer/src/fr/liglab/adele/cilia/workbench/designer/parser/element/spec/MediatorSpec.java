@@ -58,7 +58,7 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
 	private List<IPort> ports = new ArrayList<IPort>();
-	private List<NameProperty> properties = new ArrayList<NameProperty>();
+	private List<PropertySpec> properties = new ArrayList<PropertySpec>();
 	private ProcessorSpec processor = null;
 	private SchedulerSpec scheduler = null;
 	private DispatcherSpec dispatcher = null;
@@ -79,9 +79,9 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 
 		Node rootProperties = XMLHelpers.findChild(node, XML_NODE_PROPERTIES_CONTAINER);
 		if (rootProperties != null) {
-			Node[] props = XMLHelpers.findChildren(rootProperties, NameProperty.XML_NODE_NAME);
+			Node[] props = XMLHelpers.findChildren(rootProperties, PropertySpec.XML_NODE_NAME);
 			for (Node prop : props)
-				properties.add(new NameProperty(prop));
+				properties.add(new PropertySpec(prop));
 		}
 
 		Node rootProcessor = XMLHelpers.findChild(node, ProcessorSpec.XML_NODE_NAME);
@@ -116,12 +116,12 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 		return dispatcher;
 	}
 
-	public List<NameProperty> getProperties() {
+	public List<PropertySpec> getProperties() {
 		return properties;
 	}
 
-	public NameProperty getProperty(String key) {
-		for (NameProperty p : getProperties())
+	public PropertySpec getProperty(String key) {
+		for (PropertySpec p : getProperties())
 			if (p.getName().equalsIgnoreCase(key))
 				return p;
 		return null;
@@ -191,7 +191,7 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 
 	public static Node createMediatorProperty(Document document, Element spec, String key) {
 		Node root = XMLHelpers.getOrCreateChild(document, spec, XML_NODE_PROPERTIES_CONTAINER);
-		return XMLHelpers.createChild(document, root, NameProperty.XML_NODE_NAME, "name", key);
+		return XMLHelpers.createChild(document, root, PropertySpec.XML_NODE_NAME, "name", key);
 	}
 
 	public static Node createSchedulerParameter(Document document, Element spec, String param) {

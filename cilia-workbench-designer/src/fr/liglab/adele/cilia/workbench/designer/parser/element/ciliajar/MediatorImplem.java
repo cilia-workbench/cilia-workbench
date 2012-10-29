@@ -37,9 +37,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.PropertyImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.NameProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**
@@ -63,7 +63,7 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 
 	private List<IPort> ports = new ArrayList<IPort>();
 
-	private List<NameValueProperty> properties = new ArrayList<NameValueProperty>();
+	private List<PropertyImplem> properties = new ArrayList<PropertyImplem>();
 
 	public MediatorImplem(Node node) throws CiliaException {
 
@@ -81,7 +81,7 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 			else if (attr.equalsIgnoreCase("spec-namespace"))
 				specNamespace = attrMap.get(attr);
 			else if (!attr.equalsIgnoreCase("name") && !attr.equalsIgnoreCase("namespace"))
-				properties.add(new NameValueProperty(attr, attrMap.get(attr)));
+				properties.add(new PropertyImplem(attr, attrMap.get(attr)));
 		}
 
 		if (specName != null)
@@ -142,12 +142,12 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 		return spec;
 	}
 
-	public List<NameValueProperty> getProperties() {
+	public List<PropertyImplem> getProperties() {
 		return properties;
 	}
 
-	public NameValueProperty getProperty(String key) {
-		for (NameValueProperty p : getProperties())
+	public PropertyImplem getProperty(String key) {
+		for (PropertyImplem p : getProperties())
 			if (p.getName().equalsIgnoreCase(key))
 				return p;
 		return null;
@@ -220,9 +220,9 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 				e7 = new CiliaError("Out ports list doesn't respect the specification", getSpec());
 
 			// Spec properties must exists in instance
-			for (NameProperty mediaProp : mediatorSpec.getProperties()) {
+			for (PropertySpec mediaProp : mediatorSpec.getProperties()) {
 				String specKey = mediaProp.getName();
-				NameValueProperty curProp = getProperty(specKey);
+				PropertyImplem curProp = getProperty(specKey);
 				if (curProp == null)
 					flagsTab.add(new CiliaError("Mediator must have \"" + specKey + "\" property defined to respect its specification", getSpec()));
 			}

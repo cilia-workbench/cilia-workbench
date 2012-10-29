@@ -24,13 +24,13 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.NameValueProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.PropertyImplem;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class PropertyConstraint extends NameValueProperty implements Mergeable {
+public class PropertyConstraint extends PropertyImplem implements Mergeable {
 
 	public static final String XML_PROPERTY_CONSTRAINT = "property";
 	public static String XML_ATTR_NAME = "name";

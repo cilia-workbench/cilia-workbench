@@ -23,19 +23,19 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.GenericProperty;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Property;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class NameProperty extends GenericProperty implements DisplayedInPropertiesView, ErrorsAndWarningsFinder,
+public class PropertySpec extends Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder,
 		Identifiable {
 
 	public static final String XML_NODE_NAME = "property";
 	public static final String XML_ATTR_NAME = "name";
 
-	public NameProperty(Node node) throws CiliaException {
+	public PropertySpec(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 	}
 
