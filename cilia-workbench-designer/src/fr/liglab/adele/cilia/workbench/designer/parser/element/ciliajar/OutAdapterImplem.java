@@ -27,7 +27,7 @@ public class OutAdapterImplem extends AdapterImplem {
 	String sender;
 
 	public OutAdapterImplem(Node node) throws CiliaException {
-		AdapterUtil.initAdapter(node, this, "sender");
+		AdapterImplemUtil.initAdapter(node, this, "sender");
 	}
 
 	@Override

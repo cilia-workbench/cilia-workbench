@@ -69,8 +69,8 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 						collectors.add(new Collector(child));
 					else if (nodeName.equals(Sender.XML_NODE_NAME))
 						senders.add(new Sender(child));
-					else if (nodeName.equals(AdapterUtil.XML_NODE_NAME)) {
-						AdapterImplem a = AdapterUtil.createAdapter(child);
+					else if (nodeName.equals(AdapterImplemUtil.XML_NODE_NAME)) {
+						AdapterImplem a = AdapterImplemUtil.createAdapter(child);
 						if (a != null)
 							adapters.add(a);
 					} else if (nodeName.equals(MediatorImplem.XML_NODE_NAME))

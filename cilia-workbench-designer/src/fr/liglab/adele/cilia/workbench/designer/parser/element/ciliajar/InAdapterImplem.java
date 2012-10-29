@@ -27,7 +27,7 @@ public class InAdapterImplem extends AdapterImplem {
 	String collector;
 
 	public InAdapterImplem(Node node) throws CiliaException {
-		AdapterUtil.initAdapter(node, this, "collector");
+		AdapterImplemUtil.initAdapter(node, this, "collector");
 	}
 
 	@Override

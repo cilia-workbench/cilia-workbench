@@ -22,10 +22,11 @@ import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
+ * A few static methods for adapters implementations.
  * 
  * @author Etienne Gandrille
  */
-public class AdapterUtil {
+public abstract class AdapterImplemUtil {
 
 	public static final String XML_NODE_NAME = "adapter";
 	public static final String XML_ATTR_PATTERN = "pattern";
