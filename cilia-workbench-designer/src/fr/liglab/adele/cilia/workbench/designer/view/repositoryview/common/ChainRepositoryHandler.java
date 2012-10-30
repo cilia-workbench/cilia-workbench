@@ -23,7 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryViewHandler;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.IFile;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
@@ -42,11 +42,11 @@ public abstract class ChainRepositoryHandler<ChainType extends Chain> extends Re
 
 		// Gets the file
 		Object object = getFirstSelectedElementInRepositoryView(event);
-		if (!(object instanceof ChainFile<?>)) {
+		if (!(object instanceof IFile<?>)) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Please select a file.");
 			return null;
 		}
-		final ChainFile<?> repo = (ChainFile<?>) object;
+		final IFile<?> repo = (IFile<?>) object;
 		if (repo.getModel() == null) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", "File must be in a valid state. Please check xml.");
 			return null;

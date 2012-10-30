@@ -29,9 +29,9 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainFile<ModelType extends ChainModel<? extends Chain>> extends AbstractFile<ModelType> implements Mergeable {
+public abstract class IFile<ModelType extends IModel<? extends Chain>> extends AbstractFile<ModelType> implements Mergeable {
 
-	public ChainFile(File file) {
+	public IFile(File file) {
 		super(file);
 	}
 
@@ -39,7 +39,7 @@ public abstract class ChainFile<ModelType extends ChainModel<? extends Chain>> e
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		@SuppressWarnings("unchecked")
-		ChainFile<ChainModel<Chain>> newInstance = (ChainFile<ChainModel<Chain>>) other;
+		IFile<IModel<Chain>> newInstance = (IFile<IModel<Chain>>) other;
 
 		ModelType oldModel = getModel();
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");

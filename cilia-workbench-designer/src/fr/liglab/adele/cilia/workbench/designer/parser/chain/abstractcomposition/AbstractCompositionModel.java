@@ -33,8 +33,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.IModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;
@@ -50,7 +50,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompositionModel extends ChainModel<AbstractChain> {
+public class AbstractCompositionModel extends IModel<AbstractChain> {
 
 	public static final String ROOT_NODE_NAME = "cilia-composition-specifications";
 
@@ -69,7 +69,7 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 	}
 
 	@Override
-	protected ChainRepoService<?, ?, ?> getRepository() {
+	protected ChainRepoService<AbstractCompositionFile, AbstractCompositionModel, AbstractChain> getRepository() {
 		return AbstractCompositionsRepoService.getInstance();
 	}
 

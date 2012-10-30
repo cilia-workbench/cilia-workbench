@@ -20,7 +20,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.IModel;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSC
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaModel extends ChainModel<DSCiliaChain> {
+public class DSCiliaModel extends IModel<DSCiliaChain> {
 
 	public static final String ROOT_NODE_NAME = "cilia";
 
@@ -45,7 +45,7 @@ public class DSCiliaModel extends ChainModel<DSCiliaChain> {
 	}
 
 	@Override
-	protected ChainRepoService<?, ?, ?> getRepository() {
+	protected ChainRepoService<DSCiliaFile, DSCiliaModel, DSCiliaChain> getRepository() {
 		return DSCiliaRepoService.getInstance();
 	}
 }

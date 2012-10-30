@@ -37,7 +37,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainModel<ChainType extends Chain> implements DisplayedInPropertiesView, Mergeable {
+public abstract class IModel<ChainType extends Chain> implements DisplayedInPropertiesView, Mergeable {
 
 	protected File file;
 
@@ -45,7 +45,7 @@ public abstract class ChainModel<ChainType extends Chain> implements DisplayedIn
 
 	private final String rootNodeName;
 
-	public ChainModel(File file, String rootNodeName) {
+	public IModel(File file, String rootNodeName) {
 		this.file = file;
 		this.rootNodeName = rootNodeName;
 	}
@@ -70,7 +70,7 @@ public abstract class ChainModel<ChainType extends Chain> implements DisplayedIn
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		@SuppressWarnings("unchecked")
-		ChainModel<ChainType> newInstance = (ChainModel<ChainType>) other;
+		IModel<ChainType> newInstance = (IModel<ChainType>) other;
 
 		retval.addAll(MergeUtil.mergeLists(newInstance.getChains(), model));
 
@@ -128,5 +128,5 @@ public abstract class ChainModel<ChainType extends Chain> implements DisplayedIn
 			return results[0];
 	}
 
-	protected abstract ChainRepoService<?, ?, ?> getRepository();
+	protected abstract ChainRepoService<?, ?, ChainType> getRepository();
 }

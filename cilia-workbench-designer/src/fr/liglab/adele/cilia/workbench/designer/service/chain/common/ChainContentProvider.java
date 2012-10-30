@@ -22,8 +22,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.IFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.IModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;
 
@@ -33,11 +33,11 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterCha
  */
 public abstract class ChainContentProvider<ChainType extends Chain> extends GenericContentProvider {
 
-	public ChainContentProvider(List<? extends ChainFile<? extends ChainModel<ChainType>>> repo) {
+	public ChainContentProvider(List<? extends IFile<? extends IModel<ChainType>>> repo) {
 
 		addRoot(repo);
 
-		for (ChainFile<? extends ChainModel<ChainType>> re : repo) {
+		for (IFile<? extends IModel<ChainType>> re : repo) {
 			addRelationship(true, repo, re);
 
 			if (re.getModel() != null) {
