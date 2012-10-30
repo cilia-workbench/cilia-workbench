@@ -47,7 +47,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphDrawa
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainElement extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable, GraphDrawable {
+public abstract class Chain extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable, GraphDrawable {
 
 	public static final String XML_NODE_NAME = "chain";
 
@@ -62,7 +62,7 @@ public abstract class ChainElement extends NameNamespace implements DisplayedInP
 	protected List<MediatorRef> mediators = new ArrayList<MediatorRef>();
 	protected List<Binding> bindings = new ArrayList<Binding>();
 
-	public ChainElement(Node node) throws CiliaException {
+	public Chain(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "name");
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
 
@@ -225,7 +225,7 @@ public abstract class ChainElement extends NameNamespace implements DisplayedInP
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = new ArrayList<Changeset>();
-		ChainElement newInstance = (ChainElement) other;
+		Chain newInstance = (Chain) other;
 
 		retval.addAll(MergeUtil.mergeLists(newInstance.getAdapters(), adapters));
 		retval.addAll(MergeUtil.mergeLists(newInstance.getMediators(), mediators));

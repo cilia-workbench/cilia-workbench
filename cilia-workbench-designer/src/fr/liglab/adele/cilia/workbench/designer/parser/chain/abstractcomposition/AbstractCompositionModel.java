@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterInple
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Cardinality;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
@@ -60,7 +60,7 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
 
-		for (Node node : XMLHelpers.findChildren(root, ChainElement.XML_NODE_NAME))
+		for (Node node : XMLHelpers.findChildren(root, Chain.XML_NODE_NAME))
 			try {
 				model.add(new AbstractChain(node));
 			} catch (CiliaException e) {

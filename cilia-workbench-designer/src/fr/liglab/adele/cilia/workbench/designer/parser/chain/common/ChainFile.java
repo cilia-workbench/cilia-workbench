@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainFile<ModelType extends ChainModel<? extends ChainElement>> extends AbstractFile<ModelType> implements Mergeable {
+public abstract class ChainFile<ModelType extends ChainModel<? extends Chain>> extends AbstractFile<ModelType> implements Mergeable {
 
 	public ChainFile(File file) {
 		super(file);
@@ -39,7 +39,7 @@ public abstract class ChainFile<ModelType extends ChainModel<? extends ChainElem
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		@SuppressWarnings("unchecked")
-		ChainFile<ChainModel<ChainElement>> newInstance = (ChainFile<ChainModel<ChainElement>>) other;
+		ChainFile<ChainModel<Chain>> newInstance = (ChainFile<ChainModel<Chain>>) other;
 
 		ModelType oldModel = getModel();
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");
@@ -51,12 +51,12 @@ public abstract class ChainFile<ModelType extends ChainModel<? extends ChainElem
 
 			// XML file becomes valid
 			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel)
-				for (ChainElement chain : newModel.getChains())
+				for (Chain chain : newModel.getChains())
 					retval.add(new Changeset(Operation.ADD, chain));
 
 			// XML file becomes invalid
 			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel)
-				for (ChainElement chain : oldModel.getChains())
+				for (Chain chain : oldModel.getChains())
 					retval.add(new Changeset(Operation.REMOVE, chain));
 
 			// Other event, deeper in hierarchy

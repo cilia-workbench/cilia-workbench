@@ -77,7 +77,7 @@ public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsA
 		return id;
 	}
 
-	private ChainElement getChain() {
+	private Chain getChain() {
 		return repo.findChain(chainId);
 	}
 

@@ -55,7 +55,7 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		ReflectionUtil.setAttribute(node, XML_TO_ATTR, this, "to");
 	}
 
-	protected abstract ChainElement getChain();
+	protected abstract Chain getChain();
 
 	public String getSource() {
 		return from;

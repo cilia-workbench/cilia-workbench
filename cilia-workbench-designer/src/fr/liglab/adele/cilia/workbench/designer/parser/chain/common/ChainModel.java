@@ -37,7 +37,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainModel<ChainType extends ChainElement> implements DisplayedInPropertiesView, Mergeable {
+public abstract class ChainModel<ChainType extends Chain> implements DisplayedInPropertiesView, Mergeable {
 
 	protected File file;
 
@@ -85,9 +85,9 @@ public abstract class ChainModel<ChainType extends ChainElement> implements Disp
 		// Document creation
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
-		Element child = document.createElement(ChainElement.XML_NODE_NAME);
-		child.setAttribute(ChainElement.XML_ATTR_ID, id.getName());
-		child.setAttribute(ChainElement.XML_ATTR_NAMESPACE, id.getNamespace());
+		Element child = document.createElement(Chain.XML_NODE_NAME);
+		child.setAttribute(Chain.XML_ATTR_ID, id.getName());
+		child.setAttribute(Chain.XML_ATTR_NAMESPACE, id.getNamespace());
 		root.appendChild(child);
 
 		// Write it back to file system

@@ -21,7 +21,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.PropertyConstraint;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
@@ -31,7 +31,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterCha
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainContentProvider<ChainType extends ChainElement> extends GenericContentProvider {
+public abstract class ChainContentProvider<ChainType extends Chain> extends GenericContentProvider {
 
 	public ChainContentProvider(List<? extends ChainFile<? extends ChainModel<ChainType>>> repo) {
 
