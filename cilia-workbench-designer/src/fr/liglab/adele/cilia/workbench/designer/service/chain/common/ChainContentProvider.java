@@ -31,7 +31,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterCha
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainContentProvider<ChainType extends ChainElement<ChainType>> extends GenericContentProvider {
+public abstract class ChainContentProvider<ChainType extends ChainElement> extends GenericContentProvider {
 
 	public ChainContentProvider(List<? extends ChainFile<? extends ChainModel<ChainType>>> repo) {
 
@@ -44,10 +44,10 @@ public abstract class ChainContentProvider<ChainType extends ChainElement<ChainT
 				for (ChainType c : re.getModel().getChains()) {
 					addRelationship(true, re, c);
 
-					for (AdapterRef<ChainType> a : c.getAdapters())
+					for (AdapterRef a : c.getAdapters())
 						addRelationship(false, c, a);
 
-					for (MediatorRef<ChainType> m : c.getMediators()) {
+					for (MediatorRef m : c.getMediators()) {
 						addRelationship(false, c, m);
 
 						for (ParameterChain p : m.getSchedulerParameters())
@@ -60,7 +60,7 @@ public abstract class ChainContentProvider<ChainType extends ChainElement<ChainT
 						// Specification specific part. Ignored by
 						// implementations...
 						if (m instanceof MediatorSpecRef) {
-							for (PropertyConstraint p : ((MediatorSpecRef<ChainType>) m).getConstraints())
+							for (PropertyConstraint p : ((MediatorSpecRef) m).getConstraints())
 								addRelationship(false, m, p);
 						}
 					}

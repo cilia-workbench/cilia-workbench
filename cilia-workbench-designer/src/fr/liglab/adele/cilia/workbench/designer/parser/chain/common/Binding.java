@@ -55,7 +55,7 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		ReflectionUtil.setAttribute(node, XML_TO_ATTR, this, "to");
 	}
 
-	protected abstract ChainElement<?> getChain();
+	protected abstract ChainElement getChain();
 
 	public String getSource() {
 		return from;
@@ -81,23 +81,23 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		return XMLStringUtil.getAfterSeparatorOrNothing(to);
 	}
 
-	public ComponentRef<?> getSourceComponent() {
+	public ComponentRef getSourceComponent() {
 		return getChain().getComponent(getSourceId());
 	}
 
-	public ComponentRef<?> getDestinationComponent() {
+	public ComponentRef getDestinationComponent() {
 		return getChain().getComponent(getDestinationId());
 	}
 
 	public Object getSourceReferencedObject() {
-		ComponentRef<?> component = getSourceComponent();
+		ComponentRef component = getSourceComponent();
 		if (component == null)
 			return null;
 		return component.getReferencedObject();
 	}
 
 	public Object getDestinationReferencedObject() {
-		ComponentRef<?> component = getDestinationComponent();
+		ComponentRef component = getDestinationComponent();
 		if (component == null)
 			return null;
 		return component.getReferencedObject();
@@ -112,14 +112,14 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 	public CiliaFlag[] getErrorsAndWarnings() {
 		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
 
-		ComponentRef<?> src = getSourceComponent();
-		ComponentRef<?> dst = getDestinationComponent();
+		ComponentRef src = getSourceComponent();
+		ComponentRef dst = getDestinationComponent();
 
 		CiliaFlag e1 = CiliaError.checkNotNull(this, src, "binding source");
 		CiliaFlag e2 = CiliaError.checkNotNull(this, dst, "binding destination");
 
 		if (src != null && src instanceof AdapterRef) {
-			IAdapter ro = ((AdapterRef<?>) src).getReferencedObject();
+			IAdapter ro = ((AdapterRef) src).getReferencedObject();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.OUT) {
 					list.add(new CiliaError("Binding " + this + " has its source connected to an out adapter", this));
@@ -132,7 +132,7 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		}
 
 		if (dst != null && dst instanceof AdapterRef) {
-			IAdapter ro = ((AdapterRef<?>) dst).getReferencedObject();
+			IAdapter ro = ((AdapterRef) dst).getReferencedObject();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.IN) {
 					list.add(new CiliaError("Binding " + this + " has its destination connected to an in adapter", this));

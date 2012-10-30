@@ -39,8 +39,7 @@ public class DeleteAdapterHandler extends AbstractChainHandler {
 			if (window.open() == Window.OK) {
 				Object[] objects = window.getResult();
 				if (objects.length != 0) {
-					@SuppressWarnings("unchecked")
-					AdapterRef<AbstractChain> component = (AdapterRef<AbstractChain>) objects[0];
+					AdapterRef component = (AdapterRef) objects[0];
 					try {
 						AbstractCompositionsRepoService.getInstance().deleteComponent(model, component);
 					} catch (Exception e) {

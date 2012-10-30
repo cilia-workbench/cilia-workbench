@@ -34,7 +34,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>, ModelType extends ChainModel<ChainType>, ChainType extends ChainElement<?>>
+public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>, ModelType extends ChainModel<ChainType>, ChainType extends ChainElement>
 		extends AbstractRepoService<FileType, ModelType> implements ErrorsAndWarningsFinder {
 
 	private final String rootNodeName;

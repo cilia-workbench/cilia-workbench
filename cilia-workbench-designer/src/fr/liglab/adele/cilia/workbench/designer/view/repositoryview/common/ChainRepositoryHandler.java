@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainRepositoryHandler<ChainType extends ChainElement<?>> extends RepositoryViewHandler {
+public abstract class ChainRepositoryHandler<ChainType extends ChainElement> extends RepositoryViewHandler {
 
 	public ChainRepositoryHandler(String viewID) {
 		super(viewID);
@@ -48,8 +48,7 @@ public abstract class ChainRepositoryHandler<ChainType extends ChainElement<?>> 
 		}
 		final ChainFile<?> repo = (ChainFile<?>) object;
 		if (repo.getModel() == null) {
-			MessageDialog.openError(ViewUtil.getShell(event), "Error",
-					"File must be in a valid state. Please check xml.");
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", "File must be in a valid state. Please check xml.");
 			return null;
 		}
 
@@ -63,13 +62,12 @@ public abstract class ChainRepositoryHandler<ChainType extends ChainElement<?>> 
 		return null;
 	}
 
-	public Object deleteChain(ExecutionEvent event) throws ExecutionException {		
+	public Object deleteChain(ExecutionEvent event) throws ExecutionException {
 		Object object = getFirstSelectedElementInRepositoryView(event);
-		if (object != null && object instanceof ChainElement<?>) {
+		if (object != null && object instanceof ChainElement) {
 			@SuppressWarnings("unchecked")
 			ChainType chain = (ChainType) object;
-			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required",
-					"Do you want to delete " + chain.getId() + "?");
+			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required", "Do you want to delete " + chain.getId() + "?");
 			if (result == true) {
 				getRepository().deleteChain(chain);
 			}

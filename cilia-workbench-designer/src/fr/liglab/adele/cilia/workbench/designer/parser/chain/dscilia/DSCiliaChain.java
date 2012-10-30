@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSC
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaChain extends ChainElement<DSCiliaChain> {
+public class DSCiliaChain extends ChainElement {
 
 	public DSCiliaChain(Node node) throws CiliaException {
 		super(node);

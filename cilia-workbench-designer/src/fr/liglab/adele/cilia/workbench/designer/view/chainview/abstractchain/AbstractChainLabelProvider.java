@@ -19,7 +19,6 @@ import org.eclipse.zest.core.viewers.EntityConnectionData;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.AbstractGraphLabelProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractBinding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
@@ -42,8 +41,7 @@ public class AbstractChainLabelProvider extends AbstractGraphLabelProvider {
 
 		ImageDescriptorEnum imageName;
 		if (isCompatible(obj, AdapterRef.class)) {
-			@SuppressWarnings("unchecked")
-			AdapterRef<AbstractChain> adapter = (AdapterRef<AbstractChain>) obj;
+			AdapterRef adapter = (AdapterRef) obj;
 			if (adapter.getReferencedObject() != null) {
 				if (adapter.getReferencedObject().getType() == AdapterType.IN)
 					imageName = ImageDescriptorEnum.ADAPTER_IN;
@@ -67,10 +65,8 @@ public class AbstractChainLabelProvider extends AbstractGraphLabelProvider {
 
 		if (isCompatible(element, EntityConnectionData.class)) {
 			EntityConnectionData ecd = (EntityConnectionData) element;
-			@SuppressWarnings("unchecked")
-			ComponentRef<AbstractChain> src = (ComponentRef<AbstractChain>) ecd.source;
-			@SuppressWarnings("unchecked")
-			ComponentRef<AbstractChain> dst = (ComponentRef<AbstractChain>) ecd.dest;
+			ComponentRef src = (ComponentRef) ecd.source;
+			ComponentRef dst = (ComponentRef) ecd.dest;
 			// Be careful during refactoring with AbstractBinding !
 			AbstractBinding binding = (AbstractBinding) src.getOutgoingBinding(dst);
 

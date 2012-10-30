@@ -41,8 +41,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentRef<ChainType extends ChainElement<?>> implements DisplayedInPropertiesView,
-		ErrorsAndWarningsFinder, Identifiable, Mergeable {
+public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
 
 	/** The component id, unique in the chain */
 	private String id;
@@ -50,7 +49,7 @@ public abstract class ComponentRef<ChainType extends ChainElement<?>> implements
 	/** the chainID, which hosts the current {@link ComponentRef} */
 	NameNamespaceID chainId;
 
-	private final ChainRepoService<?, ?, ChainType> repo;
+	private final ChainRepoService<?, ?, ?> repo;
 
 	// "real" component, pointed by this component
 	protected String type;
@@ -60,8 +59,7 @@ public abstract class ComponentRef<ChainType extends ChainElement<?>> implements
 	public static final String XML_ATTR_TYPE = "type";
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	public ComponentRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo)
-			throws CiliaException {
+	public ComponentRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
 		this.chainId = chainId;
 		this.repo = repo;
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "id");
@@ -79,7 +77,7 @@ public abstract class ComponentRef<ChainType extends ChainElement<?>> implements
 		return id;
 	}
 
-	private ChainType getChain() {
+	private ChainElement getChain() {
 		return repo.findChain(chainId);
 	}
 
@@ -124,14 +122,14 @@ public abstract class ComponentRef<ChainType extends ChainElement<?>> implements
 		return retval.toArray(new Binding[0]);
 	}
 
-	public Binding getIncommingBinding(ComponentRef<ChainType> source) {
+	public Binding getIncommingBinding(ComponentRef source) {
 		for (Binding b : getIncommingBindings())
 			if (b.getSourceComponent().equals(source))
 				return b;
 		return null;
 	}
 
-	public Binding getOutgoingBinding(ComponentRef<ChainType> destination) {
+	public Binding getOutgoingBinding(ComponentRef destination) {
 		for (Binding b : getOutgoingBindings())
 			if (b.getDestinationComponent().equals(destination))
 				return b;

@@ -25,9 +25,9 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public abstract class AdapterRef<ChainType extends ChainElement<?>> extends ComponentRef<ChainType> {
+public abstract class AdapterRef extends ComponentRef {
 
-	public AdapterRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo) throws CiliaException {
+	public AdapterRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
 		super(node, chainId, repo);
 	}
 

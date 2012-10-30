@@ -41,8 +41,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompositionsRepoService extends
-		ChainRepoService<AbstractCompositionFile, AbstractCompositionModel, AbstractChain> {
+public class AbstractCompositionsRepoService extends ChainRepoService<AbstractCompositionFile, AbstractCompositionModel, AbstractChain> {
 
 	// super type parameters
 	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.ABSTRACT_COMPO_REPOSITORY_PATH;
@@ -105,14 +104,14 @@ public class AbstractCompositionsRepoService extends
 		getFileObject(chain).getModel().createAdapter(chain, id, type);
 	}
 
-	public void deleteComponent(AbstractChain chain, ComponentRef<AbstractChain> component) throws CiliaException {
+	public void deleteComponent(AbstractChain chain, ComponentRef component) throws CiliaException {
 		if (getFileObject(chain) == null)
 			return;
 		getFileObject(chain).getModel().deleteComponent(chain, component);
 	}
 
-	public void createBinding(AbstractChain chain, String srcElem, String srcPort, String dstElem, String dstPort,
-			Cardinality srcCard, Cardinality dstCard) throws CiliaException {
+	public void createBinding(AbstractChain chain, String srcElem, String srcPort, String dstElem, String dstPort, Cardinality srcCard, Cardinality dstCard)
+			throws CiliaException {
 		if (getFileObject(chain) == null)
 			return;
 		getFileObject(chain).getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort, srcCard, dstCard);
@@ -124,20 +123,17 @@ public class AbstractCompositionsRepoService extends
 		getFileObject(chain).getModel().deleteBinding(chain, binding);
 	}
 
-	public void updateProperties(AbstractChain chain, MediatorSpecRef<AbstractChain> mediator,
-			Map<String, String> properties) throws CiliaException {
+	public void updateProperties(AbstractChain chain, MediatorSpecRef mediator, Map<String, String> properties) throws CiliaException {
 		if (getFileObject(chain) == null)
 			return;
 		getFileObject(chain).getModel().updateProperties(chain, mediator, properties);
 	}
 
-	public void updateParameters(AbstractChain chain, MediatorRef<AbstractChain> mediator,
-			Map<String, String> schedulerParam, Map<String, String> processorParam, Map<String, String> dispatcherParam)
-			throws CiliaException {
+	public void updateParameters(AbstractChain chain, MediatorRef mediator, Map<String, String> schedulerParam, Map<String, String> processorParam,
+			Map<String, String> dispatcherParam) throws CiliaException {
 		if (getFileObject(chain) == null)
 			return;
-		getFileObject(chain).getModel().updateParameters(chain, mediator, schedulerParam, processorParam,
-				dispatcherParam);
+		getFileObject(chain).getModel().updateParameters(chain, mediator, schedulerParam, processorParam, dispatcherParam);
 	}
 
 	public AbstractCompositionFile getRepoElement(Object object) {

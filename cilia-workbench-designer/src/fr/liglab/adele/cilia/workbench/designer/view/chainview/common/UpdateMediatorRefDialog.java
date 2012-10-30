@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
@@ -59,13 +58,13 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 	private static final String processorPrefix = "processor: ";
 	private static final String dispatcherPrefix = "dispatcher: ";
 
-	protected UpdateMediatorRefDialog(Shell parent, MediatorRef<AbstractChain> mediator, Point initialSize) {
+	protected UpdateMediatorRefDialog(Shell parent, MediatorRef mediator, Point initialSize) {
 		super(parent, windowTitle, initialSize, true);
 		peKeys = getConstraintKeys(mediator);
 		peModel = getConstraintValues(mediator);
 	}
 
-	private static List<String> getConstraintKeys(MediatorRef<AbstractChain> mediator) {
+	private static List<String> getConstraintKeys(MediatorRef mediator) {
 		List<String> names = new ArrayList<String>();
 		if (mediator.getReferencedObjectSchedulerParameters() != null)
 			for (Parameter p : mediator.getReferencedObjectSchedulerParameters())
@@ -79,7 +78,7 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 		return names;
 	}
 
-	private static Map<String, String> getConstraintValues(MediatorRef<AbstractChain> mediator) {
+	private static Map<String, String> getConstraintValues(MediatorRef mediator) {
 		Map<String, String> values = new HashMap<String, String>();
 		for (ParameterChain p : mediator.getSchedulerParameters())
 			values.put(schedulerPrefix + p.getName(), p.getValue());

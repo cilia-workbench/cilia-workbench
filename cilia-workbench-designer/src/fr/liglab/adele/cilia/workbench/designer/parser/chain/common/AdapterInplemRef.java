@@ -26,11 +26,11 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.J
  * 
  * @author Etienne Gandrille
  */
-public class AdapterInplemRef<ChainType extends ChainElement<?>> extends AdapterRef<ChainType> {
+public class AdapterInplemRef extends AdapterRef {
 
 	public static final String XML_NODE_NAME = "adapter-instance";
 
-	public AdapterInplemRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo) throws CiliaException {
+	public AdapterInplemRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
 		super(node, chainId, repo);
 	}
 

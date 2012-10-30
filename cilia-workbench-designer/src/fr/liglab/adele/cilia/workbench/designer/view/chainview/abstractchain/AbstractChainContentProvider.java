@@ -47,11 +47,10 @@ public class AbstractChainContentProvider implements IStructuredContentProvider,
 		List<Object> retval = new ArrayList<Object>();
 
 		if (entity instanceof ComponentRef) {
-			@SuppressWarnings("unchecked")
-			ComponentRef<AbstractChain> component = (ComponentRef<AbstractChain>) entity;
+			ComponentRef component = (ComponentRef) entity;
 			Binding[] bindings = component.getOutgoingBindings();
 			for (Binding binding : bindings) {
-				ComponentRef<?> ro = binding.getDestinationComponent();
+				ComponentRef ro = binding.getDestinationComponent();
 				if (ro != null)
 					retval.add(ro);
 			}

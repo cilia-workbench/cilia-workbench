@@ -39,8 +39,7 @@ public class DeleteMediatorHandler extends AbstractChainHandler {
 			if (window.open() == Window.OK) {
 				Object[] objects = window.getResult();
 				if (objects.length != 0) {
-					@SuppressWarnings("unchecked")
-					MediatorRef<AbstractChain> component = (MediatorRef<AbstractChain>) objects[0];
+					MediatorRef component = (MediatorRef) objects[0];
 					try {
 						AbstractCompositionsRepoService.getInstance().deleteComponent(model, component);
 					} catch (Exception e) {

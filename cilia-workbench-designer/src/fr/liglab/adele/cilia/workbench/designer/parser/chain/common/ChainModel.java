@@ -37,7 +37,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainModel<ChainType extends ChainElement<?>> implements DisplayedInPropertiesView, Mergeable {
+public abstract class ChainModel<ChainType extends ChainElement> implements DisplayedInPropertiesView, Mergeable {
 
 	protected File file;
 
@@ -117,17 +117,16 @@ public abstract class ChainModel<ChainType extends ChainElement<?>> implements D
 		Node[] results;
 
 		if (Strings.isNullOrEmpty(id.getNamespace()))
-			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID,
-					id.getName());
+			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID, id.getName());
 		else
-			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID,
-					id.getName(), AbstractChain.XML_ATTR_NAMESPACE, id.getNamespace());
+			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID, id.getName(), AbstractChain.XML_ATTR_NAMESPACE,
+					id.getNamespace());
 
 		if (results.length == 0)
 			return null;
 		else
 			return results[0];
 	}
-	
+
 	protected abstract ChainRepoService<?, ?, ?> getRepository();
 }

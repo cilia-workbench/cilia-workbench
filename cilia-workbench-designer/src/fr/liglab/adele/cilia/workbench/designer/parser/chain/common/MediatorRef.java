@@ -28,19 +28,19 @@ import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IDispatcher;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IProcessor;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IScheduler;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class MediatorRef<ChainType extends ChainElement<?>> extends ComponentRef<ChainType> {
+public abstract class MediatorRef extends ComponentRef {
 
 	public static String XML_SCHEDULER_NODE = "scheduler";
 	public static String XML_PROCESSOR_NODE = "processor";
@@ -50,8 +50,7 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 	private List<ParameterChain> processorParameters = new ArrayList<ParameterChain>();
 	private List<ParameterChain> dispatcherParameters = new ArrayList<ParameterChain>();
 
-	public MediatorRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo)
-			throws CiliaException {
+	public MediatorRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
 		super(node, chainId, repo);
 
 		initSPD(node, XML_SCHEDULER_NODE, schedulerParameters);
@@ -148,8 +147,7 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = super.merge(other);
 
-		@SuppressWarnings("unchecked")
-		MediatorRef<ChainType> newInstance = (MediatorRef<ChainType>) other;
+		MediatorRef newInstance = (MediatorRef) other;
 
 		retval.addAll(MergeUtil.mergeLists(newInstance.getSchedulerParameters(), schedulerParameters));
 		retval.addAll(MergeUtil.mergeLists(newInstance.getProcessorParameters(), processorParameters));
@@ -186,8 +184,7 @@ public abstract class MediatorRef<ChainType extends ChainElement<?>> extends Com
 		return CiliaFlag.generateTab(list, e1, e2);
 	}
 
-	private List<CiliaFlag> checkParameters(List<ParameterChain> curParameters,
-			List<? extends Parameter> typeParameters, String displayName) {
+	private List<CiliaFlag> checkParameters(List<ParameterChain> curParameters, List<? extends Parameter> typeParameters, String displayName) {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
 		if (typeParameters == null)

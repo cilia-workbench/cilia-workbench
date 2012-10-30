@@ -113,11 +113,11 @@ public class NewBindingDialog extends WorkbenchDialog {
 		dstElemCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// populating
-		for (MediatorRef<AbstractChain> item : chain.getMediators()) {
+		for (MediatorRef item : chain.getMediators()) {
 			srcElemCombo.add(item.getId());
 			dstElemCombo.add(item.getId());
 		}
-		for (AdapterRef<AbstractChain> item : chain.getAdapters()) {
+		for (AdapterRef item : chain.getAdapters()) {
 			IAdapter adapter = item.getReferencedObject();
 			if (adapter == null) {
 				srcElemCombo.add(item.getId());
@@ -254,7 +254,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 		public void modifyText(ModifyEvent e) {
 			comboPort.removeAll();
 
-			ComponentRef<AbstractChain> i = chain.getComponent(comboElem.getText());
+			ComponentRef i = chain.getComponent(comboElem.getText());
 
 			// adapter
 			if (i instanceof AdapterRef) {
@@ -264,7 +264,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 			// mediator
 			if (i instanceof MediatorRef) {
 				comboPort.setEnabled(true);
-				IMediator mediator = ((MediatorRef<AbstractChain>) i).getReferencedObject();
+				IMediator mediator = ((MediatorRef) i).getReferencedObject();
 				if (portType.equals(DST_COLUMN_KEY)) {
 					for (IPort port : mediator.getInPorts())
 						comboPort.add(port.getName());

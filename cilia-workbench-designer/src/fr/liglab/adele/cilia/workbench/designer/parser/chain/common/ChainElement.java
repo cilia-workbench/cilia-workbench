@@ -34,9 +34,9 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
@@ -47,8 +47,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphDrawa
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainElement<ChainType extends ChainElement<?>> extends NameNamespace implements
-		DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable, GraphDrawable {
+public abstract class ChainElement extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable, GraphDrawable {
 
 	public static final String XML_NODE_NAME = "chain";
 
@@ -59,8 +58,8 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 	public static final String XML_ROOT_ADAPTERS_NAME = "adapters";
 	public static final String XML_ROOT_BINDINGS_NAME = "bindings";
 
-	protected List<AdapterRef<ChainType>> adapters = new ArrayList<AdapterRef<ChainType>>();
-	protected List<MediatorRef<ChainType>> mediators = new ArrayList<MediatorRef<ChainType>>();
+	protected List<AdapterRef> adapters = new ArrayList<AdapterRef>();
+	protected List<MediatorRef> mediators = new ArrayList<MediatorRef>();
 	protected List<Binding> bindings = new ArrayList<Binding>();
 
 	public ChainElement(Node node) throws CiliaException {
@@ -71,7 +70,7 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 		if (rootAdapters != null) {
 			for (Node instance : XMLHelpers.findChildren(rootAdapters, AdapterInplemRef.XML_NODE_NAME))
 				try {
-					adapters.add(new AdapterInplemRef<ChainType>(instance, getId(), getRepository()));
+					adapters.add(new AdapterInplemRef(instance, getId(), getRepository()));
 				} catch (CiliaException e) {
 					e.printStackTrace();
 				}
@@ -81,8 +80,7 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 		if (rootMediators != null) {
 			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorImplemRef.XML_NODE_NAME)) {
 				try {
-					MediatorImplemRef<ChainType> mi = new MediatorImplemRef<ChainType>(instance, getId(),
-							getRepository());
+					MediatorImplemRef mi = new MediatorImplemRef(instance, getId(), getRepository());
 					mediators.add(mi);
 				} catch (CiliaException e) {
 					e.printStackTrace();
@@ -101,13 +99,13 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 		}
 	}
 
-	protected abstract ChainRepoService<?, ?, ChainType> getRepository();
+	protected abstract ChainRepoService<?, ?, ?> getRepository();
 
-	public List<AdapterRef<ChainType>> getAdapters() {
+	public List<AdapterRef> getAdapters() {
 		return adapters;
 	}
 
-	public List<MediatorRef<ChainType>> getMediators() {
+	public List<MediatorRef> getMediators() {
 		return mediators;
 	}
 
@@ -117,22 +115,21 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 		return bindings;
 	}
 
-	public ComponentRef<ChainType> getComponent(String componentId) {
-		for (AdapterRef<ChainType> adapter : adapters)
+	public ComponentRef getComponent(String componentId) {
+		for (AdapterRef adapter : adapters)
 			if (adapter.getId().equals(componentId))
 				return adapter;
-		for (MediatorRef<ChainType> mediator : mediators)
+		for (MediatorRef mediator : mediators)
 			if (mediator.getId().equals(componentId))
 				return mediator;
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	public ComponentRef<ChainType>[] getComponents() {
-		List<ComponentRef<ChainType>> retval = new ArrayList<ComponentRef<ChainType>>();
-		for (AdapterRef<ChainType> adapter : adapters)
+	public ComponentRef[] getComponents() {
+		List<ComponentRef> retval = new ArrayList<ComponentRef>();
+		for (AdapterRef adapter : adapters)
 			retval.add(adapter);
-		for (MediatorRef<ChainType> mediator : mediators)
+		for (MediatorRef mediator : mediators)
 			retval.add(mediator);
 		return retval.toArray(new ComponentRef[0]);
 	}
@@ -171,7 +168,7 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 		if (Strings.isNullOrEmpty(componentID))
 			throw new CiliaException("id is null or empty");
 
-		ComponentRef<ChainType> component = getComponent(componentID);
+		ComponentRef component = getComponent(componentID);
 		if (component == null)
 			throw new CiliaException("can't find component with id " + componentID);
 
@@ -189,8 +186,7 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 		} else if (component instanceof MediatorImplemRef) {
 			IMediator mediatorInstance = JarRepoService.getInstance().getMediatorForChain(referencedID);
 			if (mediatorInstance == null)
-				throw new CiliaException("Mediator " + componentID
-						+ " doesn't reference a valid mediator specification.");
+				throw new CiliaException("Mediator " + componentID + " doesn't reference a valid mediator specification.");
 			return mediatorInstance;
 		} else {
 			throw new CiliaException(component.getClass() + " handler not yet implemented here.");
@@ -229,8 +225,7 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = new ArrayList<Changeset>();
-		@SuppressWarnings("unchecked")
-		ChainElement<ChainType> newInstance = (ChainElement<ChainType>) other;
+		ChainElement newInstance = (ChainElement) other;
 
 		retval.addAll(MergeUtil.mergeLists(newInstance.getAdapters(), adapters));
 		retval.addAll(MergeUtil.mergeLists(newInstance.getMediators(), mediators));
@@ -255,7 +250,7 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 		for (CiliaFlag flag : tab)
 			list.add(flag);
 
-		for (ComponentRef<ChainType> c : getComponents()) {
+		for (ComponentRef c : getComponents()) {
 			try {
 				getReferencedComponent(c.getId());
 			} catch (CiliaException e) {

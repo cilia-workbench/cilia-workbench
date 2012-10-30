@@ -21,16 +21,15 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractFile;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainFile<ModelType extends ChainModel<? extends ChainElement<?>>> extends
-		AbstractFile<ModelType> implements Mergeable {
+public abstract class ChainFile<ModelType extends ChainModel<? extends ChainElement>> extends AbstractFile<ModelType> implements Mergeable {
 
 	public ChainFile(File file) {
 		super(file);
@@ -40,7 +39,7 @@ public abstract class ChainFile<ModelType extends ChainModel<? extends ChainElem
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		@SuppressWarnings("unchecked")
-		ChainFile<ChainModel<ChainElement<ChainElement<?>>>> newInstance = (ChainFile<ChainModel<ChainElement<ChainElement<?>>>>) other;
+		ChainFile<ChainModel<ChainElement>> newInstance = (ChainFile<ChainModel<ChainElement>>) other;
 
 		ModelType oldModel = getModel();
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");
@@ -52,12 +51,12 @@ public abstract class ChainFile<ModelType extends ChainModel<? extends ChainElem
 
 			// XML file becomes valid
 			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel)
-				for (ChainElement<?> chain : newModel.getChains())
+				for (ChainElement chain : newModel.getChains())
 					retval.add(new Changeset(Operation.ADD, chain));
 
 			// XML file becomes invalid
 			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel)
-				for (ChainElement<?> chain : oldModel.getChains())
+				for (ChainElement chain : oldModel.getChains())
 					retval.add(new Changeset(Operation.REMOVE, chain));
 
 			// Other event, deeper in hierarchy

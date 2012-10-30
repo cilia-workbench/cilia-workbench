@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public class AbstractChain extends ChainElement<AbstractChain> {
+public class AbstractChain extends ChainElement {
 
 	public AbstractChain(Node node) throws CiliaException {
 		super(node);
@@ -41,7 +41,7 @@ public class AbstractChain extends ChainElement<AbstractChain> {
 		if (rootMediators != null) {
 			for (Node spec : XMLHelpers.findChildren(rootMediators, MediatorSpecRef.XML_NODE_NAME))
 				try {
-					mediators.add(new MediatorSpecRef<AbstractChain>(spec, getId(), getRepository()));
+					mediators.add(new MediatorSpecRef(spec, getId(), getRepository()));
 				} catch (CiliaException e) {
 					e.printStackTrace();
 				}

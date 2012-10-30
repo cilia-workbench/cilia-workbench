@@ -144,21 +144,20 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 		System.out.println("double click !");
 
 		if (element instanceof MediatorRef && model != null) {
-			@SuppressWarnings("unchecked")
-			MediatorRef<AbstractChain> mediator = (MediatorRef<AbstractChain>) element;
+			MediatorRef mediator = (MediatorRef) element;
 
 			UpdateMediatorRefDialog dialog;
 			if (mediator instanceof MediatorSpecRef)
-				dialog = new UpdateMediatorSpecRefDialog(parentShell, (MediatorSpecRef<AbstractChain>) mediator);
+				dialog = new UpdateMediatorSpecRefDialog(parentShell, (MediatorSpecRef) mediator);
 			else
-				dialog = new UpdateMediatorInstanceRefDialog(parentShell, (MediatorImplemRef<AbstractChain>) mediator);
+				dialog = new UpdateMediatorInstanceRefDialog(parentShell, (MediatorImplemRef) mediator);
 
 			if (dialog.open() == Window.OK) {
 
 				// Constraints
 				if (mediator instanceof MediatorSpecRef) {
 					try {
-						AbstractCompositionsRepoService.getInstance().updateProperties(model, (MediatorSpecRef<AbstractChain>) mediator,
+						AbstractCompositionsRepoService.getInstance().updateProperties(model, (MediatorSpecRef) mediator,
 								((UpdateMediatorSpecRefDialog) dialog).getConstraints());
 					} catch (Exception e) {
 						e.printStackTrace();
