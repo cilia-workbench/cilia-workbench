@@ -26,20 +26,22 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponentPart;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponentPart;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**
  * 
@@ -281,5 +283,32 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 	@Override
 	public ComponentNature getNature() {
 		return ComponentNature.IMPLEM;
+	}
+
+	/**
+	 * An object, which can give a pointer (which can be null...) to a
+	 * Specification. Used for display purpose using a label provider.
+	 */
+	public class RefMediatorSpec extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+
+		public RefMediatorSpec(String name, String namespace) {
+			super(name, namespace);
+		}
+
+		public MediatorSpec getMediatorSpec() {
+			return SpecRepoService.getInstance().getMediatorSpec(getId());
+		}
+
+		@Override
+		public CiliaFlag[] getErrorsAndWarnings() {
+			CiliaFlag[] tab = super.getErrorsAndWarnings();
+
+			CiliaError e = null;
+
+			if (getMediatorSpec() == null)
+				e = new CiliaError("Can't find mediator spec " + getQualifiedName(), this);
+
+			return CiliaFlag.generateTab(tab, e);
+		}
 	}
 }
