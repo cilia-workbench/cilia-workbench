@@ -21,7 +21,7 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaModel;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaRepoService extends ChainRepoService<DSCiliaFile, DSCiliaModel, ConcreteChain> {
+public class DSCiliaRepoService extends ChainRepoService<DSCiliaFile, DSCiliaModel, DSCiliaChain> {
 
 	// Super type parameters
 	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.CONCRETE_COMPO_REPOSITORY_PATH;

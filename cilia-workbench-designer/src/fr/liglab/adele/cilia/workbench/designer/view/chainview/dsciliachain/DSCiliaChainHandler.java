@@ -18,7 +18,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 
 /**
  * 
@@ -30,7 +30,7 @@ public abstract class DSCiliaChainHandler extends AbstractHandler {
 		return (DSCiliaChainView) ViewUtil.findViewWithId(event, DSCiliaChainView.viewId);
 	}
 
-	public static ConcreteChain getDisplayedModel(ExecutionEvent event) {
+	public static DSCiliaChain getDisplayedModel(ExecutionEvent event) {
 		DSCiliaChainView view = getDSCiliaChainView(event);
 		return view.getModel();
 	}

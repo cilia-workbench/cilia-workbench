@@ -20,7 +20,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.AbstractGraphLabelProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
@@ -41,7 +41,7 @@ public class DSCiliaChainLabelProvider extends AbstractGraphLabelProvider {
 		ImageDescriptorEnum imageName;
 		if (isCompatible(obj, AdapterRef.class)) {
 			@SuppressWarnings("unchecked")
-			AdapterRef<ConcreteChain> adapter = (AdapterRef<ConcreteChain>) obj;
+			AdapterRef<DSCiliaChain> adapter = (AdapterRef<DSCiliaChain>) obj;
 			if (adapter.getReferencedObject() != null) {
 				if (adapter.getReferencedObject().getType() == AdapterType.IN)
 					imageName = ImageDescriptorEnum.ADAPTER_IN;

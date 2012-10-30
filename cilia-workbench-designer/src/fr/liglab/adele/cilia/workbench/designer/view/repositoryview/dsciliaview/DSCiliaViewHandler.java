@@ -14,7 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.dsciliaview;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.ChainRepositoryHandler;
@@ -23,14 +23,14 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.Chain
  * 
  * @author Etienne Gandrille
  */
-public abstract class DSCiliaViewHandler extends ChainRepositoryHandler<ConcreteChain> {
+public abstract class DSCiliaViewHandler extends ChainRepositoryHandler<DSCiliaChain> {
 
 	public DSCiliaViewHandler() {
 		super(DSCiliaRepositoryView.VIEW_ID);
 	}
 
 	@Override
-	protected ChainRepoService<?, ?, ConcreteChain> getRepository() {
+	protected ChainRepoService<?, ?, DSCiliaChain> getRepository() {
 		return DSCiliaRepoService.getInstance();
 	}
 }

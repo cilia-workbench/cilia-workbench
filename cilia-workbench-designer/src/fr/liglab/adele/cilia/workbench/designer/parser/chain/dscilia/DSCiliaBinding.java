@@ -25,13 +25,13 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSC
  * 
  * @author Etienne Gandrille
  */
-public class ConcreteBinding extends Binding {
+public class DSCiliaBinding extends Binding {
 
-	public ConcreteBinding(Node node, NameNamespaceID chainId) throws CiliaException {
+	public DSCiliaBinding(Node node, NameNamespaceID chainId) throws CiliaException {
 		super(node, chainId);
 	}
 
-	protected ConcreteChain getChain() {
+	protected DSCiliaChain getChain() {
 		return DSCiliaRepoService.getInstance().findChain(chainId);
 	}
 }

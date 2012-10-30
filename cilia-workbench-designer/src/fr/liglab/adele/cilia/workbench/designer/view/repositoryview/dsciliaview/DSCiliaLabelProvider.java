@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.dsciliaview
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
@@ -37,7 +37,7 @@ public class DSCiliaLabelProvider extends CiliaLabelProvider {
 
 		if (isCompatible(obj, DSCiliaFile.class))
 			imageName = ImageDescriptorEnum.FILE;
-		else if (isCompatible(obj, ConcreteChain.class))
+		else if (isCompatible(obj, DSCiliaChain.class))
 			imageName = ImageDescriptorEnum.CHAIN;
 		else
 			throw new RuntimeException("Unsupported type: " + obj.getClass());

@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryView;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaModel;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
@@ -67,7 +67,7 @@ public class DSCiliaRepositoryView extends RepositoryView<DSCiliaFile, DSCiliaMo
 			Object object = change.getObject();
 			Operation operation = change.getOperation();
 			if (operation != Operation.UPDATE) {
-				if (object instanceof DSCiliaFile || object instanceof ConcreteChain) {
+				if (object instanceof DSCiliaFile || object instanceof DSCiliaChain) {
 					refresh();
 					return;
 				}

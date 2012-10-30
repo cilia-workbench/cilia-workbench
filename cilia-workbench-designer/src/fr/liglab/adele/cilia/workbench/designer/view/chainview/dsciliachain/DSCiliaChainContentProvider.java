@@ -23,7 +23,7 @@ import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 
 /**
  * 
@@ -36,10 +36,10 @@ public class DSCiliaChainContentProvider implements IStructuredContentProvider, 
 
 		if (inputElement == null)
 			return new Object[0];
-		else if (!(inputElement instanceof ConcreteChain))
+		else if (!(inputElement instanceof DSCiliaChain))
 			throw new RuntimeException("input element must be a DSCilia Chain");
 		else
-			return ((ConcreteChain) inputElement).getElements();
+			return ((DSCiliaChain) inputElement).getElements();
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class DSCiliaChainContentProvider implements IStructuredContentProvider, 
 
 		if (entity instanceof ComponentRef) {
 			@SuppressWarnings("unchecked")
-			ComponentRef<ConcreteChain> component = (ComponentRef<ConcreteChain>) entity;
+			ComponentRef<DSCiliaChain> component = (ComponentRef<DSCiliaChain>) entity;
 			Binding[] bindings = component.getOutgoingBindings();
 			for (Binding binding : bindings) {
 				ComponentRef<?> ro = binding.getDestinationComponent();

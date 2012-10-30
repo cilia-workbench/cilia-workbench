@@ -27,19 +27,19 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSC
  * 
  * @author Etienne Gandrille
  */
-public class ConcreteChain extends ChainElement<ConcreteChain> {
+public class DSCiliaChain extends ChainElement<DSCiliaChain> {
 
-	public ConcreteChain(Node node) throws CiliaException {
+	public DSCiliaChain(Node node) throws CiliaException {
 		super(node);
 	}
 
 	@Override
 	public Binding createBinding(Node node, NameNamespaceID chainId) throws CiliaException {
-		return new ConcreteBinding(node, chainId);
+		return new DSCiliaBinding(node, chainId);
 	}
 
 	@Override
-	protected ChainRepoService<?, ?, ConcreteChain> getRepository() {
+	protected ChainRepoService<?, ?, DSCiliaChain> getRepository() {
 		return DSCiliaRepoService.getInstance();
 	}
 }

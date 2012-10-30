@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSC
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaModel extends ChainModel<ConcreteChain> {
+public class DSCiliaModel extends ChainModel<DSCiliaChain> {
 
 	public static final String ROOT_NODE_NAME = "cilia";
 
@@ -40,8 +40,8 @@ public class DSCiliaModel extends ChainModel<ConcreteChain> {
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
 
-		for (Node node : XMLHelpers.findChildren(root, ConcreteChain.XML_NODE_NAME))
-			model.add(new ConcreteChain(node));
+		for (Node node : XMLHelpers.findChildren(root, DSCiliaChain.XML_NODE_NAME))
+			model.add(new DSCiliaChain(node));
 	}
 
 	@Override

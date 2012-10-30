@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.ConcreteChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaModel;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
@@ -48,7 +48,7 @@ public class DSCiliaChainView extends GraphView implements IRepoServiceListener,
 	private IBaseLabelProvider labelProvider = new DSCiliaChainLabelProvider();
 	private IContentProvider contentProvider = new DSCiliaChainContentProvider();
 
-	private ConcreteChain model = null;
+	private DSCiliaChain model = null;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -60,11 +60,11 @@ public class DSCiliaChainView extends GraphView implements IRepoServiceListener,
 		updateConfigAndModel(null);
 	}
 
-	public ConcreteChain getModel() {
+	public DSCiliaChain getModel() {
 		return model;
 	}
 
-	private void updateConfigAndModel(ConcreteChain chain) {
+	private void updateConfigAndModel(DSCiliaChain chain) {
 		this.model = chain;
 		if (viewer.getLabelProvider() != labelProvider)
 			viewer.setLabelProvider(labelProvider);
@@ -88,8 +88,8 @@ public class DSCiliaChainView extends GraphView implements IRepoServiceListener,
 	public void selectionChanged(String partId, ISelection selection) {
 		if (selection != null && selection instanceof TreeSelection) {
 			TreeSelection sel = (TreeSelection) selection;
-			if (sel.getFirstElement() != null && sel.getFirstElement() instanceof ConcreteChain)
-				updateConfigAndModel((ConcreteChain) sel.getFirstElement());
+			if (sel.getFirstElement() != null && sel.getFirstElement() instanceof DSCiliaChain)
+				updateConfigAndModel((DSCiliaChain) sel.getFirstElement());
 		}
 	}
 
@@ -104,7 +104,7 @@ public class DSCiliaChainView extends GraphView implements IRepoServiceListener,
 				if (change.getObject() instanceof DSCiliaFile && change.getOperation() == Operation.REMOVE) {
 					DSCiliaModel removedModel = ((DSCiliaFile) (change.getObject())).getModel();
 					if (removedModel != null) {
-						for (ConcreteChain removedChain : removedModel.getChains()) {
+						for (DSCiliaChain removedChain : removedModel.getChains()) {
 							if (removedChain == model)
 								updateConfigAndModel(null);
 							return;
@@ -113,7 +113,7 @@ public class DSCiliaChainView extends GraphView implements IRepoServiceListener,
 				}
 
 				// Chain removed
-				if (change.getObject() instanceof ConcreteChain && change.getOperation() == Operation.REMOVE) {
+				if (change.getObject() instanceof DSCiliaChain && change.getOperation() == Operation.REMOVE) {
 					if (model == change.getObject()) { // pointer equality
 						updateConfigAndModel(null);
 						return;
