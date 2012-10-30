@@ -18,9 +18,9 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterInplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
@@ -42,9 +42,9 @@ public class AbstractCompositionLabelProvider extends CiliaLabelProvider {
 			imageName = ImageDescriptorEnum.FILE;
 		else if (isCompatible(obj, AbstractChain.class))
 			imageName = ImageDescriptorEnum.CHAIN;
-		else if (isCompatible(obj, AdapterInstanceRef.class))
+		else if (isCompatible(obj, AdapterInplemRef.class))
 			imageName = ImageDescriptorEnum.ADAPTER_IN;
-		else if (isCompatible(obj, MediatorInstanceRef.class))
+		else if (isCompatible(obj, MediatorImplemRef.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
 		else if (isCompatible(obj, Binding.class))
 			imageName = ImageDescriptorEnum.BINDING;

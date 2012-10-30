@@ -28,14 +28,14 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterInplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainElement;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
@@ -80,7 +80,7 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 						MediatorSpecRef.XML_NODE_NAME);
 			else if (type.getNature() == ComponentNature.IMPLEM)
 				createComponentInstanceInternal(chain, id, type.getId(), AbstractChain.XML_ROOT_MEDIATORS_NAME,
-						MediatorInstanceRef.XML_NODE_NAME);
+						MediatorImplemRef.XML_NODE_NAME);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
 		}
@@ -92,7 +92,7 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 				throw new RuntimeException("Not yet implemented in spec repository view...");
 			else if (type.getNature() == ComponentNature.IMPLEM)
 				createComponentInstanceInternal(chain, id, type.getId(), AbstractChain.XML_ROOT_ADAPTERS_NAME,
-						AdapterInstanceRef.XML_NODE_NAME);
+						AdapterInplemRef.XML_NODE_NAME);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
 		}
@@ -166,9 +166,9 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_MEDIATORS_NAME);
 
 		Node leafs[] = null;
-		if (mediator instanceof MediatorInstanceRef)
-			leafs = XMLHelpers.findChildren(subNode, MediatorInstanceRef.XML_NODE_NAME,
-					MediatorInstanceRef.XML_ATTR_ID, mediator.getId());
+		if (mediator instanceof MediatorImplemRef)
+			leafs = XMLHelpers.findChildren(subNode, MediatorImplemRef.XML_NODE_NAME,
+					MediatorImplemRef.XML_ATTR_ID, mediator.getId());
 		if (mediator instanceof MediatorSpecRef)
 			leafs = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID,
 					mediator.getId());
@@ -190,8 +190,8 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_ADAPTERS_NAME);
 
 		Node leafs[] = null;
-		if (adapter instanceof AdapterInstanceRef)
-			leafs = XMLHelpers.findChildren(subNode, AdapterInstanceRef.XML_NODE_NAME, AdapterInstanceRef.XML_ATTR_ID,
+		if (adapter instanceof AdapterInplemRef)
+			leafs = XMLHelpers.findChildren(subNode, AdapterInplemRef.XML_NODE_NAME, AdapterInplemRef.XML_ATTR_ID,
 					adapter.getId());
 		// Adapter spec...
 
@@ -283,8 +283,8 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 			media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID,
 					mediator.getId())[0];
 		else
-			media = XMLHelpers.findChildren(subNode, MediatorInstanceRef.XML_NODE_NAME,
-					MediatorInstanceRef.XML_ATTR_ID, mediator.getId())[0];
+			media = XMLHelpers.findChildren(subNode, MediatorImplemRef.XML_NODE_NAME,
+					MediatorImplemRef.XML_ATTR_ID, mediator.getId())[0];
 
 		updateParameterInternal(document, media, MediatorRef.XML_SCHEDULER_NODE, schedulerParam);
 		updateParameterInternal(document, media, MediatorRef.XML_PROCESSOR_NODE, processorParam);

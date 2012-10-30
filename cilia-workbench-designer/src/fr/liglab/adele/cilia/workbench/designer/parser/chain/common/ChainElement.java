@@ -69,9 +69,9 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 
 		Node rootAdapters = XMLHelpers.findChild(node, XML_ROOT_ADAPTERS_NAME);
 		if (rootAdapters != null) {
-			for (Node instance : XMLHelpers.findChildren(rootAdapters, AdapterInstanceRef.XML_NODE_NAME))
+			for (Node instance : XMLHelpers.findChildren(rootAdapters, AdapterInplemRef.XML_NODE_NAME))
 				try {
-					adapters.add(new AdapterInstanceRef<ChainType>(instance, getId(), getRepository()));
+					adapters.add(new AdapterInplemRef<ChainType>(instance, getId(), getRepository()));
 				} catch (CiliaException e) {
 					e.printStackTrace();
 				}
@@ -79,9 +79,9 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 
 		Node rootMediators = XMLHelpers.findChild(node, XML_ROOT_MEDIATORS_NAME);
 		if (rootMediators != null) {
-			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorInstanceRef.XML_NODE_NAME)) {
+			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorImplemRef.XML_NODE_NAME)) {
 				try {
-					MediatorInstanceRef<ChainType> mi = new MediatorInstanceRef<ChainType>(instance, getId(),
+					MediatorImplemRef<ChainType> mi = new MediatorImplemRef<ChainType>(instance, getId(),
 							getRepository());
 					mediators.add(mi);
 				} catch (CiliaException e) {
@@ -176,7 +176,7 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 			throw new CiliaException("can't find component with id " + componentID);
 
 		NameNamespaceID referencedID = component.getReferencedTypeID();
-		if (component instanceof AdapterInstanceRef) {
+		if (component instanceof AdapterInplemRef) {
 			IAdapter adapterInstance = JarRepoService.getInstance().getAdapterForChain(referencedID);
 			if (adapterInstance == null)
 				throw new CiliaException("Adapter " + componentID + " doesn't reference a valid adapter instance.");
@@ -186,7 +186,7 @@ public abstract class ChainElement<ChainType extends ChainElement<?>> extends Na
 			if (mediatorSpec == null)
 				throw new CiliaException("Mediator " + componentID + " doesn't reference a valid mediator instance.");
 			return mediatorSpec;
-		} else if (component instanceof MediatorInstanceRef) {
+		} else if (component instanceof MediatorImplemRef) {
 			IMediator mediatorInstance = JarRepoService.getInstance().getMediatorForChain(referencedID);
 			if (mediatorInstance == null)
 				throw new CiliaException("Mediator " + componentID

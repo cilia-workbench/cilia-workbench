@@ -57,6 +57,14 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 
 	protected abstract ChainElement<?> getChain();
 
+	public String getSource() {
+		return from;
+	}
+
+	public String getDestination() {
+		return to;
+	}
+
 	public String getSourceId() {
 		return XMLStringUtil.getBeforeSeparatorOrAll(from);
 	}
@@ -95,14 +103,6 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		return component.getReferencedObject();
 	}
 
-	public String getSource() {
-		return from;
-	}
-
-	public String getDestination() {
-		return to;
-	}
-
 	@Override
 	public String toString() {
 		return from + " - " + to;
@@ -126,8 +126,7 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 				}
 
 				if (ro.getType() == AdapterType.IN && !Strings.isNullOrEmpty(getSourcePort())) {
-					list.add(new CiliaError("Binding " + this + " reference an in port but it's linked to an adapter",
-							this));
+					list.add(new CiliaError("Binding " + this + " reference an in port but it's linked to an adapter", this));
 				}
 			}
 		}
@@ -140,8 +139,7 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 				}
 
 				if (ro.getType() == AdapterType.OUT && !Strings.isNullOrEmpty(getDestinationPort())) {
-					list.add(new CiliaError("Binding " + this + " reference an out port but it's linked to an adapter",
-							this));
+					list.add(new CiliaError("Binding " + this + " reference an out port but it's linked to an adapter", this));
 				}
 			}
 		}

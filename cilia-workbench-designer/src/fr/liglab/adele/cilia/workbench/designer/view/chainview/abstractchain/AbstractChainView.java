@@ -36,7 +36,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.UpdateMediatorInstanceRefDialog;
@@ -151,7 +151,7 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 			if (mediator instanceof MediatorSpecRef)
 				dialog = new UpdateMediatorSpecRefDialog(parentShell, (MediatorSpecRef<AbstractChain>) mediator);
 			else
-				dialog = new UpdateMediatorInstanceRefDialog(parentShell, (MediatorInstanceRef<AbstractChain>) mediator);
+				dialog = new UpdateMediatorInstanceRefDialog(parentShell, (MediatorImplemRef<AbstractChain>) mediator);
 
 			if (dialog.open() == Window.OK) {
 

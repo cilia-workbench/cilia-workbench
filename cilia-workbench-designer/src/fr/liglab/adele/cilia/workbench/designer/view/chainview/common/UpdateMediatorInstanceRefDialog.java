@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorInstanceRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
 
 /**
  * 
@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorInst
  */
 public class UpdateMediatorInstanceRefDialog extends UpdateMediatorRefDialog {
 
-	public UpdateMediatorInstanceRefDialog(Shell parent, MediatorInstanceRef<AbstractChain> mediator) {
+	public UpdateMediatorInstanceRefDialog(Shell parent, MediatorImplemRef<AbstractChain> mediator) {
 		super(parent, mediator, new Point(500, 400));
 	}
 

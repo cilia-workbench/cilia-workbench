@@ -45,7 +45,7 @@ public enum Cardinality {
 	public String stringId() {
 		String minName = getString(min);
 		String maxName = getString(max);
-		return minName + "..." + maxName;
+		return minName + ".." + maxName;
 	}
 
 	private String getString(int i) {

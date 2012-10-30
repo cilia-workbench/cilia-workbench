@@ -26,12 +26,11 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.J
  * 
  * @author Etienne Gandrille
  */
-public class MediatorInstanceRef<ChainType extends ChainElement<?>> extends MediatorRef<ChainType> {
+public class MediatorImplemRef<ChainType extends ChainElement<?>> extends MediatorRef<ChainType> {
 
-	public static final String XML_NODE_NAME = "mediator-instance";
+	public static final String XML_NODE_NAME = "mediator-inplem";
 
-	public MediatorInstanceRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo)
-			throws CiliaException {
+	public MediatorImplemRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ChainType> repo) throws CiliaException {
 		super(node, chainId, repo);
 	}
 
