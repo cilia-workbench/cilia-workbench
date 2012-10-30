@@ -20,15 +20,13 @@ import java.util.List;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Property;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.PropertyImplem;
 
@@ -36,7 +34,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.PropertyIm
  * 
  * @author Etienne Gandrille
  */
-public class ParameterChain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
+public class ParameterChain extends Parameter implements Mergeable {
 
 	public static final String XML_ROOT_NAME = "property";
 	public static String XML_ATTR_NAME = "name";
@@ -50,27 +48,30 @@ public class ParameterChain implements DisplayedInPropertiesView, ErrorsAndWarni
 		value = XMLHelpers.findAttributeValue(n, XML_ATTR_VALUE);
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	public String getValue() {
 		return value;
 	}
 
 	@Override
-	public Object getId() {
-		return name;
-	}
-
-	@Override
 	public String toString() {
-		if (name == null || name.length() == 0)
-			return "<undefined> = " + value;
-		if (value == null || value.length() == 0)
-			return name + " = <undefined>";
+		StringBuilder sb = new StringBuilder();
 
-		return name + " = " + value;
+		// name
+		if (name == null || name.length() == 0)
+			sb.append("<undefined>");
+		else
+			sb.append(name);
+
+		// separator
+		sb.append(" = ");
+
+		// value
+		if (value == null || value.length() == 0)
+			sb.append("<undefined>");
+		else
+			sb.append(value);
+
+		return sb.toString();
 	}
 
 	@Override

@@ -23,7 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 
@@ -31,7 +31,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
  * 
  * @author Etienne Gandrille
  */
-public class ParameterImplem extends Parameter implements DisplayedInPropertiesView {
+public class ParameterImplem extends Parameter {
 
 	public static final String XML_NODE_NAME = "property";
 
@@ -42,6 +42,7 @@ public class ParameterImplem extends Parameter implements DisplayedInPropertiesV
 
 	private String method;
 	private String field;
+	private String default_value;
 
 	public ParameterImplem(Node node) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
@@ -64,9 +65,16 @@ public class ParameterImplem extends Parameter implements DisplayedInPropertiesV
 		return retval;
 	}
 
+	public boolean hasDefaultValue() {
+		return !Strings.isNullOrEmpty(default_value);
+	}
+
 	@Override
 	public String toString() {
 		String retval = super.toString();
+
+		if (default_value != null)
+			retval = retval + " = " + default_value;
 
 		if (method != null)
 			retval = retval + " [" + method + "]";

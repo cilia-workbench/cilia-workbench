@@ -18,17 +18,16 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
  * Represents a parameter, used in Schedulers, Processors, Dispatchers.
  * 
  * @author Etienne Gandrille
  */
-public abstract class Parameter implements ErrorsAndWarningsFinder, Identifiable {
+public abstract class Parameter implements ErrorsAndWarningsFinder, Identifiable, DisplayedInPropertiesView {
 
 	private String name;
-	private String default_value;
 
 	@Override
 	public Object getId() {
@@ -41,16 +40,7 @@ public abstract class Parameter implements ErrorsAndWarningsFinder, Identifiable
 
 	@Override
 	public String toString() {
-		String retval = name;
-
-		if (default_value != null)
-			retval = retval + " = " + default_value;
-
-		return retval;
-	}
-
-	public boolean hasDefaultValue() {
-		return !Strings.isNullOrEmpty(default_value);
+		return name;
 	}
 
 	@Override

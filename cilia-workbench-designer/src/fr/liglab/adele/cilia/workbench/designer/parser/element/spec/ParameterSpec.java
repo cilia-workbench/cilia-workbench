@@ -18,14 +18,13 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class ParameterSpec extends Parameter implements DisplayedInPropertiesView {
+public class ParameterSpec extends Parameter {
 
 	public static final String XML_ATTR_NAME = "name";
 
