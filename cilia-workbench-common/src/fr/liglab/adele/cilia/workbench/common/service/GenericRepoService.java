@@ -14,15 +14,17 @@
  */
 package fr.liglab.adele.cilia.workbench.common.service;
 
-import java.io.File;
+import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
+
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class GenericFile<ModelType> extends AbstractFile<ModelType> {
+public abstract class GenericRepoService<FileType extends AbstractFile<ModelType>, ModelType> extends AbstractRepoService<FileType, ModelType> {
 
-	public GenericFile(File file) {
-		super(file);
+	protected GenericRepoService(String preferenceKey, String ext, String repoName) {
+		super(preferenceKey, ext, repoName);
 	}
+
 }

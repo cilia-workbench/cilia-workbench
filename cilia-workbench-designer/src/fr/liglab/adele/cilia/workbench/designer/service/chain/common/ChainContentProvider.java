@@ -17,12 +17,12 @@ package fr.liglab.adele.cilia.workbench.designer.service.chain.common;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ChainFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.PropertyConstraint;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;

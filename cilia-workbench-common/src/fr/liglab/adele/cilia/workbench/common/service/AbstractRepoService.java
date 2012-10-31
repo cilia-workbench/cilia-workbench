@@ -32,6 +32,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import fr.liglab.adele.cilia.workbench.common.Activator;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.CiliaMarkerUtil;
 
@@ -39,15 +40,15 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.CiliaMarker
  * Represents a repository, from a model point of view.
  * 
  * 
- * @param <ModelType>
+ * @param <FileType>
  *            the elements hosted by the repository.
  * 
  * @author Etienne Gandrille
  */
-public abstract class AbstractRepoService<ModelType extends AbstractFile<AbstractType>, AbstractType> {
+public abstract class AbstractRepoService<FileType extends AbstractFile<ModelType>, ModelType> {
 
 	/** The repository content. */
-	protected List<ModelType> model;
+	protected List<FileType> repoContent;
 
 	/** Listeners used to notify repository updates. */
 	private List<IRepoServiceListener> listeners;
@@ -84,12 +85,12 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 			}
 		});
 
-		model = new ArrayList<ModelType>();
+		repoContent = new ArrayList<FileType>();
 		listeners = new ArrayList<IRepoServiceListener>();
 	}
 
-	public ModelType getModelObject(String fileName) {
-		for (ModelType element : model)
+	public FileType getFileFromName(String fileName) {
+		for (FileType element : repoContent)
 			if (element.getFilename().equals(fileName))
 				return element;
 		return null;
@@ -170,8 +171,8 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 			return list;
 	}
 
-	public List<ModelType> getModel() {
-		return model;
+	public List<FileType> getRepoContent() {
+		return repoContent;
 	}
 
 	public GenericContentProvider getContentProvider() {
@@ -335,12 +336,12 @@ public abstract class AbstractRepoService<ModelType extends AbstractFile<Abstrac
 	 * 
 	 * @return
 	 */
-	public List<AbstractType> findAbstractElements() {
+	public List<ModelType> findAbstractElements() {
 
-		List<AbstractType> retval = new ArrayList<AbstractType>();
+		List<ModelType> retval = new ArrayList<ModelType>();
 
-		for (ModelType element : model) {
-			AbstractType abstractModel = element.getModel();
+		for (FileType element : repoContent) {
+			ModelType abstractModel = element.getModel();
 			if (abstractModel != null)
 				retval.add(abstractModel);
 		}

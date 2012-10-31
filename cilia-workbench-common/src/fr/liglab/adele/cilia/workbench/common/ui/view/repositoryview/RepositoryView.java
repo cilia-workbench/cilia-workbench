@@ -43,8 +43,8 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 
+import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
-import fr.liglab.adele.cilia.workbench.common.service.AbstractFile;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
@@ -112,7 +112,7 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 
 	public void refresh() {
 		refreshMessageArea();
-		model = repoService.getModel();
+		model = repoService.getRepoContent();
 		viewer.setContentProvider(repoService.getContentProvider());
 		viewer.setInput(model);
 		viewer.refresh();

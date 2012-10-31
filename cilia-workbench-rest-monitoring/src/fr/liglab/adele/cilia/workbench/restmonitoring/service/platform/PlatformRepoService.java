@@ -21,8 +21,8 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.GenericRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.restmonitoring.misc.preferencepage.RestMonitoringPreferencePage;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformMo
  * 
  * @author Etienne Gandrille
  */
-public class PlatformRepoService extends AbstractRepoService<PlatformFile, PlatformModel> implements ErrorsAndWarningsFinder {
+public class PlatformRepoService extends GenericRepoService<PlatformFile, PlatformModel> implements ErrorsAndWarningsFinder {
 
 	/** Singleton instance */
 	private static PlatformRepoService INSTANCE;
@@ -74,7 +74,7 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 		}
 
 		// Update content provider
-		contentProvider = new PlatformContentProvider(model);
+		contentProvider = new PlatformContentProvider(repoContent);
 
 		// Update markers relative to this repository
 		updateMarkers();
@@ -95,7 +95,7 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
-		retval.addAll(MergeUtil.mergeLists(repoElements, this.model));
+		retval.addAll(MergeUtil.mergeLists(repoElements, this.repoContent));
 
 		// path update
 		for (Changeset c : retval)
@@ -121,7 +121,7 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 	public void updateChains(String filename, String[] chains) {
 
 		// merge and compute changes
-		PlatformFile pfFile = getModelObject(filename);
+		PlatformFile pfFile = getFileFromName(filename);
 		List<Changeset> changes = pfFile.getModel().mergeChains(chains);
 
 		// path update
@@ -131,7 +131,7 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 		}
 
 		// Update content provider
-		contentProvider = new PlatformContentProvider(model);
+		contentProvider = new PlatformContentProvider(repoContent);
 
 		// Update markers relative to this repository
 		updateMarkers();

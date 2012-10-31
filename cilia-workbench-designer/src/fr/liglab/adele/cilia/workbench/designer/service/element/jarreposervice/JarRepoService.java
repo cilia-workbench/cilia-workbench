@@ -24,10 +24,13 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.GenericRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CollectorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.DispatcherImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem;
@@ -40,8 +43,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  * 
  * @author Etienne Gandrille
  */
-public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarModel> implements
-		ErrorsAndWarningsFinder, IRepoServiceListener {
+public class JarRepoService extends GenericRepoService<CiliaJarFile, CiliaJarModel> implements ErrorsAndWarningsFinder, IRepoServiceListener {
 
 	/** Singleton instance */
 	private static JarRepoService INSTANCE;
@@ -77,10 +79,10 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 		}
 
 		// Updates model with computed one
-		model = bundles;
+		repoContent = bundles;
 
 		// Update content provider
-		contentProvider = new JarContentProvider(model);
+		contentProvider = new JarContentProvider(repoContent);
 
 		// Update markers relative to this repository
 		updateMarkers();
@@ -91,7 +93,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 
 	public List<MediatorImplem> getMediators() {
 		List<MediatorImplem> retval = new ArrayList<MediatorImplem>();
-		for (CiliaJarFile bundle : model)
+		for (CiliaJarFile bundle : repoContent)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getMediatorComponents());
 
@@ -100,7 +102,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 
 	public List<AdapterImplem> getAdapters() {
 		List<AdapterImplem> retval = new ArrayList<AdapterImplem>();
-		for (CiliaJarFile bundle : model)
+		for (CiliaJarFile bundle : repoContent)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getAdapters());
 
@@ -142,11 +144,11 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	}
 
 	public List<SchedulerImplem> getSchedulers() {
-		return getSchedulers(model);
+		return getSchedulers(repoContent);
 	}
 
 	public SchedulerImplem getScheduler(NameNamespaceID nn) {
-		return getScheduler(model, nn);
+		return getScheduler(repoContent, nn);
 	}
 
 	public static List<ProcessorImplem> getProcessors(List<CiliaJarFile> model) {
@@ -166,11 +168,11 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	}
 
 	public List<ProcessorImplem> getProcessors() {
-		return getProcessors(model);
+		return getProcessors(repoContent);
 	}
 
 	public ProcessorImplem getProcessor(NameNamespaceID nn) {
-		return getProcessor(model, nn);
+		return getProcessor(repoContent, nn);
 	}
 
 	public static List<DispatcherImplem> getDispatchers(List<CiliaJarFile> model) {
@@ -190,16 +192,16 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 	}
 
 	public List<DispatcherImplem> getDispatchers() {
-		return getDispatchers(model);
+		return getDispatchers(repoContent);
 	}
 
 	public DispatcherImplem getDispatcher(NameNamespaceID nn) {
-		return getDispatcher(model, nn);
+		return getDispatcher(repoContent, nn);
 	}
 
 	public List<CollectorImplem> getCollectors() {
 		List<CollectorImplem> retval = new ArrayList<CollectorImplem>();
-		for (CiliaJarFile bundle : model)
+		for (CiliaJarFile bundle : repoContent)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getCollectors());
 
@@ -215,7 +217,7 @@ public class JarRepoService extends AbstractRepoService<CiliaJarFile, CiliaJarMo
 
 	public List<SenderImplem> getSenders() {
 		List<SenderImplem> retval = new ArrayList<SenderImplem>();
-		for (CiliaJarFile bundle : model)
+		for (CiliaJarFile bundle : repoContent)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getSenders());
 

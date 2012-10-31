@@ -22,7 +22,7 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
-import fr.liglab.adele.cilia.workbench.common.service.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 

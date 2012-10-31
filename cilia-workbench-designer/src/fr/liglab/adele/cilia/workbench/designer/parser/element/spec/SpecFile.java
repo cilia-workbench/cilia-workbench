@@ -12,54 +12,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.service.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.parser.GenericFile;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 
 /**
+ * Represents a file, from a "physical" point of view. This file, which must
+ * exists on the file system, can be well formed or not. If it is "well formed",
+ * the model field is not null, and represents a model of the file.
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainFile<ModelType extends ChainModel<? extends Chain>> extends AbstractFile<ModelType> implements Mergeable {
+public class SpecFile extends GenericFile<SpecModel> implements Mergeable {
 
-	public ChainFile(File file) {
+	public SpecFile(File file) {
 		super(file);
+
+		try {
+			model = new SpecModel(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model = null;
+		}
 	}
 
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-		@SuppressWarnings("unchecked")
-		ChainFile<ChainModel<Chain>> newInstance = (ChainFile<ChainModel<Chain>>) other;
+		SpecFile newInstance = (SpecFile) other;
 
-		ModelType oldModel = getModel();
+		SpecModel oldModel = this.getModel();
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");
-		ModelType newModel = getModel();
+		SpecModel newModel = this.getModel();
 
-		// Because the Model file is not displayed in the view, here is a little
+		// Because Spec Model is not displayed in the view, here is a little
 		// piece of code for handling this very special case...
 		for (Changeset c : result) {
 
 			// XML file becomes valid
 			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel)
-				for (Chain chain : newModel.getChains())
-					retval.add(new Changeset(Operation.ADD, chain));
+				for (MediatorSpec ms : newModel.getMediatorSpecs())
+					retval.add(new Changeset(Operation.ADD, ms));
 
 			// XML file becomes invalid
 			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel)
-				for (Chain chain : oldModel.getChains())
-					retval.add(new Changeset(Operation.REMOVE, chain));
+				for (MediatorSpec ms : oldModel.getMediatorSpecs())
+					retval.add(new Changeset(Operation.REMOVE, ms));
 
 			// Other event, deeper in hierarchy
 			else

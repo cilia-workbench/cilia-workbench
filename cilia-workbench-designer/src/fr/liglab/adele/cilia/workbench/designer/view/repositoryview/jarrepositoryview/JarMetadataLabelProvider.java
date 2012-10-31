@@ -24,12 +24,12 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CollectorI
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.DispatcherImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem.RefMediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.ParameterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.ProcessorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.PropertyImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.SchedulerImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.SenderImplem;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**

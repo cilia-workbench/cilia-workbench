@@ -16,6 +16,8 @@ package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcompositio
 
 import java.io.File;
 
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
+
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must

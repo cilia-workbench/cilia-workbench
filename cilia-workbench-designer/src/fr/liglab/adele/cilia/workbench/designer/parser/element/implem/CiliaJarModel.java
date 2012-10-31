@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice;
+package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
 import java.io.File;
 import java.io.InputStream;
@@ -24,16 +24,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.service.GenericModel;
+import fr.liglab.adele.cilia.workbench.common.parser.GenericModel;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplemUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CollectorImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.DispatcherImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.ProcessorImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.SchedulerImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.SenderImplem;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link CiliaJarFile}.

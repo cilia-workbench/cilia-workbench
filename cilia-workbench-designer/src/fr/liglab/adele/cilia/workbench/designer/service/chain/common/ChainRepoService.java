@@ -22,12 +22,12 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.service.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ChainFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 
 /**
@@ -50,7 +50,7 @@ public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>,
 	}
 
 	@SuppressWarnings("unchecked")
-	protected FileType getFileObject(ChainType chain) {
+	protected FileType getFileFromChain(ChainType chain) {
 		return (FileType) getContentProvider().getParent(chain);
 	}
 
@@ -78,7 +78,7 @@ public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>,
 	protected List<Changeset> merge(List<FileType> repoElements) throws CiliaException {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
-		retval.addAll(MergeUtil.mergeLists(repoElements, model));
+		retval.addAll(MergeUtil.mergeLists(repoElements, repoContent));
 
 		// path update
 		for (Changeset c : retval)
@@ -121,7 +121,7 @@ public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>,
 	}
 
 	public void deleteChain(ChainType chain) {
-		FileType file = getFileObject(chain);
+		FileType file = getFileFromChain(chain);
 		if (file == null)
 			return;
 

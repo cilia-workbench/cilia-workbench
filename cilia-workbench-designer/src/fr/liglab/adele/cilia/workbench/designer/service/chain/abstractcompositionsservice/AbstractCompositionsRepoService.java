@@ -83,7 +83,7 @@ public class AbstractCompositionsRepoService extends ChainRepoService<AbstractCo
 		}
 
 		// Update content provider
-		contentProvider = new AbstractCompositionsContentProvider(model);
+		contentProvider = new AbstractCompositionsContentProvider(repoContent);
 
 		// Update markers relative to this repository
 		updateMarkers();
@@ -93,47 +93,47 @@ public class AbstractCompositionsRepoService extends ChainRepoService<AbstractCo
 	}
 
 	public void createMediator(AbstractChain chain, String id, IMediator type) throws CiliaException {
-		if (getFileObject(chain) == null)
+		if (getFileFromChain(chain) == null)
 			return;
-		getFileObject(chain).getModel().createMediator(chain, id, type);
+		getFileFromChain(chain).getModel().createMediator(chain, id, type);
 	}
 
 	public void createAdapter(AbstractChain chain, String id, IAdapter type) throws CiliaException {
-		if (getFileObject(chain) == null)
+		if (getFileFromChain(chain) == null)
 			return;
-		getFileObject(chain).getModel().createAdapter(chain, id, type);
+		getFileFromChain(chain).getModel().createAdapter(chain, id, type);
 	}
 
 	public void deleteComponent(AbstractChain chain, ComponentRef component) throws CiliaException {
-		if (getFileObject(chain) == null)
+		if (getFileFromChain(chain) == null)
 			return;
-		getFileObject(chain).getModel().deleteComponent(chain, component);
+		getFileFromChain(chain).getModel().deleteComponent(chain, component);
 	}
 
 	public void createBinding(AbstractChain chain, String srcElem, String srcPort, String dstElem, String dstPort, Cardinality srcCard, Cardinality dstCard)
 			throws CiliaException {
-		if (getFileObject(chain) == null)
+		if (getFileFromChain(chain) == null)
 			return;
-		getFileObject(chain).getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort, srcCard, dstCard);
+		getFileFromChain(chain).getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort, srcCard, dstCard);
 	}
 
 	public void deleteBinding(AbstractChain chain, Binding binding) throws CiliaException {
-		if (getFileObject(chain) == null)
+		if (getFileFromChain(chain) == null)
 			return;
-		getFileObject(chain).getModel().deleteBinding(chain, binding);
+		getFileFromChain(chain).getModel().deleteBinding(chain, binding);
 	}
 
 	public void updateProperties(AbstractChain chain, MediatorSpecRef mediator, Map<String, String> properties) throws CiliaException {
-		if (getFileObject(chain) == null)
+		if (getFileFromChain(chain) == null)
 			return;
-		getFileObject(chain).getModel().updateProperties(chain, mediator, properties);
+		getFileFromChain(chain).getModel().updateProperties(chain, mediator, properties);
 	}
 
 	public void updateParameters(AbstractChain chain, MediatorRef mediator, Map<String, String> schedulerParam, Map<String, String> processorParam,
 			Map<String, String> dispatcherParam) throws CiliaException {
-		if (getFileObject(chain) == null)
+		if (getFileFromChain(chain) == null)
 			return;
-		getFileObject(chain).getModel().updateParameters(chain, mediator, schedulerParam, processorParam, dispatcherParam);
+		getFileFromChain(chain).getModel().updateParameters(chain, mediator, schedulerParam, processorParam, dispatcherParam);
 	}
 
 	public AbstractCompositionFile getRepoElement(Object object) {

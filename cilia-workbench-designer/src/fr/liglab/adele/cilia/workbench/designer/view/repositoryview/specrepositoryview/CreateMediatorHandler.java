@@ -22,8 +22,8 @@ import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecFile;
-import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecModel;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**

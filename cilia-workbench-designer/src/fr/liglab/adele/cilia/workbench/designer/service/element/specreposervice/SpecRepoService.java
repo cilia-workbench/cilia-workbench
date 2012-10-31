@@ -23,17 +23,19 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.GenericRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecModel;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> implements ErrorsAndWarningsFinder {
+public class SpecRepoService extends GenericRepoService<SpecFile, SpecModel> implements ErrorsAndWarningsFinder {
 
 	/** Singleton instance */
 	private static SpecRepoService INSTANCE;
@@ -58,7 +60,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 	public List<MediatorSpec> getMediatorSpecs() {
 		List<MediatorSpec> retval = new ArrayList<MediatorSpec>();
 
-		for (SpecFile spec : model) {
+		for (SpecFile spec : repoContent) {
 			SpecModel abstractModel = spec.getModel();
 			if (abstractModel != null)
 				retval.addAll(abstractModel.getMediatorSpecs());
@@ -95,7 +97,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		}
 
 		// Update content provider
-		contentProvider = new SpecContentProvider(model);
+		contentProvider = new SpecContentProvider(repoContent);
 
 		// Update markers relative to this repository
 		updateMarkers();
@@ -116,7 +118,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 
-		retval.addAll(MergeUtil.mergeLists(repoElements, this.model));
+		retval.addAll(MergeUtil.mergeLists(repoElements, this.repoContent));
 
 		// path update
 		for (Changeset c : retval)
