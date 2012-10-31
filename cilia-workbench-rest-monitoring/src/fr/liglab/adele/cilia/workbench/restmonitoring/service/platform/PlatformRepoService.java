@@ -106,7 +106,7 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 
 	@Override
 	protected String getContentForNewFile(String... parameters) {
-		return "<" + PlatformModel.XML_NODE_NAME + " host=\"" + parameters[0] + "\" port=\"" + parameters[1] + "\">\n</" + PlatformModel.XML_NODE_NAME + ">";
+		return "<" + PlatformModel.ROOT_NODE_NAME + " host=\"" + parameters[0] + "\" port=\"" + parameters[1] + "\">\n</" + PlatformModel.ROOT_NODE_NAME + ">";
 	}
 
 	@Override

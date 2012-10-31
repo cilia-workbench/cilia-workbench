@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
+package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,14 +24,16 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class IFile<ModelType extends IModel<? extends Chain>> extends AbstractFile<ModelType> implements Mergeable {
+public abstract class ChainFile<ModelType extends ChainModel<? extends Chain>> extends AbstractFile<ModelType> implements Mergeable {
 
-	public IFile(File file) {
+	public ChainFile(File file) {
 		super(file);
 	}
 
@@ -39,7 +41,7 @@ public abstract class IFile<ModelType extends IModel<? extends Chain>> extends A
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		@SuppressWarnings("unchecked")
-		IFile<IModel<Chain>> newInstance = (IFile<IModel<Chain>>) other;
+		ChainFile<ChainModel<Chain>> newInstance = (ChainFile<ChainModel<Chain>>) other;
 
 		ModelType oldModel = getModel();
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");

@@ -24,7 +24,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.common.service.GenericModel;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplemUtil;
@@ -40,7 +40,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.SenderImpl
  * 
  * @author Etienne Gandrille
  */
-public class CiliaJarModel implements DisplayedInPropertiesView {
+public class CiliaJarModel extends GenericModel {
 
 	public static final String ROOT_NODE_NAME = "ipojo";
 
@@ -53,6 +53,7 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 	private List<AdapterImplem> adapters = new ArrayList<AdapterImplem>();
 
 	public CiliaJarModel(File file) throws CiliaException {
+		super(file, ROOT_NODE_NAME);
 
 		InputStream is = XMLHelpers.inputStreamFromFileInJarArchive(file, "metadata.xml");
 		Document document = XMLHelpers.getDocument(is);
@@ -86,10 +87,6 @@ public class CiliaJarModel implements DisplayedInPropertiesView {
 				}
 			}
 		}
-	}
-
-	private static Node getRootNode(Document document) throws CiliaException {
-		return XMLHelpers.getRootNode(document, ROOT_NODE_NAME);
 	}
 
 	public List<MediatorImplem> getMediatorComponents() {

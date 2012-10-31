@@ -26,15 +26,15 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractFile;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.ChainFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.IFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.IModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>, ModelType extends IModel<ChainType>, ChainType extends Chain>
+public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>, ModelType extends ChainModel<ChainType>, ChainType extends Chain>
 		extends AbstractRepoService<FileType, ModelType> implements ErrorsAndWarningsFinder {
 
 	private final String rootNodeName;
@@ -107,7 +107,7 @@ public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>,
 		return null;
 	}
 
-	public void createChain(IFile<?> repo, NameNamespaceID id) {
+	public void createChain(ChainFile<?> repo, NameNamespaceID id) {
 		if (repo.getModel() == null)
 			return;
 		if (isNewChainNameAllowed(id) != null)

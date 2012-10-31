@@ -16,12 +16,10 @@ package fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia;
 
 import java.io.File;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.IModel;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
 /**
@@ -30,22 +28,16 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSC
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaModel extends IModel<DSCiliaChain> {
+public class DSCiliaModel extends ChainModel<DSCiliaChain> {
 
 	public static final String ROOT_NODE_NAME = "cilia";
 
 	public DSCiliaModel(File file) throws Exception {
-		super(file, ROOT_NODE_NAME);
+		super(file, ROOT_NODE_NAME, DSCiliaRepoService.getInstance());
 
-		Document document = XMLHelpers.getDocument(file);
-		Node root = getRootNode(document);
+		Node root = getRootNode(getDocument());
 
 		for (Node node : XMLHelpers.findChildren(root, DSCiliaChain.XML_NODE_NAME))
 			model.add(new DSCiliaChain(node));
-	}
-
-	@Override
-	protected ChainRepoService<DSCiliaFile, DSCiliaModel, DSCiliaChain> getRepository() {
-		return DSCiliaRepoService.getInstance();
 	}
 }

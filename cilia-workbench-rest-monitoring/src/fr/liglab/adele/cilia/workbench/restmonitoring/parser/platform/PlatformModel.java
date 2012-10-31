@@ -28,27 +28,26 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
+import fr.liglab.adele.cilia.workbench.common.service.GenericModel;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class PlatformModel implements DisplayedInPropertiesView, Mergeable, ErrorsAndWarningsFinder {
+public class PlatformModel extends GenericModel implements Mergeable, ErrorsAndWarningsFinder {
 
-	public static final String XML_NODE_NAME = "cilia-platform";
+	public static final String ROOT_NODE_NAME = "cilia-platform";
 
 	private String host;
 	private String port;
-	private File file;
 
 	private List<PlatformChain> chains = new ArrayList<PlatformChain>();
 
 	public PlatformModel(File file) throws CiliaException {
-		this.file = file;
+		super(file, ROOT_NODE_NAME);
 
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
@@ -63,10 +62,6 @@ public class PlatformModel implements DisplayedInPropertiesView, Mergeable, Erro
 
 	public String getPort() {
 		return port;
-	}
-
-	private static Node getRootNode(Document document) throws CiliaException {
-		return XMLHelpers.getRootNode(document, XML_NODE_NAME);
 	}
 
 	@Override

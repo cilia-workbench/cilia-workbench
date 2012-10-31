@@ -33,8 +33,8 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.IModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;
@@ -42,7 +42,6 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentN
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
  * A {@link AbstractCompositionModel} represents the content of a <strong>well
@@ -50,27 +49,17 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompositionModel extends IModel<AbstractChain> {
+public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 
 	public static final String ROOT_NODE_NAME = "cilia-composition-specifications";
 
 	public AbstractCompositionModel(File file) throws CiliaException {
-		super(file, ROOT_NODE_NAME);
+		super(file, ROOT_NODE_NAME, AbstractCompositionsRepoService.getInstance());
 
-		Document document = XMLHelpers.getDocument(file);
-		Node root = getRootNode(document);
+		Node root = getRootNode(getDocument());
 
 		for (Node node : XMLHelpers.findChildren(root, Chain.XML_NODE_NAME))
-			try {
-				model.add(new AbstractChain(node));
-			} catch (CiliaException e) {
-				e.printStackTrace();
-			}
-	}
-
-	@Override
-	protected ChainRepoService<AbstractCompositionFile, AbstractCompositionModel, AbstractChain> getRepository() {
-		return AbstractCompositionsRepoService.getInstance();
+			model.add(new AbstractChain(node));
 	}
 
 	public void createMediator(AbstractChain chain, String id, IMediator type) throws CiliaException {
@@ -97,7 +86,7 @@ public class AbstractCompositionModel extends IModel<AbstractChain> {
 
 	private void createComponentInstanceInternal(AbstractChain chain, String id, NameNamespaceID type, String rootNode, String elementNode)
 			throws CiliaException {
-		Document document = XMLHelpers.getDocument(file);
+		Document document = getDocument();
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, rootNode);
 
@@ -108,11 +97,8 @@ public class AbstractCompositionModel extends IModel<AbstractChain> {
 			child.setAttribute(ComponentRef.XML_ATTR_NAMESPACE, type.getNamespace());
 		componentNode.appendChild(child);
 
-		// Write it back to file system
-		XMLHelpers.writeDOM(document, file);
-
-		// Notifies Repository
-		AbstractCompositionsRepoService.getInstance().updateModel();
+		writeToFile(document);
+		notifyRepository();
 	}
 
 	public void createBinding(AbstractChain chain, String srcElem, String srcPort, String dstElem, String dstPort, Cardinality srcCard, Cardinality dstCard)
@@ -131,7 +117,7 @@ public class AbstractCompositionModel extends IModel<AbstractChain> {
 			else
 				to = dstElem + ":" + dstPort;
 
-			Document document = XMLHelpers.getDocument(file);
+			Document document = getDocument();
 			Node chainNode = findXMLChainNode(document, chain.getId());
 			Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, AbstractChain.XML_ROOT_BINDINGS_NAME);
 
@@ -142,11 +128,8 @@ public class AbstractCompositionModel extends IModel<AbstractChain> {
 			child.setAttribute(AbstractBinding.XML_TO_CARD_ATTR, dstCard.stringId());
 			componentNode.appendChild(child);
 
-			// Write it back to file system
-			XMLHelpers.writeDOM(document, file);
-
-			// Notifies Repository
-			AbstractCompositionsRepoService.getInstance().updateModel();
+			writeToFile(document);
+			notifyRepository();
 		}
 	}
 
@@ -158,7 +141,7 @@ public class AbstractCompositionModel extends IModel<AbstractChain> {
 	}
 
 	private void deleteMediator(AbstractChain chain, MediatorRef mediator) throws CiliaException {
-		Document document = XMLHelpers.getDocument(file);
+		Document document = getDocument();
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_MEDIATORS_NAME);
 
@@ -175,12 +158,12 @@ public class AbstractCompositionModel extends IModel<AbstractChain> {
 			subNode.removeChild(leaf);
 
 		deleteBindingsWithReferenceToComponent(chainNode, mediator.getId());
-		XMLHelpers.writeDOM(document, file);
-		AbstractCompositionsRepoService.getInstance().updateModel();
+		writeToFile(document);
+		notifyRepository();
 	}
 
 	private void deleteAdapter(AbstractChain chain, AdapterRef adapter) throws CiliaException {
-		Document document = XMLHelpers.getDocument(file);
+		Document document = getDocument();
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_ADAPTERS_NAME);
 
@@ -196,8 +179,8 @@ public class AbstractCompositionModel extends IModel<AbstractChain> {
 			subNode.removeChild(leaf);
 
 		deleteBindingsWithReferenceToComponent(chainNode, adapter.getId());
-		XMLHelpers.writeDOM(document, file);
-		AbstractCompositionsRepoService.getInstance().updateModel();
+		writeToFile(document);
+		notifyRepository();
 	}
 
 	private void deleteBindingsWithReferenceToComponent(Node chainNode, String componentID) throws CiliaException {
@@ -226,7 +209,7 @@ public class AbstractCompositionModel extends IModel<AbstractChain> {
 	}
 
 	public void deleteBinding(AbstractChain chain, Binding binding) throws CiliaException {
-		Document document = XMLHelpers.getDocument(file);
+		Document document = getDocument();
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_BINDINGS_NAME);
 		if (subNode == null)
@@ -238,12 +221,12 @@ public class AbstractCompositionModel extends IModel<AbstractChain> {
 			throw new CiliaException("Can't find binding " + binding);
 		subNode.removeChild(nodes[0]);
 
-		XMLHelpers.writeDOM(document, file);
-		AbstractCompositionsRepoService.getInstance().updateModel();
+		writeToFile(document);
+		notifyRepository();
 	}
 
 	public void updateProperties(AbstractChain chain, MediatorSpecRef mediator, Map<String, String> properties) throws CiliaException {
-		Document document = XMLHelpers.getDocument(file);
+		Document document = getDocument();
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_MEDIATORS_NAME);
 		Node media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID, mediator.getId())[0];
@@ -259,13 +242,13 @@ public class AbstractCompositionModel extends IModel<AbstractChain> {
 					PropertyConstraint.XML_ATTR_VALUE, properties.get(key));
 		}
 
-		XMLHelpers.writeDOM(document, file);
-		AbstractCompositionsRepoService.getInstance().updateModel();
+		writeToFile(document);
+		notifyRepository();
 	}
 
 	public void updateParameters(AbstractChain chain, MediatorRef mediator, Map<String, String> schedulerParam, Map<String, String> processorParam,
 			Map<String, String> dispatcherParam) throws CiliaException {
-		Document document = XMLHelpers.getDocument(file);
+		Document document = getDocument();
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_MEDIATORS_NAME);
 
@@ -279,8 +262,8 @@ public class AbstractCompositionModel extends IModel<AbstractChain> {
 		updateParameterInternal(document, media, MediatorRef.XML_PROCESSOR_NODE, processorParam);
 		updateParameterInternal(document, media, MediatorRef.XML_DISPATCHER_NODE, dispatcherParam);
 
-		XMLHelpers.writeDOM(document, file);
-		AbstractCompositionsRepoService.getInstance().updateModel();
+		writeToFile(document);
+		notifyRepository();
 	}
 
 	private static void updateParameterInternal(Document document, Node mediatorRoot, String xmlPartName, Map<String, String> parameters) {

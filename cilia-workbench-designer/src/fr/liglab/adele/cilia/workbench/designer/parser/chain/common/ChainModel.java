@@ -25,10 +25,10 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.service.AbstractModel;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
@@ -37,40 +37,25 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public abstract class IModel<ChainType extends Chain> implements DisplayedInPropertiesView, Mergeable {
-
-	protected File file;
+public abstract class ChainModel<ChainType extends Chain> extends AbstractModel implements Mergeable {
 
 	protected List<ChainType> model = new ArrayList<ChainType>();
+	protected final ChainRepoService<?, ?, ChainType> repository;
 
-	private final String rootNodeName;
-
-	public IModel(File file, String rootNodeName) {
-		this.file = file;
-		this.rootNodeName = rootNodeName;
-	}
-
-	public File getFile() {
-		return file;
-	}
-
-	protected Node getRootNode(Document document) throws CiliaException {
-		return XMLHelpers.getRootNode(document, rootNodeName);
+	public ChainModel(File file, String rootNodeName, ChainRepoService<?, ?, ChainType> repository) {
+		super(file, rootNodeName);
+		this.repository = repository;
 	}
 
 	public List<ChainType> getChains() {
 		return model;
 	}
 
-	public String getRootNodeName() {
-		return rootNodeName;
-	}
-
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		@SuppressWarnings("unchecked")
-		IModel<ChainType> newInstance = (IModel<ChainType>) other;
+		ChainModel<ChainType> newInstance = (ChainModel<ChainType>) other;
 
 		retval.addAll(MergeUtil.mergeLists(newInstance.getChains(), model));
 
@@ -83,32 +68,27 @@ public abstract class IModel<ChainType extends Chain> implements DisplayedInProp
 	public void createChain(NameNamespaceID id) throws CiliaException {
 
 		// Document creation
-		Document document = XMLHelpers.getDocument(file);
+		Document document = getDocument();
 		Node root = getRootNode(document);
 		Element child = document.createElement(Chain.XML_NODE_NAME);
 		child.setAttribute(Chain.XML_ATTR_ID, id.getName());
 		child.setAttribute(Chain.XML_ATTR_NAMESPACE, id.getNamespace());
 		root.appendChild(child);
 
-		// Write it back to file system
-		XMLHelpers.writeDOM(document, file);
-
-		// Notifies Repository
-		getRepository().updateModel();
+		writeToFile(document);
+		notifyRepository();
 	}
 
 	public void deleteChain(NameNamespaceID id) throws CiliaException {
 
 		// Finding target node
-		Document document = XMLHelpers.getDocument(file);
+		Document document = getDocument();
 		Node target = findXMLChainNode(document, id);
 
 		if (target != null) {
 			getRootNode(document).removeChild(target);
-			XMLHelpers.writeDOM(document, file);
-
-			// Notifies Repository
-			getRepository().updateModel();
+			writeToFile(document);
+			notifyRepository();
 		}
 	}
 
@@ -128,5 +108,7 @@ public abstract class IModel<ChainType extends Chain> implements DisplayedInProp
 			return results[0];
 	}
 
-	protected abstract ChainRepoService<?, ?, ChainType> getRepository();
+	protected void notifyRepository() {
+		repository.updateModel();
+	}
 }

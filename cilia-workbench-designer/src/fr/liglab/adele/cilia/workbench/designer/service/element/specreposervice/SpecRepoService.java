@@ -127,7 +127,7 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 
 	@Override
 	protected String getContentForNewFile(String... parameters) {
-		return "<" + SpecModel.XML_NODE_NAME + ">\n</" + SpecModel.XML_NODE_NAME + ">";
+		return "<" + SpecModel.ROOT_NODE_NAME + ">\n</" + SpecModel.ROOT_NODE_NAME + ">";
 	}
 
 	public void deleteMediatorSpec(MediatorSpec mediator) {
@@ -141,15 +141,14 @@ public class SpecRepoService extends AbstractRepoService<SpecFile, SpecModel> im
 		}
 	}
 
-	public void updateMediatorSpec(MediatorSpec mediator, List<String> inPorts, List<String> outPorts,
-			List<String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
-			List<String> dispatcherParam) {
+	public void updateMediatorSpec(MediatorSpec mediator, List<String> inPorts, List<String> outPorts, List<String> mediatorProperties,
+			List<String> schedulerParam, List<String> processorParam, List<String> dispatcherParam) {
 		SpecFile file = (SpecFile) contentProvider.getParent(mediator);
 		if (file == null)
 			return;
 		try {
-			file.getModel().updateMediatorSpec((NameNamespaceID) mediator.getId(), inPorts, outPorts,
-					mediatorProperties, schedulerParam, processorParam, dispatcherParam);
+			file.getModel().updateMediatorSpec((NameNamespaceID) mediator.getId(), inPorts, outPorts, mediatorProperties, schedulerParam, processorParam,
+					dispatcherParam);
 		} catch (CiliaException e) {
 			e.printStackTrace();
 		}

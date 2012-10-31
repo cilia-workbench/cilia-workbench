@@ -25,9 +25,9 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.GenericModel;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 
@@ -36,29 +36,22 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec
  * 
  * @author Etienne Gandrille
  */
-public class SpecModel implements DisplayedInPropertiesView, Mergeable {
+public class SpecModel extends GenericModel implements Mergeable {
 
-	public static final String XML_NODE_NAME = "cilia-specifications";
+	public static final String ROOT_NODE_NAME = "cilia-specifications";
 
-	private File file;
 	private List<MediatorSpec> mediatorSpecs = new ArrayList<MediatorSpec>();
 
 	public SpecModel(File file) throws CiliaException {
-		this.file = file;
+		super(file, ROOT_NODE_NAME);
 
-		Document document = XMLHelpers.getDocument(file);
-		Node root = getRootNode(document);
-
+		Node root = getRootNode(getDocument());
 		for (Node node : XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME))
 			mediatorSpecs.add(new MediatorSpec(node));
 	}
 
 	public List<MediatorSpec> getMediatorSpecs() {
 		return mediatorSpecs;
-	}
-
-	private static Node getRootNode(Document document) throws CiliaException {
-		return XMLHelpers.getRootNode(document, XML_NODE_NAME);
 	}
 
 	@Override
@@ -78,24 +71,21 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 	public void deleteMediatorSpec(NameNamespaceID id) throws CiliaException {
 
 		// Finding target node
-		Document document = XMLHelpers.getDocument(file);
+		Document document = getDocument();
 		Node target = findXMLMediatorNode(document, id);
 
 		if (target != null) {
 			getRootNode(document).removeChild(target);
-			XMLHelpers.writeDOM(document, file);
-
-			// Notifies Repository
-			SpecRepoService.getInstance().updateModel();
+			writeToFile(document);
+			notifyRepository();
 		}
 	}
 
-	public void updateMediatorSpec(NameNamespaceID id, List<String> inPorts, List<String> outPorts,
-			List<String> mediatorProperties, List<String> schedulerParam, List<String> processorParam,
-			List<String> dispatcherParam) throws CiliaException {
+	public void updateMediatorSpec(NameNamespaceID id, List<String> inPorts, List<String> outPorts, List<String> mediatorProperties,
+			List<String> schedulerParam, List<String> processorParam, List<String> dispatcherParam) throws CiliaException {
 
 		// Finding target node
-		Document document = XMLHelpers.getDocument(file);
+		Document document = getDocument();
 		Node target = findXMLMediatorNode(document, id);
 		Node parent = getRootNode(document);
 
@@ -127,16 +117,14 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 		for (String param : dispatcherParam)
 			MediatorSpec.createDispatcherParameter(document, spec, param);
 
-		XMLHelpers.writeDOM(document, file);
-
-		// Notifies Repository
-		SpecRepoService.getInstance().updateModel();
+		writeToFile(document);
+		notifyRepository();
 	}
 
 	private Node findXMLMediatorNode(Document document, NameNamespaceID id) throws CiliaException {
 		Node root = getRootNode(document);
-		Node[] results = XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME, MediatorSpec.XML_ATTR_ID,
-				id.getName(), MediatorSpec.XML_ATTR_NAMESPACE, id.getNamespace());
+		Node[] results = XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME, MediatorSpec.XML_ATTR_ID, id.getName(), MediatorSpec.XML_ATTR_NAMESPACE,
+				id.getNamespace());
 
 		if (results.length == 0)
 			return null;
@@ -147,16 +135,16 @@ public class SpecModel implements DisplayedInPropertiesView, Mergeable {
 	public void createMediatorSpec(NameNamespaceID id) throws CiliaException {
 
 		if (SpecRepoService.getInstance().isNewMediatorSpecAllowed(id) == null) {
-			Document document = XMLHelpers.getDocument(file);
+			Document document = getDocument();
 			Node parent = getRootNode(document);
 
 			MediatorSpec.createXMLSpec(document, parent, id);
-
-			// Write it back to file system
-			XMLHelpers.writeDOM(document, file);
-
-			// Notifies Repository
-			SpecRepoService.getInstance().updateModel();
+			writeToFile(document);
+			notifyRepository();
 		}
+	}
+
+	private void notifyRepository() {
+		SpecRepoService.getInstance().updateModel();
 	}
 }
