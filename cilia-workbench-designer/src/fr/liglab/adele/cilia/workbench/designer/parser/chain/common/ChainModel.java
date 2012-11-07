@@ -147,6 +147,23 @@ public abstract class ChainModel<ChainType extends Chain> extends AbstractModel 
 		}
 	}
 
+	public void deleteBinding(Chain chain, Binding binding) throws CiliaException {
+		Document document = getDocument();
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_BINDINGS_NAME);
+		if (subNode == null)
+			return;
+
+		Node[] nodes = XMLHelpers.findChildren(subNode, Binding.XML_NODE_NAME, Binding.XML_FROM_ATTR, binding.getSource(), Binding.XML_TO_ATTR,
+				binding.getDestination());
+		if (nodes.length == 0)
+			throw new CiliaException("Can't find binding " + binding);
+		subNode.removeChild(nodes[0]);
+
+		writeToFile(document);
+		notifyRepository();
+	}
+
 	protected Node findXMLChainNode(Document document, NameNamespaceID id) throws CiliaException {
 		Node root = getRootNode(document);
 		Node[] results;

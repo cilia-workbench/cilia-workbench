@@ -155,23 +155,6 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 		}
 	}
 
-	public void deleteBinding(AbstractChain chain, Binding binding) throws CiliaException {
-		Document document = getDocument();
-		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_BINDINGS_NAME);
-		if (subNode == null)
-			return;
-
-		Node[] nodes = XMLHelpers.findChildren(subNode, Binding.XML_NODE_NAME, Binding.XML_FROM_ATTR, binding.getSource(), Binding.XML_TO_ATTR,
-				binding.getDestination());
-		if (nodes.length == 0)
-			throw new CiliaException("Can't find binding " + binding);
-		subNode.removeChild(nodes[0]);
-
-		writeToFile(document);
-		notifyRepository();
-	}
-
 	public void updateProperties(AbstractChain chain, MediatorSpecRef mediator, Map<String, String> properties) throws CiliaException {
 		Document document = getDocument();
 		Node chainNode = findXMLChainNode(document, chain.getId());
