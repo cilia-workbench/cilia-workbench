@@ -2,18 +2,18 @@
 <cilia>
 	<chain id="simple-chain" namespace="fr.liglab.adele.cilia.workbench.example">
 		<mediators>
-			<mediator-instance id="sum" namespace="fr.liglab.adele.cilia" type="sum-mediator"/>
 			<mediator-instance id="average" namespace="fr.liglab.adele.cilia" type="average-mediator"/>
+			<mediator-instance id="sum" namespace="fr.liglab.adele.cilia" type="sum-mediator"/>
 		</mediators>
-	<adapters>
-<adapter-instance id="random-generator" namespace="fr.liglab.adele.cilia" type="random-generator"/>
-<adapter-instance id="console" namespace="fr.liglab.adele.cilia" type="console-adapter"/>
-</adapters>
-<bindings>
-<binding from="random-generator" to="sum:in"/>
-<binding from="random-generator" to="average:in"/>
-<binding from="sum:out" to="console"/>
-<binding from="average:out" to="console"/>
-</bindings>
-</chain>
+		<adapters>
+			<adapter-instance id="random-generator" namespace="fr.liglab.adele.cilia" type="random-generator"/>
+			<adapter-instance id="console" namespace="fr.liglab.adele.cilia" type="console-adapter"/>
+		</adapters>
+		<bindings>
+			<binding from="random-generator" to="average:in"/>
+			<binding from="random-generator" to="sum:in"/>
+			<binding from="average:out" to="console"/>
+			<binding from="sum:out" to="console"/>
+		</bindings>
+	</chain>
 </cilia>
