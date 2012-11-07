@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Shell;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
@@ -34,9 +34,9 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.J
  */
 public class NewAdapterDialog extends TextListDialog {
 
-	private final AbstractChain chain;
+	private final Chain chain;
 
-	public NewAdapterDialog(Shell parentShell, AbstractChain chain) {
+	public NewAdapterDialog(Shell parentShell, Chain chain) {
 		super(parentShell, "New Adapter", "id", "type", getListValues());
 		this.chain = chain;
 	}

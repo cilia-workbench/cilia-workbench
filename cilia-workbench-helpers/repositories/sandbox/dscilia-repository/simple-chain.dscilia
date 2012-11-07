@@ -5,5 +5,8 @@
 			<mediator-instance id="sum" namespace="fr.liglab.adele.cilia" type="sum-mediator"/>
 			<mediator-instance id="average" namespace="fr.liglab.adele.cilia" type="average-mediator"/>
 		</mediators>
-	</chain>
+	<adapters>
+<adapter-instance id="random-generator" namespace="fr.liglab.adele.cilia" type="random-generator"/>
+</adapters>
+</chain>
 </cilia>

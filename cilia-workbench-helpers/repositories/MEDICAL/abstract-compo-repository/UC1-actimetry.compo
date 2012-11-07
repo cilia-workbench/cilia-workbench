@@ -4,10 +4,10 @@
 	<chain id="full-archi" type="generator-mesures">
 
 		<adapters>
-			<adapter-instance id="set-top-box" type="stb-sensor"/>
-			<adapter-instance id="push-button" type="push-button-sensor"/>
-			<adapter-instance id="event-webservice" type="console-writer"/>
-			<adapter-instance id="motion-sensor" namespace="fr.liglab.adele.cilia" type="motion-sensor"/>
+			<adapter-implem id="set-top-box" type="stb-sensor"/>
+			<adapter-implem id="push-button" type="push-button-sensor"/>
+			<adapter-implem id="event-webservice" type="console-writer"/>
+			<adapter-implem id="motion-sensor" namespace="fr.liglab.adele.cilia" type="motion-sensor"/>
 		</adapters>
 
 		<mediators>
@@ -24,9 +24,8 @@
 			<mediator-specification id="stb-translate" namespace="fr.orange" type="MeasureTranslatorMediator"/>
 			<mediator-specification id="motion-enrich" namespace="fr.orange" type="MeasureEnricherMediator"/>
 			<mediator-specification id="motion-translate" namespace="fr.orange" type="MeasureTranslatorMediator"/>
-			<mediator-specification id="enrich-v3" namespace="fr.orange" type="MeasureEnricherMediator"/>
-		
-</mediators>
+			<mediator-specification id="enrich-v3" namespace="fr.orange" type="MeasureEnricherMediator"/>	
+		</mediators>
 
 		<bindings>
 			<binding from="transform:out" from-cardinality="1..1" to="translate:in" to-cardinality="1..1"/>
@@ -48,10 +47,10 @@
 	<chain id="simple-archi" type="generator-mesures">
 
 		<adapters>
-			<adapter-instance id="set-top-box" type="stb-sensor"/>
-			<adapter-instance id="push-button" type="push-button-sensor"/>
-			<adapter-instance id="event-webservice" type="console-writer"/>
-			<adapter-instance id="motion-sensor" namespace="fr.liglab.adele.cilia" type="motion-sensor"/>
+			<adapter-implem id="set-top-box" type="stb-sensor"/>
+			<adapter-implem id="push-button" type="push-button-sensor"/>
+			<adapter-implem id="event-webservice" type="console-writer"/>
+			<adapter-implem id="motion-sensor" namespace="fr.liglab.adele.cilia" type="motion-sensor"/>
 		</adapters>
 
 		<mediators>
@@ -80,23 +79,18 @@
 	<chain id="paul-archi-OLD" type="generator-mesures">
 
 		<adapters>
-			<adapter-instance id="presence-collector" type="PresenceDetectorAdapter"/> 
-			<adapter-instance id="event-webservice" type="EventServiceAdapter"/>
-		
-</adapters>
+			<adapter-implem id="presence-collector" type="PresenceDetectorAdapter"/> 
+			<adapter-implem id="event-webservice" type="EventServiceAdapter"/>
+		</adapters>
 
 		<mediators>
-			<mediator-instance id="filter" type="MeasureFilterMediator"/>
-			<mediator-instance id="enricher" type="MeasureEnricherMediator"/>
-			<mediator-instance id="transformer" type="MeasureTransformerMediator">
+			<mediator-implem id="filter" type="MeasureFilterMediator"/>
+			<mediator-implem id="enricher" type="MeasureEnricherMediator"/>
+			<mediator-implem id="transformer" type="MeasureTransformerMediator">
 				<processor>
-					
-				
-
-
-<property name="user" value="Paul"/>
-</processor>
-			</mediator-instance>
+					<property name="user" value="Paul"/>
+				</processor>
+			</mediator-implem>
 		</mediators>
 		
 		<bindings>
@@ -104,10 +98,7 @@
 			<binding from="filter:out" from-cardinality="1..1" to="enricher:in" to-cardinality="1..n"/>
 			<binding from="enricher:out" from-cardinality="1..1" to="transformer:in" to-cardinality="1..n"/>
 			<binding from="transformer:out" from-cardinality="1..1" to="event-webservice" to-cardinality="1..n"/>
-		
-</bindings>
+		</bindings>
 	</chain>
-
-
 
 </cilia-composition-specifications>

@@ -3,12 +3,12 @@
 
 	<chain id="simple-chain" namespace="fr.liglab.adele.cilia.workbench.example">
 		<mediators>
-			<mediator-inplem id="sum" namespace="fr.liglab.adele.cilia"	type="sum-mediator" />
+			<mediator-implem id="sum" namespace="fr.liglab.adele.cilia"	type="sum-mediator" />
 			<mediator-specification id="average" namespace="fr.imag.adele.cilia.workbench.spec" type="average-mediator" />
 		</mediators>
 		<adapters>
-			<adapter-instance id="console" namespace="fr.liglab.adele.cilia" type="console-adapter" />
-			<adapter-instance id="generator" namespace="fr.liglab.adele.cilia" type="number-generator-adapter" />
+			<adapter-implem id="console" namespace="fr.liglab.adele.cilia" type="console-adapter" />
+			<adapter-implem id="generator" namespace="fr.liglab.adele.cilia" type="number-generator-adapter" />
 		</adapters>
 		<bindings>
 			<binding from="generator" from-cardinality="1..1" to="sum:in" to-cardinality="0..1" />

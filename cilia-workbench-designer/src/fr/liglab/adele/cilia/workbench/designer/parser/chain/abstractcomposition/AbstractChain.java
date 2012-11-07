@@ -19,8 +19,10 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
@@ -31,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
 public class AbstractChain extends Chain {
 
 	public AbstractChain(Node node) throws CiliaException {
-		super(node);
+		super(node, MediatorImplemRef.XML_NODE_NAME_FOR_ABSTRACT, AdapterImplemRef.XML_NODE_NAME_FOR_ABSTRACT);
 
 		// Adapters specifications references must be added here as soon as they
 		// will be implemented

@@ -124,14 +124,14 @@ public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsA
 
 	public Binding getIncommingBinding(ComponentRef source) {
 		for (Binding b : getIncommingBindings())
-			if (b.getSourceComponent().equals(source))
+			if (b.getSourceComponent() != null && b.getSourceComponent().equals(source))
 				return b;
 		return null;
 	}
 
 	public Binding getOutgoingBinding(ComponentRef destination) {
 		for (Binding b : getOutgoingBindings())
-			if (b.getDestinationComponent().equals(destination))
+			if (b.getDestinationComponent() != null && b.getDestinationComponent().equals(destination))
 				return b;
 		return null;
 	}

@@ -18,8 +18,10 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
@@ -30,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSC
 public class DSCiliaChain extends Chain {
 
 	public DSCiliaChain(Node node) throws CiliaException {
-		super(node);
+		super(node, MediatorImplemRef.XML_NODE_NAME_FOR_DSCILIA, AdapterImplemRef.XML_NODE_NAME_FOR_DSCILIA);
 	}
 
 	@Override

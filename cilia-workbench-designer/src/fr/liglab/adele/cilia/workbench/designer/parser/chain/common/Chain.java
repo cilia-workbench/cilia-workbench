@@ -62,15 +62,15 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 	protected List<MediatorRef> mediators = new ArrayList<MediatorRef>();
 	protected List<Binding> bindings = new ArrayList<Binding>();
 
-	public Chain(Node node) throws CiliaException {
+	public Chain(Node node, String mediatorXMLNodeName, String adapterXMLNodeName) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "name");
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
 
 		Node rootAdapters = XMLHelpers.findChild(node, XML_ROOT_ADAPTERS_NAME);
 		if (rootAdapters != null) {
-			for (Node instance : XMLHelpers.findChildren(rootAdapters, AdapterInplemRef.XML_NODE_NAME))
+			for (Node instance : XMLHelpers.findChildren(rootAdapters, adapterXMLNodeName))
 				try {
-					adapters.add(new AdapterInplemRef(instance, getId(), getRepository()));
+					adapters.add(new AdapterImplemRef(instance, getId(), getRepository()));
 				} catch (CiliaException e) {
 					e.printStackTrace();
 				}
@@ -78,7 +78,7 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 
 		Node rootMediators = XMLHelpers.findChild(node, XML_ROOT_MEDIATORS_NAME);
 		if (rootMediators != null) {
-			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorImplemRef.XML_NODE_NAME_FOR_DSCILIA)) {
+			for (Node instance : XMLHelpers.findChildren(rootMediators, mediatorXMLNodeName)) {
 				try {
 					MediatorImplemRef mi = new MediatorImplemRef(instance, getId(), getRepository());
 					mediators.add(mi);
@@ -173,7 +173,7 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 			throw new CiliaException("can't find component with id " + componentID);
 
 		NameNamespaceID referencedID = component.getReferencedTypeID();
-		if (component instanceof AdapterInplemRef) {
+		if (component instanceof AdapterImplemRef) {
 			IAdapter adapterInstance = JarRepoService.getInstance().getAdapterForChain(referencedID);
 			if (adapterInstance == null)
 				throw new CiliaException("Adapter " + componentID + " doesn't reference a valid adapter instance.");

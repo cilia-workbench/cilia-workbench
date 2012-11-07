@@ -24,6 +24,7 @@ import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesigne
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
@@ -89,5 +90,11 @@ public class DSCiliaRepoService extends ChainRepoService<DSCiliaFile, DSCiliaMod
 		if (getFileFromChain(chain) == null)
 			return;
 		getFileFromChain(chain).getModel().createMediator(chain, id, type);
+	}
+
+	public void createAdapter(DSCiliaChain chain, String id, IAdapter type) throws CiliaException {
+		if (getFileFromChain(chain) == null)
+			return;
+		getFileFromChain(chain).getModel().createAdapter(chain, id, type);
 	}
 }

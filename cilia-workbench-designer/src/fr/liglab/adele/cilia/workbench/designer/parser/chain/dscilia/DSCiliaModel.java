@@ -20,10 +20,12 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
@@ -55,4 +57,12 @@ public class DSCiliaModel extends ChainModel<DSCiliaChain> {
 		}
 	}
 
+	public void createAdapter(DSCiliaChain chain, String id, IAdapter type) throws CiliaException {
+		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
+			if (type.getNature() == ComponentNature.IMPLEM)
+				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_ADAPTERS_NAME, AdapterImplemRef.XML_NODE_NAME_FOR_DSCILIA);
+			else
+				throw new RuntimeException("Not an implem...");
+		}
+	}
 }

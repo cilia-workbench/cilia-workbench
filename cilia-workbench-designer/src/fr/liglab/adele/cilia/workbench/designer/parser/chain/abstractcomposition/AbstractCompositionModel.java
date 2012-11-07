@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterInplemRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Cardinality;
@@ -64,9 +64,9 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 	public void createMediator(AbstractChain chain, String id, IMediator type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
 			if (type.getNature() == ComponentNature.SPEC)
-				createComponentInstanceInternal(chain, id, type.getId(), AbstractChain.XML_ROOT_MEDIATORS_NAME, MediatorSpecRef.XML_NODE_NAME);
+				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_MEDIATORS_NAME, MediatorSpecRef.XML_NODE_NAME);
 			else if (type.getNature() == ComponentNature.IMPLEM)
-				createComponentInstanceInternal(chain, id, type.getId(), AbstractChain.XML_ROOT_MEDIATORS_NAME, MediatorImplemRef.XML_NODE_NAME_FOR_ABSTRACT);
+				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_MEDIATORS_NAME, MediatorImplemRef.XML_NODE_NAME_FOR_ABSTRACT);
 			else
 				throw new CiliaException("Not a spec nor an implem...");
 		}
@@ -77,7 +77,7 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 			if (type.getNature() == ComponentNature.SPEC)
 				throw new RuntimeException("Not yet implemented in spec repository view...");
 			else if (type.getNature() == ComponentNature.IMPLEM)
-				createComponentInstanceInternal(chain, id, type.getId(), AbstractChain.XML_ROOT_ADAPTERS_NAME, AdapterInplemRef.XML_NODE_NAME);
+				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_ADAPTERS_NAME, AdapterImplemRef.XML_NODE_NAME_FOR_ABSTRACT);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
 		}
@@ -150,8 +150,8 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_ADAPTERS_NAME);
 
 		Node leafs[] = null;
-		if (adapter instanceof AdapterInplemRef)
-			leafs = XMLHelpers.findChildren(subNode, AdapterInplemRef.XML_NODE_NAME, AdapterInplemRef.XML_ATTR_ID, adapter.getId());
+		if (adapter instanceof AdapterImplemRef)
+			leafs = XMLHelpers.findChildren(subNode, AdapterImplemRef.XML_NODE_NAME_FOR_ABSTRACT, AdapterImplemRef.XML_ATTR_ID, adapter.getId());
 		// Adapter spec...
 
 		if (leafs == null || leafs.length == 0)
