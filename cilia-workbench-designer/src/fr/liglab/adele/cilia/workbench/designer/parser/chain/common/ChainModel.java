@@ -30,8 +30,10 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractBinding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
@@ -182,5 +184,73 @@ public abstract class ChainModel<ChainType extends Chain> extends AbstractModel 
 
 	protected void notifyRepository() {
 		repository.updateModel();
+	}
+
+	protected void deleteMediator(Chain chain, MediatorRef mediator, String XMLNodeName) throws CiliaException {
+		Document document = getDocument();
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_MEDIATORS_NAME);
+
+		Node leafs[] = null;
+		if (mediator instanceof MediatorImplemRef)
+			leafs = XMLHelpers.findChildren(subNode, XMLNodeName, MediatorImplemRef.XML_ATTR_ID, mediator.getId());
+		if (mediator instanceof MediatorSpecRef)
+			leafs = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID, mediator.getId());
+
+		if (leafs == null || leafs.length == 0)
+			throw new CiliaException("Can't find mediator with id " + mediator.getId() + " in XML file");
+
+		for (Node leaf : leafs)
+			subNode.removeChild(leaf);
+
+		deleteBindingsWithReferenceToComponent(chainNode, mediator.getId());
+		writeToFile(document);
+		notifyRepository();
+	}
+
+	protected void deleteAdapter(Chain chain, AdapterRef adapter, String XMLNodeName) throws CiliaException {
+		Document document = getDocument();
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_ADAPTERS_NAME);
+
+		Node leafs[] = null;
+		if (adapter instanceof AdapterImplemRef)
+			leafs = XMLHelpers.findChildren(subNode, XMLNodeName, AdapterImplemRef.XML_ATTR_ID, adapter.getId());
+		// Adapter spec...
+
+		if (leafs == null || leafs.length == 0)
+			throw new CiliaException("Can't find adapter with id " + adapter.getId() + " in XML file");
+
+		for (Node leaf : leafs)
+			subNode.removeChild(leaf);
+
+		deleteBindingsWithReferenceToComponent(chainNode, adapter.getId());
+		writeToFile(document);
+		notifyRepository();
+	}
+
+	private void deleteBindingsWithReferenceToComponent(Node chainNode, String componentID) throws CiliaException {
+		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_BINDINGS_NAME);
+		if (subNode == null)
+			return;
+
+		// finds nodes
+		List<Node> nodes = new ArrayList<Node>();
+		Node bindings[] = XMLHelpers.findChildren(subNode, Binding.XML_NODE_NAME);
+		for (Node binding : bindings) {
+			String from = XMLHelpers.findAttributeValue(binding, Binding.XML_FROM_ATTR);
+			String to = XMLHelpers.findAttributeValue(binding, Binding.XML_TO_ATTR);
+
+			String fromID = XMLStringUtil.getBeforeSeparatorOrAll(from);
+			String toID = XMLStringUtil.getBeforeSeparatorOrAll(to);
+
+			if (fromID.equalsIgnoreCase(componentID) || toID.equalsIgnoreCase(componentID))
+				nodes.add(binding);
+		}
+
+		// remove nodes
+		for (Node binding : nodes) {
+			subNode.removeChild(binding);
+		}
 	}
 }

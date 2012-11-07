@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaModel;
@@ -97,6 +98,12 @@ public class DSCiliaRepoService extends ChainRepoService<DSCiliaFile, DSCiliaMod
 		if (getFileFromChain(chain) == null)
 			return;
 		getFileFromChain(chain).getModel().createAdapter(chain, id, type);
+	}
+
+	public void deleteComponent(DSCiliaChain chain, ComponentRef component) throws CiliaException {
+		if (getFileFromChain(chain) == null)
+			return;
+		getFileFromChain(chain).getModel().deleteComponent(chain, component);
 	}
 
 	public void createBinding(DSCiliaChain chain, String srcElem, String srcPort, String dstElem, String dstPort) throws CiliaException {

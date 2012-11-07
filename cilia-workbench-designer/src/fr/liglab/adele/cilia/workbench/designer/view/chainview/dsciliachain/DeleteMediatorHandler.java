@@ -16,8 +16,13 @@ package fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.DeleteMediatorDialog;
 
 /**
  * 
@@ -27,6 +32,23 @@ public class DeleteMediatorHandler extends DSCiliaChainHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return ViewUtil.notYetImplementedHandler(event);
+		DSCiliaChain model = getDisplayedModel(event);
+
+		if (model != null) {
+			DeleteMediatorDialog window = new DeleteMediatorDialog(ViewUtil.getShell(event), model);
+			if (window.open() == Window.OK) {
+				Object[] objects = window.getResult();
+				if (objects.length != 0) {
+					MediatorRef component = (MediatorRef) objects[0];
+					try {
+						DSCiliaRepoService.getInstance().deleteComponent(model, component);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+		return null;
 	}
 }

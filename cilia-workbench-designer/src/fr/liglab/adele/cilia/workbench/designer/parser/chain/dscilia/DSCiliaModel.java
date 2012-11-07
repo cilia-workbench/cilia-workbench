@@ -20,10 +20,11 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterImplemRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
@@ -39,6 +40,9 @@ public class DSCiliaModel extends ChainModel<DSCiliaChain> {
 
 	public static final String ROOT_NODE_NAME = "cilia";
 
+	public static final String XML_ADAPTER_NODE_NAME = "adapter-instance";
+	public static final String XML_MEDIATOR_NODE_NAME = "mediator-instance";
+
 	public DSCiliaModel(File file) throws Exception {
 		super(file, ROOT_NODE_NAME, DSCiliaRepoService.getInstance());
 
@@ -51,7 +55,7 @@ public class DSCiliaModel extends ChainModel<DSCiliaChain> {
 	public void createMediator(DSCiliaChain chain, String id, IMediator type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
 			if (type.getNature() == ComponentNature.IMPLEM)
-				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_MEDIATORS_NAME, MediatorImplemRef.XML_NODE_NAME_FOR_DSCILIA);
+				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_MEDIATORS_NAME, XML_MEDIATOR_NODE_NAME);
 			else
 				throw new CiliaException("Not an implem...");
 		}
@@ -60,9 +64,16 @@ public class DSCiliaModel extends ChainModel<DSCiliaChain> {
 	public void createAdapter(DSCiliaChain chain, String id, IAdapter type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
 			if (type.getNature() == ComponentNature.IMPLEM)
-				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_ADAPTERS_NAME, AdapterImplemRef.XML_NODE_NAME_FOR_DSCILIA);
+				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_ADAPTERS_NAME, XML_ADAPTER_NODE_NAME);
 			else
 				throw new RuntimeException("Not an implem...");
 		}
+	}
+
+	public void deleteComponent(Chain chain, ComponentRef component) throws CiliaException {
+		if (component instanceof AdapterRef)
+			deleteAdapter(chain, (AdapterRef) component, XML_ADAPTER_NODE_NAME);
+		else
+			deleteMediator(chain, (MediatorRef) component, XML_MEDIATOR_NODE_NAME);
 	}
 }
