@@ -16,8 +16,13 @@ package fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.window.Window;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.NewBindingDialog;
 
 /**
  * 
@@ -27,6 +32,24 @@ public class CreateBindingHandler extends DSCiliaChainHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		return ViewUtil.notYetImplementedHandler(event);
+		DSCiliaChain model = getDisplayedModel(event);
+
+		if (model != null) {
+			NewBindingDialog window = new NewBindingDialog(ViewUtil.getShell(event), model, false);
+			if (window.open() == Window.OK) {
+				String srcElem = window.getSrcElem();
+				String dstElem = window.getDstElem();
+				String srcPort = window.getSrcPort();
+				String dstPort = window.getDstPort();
+
+				try {
+					DSCiliaRepoService.getInstance().createBinding(model, srcElem, srcPort, dstElem, dstPort);
+				} catch (CiliaException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return null;
 	}
 }

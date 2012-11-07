@@ -97,4 +97,10 @@ public class DSCiliaRepoService extends ChainRepoService<DSCiliaFile, DSCiliaMod
 			return;
 		getFileFromChain(chain).getModel().createAdapter(chain, id, type);
 	}
+
+	public void createBinding(DSCiliaChain chain, String srcElem, String srcPort, String dstElem, String dstPort) throws CiliaException {
+		if (getFileFromChain(chain) == null)
+			return;
+		getFileFromChain(chain).getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort, null, null);
+	}
 }

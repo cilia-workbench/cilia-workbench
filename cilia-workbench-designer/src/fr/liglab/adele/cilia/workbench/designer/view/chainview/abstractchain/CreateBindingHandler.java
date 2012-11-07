@@ -36,7 +36,7 @@ public class CreateBindingHandler extends AbstractChainHandler {
 		AbstractChain model = getDisplayedModel(event);
 
 		if (model != null) {
-			NewBindingDialog window = new NewBindingDialog(ViewUtil.getShell(event), model);
+			NewBindingDialog window = new NewBindingDialog(ViewUtil.getShell(event), model, true);
 			if (window.open() == Window.OK) {
 				String srcElem = window.getSrcElem();
 				String dstElem = window.getDstElem();

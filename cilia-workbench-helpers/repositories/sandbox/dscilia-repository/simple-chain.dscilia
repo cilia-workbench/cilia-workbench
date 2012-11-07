@@ -9,5 +9,11 @@
 <adapter-instance id="random-generator" namespace="fr.liglab.adele.cilia" type="random-generator"/>
 <adapter-instance id="console" namespace="fr.liglab.adele.cilia" type="console-adapter"/>
 </adapters>
+<bindings>
+<binding from="random-generator" to="sum:in"/>
+<binding from="random-generator" to="average:in"/>
+<binding from="sum:out" to="console"/>
+<binding from="average:out" to="console"/>
+</bindings>
 </chain>
 </cilia>

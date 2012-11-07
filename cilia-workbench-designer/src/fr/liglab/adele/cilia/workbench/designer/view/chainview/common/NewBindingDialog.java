@@ -28,9 +28,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Cardinality;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
@@ -45,7 +45,9 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 public class NewBindingDialog extends WorkbenchDialog {
 
 	// The parent chain
-	private final AbstractChain chain;
+	private final Chain chain;
+
+	private final boolean withCardinalies;
 
 	private static final String windowTitle = "New binding";
 
@@ -73,9 +75,10 @@ public class NewBindingDialog extends WorkbenchDialog {
 	private static final String DST_COLUMN_KEY = "IN";
 	private static final String SRC_COLUMN_KEY = "OUT";
 
-	public NewBindingDialog(Shell parentShell, AbstractChain chain) {
+	public NewBindingDialog(Shell parentShell, Chain chain, boolean withCardinalies) {
 		super(parentShell, windowTitle, new Point(550, 300), false);
 		this.chain = chain;
+		this.withCardinalies = withCardinalies;
 	}
 
 	protected Control createDialogArea(Composite parent) {
@@ -146,25 +149,27 @@ public class NewBindingDialog extends WorkbenchDialog {
 		dstPortCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// Cardinalities
-		Label label6 = new Label(container, SWT.WRAP);
-		label6.setText("Cardinalities");
-		label6.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		if (withCardinalies) {
+			Label label6 = new Label(container, SWT.WRAP);
+			label6.setText("Cardinalities");
+			label6.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		// Source cardinality
-		srcCardinalityCombo = new Combo(container, SWT.READ_ONLY);
-		srcCardinalityCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			// Source cardinality
+			srcCardinalityCombo = new Combo(container, SWT.READ_ONLY);
+			srcCardinalityCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		// Destination cardinality
-		dstCardinalityCombo = new Combo(container, SWT.READ_ONLY);
-		dstCardinalityCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			// Destination cardinality
+			dstCardinalityCombo = new Combo(container, SWT.READ_ONLY);
+			dstCardinalityCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		// populating
-		for (Cardinality c : Cardinality.values()) {
-			srcCardinalityCombo.add(c.stringId());
-			dstCardinalityCombo.add(c.stringId());
+			// populating
+			for (Cardinality c : Cardinality.values()) {
+				srcCardinalityCombo.add(c.stringId());
+				dstCardinalityCombo.add(c.stringId());
+			}
+			srcCardinalityCombo.select(2); // 1..1
+			dstCardinalityCombo.select(2); // 1..1
 		}
-		srcCardinalityCombo.select(2); // 1...1
-		dstCardinalityCombo.select(2); // 1...1
 
 		// Message Area
 		messageArea = new Label(container, SWT.WRAP);
@@ -176,8 +181,12 @@ public class NewBindingDialog extends WorkbenchDialog {
 		dstElemCombo.addModifyListener(iListener);
 		srcPortCombo.addModifyListener(iListener);
 		dstPortCombo.addModifyListener(iListener);
-		srcCardinalityCombo.addModifyListener(iListener);
-		dstCardinalityCombo.addModifyListener(iListener);
+
+		if (withCardinalies) {
+			srcCardinalityCombo.addModifyListener(iListener);
+			dstCardinalityCombo.addModifyListener(iListener);
+		}
+
 		srcElemCombo.addModifyListener(new ComboUpdate(srcElemCombo, srcPortCombo, SRC_COLUMN_KEY));
 		dstElemCombo.addModifyListener(new ComboUpdate(dstElemCombo, dstPortCombo, DST_COLUMN_KEY));
 
@@ -201,11 +210,17 @@ public class NewBindingDialog extends WorkbenchDialog {
 	}
 
 	public Cardinality getSrcCardinality() {
-		return Cardinality.getCardinality(srcCardinality);
+		if (withCardinalies)
+			return Cardinality.getCardinality(srcCardinality);
+		else
+			throw new RuntimeException("This dialog doesn't have cardinalities !");
 	}
 
 	public Cardinality getDstCardinality() {
-		return Cardinality.getCardinality(dstCardinality);
+		if (withCardinalies)
+			return Cardinality.getCardinality(dstCardinality);
+		else
+			throw new RuntimeException("This dialog doesn't have cardinalities !");
 	}
 
 	protected void updateResult() {
@@ -213,8 +228,10 @@ public class NewBindingDialog extends WorkbenchDialog {
 		dstElem = dstElemCombo.getText();
 		srcPort = srcPortCombo.getText();
 		dstPort = dstPortCombo.getText();
-		srcCardinality = srcCardinalityCombo.getText();
-		dstCardinality = dstCardinalityCombo.getText();
+		if (withCardinalies) {
+			srcCardinality = srcCardinalityCombo.getText();
+			dstCardinality = dstCardinalityCombo.getText();
+		}
 	}
 
 	private class IntegrityListener implements ModifyListener {

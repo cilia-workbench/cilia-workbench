@@ -30,6 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractBinding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
@@ -106,6 +107,44 @@ public abstract class ChainModel<ChainType extends Chain> extends AbstractModel 
 
 		writeToFile(document);
 		notifyRepository();
+	}
+
+	/**
+	 * srcCard and dstCard can be null. If they are, cardinalities are not
+	 * written in the XML file
+	 */
+	public void createBinding(Chain chain, String srcElem, String srcPort, String dstElem, String dstPort, Cardinality srcCard, Cardinality dstCard)
+			throws CiliaException {
+		if (chain.isNewBindingAllowed(srcElem, srcPort, dstElem, dstPort) == null) {
+
+			String from;
+			if (Strings.isNullOrEmpty(srcPort))
+				from = srcElem;
+			else
+				from = srcElem + ":" + srcPort;
+
+			String to;
+			if (Strings.isNullOrEmpty(dstPort))
+				to = dstElem;
+			else
+				to = dstElem + ":" + dstPort;
+
+			Document document = getDocument();
+			Node chainNode = findXMLChainNode(document, chain.getId());
+			Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, AbstractChain.XML_ROOT_BINDINGS_NAME);
+
+			Element child = document.createElement(Binding.XML_NODE_NAME);
+			child.setAttribute(Binding.XML_FROM_ATTR, from);
+			child.setAttribute(Binding.XML_TO_ATTR, to);
+			if (srcCard != null)
+				child.setAttribute(AbstractBinding.XML_FROM_CARD_ATTR, srcCard.stringId());
+			if (dstCard != null)
+				child.setAttribute(AbstractBinding.XML_TO_CARD_ATTR, dstCard.stringId());
+			componentNode.appendChild(child);
+
+			writeToFile(document);
+			notifyRepository();
+		}
 	}
 
 	protected Node findXMLChainNode(Document document, NameNamespaceID id) throws CiliaException {
