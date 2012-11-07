@@ -7,6 +7,7 @@
 		</mediators>
 	<adapters>
 <adapter-instance id="random-generator" namespace="fr.liglab.adele.cilia" type="random-generator"/>
+<adapter-instance id="console" namespace="fr.liglab.adele.cilia" type="console-adapter"/>
 </adapters>
 </chain>
 </cilia>

@@ -18,6 +18,8 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
@@ -32,4 +34,35 @@ public abstract class AdapterRef extends ComponentRef {
 	}
 
 	public abstract IAdapter getReferencedObject();
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
+
+		CiliaError e1 = null;
+		CiliaError e2 = null;
+
+		if (getReferencedObject() != null) {
+			IAdapter target = getReferencedObject();
+
+			switch (target.getType()) {
+			case IN:
+				if (getIncommingBindings().length != 0)
+					e1 = new CiliaError(this + " shouldn't have an incomming binding", this);
+				if (getOutgoingBindings().length == 0)
+					e2 = new CiliaError(this + " doesn't have an outgoing binding", this);
+				break;
+			case OUT:
+				if (getIncommingBindings().length == 0)
+					e1 = new CiliaError(this + " doesn't have an incomming binding", this);
+				if (getOutgoingBindings().length != 0)
+					e2 = new CiliaError(this + " shouldn't have an outgoing binding", this);
+				break;
+			default:
+				throw new RuntimeException("To be implemented as soon as API changes with IN-OUT adapters");
+			}
+		}
+
+		return CiliaFlag.generateTab(tab, e1, e2);
+	}
 }
