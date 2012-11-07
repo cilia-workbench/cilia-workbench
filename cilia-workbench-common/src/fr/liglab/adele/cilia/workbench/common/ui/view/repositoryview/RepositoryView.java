@@ -186,6 +186,7 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	@Override
 	public void dispose() {
 		super.dispose();
+		SelectionService.getInstance().removeSelectionProvider(partId);
 		repoService.unregisterListener(this);
 	}
 
