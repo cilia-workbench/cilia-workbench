@@ -78,7 +78,7 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 
 		Node rootMediators = XMLHelpers.findChild(node, XML_ROOT_MEDIATORS_NAME);
 		if (rootMediators != null) {
-			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorImplemRef.XML_NODE_NAME)) {
+			for (Node instance : XMLHelpers.findChildren(rootMediators, MediatorImplemRef.XML_NODE_NAME_FOR_DSCILIA)) {
 				try {
 					MediatorImplemRef mi = new MediatorImplemRef(instance, getId(), getRepository());
 					mediators.add(mi);

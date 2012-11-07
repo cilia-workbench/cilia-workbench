@@ -24,7 +24,8 @@ import org.eclipse.swt.widgets.Shell;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
@@ -35,14 +36,14 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  */
 public class NewMediatorDialog extends TextListDialog {
 
-	private final AbstractChain chain;
+	private final Chain chain;
 
-	public NewMediatorDialog(Shell parentShell, AbstractChain chain) {
-		super(parentShell, "New Mediator", "id", "type", getListValues());
+	public NewMediatorDialog(Shell parentShell, Chain chain, ComponentNature filter) {
+		super(parentShell, "New Mediator", "id", "type", getListValues(filter));
 		this.chain = chain;
 	}
 
-	private static Map<String, Object> getListValues() {
+	private static Map<String, Object> getListValues(ComponentNature filter) {
 		Map<String, Object> retval = new HashMap<String, Object>();
 
 		List<IMediator> list = new ArrayList<IMediator>();
@@ -50,12 +51,14 @@ public class NewMediatorDialog extends TextListDialog {
 		list.addAll(SpecRepoService.getInstance().getMediatorSpecs());
 
 		for (IMediator m : list) {
-			NameNamespaceID id = m.getId();
-			String str = m.getNature().getShortName() + " ";
-			String key = str + id.getName();
-			if (!Strings.isNullOrEmpty(id.getNamespace()))
-				key = key + " (" + id.getNamespace() + ")";
-			retval.put(key, m);
+			if (filter == null || m.getNature().equals(filter)) {
+				NameNamespaceID id = m.getId();
+				String str = m.getNature().getShortName() + " ";
+				String key = str + id.getName();
+				if (!Strings.isNullOrEmpty(id.getNamespace()))
+					key = key + " (" + id.getNamespace() + ")";
+				retval.put(key, m);
+			}
 		}
 
 		return retval;

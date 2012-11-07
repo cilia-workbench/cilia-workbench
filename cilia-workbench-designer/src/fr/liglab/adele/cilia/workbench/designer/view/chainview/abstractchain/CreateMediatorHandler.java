@@ -36,7 +36,7 @@ public class CreateMediatorHandler extends AbstractChainHandler {
 		AbstractChain model = getDisplayedModel(event);
 
 		if (model != null) {
-			NewMediatorDialog window = new NewMediatorDialog(ViewUtil.getShell(event), model);
+			NewMediatorDialog window = new NewMediatorDialog(ViewUtil.getShell(event), model, null);
 			if (window.open() == Window.OK) {
 				String id = window.getText();
 				IMediator mediator = (IMediator) window.getValue();

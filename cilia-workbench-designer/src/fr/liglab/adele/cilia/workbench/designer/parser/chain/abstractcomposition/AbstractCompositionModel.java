@@ -24,7 +24,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
@@ -67,9 +66,9 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 			if (type.getNature() == ComponentNature.SPEC)
 				createComponentInstanceInternal(chain, id, type.getId(), AbstractChain.XML_ROOT_MEDIATORS_NAME, MediatorSpecRef.XML_NODE_NAME);
 			else if (type.getNature() == ComponentNature.IMPLEM)
-				createComponentInstanceInternal(chain, id, type.getId(), AbstractChain.XML_ROOT_MEDIATORS_NAME, MediatorImplemRef.XML_NODE_NAME);
+				createComponentInstanceInternal(chain, id, type.getId(), AbstractChain.XML_ROOT_MEDIATORS_NAME, MediatorImplemRef.XML_NODE_NAME_FOR_ABSTRACT);
 			else
-				throw new RuntimeException("Not a spec nor an implem...");
+				throw new CiliaException("Not a spec nor an implem...");
 		}
 	}
 
@@ -82,23 +81,6 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
 		}
-	}
-
-	private void createComponentInstanceInternal(AbstractChain chain, String id, NameNamespaceID type, String rootNode, String elementNode)
-			throws CiliaException {
-		Document document = getDocument();
-		Node chainNode = findXMLChainNode(document, chain.getId());
-		Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, rootNode);
-
-		Element child = document.createElement(elementNode);
-		child.setAttribute(ComponentRef.XML_ATTR_ID, id);
-		child.setAttribute(ComponentRef.XML_ATTR_TYPE, type.getName());
-		if (!Strings.isNullOrEmpty(type.getNamespace()))
-			child.setAttribute(ComponentRef.XML_ATTR_NAMESPACE, type.getNamespace());
-		componentNode.appendChild(child);
-
-		writeToFile(document);
-		notifyRepository();
 	}
 
 	public void createBinding(AbstractChain chain, String srcElem, String srcPort, String dstElem, String dstPort, Cardinality srcCard, Cardinality dstCard)
@@ -147,7 +129,7 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 
 		Node leafs[] = null;
 		if (mediator instanceof MediatorImplemRef)
-			leafs = XMLHelpers.findChildren(subNode, MediatorImplemRef.XML_NODE_NAME, MediatorImplemRef.XML_ATTR_ID, mediator.getId());
+			leafs = XMLHelpers.findChildren(subNode, MediatorImplemRef.XML_NODE_NAME_FOR_ABSTRACT, MediatorImplemRef.XML_ATTR_ID, mediator.getId());
 		if (mediator instanceof MediatorSpecRef)
 			leafs = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID, mediator.getId());
 
@@ -256,7 +238,7 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 		if (mediator instanceof MediatorSpecRef)
 			media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID, mediator.getId())[0];
 		else
-			media = XMLHelpers.findChildren(subNode, MediatorImplemRef.XML_NODE_NAME, MediatorImplemRef.XML_ATTR_ID, mediator.getId())[0];
+			media = XMLHelpers.findChildren(subNode, MediatorImplemRef.XML_NODE_NAME_FOR_ABSTRACT, MediatorImplemRef.XML_ATTR_ID, mediator.getId())[0];
 
 		updateParameterInternal(document, media, MediatorRef.XML_SCHEDULER_NODE, schedulerParam);
 		updateParameterInternal(document, media, MediatorRef.XML_PROCESSOR_NODE, processorParam);

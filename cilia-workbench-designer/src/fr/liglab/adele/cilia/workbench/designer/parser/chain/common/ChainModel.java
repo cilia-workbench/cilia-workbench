@@ -92,6 +92,22 @@ public abstract class ChainModel<ChainType extends Chain> extends AbstractModel 
 		}
 	}
 
+	protected void createComponentInstanceInternal(Chain chain, String id, NameNamespaceID type, String rootNode, String elementNode) throws CiliaException {
+		Document document = getDocument();
+		Node chainNode = findXMLChainNode(document, chain.getId());
+		Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, rootNode);
+
+		Element child = document.createElement(elementNode);
+		child.setAttribute(ComponentRef.XML_ATTR_ID, id);
+		child.setAttribute(ComponentRef.XML_ATTR_TYPE, type.getName());
+		if (!Strings.isNullOrEmpty(type.getNamespace()))
+			child.setAttribute(ComponentRef.XML_ATTR_NAMESPACE, type.getNamespace());
+		componentNode.appendChild(child);
+
+		writeToFile(document);
+		notifyRepository();
+	}
+
 	protected Node findXMLChainNode(Document document, NameNamespaceID id) throws CiliaException {
 		Node root = getRootNode(document);
 		Node[] results;
