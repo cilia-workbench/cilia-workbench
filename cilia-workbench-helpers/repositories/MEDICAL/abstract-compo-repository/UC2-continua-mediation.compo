@@ -37,17 +37,17 @@
 		</mediators>
 
 		<bindings>
-			<binding from="hl7-adapter:out" from-cardinality="1...1" to="hapifilter:in" to-cardinality="1...1"/>
-			<binding from="hapifilter:out" from-cardinality="1...1" to="continuafilter:in" to-cardinality="1...1"/>
-			<binding from="continuafilter:out" from-cardinality="1...1" to="translation:in" to-cardinality="1...1"/>
-			<binding from="translation:out" from-cardinality="1...1" to="integration:in" to-cardinality="1...1"/>
-			<binding from="integration:out" from-cardinality="1...1" to="acknowledgement:in" to-cardinality="1...1"/>
-			<binding from="acknowledgement:out" from-cardinality="1...1" to="hl7-adapter:in" to-cardinality="1...1"/>
-			<binding from="hapifilter:error" from-cardinality="1...1" to="error-manager:in" to-cardinality="1...1"/>
-			<binding from="continuafilter:error" from-cardinality="1...1" to="error-manager:in" to-cardinality="1...1"/>
-			<binding from="translation:error" from-cardinality="1...1" to="error-manager:in" to-cardinality="1...1"/>
-			<binding from="integration:error" from-cardinality="1...1" to="error-manager:in" to-cardinality="1...1"/>
-			<binding from="error-manager:out" from-cardinality="1...1" to="acknowledgement:in" to-cardinality="1...1"/>
+			<binding from="hl7-adapter:out" from-cardinality="1..1" to="hapifilter:in" to-cardinality="1..1"/>
+			<binding from="hapifilter:out" from-cardinality="1..1" to="continuafilter:in" to-cardinality="1..1"/>
+			<binding from="continuafilter:out" from-cardinality="1..1" to="translation:in" to-cardinality="1..1"/>
+			<binding from="translation:out" from-cardinality="1..1" to="integration:in" to-cardinality="1..1"/>
+			<binding from="integration:out" from-cardinality="1..1" to="acknowledgement:in" to-cardinality="1..1"/>
+			<binding from="acknowledgement:out" from-cardinality="1..1" to="hl7-adapter:in" to-cardinality="1..1"/>
+			<binding from="hapifilter:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
+			<binding from="continuafilter:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
+			<binding from="translation:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
+			<binding from="integration:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
+			<binding from="error-manager:out" from-cardinality="1..1" to="acknowledgement:in" to-cardinality="1..1"/>
 		</bindings>
 	</chain>
  	-->
@@ -65,10 +65,10 @@
 		</mediators>
 
 		<bindings>
-			<binding from="continuaValidator:out" from-cardinality="1...1" to="translationHL7:in" to-cardinality="1...1"/>
-			<binding from="translationHL7:out" from-cardinality="1...1" to="PHRintegration" to-cardinality="1...1"/>
-			<binding from="HL7validator:out" from-cardinality="1...1" to="continuaValidator:in" to-cardinality="1...1"/>
-			<binding from="AHDbox" from-cardinality="1...1" to="HL7validator:in" to-cardinality="1...1"/>
+			<binding from="continuaValidator:out" from-cardinality="1..1" to="translationHL7:in" to-cardinality="1..1"/>
+			<binding from="translationHL7:out" from-cardinality="1..1" to="PHRintegration" to-cardinality="1..1"/>
+			<binding from="HL7validator:out" from-cardinality="1..1" to="continuaValidator:in" to-cardinality="1..1"/>
+			<binding from="AHDbox" from-cardinality="1..1" to="HL7validator:in" to-cardinality="1..1"/>
 		</bindings>
 	
 	</chain>
@@ -87,11 +87,11 @@
 		</mediators>
 
 		<bindings>
-			<binding from="continuaValidator:out" from-cardinality="1...1" to="translationHL7:in" to-cardinality="1...1"/>
-			<binding from="translationHL7:out" from-cardinality="1...n" to="PHRintegration" to-cardinality="1...1"/>
-			<binding from="AHDbox" from-cardinality="1...1" to="HL7Router:in" to-cardinality="1...1"/>
-			<binding from="HL7Router:HL7_2_6" from-cardinality="1...1" to="HL7validator:in" to-cardinality="1...n"/>
-			<binding from="HL7validator:out" from-cardinality="1...1" to="continuaValidator:in" to-cardinality="1...1"/>
+			<binding from="continuaValidator:out" from-cardinality="1..1" to="translationHL7:in" to-cardinality="1..1"/>
+			<binding from="translationHL7:out" from-cardinality="1..n" to="PHRintegration" to-cardinality="1..1"/>
+			<binding from="AHDbox" from-cardinality="1..1" to="HL7Router:in" to-cardinality="1..1"/>
+			<binding from="HL7Router:HL7_2_6" from-cardinality="1..1" to="HL7validator:in" to-cardinality="1..n"/>
+			<binding from="HL7validator:out" from-cardinality="1..1" to="continuaValidator:in" to-cardinality="1..1"/>
 		</bindings>
 	</chain>
 
@@ -112,15 +112,15 @@
 		</mediators>
 
 		<bindings>
-			<binding from="continuaValidator_v2_0:out" from-cardinality="1...1" to="translationHL7_v2_6:in" to-cardinality="1...1" />
-			<binding from="translationHL7_v2_6:out" from-cardinality="1...1" to="PHRintegration" to-cardinality="1...1" />
-			<binding from="AHDbox" from-cardinality="1...1" to="HL7Router:in" to-cardinality="1...1" />
-			<binding from="HL7Router:HL7_2_6" from-cardinality="1...1" to="HL7validator_v2_6:in" to-cardinality="0...1" />
-			<binding from="HL7validator_v2_6:out" from-cardinality="1...1" to="continuaValidator_v2_0:in" to-cardinality="1...1" />
-			<binding from="HL7Router:HL7_3_0" from-cardinality="1...1" to="HL7validator_v3:in" to-cardinality="0...1" />
-			<binding from="HL7validator_v3:out" from-cardinality="1...1" to="continuaValidator_v3:in" to-cardinality="1...1" />
-			<binding from="continuaValidator_v3:out" from-cardinality="1...1" to="translationHL7_v3:in" to-cardinality="1...1" />
-			<binding from="translationHL7_v3:out" from-cardinality="1...1" to="PHRintegration" to-cardinality="1...1" />
+			<binding from="continuaValidator_v2_0:out" from-cardinality="1..1" to="translationHL7_v2_6:in" to-cardinality="1..1" />
+			<binding from="translationHL7_v2_6:out" from-cardinality="1..1" to="PHRintegration" to-cardinality="1..1" />
+			<binding from="AHDbox" from-cardinality="1..1" to="HL7Router:in" to-cardinality="1..1" />
+			<binding from="HL7Router:HL7_2_6" from-cardinality="1..1" to="HL7validator_v2_6:in" to-cardinality="0..1" />
+			<binding from="HL7validator_v2_6:out" from-cardinality="1..1" to="continuaValidator_v2_0:in" to-cardinality="1..1" />
+			<binding from="HL7Router:HL7_3_0" from-cardinality="1..1" to="HL7validator_v3:in" to-cardinality="0..1" />
+			<binding from="HL7validator_v3:out" from-cardinality="1..1" to="continuaValidator_v3:in" to-cardinality="1..1" />
+			<binding from="continuaValidator_v3:out" from-cardinality="1..1" to="translationHL7_v3:in" to-cardinality="1..1" />
+			<binding from="translationHL7_v3:out" from-cardinality="1..1" to="PHRintegration" to-cardinality="1..1" />
 		</bindings>
 	</chain>
 

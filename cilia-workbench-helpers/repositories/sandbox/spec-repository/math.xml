@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-specifications>
-	<mediator-specification id="filter" namespace="toto">
+
+	<!-- Sandbox -->
+
+	<mediator-specification id="filter" namespace="fr.imag.adele.cilia.workbench.spec">
 		<ports>
 			<in-port name="in"/>
 			<out-port name="out"/>
 		</ports>
 	</mediator-specification>
+
 	<mediator-specification id="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
 		<ports>
 			<in-port name="in"/>
@@ -13,23 +17,6 @@
 		</ports>
 		<properties>
 			<property name="category"/>
-		</properties>
-	</mediator-specification>
-
-
-
-
-
-	
-
-	<mediator-specification id="regression" namespace="fr.liglab.cube">
-		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
-		</ports>
-		<properties>
-			<property name="vitesse"/>
-			<property name="memoire"/>
 		</properties>
 	</mediator-specification>
 
@@ -48,13 +35,27 @@
 		</processor>
 	</mediator-specification>
 
-<mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-<properties>
-<property name="category"/>
-</properties>
-</mediator-specification>
+	<mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+		<ports>
+			<in-port name="in"/>
+			<out-port name="out"/>
+		</ports>
+		<properties>
+			<property name="category"/>
+		</properties>
+	</mediator-specification>
+
+    <!--
+	<mediator-specification id="regression" namespace="fr.liglab.cube">
+		<ports>
+			<in-port name="in"/>
+			<out-port name="out"/>
+		</ports>
+		<properties>
+			<property name="vitesse"/>
+			<property name="memoire"/>
+		</properties>
+	</mediator-specification>
+    -->
+
 </cilia-specifications>

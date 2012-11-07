@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-specifications>
 
-
+<!-- MEDICAL -->
 
 <mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
 <ports>
@@ -10,28 +10,4 @@
 </ports>
 </mediator-specification>
 
-<mediator-specification id="aze" namespace="a">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-<properties>
-<property name="aa"/>
-</properties>
-<scheduler>
-<parameters>
-<parameter name="aa"/>
-</parameters>
-</scheduler>
-<processor>
-<parameters>
-<parameter name="zz"/>
-</parameters>
-</processor>
-<dispatcher>
-<parameters>
-<parameter name="ee"/>
-</parameters>
-</dispatcher>
-</mediator-specification>
 </cilia-specifications>

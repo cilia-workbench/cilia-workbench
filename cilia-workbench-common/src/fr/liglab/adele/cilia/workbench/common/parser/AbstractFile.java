@@ -48,7 +48,7 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 
 	@Override
 	public Object getId() {
-		return getFilename();
+		return file.getPath();
 	}
 
 	public String getFilename() {

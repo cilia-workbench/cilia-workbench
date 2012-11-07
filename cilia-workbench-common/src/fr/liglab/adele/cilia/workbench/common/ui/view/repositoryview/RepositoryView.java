@@ -190,7 +190,7 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	}
 
 	/**
-	 * Adds a listener ton an editor to be notify as soon as he saves.
+	 * Adds a listener to an editor to be notify as soon as he saves.
 	 * 
 	 * @param editor
 	 *            the editor
