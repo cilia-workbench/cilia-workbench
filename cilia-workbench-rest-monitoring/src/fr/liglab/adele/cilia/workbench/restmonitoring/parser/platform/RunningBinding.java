@@ -12,26 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia;
+package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
 
-import org.w3c.dom.Node;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLBinding;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
+import fr.liglab.adele.cilia.workbench.common.parser.Binding;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaBinding extends XMLBinding {
+public class RunningBinding extends Binding {
 
-	public DSCiliaBinding(Node node, NameNamespaceID chainId) throws CiliaException {
-		super(node, chainId);
+	public RunningBinding(JSONObject binding) throws CiliaException {
+		super(getJSONField(binding, "from"), getJSONField(binding, "to"));
 	}
 
-	protected DSCiliaChain getChain() {
-		return DSCiliaRepoService.getInstance().findChain(chainId);
+	private static String getJSONField(JSONObject binding, String name) throws CiliaException {
+		try {
+			return (String) binding.get(name);
+		} catch (JSONException e) {
+			throw new CiliaException("Error while pasing binding field " + name, e);
+		}
 	}
 }

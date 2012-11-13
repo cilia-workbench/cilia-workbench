@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLBinding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 
 /**
@@ -48,8 +48,8 @@ public class AbstractChainContentProvider implements IStructuredContentProvider,
 
 		if (entity instanceof ComponentRef) {
 			ComponentRef component = (ComponentRef) entity;
-			Binding[] bindings = component.getOutgoingBindings();
-			for (Binding binding : bindings) {
+			XMLBinding[] bindings = component.getOutgoingBindings();
+			for (XMLBinding binding : bindings) {
 				ComponentRef ro = binding.getDestinationComponent();
 				if (ro != null)
 					retval.add(ro);

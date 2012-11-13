@@ -135,9 +135,9 @@ public abstract class ChainModel<ChainType extends Chain> extends AbstractModel 
 			Node chainNode = findXMLChainNode(document, chain.getId());
 			Node componentNode = XMLHelpers.getOrCreateChild(document, chainNode, AbstractChain.XML_ROOT_BINDINGS_NAME);
 
-			Element child = document.createElement(Binding.XML_NODE_NAME);
-			child.setAttribute(Binding.XML_FROM_ATTR, from);
-			child.setAttribute(Binding.XML_TO_ATTR, to);
+			Element child = document.createElement(XMLBinding.XML_NODE_NAME);
+			child.setAttribute(XMLBinding.XML_FROM_ATTR, from);
+			child.setAttribute(XMLBinding.XML_TO_ATTR, to);
 			if (srcCard != null)
 				child.setAttribute(AbstractBinding.XML_FROM_CARD_ATTR, srcCard.stringId());
 			if (dstCard != null)
@@ -149,14 +149,14 @@ public abstract class ChainModel<ChainType extends Chain> extends AbstractModel 
 		}
 	}
 
-	public void deleteBinding(Chain chain, Binding binding) throws CiliaException {
+	public void deleteBinding(Chain chain, XMLBinding binding) throws CiliaException {
 		Document document = getDocument();
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_BINDINGS_NAME);
 		if (subNode == null)
 			return;
 
-		Node[] nodes = XMLHelpers.findChildren(subNode, Binding.XML_NODE_NAME, Binding.XML_FROM_ATTR, binding.getSource(), Binding.XML_TO_ATTR,
+		Node[] nodes = XMLHelpers.findChildren(subNode, XMLBinding.XML_NODE_NAME, XMLBinding.XML_FROM_ATTR, binding.getSource(), XMLBinding.XML_TO_ATTR,
 				binding.getDestination());
 		if (nodes.length == 0)
 			throw new CiliaException("Can't find binding " + binding);
@@ -236,10 +236,10 @@ public abstract class ChainModel<ChainType extends Chain> extends AbstractModel 
 
 		// finds nodes
 		List<Node> nodes = new ArrayList<Node>();
-		Node bindings[] = XMLHelpers.findChildren(subNode, Binding.XML_NODE_NAME);
+		Node bindings[] = XMLHelpers.findChildren(subNode, XMLBinding.XML_NODE_NAME);
 		for (Node binding : bindings) {
-			String from = XMLHelpers.findAttributeValue(binding, Binding.XML_FROM_ATTR);
-			String to = XMLHelpers.findAttributeValue(binding, Binding.XML_TO_ATTR);
+			String from = XMLHelpers.findAttributeValue(binding, XMLBinding.XML_FROM_ATTR);
+			String to = XMLHelpers.findAttributeValue(binding, XMLBinding.XML_TO_ATTR);
 
 			String fromID = XMLStringUtil.getBeforeSeparatorOrAll(from);
 			String toID = XMLStringUtil.getBeforeSeparatorOrAll(to);

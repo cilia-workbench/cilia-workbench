@@ -87,50 +87,50 @@ public abstract class ComponentRef implements DisplayedInPropertiesView, ErrorsA
 
 	public abstract IComponent getReferencedObject();
 
-	public Binding[] getBindings() {
-		List<Binding> retval = new ArrayList<Binding>();
+	public XMLBinding[] getBindings() {
+		List<XMLBinding> retval = new ArrayList<XMLBinding>();
 
-		for (Binding b : getChain().getBindings()) {
+		for (XMLBinding b : getChain().getBindings()) {
 			if (b.getDestinationId().equals(id))
 				retval.add(b);
 			else if (b.getSourceId().equals(id))
 				retval.add(b);
 		}
 
-		return retval.toArray(new Binding[0]);
+		return retval.toArray(new XMLBinding[0]);
 	}
 
-	public Binding[] getIncommingBindings() {
-		List<Binding> retval = new ArrayList<Binding>();
+	public XMLBinding[] getIncommingBindings() {
+		List<XMLBinding> retval = new ArrayList<XMLBinding>();
 
-		for (Binding b : getBindings()) {
+		for (XMLBinding b : getBindings()) {
 			if (b.getDestinationId().equals(id))
 				retval.add(b);
 		}
 
-		return retval.toArray(new Binding[0]);
+		return retval.toArray(new XMLBinding[0]);
 	}
 
-	public Binding[] getOutgoingBindings() {
-		List<Binding> retval = new ArrayList<Binding>();
+	public XMLBinding[] getOutgoingBindings() {
+		List<XMLBinding> retval = new ArrayList<XMLBinding>();
 
-		for (Binding b : getBindings()) {
+		for (XMLBinding b : getBindings()) {
 			if (b.getSourceId().equals(id))
 				retval.add(b);
 		}
 
-		return retval.toArray(new Binding[0]);
+		return retval.toArray(new XMLBinding[0]);
 	}
 
-	public Binding getIncommingBinding(ComponentRef source) {
-		for (Binding b : getIncommingBindings())
+	public XMLBinding getIncommingBinding(ComponentRef source) {
+		for (XMLBinding b : getIncommingBindings())
 			if (b.getSourceComponent() != null && b.getSourceComponent().equals(source))
 				return b;
 		return null;
 	}
 
-	public Binding getOutgoingBinding(ComponentRef destination) {
-		for (Binding b : getOutgoingBindings())
+	public XMLBinding getOutgoingBinding(ComponentRef destination) {
+		for (XMLBinding b : getOutgoingBindings())
 			if (b.getDestinationComponent() != null && b.getDestinationComponent().equals(destination))
 				return b;
 		return null;

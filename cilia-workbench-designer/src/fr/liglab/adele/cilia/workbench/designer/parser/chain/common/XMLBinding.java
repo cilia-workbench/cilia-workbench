@@ -14,9 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
@@ -25,12 +22,11 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
-import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.parser.Binding;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent;
@@ -39,48 +35,21 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent
  * 
  * @author Etienne Gandrille
  */
-public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
+public abstract class XMLBinding extends Binding implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
 
 	public static final String XML_NODE_NAME = "binding";
 
 	public static final String XML_FROM_ATTR = "from";
 	public static final String XML_TO_ATTR = "to";
 
-	protected NameNamespaceID chainId;
-	private String from;
-	private String to;
+	protected final NameNamespaceID chainId;
 
-	public Binding(Node node, NameNamespaceID chainId) throws CiliaException {
+	public XMLBinding(Node node, NameNamespaceID chainId) throws CiliaException {
+		super(XMLHelpers.findAttributeValue(node, XML_FROM_ATTR), XMLHelpers.findAttributeValue(node, XML_TO_ATTR));
 		this.chainId = chainId;
-		ReflectionUtil.setAttribute(node, XML_FROM_ATTR, this, "from");
-		ReflectionUtil.setAttribute(node, XML_TO_ATTR, this, "to");
 	}
 
 	protected abstract Chain getChain();
-
-	public String getSource() {
-		return from;
-	}
-
-	public String getDestination() {
-		return to;
-	}
-
-	public String getSourceId() {
-		return XMLStringUtil.getBeforeSeparatorOrAll(from);
-	}
-
-	public String getDestinationId() {
-		return XMLStringUtil.getBeforeSeparatorOrAll(to);
-	}
-
-	public String getSourcePort() {
-		return XMLStringUtil.getAfterSeparatorOrNothing(from);
-	}
-
-	public String getDestinationPort() {
-		return XMLStringUtil.getAfterSeparatorOrNothing(to);
-	}
 
 	public ComponentRef getSourceComponent() {
 		return getChain().getComponent(getSourceId());
@@ -105,35 +74,30 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 	}
 
 	@Override
-	public String toString() {
-		return from + " - " + to;
-	}
-
-	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
+
+		CiliaFlag e1 = null;
+		CiliaFlag e2 = null;
+		CiliaFlag e3 = null;
+		CiliaFlag e4 = null;
 
 		ComponentRef src = getSourceComponent();
 		ComponentRef dst = getDestinationComponent();
 
-		CiliaFlag e1 = CiliaError.checkNotNull(this, src, "binding source");
-		CiliaFlag e2 = CiliaError.checkNotNull(this, dst, "binding destination");
-		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, getSourcePort(), "binding source port");
-		CiliaFlag e4 = CiliaError.checkStringNotNullOrEmpty(this, getDestinationPort(), "binding destination port");
-
 		if (!Strings.isNullOrEmpty(getSourcePort()) && getSourceReferencedObject() != null)
 			if (!getSourceReferencedObject().hasOutPort(getSourcePort()))
-				list.add(new CiliaError("Binding " + this + " source port is undefined in " + getSourceReferencedObject(), this));
+				e1 = new CiliaError("Binding " + this + " source port is undefined in " + getSourceReferencedObject(), this);
 
 		if (!Strings.isNullOrEmpty(getDestinationPort()) && getDestinationReferencedObject() != null)
 			if (!getDestinationReferencedObject().hasInPort(getDestinationPort()))
-				list.add(new CiliaError("Binding " + this + " destination port is undefined in " + getDestinationReferencedObject(), this));
+				e2 = new CiliaError("Binding " + this + " destination port is undefined in " + getDestinationReferencedObject(), this);
 
 		if (src != null && src instanceof AdapterRef) {
 			IAdapter ro = ((AdapterRef) src).getReferencedObject();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.OUT) {
-					list.add(new CiliaError("Binding " + this + " has its source connected to an out adapter", this));
+					e3 = new CiliaError("Binding " + this + " has its source connected to an out adapter", this);
 				}
 			}
 		}
@@ -142,21 +106,11 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 			IAdapter ro = ((AdapterRef) dst).getReferencedObject();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.IN) {
-					list.add(new CiliaError("Binding " + this + " has its destination connected to an in adapter", this));
+					e4 = new CiliaError("Binding " + this + " has its destination connected to an in adapter", this);
 				}
 			}
 		}
 
-		return CiliaFlag.generateTab(list, e1, e2, e3, e4);
-	}
-
-	@Override
-	public List<Changeset> merge(Object other) throws CiliaException {
-		return new ArrayList<Changeset>();
-	}
-
-	@Override
-	public Object getId() {
-		return from + " - " + to;
+		return CiliaFlag.generateTab(tab, e1, e2, e3, e4);
 	}
 }

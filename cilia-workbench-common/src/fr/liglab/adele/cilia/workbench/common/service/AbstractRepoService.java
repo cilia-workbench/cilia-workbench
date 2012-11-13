@@ -192,9 +192,8 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 	}
 
 	protected void notifyListeners(List<Changeset> changes) {
-		for (IRepoServiceListener listener : listeners) {
+		for (IRepoServiceListener listener : listeners)
 			listener.repositoryContentUpdated(this, changes);
-		}
 	}
 
 	/**

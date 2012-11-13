@@ -19,7 +19,7 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLBinding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
@@ -54,7 +54,7 @@ public class AbstractChain extends Chain {
 	}
 
 	@Override
-	public Binding createBinding(Node node, NameNamespaceID chainId) throws CiliaException {
+	public XMLBinding createBinding(Node node, NameNamespaceID chainId) throws CiliaException {
 		return new AbstractBinding(node, chainId);
 	}
 }

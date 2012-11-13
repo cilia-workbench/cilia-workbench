@@ -60,7 +60,7 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 
 	protected List<AdapterRef> adapters = new ArrayList<AdapterRef>();
 	protected List<MediatorRef> mediators = new ArrayList<MediatorRef>();
-	protected List<Binding> bindings = new ArrayList<Binding>();
+	protected List<XMLBinding> bindings = new ArrayList<XMLBinding>();
 
 	public Chain(Node node, String mediatorXMLNodeName, String adapterXMLNodeName) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "name");
@@ -90,7 +90,7 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 
 		Node rootBindings = XMLHelpers.findChild(node, XML_ROOT_BINDINGS_NAME);
 		if (rootBindings != null) {
-			for (Node bi : XMLHelpers.findChildren(rootBindings, Binding.XML_NODE_NAME))
+			for (Node bi : XMLHelpers.findChildren(rootBindings, XMLBinding.XML_NODE_NAME))
 				try {
 					bindings.add(createBinding(bi, getId()));
 				} catch (CiliaException e) {
@@ -109,9 +109,9 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 		return mediators;
 	}
 
-	public abstract Binding createBinding(Node node, NameNamespaceID chainId) throws CiliaException;
+	public abstract XMLBinding createBinding(Node node, NameNamespaceID chainId) throws CiliaException;
 
-	public List<Binding> getBindings() {
+	public List<XMLBinding> getBindings() {
 		return bindings;
 	}
 

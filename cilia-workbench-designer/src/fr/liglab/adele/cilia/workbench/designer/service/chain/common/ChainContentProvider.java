@@ -20,7 +20,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.PropertyConstraint;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLBinding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
@@ -65,7 +65,7 @@ public abstract class ChainContentProvider<ChainType extends Chain> extends Gene
 						}
 					}
 
-					for (Binding b : c.getBindings())
+					for (XMLBinding b : c.getBindings())
 						addRelationship(false, c, b);
 				}
 			}

@@ -20,7 +20,7 @@ import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLBinding;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.DeleteBindingDialog;
 
@@ -39,7 +39,7 @@ public class DeleteBindingHandler extends AbstractChainHandler {
 			if (window.open() == Window.OK) {
 				Object[] objects = window.getResult();
 				if (objects.length != 0) {
-					Binding binding = (Binding) objects[0];
+					XMLBinding binding = (XMLBinding) objects[0];
 					try {
 						AbstractCompositionsRepoService.getInstance().deleteBinding(model, binding);
 					} catch (Exception e) {

@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLBinding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Cardinality;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
@@ -117,7 +117,7 @@ public class AbstractCompositionsRepoService extends ChainRepoService<AbstractCo
 		getFileFromChain(chain).getModel().createBinding(chain, srcElem, srcPort, dstElem, dstPort, srcCard, dstCard);
 	}
 
-	public void deleteBinding(AbstractChain chain, Binding binding) throws CiliaException {
+	public void deleteBinding(AbstractChain chain, XMLBinding binding) throws CiliaException {
 		if (getFileFromChain(chain) == null)
 			return;
 		getFileFromChain(chain).getModel().deleteBinding(chain, binding);

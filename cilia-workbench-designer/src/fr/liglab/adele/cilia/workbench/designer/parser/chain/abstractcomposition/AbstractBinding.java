@@ -23,15 +23,15 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Binding;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Cardinality;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLBinding;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class AbstractBinding extends Binding {
+public class AbstractBinding extends XMLBinding {
 
 	public static final String XML_FROM_CARD_ATTR = "from-cardinality";
 	public static final String XML_TO_CARD_ATTR = "to-cardinality";
@@ -65,8 +65,7 @@ public class AbstractBinding extends Binding {
 		List<Changeset> retval = super.merge(other);
 
 		AbstractBinding newInstance = (AbstractBinding) other;
-		if (!fromCardinality.equals(newInstance.getSourceCardinality())
-				|| !toCardinality.equals(newInstance.getDestinationCardinality())) {
+		if (!fromCardinality.equals(newInstance.getSourceCardinality()) || !toCardinality.equals(newInstance.getDestinationCardinality())) {
 			fromCardinality = newInstance.getSourceCardinality();
 			toCardinality = newInstance.getDestinationCardinality();
 			retval.add(new Changeset(Operation.UPDATE, this));

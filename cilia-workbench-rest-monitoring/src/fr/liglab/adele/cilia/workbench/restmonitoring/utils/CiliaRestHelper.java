@@ -50,29 +50,28 @@ public class CiliaRestHelper {
 		return retval.toArray(new String[0]);
 	}
 
-	public static String[] getChainContent(String hostname, int port, String chainName) throws CiliaException {
+	public static JSONObject getChainContent(String hostname, int port, String chainName) throws CiliaException {
 
 		HttpResquestResult response = get(hostname, port, "/cilia" + "/" + chainName);
 
 		String json = response.getMessage();
 
 		try {
-			JSONObject js = new JSONObject(json);
+			/*
+			 * DEBUG : remove next line as soon as Cilia BUG #5 has been FIXED !
+			 * json =
+			 * "{ \nChain : simple-chain,\nMediators : [\naverage,\nsum\n],\nAdapters : [\nrandom-generator,\nconsole\n],\n"
+			 * +
+			 * "Bindings : [\n{from: \"random-generator:std\",to: \"average:in\"},\n{from: \"sum:out\",to: \"console:std\"},\n{from: \"random-generator:std\",to: \"sum:in\"},\n{from: \"average:out\",to: \"console:std\"}\n]"
+			 * + "\n}";
+			 */
 
-			System.out.println(js.getString("Chain") + "\n");
-			JSONArray array = js.getJSONArray("Mediators");
-
-			for (int i = 0; i < array.length(); i++)
-				System.out.println(array.getString(i) + "\n");
+			return new JSONObject(json);
 
 		} catch (JSONException e) {
 			String message = "Error while parsing JSON message";
 			throw new CiliaException(message, e);
 		}
-
-		// TODO implementation !
-
-		return null;
 	}
 
 	private static HttpResquestResult get(String hostname, int port, String url) throws CiliaException {

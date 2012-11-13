@@ -36,7 +36,7 @@ public class PlatformFile extends GenericFile<PlatformModel> implements Mergeabl
 		super(file);
 
 		try {
-			model = new PlatformModel(file);
+			model = new PlatformModel(file, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model = null;

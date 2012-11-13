@@ -18,6 +18,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
@@ -25,8 +27,10 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.GenericRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.restmonitoring.misc.preferencepage.RestMonitoringPreferencePage;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
+import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
 
 /**
  * 
@@ -127,6 +131,41 @@ public class PlatformRepoService extends GenericRepoService<PlatformFile, Platfo
 		// path update
 		for (Changeset c : changes) {
 			c.pushPathElement(pfFile);
+			c.pushPathElement(this);
+		}
+
+		// Update content provider
+		contentProvider = new PlatformContentProvider(repoContent);
+
+		// Update markers relative to this repository
+		updateMarkers();
+
+		// Sends notifications
+		notifyListeners(changes);
+	}
+
+	public void updateChain(PlatformModel platform, String chainName) throws CiliaException {
+
+		if (platform == null)
+			throw new CiliaException("Can't update model: Platform is null");
+		if (platform.isValid() != null)
+			throw new CiliaException("Can't update model: Platform is not valid (" + platform.isValid() + ")");
+
+		String host = platform.getHost();
+		int port = platform.getPort();
+
+		JSONObject json = null;
+		try {
+			json = CiliaRestHelper.getChainContent(host, port, chainName);
+		} catch (CiliaException e) {
+			throw new CiliaException("Error while asking chain content for " + chainName + " to " + host + ":" + port, e);
+		}
+
+		PlatformChain newChain = new PlatformChain(json, platform);
+		List<Changeset> changes = platform.getChain(chainName).merge(newChain);
+
+		for (Changeset c : changes) {
+			c.pushPathElement(platform.getPlatformFile());
 			c.pushPathElement(this);
 		}
 

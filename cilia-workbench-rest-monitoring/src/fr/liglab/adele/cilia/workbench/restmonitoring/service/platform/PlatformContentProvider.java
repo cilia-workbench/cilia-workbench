@@ -20,6 +20,9 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningAdapter;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningBinding;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningMediator;
 
 /**
  * 
@@ -36,8 +39,18 @@ public class PlatformContentProvider extends GenericContentProvider {
 
 			PlatformModel model = file.getModel();
 			if (model != null) {
-				for (PlatformChain pc : model.getChains())
+				for (PlatformChain pc : model.getChains()) {
 					addRelationship(true, file, pc);
+
+					for (RunningMediator mediator : pc.getMediators())
+						addRelationship(false, pc, mediator);
+
+					for (RunningAdapter adapter : pc.getAdapters())
+						addRelationship(false, pc, adapter);
+
+					for (RunningBinding binding : pc.getBindings())
+						addRelationship(false, pc, binding);
+				}
 			}
 		}
 	}

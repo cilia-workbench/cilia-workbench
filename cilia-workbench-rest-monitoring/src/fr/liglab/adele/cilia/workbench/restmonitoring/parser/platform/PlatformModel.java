@@ -25,6 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.GenericModel;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
@@ -46,8 +47,12 @@ public class PlatformModel extends GenericModel implements Mergeable, ErrorsAndW
 
 	private List<PlatformChain> chains = new ArrayList<PlatformChain>();
 
-	public PlatformModel(File file) throws CiliaException {
+	private final PlatformFile platformFile;
+
+	public PlatformModel(File file, PlatformFile platformFile) throws CiliaException {
 		super(file, ROOT_NODE_NAME);
+
+		this.platformFile = platformFile;
 
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
@@ -62,6 +67,10 @@ public class PlatformModel extends GenericModel implements Mergeable, ErrorsAndW
 
 	public int getPort() {
 		return Integer.valueOf(port);
+	}
+
+	public PlatformFile getPlatformFile() {
+		return platformFile;
 	}
 
 	@Override
@@ -115,7 +124,7 @@ public class PlatformModel extends GenericModel implements Mergeable, ErrorsAndW
 		return chains;
 	}
 
-	private PlatformChain getChain(String chain) {
+	public PlatformChain getChain(String chain) {
 		for (PlatformChain pc : chains)
 			if (pc.getName().equals(chain))
 				return pc;
@@ -154,6 +163,7 @@ public class PlatformModel extends GenericModel implements Mergeable, ErrorsAndW
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
+
 		CiliaFlag e1 = null;
 		CiliaFlag e2 = null;
 
@@ -162,6 +172,8 @@ public class PlatformModel extends GenericModel implements Mergeable, ErrorsAndW
 		if (portValidator(port) != null)
 			e1 = new CiliaError(portValidator(port), this);
 
-		return CiliaFlag.generateTab(e1, e2);
+		List<CiliaFlag> list = IdentifiableUtils.getErrorsNonUniqueId(this, chains);
+
+		return CiliaFlag.generateTab(list, e1, e2);
 	}
 }
