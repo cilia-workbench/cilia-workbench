@@ -60,8 +60,8 @@ public class PlatformModel extends GenericModel implements Mergeable, ErrorsAndW
 		return host;
 	}
 
-	public String getPort() {
-		return port;
+	public int getPort() {
+		return Integer.valueOf(port);
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class PlatformModel extends GenericModel implements Mergeable, ErrorsAndW
 		// ADD
 		for (String chain : chainsList) {
 			if (getChain(chain) == null) {
-				PlatformChain pc = new PlatformChain(chain);
+				PlatformChain pc = new PlatformChain(chain, this);
 				chains.add(pc);
 				retval.add(new Changeset(Operation.ADD, pc));
 			}
@@ -141,6 +141,14 @@ public class PlatformModel extends GenericModel implements Mergeable, ErrorsAndW
 			return "Wrong port format";
 		}
 
+		return null;
+	}
+
+	public String isValid() {
+		if (hostValidator(host) != null)
+			return hostValidator(host);
+		if (portValidator(port) != null)
+			return portValidator(port);
 		return null;
 	}
 

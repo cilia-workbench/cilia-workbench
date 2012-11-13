@@ -27,9 +27,11 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
 public class PlatformChain implements ErrorsAndWarningsFinder, DisplayedInPropertiesView, Identifiable {
 
 	private final String name;
+	private final PlatformModel platform;
 
-	public PlatformChain(String name) {
+	public PlatformChain(String name, PlatformModel platform) {
 		this.name = name;
+		this.platform = platform;
 	}
 
 	@Override
@@ -39,6 +41,10 @@ public class PlatformChain implements ErrorsAndWarningsFinder, DisplayedInProper
 
 	public String getName() {
 		return name;
+	}
+
+	public PlatformModel getPlatform() {
+		return platform;
 	}
 
 	@Override

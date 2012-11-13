@@ -35,15 +35,7 @@
 		</processor>
 	</mediator-specification>
 
-	<mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
-		</ports>
-		<properties>
-			<property name="category"/>
-		</properties>
-	</mediator-specification>
+	
 
     <!--
 	<mediator-specification id="regression" namespace="fr.liglab.cube">
@@ -58,4 +50,15 @@
 	</mediator-specification>
     -->
 
+
+
+<mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+<properties>
+<property name="category"/>
+</properties>
+</mediator-specification>
 </cilia-specifications>

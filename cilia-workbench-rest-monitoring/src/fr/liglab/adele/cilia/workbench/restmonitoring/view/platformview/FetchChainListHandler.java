@@ -51,21 +51,13 @@ public class FetchChainListHandler extends PlatformViewHandler {
 			return null;
 		}
 
+		if (model.isValid() != null) {
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", model.isValid());
+			return null;
+		}
+
 		String host = model.getHost();
-		String port = model.getPort();
-
-		String hostMsg = PlatformModel.hostValidator(host);
-		String portMsg = PlatformModel.portValidator(port);
-
-		if (hostMsg != null) {
-			MessageDialog.openError(ViewUtil.getShell(event), "Error", hostMsg);
-			return null;
-		}
-
-		if (portMsg != null) {
-			MessageDialog.openError(ViewUtil.getShell(event), "Error", portMsg);
-			return null;
-		}
+		int port = model.getPort();
 
 		// REST
 		// ====

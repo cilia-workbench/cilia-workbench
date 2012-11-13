@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorReference;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
@@ -32,6 +33,7 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformCh
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
+import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
 
 /**
  * 
@@ -82,17 +84,25 @@ public class PlatformView extends RepositoryView<PlatformFile, PlatformModel> im
 
 	@Override
 	public void selectionChanged(String partId, ISelection selection) {
-		// TODO on regarde ce qui est sélectionné...
-		// si c'est une chaine, il faut mettre à jour le modèle par une requête
-		// rest.
 
-		if (selection instanceof StructuredSelection) {
+		if (selection != null && selection instanceof StructuredSelection) {
 			StructuredSelection ss = (StructuredSelection) selection;
 			Object elm = ss.getFirstElement();
-			if (elm != null)
-				System.out.println(elm);
-		}
+			if (elm != null && elm instanceof PlatformChain) {
+				PlatformChain pc = (PlatformChain) elm;
 
-		System.out.println(selection);
+				if (pc.getPlatform() != null && pc.getPlatform().isValid() == null) {
+					String host = pc.getPlatform().getHost();
+					int port = pc.getPlatform().getPort();
+					String chainName = pc.getName();
+
+					try {
+						CiliaRestHelper.getChainContent(host, port, chainName);
+					} catch (CiliaException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 }
