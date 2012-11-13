@@ -17,6 +17,9 @@ package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**
  * 
@@ -27,6 +30,7 @@ public class OutAdapterImplem extends AdapterImplem {
 	String sender;
 
 	public OutAdapterImplem(Node node) throws CiliaException {
+		super(node);
 		AdapterImplemUtil.initAdapter(node, this, "sender");
 	}
 
@@ -35,8 +39,13 @@ public class OutAdapterImplem extends AdapterImplem {
 		return AdapterType.OUT;
 	}
 
-	public String getSender() {
+	public String getSenderID() {
 		return sender;
+	}
+
+	public SenderImplem getSender() {
+		String id = getSenderID();
+		return JarRepoService.getInstance().getSender(id);
 	}
 
 	protected void setSubElement(String subElement) {
@@ -46,5 +55,22 @@ public class OutAdapterImplem extends AdapterImplem {
 	@Override
 	protected String getSubElement() {
 		return sender;
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] flagsTab = super.getErrorsAndWarnings();
+		CiliaError e1 = null;
+		CiliaError e2 = null;
+
+		if (getOutPorts().size() != 0) {
+			e1 = new CiliaError("OutAdapter has " + getOutPorts().size() + " out ports", this);
+		}
+
+		if (getInPorts().size() != 1) {
+			e2 = new CiliaError("OutAdapter must have 1 and only 1 in port, not " + getInPorts().size(), this);
+		}
+
+		return CiliaFlag.generateTab(flagsTab, e1, e2);
 	}
 }

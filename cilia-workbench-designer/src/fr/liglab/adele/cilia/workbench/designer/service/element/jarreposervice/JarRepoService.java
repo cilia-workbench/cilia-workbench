@@ -208,9 +208,9 @@ public class JarRepoService extends GenericRepoService<CiliaJarFile, CiliaJarMod
 		return retval;
 	}
 
-	public CollectorImplem getCollector(NameNamespaceID nn) {
+	public CollectorImplem getCollector(String name) {
 		for (CollectorImplem c : getCollectors())
-			if (c.getId().equals(nn))
+			if (c.getId().equals(name))
 				return c;
 		return null;
 	}
@@ -222,6 +222,13 @@ public class JarRepoService extends GenericRepoService<CiliaJarFile, CiliaJarMod
 				retval.addAll(bundle.getModel().getSenders());
 
 		return retval;
+	}
+
+	public SenderImplem getSender(String name) {
+		for (SenderImplem s : getSenders())
+			if (s.getId().equals(name))
+				return s;
+		return null;
 	}
 
 	public NameNamespaceID[] getMediatorsId() {

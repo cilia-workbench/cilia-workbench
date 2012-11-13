@@ -17,13 +17,16 @@ package fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CollectorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.DispatcherImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.InAdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.OutAdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.ParameterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.ProcessorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.PropertyImplem;
@@ -57,22 +60,22 @@ public class JarContentProvider extends GenericContentProvider {
 					if (scheduler != null)
 						addRelationship(true, mc, scheduler);
 					else
-						addRelationship(true, mc, new FakeElement(mc.getSchedulerID().toString(), "Unknown scheduler "
-								+ mc.getSchedulerID().toString(), SchedulerImplem.class));
+						addRelationship(true, mc, new FakeElement(mc.getSchedulerID().toString(), "Unknown scheduler " + mc.getSchedulerID().toString(),
+								SchedulerImplem.class));
 
 					ProcessorImplem processor = mc.getProcessor();
 					if (processor != null)
 						addRelationship(true, mc, processor);
 					else
-						addRelationship(true, mc, new FakeElement(mc.getProcessorID().toString(), "Unknown processor "
-								+ mc.getProcessorID().toString(), SchedulerImplem.class));
+						addRelationship(true, mc, new FakeElement(mc.getProcessorID().toString(), "Unknown processor " + mc.getProcessorID().toString(),
+								SchedulerImplem.class));
 
 					DispatcherImplem dispatcher = mc.getDispatcher();
 					if (dispatcher != null)
 						addRelationship(true, mc, dispatcher);
 					else
-						addRelationship(true, mc, new FakeElement(mc.getDispatcherID().toString(),
-								"Unknown dispatcher " + mc.getDispatcherID().toString(), SchedulerImplem.class));
+						addRelationship(true, mc, new FakeElement(mc.getDispatcherID().toString(), "Unknown dispatcher " + mc.getDispatcherID().toString(),
+								SchedulerImplem.class));
 
 					for (IPort p : mc.getPorts())
 						addRelationship(true, mc, p);
@@ -111,8 +114,31 @@ public class JarContentProvider extends GenericContentProvider {
 						addRelationship(true, s, param);
 				}
 
-				for (AdapterImplem a : ipojo.getAdapters())
+				for (AdapterImplem a : ipojo.getAdapters()) {
 					addRelationship(true, bundle, a);
+					for (IPort port : a.getPorts())
+						addRelationship(true, a, port);
+
+					if (a.getType() == AdapterType.IN) {
+						CollectorImplem collector = ((InAdapterImplem) a).getCollector();
+						if (collector != null)
+							addRelationship(true, a, collector);
+						else {
+							String name = ((InAdapterImplem) a).getCollectorID();
+							addRelationship(true, a, new FakeElement(name, "Unknown collector " + name, CollectorImplem.class));
+						}
+					}
+
+					if (a.getType() == AdapterType.OUT) {
+						SenderImplem sender = ((OutAdapterImplem) a).getSender();
+						if (sender != null)
+							addRelationship(true, a, sender);
+						else {
+							String name = ((OutAdapterImplem) a).getSenderID();
+							addRelationship(true, a, new FakeElement(name, "Unknown sender " + name, SenderImplem.class));
+						}
+					}
+				}
 			}
 		}
 	}

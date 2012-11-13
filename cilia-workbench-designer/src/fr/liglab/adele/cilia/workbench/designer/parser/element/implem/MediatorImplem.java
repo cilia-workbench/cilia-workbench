@@ -62,7 +62,7 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 	private String dispatcherName;
 	private String dispatcherNamespace;
 
-	private List<IPort> ports = new ArrayList<IPort>();
+	private List<IPort> ports;
 
 	private List<PropertyImplem> properties = new ArrayList<PropertyImplem>();
 
@@ -108,15 +108,7 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 			ReflectionUtil.setAttribute(dispatcherNode, "namespace", this, "dispatcherNamespace", defNs);
 		}
 
-		Node portsNode = XMLHelpers.findChild(node, "ports");
-		if (portsNode != null) {
-			Node[] inPorts = XMLHelpers.findChildren(portsNode, InPortImplem.XML_NODE_NAME);
-			for (Node inPort : inPorts)
-				ports.add(new InPortImplem(inPort));
-			Node[] outPorts = XMLHelpers.findChildren(portsNode, OutPortImplem.XML_NODE_NAME);
-			for (Node outPort : outPorts)
-				ports.add(new OutPortImplem(outPort));
-		}
+		ports = ComponentImplemHelper.getPorts(node);
 	}
 
 	public List<IPort> getPorts() {

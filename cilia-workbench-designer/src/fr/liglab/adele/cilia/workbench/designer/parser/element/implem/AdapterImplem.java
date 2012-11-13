@@ -14,18 +14,55 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.w3c.dom.Node;
+
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
 
 /**
  * 
  * @author Etienne Gandrille
  */
 public abstract class AdapterImplem extends NameNamespace implements IAdapter, Identifiable, ErrorsAndWarningsFinder {
+
+	private List<IPort> ports;
+
+	public AdapterImplem(Node node) throws CiliaException {
+		ports = ComponentImplemHelper.getPorts(node);
+	}
+
+	public List<IPort> getPorts() {
+		return ports;
+	}
+
+	public List<InPort> getInPorts() {
+		List<InPort> retval = new ArrayList<InPort>();
+		for (IPort p : ports)
+			if (p.getNature() == PortNature.IN)
+				retval.add((InPort) p);
+		return retval;
+	}
+
+	public List<OutPort> getOutPorts() {
+		List<OutPort> retval = new ArrayList<OutPort>();
+		for (IPort p : ports)
+			if (p.getNature() == PortNature.OUT)
+				retval.add((OutPort) p);
+		return retval;
+	}
 
 	/**
 	 * Sub element is a collector or a sender, depending on the
@@ -46,9 +83,16 @@ public abstract class AdapterImplem extends NameNamespace implements IAdapter, I
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] flagsTab = super.getErrorsAndWarnings();
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
+
+		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
+		for (CiliaFlag f : tab)
+			flagsTab.add(f);
 
 		CiliaError e1 = CiliaError.checkStringNotNullOrEmpty(this, getSubElement(), "sub element");
+
+		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getInPorts()));
+		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getOutPorts()));
 
 		return CiliaFlag.generateTab(flagsTab, e1);
 	}
