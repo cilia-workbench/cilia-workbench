@@ -44,8 +44,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.Port
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpec implements IMediator, DisplayedInPropertiesView, ErrorsAndWarningsFinder,
-		Identifiable, Mergeable {
+public class MediatorSpec implements IMediator, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
 
@@ -145,6 +144,24 @@ public class MediatorSpec implements IMediator, DisplayedInPropertiesView, Error
 			if (p.getNature() == PortNature.OUT)
 				retval.add((OutPort) p);
 		return retval;
+	}
+
+	@Override
+	public boolean hasInPort(String name) {
+		for (IPort port : getInPorts())
+			if (port.getName().equalsIgnoreCase(name))
+				return true;
+
+		return false;
+	}
+
+	@Override
+	public boolean hasOutPort(String name) {
+		for (IPort port : getOutPorts())
+			if (port.getName().equalsIgnoreCase(name))
+				return true;
+
+		return false;
 	}
 
 	@Override

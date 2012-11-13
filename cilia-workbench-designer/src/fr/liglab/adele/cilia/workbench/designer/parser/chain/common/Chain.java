@@ -219,6 +219,12 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 				return dstElem + " is an in-adapter. It can't be a binding destination.";
 		}
 
+		// Port checking
+		if (!src.hasOutPort(srcPort))
+			return "unknown " + srcElem + " out-port with name " + srcPort;
+		if (!dst.hasInPort(dstPort))
+			return "unknown " + dstElem + " in-port with name " + dstPort;
+
 		return null;
 	}
 

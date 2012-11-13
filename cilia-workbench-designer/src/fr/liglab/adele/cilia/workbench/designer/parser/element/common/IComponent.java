@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
 
+import java.util.List;
+
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 
 /**
@@ -22,4 +24,13 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
  */
 public interface IComponent extends Identifiable, ComponentNatureAskable {
 
+	public List<? extends IPort> getPorts();
+
+	public List<? extends IPort> getInPorts();
+
+	public List<? extends IPort> getOutPorts();
+
+	public boolean hasInPort(String name);
+
+	public boolean hasOutPort(String name);
 }

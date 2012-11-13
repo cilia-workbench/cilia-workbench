@@ -25,12 +25,6 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
  */
 public interface IMediator extends IComponent {
 
-	public List<? extends IPort> getPorts();
-
-	public List<? extends IPort> getInPorts();
-
-	public List<? extends IPort> getOutPorts();
-
 	public List<? extends Property> getProperties();
 
 	public Property getProperty(String name);

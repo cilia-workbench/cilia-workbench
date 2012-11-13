@@ -10,10 +10,10 @@
 			<adapter-instance id="console" namespace="fr.liglab.adele.cilia" type="console-adapter"/>
 		</adapters>
 		<bindings>
-			<binding from="random-generator" to="average:in"/>
-			<binding from="random-generator" to="sum:in"/>
-			<binding from="average:out" to="console"/>
-			<binding from="sum:out" to="console"/>
+			<binding from="random-generator:out" to="average:in"/>
+			<binding from="random-generator:out" to="sum:in"/>
+			<binding from="average:out" to="console:unique"/>
+			<binding from="sum:out" to="console:unique"/>
 		</bindings>
 	</chain>
 </cilia>

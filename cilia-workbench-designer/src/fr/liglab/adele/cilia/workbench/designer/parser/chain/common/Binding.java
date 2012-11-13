@@ -33,6 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent;
 
 /**
  * 
@@ -89,14 +90,14 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		return getChain().getComponent(getDestinationId());
 	}
 
-	public Object getSourceReferencedObject() {
+	public IComponent getSourceReferencedObject() {
 		ComponentRef component = getSourceComponent();
 		if (component == null)
 			return null;
 		return component.getReferencedObject();
 	}
 
-	public Object getDestinationReferencedObject() {
+	public IComponent getDestinationReferencedObject() {
 		ComponentRef component = getDestinationComponent();
 		if (component == null)
 			return null;
@@ -117,16 +118,22 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 
 		CiliaFlag e1 = CiliaError.checkNotNull(this, src, "binding source");
 		CiliaFlag e2 = CiliaError.checkNotNull(this, dst, "binding destination");
+		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, getSourcePort(), "binding source port");
+		CiliaFlag e4 = CiliaError.checkStringNotNullOrEmpty(this, getDestinationPort(), "binding destination port");
+
+		if (!Strings.isNullOrEmpty(getSourcePort()) && getSourceReferencedObject() != null)
+			if (!getSourceReferencedObject().hasOutPort(getSourcePort()))
+				list.add(new CiliaError("Binding " + this + " source port is undefined in " + getSourceReferencedObject(), this));
+
+		if (!Strings.isNullOrEmpty(getDestinationPort()) && getDestinationReferencedObject() != null)
+			if (!getDestinationReferencedObject().hasInPort(getDestinationPort()))
+				list.add(new CiliaError("Binding " + this + " destination port is undefined in " + getDestinationReferencedObject(), this));
 
 		if (src != null && src instanceof AdapterRef) {
 			IAdapter ro = ((AdapterRef) src).getReferencedObject();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.OUT) {
 					list.add(new CiliaError("Binding " + this + " has its source connected to an out adapter", this));
-				}
-
-				if (ro.getType() == AdapterType.IN && !Strings.isNullOrEmpty(getSourcePort())) {
-					list.add(new CiliaError("Binding " + this + " reference an in port but it's linked to an adapter", this));
 				}
 			}
 		}
@@ -137,14 +144,10 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 				if (ro.getType() == AdapterType.IN) {
 					list.add(new CiliaError("Binding " + this + " has its destination connected to an in adapter", this));
 				}
-
-				if (ro.getType() == AdapterType.OUT && !Strings.isNullOrEmpty(getDestinationPort())) {
-					list.add(new CiliaError("Binding " + this + " reference an out port but it's linked to an adapter", this));
-				}
 			}
 		}
 
-		return CiliaFlag.generateTab(list, e1, e2);
+		return CiliaFlag.generateTab(list, e1, e2, e3, e4);
 	}
 
 	@Override

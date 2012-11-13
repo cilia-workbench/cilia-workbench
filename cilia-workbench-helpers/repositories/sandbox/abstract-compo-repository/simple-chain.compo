@@ -10,10 +10,10 @@
 			<adapter-implem id="generator" namespace="fr.liglab.adele.cilia" type="number-generator-adapter"/>
 		</adapters>
 		<bindings>
-			<binding from="generator" from-cardinality="1..1" to="sum:in" to-cardinality="0..1"/>
-			<binding from="sum:out" from-cardinality="0..1" to="console" to-cardinality="1..1"/>
-			<binding from="average:out" from-cardinality="0..1" to="console" to-cardinality="1..1"/>
-			<binding from="generator" from-cardinality="1..1" to="average:in" to-cardinality="0..1"/>
+			<binding from="generator:unique" from-cardinality="1..1" to="sum:in" to-cardinality="0..1"/>
+			<binding from="sum:out" from-cardinality="0..1" to="console:unique" to-cardinality="1..1"/>
+			<binding from="average:out" from-cardinality="0..1" to="console:unique" to-cardinality="1..1"/>
+			<binding from="generator:unique" from-cardinality="1..1" to="average:in" to-cardinality="0..1"/>
 		</bindings>
 	</chain>
 </cilia-composition-specifications>

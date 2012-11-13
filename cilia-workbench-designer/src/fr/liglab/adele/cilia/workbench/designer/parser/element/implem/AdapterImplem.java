@@ -64,6 +64,24 @@ public abstract class AdapterImplem extends NameNamespace implements IAdapter, I
 		return retval;
 	}
 
+	@Override
+	public boolean hasInPort(String name) {
+		for (IPort port : getInPorts())
+			if (port.getName().equalsIgnoreCase(name))
+				return true;
+
+		return false;
+	}
+
+	@Override
+	public boolean hasOutPort(String name) {
+		for (IPort port : getOutPorts())
+			if (port.getName().equalsIgnoreCase(name))
+				return true;
+
+		return false;
+	}
+
 	/**
 	 * Sub element is a collector or a sender, depending on the
 	 * {@link AdapterType}.
