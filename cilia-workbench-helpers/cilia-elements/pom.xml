@@ -21,11 +21,16 @@
 	<!-- Repositories List -->
 	<repositories>
 		<repository>
-			<id>cilia-repo</id>
-			<url>http://cilia.ligforge.imag.fr/repo/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
+			<id>maven-cilia-repository-release</id>
+			<name>Cilia - Release</name>
+			<url>http://repository-cilia.forge.cloudbees.com/release/</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>maven-cilia-repository-snapshot</id>
+			<name>Cilia - Snapshot</name>
+			<url>http://repository-cilia.forge.cloudbees.com/snapshot/</url>
+			<layout>default</layout>
 		</repository>
 	</repositories>
 
@@ -34,12 +39,12 @@
 		<dependency>
 			<groupId>fr.liglab.adele.cilia</groupId>
 			<artifactId>cilia-core</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.5.3-SNAPSHOT</version>
 		</dependency>
-		<dependency>
+ 		<dependency>
 			<groupId>fr.liglab.adele.cilia</groupId>
-			<artifactId>cilia-ipojo-runtime</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<artifactId>cilia-runtime</artifactId>
+			<version>1.5.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

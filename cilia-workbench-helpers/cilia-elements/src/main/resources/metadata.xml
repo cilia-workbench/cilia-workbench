@@ -96,6 +96,9 @@
 
 	<adapter name="random-generator" pattern="in-only">
 		<collector type="random-collector" />
+		<ports>
+			<out-port name="out" />
+		</ports>
 	</adapter>
 
 
@@ -108,6 +111,9 @@
 
 	<adapter name="counter-generator" pattern="in-only">
 		<collector type="counter-collector" />
+		<ports>
+			<out-port name="out" />
+		</ports>
 	</adapter>
 
 
@@ -119,6 +125,9 @@
 
 	<adapter name="console-writer" pattern="out-only">
 		<sender type="console-writer-sender" />
+		<ports>
+			<in-port name="in" />
+		</ports>
 	</adapter>
 
 </ipojo>

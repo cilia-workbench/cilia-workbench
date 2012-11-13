@@ -23,14 +23,14 @@ import fr.liglab.adele.cilia.Data;
  */
 public class MathProcessor extends IntegerProcessor {
 
-	private Integer sum = 0;
+	private Integer sum = new Integer(0);
 	private int counter = 0;
 
 	private void process(Data data) {
 		Integer content = getInteger(data);
 
 		if (content != null)
-			sum += content;
+			sum = new Integer(content.intValue() + sum.intValue());
 		counter++;
 	}
 
@@ -54,7 +54,8 @@ public class MathProcessor extends IntegerProcessor {
 	 */
 	public Data average(Data data) {
 		process(data);
-		data.setContent(sum / counter);
+		data.setContent(new Integer(sum.intValue() / counter));
+
 		return data;
 	}
 }

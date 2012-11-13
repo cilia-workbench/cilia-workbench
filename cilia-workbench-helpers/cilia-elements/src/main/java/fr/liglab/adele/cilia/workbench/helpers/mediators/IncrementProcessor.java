@@ -29,7 +29,7 @@ public class IncrementProcessor extends IntegerProcessor {
 		Integer content = getInteger(data);
 
 		if (content != null) {
-			Integer value = content + increment;
+			Integer value = new Integer(content.intValue() + increment.intValue());
 			data.setContent(value);
 		}
 
