@@ -57,17 +57,7 @@ public class CiliaRestHelper {
 		String json = response.getMessage();
 
 		try {
-			/*
-			 * DEBUG : remove next line as soon as Cilia BUG #5 has been FIXED !
-			 * json =
-			 * "{ \nChain : simple-chain,\nMediators : [\naverage,\nsum\n],\nAdapters : [\nrandom-generator,\nconsole\n],\n"
-			 * +
-			 * "Bindings : [\n{from: \"random-generator:std\",to: \"average:in\"},\n{from: \"sum:out\",to: \"console:std\"},\n{from: \"random-generator:std\",to: \"sum:in\"},\n{from: \"average:out\",to: \"console:std\"}\n]"
-			 * + "\n}";
-			 */
-
 			return new JSONObject(json);
-
 		} catch (JSONException e) {
 			String message = "Error while parsing JSON message";
 			throw new CiliaException(message, e);
