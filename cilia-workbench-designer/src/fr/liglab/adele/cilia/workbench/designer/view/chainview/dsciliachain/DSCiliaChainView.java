@@ -105,9 +105,10 @@ public class DSCiliaChainView extends GraphView implements IRepoServiceListener,
 					DSCiliaModel removedModel = ((DSCiliaFile) (change.getObject())).getModel();
 					if (removedModel != null) {
 						for (DSCiliaChain removedChain : removedModel.getChains()) {
-							if (removedChain == model)
+							if (removedChain == model) {
 								updateConfigAndModel(null);
-							return;
+								return;
+							}
 						}
 					}
 				}

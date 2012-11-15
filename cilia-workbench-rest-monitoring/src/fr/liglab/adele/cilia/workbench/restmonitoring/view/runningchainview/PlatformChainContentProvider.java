@@ -14,10 +14,16 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningAdapter;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningBinding;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningMediator;
 
 /**
  * 
@@ -33,20 +39,36 @@ public class PlatformChainContentProvider implements IGraphEntityContentProvider
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		// TODO lien avec le modèle
 		if (inputElement == null)
 			return new Object[0];
-		else
-			return new Object[0];
+		else {
+			List<Object> retval = new ArrayList<Object>();
+			PlatformChain chain = (PlatformChain) inputElement;
+			retval.addAll(chain.getAdapters());
+			retval.addAll(chain.getMediators());
+
+			return retval.toArray();
+		}
 	}
 
 	@Override
 	public Object[] getConnectedTo(Object entity) {
-		// TODO lien avec le modèle
 		if (entity == null)
 			return new Object[0];
-		else
-			return new Object[0];
+		else if (entity instanceof RunningAdapter) {
+			List<Object> retval = new ArrayList<Object>();
+			List<RunningBinding> bindings = model.getOutgoingBindings(((RunningAdapter) entity).getName());
+			for (RunningBinding binding : bindings)
+				retval.add(model.getComponent(binding.getDestinationId()));
+			return retval.toArray();
+		} else if (entity instanceof RunningMediator) {
+			List<Object> retval = new ArrayList<Object>();
+			List<RunningBinding> bindings = model.getOutgoingBindings(((RunningMediator) entity).getName());
+			for (RunningBinding binding : bindings)
+				retval.add(model.getComponent(binding.getDestinationId()));
+			return retval.toArray();
+		} else
+			throw new RuntimeException("Unsupported class " + entity.getClass());
 	}
 
 	@Override

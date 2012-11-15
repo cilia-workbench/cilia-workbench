@@ -43,6 +43,10 @@ public class RunningMediator implements DisplayedInPropertiesView, ErrorsAndWarn
 		return name;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	@Override
 	public Object getId() {
 		return name;

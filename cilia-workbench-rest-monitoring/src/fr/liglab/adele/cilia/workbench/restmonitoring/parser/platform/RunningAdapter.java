@@ -48,6 +48,10 @@ public class RunningAdapter implements DisplayedInPropertiesView, ErrorsAndWarni
 		return name;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		return new ArrayList<Changeset>();

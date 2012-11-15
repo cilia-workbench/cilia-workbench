@@ -18,6 +18,8 @@ import org.eclipse.zest.core.viewers.EntityConnectionData;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.AbstractGraphLabelProvider;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningAdapter;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningMediator;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 
 /**
@@ -34,10 +36,25 @@ public class PlatformChainLabelProvider extends AbstractGraphLabelProvider {
 	@Override
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 
-		// to be implemented...
-		throw new RuntimeException("Unsupported type: " + obj.getClass());
+		ImageDescriptorEnum imageName;
+		if (isCompatible(obj, RunningAdapter.class)) {
+			// TODO IN / OUT adapters
+			// RunningAdapter adapter = (RunningAdapter) obj;
+			/*
+			 * if (adapter.getReferencedObject() != null) { if
+			 * (adapter.getReferencedObject().getType() == RunningAdapter.IN)
+			 * imageName = ImageDescriptorEnum.ADAPTER_IN; else imageName =
+			 * ImageDescriptorEnum.ADAPTER_OUT; } else
+			 */
+			imageName = ImageDescriptorEnum.ADAPTER_IN;
+		} else if (isCompatible(obj, RunningMediator.class))
+			imageName = ImageDescriptorEnum.MEDIATOR;
+		else if (isCompatible(obj, EntityConnectionData.class))
+			imageName = ImageDescriptorEnum.ONLY_TEXT;
+		else
+			throw new RuntimeException("Unsupported type: " + obj.getClass());
 
-		// return imageName;
+		return imageName;
 	}
 
 	@Override
@@ -45,7 +62,7 @@ public class PlatformChainLabelProvider extends AbstractGraphLabelProvider {
 		String defval = super.getText(element);
 
 		if (isCompatible(element, EntityConnectionData.class)) {
-			return defval;
+			return "";
 		} else {
 			return defval;
 		}

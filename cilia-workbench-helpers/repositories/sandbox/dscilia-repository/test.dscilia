@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cilia>
+	<chain id="chain1" namespace="fr.liglab.adele.cilia.workbench.test">
+		<adapters>
+			<adapter-instance id="console" namespace="fr.liglab.adele.cilia"
+				type="console-adapter" />
+			<adapter-instance id="counter" namespace="fr.liglab.adele.cilia"
+				type="counter-generator" />
+		</adapters>
+		<mediators>
+			<mediator-instance id="groovy" namespace="fr.liglab.adele.cilia"
+				type="groovy-mediator" />
+		</mediators>
+		<bindings>
+			<binding from="counter:out" to="groovy:in" />
+			<binding from="groovy:out" to="console:unique" />
+		</bindings>
+	</chain>
+</cilia>

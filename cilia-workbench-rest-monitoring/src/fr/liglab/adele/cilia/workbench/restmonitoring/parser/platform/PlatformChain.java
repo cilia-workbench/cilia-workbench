@@ -97,8 +97,40 @@ public class PlatformChain implements DisplayedInPropertiesView, ErrorsAndWarnin
 		return adapters;
 	}
 
+	public Object getComponent(String name) {
+		for (RunningMediator mediator : mediators)
+			if (mediator.getName().equalsIgnoreCase(name))
+				return mediator;
+		for (RunningAdapter adapter : adapters)
+			if (adapter.getName().equalsIgnoreCase(name))
+				return adapter;
+		return null;
+	}
+
 	public List<RunningBinding> getBindings() {
 		return bindings;
+	}
+
+	public List<RunningBinding> getIncomingBindings(String element) {
+		List<RunningBinding> retval = new ArrayList<RunningBinding>();
+
+		for (RunningBinding binding : bindings) {
+			if (binding.getDestinationId().equals(element))
+				retval.add(binding);
+		}
+
+		return retval;
+	}
+
+	public List<RunningBinding> getOutgoingBindings(String element) {
+		List<RunningBinding> retval = new ArrayList<RunningBinding>();
+
+		for (RunningBinding binding : bindings) {
+			if (binding.getSourceId().equals(element))
+				retval.add(binding);
+		}
+
+		return retval;
 	}
 
 	@Override

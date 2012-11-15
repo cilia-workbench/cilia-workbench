@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
@@ -25,9 +26,13 @@ import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
+import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.PlatformView;
 
@@ -41,6 +46,8 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 	private IBaseLabelProvider labelProvider = new PlatformChainLabelProvider();
 
+	private PlatformChain model = null;
+
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent, viewId);
@@ -51,34 +58,83 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		updateConfigAndModel(null);
 	}
 
-	private void updateConfigAndModel(PlatformChain chain) {
+	public PlatformChain getModel() {
+		return model;
+	}
 
+	private void updateConfigAndModel(PlatformChain chain) {
+		this.model = chain;
 		if (viewer.getLabelProvider() != labelProvider)
 			viewer.setLabelProvider(labelProvider);
 
-		// TODO attention à l'ordre dans affectations et ré-affectations...
+		// TODO check this
+		// if (viewer.getContentProvider() != contentProvider)
+		// viewer.setContentProvider(contentProvider);
 		viewer.setContentProvider(new PlatformChainContentProvider(chain));
+
 		viewer.setInput(chain);
+
+		if (model == null)
+			setPartName("Platform Chain Viewer");
+		else
+			setPartName(model.getName());
 
 		viewer.refresh();
 	}
 
 	@Override
 	public void selectionChanged(String partId, ISelection selection) {
-		// TODO Auto-generated method stub
-		System.out.println("RunningChainView - selection changed");
+		if (selection != null && selection instanceof TreeSelection) {
+			TreeSelection sel = (TreeSelection) selection;
+			if (sel.getFirstElement() != null && sel.getFirstElement() instanceof PlatformChain)
+				updateConfigAndModel((PlatformChain) sel.getFirstElement());
+		}
 	}
 
 	@Override
 	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes) {
-		// TODO Auto-generated method stub
-		// si l'update du repository a un impact sur ce qui doit être affiché...
-		System.out.println("RunningChainView - repo content updated");
+		// if model = null, no need to check anything...
+		if (model != null) {
+			boolean needUpdate = false;
+			for (Changeset change : changes) {
+
+				// Platform removed
+				if (change.getObject() instanceof PlatformFile && change.getOperation() == Operation.REMOVE) {
+					PlatformModel removedModel = ((PlatformFile) (change.getObject())).getModel();
+					if (removedModel != null) {
+						// This code is defferent from DSCiliaChainView because
+						// two platforms can host a
+						// chain with the same name !
+						if (model.getPlatform() == removedModel) {
+							updateConfigAndModel(null);
+							return;
+						}
+					}
+				}
+
+				// Chain removed
+				if (change.getObject() instanceof PlatformChain && change.getOperation() == Operation.REMOVE) {
+					if (model == change.getObject()) { // pointer equality
+						updateConfigAndModel(null);
+						return;
+					}
+				}
+
+				// Chain content modified
+				if (change.getPath().contains(model) && model != change.getObject()) {
+					if (change.getOperation() == Operation.REMOVE || change.getOperation() == Operation.ADD)
+						needUpdate = true;
+				}
+			}
+
+			if (needUpdate == true) {
+				updateConfigAndModel(model);
+			}
+		}
 	}
 
 	@Override
 	protected void onDoubleClick(Shell parentShell, Object element) {
-		// TODO Auto-generated method stub
-		System.out.println("RunningChainView - double click");
+		ViewUtil.notYetImplementedHandler(parentShell);
 	}
 }
