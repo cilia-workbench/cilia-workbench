@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcompositio
 
 import java.io.File;
 
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile;
 
 
 /**
@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompositionFile extends ChainFile<AbstractCompositionModel> {
+public class AbstractCompositionFile extends XMLChainFile<AbstractCompositionModel> {
 
 	public AbstractCompositionFile(File file) {
 		super(file);

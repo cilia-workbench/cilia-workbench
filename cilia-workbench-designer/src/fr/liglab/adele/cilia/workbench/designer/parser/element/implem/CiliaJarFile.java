@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
 import java.io.File;
 
-import fr.liglab.adele.cilia.workbench.common.parser.GenericFile;
+import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must
@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.GenericFile;
  * 
  * @author Etienne Gandrille
  */
-public class CiliaJarFile extends GenericFile<CiliaJarModel> {
+public class CiliaJarFile extends AbstractFile<CiliaJarModel> {
 
 	public CiliaJarFile(File file) {
 		super(file);

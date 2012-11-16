@@ -24,7 +24,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.parser.GenericModel;
+import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
  * 
  * @author Etienne Gandrille
  */
-public class CiliaJarModel extends GenericModel {
+public class CiliaJarModel extends AbstractModel {
 
 	public static final String ROOT_NODE_NAME = "ipojo";
 

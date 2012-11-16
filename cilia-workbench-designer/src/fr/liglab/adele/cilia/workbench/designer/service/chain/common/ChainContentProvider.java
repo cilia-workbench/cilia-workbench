@@ -23,7 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.PropertyConstraint;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainModel;
 
@@ -33,11 +33,11 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainMode
  */
 public abstract class ChainContentProvider<ChainType extends XMLChain> extends GenericContentProvider {
 
-	public ChainContentProvider(List<? extends ChainFile<? extends XMLChainModel<ChainType>>> repo) {
+	public ChainContentProvider(List<? extends XMLChainFile<? extends XMLChainModel<ChainType>>> repo) {
 
 		addRoot(repo);
 
-		for (ChainFile<? extends XMLChainModel<ChainType>> re : repo) {
+		for (XMLChainFile<? extends XMLChainModel<ChainType>> re : repo) {
 			addRelationship(true, repo, re);
 
 			if (re.getModel() != null) {
