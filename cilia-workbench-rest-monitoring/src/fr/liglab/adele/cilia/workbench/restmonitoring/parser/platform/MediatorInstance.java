@@ -20,22 +20,20 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IDispatcher;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IProcessor;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IScheduler;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorInstance extends Mediator implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
+public class MediatorInstance extends Mediator implements Mergeable {
 
 	private final String name;
 	private final PlatformChain chain;
@@ -74,28 +72,6 @@ public class MediatorInstance extends Mediator implements DisplayedInPropertiesV
 	public List<? extends IPort> getPorts() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public List<? extends IPort> getInPorts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<? extends IPort> getOutPorts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean hasInPort(String name) {
-		return (getInPorts().size() != 0);
-	}
-
-	@Override
-	public boolean hasOutPort(String name) {
-		return (getOutPorts().size() != 0);
 	}
 
 	@Override

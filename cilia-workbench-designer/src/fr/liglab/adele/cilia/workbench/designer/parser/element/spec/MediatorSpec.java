@@ -22,29 +22,23 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort.PortNature;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpec extends Mediator implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
+public class MediatorSpec extends Mediator implements Mergeable {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
 
@@ -128,40 +122,6 @@ public class MediatorSpec extends Mediator implements DisplayedInPropertiesView,
 
 	public List<IPort> getPorts() {
 		return ports;
-	}
-
-	public List<InPort> getInPorts() {
-		List<InPort> retval = new ArrayList<InPort>();
-		for (IPort p : ports)
-			if (p.getNature() == PortNature.IN)
-				retval.add((InPort) p);
-		return retval;
-	}
-
-	public List<OutPort> getOutPorts() {
-		List<OutPort> retval = new ArrayList<OutPort>();
-		for (IPort p : ports)
-			if (p.getNature() == PortNature.OUT)
-				retval.add((OutPort) p);
-		return retval;
-	}
-
-	@Override
-	public boolean hasInPort(String name) {
-		for (IPort port : getInPorts())
-			if (port.getName().equalsIgnoreCase(name))
-				return true;
-
-		return false;
-	}
-
-	@Override
-	public boolean hasOutPort(String name) {
-		for (IPort port : getOutPorts())
-			if (port.getName().equalsIgnoreCase(name))
-				return true;
-
-		return false;
 	}
 
 	@Override

@@ -25,13 +25,16 @@ public abstract class Mediator extends Component {
 
 	public abstract List<? extends Property> getProperties();
 
-	public abstract Property getProperty(String name);
+	public Property getProperty(String key) {
+		for (Property p : getProperties())
+			if (p.getName().equalsIgnoreCase(key))
+				return p;
+		return null;
+	}
 
 	public abstract IScheduler getScheduler();
 
 	public abstract IProcessor getProcessor();
 
 	public abstract IDispatcher getDispatcher();
-
-	public abstract Object getId();
 }

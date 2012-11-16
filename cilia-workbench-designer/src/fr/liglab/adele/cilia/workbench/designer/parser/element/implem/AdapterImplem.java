@@ -20,24 +20,19 @@ import java.util.List;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort.PortNature;
-import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class AdapterImplem extends Adapter implements Identifiable, ErrorsAndWarningsFinder {
+public abstract class AdapterImplem extends Adapter {
 
 	private List<IPort> ports;
 
@@ -48,11 +43,6 @@ public abstract class AdapterImplem extends Adapter implements Identifiable, Err
 		ports = ComponentImplemHelper.getPorts(node);
 	}
 
-	@Override
-	public NameNamespaceID getId() {
-		return new NameNamespaceID(name, namespace);
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -61,14 +51,9 @@ public abstract class AdapterImplem extends Adapter implements Identifiable, Err
 		return namespace;
 	}
 
-	/**
-	 * The qualified name is composed by the namespace and the name. If the
-	 * namespace is unavailable, this function returns the name.
-	 * 
-	 * @return the qualified name
-	 */
-	public String getQualifiedName() {
-		return new NameNamespaceID(name, namespace).getQualifiedName();
+	@Override
+	public NameNamespaceID getId() {
+		return new NameNamespaceID(name, namespace);
 	}
 
 	@Override
@@ -78,40 +63,6 @@ public abstract class AdapterImplem extends Adapter implements Identifiable, Err
 
 	public List<IPort> getPorts() {
 		return ports;
-	}
-
-	public List<InPort> getInPorts() {
-		List<InPort> retval = new ArrayList<InPort>();
-		for (IPort p : ports)
-			if (p.getNature() == PortNature.IN)
-				retval.add((InPort) p);
-		return retval;
-	}
-
-	public List<OutPort> getOutPorts() {
-		List<OutPort> retval = new ArrayList<OutPort>();
-		for (IPort p : ports)
-			if (p.getNature() == PortNature.OUT)
-				retval.add((OutPort) p);
-		return retval;
-	}
-
-	@Override
-	public boolean hasInPort(String name) {
-		for (IPort port : getInPorts())
-			if (port.getName().equalsIgnoreCase(name))
-				return true;
-
-		return false;
-	}
-
-	@Override
-	public boolean hasOutPort(String name) {
-		for (IPort port : getOutPorts())
-			if (port.getName().equalsIgnoreCase(name))
-				return true;
-
-		return false;
 	}
 
 	/**
@@ -132,11 +83,7 @@ public abstract class AdapterImplem extends Adapter implements Identifiable, Err
 	protected abstract String getSubElement();
 
 	public CiliaFlag[] getErrorsAndWarnings() {
-		// CiliaFlag[] tab = super.getErrorsAndWarnings();
-
 		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
-		// for (CiliaFlag f : tab)
-		// flagsTab.add(f);
 
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
 		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, namespace, "namespace");

@@ -14,23 +14,54 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser.element;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IPort.PortNature;
+import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Component implements Identifiable, ComponentNatureAskable {
+public abstract class Component implements Identifiable, ComponentNatureAskable, DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+
+	// PORTS
+	// =====
 
 	public abstract List<? extends IPort> getPorts();
 
-	public abstract List<? extends IPort> getInPorts();
+	public List<InPort> getInPorts() {
+		List<InPort> retval = new ArrayList<InPort>();
+		for (IPort p : getPorts())
+			if (p.getNature() == PortNature.IN)
+				retval.add((InPort) p);
+		return retval;
+	}
 
-	public abstract List<? extends IPort> getOutPorts();
+	public List<OutPort> getOutPorts() {
+		List<OutPort> retval = new ArrayList<OutPort>();
+		for (IPort p : getPorts())
+			if (p.getNature() == PortNature.OUT)
+				retval.add((OutPort) p);
+		return retval;
+	}
 
-	public abstract boolean hasInPort(String name);
+	public boolean hasInPort(String name) {
+		for (IPort port : getInPorts())
+			if (port.getName().equalsIgnoreCase(name))
+				return true;
 
-	public abstract boolean hasOutPort(String name);
+		return false;
+	}
+
+	public boolean hasOutPort(String name) {
+		for (IPort port : getOutPorts())
+			if (port.getName().equalsIgnoreCase(name))
+				return true;
+
+		return false;
+	}
 }

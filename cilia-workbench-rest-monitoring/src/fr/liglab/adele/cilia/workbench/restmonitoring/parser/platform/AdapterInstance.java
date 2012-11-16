@@ -18,31 +18,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class AdapterInstance extends Adapter implements Identifiable, ErrorsAndWarningsFinder, DisplayedInPropertiesView, Mergeable {
+public class AdapterInstance extends Adapter implements Mergeable {
 
 	private final String name;
 
 	public AdapterInstance(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		return name;
 	}
 
 	@Override
@@ -55,14 +47,13 @@ public class AdapterInstance extends Adapter implements Identifiable, ErrorsAndW
 	}
 
 	@Override
-	public List<Changeset> merge(Object other) throws CiliaException {
-		return new ArrayList<Changeset>();
+	public String toString() {
+		return name;
 	}
 
 	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-		return CiliaFlag.generateTab(e1);
+	public ComponentNature getNature() {
+		return ComponentNature.INSTANCE;
 	}
 
 	@Override
@@ -72,37 +63,19 @@ public class AdapterInstance extends Adapter implements Identifiable, ErrorsAndW
 	}
 
 	@Override
-	public List<? extends IPort> getInPorts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<? extends IPort> getOutPorts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean hasInPort(String name) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean hasOutPort(String name) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public ComponentNature getNature() {
-		return ComponentNature.INSTANCE;
-	}
-
-	@Override
 	public AdapterType getType() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
+		return new ArrayList<Changeset>();
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+		return CiliaFlag.generateTab(e1);
 	}
 }

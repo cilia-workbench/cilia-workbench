@@ -31,12 +31,10 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IComponentPart;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort.PortNature;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
@@ -48,11 +46,16 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  * 
  * @author Etienne Gandrille
  */
-public class MediatorImplem extends Mediator implements DisplayedInPropertiesView {
+public class MediatorImplem extends Mediator {
+
+	private List<IPort> ports;
 
 	public static final String XML_NODE_NAME = "mediator-component";
 
 	private final RefMediatorSpec spec;
+
+	private String name;
+	private String namespace;
 
 	private String schedulerName;
 	private String schedulerNamespace;
@@ -62,8 +65,6 @@ public class MediatorImplem extends Mediator implements DisplayedInPropertiesVie
 
 	private String dispatcherName;
 	private String dispatcherNamespace;
-
-	private List<IPort> ports;
 
 	private List<PropertyImplem> properties = new ArrayList<PropertyImplem>();
 
@@ -112,8 +113,10 @@ public class MediatorImplem extends Mediator implements DisplayedInPropertiesVie
 		ports = ComponentImplemHelper.getPorts(node);
 	}
 
-	private String name;
-	private String namespace;
+	@Override
+	public List<? extends IPort> getPorts() {
+		return ports;
+	}
 
 	@Override
 	public NameNamespaceID getId() {
@@ -143,57 +146,12 @@ public class MediatorImplem extends Mediator implements DisplayedInPropertiesVie
 		return name;
 	}
 
-	public List<IPort> getPorts() {
-		return ports;
-	}
-
-	public List<InPort> getInPorts() {
-		List<InPort> retval = new ArrayList<InPort>();
-		for (IPort p : ports)
-			if (p.getNature() == PortNature.IN)
-				retval.add((InPort) p);
-		return retval;
-	}
-
-	public List<OutPort> getOutPorts() {
-		List<OutPort> retval = new ArrayList<OutPort>();
-		for (IPort p : ports)
-			if (p.getNature() == PortNature.OUT)
-				retval.add((OutPort) p);
-		return retval;
-	}
-
-	@Override
-	public boolean hasInPort(String name) {
-		for (IPort port : getInPorts())
-			if (port.getName().equalsIgnoreCase(name))
-				return true;
-
-		return false;
-	}
-
-	@Override
-	public boolean hasOutPort(String name) {
-		for (IPort port : getOutPorts())
-			if (port.getName().equalsIgnoreCase(name))
-				return true;
-
-		return false;
-	}
-
 	public RefMediatorSpec getSpec() {
 		return spec;
 	}
 
 	public List<PropertyImplem> getProperties() {
 		return properties;
-	}
-
-	public PropertyImplem getProperty(String key) {
-		for (PropertyImplem p : getProperties())
-			if (p.getName().equalsIgnoreCase(key))
-				return p;
-		return null;
 	}
 
 	public NameNamespaceID getSchedulerID() {
@@ -266,7 +224,7 @@ public class MediatorImplem extends Mediator implements DisplayedInPropertiesVie
 			// Spec properties must exists in instance
 			for (PropertySpec mediaProp : mediatorSpec.getProperties()) {
 				String specKey = mediaProp.getName();
-				PropertyImplem curProp = getProperty(specKey);
+				Property curProp = getProperty(specKey);
 				if (curProp == null)
 					flagsTab.add(new CiliaError("Mediator must have \"" + specKey + "\" property defined to respect its specification", getSpec()));
 			}
