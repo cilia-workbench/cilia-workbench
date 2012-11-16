@@ -31,9 +31,9 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Cardinality;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IMediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
@@ -123,7 +123,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 			dstElemCombo.add(item.getId());
 		}
 		for (AdapterRef item : chain.getAdapters()) {
-			IAdapter adapter = item.getReferencedComponent();
+			Adapter adapter = item.getReferencedComponent();
 			if (adapter == null) {
 				srcElemCombo.add(item.getId());
 				dstElemCombo.add(item.getId());
@@ -279,7 +279,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 
 			// adapter
 			if (i instanceof AdapterRef) {
-				IAdapter adapter = ((AdapterRef) i).getReferencedComponent();
+				Adapter adapter = ((AdapterRef) i).getReferencedComponent();
 
 				if (portType.equals(DST_COLUMN_KEY)) {
 					for (IPort port : ((OutAdapterImplem) adapter).getInPorts())
@@ -294,7 +294,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 
 			// mediator
 			if (i instanceof MediatorRef) {
-				IMediator mediator = ((MediatorRef) i).getReferencedComponent();
+				Mediator mediator = ((MediatorRef) i).getReferencedComponent();
 				if (portType.equals(DST_COLUMN_KEY)) {
 					for (IPort port : mediator.getInPorts())
 						comboPort.add(port.getName());

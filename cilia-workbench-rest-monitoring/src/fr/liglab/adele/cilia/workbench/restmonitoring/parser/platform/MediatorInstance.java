@@ -22,7 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IDispatcher;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IMediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IProcessor;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IScheduler;
@@ -35,7 +35,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
  * 
  * @author Etienne Gandrille
  */
-public class MediatorInstance implements IMediator, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
+public class MediatorInstance extends Mediator implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
 
 	private final String name;
 	private final PlatformChain chain;

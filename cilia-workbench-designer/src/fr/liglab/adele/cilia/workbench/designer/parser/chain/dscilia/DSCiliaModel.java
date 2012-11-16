@@ -24,8 +24,8 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentNatureAskable.ComponentNature;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IMediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainModel;
@@ -53,7 +53,7 @@ public class DSCiliaModel extends XMLChainModel<DSCiliaChain> {
 			model.add(new DSCiliaChain(node));
 	}
 
-	public void createMediator(DSCiliaChain chain, String id, IMediator type) throws CiliaException {
+	public void createMediator(DSCiliaChain chain, String id, Mediator type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, (NameNamespaceID) type.getId()) == null) {
 			if (type.getNature() == ComponentNature.IMPLEM)
 				createComponentInstanceInternal(chain, id, (NameNamespaceID) type.getId(), XMLChain.XML_ROOT_MEDIATORS_NAME, XML_MEDIATOR_NODE_NAME);
@@ -62,7 +62,7 @@ public class DSCiliaModel extends XMLChainModel<DSCiliaChain> {
 		}
 	}
 
-	public void createAdapter(DSCiliaChain chain, String id, IAdapter type) throws CiliaException {
+	public void createAdapter(DSCiliaChain chain, String id, Adapter type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, (NameNamespaceID) type.getId()) == null) {
 			if (type.getNature() == ComponentNature.IMPLEM)
 				createComponentInstanceInternal(chain, id, (NameNamespaceID) type.getId(), XMLChain.XML_ROOT_ADAPTERS_NAME, XML_ADAPTER_NODE_NAME);

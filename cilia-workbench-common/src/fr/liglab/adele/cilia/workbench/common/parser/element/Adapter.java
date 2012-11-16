@@ -14,23 +14,17 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser.element;
 
-import java.util.List;
-
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-
 /**
  * 
  * @author Etienne Gandrille
  */
-public interface IComponent extends Identifiable, ComponentNatureAskable {
+public abstract class Adapter extends Component {
 
-	public List<? extends IPort> getPorts();
+	public enum AdapterType {
+		IN, OUT;
+	}
 
-	public List<? extends IPort> getInPorts();
+	public abstract AdapterType getType();
 
-	public List<? extends IPort> getOutPorts();
-
-	public boolean hasInPort(String name);
-
-	public boolean hasOutPort(String name);
+	public abstract Object getId();
 }

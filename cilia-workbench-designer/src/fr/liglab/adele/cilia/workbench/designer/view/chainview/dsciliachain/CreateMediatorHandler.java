@@ -19,7 +19,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IMediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentNatureAskable.ComponentNature;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
@@ -40,7 +40,7 @@ public class CreateMediatorHandler extends DSCiliaChainHandler {
 			NewMediatorDialog window = new NewMediatorDialog(ViewUtil.getShell(event), model, ComponentNature.IMPLEM);
 			if (window.open() == Window.OK) {
 				String id = window.getText();
-				IMediator mediator = (IMediator) window.getValue();
+				Mediator mediator = (Mediator) window.getValue();
 				try {
 					DSCiliaRepoService.getInstance().createMediator(model, id, mediator);
 				} catch (CiliaException e) {

@@ -19,7 +19,7 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IDispatcher;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IMediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IProcessor;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IScheduler;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
@@ -34,7 +34,7 @@ public abstract class MediatorRef extends ComponentRef {
 		super(id, type, namespace);
 	}
 
-	public abstract IMediator getReferencedComponent();
+	public abstract Mediator getReferencedComponent();
 
 	// PARAMETERS
 	// ==========
@@ -51,7 +51,7 @@ public abstract class MediatorRef extends ComponentRef {
 
 	public List<? extends Parameter> getReferencedComponentSchedulerParameters() {
 
-		IMediator ro = getReferencedComponent();
+		Mediator ro = getReferencedComponent();
 		if (ro == null)
 			return null;
 
@@ -64,7 +64,7 @@ public abstract class MediatorRef extends ComponentRef {
 
 	public List<? extends Parameter> getReferencedComponentProcessorParameters() {
 
-		IMediator ro = getReferencedComponent();
+		Mediator ro = getReferencedComponent();
 		if (ro == null)
 			return null;
 
@@ -77,7 +77,7 @@ public abstract class MediatorRef extends ComponentRef {
 
 	public List<? extends Parameter> getReferencedComponentDispatcherParameters() {
 
-		IMediator ro = getReferencedComponent();
+		Mediator ro = getReferencedComponent();
 		if (ro == null)
 			return null;
 

@@ -20,8 +20,8 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IMediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLBinding;
@@ -88,13 +88,13 @@ public class DSCiliaRepoService extends ChainRepoService<DSCiliaFile, DSCiliaMod
 		notifyListeners(changes);
 	}
 
-	public void createMediator(DSCiliaChain chain, String id, IMediator type) throws CiliaException {
+	public void createMediator(DSCiliaChain chain, String id, Mediator type) throws CiliaException {
 		if (getFileFromChain(chain) == null)
 			return;
 		getFileFromChain(chain).getModel().createMediator(chain, id, type);
 	}
 
-	public void createAdapter(DSCiliaChain chain, String id, IAdapter type) throws CiliaException {
+	public void createAdapter(DSCiliaChain chain, String id, Adapter type) throws CiliaException {
 		if (getFileFromChain(chain) == null)
 			return;
 		getFileFromChain(chain).getModel().createAdapter(chain, id, type);

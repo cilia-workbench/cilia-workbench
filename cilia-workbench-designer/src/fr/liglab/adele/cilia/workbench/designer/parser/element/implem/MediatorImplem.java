@@ -26,11 +26,12 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IComponentPart;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IMediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
@@ -47,7 +48,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  * 
  * @author Etienne Gandrille
  */
-public class MediatorImplem extends NameNamespace implements IMediator, DisplayedInPropertiesView {
+public class MediatorImplem extends Mediator implements DisplayedInPropertiesView {
 
 	public static final String XML_NODE_NAME = "mediator-component";
 
@@ -109,6 +110,37 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 		}
 
 		ports = ComponentImplemHelper.getPorts(node);
+	}
+
+	private String name;
+	private String namespace;
+
+	@Override
+	public NameNamespaceID getId() {
+		return new NameNamespaceID(name, namespace);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getNamespace() {
+		return namespace;
+	}
+
+	/**
+	 * The qualified name is composed by the namespace and the name. If the
+	 * namespace is unavailable, this function returns the name.
+	 * 
+	 * @return the qualified name
+	 */
+	public String getQualifiedName() {
+		return new NameNamespaceID(name, namespace).getQualifiedName();
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 
 	public List<IPort> getPorts() {
@@ -191,9 +223,8 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 		return JarRepoService.getInstance().getDispatcher(id);
 	}
 
-	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] tab = super.getErrorsAndWarnings();
+		CiliaFlag[] tab = new CiliaFlag[0]; // super.getErrorsAndWarnings();
 
 		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
 		for (CiliaFlag f : tab)
@@ -206,6 +237,8 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 		CiliaFlag e5 = null;
 		CiliaFlag e6 = null;
 		CiliaFlag e7 = null;
+		CiliaFlag e8 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+		CiliaFlag e9 = CiliaWarning.checkStringNotNullOrEmpty(this, namespace, "namespace");
 
 		// ports
 		if (getInPorts().size() == 0)
@@ -242,7 +275,7 @@ public class MediatorImplem extends NameNamespace implements IMediator, Displaye
 			flagsTab.addAll(checkMediatorParameters(this));
 		}
 
-		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4, e5, e6, e7);
+		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4, e5, e6, e7, e8, e9);
 	}
 
 	public static List<CiliaFlag> checkMediatorParameters(MediatorImplem mediator) {

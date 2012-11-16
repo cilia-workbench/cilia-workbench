@@ -14,17 +14,24 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser.element;
 
+import java.util.List;
+
 /**
+ * Represents a spec or an implementation of a Mediator.
  * 
  * @author Etienne Gandrille
  */
-public interface IAdapter extends IComponent {
+public abstract class Mediator extends Component {
 
-	public enum AdapterType {
-		IN, OUT;
-	}
+	public abstract List<? extends Property> getProperties();
 
-	public abstract AdapterType getType();
+	public abstract Property getProperty(String name);
 
-	public Object getId();
+	public abstract IScheduler getScheduler();
+
+	public abstract IProcessor getProcessor();
+
+	public abstract IDispatcher getDispatcher();
+
+	public abstract Object getId();
 }

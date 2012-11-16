@@ -16,22 +16,21 @@ package fr.liglab.adele.cilia.workbench.common.parser.element;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+
 /**
- * Represents a spec or an implementation of a Mediator.
  * 
  * @author Etienne Gandrille
  */
-public interface IMediator extends IComponent {
+public abstract class Component implements Identifiable, ComponentNatureAskable {
 
-	public List<? extends Property> getProperties();
+	public abstract List<? extends IPort> getPorts();
 
-	public Property getProperty(String name);
+	public abstract List<? extends IPort> getInPorts();
 
-	public IScheduler getScheduler();
+	public abstract List<? extends IPort> getOutPorts();
 
-	public IProcessor getProcessor();
+	public abstract boolean hasInPort(String name);
 
-	public IDispatcher getDispatcher();
-
-	public Object getId();
+	public abstract boolean hasOutPort(String name);
 }
