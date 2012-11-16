@@ -12,22 +12,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
+package fr.liglab.adele.cilia.workbench.common.parser.element;
+
+import java.util.List;
 
 /**
- * Represents an in port. It can be a spec or an implementation.
+ * Represents a spec or an implementation of a Mediator.
  * 
  * @author Etienne Gandrille
  */
-public abstract class InPort extends Port {
+public interface IMediator extends IComponent {
 
-	@Override
-	public Object getId() {
-		return "in:" + getName();
-	}
+	public List<? extends Property> getProperties();
 
-	@Override
-	public PortNature getNature() {
-		return PortNature.IN;
-	}
+	public Property getProperty(String name);
+
+	public IScheduler getScheduler();
+
+	public IProcessor getProcessor();
+
+	public IDispatcher getDispatcher();
+
+	public Object getId();
 }

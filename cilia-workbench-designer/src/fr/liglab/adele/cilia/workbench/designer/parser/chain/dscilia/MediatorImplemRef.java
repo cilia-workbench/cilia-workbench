@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
+package fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -36,21 +36,14 @@ import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLComponentRefHelper;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLParameterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpecRef extends MediatorRef {
-
-	public static final String XML_NODE_NAME = "mediator-specification";
-	public static final String XML_SELECTION_CONSTRAINT = "selection-constraint";
-
-	private List<PropertyConstraint> constraints = new ArrayList<PropertyConstraint>();
+public class MediatorImplemRef extends MediatorRef {
 
 	/** the chainID, which hosts the current {@link ComponentRef} */
 	NameNamespaceID chainId;
@@ -65,7 +58,7 @@ public class MediatorSpecRef extends MediatorRef {
 	private List<ParameterRef> processorParameters = new ArrayList<ParameterRef>();
 	private List<ParameterRef> dispatcherParameters = new ArrayList<ParameterRef>();
 
-	public MediatorSpecRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
+	public MediatorImplemRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
 		super(XMLComponentRefHelper.getId(node), XMLComponentRefHelper.getType(node), XMLComponentRefHelper.getNamespace(node));
 
 		this.chainId = chainId;
@@ -74,14 +67,6 @@ public class MediatorSpecRef extends MediatorRef {
 		initSPDparameters(node, XML_SCHEDULER_NODE, schedulerParameters);
 		initSPDparameters(node, XML_PROCESSOR_NODE, processorParameters);
 		initSPDparameters(node, XML_DISPATCHER_NODE, dispatcherParameters);
-
-		Node rootConstraint = XMLHelpers.findChild(node, XML_SELECTION_CONSTRAINT);
-		if (rootConstraint != null) {
-			Node[] sub = XMLHelpers.findChildren(rootConstraint, PropertyConstraint.XML_PROPERTY_CONSTRAINT);
-			for (Node n : sub) {
-				constraints.add(new PropertyConstraint(n));
-			}
-		}
 	}
 
 	public IChain getChain() {
@@ -118,14 +103,11 @@ public class MediatorSpecRef extends MediatorRef {
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = super.merge(other);
 
-		MediatorSpecRef newInstance = (MediatorSpecRef) other;
+		MediatorRef newInstance = (MediatorRef) other;
 
 		retval.addAll(MergeUtil.mergeLists(newInstance.getSchedulerParameters(), schedulerParameters));
 		retval.addAll(MergeUtil.mergeLists(newInstance.getProcessorParameters(), processorParameters));
 		retval.addAll(MergeUtil.mergeLists(newInstance.getDispatcherParameters(), dispatcherParameters));
-
-		// constraints
-		retval.addAll(MergeUtil.mergeLists(newInstance.getConstraints(), constraints));
 
 		return retval;
 	}
@@ -143,16 +125,6 @@ public class MediatorSpecRef extends MediatorRef {
 		list.addAll(checkParameters(schedulerParameters, getReferencedComponentSchedulerParameters(), "scheduler"));
 		list.addAll(checkParameters(processorParameters, getReferencedComponentProcessorParameters(), "processor"));
 		list.addAll(checkParameters(dispatcherParameters, getReferencedComponentDispatcherParameters(), "dispatcher"));
-
-		// constraints
-		if (getReferencedComponent() != null) {
-			IMediator ro = getReferencedComponent();
-
-			for (PropertyConstraint pc : constraints)
-				if (ro.getProperty(pc.getName()) == null)
-					list.add(new CiliaError("Specification " + ((NameNamespaceID) ro.getId()).getName() + " doesn't reference a \"" + pc.getName()
-							+ "\" property", this));
-		}
 
 		return CiliaFlag.generateTab(tab, list.toArray(new CiliaFlag[0]));
 	}
@@ -179,24 +151,9 @@ public class MediatorSpecRef extends MediatorRef {
 		return retval;
 	}
 
-	public List<PropertyConstraint> getConstraints() {
-		return constraints;
-	}
-
-	public List<PropertySpec> getPossibleConstraints() {
-
-		IMediator ro = getReferencedComponent();
-		if (ro != null && ro instanceof MediatorSpec) {
-			MediatorSpec spec = (MediatorSpec) ro;
-			return spec.getProperties();
-		}
-
-		return new ArrayList<PropertySpec>();
-	}
-
 	@Override
 	public IMediator getReferencedComponent() {
 		NameNamespaceID id = getReferencedTypeID();
-		return SpecRepoService.getInstance().getMediatorForChain(id);
+		return JarRepoService.getInstance().getMediatorForChain(id);
 	}
 }

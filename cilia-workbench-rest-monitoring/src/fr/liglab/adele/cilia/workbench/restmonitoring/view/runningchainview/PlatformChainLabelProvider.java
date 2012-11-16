@@ -18,8 +18,8 @@ import org.eclipse.zest.core.viewers.EntityConnectionData;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.AbstractGraphLabelProvider;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningAdapter;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningMediator;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.MediatorInstance;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 
 /**
@@ -37,7 +37,7 @@ public class PlatformChainLabelProvider extends AbstractGraphLabelProvider {
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 
 		ImageDescriptorEnum imageName;
-		if (isCompatible(obj, RunningAdapter.class)) {
+		if (isCompatible(obj, AdapterInstance.class)) {
 			// TODO IN / OUT adapters
 			// RunningAdapter adapter = (RunningAdapter) obj;
 			/*
@@ -47,7 +47,7 @@ public class PlatformChainLabelProvider extends AbstractGraphLabelProvider {
 			 * ImageDescriptorEnum.ADAPTER_OUT; } else
 			 */
 			imageName = ImageDescriptorEnum.ADAPTER_IN;
-		} else if (isCompatible(obj, RunningMediator.class))
+		} else if (isCompatible(obj, MediatorInstance.class))
 			imageName = ImageDescriptorEnum.MEDIATOR;
 		else if (isCompatible(obj, EntityConnectionData.class))
 			imageName = ImageDescriptorEnum.ONLY_TEXT;

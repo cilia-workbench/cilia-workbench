@@ -20,17 +20,18 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryViewHandler;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainRepositoryHandler<ChainType extends Chain> extends RepositoryViewHandler {
+public abstract class ChainRepositoryHandler<ChainType extends XMLChain> extends RepositoryViewHandler {
 
 	public ChainRepositoryHandler(String viewID) {
 		super(viewID);
@@ -64,7 +65,7 @@ public abstract class ChainRepositoryHandler<ChainType extends Chain> extends Re
 
 	public Object deleteChain(ExecutionEvent event) throws ExecutionException {
 		Object object = getFirstSelectedElementInRepositoryView(event);
-		if (object != null && object instanceof Chain) {
+		if (object != null && object instanceof IChain) {
 			@SuppressWarnings("unchecked")
 			ChainType chain = (ChainType) object;
 			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required", "Do you want to delete " + chain.getId() + "?");

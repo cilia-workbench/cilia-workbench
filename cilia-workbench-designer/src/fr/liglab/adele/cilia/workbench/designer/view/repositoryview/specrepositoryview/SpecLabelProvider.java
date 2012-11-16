@@ -14,10 +14,10 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specrepositoryview;
 
+import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.DispatcherSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;

@@ -12,12 +12,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
+package fr.liglab.adele.cilia.workbench.common.parser.element;
 
 /**
- * Represents a Scheduler specification or implementation.
  * 
  * @author Etienne Gandrille
  */
-public interface IScheduler extends IComponentPart {
+public interface IAdapter extends IComponent {
+
+	public enum AdapterType {
+		IN, OUT;
+	}
+
+	public abstract AdapterType getType();
+
+	public Object getId();
 }

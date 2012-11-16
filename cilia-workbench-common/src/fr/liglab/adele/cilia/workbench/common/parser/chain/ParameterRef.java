@@ -12,40 +12,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
+package fr.liglab.adele.cilia.workbench.common.parser.chain;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Node;
-
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Property;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.PropertyImplem;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class ParameterChain extends Parameter implements Mergeable {
-
-	public static final String XML_ROOT_NAME = "property";
-	public static String XML_ATTR_NAME = "name";
-	public static String XML_ATTR_VALUE = "value";
+public abstract class ParameterRef extends Parameter implements Mergeable {
 
 	protected String name;
 	protected String value;
 
-	public ParameterChain(Node n) throws CiliaException {
-		name = XMLHelpers.findAttributeValue(n, XML_ATTR_NAME);
-		value = XMLHelpers.findAttributeValue(n, XML_ATTR_VALUE);
+	public ParameterRef(String name, String value) {
+		this.name = name;
+		this.value = value;
 	}
 
 	public String getValue() {
@@ -81,9 +73,9 @@ public class ParameterChain extends Parameter implements Mergeable {
 		if (!(arg0 instanceof Property))
 			return false;
 
-		PropertyImplem prop = (PropertyImplem) arg0;
+		ParameterRef param = (ParameterRef) arg0;
 
-		if (prop.getName() != name || prop.getValue() != value)
+		if (!param.getName().equals(name) || !param.getValue().equals(value))
 			return false;
 
 		return true;
@@ -93,7 +85,7 @@ public class ParameterChain extends Parameter implements Mergeable {
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = new ArrayList<Changeset>();
 
-		String newValue = ((ParameterChain) other).getValue();
+		String newValue = ((ParameterRef) other).getValue();
 		if (!value.equals(newValue)) {
 			value = newValue;
 			retval.add(new Changeset(Operation.UPDATE, this));

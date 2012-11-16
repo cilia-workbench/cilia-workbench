@@ -12,16 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
+package fr.liglab.adele.cilia.workbench.common.parser.chain;
 
-import org.w3c.dom.Node;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
 
 /**
  * 
@@ -29,11 +24,11 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  */
 public abstract class AdapterRef extends ComponentRef {
 
-	public AdapterRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
-		super(node, chainId, repo);
+	public AdapterRef(String id, String type, String namespace) {
+		super(id, type, namespace);
 	}
 
-	public abstract IAdapter getReferencedObject();
+	public abstract IAdapter getReferencedComponent();
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
@@ -42,8 +37,8 @@ public abstract class AdapterRef extends ComponentRef {
 		CiliaError e1 = null;
 		CiliaError e2 = null;
 
-		if (getReferencedObject() != null) {
-			IAdapter target = getReferencedObject();
+		if (getReferencedComponent() != null) {
+			IAdapter target = getReferencedComponent();
 
 			switch (target.getType()) {
 			case IN:

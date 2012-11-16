@@ -12,12 +12,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
+package fr.liglab.adele.cilia.workbench.common.parser.element;
+
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 
 /**
- * Represents a Scheduler specification or implementation.
+ * Represents a port, in or out. It can be a spec or an implementation.
  * 
  * @author Etienne Gandrille
  */
-public interface IProcessor extends IComponentPart {
+public abstract class Port implements IPort {
+
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+
+		return CiliaFlag.generateTab(e1);
+	}
 }

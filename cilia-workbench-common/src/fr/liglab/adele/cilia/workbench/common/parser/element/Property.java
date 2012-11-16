@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
+package fr.liglab.adele.cilia.workbench.common.parser.element;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
@@ -21,26 +21,39 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
- * Represents a parameter, used in Schedulers, Processors, Dispatchers.
+ * A property contains a single name. This is a base class, for implementing
+ * properties definition or properties implementation.
  * 
  * @author Etienne Gandrille
  */
-public abstract class Parameter implements ErrorsAndWarningsFinder, Identifiable, DisplayedInPropertiesView {
+public abstract class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
-	private String name;
-
-	@Override
-	public Object getId() {
-		return name;
-	}
+	protected String name;
 
 	public String getName() {
 		return name;
 	}
 
 	@Override
+	public Object getId() {
+		return name;
+	}
+
+	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		if (arg0 == null)
+			return false;
+		if (!(arg0 instanceof Property))
+			return false;
+
+		Property prop = (Property) arg0;
+
+		return (prop.getName() == name);
 	}
 
 	@Override

@@ -22,6 +22,8 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
@@ -30,11 +32,11 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
  * 
  * @author Etienne Gandrille
  */
-public class RunningAdapter implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
+public class AdapterInstance implements IAdapter, Identifiable, ErrorsAndWarningsFinder, DisplayedInPropertiesView, Mergeable {
 
 	private final String name;
 
-	public RunningAdapter(String name) {
+	public AdapterInstance(String name) {
 		this.name = name;
 	}
 
@@ -61,5 +63,46 @@ public class RunningAdapter implements DisplayedInPropertiesView, ErrorsAndWarni
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
 		return CiliaFlag.generateTab(e1);
+	}
+
+	@Override
+	public List<? extends IPort> getPorts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<? extends IPort> getInPorts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<? extends IPort> getOutPorts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasInPort(String name) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean hasOutPort(String name) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ComponentNature getNature() {
+		return ComponentNature.INSTANCE;
+	}
+
+	@Override
+	public AdapterType getType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

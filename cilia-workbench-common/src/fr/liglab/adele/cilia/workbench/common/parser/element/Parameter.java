@@ -12,34 +12,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
+package fr.liglab.adele.cilia.workbench.common.parser.element;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.service.Changeset;
-import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
+ * Represents a parameter, used in Schedulers, Processors, Dispatchers.
  * 
  * @author Etienne Gandrille
  */
-public class RunningMediator implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable, Mergeable {
+public abstract class Parameter implements ErrorsAndWarningsFinder, Identifiable, DisplayedInPropertiesView {
 
-	private final String name;
-
-	public RunningMediator(String name) {
-		this.name = name;
-	}
+	private String name;
 
 	@Override
-	public String toString() {
+	public Object getId() {
 		return name;
 	}
 
@@ -48,18 +39,14 @@ public class RunningMediator implements DisplayedInPropertiesView, ErrorsAndWarn
 	}
 
 	@Override
-	public Object getId() {
+	public String toString() {
 		return name;
-	}
-
-	@Override
-	public List<Changeset> merge(Object other) throws CiliaException {
-		return new ArrayList<Changeset>();
 	}
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+
 		return CiliaFlag.generateTab(e1);
 	}
 }

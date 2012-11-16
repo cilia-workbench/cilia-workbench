@@ -27,16 +27,16 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Cardinality;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IMediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Cardinality;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.InAdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.OutAdapterImplem;
 
@@ -47,7 +47,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.OutAdapter
 public class NewBindingDialog extends WorkbenchDialog {
 
 	// The parent chain
-	private final Chain chain;
+	private final XMLChain chain;
 
 	private final boolean withCardinalies;
 
@@ -77,7 +77,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 	private static final String DST_COLUMN_KEY = "IN";
 	private static final String SRC_COLUMN_KEY = "OUT";
 
-	public NewBindingDialog(Shell parentShell, Chain chain, boolean withCardinalies) {
+	public NewBindingDialog(Shell parentShell, XMLChain chain, boolean withCardinalies) {
 		super(parentShell, windowTitle, new Point(550, 300), false);
 		this.chain = chain;
 		this.withCardinalies = withCardinalies;
@@ -123,7 +123,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 			dstElemCombo.add(item.getId());
 		}
 		for (AdapterRef item : chain.getAdapters()) {
-			IAdapter adapter = item.getReferencedObject();
+			IAdapter adapter = item.getReferencedComponent();
 			if (adapter == null) {
 				srcElemCombo.add(item.getId());
 				dstElemCombo.add(item.getId());
@@ -279,7 +279,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 
 			// adapter
 			if (i instanceof AdapterRef) {
-				IAdapter adapter = ((AdapterRef) i).getReferencedObject();
+				IAdapter adapter = ((AdapterRef) i).getReferencedComponent();
 
 				if (portType.equals(DST_COLUMN_KEY)) {
 					for (IPort port : ((OutAdapterImplem) adapter).getInPorts())
@@ -294,7 +294,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 
 			// mediator
 			if (i instanceof MediatorRef) {
-				IMediator mediator = ((MediatorRef) i).getReferencedObject();
+				IMediator mediator = ((MediatorRef) i).getReferencedComponent();
 				if (portType.equals(DST_COLUMN_KEY)) {
 					for (IPort port : mediator.getInPorts())
 						comboPort.add(port.getName());

@@ -40,9 +40,9 @@ public class PlatformChain implements DisplayedInPropertiesView, ErrorsAndWarnin
 
 	private final String name;
 	private final PlatformModel platform;
-	private List<RunningMediator> mediators = new ArrayList<RunningMediator>();
-	private List<RunningAdapter> adapters = new ArrayList<RunningAdapter>();
-	private List<RunningBinding> bindings = new ArrayList<RunningBinding>();
+	private List<MediatorInstance> mediators = new ArrayList<MediatorInstance>();
+	private List<AdapterInstance> adapters = new ArrayList<AdapterInstance>();
+	private List<BindingInstance> bindings = new ArrayList<BindingInstance>();
 
 	public PlatformChain(String name, PlatformModel platform) {
 		this.name = name;
@@ -62,7 +62,7 @@ public class PlatformChain implements DisplayedInPropertiesView, ErrorsAndWarnin
 			JSONArray mediatorsList = json.getJSONArray("Mediators");
 			for (int i = 0; i < mediatorsList.length(); i++) {
 				String mediatorName = (String) mediatorsList.get(i);
-				mediators.add(new RunningMediator(mediatorName));
+				mediators.add(new MediatorInstance(mediatorName, this));
 			}
 		} catch (JSONException e) {
 			throw new CiliaException("error while parsing mediators list", e);
@@ -72,7 +72,7 @@ public class PlatformChain implements DisplayedInPropertiesView, ErrorsAndWarnin
 			JSONArray adaptersList = json.getJSONArray("Adapters");
 			for (int i = 0; i < adaptersList.length(); i++) {
 				String adapterName = (String) adaptersList.get(i);
-				adapters.add(new RunningAdapter(adapterName));
+				adapters.add(new AdapterInstance(adapterName));
 			}
 		} catch (JSONException e) {
 			throw new CiliaException("error while parsing adapters list", e);
@@ -82,39 +82,39 @@ public class PlatformChain implements DisplayedInPropertiesView, ErrorsAndWarnin
 			JSONArray bindingsList = json.getJSONArray("Bindings");
 			for (int i = 0; i < bindingsList.length(); i++) {
 				JSONObject binding = (JSONObject) bindingsList.get(i);
-				bindings.add(new RunningBinding(binding));
+				bindings.add(new BindingInstance(binding));
 			}
 		} catch (JSONException e) {
 			throw new CiliaException("error while parsing adapters list", e);
 		}
 	}
 
-	public List<RunningMediator> getMediators() {
+	public List<MediatorInstance> getMediators() {
 		return mediators;
 	}
 
-	public List<RunningAdapter> getAdapters() {
+	public List<AdapterInstance> getAdapters() {
 		return adapters;
 	}
 
 	public Object getComponent(String name) {
-		for (RunningMediator mediator : mediators)
+		for (MediatorInstance mediator : mediators)
 			if (mediator.getName().equalsIgnoreCase(name))
 				return mediator;
-		for (RunningAdapter adapter : adapters)
+		for (AdapterInstance adapter : adapters)
 			if (adapter.getName().equalsIgnoreCase(name))
 				return adapter;
 		return null;
 	}
 
-	public List<RunningBinding> getBindings() {
+	public List<BindingInstance> getBindings() {
 		return bindings;
 	}
 
-	public List<RunningBinding> getIncomingBindings(String element) {
-		List<RunningBinding> retval = new ArrayList<RunningBinding>();
+	public List<BindingInstance> getIncomingBindings(String element) {
+		List<BindingInstance> retval = new ArrayList<BindingInstance>();
 
-		for (RunningBinding binding : bindings) {
+		for (BindingInstance binding : bindings) {
 			if (binding.getDestinationId().equals(element))
 				retval.add(binding);
 		}
@@ -122,10 +122,10 @@ public class PlatformChain implements DisplayedInPropertiesView, ErrorsAndWarnin
 		return retval;
 	}
 
-	public List<RunningBinding> getOutgoingBindings(String element) {
-		List<RunningBinding> retval = new ArrayList<RunningBinding>();
+	public List<BindingInstance> getOutgoingBindings(String element) {
+		List<BindingInstance> retval = new ArrayList<BindingInstance>();
 
-		for (RunningBinding binding : bindings) {
+		for (BindingInstance binding : bindings) {
 			if (binding.getSourceId().equals(element))
 				retval.add(binding);
 		}

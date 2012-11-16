@@ -29,11 +29,11 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Parameter;
 
 /**
  * 
@@ -66,25 +66,25 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 
 	private static List<String> getConstraintKeys(MediatorRef mediator) {
 		List<String> names = new ArrayList<String>();
-		if (mediator.getReferencedObjectSchedulerParameters() != null)
-			for (Parameter p : mediator.getReferencedObjectSchedulerParameters())
+		if (mediator.getReferencedComponentSchedulerParameters() != null)
+			for (Parameter p : mediator.getReferencedComponentSchedulerParameters())
 				names.add(schedulerPrefix + p.getName());
-		if (mediator.getReferencedObjectProcessorParameters() != null)
-			for (Parameter p : mediator.getReferencedObjectProcessorParameters())
+		if (mediator.getReferencedComponentProcessorParameters() != null)
+			for (Parameter p : mediator.getReferencedComponentProcessorParameters())
 				names.add(processorPrefix + p.getName());
-		if (mediator.getReferencedObjectDispatcherParameters() != null)
-			for (Parameter p : mediator.getReferencedObjectDispatcherParameters())
+		if (mediator.getReferencedComponentDispatcherParameters() != null)
+			for (Parameter p : mediator.getReferencedComponentDispatcherParameters())
 				names.add(dispatcherPrefix + p.getName());
 		return names;
 	}
 
 	private static Map<String, String> getConstraintValues(MediatorRef mediator) {
 		Map<String, String> values = new HashMap<String, String>();
-		for (ParameterChain p : mediator.getSchedulerParameters())
+		for (ParameterRef p : mediator.getSchedulerParameters())
 			values.put(schedulerPrefix + p.getName(), p.getValue());
-		for (ParameterChain p : mediator.getProcessorParameters())
+		for (ParameterRef p : mediator.getProcessorParameters())
 			values.put(processorPrefix + p.getName(), p.getValue());
-		for (ParameterChain p : mediator.getDispatcherParameters())
+		for (ParameterRef p : mediator.getDispatcherParameters())
 			values.put(dispatcherPrefix + p.getName(), p.getValue());
 		return values;
 	}

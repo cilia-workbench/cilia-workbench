@@ -20,7 +20,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLBinding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoSe
  * 
  * @author Etienne Gandrille
  */
-public class AbstractChain extends Chain {
+public class AbstractChain extends XMLChain {
 
 	public AbstractChain(Node node) throws CiliaException {
 		super(node, AbstractCompositionModel.XML_MEDIATOR_NODE_NAME, AbstractCompositionModel.XML_ADAPTER_NODE_NAME);

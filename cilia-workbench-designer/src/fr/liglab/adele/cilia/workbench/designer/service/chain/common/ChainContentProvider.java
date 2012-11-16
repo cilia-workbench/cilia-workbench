@@ -16,28 +16,28 @@ package fr.liglab.adele.cilia.workbench.designer.service.chain.common;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.PropertyConstraint;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLBinding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainModel;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainContentProvider<ChainType extends Chain> extends GenericContentProvider {
+public abstract class ChainContentProvider<ChainType extends XMLChain> extends GenericContentProvider {
 
-	public ChainContentProvider(List<? extends ChainFile<? extends ChainModel<ChainType>>> repo) {
+	public ChainContentProvider(List<? extends ChainFile<? extends XMLChainModel<ChainType>>> repo) {
 
 		addRoot(repo);
 
-		for (ChainFile<? extends ChainModel<ChainType>> re : repo) {
+		for (ChainFile<? extends XMLChainModel<ChainType>> re : repo) {
 			addRelationship(true, repo, re);
 
 			if (re.getModel() != null) {
@@ -50,11 +50,11 @@ public abstract class ChainContentProvider<ChainType extends Chain> extends Gene
 					for (MediatorRef m : c.getMediators()) {
 						addRelationship(false, c, m);
 
-						for (ParameterChain p : m.getSchedulerParameters())
+						for (ParameterRef p : m.getSchedulerParameters())
 							addRelationship(false, m, p);
-						for (ParameterChain p : m.getProcessorParameters())
+						for (ParameterRef p : m.getProcessorParameters())
 							addRelationship(false, m, p);
-						for (ParameterChain p : m.getDispatcherParameters())
+						for (ParameterRef p : m.getDispatcherParameters())
 							addRelationship(false, m, p);
 
 						// Specification specific part. Ignored by
@@ -65,7 +65,7 @@ public abstract class ChainContentProvider<ChainType extends Chain> extends Gene
 						}
 					}
 
-					for (XMLBinding b : c.getBindings())
+					for (Binding b : c.getBindings())
 						addRelationship(false, c, b);
 				}
 			}

@@ -12,18 +12,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
+package fr.liglab.adele.cilia.workbench.common.parser.element;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+
 /**
- * Base interface for implementing IScheduler, IProcessor, IDispatcher.
  * 
  * @author Etienne Gandrille
  */
-public interface IComponentPart {
+public interface IComponent extends Identifiable, ComponentNatureAskable {
 
-	List<? extends Parameter> getParameters();
+	public List<? extends IPort> getPorts();
 
-	Parameter getParameter(String name);
+	public List<? extends IPort> getInPorts();
+
+	public List<? extends IPort> getOutPorts();
+
+	public boolean hasInPort(String name);
+
+	public boolean hasOutPort(String name);
 }

@@ -29,16 +29,16 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IMediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IPort.PortNature;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
 
 /**
  * 

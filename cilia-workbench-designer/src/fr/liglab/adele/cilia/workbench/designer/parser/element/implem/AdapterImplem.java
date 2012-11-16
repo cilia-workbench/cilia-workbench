@@ -26,11 +26,11 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.InPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.OutPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IPort.PortNature;
 
 /**
  * 

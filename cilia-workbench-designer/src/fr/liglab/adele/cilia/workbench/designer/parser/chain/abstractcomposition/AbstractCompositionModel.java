@@ -21,17 +21,18 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentNatureAskable.ComponentNature;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IMediator;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ChainModel;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ComponentRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.ParameterChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainModel;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLComponentRefHelper;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLParameterRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
@@ -40,7 +41,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositio
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompositionModel extends ChainModel<AbstractChain> {
+public class AbstractCompositionModel extends XMLChainModel<AbstractChain> {
 
 	public static final String ROOT_NODE_NAME = "cilia-composition-specifications";
 
@@ -52,33 +53,33 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 
 		Node root = getRootNode(getDocument());
 
-		for (Node node : XMLHelpers.findChildren(root, Chain.XML_NODE_NAME))
+		for (Node node : XMLHelpers.findChildren(root, XMLChain.XML_NODE_NAME))
 			model.add(new AbstractChain(node));
 	}
 
 	public void createMediator(AbstractChain chain, String id, IMediator type) throws CiliaException {
-		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
+		if (chain.isNewComponentAllowed(id, (NameNamespaceID) type.getId()) == null) {
 			if (type.getNature() == ComponentNature.SPEC)
-				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_MEDIATORS_NAME, MediatorSpecRef.XML_NODE_NAME);
+				createComponentInstanceInternal(chain, id, (NameNamespaceID) type.getId(), XMLChain.XML_ROOT_MEDIATORS_NAME, MediatorSpecRef.XML_NODE_NAME);
 			else if (type.getNature() == ComponentNature.IMPLEM)
-				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_MEDIATORS_NAME, XML_MEDIATOR_NODE_NAME);
+				createComponentInstanceInternal(chain, id, (NameNamespaceID) type.getId(), XMLChain.XML_ROOT_MEDIATORS_NAME, XML_MEDIATOR_NODE_NAME);
 			else
 				throw new CiliaException("Not a spec nor an implem...");
 		}
 	}
 
 	public void createAdapter(AbstractChain chain, String id, IAdapter type) throws CiliaException {
-		if (chain.isNewComponentAllowed(id, type.getId()) == null) {
+		if (chain.isNewComponentAllowed(id, (NameNamespaceID) type.getId()) == null) {
 			if (type.getNature() == ComponentNature.SPEC)
 				throw new RuntimeException("Not yet implemented in spec repository view...");
 			else if (type.getNature() == ComponentNature.IMPLEM)
-				createComponentInstanceInternal(chain, id, type.getId(), Chain.XML_ROOT_ADAPTERS_NAME, XML_ADAPTER_NODE_NAME);
+				createComponentInstanceInternal(chain, id, (NameNamespaceID) type.getId(), XMLChain.XML_ROOT_ADAPTERS_NAME, XML_ADAPTER_NODE_NAME);
 			else
 				throw new RuntimeException("Not a spec nor an implem...");
 		}
 	}
 
-	public void deleteComponent(Chain chain, ComponentRef component) throws CiliaException {
+	public void deleteComponent(XMLChain chain, ComponentRef component) throws CiliaException {
 		if (component instanceof AdapterRef)
 			deleteAdapter(chain, (AdapterRef) component, XML_ADAPTER_NODE_NAME);
 		else
@@ -89,7 +90,7 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 		Document document = getDocument();
 		Node chainNode = findXMLChainNode(document, chain.getId());
 		Node subNode = XMLHelpers.findChild(chainNode, AbstractChain.XML_ROOT_MEDIATORS_NAME);
-		Node media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID, mediator.getId())[0];
+		Node media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, XMLComponentRefHelper.XML_ATTR_ID, mediator.getId())[0];
 
 		// first, delete
 		for (Node n : XMLHelpers.findChildren(media, MediatorSpecRef.XML_SELECTION_CONSTRAINT))
@@ -114,13 +115,13 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 
 		Node media = null;
 		if (mediator instanceof MediatorSpecRef)
-			media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, MediatorSpecRef.XML_ATTR_ID, mediator.getId())[0];
+			media = XMLHelpers.findChildren(subNode, MediatorSpecRef.XML_NODE_NAME, XMLComponentRefHelper.XML_ATTR_ID, mediator.getId())[0];
 		else
-			media = XMLHelpers.findChildren(subNode, XML_MEDIATOR_NODE_NAME, MediatorImplemRef.XML_ATTR_ID, mediator.getId())[0];
+			media = XMLHelpers.findChildren(subNode, XML_MEDIATOR_NODE_NAME, XMLComponentRefHelper.XML_ATTR_ID, mediator.getId())[0];
 
-		updateParameterInternal(document, media, MediatorRef.XML_SCHEDULER_NODE, schedulerParam);
-		updateParameterInternal(document, media, MediatorRef.XML_PROCESSOR_NODE, processorParam);
-		updateParameterInternal(document, media, MediatorRef.XML_DISPATCHER_NODE, dispatcherParam);
+		updateParameterInternal(document, media, MediatorSpecRef.XML_SCHEDULER_NODE, schedulerParam);
+		updateParameterInternal(document, media, MediatorSpecRef.XML_PROCESSOR_NODE, processorParam);
+		updateParameterInternal(document, media, MediatorSpecRef.XML_DISPATCHER_NODE, dispatcherParam);
 
 		writeToFile(document);
 		notifyRepository();
@@ -131,7 +132,7 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 		// first, delete
 		Node sub = XMLHelpers.findChild(mediatorRoot, xmlPartName);
 		if (sub != null)
-			for (Node n : XMLHelpers.findChildren(sub, ParameterChain.XML_ROOT_NAME))
+			for (Node n : XMLHelpers.findChildren(sub, XMLParameterRef.XML_ROOT_NAME))
 				sub.removeChild(n);
 
 		// then (re)create
@@ -139,7 +140,7 @@ public class AbstractCompositionModel extends ChainModel<AbstractChain> {
 			if (sub == null)
 				sub = XMLHelpers.createChild(document, mediatorRoot, xmlPartName);
 			for (String key : parameters.keySet())
-				XMLHelpers.createChild(document, sub, ParameterChain.XML_ROOT_NAME, ParameterChain.XML_ATTR_NAME, key, ParameterChain.XML_ATTR_VALUE,
+				XMLHelpers.createChild(document, sub, XMLParameterRef.XML_ROOT_NAME, XMLParameterRef.XML_ATTR_NAME, key, XMLParameterRef.XML_ATTR_VALUE,
 						parameters.get(key));
 		}
 	}

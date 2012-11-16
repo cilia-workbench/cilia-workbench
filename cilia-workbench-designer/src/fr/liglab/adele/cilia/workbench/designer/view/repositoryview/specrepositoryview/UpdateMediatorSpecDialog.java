@@ -30,11 +30,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IPort.PortNature;
 import fr.liglab.adele.cilia.workbench.common.ui.TextValidatorListener;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ListEditor;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IPort.PortNature;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.ParameterSpec;

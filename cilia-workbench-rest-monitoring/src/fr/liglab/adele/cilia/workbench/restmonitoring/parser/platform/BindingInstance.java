@@ -18,15 +18,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.parser.Binding;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class RunningBinding extends Binding {
+public class BindingInstance extends Binding {
 
-	public RunningBinding(JSONObject binding) throws CiliaException {
+	public BindingInstance(JSONObject binding) throws CiliaException {
 		super(getJSONField(binding, "from"), getJSONField(binding, "to"));
 	}
 
@@ -36,5 +37,17 @@ public class RunningBinding extends Binding {
 		} catch (JSONException e) {
 			throw new CiliaException("Error while pasing binding field " + name, e);
 		}
+	}
+
+	@Override
+	public ComponentRef getSourceComponent() {
+		// TODO Auto-generated method stub
+		throw new RuntimeException("Not yet implemented");
+	}
+
+	@Override
+	public ComponentRef getDestinationComponent() {
+		// TODO Auto-generated method stub
+		throw new RuntimeException("Not yet implemented");
 	}
 }

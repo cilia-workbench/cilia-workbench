@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
@@ -36,8 +37,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorImplemRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.UpdateMediatorInstanceRefDialog;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.UpdateMediatorRefDialog;

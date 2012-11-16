@@ -118,6 +118,24 @@ public abstract class CiliaFlag {
 		return retval.toArray(new CiliaFlag[0]);
 	}
 
+	public static CiliaFlag[] generateTab(CiliaFlag[] tab1, CiliaFlag[] tab2, CiliaFlag... flags) {
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
+
+		for (CiliaFlag flag : tab1)
+			if (flag != null)
+				retval.add(flag);
+
+		for (CiliaFlag flag : tab2)
+			if (flag != null)
+				retval.add(flag);
+
+		for (CiliaFlag flag : flags)
+			if (flag != null)
+				retval.add(flag);
+
+		return retval.toArray(new CiliaFlag[0]);
+	}
+
 	/**
 	 * Gets the severity of this error, from the {@link IMarker} point of view.
 	 * 
@@ -146,7 +164,7 @@ public abstract class CiliaFlag {
 	public Object getSourceProvider() {
 		return sourceProvider;
 	}
-	
+
 	public CiliaFlag changeSourceProvider(Object newSourceProvider) {
 		sourceProvider = newSourceProvider;
 		return this;

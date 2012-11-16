@@ -12,33 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
+package fr.liglab.adele.cilia.workbench.common.parser.element;
 
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 
 /**
  * Represents a port, in or out. It can be a spec or an implementation.
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port implements IPort {
+public interface IPort extends Identifiable, ErrorsAndWarningsFinder {
 
-	private String name;
-
-	public String getName() {
-		return name;
+	public enum PortNature {
+		IN, OUT;
 	}
 
-	@Override
-	public String toString() {
-		return name;
-	}
+	public String getName();
 
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-
-		return CiliaFlag.generateTab(e1);
-	}
+	/**
+	 * Tests the nature of this port : IN or OUT ?
+	 * 
+	 * @return the {@link PortNature}
+	 */
+	public PortNature getNature();
 }

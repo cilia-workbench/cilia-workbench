@@ -23,10 +23,10 @@ import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentNatureAskable.ComponentNature;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IMediator;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.ComponentNatureAskable.ComponentNature;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
@@ -36,9 +36,9 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  */
 public class NewMediatorDialog extends TextListDialog {
 
-	private final Chain chain;
+	private final XMLChain chain;
 
-	public NewMediatorDialog(Shell parentShell, Chain chain, ComponentNature filter) {
+	public NewMediatorDialog(Shell parentShell, XMLChain chain, ComponentNature filter) {
 		super(parentShell, "New Mediator", "id", "type", getListValues(filter));
 		this.chain = chain;
 	}
@@ -52,7 +52,7 @@ public class NewMediatorDialog extends TextListDialog {
 
 		for (IMediator m : list) {
 			if (filter == null || m.getNature().equals(filter)) {
-				NameNamespaceID id = m.getId();
+				NameNamespaceID id = (NameNamespaceID) m.getId();
 				String str = m.getNature().getShortName() + " ";
 				String key = str + id.getName();
 				if (!Strings.isNullOrEmpty(id.getNamespace()))
@@ -69,6 +69,6 @@ public class NewMediatorDialog extends TextListDialog {
 		if (object == null)
 			return "Please select an element in the combo";
 		IMediator m = (IMediator) object;
-		return chain.isNewComponentAllowed(id, m.getId());
+		return chain.isNewComponentAllowed(id, (NameNamespaceID) m.getId());
 	}
 }

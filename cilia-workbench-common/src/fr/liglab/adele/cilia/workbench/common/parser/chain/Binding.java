@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.parser;
+package fr.liglab.adele.cilia.workbench.common.parser.chain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +64,10 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 	public String getDestinationPort() {
 		return XMLStringUtil.getAfterSeparatorOrNothing(to);
 	}
+
+	public abstract ComponentRef getSourceComponent();
+
+	public abstract ComponentRef getDestinationComponent();
 
 	@Override
 	public String toString() {

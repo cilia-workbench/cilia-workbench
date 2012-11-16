@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.Property;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 
 /**
  * 

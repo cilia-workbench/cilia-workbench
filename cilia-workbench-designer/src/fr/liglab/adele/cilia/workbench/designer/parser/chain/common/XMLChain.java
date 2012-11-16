@@ -28,26 +28,28 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IComponent;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.AdapterImplemRef;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphDrawable;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Chain extends NameNamespace implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable, GraphDrawable {
+public abstract class XMLChain extends NameNamespace implements IChain, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable, GraphDrawable {
 
 	public static final String XML_NODE_NAME = "chain";
 
@@ -62,7 +64,7 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 	protected List<MediatorRef> mediators = new ArrayList<MediatorRef>();
 	protected List<XMLBinding> bindings = new ArrayList<XMLBinding>();
 
-	public Chain(Node node, String mediatorXMLNodeName, String adapterXMLNodeName) throws CiliaException {
+	public XMLChain(Node node, String mediatorXMLNodeName, String adapterXMLNodeName) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "name");
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
 
@@ -163,7 +165,7 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 	 * @return
 	 * @throws CiliaException
 	 */
-	private IComponent getReferencedComponent(String componentID) throws CiliaException {
+	public IComponent getReferencedComponent(String componentID) throws CiliaException {
 
 		if (Strings.isNullOrEmpty(componentID))
 			throw new CiliaException("id is null or empty");
@@ -172,25 +174,7 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 		if (component == null)
 			throw new CiliaException("can't find component with id " + componentID);
 
-		NameNamespaceID referencedID = component.getReferencedTypeID();
-		if (component instanceof AdapterImplemRef) {
-			IAdapter adapterInstance = JarRepoService.getInstance().getAdapterForChain(referencedID);
-			if (adapterInstance == null)
-				throw new CiliaException("Adapter " + componentID + " doesn't reference a valid adapter instance.");
-			return adapterInstance;
-		} else if (component instanceof MediatorSpecRef) {
-			IMediator mediatorSpec = SpecRepoService.getInstance().getMediatorForChain(referencedID);
-			if (mediatorSpec == null)
-				throw new CiliaException("Mediator " + componentID + " doesn't reference a valid mediator instance.");
-			return mediatorSpec;
-		} else if (component instanceof MediatorImplemRef) {
-			IMediator mediatorInstance = JarRepoService.getInstance().getMediatorForChain(referencedID);
-			if (mediatorInstance == null)
-				throw new CiliaException("Mediator " + componentID + " doesn't reference a valid mediator specification.");
-			return mediatorInstance;
-		} else {
-			throw new CiliaException(component.getClass() + " handler not yet implemented here.");
-		}
+		return component.getReferencedComponent();
 	}
 
 	public String isNewBindingAllowed(String srcElem, String srcPort, String dstElem, String dstPort) {
@@ -231,7 +215,7 @@ public abstract class Chain extends NameNamespace implements DisplayedInProperti
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = new ArrayList<Changeset>();
-		Chain newInstance = (Chain) other;
+		XMLChain newInstance = (XMLChain) other;
 
 		retval.addAll(MergeUtil.mergeLists(newInstance.getAdapters(), adapters));
 		retval.addAll(MergeUtil.mergeLists(newInstance.getMediators(), mediators));

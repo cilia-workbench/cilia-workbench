@@ -17,24 +17,20 @@ package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IMediator;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class MediatorImplemRef extends MediatorRef {
+public class XMLParameterRef extends ParameterRef {
 
-	public MediatorImplemRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
-		super(node, chainId, repo);
-	}
+	public static final String XML_ROOT_NAME = "property";
+	public static String XML_ATTR_NAME = "name";
+	public static String XML_ATTR_VALUE = "value";
 
-	@Override
-	public IMediator getReferencedObject() {
-		NameNamespaceID id = getReferencedTypeID();
-		return JarRepoService.getInstance().getMediatorForChain(id);
+	public XMLParameterRef(Node n) throws CiliaException {
+		super(XMLHelpers.findAttributeValue(n, XML_ATTR_NAME), XMLHelpers.findAttributeValue(n, XML_ATTR_VALUE));
 	}
 }

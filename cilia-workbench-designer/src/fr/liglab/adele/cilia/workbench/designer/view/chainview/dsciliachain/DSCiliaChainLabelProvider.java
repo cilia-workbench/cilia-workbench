@@ -16,11 +16,11 @@ package fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain;
 
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
+import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.AbstractGraphLabelProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.AdapterRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.MediatorRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 
 /**
@@ -40,8 +40,8 @@ public class DSCiliaChainLabelProvider extends AbstractGraphLabelProvider {
 		ImageDescriptorEnum imageName;
 		if (isCompatible(obj, AdapterRef.class)) {
 			AdapterRef adapter = (AdapterRef) obj;
-			if (adapter.getReferencedObject() != null) {
-				if (adapter.getReferencedObject().getType() == AdapterType.IN)
+			if (adapter.getReferencedComponent() != null) {
+				if (adapter.getReferencedComponent().getType() == AdapterType.IN)
 					imageName = ImageDescriptorEnum.ADAPTER_IN;
 				else
 					imageName = ImageDescriptorEnum.ADAPTER_OUT;

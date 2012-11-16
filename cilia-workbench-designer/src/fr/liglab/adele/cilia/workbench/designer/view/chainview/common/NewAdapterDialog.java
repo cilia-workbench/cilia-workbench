@@ -23,9 +23,9 @@ import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.Chain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**
@@ -34,9 +34,9 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.J
  */
 public class NewAdapterDialog extends TextListDialog {
 
-	private final Chain chain;
+	private final XMLChain chain;
 
-	public NewAdapterDialog(Shell parentShell, Chain chain) {
+	public NewAdapterDialog(Shell parentShell, XMLChain chain) {
 		super(parentShell, "New Adapter", "id", "type", getListValues());
 		this.chain = chain;
 	}
@@ -49,7 +49,7 @@ public class NewAdapterDialog extends TextListDialog {
 		// list.addAll(SpecRepoService.getInstance().getAdapterSpecs());
 
 		for (IAdapter a : list) {
-			NameNamespaceID id = a.getId();
+			NameNamespaceID id = (NameNamespaceID) a.getId();
 			String str = a.getNature().getShortName() + " ";
 			String key = str + id.getName();
 			if (!Strings.isNullOrEmpty(id.getNamespace()))
@@ -65,6 +65,6 @@ public class NewAdapterDialog extends TextListDialog {
 		if (object == null)
 			return "Please select an element in the combo";
 		IAdapter a = (IAdapter) object;
-		return chain.isNewComponentAllowed(id, a.getId());
+		return chain.isNewComponentAllowed(id, (NameNamespaceID) a.getId());
 	}
 }

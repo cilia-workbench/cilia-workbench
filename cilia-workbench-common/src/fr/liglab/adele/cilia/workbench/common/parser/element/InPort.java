@@ -12,21 +12,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
-
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+package fr.liglab.adele.cilia.workbench.common.parser.element;
 
 /**
+ * Represents an in port. It can be a spec or an implementation.
  * 
  * @author Etienne Gandrille
  */
-public interface IAdapter extends IComponent {
+public abstract class InPort extends Port {
 
-	public enum AdapterType {
-		IN, OUT;
+	@Override
+	public Object getId() {
+		return "in:" + getName();
 	}
 
-	public abstract AdapterType getType();
-
-	public NameNamespaceID getId();
+	@Override
+	public PortNature getNature() {
+		return PortNature.IN;
+	}
 }

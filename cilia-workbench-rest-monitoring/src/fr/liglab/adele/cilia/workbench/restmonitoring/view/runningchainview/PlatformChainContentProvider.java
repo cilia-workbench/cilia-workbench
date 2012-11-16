@@ -21,9 +21,9 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningAdapter;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningBinding;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.RunningMediator;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.BindingInstance;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.MediatorInstance;
 
 /**
  * 
@@ -55,16 +55,16 @@ public class PlatformChainContentProvider implements IGraphEntityContentProvider
 	public Object[] getConnectedTo(Object entity) {
 		if (entity == null)
 			return new Object[0];
-		else if (entity instanceof RunningAdapter) {
+		else if (entity instanceof AdapterInstance) {
 			List<Object> retval = new ArrayList<Object>();
-			List<RunningBinding> bindings = model.getOutgoingBindings(((RunningAdapter) entity).getName());
-			for (RunningBinding binding : bindings)
+			List<BindingInstance> bindings = model.getOutgoingBindings(((AdapterInstance) entity).getName());
+			for (BindingInstance binding : bindings)
 				retval.add(model.getComponent(binding.getDestinationId()));
 			return retval.toArray();
-		} else if (entity instanceof RunningMediator) {
+		} else if (entity instanceof MediatorInstance) {
 			List<Object> retval = new ArrayList<Object>();
-			List<RunningBinding> bindings = model.getOutgoingBindings(((RunningMediator) entity).getName());
-			for (RunningBinding binding : bindings)
+			List<BindingInstance> bindings = model.getOutgoingBindings(((MediatorInstance) entity).getName());
+			for (BindingInstance binding : bindings)
 				retval.add(model.getComponent(binding.getDestinationId()));
 			return retval.toArray();
 		} else

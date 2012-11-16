@@ -221,13 +221,11 @@ public class XMLHelpers {
 		return createChildInternal(document, parent, nodeName, attrName, attrValue);
 	}
 
-	public static Node createChild(Document document, Node parent, String nodeName, String attrName1,
-			String attrValue1, String attrName2, String attrValue2) {
+	public static Node createChild(Document document, Node parent, String nodeName, String attrName1, String attrValue1, String attrName2, String attrValue2) {
 		return createChildInternal(document, parent, nodeName, attrName1, attrValue1, attrName2, attrValue2);
 	}
 
-	private static Node createChildInternal(Document document, Node parent, String nodeName,
-			String... attr_name_and_value) {
+	private static Node createChildInternal(Document document, Node parent, String nodeName, String... attr_name_and_value) {
 		Element newNode = document.createElement(nodeName);
 
 		for (int i = 0; i < attr_name_and_value.length; i += 2) {
@@ -273,7 +271,7 @@ public class XMLHelpers {
 		return retval;
 	}
 
-	public static String findAttributeValue(Node node, String attrName, String defaultValue) throws CiliaException {
+	public static String findAttributeValue(Node node, String attrName, String defaultValue) {
 		try {
 			return findAttributeValue(node, attrName);
 		} catch (Exception e) {
@@ -297,8 +295,7 @@ public class XMLHelpers {
 		return findChildrenInternal(root, nodeName, attributeName, attributeValue);
 	}
 
-	public static Node[] findChildren(Node root, String nodeName, String attributeName1, String attributeValue1,
-			String attributeName2, String attributeValue2) {
+	public static Node[] findChildren(Node root, String nodeName, String attributeName1, String attributeValue1, String attributeName2, String attributeValue2) {
 		return findChildrenInternal(root, nodeName, attributeName1, attributeValue1, attributeName2, attributeValue2);
 	}
 
@@ -308,8 +305,7 @@ public class XMLHelpers {
 		NodeList list = root.getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {
 			Node current = list.item(i);
-			if (current.getNodeType() == Node.ELEMENT_NODE
-					&& computeName(current.getNodeName()).equalsIgnoreCase(nodeName)) {
+			if (current.getNodeType() == Node.ELEMENT_NODE && computeName(current.getNodeName()).equalsIgnoreCase(nodeName)) {
 				boolean ok_node = true;
 
 				for (int idx = 0; idx < attr_value.length && ok_node == true; idx += 2) {

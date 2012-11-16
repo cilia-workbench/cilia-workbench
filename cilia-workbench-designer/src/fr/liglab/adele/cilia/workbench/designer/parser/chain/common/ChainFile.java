@@ -20,6 +20,7 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
@@ -29,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainFile<ModelType extends ChainModel<? extends Chain>> extends AbstractFile<ModelType> implements Mergeable {
+public abstract class ChainFile<ModelType extends XMLChainModel<? extends XMLChain>> extends AbstractFile<ModelType> implements Mergeable {
 
 	public ChainFile(File file) {
 		super(file);
@@ -39,7 +40,7 @@ public abstract class ChainFile<ModelType extends ChainModel<? extends Chain>> e
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		@SuppressWarnings("unchecked")
-		ChainFile<ChainModel<Chain>> newInstance = (ChainFile<ChainModel<Chain>>) other;
+		ChainFile<XMLChainModel<XMLChain>> newInstance = (ChainFile<XMLChainModel<XMLChain>>) other;
 
 		ModelType oldModel = getModel();
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");
@@ -51,12 +52,12 @@ public abstract class ChainFile<ModelType extends ChainModel<? extends Chain>> e
 
 			// XML file becomes valid
 			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel)
-				for (Chain chain : newModel.getChains())
+				for (IChain chain : newModel.getChains())
 					retval.add(new Changeset(Operation.ADD, chain));
 
 			// XML file becomes invalid
 			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel)
-				for (Chain chain : oldModel.getChains())
+				for (IChain chain : oldModel.getChains())
 					retval.add(new Changeset(Operation.REMOVE, chain));
 
 			// Other event, deeper in hierarchy

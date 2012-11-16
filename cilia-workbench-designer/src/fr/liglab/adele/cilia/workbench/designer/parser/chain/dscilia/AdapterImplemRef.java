@@ -12,13 +12,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
+package fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLComponentRefHelper;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
@@ -28,14 +32,25 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.J
  */
 public class AdapterImplemRef extends AdapterRef {
 
+	/** the chainID, which hosts the current {@link ComponentRef} */
+	private NameNamespaceID chainId;
+
+	private final ChainRepoService<?, ?, ?> repo;
+
 	public AdapterImplemRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
-		super(node, chainId, repo);
+		super(XMLComponentRefHelper.getId(node), XMLComponentRefHelper.getType(node), XMLComponentRefHelper.getNamespace(node));
+		this.chainId = chainId;
+		this.repo = repo;
 	}
 
 	@Override
-	public IAdapter getReferencedObject() {
+	public IAdapter getReferencedComponent() {
 		NameNamespaceID id = getReferencedTypeID();
 		return JarRepoService.getInstance().getAdapterForChain(id);
 	}
 
+	@Override
+	public IChain getChain() {
+		return repo.findChain(chainId);
+	}
 }

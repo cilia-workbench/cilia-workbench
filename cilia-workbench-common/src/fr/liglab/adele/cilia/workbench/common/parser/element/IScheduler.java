@@ -12,28 +12,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.common;
-
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+package fr.liglab.adele.cilia.workbench.common.parser.element;
 
 /**
- * Represents a port, in or out. It can be a spec or an implementation.
+ * Represents a Scheduler specification or implementation.
  * 
  * @author Etienne Gandrille
  */
-public interface IPort extends Identifiable, ErrorsAndWarningsFinder {
-
-	public enum PortNature {
-		IN, OUT;
-	}
-
-	public String getName();
-
-	/**
-	 * Tests the nature of this port : IN or OUT ?
-	 * 
-	 * @return the {@link PortNature}
-	 */
-	public PortNature getNature();
+public interface IScheduler extends IComponentPart {
 }

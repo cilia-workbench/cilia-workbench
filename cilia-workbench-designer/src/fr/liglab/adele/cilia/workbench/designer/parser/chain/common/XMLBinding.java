@@ -23,13 +23,16 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
-import fr.liglab.adele.cilia.workbench.common.parser.Binding;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IComponent;
+import fr.liglab.adele.cilia.workbench.common.parser.element.IAdapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IAdapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.common.IComponent;
 
 /**
  * 
@@ -49,7 +52,7 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 		this.chainId = chainId;
 	}
 
-	protected abstract Chain getChain();
+	protected abstract IChain getChain();
 
 	public ComponentRef getSourceComponent() {
 		return getChain().getComponent(getSourceId());
@@ -63,14 +66,14 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 		ComponentRef component = getSourceComponent();
 		if (component == null)
 			return null;
-		return component.getReferencedObject();
+		return component.getReferencedComponent();
 	}
 
 	public IComponent getDestinationReferencedObject() {
 		ComponentRef component = getDestinationComponent();
 		if (component == null)
 			return null;
-		return component.getReferencedObject();
+		return component.getReferencedComponent();
 	}
 
 	@Override
@@ -94,7 +97,7 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 				e2 = new CiliaError("Binding " + this + " destination port is undefined in " + getDestinationReferencedObject(), this);
 
 		if (src != null && src instanceof AdapterRef) {
-			IAdapter ro = ((AdapterRef) src).getReferencedObject();
+			IAdapter ro = ((AdapterRef) src).getReferencedComponent();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.OUT) {
 					e3 = new CiliaError("Binding " + this + " has its source connected to an out adapter", this);
@@ -103,7 +106,7 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 		}
 
 		if (dst != null && dst instanceof AdapterRef) {
-			IAdapter ro = ((AdapterRef) dst).getReferencedObject();
+			IAdapter ro = ((AdapterRef) dst).getReferencedComponent();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.IN) {
 					e4 = new CiliaError("Binding " + this + " has its destination connected to an in adapter", this);
