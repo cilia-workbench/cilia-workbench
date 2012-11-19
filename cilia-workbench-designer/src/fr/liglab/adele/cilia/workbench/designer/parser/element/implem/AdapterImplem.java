@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 
 /**
  * 
@@ -61,7 +61,7 @@ public abstract class AdapterImplem extends Adapter {
 		return name;
 	}
 
-	public List<IPort> getPorts() {
+	public List<Port> getPorts() {
 		return ports.getPorts();
 	}
 

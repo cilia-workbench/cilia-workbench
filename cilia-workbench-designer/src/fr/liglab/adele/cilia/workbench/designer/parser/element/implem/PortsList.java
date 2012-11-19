@@ -20,7 +20,7 @@ import java.util.List;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
@@ -29,14 +29,14 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
  */
 public class PortsList {
 
-	private final List<IPort> ports;
+	private final List<Port> ports;
 
 	public PortsList(Node node) throws CiliaException {
 		ports = getPorts(node);
 	}
 
-	private static List<IPort> getPorts(Node node) throws CiliaException {
-		List<IPort> ports = new ArrayList<IPort>();
+	private static List<Port> getPorts(Node node) throws CiliaException {
+		List<Port> ports = new ArrayList<Port>();
 
 		Node portsNode = XMLHelpers.findChild(node, "ports");
 		if (portsNode != null) {
@@ -51,7 +51,7 @@ public class PortsList {
 		return ports;
 	}
 
-	public List<IPort> getPorts() {
+	public List<Port> getPorts() {
 		return ports;
 	}
 }

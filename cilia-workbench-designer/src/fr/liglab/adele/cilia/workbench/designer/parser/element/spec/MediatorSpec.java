@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
@@ -50,7 +50,7 @@ public class MediatorSpec extends Mediator implements Mergeable {
 	private String namespace;
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	private List<IPort> ports = new ArrayList<IPort>();
+	private List<Port> ports = new ArrayList<Port>();
 	private List<PropertySpec> properties = new ArrayList<PropertySpec>();
 	private ProcessorSpec processor = null;
 	private SchedulerSpec scheduler = null;
@@ -120,7 +120,7 @@ public class MediatorSpec extends Mediator implements Mergeable {
 		return null;
 	}
 
-	public List<IPort> getPorts() {
+	public List<Port> getPorts() {
 		return ports;
 	}
 

@@ -31,7 +31,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentPart;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
@@ -114,7 +114,7 @@ public class MediatorImplem extends Mediator {
 	}
 
 	@Override
-	public List<? extends IPort> getPorts() {
+	public List<? extends Port> getPorts() {
 		return ports.getPorts();
 	}
 

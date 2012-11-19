@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice;
 
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
@@ -78,7 +78,7 @@ public class JarContentProvider extends GenericContentProvider {
 						addRelationship(true, mc, new FakeElement(mc.getDispatcherID().toString(), "Unknown dispatcher " + mc.getDispatcherID().toString(),
 								SchedulerImplem.class));
 
-					for (IPort p : mc.getPorts())
+					for (Port p : mc.getPorts())
 						addRelationship(true, mc, p);
 
 					for (PropertyImplem p : mc.getProperties())
@@ -117,7 +117,7 @@ public class JarContentProvider extends GenericContentProvider {
 
 				for (AdapterImplem a : ipojo.getAdapters()) {
 					addRelationship(true, bundle, a);
-					for (IPort port : a.getPorts())
+					for (Port port : a.getPorts())
 						addRelationship(true, a, port);
 
 					if (a.getType() == AdapterType.IN) {

@@ -21,7 +21,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
  * 
  * @author Etienne Gandrille
  */
-public abstract class OutPort extends IPort implements Identifiable {
+public abstract class OutPort extends Port implements Identifiable {
 
 	@Override
 	public PortNature getNature() {

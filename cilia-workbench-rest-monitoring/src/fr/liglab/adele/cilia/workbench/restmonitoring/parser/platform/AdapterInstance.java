@@ -21,7 +21,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 
@@ -57,7 +57,7 @@ public class AdapterInstance extends Adapter implements Mergeable {
 	}
 
 	@Override
-	public List<? extends IPort> getPorts() {
+	public List<? extends Port> getPorts() {
 		// TODO Auto-generated method stub
 		return null;
 	}

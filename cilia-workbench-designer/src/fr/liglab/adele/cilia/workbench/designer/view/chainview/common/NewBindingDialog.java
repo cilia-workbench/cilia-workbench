@@ -34,7 +34,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.InAdapterImplem;
@@ -282,10 +282,10 @@ public class NewBindingDialog extends WorkbenchDialog {
 				Adapter adapter = ((AdapterRef) i).getReferencedComponent();
 
 				if (portType.equals(DST_COLUMN_KEY)) {
-					for (IPort port : ((OutAdapterImplem) adapter).getInPorts())
+					for (Port port : ((OutAdapterImplem) adapter).getInPorts())
 						comboPort.add(port.getName());
 				} else {
-					for (IPort port : ((InAdapterImplem) adapter).getOutPorts())
+					for (Port port : ((InAdapterImplem) adapter).getOutPorts())
 						comboPort.add(port.getName());
 				}
 
@@ -296,10 +296,10 @@ public class NewBindingDialog extends WorkbenchDialog {
 			if (i instanceof MediatorRef) {
 				Mediator mediator = ((MediatorRef) i).getReferencedComponent();
 				if (portType.equals(DST_COLUMN_KEY)) {
-					for (IPort port : mediator.getInPorts())
+					for (Port port : mediator.getInPorts())
 						comboPort.add(port.getName());
 				} else {
-					for (IPort port : mediator.getOutPorts())
+					for (Port port : mediator.getOutPorts())
 						comboPort.add(port.getName());
 				}
 

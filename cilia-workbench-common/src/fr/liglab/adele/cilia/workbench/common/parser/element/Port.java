@@ -24,7 +24,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
  * 
  * @author Etienne Gandrille
  */
-public abstract class IPort implements Identifiable, ErrorsAndWarningsFinder {
+public abstract class Port implements Identifiable, ErrorsAndWarningsFinder {
 
 	public enum PortNature {
 		IN, OUT;

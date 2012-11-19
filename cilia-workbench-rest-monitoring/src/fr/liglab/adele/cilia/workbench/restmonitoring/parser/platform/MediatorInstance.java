@@ -21,7 +21,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Processor;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Scheduler;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
@@ -69,7 +69,7 @@ public class MediatorInstance extends Mediator implements Mergeable {
 	}
 
 	@Override
-	public List<? extends IPort> getPorts() {
+	public List<? extends Port> getPorts() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -21,7 +21,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
  * 
  * @author Etienne Gandrille
  */
-public abstract class InPort extends IPort implements Identifiable {
+public abstract class InPort extends Port implements Identifiable {
 
 	@Override
 	public Object getId() {

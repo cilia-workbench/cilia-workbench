@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Component;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
@@ -160,10 +160,10 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 	// PORTS
 	// =====
 
-	public List<? extends IPort> getPorts() {
+	public List<? extends Port> getPorts() {
 		if (getReferencedComponent() != null)
 			return getReferencedComponent().getPorts();
-		return new ArrayList<IPort>();
+		return new ArrayList<Port>();
 	}
 
 	public List<InPort> getInPorts() {
