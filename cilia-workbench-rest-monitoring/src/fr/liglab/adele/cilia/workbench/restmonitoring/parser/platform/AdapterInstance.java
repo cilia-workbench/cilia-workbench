@@ -20,7 +20,7 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public class AdapterInstance extends Adapter implements Mergeable {
+public class AdapterInstance extends AdapterDefinition implements Mergeable {
 
 	private final String name;
 

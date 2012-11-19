@@ -23,8 +23,8 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Cardinality;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition;
+import fr.liglab.adele.cilia.workbench.common.parser.element.MediatorDefinition;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
@@ -92,13 +92,13 @@ public class AbstractCompositionsRepoService extends ChainRepoService<AbstractCo
 		notifyListeners(changes);
 	}
 
-	public void createMediator(AbstractChain chain, String id, Mediator type) throws CiliaException {
+	public void createMediator(AbstractChain chain, String id, MediatorDefinition type) throws CiliaException {
 		if (getFileFromChain(chain) == null)
 			return;
 		getFileFromChain(chain).getModel().createMediator(chain, id, type);
 	}
 
-	public void createAdapter(AbstractChain chain, String id, Adapter type) throws CiliaException {
+	public void createAdapter(AbstractChain chain, String id, AdapterDefinition type) throws CiliaException {
 		if (getFileFromChain(chain) == null)
 			return;
 		getFileFromChain(chain).getModel().createAdapter(chain, id, type);

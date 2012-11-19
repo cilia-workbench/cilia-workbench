@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.MediatorDefinition;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
@@ -38,7 +38,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
  * 
  * @author Etienne Gandrille
  */
-public class MediatorSpec extends Mediator implements Mergeable {
+public class MediatorSpec extends MediatorDefinition implements Mergeable {
 
 	public static final String XML_NODE_NAME = "mediator-specification";
 

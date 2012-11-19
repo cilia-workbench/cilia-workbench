@@ -32,9 +32,9 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Component;
+import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition;
+import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition.AdapterType;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
@@ -157,7 +157,7 @@ public abstract class XMLChain extends NameNamespace implements IChain, Displaye
 	}
 
 	/**
-	 * Finds the {@link Component} referenced by the chain component with id
+	 * Finds the {@link ComponentDefinition} referenced by the chain component with id
 	 * given into parameter. If the component can't be located, throws an
 	 * exception containing an error message.
 	 * 
@@ -165,7 +165,7 @@ public abstract class XMLChain extends NameNamespace implements IChain, Displaye
 	 * @return
 	 * @throws CiliaException
 	 */
-	public Component getReferencedComponent(String componentID) throws CiliaException {
+	public ComponentDefinition getReferencedComponent(String componentID) throws CiliaException {
 
 		if (Strings.isNullOrEmpty(componentID))
 			throw new CiliaException("id is null or empty");
@@ -179,8 +179,8 @@ public abstract class XMLChain extends NameNamespace implements IChain, Displaye
 
 	public String isNewBindingAllowed(String srcElem, String srcPort, String dstElem, String dstPort) {
 
-		Component src;
-		Component dst;
+		ComponentDefinition src;
+		ComponentDefinition dst;
 		if (srcElem.equalsIgnoreCase(dstElem))
 			return "Source and destination can't be the same";
 
@@ -191,14 +191,14 @@ public abstract class XMLChain extends NameNamespace implements IChain, Displaye
 			return e.getMessage();
 		}
 
-		if (src instanceof Adapter) {
-			Adapter adapter = (Adapter) src;
+		if (src instanceof AdapterDefinition) {
+			AdapterDefinition adapter = (AdapterDefinition) src;
 			if (adapter.getType() == AdapterType.OUT)
 				return srcElem + " is an out-adapter. It can't be a binding source.";
 		}
 
-		if (dst instanceof Adapter) {
-			Adapter adapter = (Adapter) dst;
+		if (dst instanceof AdapterDefinition) {
+			AdapterDefinition adapter = (AdapterDefinition) dst;
 			if (adapter.getType() == AdapterType.IN)
 				return dstElem + " is an in-adapter. It can't be a binding destination.";
 		}

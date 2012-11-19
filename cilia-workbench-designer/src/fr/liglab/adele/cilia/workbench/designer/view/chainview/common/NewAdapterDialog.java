@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
@@ -44,11 +44,11 @@ public class NewAdapterDialog extends TextListDialog {
 	private static Map<String, Object> getListValues() {
 		Map<String, Object> retval = new HashMap<String, Object>();
 
-		List<Adapter> list = new ArrayList<Adapter>();
+		List<AdapterDefinition> list = new ArrayList<AdapterDefinition>();
 		list.addAll(JarRepoService.getInstance().getAdapters());
 		// list.addAll(SpecRepoService.getInstance().getAdapterSpecs());
 
-		for (Adapter a : list) {
+		for (AdapterDefinition a : list) {
 			NameNamespaceID id = (NameNamespaceID) a.getId();
 			String str = a.getNature().getShortName() + " ";
 			String key = str + id.getName();
@@ -64,7 +64,7 @@ public class NewAdapterDialog extends TextListDialog {
 	protected String checkValidValues(String id, Object object) {
 		if (object == null)
 			return "Please select an element in the combo";
-		Adapter a = (Adapter) object;
+		AdapterDefinition a = (AdapterDefinition) object;
 		return chain.isNewComponentAllowed(id, (NameNamespaceID) a.getId());
 	}
 }

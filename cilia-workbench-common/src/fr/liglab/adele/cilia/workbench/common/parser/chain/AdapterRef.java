@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.common.parser.chain;
 
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition;
 
 /**
  * 
@@ -28,7 +28,7 @@ public abstract class AdapterRef extends ComponentRef {
 		super(id, type, namespace);
 	}
 
-	public abstract Adapter getReferencedComponent();
+	public abstract AdapterDefinition getReferencedComponent();
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
@@ -38,7 +38,7 @@ public abstract class AdapterRef extends ComponentRef {
 		CiliaError e2 = null;
 
 		if (getReferencedComponent() != null) {
-			Adapter target = getReferencedComponent();
+			AdapterDefinition target = getReferencedComponent();
 
 			switch (target.getType()) {
 			case IN:

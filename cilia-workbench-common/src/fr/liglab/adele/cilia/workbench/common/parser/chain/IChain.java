@@ -18,7 +18,7 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Component;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 
 /**
  * 
@@ -37,7 +37,7 @@ public interface IChain extends Identifiable {
 	public ComponentRef[] getComponents();
 
 	/**
-	 * Finds the {@link Component} referenced by the chain component with id
+	 * Finds the {@link ComponentDefinition} referenced by the chain component with id
 	 * given into parameter. If the component can't be located, throws an
 	 * exception containing an error message.
 	 * 
@@ -45,5 +45,5 @@ public interface IChain extends Identifiable {
 	 * @return
 	 * @throws CiliaException
 	 */
-	public Component getReferencedComponent(String componentID) throws CiliaException;
+	public ComponentDefinition getReferencedComponent(String componentID) throws CiliaException;
 }

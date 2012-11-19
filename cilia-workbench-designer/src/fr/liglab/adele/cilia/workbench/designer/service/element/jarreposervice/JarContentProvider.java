@@ -17,7 +17,7 @@ package fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;

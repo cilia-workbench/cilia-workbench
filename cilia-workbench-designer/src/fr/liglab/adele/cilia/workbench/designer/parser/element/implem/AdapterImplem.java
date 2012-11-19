@@ -25,14 +25,14 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class AdapterImplem extends Adapter {
+public abstract class AdapterImplem extends AdapterDefinition {
 
 	private PortsList ports;
 

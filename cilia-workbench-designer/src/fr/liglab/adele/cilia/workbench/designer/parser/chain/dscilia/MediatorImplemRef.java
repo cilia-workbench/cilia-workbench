@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.MediatorDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
@@ -152,7 +152,7 @@ public class MediatorImplemRef extends MediatorRef {
 	}
 
 	@Override
-	public Mediator getReferencedComponent() {
+	public MediatorDefinition getReferencedComponent() {
 		NameNamespaceID id = getReferencedTypeID();
 		return JarRepoService.getInstance().getMediatorForChain(id);
 	}

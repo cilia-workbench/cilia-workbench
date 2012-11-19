@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Shell;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentNatureAskable.ComponentNature;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.MediatorDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
@@ -46,11 +46,11 @@ public class NewMediatorDialog extends TextListDialog {
 	private static Map<String, Object> getListValues(ComponentNature filter) {
 		Map<String, Object> retval = new HashMap<String, Object>();
 
-		List<Mediator> list = new ArrayList<Mediator>();
+		List<MediatorDefinition> list = new ArrayList<MediatorDefinition>();
 		list.addAll(JarRepoService.getInstance().getMediators());
 		list.addAll(SpecRepoService.getInstance().getMediatorSpecs());
 
-		for (Mediator m : list) {
+		for (MediatorDefinition m : list) {
 			if (filter == null || m.getNature().equals(filter)) {
 				NameNamespaceID id = (NameNamespaceID) m.getId();
 				String str = m.getNature().getShortName() + " ";
@@ -68,7 +68,7 @@ public class NewMediatorDialog extends TextListDialog {
 	protected String checkValidValues(String id, Object object) {
 		if (object == null)
 			return "Please select an element in the combo";
-		Mediator m = (Mediator) object;
+		MediatorDefinition m = (MediatorDefinition) object;
 		return chain.isNewComponentAllowed(id, (NameNamespaceID) m.getId());
 	}
 }

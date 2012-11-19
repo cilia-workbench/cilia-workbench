@@ -16,7 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.jarreposito
 
 import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;

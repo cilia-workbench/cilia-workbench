@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.MediatorDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
@@ -146,7 +146,7 @@ public class MediatorSpecRef extends MediatorRef {
 
 		// constraints
 		if (getReferencedComponent() != null) {
-			Mediator ro = getReferencedComponent();
+			MediatorDefinition ro = getReferencedComponent();
 
 			for (PropertyConstraint pc : constraints)
 				if (ro.getProperty(pc.getName()) == null)
@@ -185,7 +185,7 @@ public class MediatorSpecRef extends MediatorRef {
 
 	public List<PropertySpec> getPossibleConstraints() {
 
-		Mediator ro = getReferencedComponent();
+		MediatorDefinition ro = getReferencedComponent();
 		if (ro != null && ro instanceof MediatorSpec) {
 			MediatorSpec spec = (MediatorSpec) ro;
 			return spec.getProperties();
@@ -195,7 +195,7 @@ public class MediatorSpecRef extends MediatorRef {
 	}
 
 	@Override
-	public Mediator getReferencedComponent() {
+	public MediatorDefinition getReferencedComponent() {
 		NameNamespaceID id = getReferencedTypeID();
 		return SpecRepoService.getInstance().getMediatorForChain(id);
 	}
