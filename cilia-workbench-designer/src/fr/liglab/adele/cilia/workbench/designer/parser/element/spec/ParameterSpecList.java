@@ -22,7 +22,7 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IComponentPart;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentPart;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
@@ -74,7 +74,7 @@ public class ParameterSpecList {
 		return IdentifiableUtils.getErrorsNonUniqueId(this, parameters).toArray(new CiliaFlag[0]);
 	}
 
-	public List<Changeset> merge(IComponentPart newInstance) throws CiliaException {
+	public List<Changeset> merge(ComponentPart newInstance) throws CiliaException {
 		ArrayList<ParameterSpec> oldList = new ArrayList<ParameterSpec>();
 		for (Parameter param : newInstance.getParameters()) {
 			oldList.add((ParameterSpec) param);

@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IComponentPart;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentPart;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
@@ -257,7 +257,7 @@ public class MediatorImplem extends Mediator {
 		return flagsTab;
 	}
 
-	private static List<CiliaFlag> checkParameters(String specName, IComponentPart spec, IComponentPart implem, String elementTypeName) {
+	private static List<CiliaFlag> checkParameters(String specName, ComponentPart spec, ComponentPart implem, String elementTypeName) {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
 		if (spec != null) {

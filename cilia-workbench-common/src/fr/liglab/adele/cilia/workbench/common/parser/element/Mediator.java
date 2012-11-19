@@ -32,9 +32,9 @@ public abstract class Mediator extends Component {
 		return null;
 	}
 
-	public abstract IScheduler getScheduler();
+	public abstract Scheduler getScheduler();
 
-	public abstract IProcessor getProcessor();
+	public abstract Processor getProcessor();
 
-	public abstract IDispatcher getDispatcher();
+	public abstract Dispatcher getDispatcher();
 }

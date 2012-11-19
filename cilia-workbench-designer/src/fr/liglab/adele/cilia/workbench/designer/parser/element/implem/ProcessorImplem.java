@@ -22,14 +22,14 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IProcessor;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Processor;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesViewWithForward;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class ProcessorImplem implements IProcessor, DisplayedInPropertiesViewWithForward, ErrorsAndWarningsFinder, Identifiable {
+public class ProcessorImplem extends Processor implements DisplayedInPropertiesViewWithForward, ErrorsAndWarningsFinder, Identifiable {
 
 	public static final String XML_NODE_NAME = "processor";
 

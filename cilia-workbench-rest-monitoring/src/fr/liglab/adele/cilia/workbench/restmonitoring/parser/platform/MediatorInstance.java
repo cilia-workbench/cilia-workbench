@@ -20,10 +20,10 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IDispatcher;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IProcessor;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IScheduler;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Processor;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Scheduler;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
@@ -92,19 +92,19 @@ public class MediatorInstance extends Mediator implements Mergeable {
 	}
 
 	@Override
-	public IScheduler getScheduler() {
+	public Scheduler getScheduler() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IProcessor getProcessor() {
+	public Processor getProcessor() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IDispatcher getDispatcher() {
+	public Dispatcher getDispatcher() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -19,5 +19,5 @@ package fr.liglab.adele.cilia.workbench.common.parser.element;
  * 
  * @author Etienne Gandrille
  */
-public interface IScheduler extends IComponentPart {
+public abstract class Dispatcher extends ComponentPart {
 }

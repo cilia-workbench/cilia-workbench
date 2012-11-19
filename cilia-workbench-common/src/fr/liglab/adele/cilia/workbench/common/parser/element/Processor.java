@@ -14,16 +14,10 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser.element;
 
-import java.util.List;
-
 /**
- * Base interface for implementing IScheduler, IProcessor, IDispatcher.
+ * Represents a Scheduler specification or implementation.
  * 
  * @author Etienne Gandrille
  */
-public interface IComponentPart {
-
-	List<? extends Parameter> getParameters();
-
-	Parameter getParameter(String name);
+public abstract class Processor extends ComponentPart {
 }

@@ -22,8 +22,8 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IComponentPart;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IDispatcher;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentPart;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
  * 
  * @author Etienne Gandrille
  */
-public class DispatcherSpec implements IDispatcher, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
+public class DispatcherSpec extends Dispatcher implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
 
 	public static final String XML_NODE_NAME = "dispatcher";
 
@@ -51,7 +51,7 @@ public class DispatcherSpec implements IDispatcher, DisplayedInPropertiesView, E
 	}
 
 	public List<Changeset> merge(Object newInstance) throws CiliaException {
-		return parameters.merge((IComponentPart) newInstance);
+		return parameters.merge((ComponentPart) newInstance);
 	}
 
 	@Override

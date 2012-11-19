@@ -22,14 +22,14 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IDispatcher;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesViewWithForward;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DispatcherImplem implements IDispatcher, DisplayedInPropertiesViewWithForward, ErrorsAndWarningsFinder, Identifiable {
+public class DispatcherImplem extends Dispatcher implements DisplayedInPropertiesViewWithForward, ErrorsAndWarningsFinder, Identifiable {
 
 	public static final String XML_NODE_NAME = "dispatcher";
 

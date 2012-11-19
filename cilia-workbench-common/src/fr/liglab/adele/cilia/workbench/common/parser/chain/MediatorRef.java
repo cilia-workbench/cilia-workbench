@@ -18,10 +18,10 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IDispatcher;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IProcessor;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IScheduler;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Processor;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Scheduler;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
 
 /**
@@ -55,7 +55,7 @@ public abstract class MediatorRef extends ComponentRef {
 		if (ro == null)
 			return null;
 
-		IScheduler part = ro.getScheduler();
+		Scheduler part = ro.getScheduler();
 		if (part == null)
 			return null;
 
@@ -68,7 +68,7 @@ public abstract class MediatorRef extends ComponentRef {
 		if (ro == null)
 			return null;
 
-		IProcessor part = ro.getProcessor();
+		Processor part = ro.getProcessor();
 		if (part == null)
 			return null;
 
@@ -81,7 +81,7 @@ public abstract class MediatorRef extends ComponentRef {
 		if (ro == null)
 			return null;
 
-		IDispatcher part = ro.getDispatcher();
+		Dispatcher part = ro.getDispatcher();
 		if (part == null)
 			return null;
 
