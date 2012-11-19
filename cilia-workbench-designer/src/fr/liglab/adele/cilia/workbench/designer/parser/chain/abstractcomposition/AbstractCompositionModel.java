@@ -26,8 +26,8 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentNatureAskable.ComponentNature;
-import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition;
-import fr.liglab.adele.cilia.workbench.common.parser.element.MediatorDefinition;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainModel;
@@ -57,7 +57,7 @@ public class AbstractCompositionModel extends XMLChainModel<AbstractChain> {
 			model.add(new AbstractChain(node));
 	}
 
-	public void createMediator(AbstractChain chain, String id, MediatorDefinition type) throws CiliaException {
+	public void createMediator(AbstractChain chain, String id, Mediator type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, (NameNamespaceID) type.getId()) == null) {
 			if (type.getNature() == ComponentNature.SPEC)
 				createComponentInstanceInternal(chain, id, (NameNamespaceID) type.getId(), XMLChain.XML_ROOT_MEDIATORS_NAME, MediatorSpecRef.XML_NODE_NAME);
@@ -68,7 +68,7 @@ public class AbstractCompositionModel extends XMLChainModel<AbstractChain> {
 		}
 	}
 
-	public void createAdapter(AbstractChain chain, String id, AdapterDefinition type) throws CiliaException {
+	public void createAdapter(AbstractChain chain, String id, Adapter type) throws CiliaException {
 		if (chain.isNewComponentAllowed(id, (NameNamespaceID) type.getId()) == null) {
 			if (type.getNature() == ComponentNature.SPEC)
 				throw new RuntimeException("Not yet implemented in spec repository view...");

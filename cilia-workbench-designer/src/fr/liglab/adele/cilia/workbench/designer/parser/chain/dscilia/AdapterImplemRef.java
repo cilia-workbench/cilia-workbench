@@ -21,7 +21,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
-import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLComponentRefHelper;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
@@ -44,7 +44,7 @@ public class AdapterImplemRef extends AdapterRef {
 	}
 
 	@Override
-	public AdapterDefinition getReferencedComponent() {
+	public Adapter getReferencedComponent() {
 		NameNamespaceID id = getReferencedTypeID();
 		return JarRepoService.getInstance().getAdapterForChain(id);
 	}

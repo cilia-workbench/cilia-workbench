@@ -27,9 +27,9 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
-import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition;
-import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
-import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition.AdapterType;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Component;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
@@ -62,14 +62,14 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 		return getChain().getComponent(getDestinationId());
 	}
 
-	public ComponentDefinition getSourceReferencedObject() {
+	public Component getSourceReferencedObject() {
 		ComponentRef component = getSourceComponent();
 		if (component == null)
 			return null;
 		return component.getReferencedComponent();
 	}
 
-	public ComponentDefinition getDestinationReferencedObject() {
+	public Component getDestinationReferencedObject() {
 		ComponentRef component = getDestinationComponent();
 		if (component == null)
 			return null;
@@ -97,7 +97,7 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 				e2 = new CiliaError("Binding " + this + " destination port is undefined in " + getDestinationReferencedObject(), this);
 
 		if (src != null && src instanceof AdapterRef) {
-			AdapterDefinition ro = ((AdapterRef) src).getReferencedComponent();
+			Adapter ro = ((AdapterRef) src).getReferencedComponent();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.OUT) {
 					e3 = new CiliaError("Binding " + this + " has its source connected to an out adapter", this);
@@ -106,7 +106,7 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 		}
 
 		if (dst != null && dst instanceof AdapterRef) {
-			AdapterDefinition ro = ((AdapterRef) dst).getReferencedComponent();
+			Adapter ro = ((AdapterRef) dst).getReferencedComponent();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.IN) {
 					e4 = new CiliaError("Binding " + this + " has its destination connected to an in adapter", this);

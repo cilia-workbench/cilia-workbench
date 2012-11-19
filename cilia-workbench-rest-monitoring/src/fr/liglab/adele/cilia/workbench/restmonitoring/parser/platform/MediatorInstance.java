@@ -24,7 +24,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Processor;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Scheduler;
-import fr.liglab.adele.cilia.workbench.common.parser.element.MediatorDefinition;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public class MediatorInstance extends MediatorDefinition implements Mergeable {
+public class MediatorInstance extends Mediator implements Mergeable {
 
 	private final String name;
 	private final PlatformChain chain;

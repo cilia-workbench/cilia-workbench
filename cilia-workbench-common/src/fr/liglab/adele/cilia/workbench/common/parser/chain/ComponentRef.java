@@ -24,7 +24,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Component;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
@@ -65,7 +65,7 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 
 	public abstract IChain getChain();
 
-	public abstract ComponentDefinition getReferencedComponent();
+	public abstract Component getReferencedComponent();
 
 	public NameNamespaceID getReferencedTypeID() {
 		return referencedComponentID;

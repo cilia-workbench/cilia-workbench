@@ -19,7 +19,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.parser.element.AdapterDefinition;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
@@ -39,7 +39,7 @@ public class CreateAdapterHandler extends DSCiliaChainHandler {
 			NewAdapterDialog window = new NewAdapterDialog(ViewUtil.getShell(event), model);
 			if (window.open() == Window.OK) {
 				String id = window.getText();
-				AdapterDefinition adapter = (AdapterDefinition) window.getValue();
+				Adapter adapter = (Adapter) window.getValue();
 				try {
 					DSCiliaRepoService.getInstance().createAdapter(model, id, adapter);
 				} catch (CiliaException e) {
