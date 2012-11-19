@@ -14,9 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
@@ -25,15 +22,12 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * 
  * @author Etienne Gandrille
  */
 public class ParameterImplem extends Parameter {
-
-	public static final String XML_NODE_NAME = "property";
 
 	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_METHOD = "method";
@@ -49,20 +43,6 @@ public class ParameterImplem extends Parameter {
 		ReflectionUtil.setAttribute(node, XML_ATTR_METHOD, this, "method");
 		ReflectionUtil.setAttribute(node, XML_ATTR_VALUE, this, "default_value");
 		ReflectionUtil.setAttribute(node, XML_ATTR_FIELD, this, "field");
-	}
-
-	public static List<ParameterImplem> findParameters(Node node) throws CiliaException {
-
-		List<ParameterImplem> retval = new ArrayList<ParameterImplem>();
-
-		Node rootParam = XMLHelpers.findChild(node, "properties");
-		if (rootParam != null) {
-			Node[] params = XMLHelpers.findChildren(rootParam, XML_NODE_NAME);
-			for (Node param : params)
-				retval.add(new ParameterImplem(param));
-		}
-
-		return retval;
 	}
 
 	public boolean hasDefaultValue() {

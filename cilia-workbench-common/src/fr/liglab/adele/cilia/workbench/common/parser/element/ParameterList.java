@@ -19,36 +19,36 @@ import java.util.List;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
- * Base interface for implementing IScheduler, IProcessor, IDispatcher.
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentPart implements ErrorsAndWarningsFinder, DisplayedInPropertiesView, Mergeable {
+public abstract class ParameterList implements ErrorsAndWarningsFinder, Mergeable {
 
-	protected final ParameterList parameters;
-
-	public ComponentPart(ParameterList parameters) {
-		this.parameters = parameters;
-	}
+	protected List<Parameter> parameters;
 
 	public List<Parameter> getParameters() {
-		return parameters.getParameters();
+		return parameters;
 	}
 
 	public Parameter getParameter(String name) {
-		return parameters.getParameter(name);
+		for (Parameter p : getParameters())
+			if (p.getName().equalsIgnoreCase(name))
+				return p;
+		return null;
 	}
 
 	public List<Changeset> merge(Object newInstance) throws CiliaException {
-		return parameters.merge(((ComponentPart) newInstance).getParameters());
+		List<Parameter> newList = ((ComponentPart) newInstance).getParameters();
+		return MergeUtil.mergeLists(newList, parameters);
 	}
 
 	public CiliaFlag[] getErrorsAndWarnings() {
-		return parameters.getErrorsAndWarnings();
+		return IdentifiableUtils.getErrorsNonUniqueId(this, getParameters()).toArray(new CiliaFlag[0]);
 	}
 }

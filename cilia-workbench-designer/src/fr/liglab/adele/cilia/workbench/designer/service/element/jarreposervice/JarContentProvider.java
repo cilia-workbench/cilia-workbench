@@ -18,6 +18,7 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
@@ -86,19 +87,19 @@ public class JarContentProvider extends GenericContentProvider {
 
 				for (SchedulerImplem s : ipojo.getSchedulers()) {
 					addRelationship(true, bundle, s);
-					for (ParameterImplem param : s.getParameters())
+					for (Parameter param : s.getParameters())
 						addRelationship(true, s, param);
 				}
 
 				for (ProcessorImplem p : ipojo.getProcessors()) {
 					addRelationship(true, bundle, p);
-					for (ParameterImplem param : p.getParameters())
+					for (Parameter param : p.getParameters())
 						addRelationship(true, p, param);
 				}
 
 				for (DispatcherImplem d : ipojo.getDispatchers()) {
 					addRelationship(true, bundle, d);
-					for (ParameterImplem param : d.getParameters())
+					for (Parameter param : d.getParameters())
 						addRelationship(true, d, param);
 				}
 

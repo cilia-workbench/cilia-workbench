@@ -26,6 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
@@ -39,16 +40,19 @@ public abstract class AdapterSubElementImplem implements DisplayedInPropertiesVi
 
 	private String name;
 	private String classname;
-	private List<ParameterImplem> parameters = new ArrayList<ParameterImplem>();
+	private ParameterListImplem parameters;
 
 	public AdapterSubElementImplem(Node node) throws CiliaException {
-		parameters = ParameterImplem.findParameters(node);
+		parameters = new ParameterListImplem(node);
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 		ReflectionUtil.setAttribute(node, XML_ATTR_CLASSNAME, this, "classname");
 	}
 
 	public List<ParameterImplem> getParameters() {
-		return parameters;
+		List<ParameterImplem> retval = new ArrayList<ParameterImplem>();
+		for (Parameter p : parameters.getParameters())
+			retval.add((ParameterImplem) p);
+		return retval;
 	}
 
 	@Override
@@ -63,7 +67,7 @@ public abstract class AdapterSubElementImplem implements DisplayedInPropertiesVi
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		List<CiliaFlag> flagsTab = IdentifiableUtils.getErrorsNonUniqueId(this, parameters);
+		List<CiliaFlag> flagsTab = IdentifiableUtils.getErrorsNonUniqueId(this, parameters.getParameters());
 
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
 		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, classname, "class name");

@@ -34,13 +34,13 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
  */
 public abstract class AdapterImplem extends Adapter {
 
-	private List<IPort> ports;
+	private PortsList ports;
 
 	private String name;
 	private String namespace;
 
 	public AdapterImplem(Node node) throws CiliaException {
-		ports = ComponentImplemHelper.getPorts(node);
+		ports = new PortsList(node);
 	}
 
 	public String getName() {
@@ -62,7 +62,7 @@ public abstract class AdapterImplem extends Adapter {
 	}
 
 	public List<IPort> getPorts() {
-		return ports;
+		return ports.getPorts();
 	}
 
 	/**

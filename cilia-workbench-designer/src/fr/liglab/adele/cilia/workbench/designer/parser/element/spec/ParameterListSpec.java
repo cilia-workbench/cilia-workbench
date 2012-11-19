@@ -14,31 +14,28 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
 
-import org.w3c.dom.Document;
+import java.util.ArrayList;
+
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Scheduler;
-import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterList;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class SchedulerSpec extends Scheduler implements Mergeable {
+public class ParameterListSpec extends ParameterList {
 
-	public static final String XML_NODE_NAME = "scheduler";
-
-	public SchedulerSpec(Node node) throws CiliaException {
-		super(new ParameterListSpec(node));
-	}
-
-	@Override
-	public String toString() {
-		return XML_NODE_NAME;
-	}
-
-	public static Node createXMLParameter(Document document, Node mediatorSpec, String param) {
-		return ComponentPartSpecHelper.createXMLParameter(document, mediatorSpec, param, XML_NODE_NAME);
+	public ParameterListSpec(Node node) throws CiliaException {
+		parameters = new ArrayList<Parameter>();
+		Node rootParam = XMLHelpers.findChild(node, "parameters");
+		if (rootParam != null) {
+			Node[] params = XMLHelpers.findChildren(rootParam, "parameter");
+			for (Node param : params)
+				parameters.add(new ParameterSpec(param));
+		}
 	}
 }

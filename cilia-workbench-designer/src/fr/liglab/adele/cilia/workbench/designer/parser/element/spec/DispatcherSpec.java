@@ -14,49 +14,22 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
 
-import java.util.List;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentPart;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
-import fr.liglab.adele.cilia.workbench.common.service.Changeset;
-import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DispatcherSpec extends Dispatcher implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable {
+public class DispatcherSpec extends Dispatcher {
 
 	public static final String XML_NODE_NAME = "dispatcher";
 
-	private ParameterSpecList parameters;
-
 	public DispatcherSpec(Node node) throws CiliaException {
-		parameters = new ParameterSpecList(node);
-	}
-
-	public List<ParameterSpec> getParameters() {
-		return parameters.getList();
-	}
-
-	public ParameterSpec getParameter(String name) {
-		return parameters.getParameter(name);
-	}
-
-	public List<Changeset> merge(Object newInstance) throws CiliaException {
-		return parameters.merge((ComponentPart) newInstance);
-	}
-
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		return parameters.getErrorsAndWarnings();
+		super(new ParameterListSpec(node));
 	}
 
 	@Override

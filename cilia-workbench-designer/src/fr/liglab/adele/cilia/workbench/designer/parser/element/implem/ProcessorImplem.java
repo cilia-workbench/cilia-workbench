@@ -14,14 +14,10 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
-import java.util.List;
-
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Processor;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesViewWithForward;
 
@@ -29,40 +25,29 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
  * 
  * @author Etienne Gandrille
  */
-public class ProcessorImplem extends Processor implements DisplayedInPropertiesViewWithForward, ErrorsAndWarningsFinder, Identifiable {
+public class ProcessorImplem extends Processor implements DisplayedInPropertiesViewWithForward, Identifiable {
 
 	public static final String XML_NODE_NAME = "processor";
 
-	private final ComponentPartImplemHelper helper;
+	private final ComponentImplemIdentifier id;
 
 	public ProcessorImplem(Node node) throws CiliaException {
-		helper = new ComponentPartImplemHelper(node);
-	}
-
-	public List<ParameterImplem> getParameters() {
-		return helper.getParameters();
-	}
-
-	public ParameterImplem getParameter(String name) {
-		return helper.getParameter(name);
-	}
-
-	public CiliaFlag[] getErrorsAndWarnings() {
-		return helper.getErrorsAndWarnings();
+		super(new ParameterListImplem(node));
+		id = new ComponentImplemIdentifier(node);
 	}
 
 	@Override
 	public Object getId() {
-		return helper.getId();
+		return id.getId();
 	}
 
 	@Override
 	public String toString() {
-		return helper.toString();
+		return id.toString();
 	}
 
 	@Override
 	public Object getObjectForComputingProperties() {
-		return helper;
+		return id;
 	}
 }

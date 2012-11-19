@@ -48,7 +48,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  */
 public class MediatorImplem extends Mediator {
 
-	private List<IPort> ports;
+	private PortsList ports;
 
 	public static final String XML_NODE_NAME = "mediator-component";
 
@@ -110,12 +110,12 @@ public class MediatorImplem extends Mediator {
 			ReflectionUtil.setAttribute(dispatcherNode, "namespace", this, "dispatcherNamespace", defNs);
 		}
 
-		ports = ComponentImplemHelper.getPorts(node);
+		ports = new PortsList(node);
 	}
 
 	@Override
 	public List<? extends IPort> getPorts() {
-		return ports;
+		return ports.getPorts();
 	}
 
 	@Override

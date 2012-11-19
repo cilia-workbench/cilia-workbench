@@ -15,33 +15,29 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterList;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class ComponentImplemHelper {
+public class ParameterListImplem extends ParameterList {
 
-	public static List<IPort> getPorts(Node node) throws CiliaException {
-		List<IPort> ports = new ArrayList<IPort>();
+	public static final String XML_NODE_NAME = "property";
 
-		Node portsNode = XMLHelpers.findChild(node, "ports");
-		if (portsNode != null) {
-			Node[] inPorts = XMLHelpers.findChildren(portsNode, InPortImplem.XML_NODE_NAME);
-			for (Node inPort : inPorts)
-				ports.add(new InPortImplem(inPort));
-			Node[] outPorts = XMLHelpers.findChildren(portsNode, OutPortImplem.XML_NODE_NAME);
-			for (Node outPort : outPorts)
-				ports.add(new OutPortImplem(outPort));
+	public ParameterListImplem(Node node) throws CiliaException {
+		parameters = new ArrayList<Parameter>();
+		Node rootParam = XMLHelpers.findChild(node, "properties");
+		if (rootParam != null) {
+			Node[] params = XMLHelpers.findChildren(rootParam, XML_NODE_NAME);
+			for (Node param : params)
+				parameters.add(new ParameterImplem(param));
 		}
-
-		return ports;
 	}
 }

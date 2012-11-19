@@ -18,19 +18,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
+import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ParameterRef extends Parameter implements Mergeable {
+public abstract class ParameterRef implements Mergeable, ErrorsAndWarningsFinder, Identifiable, DisplayedInPropertiesView {
 
 	protected String name;
 	protected String value;
@@ -38,6 +40,15 @@ public abstract class ParameterRef extends Parameter implements Mergeable {
 	public ParameterRef(String name, String value) {
 		this.name = name;
 		this.value = value;
+	}
+
+	@Override
+	public Object getId() {
+		return name;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public String getValue() {
