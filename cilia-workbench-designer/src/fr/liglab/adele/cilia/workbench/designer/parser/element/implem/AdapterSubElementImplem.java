@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
@@ -50,7 +50,7 @@ public abstract class AdapterSubElementImplem implements DisplayedInPropertiesVi
 
 	public List<ParameterImplem> getParameters() {
 		List<ParameterImplem> retval = new ArrayList<ParameterImplem>();
-		for (Parameter p : parameters.getParameters())
+		for (ParameterDefinition p : parameters.getParameters())
 			retval.add((ParameterImplem) p);
 		return retval;
 	}

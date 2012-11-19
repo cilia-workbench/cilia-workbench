@@ -22,7 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Processor;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Scheduler;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 
 /**
  * 
@@ -49,7 +49,7 @@ public abstract class MediatorRef extends ComponentRef {
 
 	// Parameters definition, in referenced object
 
-	public List<? extends Parameter> getReferencedComponentSchedulerParameters() {
+	public List<? extends ParameterDefinition> getReferencedComponentSchedulerParameters() {
 
 		Mediator ro = getReferencedComponent();
 		if (ro == null)
@@ -62,7 +62,7 @@ public abstract class MediatorRef extends ComponentRef {
 		return part.getParameters();
 	}
 
-	public List<? extends Parameter> getReferencedComponentProcessorParameters() {
+	public List<? extends ParameterDefinition> getReferencedComponentProcessorParameters() {
 
 		Mediator ro = getReferencedComponent();
 		if (ro == null)
@@ -75,7 +75,7 @@ public abstract class MediatorRef extends ComponentRef {
 		return part.getParameters();
 	}
 
-	public List<? extends Parameter> getReferencedComponentDispatcherParameters() {
+	public List<? extends ParameterDefinition> getReferencedComponentDispatcherParameters() {
 
 		Mediator ro = getReferencedComponent();
 		if (ro == null)

@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
@@ -129,7 +129,7 @@ public class MediatorImplemRef extends MediatorRef {
 		return CiliaFlag.generateTab(tab, list.toArray(new CiliaFlag[0]));
 	}
 
-	private List<CiliaFlag> checkParameters(List<ParameterRef> curParameters, List<? extends Parameter> typeParameters, String displayName) {
+	private List<CiliaFlag> checkParameters(List<ParameterRef> curParameters, List<? extends ParameterDefinition> typeParameters, String displayName) {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
 		if (typeParameters == null)
@@ -139,7 +139,7 @@ public class MediatorImplemRef extends MediatorRef {
 			String name = p.getName();
 
 			boolean found = false;
-			for (Iterator<? extends Parameter> it = typeParameters.iterator(); !found && it.hasNext();) {
+			for (Iterator<? extends ParameterDefinition> it = typeParameters.iterator(); !found && it.hasNext();) {
 				if (it.next().getName().equalsIgnoreCase(name))
 					found = true;
 			}

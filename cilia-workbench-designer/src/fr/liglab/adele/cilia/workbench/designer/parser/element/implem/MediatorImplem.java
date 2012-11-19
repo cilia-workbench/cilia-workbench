@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentPart;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
@@ -261,7 +261,7 @@ public class MediatorImplem extends Mediator {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
 		if (spec != null) {
-			for (Parameter param : spec.getParameters()) {
+			for (ParameterDefinition param : spec.getParameters()) {
 				String paramName = param.getName();
 
 				if (implem == null || implem.getParameter(paramName) == null)
@@ -270,7 +270,7 @@ public class MediatorImplem extends Mediator {
 		}
 
 		if (implem != null) {
-			for (Parameter param : implem.getParameters()) {
+			for (ParameterDefinition param : implem.getParameters()) {
 				String paramName = param.getName();
 
 				if (spec == null || spec.getParameter(paramName) == null)

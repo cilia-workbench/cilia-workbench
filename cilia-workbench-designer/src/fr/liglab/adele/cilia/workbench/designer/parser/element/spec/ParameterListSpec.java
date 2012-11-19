@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterList;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
@@ -30,7 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 public class ParameterListSpec extends ParameterList {
 
 	public ParameterListSpec(Node node) throws CiliaException {
-		parameters = new ArrayList<Parameter>();
+		parameters = new ArrayList<ParameterDefinition>();
 		Node rootParam = XMLHelpers.findChild(node, "parameters");
 		if (rootParam != null) {
 			Node[] params = XMLHelpers.findChildren(rootParam, "parameter");

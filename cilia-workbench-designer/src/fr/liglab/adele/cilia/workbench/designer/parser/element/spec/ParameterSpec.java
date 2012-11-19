@@ -18,13 +18,13 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class ParameterSpec extends Parameter {
+public class ParameterSpec extends ParameterDefinition {
 
 	public static final String XML_ATTR_NAME = "name";
 

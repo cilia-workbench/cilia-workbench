@@ -26,14 +26,14 @@ import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
  */
 public abstract class ParameterList implements ErrorsAndWarningsFinder {
 
-	protected List<Parameter> parameters;
+	protected List<ParameterDefinition> parameters;
 
-	public List<Parameter> getParameters() {
+	public List<ParameterDefinition> getParameters() {
 		return parameters;
 	}
 
-	public Parameter getParameter(String name) {
-		for (Parameter p : getParameters())
+	public ParameterDefinition getParameter(String name) {
+		for (ParameterDefinition p : getParameters())
 			if (p.getName().equalsIgnoreCase(name))
 				return p;
 		return null;

@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Text;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort.PortNature;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.TextValidatorListener;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ListEditor;
@@ -112,17 +112,17 @@ public class UpdateMediatorSpecDialog extends WorkbenchDialog {
 
 		// Scheduler
 		if (mediatorSpec.getScheduler() != null)
-			for (Parameter param : mediatorSpec.getScheduler().getParameters())
+			for (ParameterDefinition param : mediatorSpec.getScheduler().getParameters())
 				schedulerParam.add(param.getName());
 
 		// Processor
 		if (mediatorSpec.getProcessor() != null)
-			for (Parameter param : mediatorSpec.getProcessor().getParameters())
+			for (ParameterDefinition param : mediatorSpec.getProcessor().getParameters())
 				processorParam.add(param.getName());
 
 		// Dispatcher
 		if (mediatorSpec.getDispatcher() != null)
-			for (Parameter param : mediatorSpec.getDispatcher().getParameters())
+			for (ParameterDefinition param : mediatorSpec.getDispatcher().getParameters())
 				dispatcherParam.add(param.getName());
 	}
 

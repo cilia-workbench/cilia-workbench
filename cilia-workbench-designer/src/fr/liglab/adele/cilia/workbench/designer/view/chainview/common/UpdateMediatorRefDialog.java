@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
 
@@ -67,13 +67,13 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 	private static List<String> getConstraintKeys(MediatorRef mediator) {
 		List<String> names = new ArrayList<String>();
 		if (mediator.getReferencedComponentSchedulerParameters() != null)
-			for (Parameter p : mediator.getReferencedComponentSchedulerParameters())
+			for (ParameterDefinition p : mediator.getReferencedComponentSchedulerParameters())
 				names.add(schedulerPrefix + p.getName());
 		if (mediator.getReferencedComponentProcessorParameters() != null)
-			for (Parameter p : mediator.getReferencedComponentProcessorParameters())
+			for (ParameterDefinition p : mediator.getReferencedComponentProcessorParameters())
 				names.add(processorPrefix + p.getName());
 		if (mediator.getReferencedComponentDispatcherParameters() != null)
-			for (Parameter p : mediator.getReferencedComponentDispatcherParameters())
+			for (ParameterDefinition p : mediator.getReferencedComponentDispatcherParameters())
 				names.add(dispatcherPrefix + p.getName());
 		return names;
 	}

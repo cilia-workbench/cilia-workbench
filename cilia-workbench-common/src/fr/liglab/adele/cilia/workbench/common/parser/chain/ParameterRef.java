@@ -29,6 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
+ * A parameterRef "points" to a ParameterDefinition.
  * 
  * @author Etienne Gandrille
  */

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Parameter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterList;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
@@ -32,7 +32,7 @@ public class ParameterListImplem extends ParameterList {
 	public static final String XML_NODE_NAME = "property";
 
 	public ParameterListImplem(Node node) throws CiliaException {
-		parameters = new ArrayList<Parameter>();
+		parameters = new ArrayList<ParameterDefinition>();
 		Node rootParam = XMLHelpers.findChild(node, "properties");
 		if (rootParam != null) {
 			Node[] params = XMLHelpers.findChildren(rootParam, XML_NODE_NAME);

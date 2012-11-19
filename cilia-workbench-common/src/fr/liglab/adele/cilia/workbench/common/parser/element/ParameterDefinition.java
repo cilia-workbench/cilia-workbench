@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
  * 
  * @author Etienne Gandrille
  */
-public abstract class Parameter implements ErrorsAndWarningsFinder, Identifiable, DisplayedInPropertiesView {
+public abstract class ParameterDefinition implements ErrorsAndWarningsFinder, Identifiable, DisplayedInPropertiesView {
 
 	private String name;
 

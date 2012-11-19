@@ -37,16 +37,16 @@ public abstract class ComponentPart implements ErrorsAndWarningsFinder, Displaye
 		this.parameters = parameters;
 	}
 
-	public List<Parameter> getParameters() {
+	public List<ParameterDefinition> getParameters() {
 		return parameters.getParameters();
 	}
 
-	public Parameter getParameter(String name) {
+	public ParameterDefinition getParameter(String name) {
 		return parameters.getParameter(name);
 	}
 
 	public List<Changeset> merge(Object newInstance) throws CiliaException {
-		List<Parameter> newList = ((ComponentPart) newInstance).getParameters();
+		List<ParameterDefinition> newList = ((ComponentPart) newInstance).getParameters();
 		return MergeUtil.mergeLists(newList, parameters.getParameters());
 	}
 
