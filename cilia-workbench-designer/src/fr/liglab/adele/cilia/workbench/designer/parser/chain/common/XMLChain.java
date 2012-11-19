@@ -20,10 +20,11 @@ import java.util.List;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespace;
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
@@ -49,7 +50,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphDrawa
  * 
  * @author Etienne Gandrille
  */
-public abstract class XMLChain extends NameNamespace implements IChain, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable, GraphDrawable {
+public abstract class XMLChain implements IChain, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable, GraphDrawable, Identifiable {
 
 	public static final String XML_NODE_NAME = "chain";
 
@@ -60,13 +61,15 @@ public abstract class XMLChain extends NameNamespace implements IChain, Displaye
 	public static final String XML_ROOT_ADAPTERS_NAME = "adapters";
 	public static final String XML_ROOT_BINDINGS_NAME = "bindings";
 
+	protected NameNamespaceID id = new NameNamespaceID();
+
 	protected List<AdapterRef> adapters = new ArrayList<AdapterRef>();
 	protected List<MediatorRef> mediators = new ArrayList<MediatorRef>();
 	protected List<XMLBinding> bindings = new ArrayList<XMLBinding>();
 
 	public XMLChain(Node node, String mediatorXMLNodeName, String adapterXMLNodeName) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "name");
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
+		ReflectionUtil.setAttribute(node, XML_ATTR_ID, id, "name");
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, id, "namespace");
 
 		Node rootAdapters = XMLHelpers.findChild(node, XML_ROOT_ADAPTERS_NAME);
 		if (rootAdapters != null) {
@@ -99,6 +102,16 @@ public abstract class XMLChain extends NameNamespace implements IChain, Displaye
 					e.printStackTrace();
 				}
 		}
+	}
+
+	@Override
+	public NameNamespaceID getId() {
+		return id;
+	}
+
+	@Override
+	public String getName() {
+		return id.getName();
 	}
 
 	protected abstract ChainRepoService<?, ?, ?> getRepository();
@@ -234,11 +247,10 @@ public abstract class XMLChain extends NameNamespace implements IChain, Displaye
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] tab = super.getErrorsAndWarnings();
 		List<CiliaFlag> list = IdentifiableUtils.getErrorsNonUniqueId(this, getComponents());
 
-		for (CiliaFlag flag : tab)
-			list.add(flag);
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id.getName(), "name");
+		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, id.getNamespace(), "namespace");
 
 		for (ComponentRef c : getComponents()) {
 			try {
@@ -248,6 +260,6 @@ public abstract class XMLChain extends NameNamespace implements IChain, Displaye
 			}
 		}
 
-		return CiliaFlag.generateTab(list);
+		return CiliaFlag.generateTab(list, e1, e2);
 	}
 }

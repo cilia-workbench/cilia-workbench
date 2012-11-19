@@ -34,6 +34,11 @@ public class NameNamespaceID {
 	/** separator used between name and namespace, for display purpose */
 	private final String separator = ".";
 
+	public NameNamespaceID() {
+		name = "";
+		namespace = "";
+	}
+
 	public NameNamespaceID(String name, String namespace) {
 		this.name = name;
 		this.namespace = namespace;

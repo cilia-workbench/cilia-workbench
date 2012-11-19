@@ -59,7 +59,7 @@ public class MediatorImplemRef extends MediatorRef {
 	private List<ParameterRef> dispatcherParameters = new ArrayList<ParameterRef>();
 
 	public MediatorImplemRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
-		super(XMLComponentRefHelper.getId(node), XMLComponentRefHelper.getType(node), XMLComponentRefHelper.getNamespace(node));
+		super(XMLComponentRefHelper.getId(node), new NameNamespaceID(XMLComponentRefHelper.getType(node), XMLComponentRefHelper.getNamespace(node)));
 
 		this.chainId = chainId;
 		this.repo = repo;

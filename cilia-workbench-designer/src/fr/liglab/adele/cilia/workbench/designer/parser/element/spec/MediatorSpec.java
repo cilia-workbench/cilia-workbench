@@ -45,10 +45,10 @@ public class MediatorSpec extends Mediator implements Mergeable {
 	public static final String XML_NODE_PROPERTIES_CONTAINER = "properties";
 	public static final String XML_NODE_PORTS_CONTAINER = "ports";
 
-	private String id;
 	public static final String XML_ATTR_ID = "id";
-	private String namespace;
 	public static final String XML_ATTR_NAMESPACE = "namespace";
+
+	private NameNamespaceID id = new NameNamespaceID();
 
 	private List<Port> ports = new ArrayList<Port>();
 	private List<PropertySpec> properties = new ArrayList<PropertySpec>();
@@ -57,8 +57,8 @@ public class MediatorSpec extends Mediator implements Mergeable {
 	private DispatcherSpec dispatcher = null;
 
 	public MediatorSpec(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_ID, this, "id");
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, this, "namespace");
+		ReflectionUtil.setAttribute(node, XML_ATTR_ID, id, "name");
+		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, id, "namespace");
 
 		Node rootPorts = XMLHelpers.findChild(node, XML_NODE_PORTS_CONTAINER);
 		if (rootPorts != null) {
@@ -94,7 +94,7 @@ public class MediatorSpec extends Mediator implements Mergeable {
 	}
 
 	public NameNamespaceID getId() {
-		return new NameNamespaceID(id, namespace);
+		return id;
 	}
 
 	public ProcessorSpec getProcessor() {
@@ -144,7 +144,7 @@ public class MediatorSpec extends Mediator implements Mergeable {
 
 	@Override
 	public String toString() {
-		return id;
+		return id.getName();
 	}
 
 	public static Element createXMLSpec(Document document, Node parent, NameNamespaceID id) {
@@ -192,8 +192,8 @@ public class MediatorSpec extends Mediator implements Mergeable {
 	public CiliaFlag[] getErrorsAndWarnings() {
 
 		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id, "id");
-		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, namespace, "namespace");
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id.getName(), "id:name");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, id.getNamespace(), "id:namespace");
 		CiliaFlag e3 = null;
 		CiliaFlag e4 = null;
 

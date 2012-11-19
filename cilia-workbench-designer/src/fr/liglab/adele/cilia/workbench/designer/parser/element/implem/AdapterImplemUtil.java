@@ -62,8 +62,8 @@ public abstract class AdapterImplemUtil {
 	}
 
 	public static void initAdapter(Node node, AdapterImplem adapter, String subXMLNodeName) throws CiliaException {
-		ReflectionUtil.setAttribute(node, "name", adapter, "name");
-		ReflectionUtil.setAttribute(node, "namespace", adapter, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
+		ReflectionUtil.setAttribute(node, "name", adapter.getId(), "name");
+		ReflectionUtil.setAttribute(node, "namespace", adapter.getId(), "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
 
 		try {
 			Node subNode = XMLHelpers.findChild(node, subXMLNodeName);

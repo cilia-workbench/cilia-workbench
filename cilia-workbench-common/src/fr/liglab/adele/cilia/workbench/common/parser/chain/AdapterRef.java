@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser.chain;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
@@ -24,8 +25,8 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
  */
 public abstract class AdapterRef extends ComponentRef {
 
-	public AdapterRef(String id, String type, String namespace) {
-		super(id, type, namespace);
+	public AdapterRef(String id, NameNamespaceID referencedComponentID) {
+		super(id, referencedComponentID);
 	}
 
 	public abstract Adapter getReferencedComponent();

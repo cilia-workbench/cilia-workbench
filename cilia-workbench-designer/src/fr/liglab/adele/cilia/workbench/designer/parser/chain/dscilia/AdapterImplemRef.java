@@ -38,7 +38,7 @@ public class AdapterImplemRef extends AdapterRef {
 	private final ChainRepoService<?, ?, ?> repo;
 
 	public AdapterImplemRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
-		super(XMLComponentRefHelper.getId(node), XMLComponentRefHelper.getType(node), XMLComponentRefHelper.getNamespace(node));
+		super(XMLComponentRefHelper.getId(node), new NameNamespaceID(XMLComponentRefHelper.getType(node), XMLComponentRefHelper.getNamespace(node)));
 		this.chainId = chainId;
 		this.repo = repo;
 	}

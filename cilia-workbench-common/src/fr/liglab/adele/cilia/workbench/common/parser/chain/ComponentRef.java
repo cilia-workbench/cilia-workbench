@@ -55,9 +55,9 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 	/** The referenced component ID */
 	private final NameNamespaceID referencedComponentID;
 
-	public ComponentRef(String id, String type, String namespace) {
+	public ComponentRef(String id, NameNamespaceID referencedComponentID) {
 		this.id = id;
-		this.referencedComponentID = new NameNamespaceID(type, namespace);
+		this.referencedComponentID = referencedComponentID;
 	}
 
 	// CHAIN RELATIVE

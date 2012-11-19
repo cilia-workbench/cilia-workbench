@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.common.parser.chain;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
@@ -30,8 +31,8 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition
  */
 public abstract class MediatorRef extends ComponentRef {
 
-	public MediatorRef(String id, String type, String namespace) {
-		super(id, type, namespace);
+	public MediatorRef(String id, NameNamespaceID referencedComponentID) {
+		super(id, referencedComponentID);
 	}
 
 	public abstract Mediator getReferencedComponent();

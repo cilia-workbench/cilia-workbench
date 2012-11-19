@@ -36,29 +36,28 @@ public abstract class AdapterImplem extends Adapter {
 
 	private PortsList ports;
 
-	private String name;
-	private String namespace;
+	private NameNamespaceID id = new NameNamespaceID();
 
 	public AdapterImplem(Node node) throws CiliaException {
 		ports = new PortsList(node);
 	}
 
 	public String getName() {
-		return name;
+		return id.getName();
 	}
 
 	public String getNamespace() {
-		return namespace;
+		return id.getNamespace();
 	}
 
 	@Override
 	public NameNamespaceID getId() {
-		return new NameNamespaceID(name, namespace);
+		return id;
 	}
 
 	@Override
 	public String toString() {
-		return name;
+		return id.getName();
 	}
 
 	public List<Port> getPorts() {
@@ -85,8 +84,8 @@ public abstract class AdapterImplem extends Adapter {
 	public CiliaFlag[] getErrorsAndWarnings() {
 		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
 
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, namespace, "namespace");
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id.getName(), "name");
+		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, id.getNamespace(), "namespace");
 		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, getSubElement(), "sub element");
 
 		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getInPorts()));
