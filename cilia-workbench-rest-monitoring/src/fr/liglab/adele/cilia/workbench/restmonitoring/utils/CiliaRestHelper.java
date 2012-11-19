@@ -65,7 +65,7 @@ public class CiliaRestHelper {
 	}
 
 	private static HttpResquestResult get(String hostname, int port, String url) throws CiliaException {
-		HTTPhelper http = new HTTPhelper(hostname, port);
+		HttpHelper http = new HttpHelper(hostname, port);
 		HttpResquestResult result = null;
 
 		try {

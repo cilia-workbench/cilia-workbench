@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
  * 
  * @author Etienne Gandrille
  */
-public class HTTPhelper {
+public class HttpHelper {
 
 	HttpHost host;
 
@@ -36,7 +36,7 @@ public class HTTPhelper {
 	DefaultHttpClientConnection conn = new DefaultHttpClientConnection();
 	ConnectionReuseStrategy connStrategy = new DefaultConnectionReuseStrategy();
 	
-	public HTTPhelper(String host, int port) {
+	public HttpHelper(String host, int port) {
 		this.host = new HttpHost(host, port);
 	}
 	
