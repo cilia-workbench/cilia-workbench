@@ -16,19 +16,15 @@ package fr.liglab.adele.cilia.workbench.common.parser.element;
 
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.service.Changeset;
-import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
-import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ParameterList implements ErrorsAndWarningsFinder, Mergeable {
+public abstract class ParameterList implements ErrorsAndWarningsFinder {
 
 	protected List<Parameter> parameters;
 
@@ -41,11 +37,6 @@ public abstract class ParameterList implements ErrorsAndWarningsFinder, Mergeabl
 			if (p.getName().equalsIgnoreCase(name))
 				return p;
 		return null;
-	}
-
-	public List<Changeset> merge(Object newInstance) throws CiliaException {
-		List<Parameter> newList = ((ComponentPart) newInstance).getParameters();
-		return MergeUtil.mergeLists(newList, parameters);
 	}
 
 	public CiliaFlag[] getErrorsAndWarnings() {

@@ -20,6 +20,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
@@ -45,7 +46,8 @@ public abstract class ComponentPart implements ErrorsAndWarningsFinder, Displaye
 	}
 
 	public List<Changeset> merge(Object newInstance) throws CiliaException {
-		return parameters.merge(((ComponentPart) newInstance).getParameters());
+		List<Parameter> newList = ((ComponentPart) newInstance).getParameters();
+		return MergeUtil.mergeLists(newList, parameters.getParameters());
 	}
 
 	public CiliaFlag[] getErrorsAndWarnings() {

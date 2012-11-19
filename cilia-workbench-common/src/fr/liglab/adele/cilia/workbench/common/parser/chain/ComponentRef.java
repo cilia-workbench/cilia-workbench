@@ -26,6 +26,8 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Component;
 import fr.liglab.adele.cilia.workbench.common.parser.element.IPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
@@ -86,8 +88,10 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = new ArrayList<Changeset>();
 
-		retval.addAll(MergeUtil.computeUpdateChangeset(other, this, "type"));
-		retval.addAll(MergeUtil.computeUpdateChangeset(other, this, "namespace"));
+		ComponentRef newRef = (ComponentRef) other;
+
+		retval.addAll(MergeUtil.computeUpdateChangeset(newRef.getReferencedTypeID(), referencedComponentID, "name"));
+		retval.addAll(MergeUtil.computeUpdateChangeset(newRef.getReferencedTypeID(), referencedComponentID, "namespace"));
 
 		return retval;
 	}
@@ -162,15 +166,15 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 		return new ArrayList<IPort>();
 	}
 
-	public List<? extends IPort> getInPorts() {
+	public List<InPort> getInPorts() {
 		if (getReferencedComponent() != null)
 			return getReferencedComponent().getInPorts();
-		return new ArrayList<IPort>();
+		return new ArrayList<InPort>();
 	}
 
-	public List<? extends IPort> getOutPorts() {
+	public List<OutPort> getOutPorts() {
 		if (getReferencedComponent() != null)
 			return getReferencedComponent().getOutPorts();
-		return new ArrayList<IPort>();
+		return new ArrayList<OutPort>();
 	}
 }

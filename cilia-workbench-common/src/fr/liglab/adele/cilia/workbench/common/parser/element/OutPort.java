@@ -14,12 +14,14 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser.element;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+
 /**
  * Represents an out port. It can be a spec or an implementation.
  * 
  * @author Etienne Gandrille
  */
-public abstract class OutPort extends Port {
+public abstract class OutPort extends IPort implements Identifiable {
 
 	@Override
 	public PortNature getNature() {

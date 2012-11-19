@@ -37,10 +37,17 @@ public abstract class IdentifiableUtils {
 	 * @return a list (which can be empty) with errors if two objects have the
 	 *         same id from the {@link Identifiable} point of view.
 	 */
-	public static List<CiliaFlag> getErrorsNonUniqueId(Object sourceProvider, Iterable<? extends Identifiable> data) {
+	public static List<CiliaFlag> getErrorsNonUniqueId(Object sourceProvider, Iterable<?> data) {
 		Map<Object, Integer> counter = new HashMap<Object, Integer>();
 
-		for (Identifiable item : data) {
+		for (Object element : data) {
+			Identifiable item = null;
+			try {
+				item = (Identifiable) element;
+			} catch (Exception e) {
+				throw new RuntimeException("Object " + element + " is not Identifiable");
+			}
+
 			Object id = item.getId();
 			if (counter.containsKey(id)) {
 				int newVal = counter.remove(id) + 1;

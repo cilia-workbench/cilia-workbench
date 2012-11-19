@@ -15,6 +15,8 @@
 package fr.liglab.adele.cilia.workbench.common.parser.element;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 
 /**
@@ -22,18 +24,34 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
  * 
  * @author Etienne Gandrille
  */
-public interface IPort extends Identifiable, ErrorsAndWarningsFinder {
+public abstract class IPort implements Identifiable, ErrorsAndWarningsFinder {
 
 	public enum PortNature {
 		IN, OUT;
 	}
 
-	public String getName();
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 
 	/**
 	 * Tests the nature of this port : IN or OUT ?
 	 * 
 	 * @return the {@link PortNature}
 	 */
-	public PortNature getNature();
+	public abstract PortNature getNature();
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+
+		return CiliaFlag.generateTab(e1);
+	}
 }
