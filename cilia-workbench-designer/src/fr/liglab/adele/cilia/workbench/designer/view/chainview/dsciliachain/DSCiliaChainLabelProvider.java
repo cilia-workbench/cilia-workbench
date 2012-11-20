@@ -16,9 +16,6 @@ package fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain;
 
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
-import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.AbstractGraphLabelProvider;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
@@ -32,29 +29,6 @@ public class DSCiliaChainLabelProvider extends AbstractGraphLabelProvider {
 	@Override
 	protected GenericContentProvider getContentProvider() {
 		return DSCiliaRepoService.getInstance().getContentProvider();
-	}
-
-	@Override
-	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
-
-		ImageDescriptorEnum imageName;
-		if (isCompatible(obj, AdapterRef.class)) {
-			AdapterRef adapter = (AdapterRef) obj;
-			if (adapter.getReferencedComponent() != null) {
-				if (adapter.getReferencedComponent().getType() == AdapterType.IN)
-					imageName = ImageDescriptorEnum.ADAPTER_IN;
-				else
-					imageName = ImageDescriptorEnum.ADAPTER_OUT;
-			} else
-				imageName = ImageDescriptorEnum.ADAPTER_IN;
-		} else if (isCompatible(obj, MediatorRef.class))
-			imageName = ImageDescriptorEnum.MEDIATOR;
-		else if (isCompatible(obj, EntityConnectionData.class))
-			imageName = ImageDescriptorEnum.ONLY_TEXT;
-		else
-			throw new RuntimeException("Unsupported type: " + obj.getClass());
-
-		return imageName;
 	}
 
 	@Override

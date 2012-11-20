@@ -16,11 +16,6 @@ package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcom
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLBinding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.AdapterImplemRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 
 /**
@@ -33,25 +28,5 @@ public class AbstractCompositionLabelProvider extends CiliaLabelProvider {
 	@Override
 	protected GenericContentProvider getContentProvider() {
 		return AbstractCompositionsRepoService.getInstance().getContentProvider();
-	}
-
-	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
-		ImageDescriptorEnum imageName;
-
-		if (isCompatible(obj, AbstractCompositionFile.class))
-			imageName = ImageDescriptorEnum.FILE;
-		else if (isCompatible(obj, AbstractChain.class))
-			imageName = ImageDescriptorEnum.CHAIN;
-		else if (isCompatible(obj, AdapterImplemRef.class))
-			imageName = ImageDescriptorEnum.ADAPTER_IN;
-		else if (isCompatible(obj, MediatorImplemRef.class))
-			imageName = ImageDescriptorEnum.MEDIATOR;
-		else if (isCompatible(obj, XMLBinding.class))
-			imageName = ImageDescriptorEnum.BINDING;
-
-		else
-			throw new RuntimeException("Unsupported type: " + obj.getClass());
-
-		return imageName;
 	}
 }

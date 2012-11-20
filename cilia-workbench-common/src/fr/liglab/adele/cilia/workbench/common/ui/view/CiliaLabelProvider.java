@@ -26,8 +26,25 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.zest.core.viewers.EntityConnectionData;
 
 import fr.liglab.adele.cilia.workbench.common.Activator;
+import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
+import fr.liglab.adele.cilia.workbench.common.parser.element.InAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.OutAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Processor;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Scheduler;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider.FakeElement;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.CiliaMarkerUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.SourceProviderField;
@@ -40,7 +57,86 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.SourceProvi
  */
 public abstract class CiliaLabelProvider extends LabelProvider {
 
-	protected abstract ImageDescriptorEnum getImageDescriptor(Object obj);
+	/**
+	 * This method is provided to be subclassed, for giving icons for unknown
+	 * objects.
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	protected ImageDescriptorEnum personalizeImageDescriptor(Object obj) {
+		return null;
+	}
+
+	protected ImageDescriptorEnum defaultPersonalizeImageDescriptor(Object obj) {
+		// common rules
+		if (isCompatible(obj, AbstractFile.class))
+			return ImageDescriptorEnum.FILE;
+
+		if (obj instanceof IChain)
+			return ImageDescriptorEnum.CHAIN;
+
+		// Mediator
+		if (isCompatible(obj, MediatorRef.class))
+			return ImageDescriptorEnum.MEDIATOR;
+		else if (isCompatible(obj, Mediator.class))
+			return ImageDescriptorEnum.MEDIATOR;
+
+		// Adapter
+		if (isCompatible(obj, InAdapter.class))
+			return ImageDescriptorEnum.ADAPTER_IN;
+		else if (isCompatible(obj, OutAdapter.class))
+			return ImageDescriptorEnum.ADAPTER_OUT;
+		if (isCompatible(obj, AdapterRef.class)) {
+			AdapterRef adapter = (AdapterRef) obj;
+			if (adapter.getReferencedComponent() != null) {
+				if (adapter.getReferencedComponent().getType() == AdapterType.IN)
+					return ImageDescriptorEnum.ADAPTER_IN;
+				else
+					return ImageDescriptorEnum.ADAPTER_OUT;
+			} else
+				return ImageDescriptorEnum.ADAPTER_IN;
+		}
+
+		// Component part
+		if (isCompatible(obj, Scheduler.class))
+			return ImageDescriptorEnum.SCHEDULER;
+		if (isCompatible(obj, Processor.class))
+			return ImageDescriptorEnum.PROCESSOR;
+		if (isCompatible(obj, Dispatcher.class))
+			return ImageDescriptorEnum.DISPATCHER;
+
+		// Ports
+		if (isCompatible(obj, InPort.class))
+			return ImageDescriptorEnum.PORT_IN;
+		if (isCompatible(obj, OutPort.class))
+			return ImageDescriptorEnum.PORT_OUT;
+
+		// Binding
+		if (isCompatible(obj, Binding.class))
+			return ImageDescriptorEnum.BINDING;
+		if (isCompatible(obj, EntityConnectionData.class))
+			return ImageDescriptorEnum.ONLY_TEXT;
+
+		// Property and parameters
+		if (isCompatible(obj, Property.class))
+			return ImageDescriptorEnum.PROPERTY;
+		if (isCompatible(obj, ParameterDefinition.class))
+			return ImageDescriptorEnum.PROPERTY;
+
+		return null;
+	}
+
+	private ImageDescriptorEnum getImageDescriptor(Object obj) {
+
+		if (personalizeImageDescriptor(obj) != null)
+			return personalizeImageDescriptor(obj);
+
+		if (defaultPersonalizeImageDescriptor(obj) != null)
+			return defaultPersonalizeImageDescriptor(obj);
+
+		throw new RuntimeException("Unsupported type: " + obj.getClass());
+	}
 
 	protected abstract GenericContentProvider getContentProvider();
 
@@ -50,11 +146,9 @@ public abstract class CiliaLabelProvider extends LabelProvider {
 	 * @author Etienne Gandrille
 	 */
 	public enum ImageDescriptorEnum {
-		NOTHING(null), ONLY_TEXT(null), FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT(
-				"adapterOut.png"), REPOSITORY("repo.png"), MEDIATOR("mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR(
-				"processor.png"), DISPATCHER("dispatcher.png"), COLLECTOR("collector.png"), SENDER("sender.png"), PORT_IN(
-				"portIn.png"), PORT_OUT("portOut.png"), PROPERTY("property.png"), BINDING("binding.png"), SUPER_TYPE(
-				"super-type.png");
+		NOTHING(null), ONLY_TEXT(null), FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT("adapterOut.png"), REPOSITORY("repo.png"), MEDIATOR(
+				"mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR("processor.png"), DISPATCHER("dispatcher.png"), COLLECTOR("collector.png"), SENDER(
+				"sender.png"), PORT_IN("portIn.png"), PORT_OUT("portOut.png"), PROPERTY("property.png"), BINDING("binding.png"), SUPER_TYPE("super-type.png");
 
 		private String fileName;
 		private Image imageOK;

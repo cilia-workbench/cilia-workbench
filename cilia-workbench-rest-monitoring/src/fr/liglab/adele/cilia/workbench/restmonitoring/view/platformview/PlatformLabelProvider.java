@@ -17,7 +17,6 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview;
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 
 /**
@@ -31,15 +30,12 @@ public class PlatformLabelProvider extends CiliaLabelProvider {
 		return PlatformRepoService.getInstance().getContentProvider();
 	}
 
-	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
-		ImageDescriptorEnum imageName;
+	protected ImageDescriptorEnum personalizeImageDescriptor(Object obj) {
+		ImageDescriptorEnum imageName = null;
 
-		if (isCompatible(obj, PlatformFile.class))
-			imageName = ImageDescriptorEnum.FILE;
-		else if (isCompatible(obj, PlatformChain.class))
+		// TODO remove this as soon as PlatformChain extends chain
+		if (isCompatible(obj, PlatformChain.class))
 			imageName = ImageDescriptorEnum.CHAIN;
-		else
-			throw new RuntimeException("Unsupported type: " + obj.getClass());
 
 		return imageName;
 	}

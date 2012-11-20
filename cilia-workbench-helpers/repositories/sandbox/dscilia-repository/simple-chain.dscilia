@@ -12,8 +12,9 @@
 		<bindings>
 			<binding from="random-generator:out" to="average:in"/>
 			<binding from="random-generator:out" to="sum:in"/>
-			<binding from="average:out" to="console:unique"/>
+			
 			<binding from="sum:out" to="console:unique"/>
-		</bindings>
+		<binding from="average:out" to="console:unique"/>
+</bindings>
 	</chain>
 </cilia>
