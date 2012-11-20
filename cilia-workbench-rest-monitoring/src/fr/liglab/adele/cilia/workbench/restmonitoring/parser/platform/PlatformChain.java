@@ -69,11 +69,25 @@ public class PlatformChain implements DisplayedInPropertiesView, ErrorsAndWarnin
 		}
 
 		try {
-			JSONArray adaptersList = json.getJSONArray("Adapters");
-			for (int i = 0; i < adaptersList.length(); i++) {
-				String adapterName = (String) adaptersList.get(i);
-				adapters.add(new AdapterInstance(adapterName));
+			JSONObject adaptersRoot = json.getJSONObject("Adapters");
+
+			JSONArray inAdaptersList = adaptersRoot.getJSONArray("in-only");
+			for (int i = 0; i < inAdaptersList.length(); i++) {
+				String adapterName = (String) inAdaptersList.get(i);
+				adapters.add(new InAdapterInstance(adapterName));
 			}
+
+			JSONArray outAdaptersList = adaptersRoot.getJSONArray("out-only");
+			for (int i = 0; i < outAdaptersList.length(); i++) {
+				String adapterName = (String) outAdaptersList.get(i);
+				adapters.add(new OutAdapterInstance(adapterName));
+			}
+
+			JSONArray inOutAdaptersList = adaptersRoot.getJSONArray("in-out");
+			if (inOutAdaptersList.length() != 0) {
+				throw new RuntimeException("Not yet implemented !");
+			}
+
 		} catch (JSONException e) {
 			throw new CiliaException("error while parsing adapters list", e);
 		}

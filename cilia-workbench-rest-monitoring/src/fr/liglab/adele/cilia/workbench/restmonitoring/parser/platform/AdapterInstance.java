@@ -29,7 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public class AdapterInstance extends Adapter implements Mergeable {
+public abstract class AdapterInstance extends Adapter implements Mergeable {
 
 	private final String name;
 
@@ -58,12 +58,6 @@ public class AdapterInstance extends Adapter implements Mergeable {
 
 	@Override
 	public List<? extends Port> getPorts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AdapterType getType() {
 		// TODO Auto-generated method stub
 		return null;
 	}
