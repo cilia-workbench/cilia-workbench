@@ -190,8 +190,12 @@ public class MediatorSpec extends Mediator implements Mergeable {
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
 
 		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
+		for (CiliaFlag f : tab)
+			flagsTab.add(f);
+
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id.getName(), "id:name");
 		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, id.getNamespace(), "id:namespace");
 		CiliaFlag e3 = null;

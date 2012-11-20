@@ -20,10 +20,10 @@ import java.util.List;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.AdapterInstance;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.BindingInstance;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.MediatorInstance;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 
 /**
  * 
@@ -55,9 +55,9 @@ public class PlatformChainContentProvider implements IGraphEntityContentProvider
 	public Object[] getConnectedTo(Object entity) {
 		if (entity == null)
 			return new Object[0];
-		else if (entity instanceof AdapterInstance) {
+		else if (entity instanceof Adapter) {
 			List<Object> retval = new ArrayList<Object>();
-			List<BindingInstance> bindings = model.getOutgoingBindings(((AdapterInstance) entity).getName());
+			List<BindingInstance> bindings = model.getOutgoingBindings((String) ((Adapter) entity).getId());
 			for (BindingInstance binding : bindings)
 				retval.add(model.getComponent(binding.getDestinationId()));
 			return retval.toArray();

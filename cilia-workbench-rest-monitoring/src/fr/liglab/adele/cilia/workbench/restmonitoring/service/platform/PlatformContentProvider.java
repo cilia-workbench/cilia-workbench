@@ -16,13 +16,13 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.service.platform;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.BindingInstance;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.MediatorInstance;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.AdapterInstance;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.BindingInstance;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.MediatorInstance;
 
 /**
  * 
@@ -45,7 +45,7 @@ public class PlatformContentProvider extends GenericContentProvider {
 					for (MediatorInstance mediator : pc.getMediators())
 						addRelationship(false, pc, mediator);
 
-					for (AdapterInstance adapter : pc.getAdapters())
+					for (Adapter adapter : pc.getAdapters())
 						addRelationship(false, pc, adapter);
 
 					for (BindingInstance binding : pc.getBindings())

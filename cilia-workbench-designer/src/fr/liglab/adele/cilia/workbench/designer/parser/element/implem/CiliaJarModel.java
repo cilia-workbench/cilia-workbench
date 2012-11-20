@@ -25,6 +25,8 @@ import org.w3c.dom.NodeList;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
@@ -42,7 +44,7 @@ public class CiliaJarModel extends AbstractModel {
 	private List<DispatcherImplem> dispatchers = new ArrayList<DispatcherImplem>();
 	private List<CollectorImplem> collectors = new ArrayList<CollectorImplem>();
 	private List<SenderImplem> senders = new ArrayList<SenderImplem>();
-	private List<AdapterImplem> adapters = new ArrayList<AdapterImplem>();
+	private List<Adapter> adapters = new ArrayList<Adapter>();
 
 	public CiliaJarModel(File file) throws CiliaException {
 		super(file, ROOT_NODE_NAME);
@@ -71,7 +73,7 @@ public class CiliaJarModel extends AbstractModel {
 					else if (nodeName.equals(SenderImplem.XML_NODE_NAME))
 						senders.add(new SenderImplem(child));
 					else if (nodeName.equals(AdapterImplemUtil.XML_NODE_NAME)) {
-						AdapterImplem a = AdapterImplemUtil.createAdapter(child);
+						Adapter a = AdapterImplemUtil.createAdapter(child);
 						if (a != null)
 							adapters.add(a);
 					} else if (nodeName.equals(MediatorImplem.XML_NODE_NAME))
@@ -105,7 +107,24 @@ public class CiliaJarModel extends AbstractModel {
 		return senders;
 	}
 
-	public List<AdapterImplem> getAdapters() {
+	public List<Adapter> getAdapters() {
 		return adapters;
+	}
+
+	public List<Adapter> getInAdapters() {
+		return getAdapters(AdapterType.IN);
+	}
+
+	public List<Adapter> getOutAdapters() {
+		return getAdapters(AdapterType.OUT);
+	}
+
+	private List<Adapter> getAdapters(AdapterType type) {
+		List<Adapter> retval = new ArrayList<Adapter>();
+		for (Adapter adapter : adapters)
+			if (adapter.getType().equals(type))
+				retval.add(adapter);
+
+		return retval;
 	}
 }

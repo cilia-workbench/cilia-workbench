@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Port.PortNature;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
@@ -63,5 +65,15 @@ public abstract class Component implements Identifiable, ComponentNatureAskable,
 				return true;
 
 		return false;
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
+
+		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getInPorts()));
+		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getOutPorts()));
+
+		return CiliaFlag.generateTab(flagsTab);
 	}
 }

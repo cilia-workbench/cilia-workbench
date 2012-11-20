@@ -27,6 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
@@ -41,7 +42,7 @@ public class PlatformChain implements DisplayedInPropertiesView, ErrorsAndWarnin
 	private final String name;
 	private final PlatformModel platform;
 	private List<MediatorInstance> mediators = new ArrayList<MediatorInstance>();
-	private List<AdapterInstance> adapters = new ArrayList<AdapterInstance>();
+	private List<Adapter> adapters = new ArrayList<Adapter>();
 	private List<BindingInstance> bindings = new ArrayList<BindingInstance>();
 
 	public PlatformChain(String name, PlatformModel platform) {
@@ -107,7 +108,7 @@ public class PlatformChain implements DisplayedInPropertiesView, ErrorsAndWarnin
 		return mediators;
 	}
 
-	public List<AdapterInstance> getAdapters() {
+	public List<Adapter> getAdapters() {
 		return adapters;
 	}
 
@@ -115,8 +116,8 @@ public class PlatformChain implements DisplayedInPropertiesView, ErrorsAndWarnin
 		for (MediatorInstance mediator : mediators)
 			if (mediator.getName().equalsIgnoreCase(name))
 				return mediator;
-		for (AdapterInstance adapter : adapters)
-			if (adapter.getName().equalsIgnoreCase(name))
+		for (Adapter adapter : adapters)
+			if (((String) adapter.getId()).equalsIgnoreCase(name))
 				return adapter;
 		return null;
 	}

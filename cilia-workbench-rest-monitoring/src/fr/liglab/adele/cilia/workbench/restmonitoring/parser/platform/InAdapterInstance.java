@@ -14,18 +14,64 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.parser.element.InAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
+
 /**
  * 
  * @author Etienne Gandrille
  */
-public class InAdapterInstance extends AdapterInstance {
+public class InAdapterInstance extends InAdapter implements Mergeable {
+
+	private final String name;
 
 	public InAdapterInstance(String name) {
-		super(name);
+		this.name = name;
 	}
 
 	@Override
-	public AdapterType getType() {
-		return AdapterType.IN;
+	public Object getId() {
+		return name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public ComponentNature getNature() {
+		return ComponentNature.INSTANCE;
+	}
+
+	@Override
+	public List<? extends Port> getPorts() {
+		// TODO NOT YET IMPLEMENTED
+		return new ArrayList<Port>();
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
+		return new ArrayList<Changeset>();
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
+
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+		return CiliaFlag.generateTab(tab, e1);
 	}
 }

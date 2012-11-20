@@ -29,6 +29,13 @@ public class SourceProviderField extends MarkerField {
 
 	@Override
 	public String getValue(MarkerItem item) {
-		return item.getAttributeValue(FIELD_ID, "");
+		try {
+			String value = item.getAttributeValue(FIELD_ID, "");
+			if (value != null)
+				return value;
+			throw new RuntimeException();
+		} catch (Exception e) {
+			return item.getAttributeValue(FIELD_ID, "");
+		}
 	}
 }

@@ -16,11 +16,12 @@ package fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice;
 
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CollectorImplem;
@@ -115,7 +116,7 @@ public class JarContentProvider extends GenericContentProvider {
 						addRelationship(true, s, param);
 				}
 
-				for (AdapterImplem a : ipojo.getAdapters()) {
+				for (Adapter a : ipojo.getAdapters()) {
 					addRelationship(true, bundle, a);
 					for (Port port : a.getPorts())
 						addRelationship(true, a, port);
@@ -125,7 +126,7 @@ public class JarContentProvider extends GenericContentProvider {
 						if (collector != null)
 							addRelationship(true, a, collector);
 						else {
-							String name = ((InAdapterImplem) a).getCollectorID();
+							String name = Strings.nullToEmpty(((InAdapterImplem) a).getCollectorID());
 							addRelationship(true, a, new FakeElement(name, "Unknown collector " + name, CollectorImplem.class));
 						}
 					}
@@ -135,7 +136,7 @@ public class JarContentProvider extends GenericContentProvider {
 						if (sender != null)
 							addRelationship(true, a, sender);
 						else {
-							String name = ((OutAdapterImplem) a).getSenderID();
+							String name = Strings.nullToEmpty(((OutAdapterImplem) a).getSenderID());
 							addRelationship(true, a, new FakeElement(name, "Unknown sender " + name, SenderImplem.class));
 						}
 					}

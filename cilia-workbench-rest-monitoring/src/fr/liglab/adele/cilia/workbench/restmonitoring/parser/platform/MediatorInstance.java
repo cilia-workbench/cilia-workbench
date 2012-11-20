@@ -64,14 +64,16 @@ public class MediatorInstance extends Mediator implements Mergeable {
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
+
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-		return CiliaFlag.generateTab(e1);
+		return CiliaFlag.generateTab(tab, e1);
 	}
 
 	@Override
 	public List<? extends Port> getPorts() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO NOT YET IMPLEMENTED
+		return new ArrayList<Port>();
 	}
 
 	@Override
@@ -81,31 +83,31 @@ public class MediatorInstance extends Mediator implements Mergeable {
 
 	@Override
 	public List<? extends Property> getProperties() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO NOT YET IMPLEMENTED
+		return new ArrayList<Property>();
 	}
 
 	@Override
 	public Property getProperty(String name) {
-		// TODO Auto-generated method stub
+		// TODO NOT YET IMPLEMENTED
 		return null;
 	}
 
 	@Override
 	public Scheduler getScheduler() {
-		// TODO Auto-generated method stub
+		// TODO NOT YET IMPLEMENTED
 		return null;
 	}
 
 	@Override
 	public Processor getProcessor() {
-		// TODO Auto-generated method stub
+		// TODO NOT YET IMPLEMENTED
 		return null;
 	}
 
 	@Override
 	public Dispatcher getDispatcher() {
-		// TODO Auto-generated method stub
+		// TODO NOT YET IMPLEMENTED
 		return null;
 	}
 }

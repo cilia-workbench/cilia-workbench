@@ -22,13 +22,13 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.GenericRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CollectorImplem;
@@ -100,8 +100,8 @@ public class JarRepoService extends GenericRepoService<CiliaJarFile, CiliaJarMod
 		return retval;
 	}
 
-	public List<AdapterImplem> getAdapters() {
-		List<AdapterImplem> retval = new ArrayList<AdapterImplem>();
+	public List<Adapter> getAdapters() {
+		List<Adapter> retval = new ArrayList<Adapter>();
 		for (CiliaJarFile bundle : repoContent)
 			if (bundle.getModel() != null)
 				retval.addAll(bundle.getModel().getAdapters());
@@ -109,18 +109,18 @@ public class JarRepoService extends GenericRepoService<CiliaJarFile, CiliaJarMod
 		return retval;
 	}
 
-	public List<AdapterImplem> getInAdapters() {
-		List<AdapterImplem> retval = new ArrayList<AdapterImplem>();
-		for (AdapterImplem a : getAdapters())
+	public List<Adapter> getInAdapters() {
+		List<Adapter> retval = new ArrayList<Adapter>();
+		for (Adapter a : getAdapters())
 			if (a.getType() == AdapterType.IN)
 				retval.add(a);
 
 		return retval;
 	}
 
-	public List<AdapterImplem> getOutAdapters() {
-		List<AdapterImplem> retval = new ArrayList<AdapterImplem>();
-		for (AdapterImplem a : getAdapters())
+	public List<Adapter> getOutAdapters() {
+		List<Adapter> retval = new ArrayList<Adapter>();
+		for (Adapter a : getAdapters())
 			if (a.getType() == AdapterType.OUT)
 				retval.add(a);
 
@@ -241,8 +241,8 @@ public class JarRepoService extends GenericRepoService<CiliaJarFile, CiliaJarMod
 
 	public NameNamespaceID[] getAdaptersId() {
 		List<NameNamespaceID> retval = new ArrayList<NameNamespaceID>();
-		for (AdapterImplem a : getAdapters())
-			retval.add(a.getId());
+		for (Adapter a : getAdapters())
+			retval.add((NameNamespaceID) a.getId());
 
 		return retval.toArray(new NameNamespaceID[0]);
 	}
@@ -283,13 +283,13 @@ public class JarRepoService extends GenericRepoService<CiliaJarFile, CiliaJarMod
 	}
 
 	/**
-	 * Gets an adaptor with the exact id.
+	 * Gets an adapter with the exact id.
 	 * 
 	 * @param id
 	 * @return the adapter, or null if not found.
 	 */
-	public AdapterImplem getAdapter(NameNamespaceID id) {
-		for (AdapterImplem a : getAdapters())
+	public Adapter getAdapter(NameNamespaceID id) {
+		for (Adapter a : getAdapters())
 			if (a.getId().equals(id))
 				return a;
 
@@ -306,12 +306,12 @@ public class JarRepoService extends GenericRepoService<CiliaJarFile, CiliaJarMod
 	 * @param id
 	 * @return the adapter, or null if not found
 	 */
-	public AdapterImplem getAdapterForChain(NameNamespaceID id) {
+	public Adapter getAdapterForChain(NameNamespaceID id) {
 		if (id.getNamespace() != null && id.getNamespace().length() != 0)
 			return getAdapter(id);
 
-		for (AdapterImplem a : getAdapters())
-			if (a.getId().getName().equals(id.getName()))
+		for (Adapter a : getAdapters())
+			if (((NameNamespaceID) a.getId()).getName().equals(id.getName()))
 				return a;
 
 		return null;

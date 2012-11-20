@@ -14,17 +14,17 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.jarrepositoryview;
 
+import fr.liglab.adele.cilia.workbench.common.parser.element.InAdapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.OutAdapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.AdapterImplem;
+import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CollectorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.DispatcherImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem.RefMediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.ParameterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.ProcessorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.PropertyImplem;
@@ -45,13 +45,11 @@ public class JarMetadataLabelProvider extends CiliaLabelProvider {
 
 	protected ImageDescriptorEnum getImageDescriptor(Object obj) {
 		ImageDescriptorEnum imageName;
-		if (obj instanceof AdapterImplem) {
-			AdapterImplem adapter = (AdapterImplem) obj;
-			if (adapter.getType() == AdapterType.IN)
-				imageName = ImageDescriptorEnum.ADAPTER_IN;
-			else
-				imageName = ImageDescriptorEnum.ADAPTER_OUT;
-		} else if (isCompatible(obj, CiliaJarFile.class))
+		if (isCompatible(obj, InAdapter.class))
+			imageName = ImageDescriptorEnum.ADAPTER_IN;
+		else if (isCompatible(obj, OutAdapter.class))
+			imageName = ImageDescriptorEnum.ADAPTER_OUT;
+		else if (isCompatible(obj, CiliaJarFile.class))
 			imageName = ImageDescriptorEnum.REPOSITORY;
 		else if (isCompatible(obj, CollectorImplem.class))
 			imageName = ImageDescriptorEnum.COLLECTOR;

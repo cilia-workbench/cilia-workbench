@@ -16,9 +16,10 @@ package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
 import org.w3c.dom.Node;
 
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.InAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.OutAdapter;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
@@ -42,8 +43,8 @@ public abstract class AdapterImplemUtil {
 	 * @return {@link InAdapter}, an {@link OutAdapter} or <code>null</code> in
 	 *         case of error.
 	 */
-	public static AdapterImplem createAdapter(Node node) {
-		AdapterImplem retval = null;
+	public static Adapter createAdapter(Node node) {
+		Adapter retval = null;
 
 		try {
 			String pattern = XMLHelpers.findAttributeValue(node, XML_ATTR_PATTERN);
@@ -59,18 +60,5 @@ public abstract class AdapterImplemUtil {
 		}
 
 		return retval;
-	}
-
-	public static void initAdapter(Node node, AdapterImplem adapter, String subXMLNodeName) throws CiliaException {
-		ReflectionUtil.setAttribute(node, "name", adapter.getId(), "name");
-		ReflectionUtil.setAttribute(node, "namespace", adapter.getId(), "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
-
-		try {
-			Node subNode = XMLHelpers.findChild(node, subXMLNodeName);
-			if (subNode != null)
-				ReflectionUtil.setAttribute(subNode, "type", adapter, subXMLNodeName);
-		} catch (Exception e) {
-			// Error reported by getErrorsAndWarnings
-		}
 	}
 }

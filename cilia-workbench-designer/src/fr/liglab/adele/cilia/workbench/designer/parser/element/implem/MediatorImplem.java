@@ -176,7 +176,7 @@ public class MediatorImplem extends Mediator {
 	}
 
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] tab = new CiliaFlag[0]; // super.getErrorsAndWarnings();
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
 
 		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
 		for (CiliaFlag f : tab)
