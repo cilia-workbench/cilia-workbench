@@ -22,6 +22,9 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
+
 /**
  * Bridge the gap between the model object and the properties view.
  * 
@@ -33,10 +36,11 @@ public class PropertySource implements IPropertySource {
 	private final String PROPERTIES_CATEGORY = "Basic properties";
 
 	public PropertySource(Object modelObject) {
-		
-		while (modelObject instanceof DisplayedInPropertiesViewWithForward && modelObject != ((DisplayedInPropertiesViewWithForward) modelObject).getObjectForComputingProperties())
+
+		while (modelObject instanceof DisplayedInPropertiesViewWithForward
+				&& modelObject != ((DisplayedInPropertiesViewWithForward) modelObject).getObjectForComputingProperties())
 			modelObject = ((DisplayedInPropertiesViewWithForward) modelObject).getObjectForComputingProperties();
-		
+
 		this.modelObject = modelObject;
 	}
 
@@ -44,23 +48,32 @@ public class PropertySource implements IPropertySource {
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		List<IPropertyDescriptor> retval = new ArrayList<IPropertyDescriptor>();
 
-		List<Field> fields = new ArrayList<Field>();
-
-		Class<? extends Object> claz = modelObject.getClass();
-		while (claz != null) {
-			for (Field f : claz.getDeclaredFields())
-				fields.add(f);
-			claz = claz.getSuperclass();
-		}
-
-		for (Field field : fields) {
+		for (Field field : ReflectionUtil.getFields(modelObject)) {
 			Class<?> type = field.getType();
-			if (type.equals(String.class)) {
+			if (type.equals(String.class) || type.equals(NameNamespaceID.class)) {
 				String name = field.getName();
+
 				if (isFieldDisplayed(name)) {
-					PropertyDescriptor descriptor = new PropertyDescriptor(name, name.replaceAll("_", " "));
-					descriptor.setCategory(PROPERTIES_CATEGORY);
-					retval.add(descriptor);
+
+					if (type.equals(String.class)) {
+						FieldID fieldID = new FieldID(name, null, type);
+						PropertyDescriptor descriptor = new PropertyDescriptor(fieldID, name.replaceAll("_", " "));
+						descriptor.setCategory(PROPERTIES_CATEGORY);
+						retval.add(descriptor);
+
+					} else if (type.equals(NameNamespaceID.class)) {
+						// name
+						FieldID fieldID1 = new FieldID(name, "name", type);
+						PropertyDescriptor descriptor1 = new PropertyDescriptor(fieldID1, name.replaceAll("_", " ") + ":name");
+						descriptor1.setCategory(PROPERTIES_CATEGORY);
+						retval.add(descriptor1);
+
+						// namespace
+						FieldID fieldID2 = new FieldID(name, "namespace", type);
+						PropertyDescriptor descriptor2 = new PropertyDescriptor(fieldID2, name.replaceAll("_", " ") + ":namespace");
+						descriptor2.setCategory(PROPERTIES_CATEGORY);
+						retval.add(descriptor2);
+					}
 				}
 			}
 		}
@@ -103,28 +116,24 @@ public class PropertySource implements IPropertySource {
 
 	@Override
 	public Object getPropertyValue(Object id) {
-		String name = (String) id;
+		FieldID fieldID = (FieldID) id;
+		String name = fieldID.getName();
+
 		try {
-			Field field = null;
-
 			// finds field
-			Class<? extends Object> claz = modelObject.getClass();
-			while (claz != null && field == null) {
-				try {
-					field = claz.getDeclaredField(name);
-				} catch (NoSuchFieldException e) {
-					claz = claz.getSuperclass();
-				}
-			}
-
-			// field not found
-			if (field == null)
-				throw new NoSuchFieldException("field " + name + " not found in class hierarchy.");
-
-			// getting field
+			Field field = ReflectionUtil.findField(modelObject, name);
 			field.setAccessible(true);
-			Object value = field.get(modelObject);
-			return value;
+
+			// getting value
+			if (fieldID.getType().equals(String.class)) {
+				return field.get(modelObject);
+			} else if (fieldID.getType().equals(NameNamespaceID.class)) {
+				NameNamespaceID value = (NameNamespaceID) field.get(modelObject);
+				if (fieldID.getSubName().equals("name"))
+					return value.getName();
+				else
+					return value.getNamespace();
+			}
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (NoSuchFieldException e) {
@@ -153,5 +162,30 @@ public class PropertySource implements IPropertySource {
 
 	@Override
 	public void setPropertyValue(Object id, Object value) {
+	}
+
+	private class FieldID {
+
+		private final String fieldName;
+		private final String subFieldName;
+		private final Class<?> fieldType;
+
+		public FieldID(String fieldName, String subFieldName, Class<?> fieldType) {
+			this.fieldName = fieldName;
+			this.subFieldName = subFieldName;
+			this.fieldType = fieldType;
+		}
+
+		public String getName() {
+			return fieldName;
+		}
+
+		public String getSubName() {
+			return subFieldName;
+		}
+
+		public Class<?> getType() {
+			return fieldType;
+		}
 	}
 }

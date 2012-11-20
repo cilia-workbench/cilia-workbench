@@ -15,6 +15,8 @@
 package fr.liglab.adele.cilia.workbench.common.misc;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Node;
 
@@ -28,18 +30,16 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
  */
 public class ReflectionUtil {
 
-	public static boolean setAttribute(Node node, String attrName, Object object, String fieldName)
-			throws CiliaException {
+	public static boolean setAttribute(Node node, String attrName, Object object, String fieldName) throws CiliaException {
 		return setAttribute(node, attrName, object, fieldName, null);
 	}
 
-	public static boolean setAttribute(Node node, String attrName, Object object, String fieldName, String defaultValue)
-			throws CiliaException {
+	public static boolean setAttribute(Node node, String attrName, Object object, String fieldName, String defaultValue) throws CiliaException {
 		return setAttributeInternal(false, defaultValue, node, attrName, object, fieldName);
 	}
 
-	private static boolean setAttributeInternal(boolean requiredAttribute, String defaultValue, Node node,
-			String attrName, Object object, String fieldName) throws CiliaException {
+	private static boolean setAttributeInternal(boolean requiredAttribute, String defaultValue, Node node, String attrName, Object object, String fieldName)
+			throws CiliaException {
 
 		Exception exception = null;
 		boolean retval = true;
@@ -80,7 +80,20 @@ public class ReflectionUtil {
 		return retval;
 	}
 
-	private static Field findField(Object object, String fieldName) throws NoSuchFieldException {
+	public static List<Field> getFields(Object modelObject) {
+		List<Field> fields = new ArrayList<Field>();
+
+		Class<? extends Object> claz = modelObject.getClass();
+		while (claz != null) {
+			for (Field f : claz.getDeclaredFields())
+				fields.add(f);
+			claz = claz.getSuperclass();
+		}
+
+		return fields;
+	}
+
+	public static Field findField(Object object, String fieldName) throws NoSuchFieldException {
 		Field field = null;
 		Class<? extends Object> claz = object.getClass();
 		while (claz != null && field == null) {
@@ -96,22 +109,19 @@ public class ReflectionUtil {
 		return field;
 	}
 
-	public static String findStringValue(Object object, String fieldName) throws NoSuchFieldException,
-			IllegalArgumentException, IllegalAccessException {
+	public static String findStringValue(Object object, String fieldName) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		Field field = findField(object, fieldName);
 		field.setAccessible(true);
 		return (String) field.get(object);
 	}
 
-	public static Object findValue(Object object, String fieldName) throws NoSuchFieldException,
-			IllegalArgumentException, IllegalAccessException {
+	public static Object findValue(Object object, String fieldName) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		Field field = findField(object, fieldName);
 		field.setAccessible(true);
 		return field.get(object);
 	}
 
-	public static void setValue(Object object, String fieldName, Object value) throws NoSuchFieldException,
-			IllegalArgumentException, IllegalAccessException {
+	public static void setValue(Object object, String fieldName, Object value) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		Field field = findField(object, fieldName);
 		field.setAccessible(true);
 		field.set(object, value);

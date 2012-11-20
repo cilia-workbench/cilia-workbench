@@ -20,13 +20,9 @@ import fr.liglab.adele.cilia.workbench.common.misc.Strings;
  * Helper class, which represents an id from the {@link Identifiable} point of
  * view.
  * 
- * This class is semantically different from {@link NameNamespace}.
- * {@link NameNamespace} represents a base class whereas {@link NameNamespaceID}
- * represents an id, for a class implementing {@link Identifiable}.
- * 
  * @author Etienne Gandrille
  */
-public class NameNamespaceID {
+public final class NameNamespaceID {
 
 	private final String name;
 	private final String namespace;
