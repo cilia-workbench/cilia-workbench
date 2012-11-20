@@ -84,7 +84,7 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 		if (model == null)
 			setPartName("Abstract Chain Viewer");
 		else
-			setPartName(model.getName());
+			setPartName("Abstract Chain: " + model.getName());
 
 		ToggleSourceProvider.setToggleVariable(AbstractChainToolbarEnabler.VARIABLE_NAME, model != null);
 

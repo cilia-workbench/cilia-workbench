@@ -77,7 +77,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		if (model == null)
 			setPartName("Platform Chain Viewer");
 		else
-			setPartName(model.getName());
+			setPartName("Platform Chain: " + model.getName());
 
 		viewer.refresh();
 	}

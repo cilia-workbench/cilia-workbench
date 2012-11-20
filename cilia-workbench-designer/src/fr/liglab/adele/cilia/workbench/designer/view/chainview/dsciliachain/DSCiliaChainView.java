@@ -77,7 +77,7 @@ public class DSCiliaChainView extends GraphView implements IRepoServiceListener,
 		if (model == null)
 			setPartName("DSCilia Chain Viewer");
 		else
-			setPartName(model.getName());
+			setPartName("DSCilia Chain: " + model.getName());
 
 		ToggleSourceProvider.setToggleVariable(DSCiliaChainToolbarEnabler.VARIABLE_NAME, model != null);
 
