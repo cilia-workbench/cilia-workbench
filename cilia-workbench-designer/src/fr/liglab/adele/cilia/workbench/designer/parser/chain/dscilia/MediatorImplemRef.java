@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
@@ -69,7 +69,7 @@ public class MediatorImplemRef extends MediatorRef {
 		initSPDparameters(node, XML_DISPATCHER_NODE, dispatcherParameters);
 	}
 
-	public IChain getChain() {
+	public Chain getChain() {
 		return repo.findChain(chainId);
 	}
 

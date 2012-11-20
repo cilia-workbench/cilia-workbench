@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.common.Activator;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
@@ -73,7 +73,7 @@ public abstract class CiliaLabelProvider extends LabelProvider {
 		if (isCompatible(obj, AbstractFile.class))
 			return ImageDescriptorEnum.FILE;
 
-		if (obj instanceof IChain)
+		if (obj instanceof Chain)
 			return ImageDescriptorEnum.CHAIN;
 
 		// Mediator

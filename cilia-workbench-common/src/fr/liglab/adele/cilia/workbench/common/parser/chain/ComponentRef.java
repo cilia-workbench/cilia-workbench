@@ -63,7 +63,7 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 	// CHAIN RELATIVE
 	// ==============
 
-	public abstract IChain getChain();
+	public abstract Chain getChain();
 
 	public abstract Component getReferencedComponent();
 

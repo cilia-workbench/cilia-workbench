@@ -20,7 +20,7 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
@@ -52,12 +52,12 @@ public abstract class XMLChainFile<ModelType extends XMLChainModel<? extends XML
 
 			// XML file becomes valid
 			if (c.getOperation().equals(Operation.ADD) && c.getObject() == newModel)
-				for (IChain chain : newModel.getChains())
+				for (Chain chain : newModel.getChains())
 					retval.add(new Changeset(Operation.ADD, chain));
 
 			// XML file becomes invalid
 			else if (c.getOperation().equals(Operation.REMOVE) && c.getObject() == oldModel)
-				for (IChain chain : oldModel.getChains())
+				for (Chain chain : oldModel.getChains())
 					retval.add(new Changeset(Operation.REMOVE, chain));
 
 			// Other event, deeper in hierarchy

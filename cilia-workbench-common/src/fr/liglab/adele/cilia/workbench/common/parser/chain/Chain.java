@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser.chain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
@@ -24,17 +25,13 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.Component;
  * 
  * @author Etienne Gandrille
  */
-public interface IChain extends Identifiable {
+public abstract class Chain implements Identifiable {
 
-	public List<? extends AdapterRef> getAdapters();
+	public abstract List<? extends AdapterRef> getAdapters();
 
-	public List<? extends MediatorRef> getMediators();
+	public abstract List<? extends MediatorRef> getMediators();
 
-	public List<? extends Binding> getBindings();
-
-	public ComponentRef getComponent(String componentId);
-
-	public ComponentRef[] getComponents();
+	public abstract List<? extends Binding> getBindings();
 
 	/**
 	 * Finds the {@link Component} referenced by the chain component with id
@@ -45,5 +42,24 @@ public interface IChain extends Identifiable {
 	 * @return
 	 * @throws CiliaException
 	 */
-	public Component getReferencedComponent(String componentID) throws CiliaException;
+	public abstract Component getReferencedComponent(String componentID) throws CiliaException;
+
+	public ComponentRef getComponent(String componentId) {
+		for (AdapterRef adapter : getAdapters())
+			if (adapter.getId().equals(componentId))
+				return adapter;
+		for (MediatorRef mediator : getMediators())
+			if (mediator.getId().equals(componentId))
+				return mediator;
+		return null;
+	}
+
+	public ComponentRef[] getComponents() {
+		List<ComponentRef> retval = new ArrayList<ComponentRef>();
+		for (AdapterRef adapter : getAdapters())
+			retval.add(adapter);
+		for (MediatorRef mediator : getMediators())
+			retval.add(mediator);
+		return retval.toArray(new ComponentRef[0]);
+	}
 }

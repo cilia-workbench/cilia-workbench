@@ -31,7 +31,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
@@ -50,7 +50,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphDrawa
  * 
  * @author Etienne Gandrille
  */
-public abstract class XMLChain implements IChain, DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable, GraphDrawable, Identifiable {
+public abstract class XMLChain extends Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable, GraphDrawable, Identifiable {
 
 	public static final String XML_NODE_NAME = "chain";
 
@@ -128,25 +128,6 @@ public abstract class XMLChain implements IChain, DisplayedInPropertiesView, Err
 
 	public List<XMLBinding> getBindings() {
 		return bindings;
-	}
-
-	public ComponentRef getComponent(String componentId) {
-		for (AdapterRef adapter : adapters)
-			if (adapter.getId().equals(componentId))
-				return adapter;
-		for (MediatorRef mediator : mediators)
-			if (mediator.getId().equals(componentId))
-				return mediator;
-		return null;
-	}
-
-	public ComponentRef[] getComponents() {
-		List<ComponentRef> retval = new ArrayList<ComponentRef>();
-		for (AdapterRef adapter : adapters)
-			retval.add(adapter);
-		for (MediatorRef mediator : mediators)
-			retval.add(mediator);
-		return retval.toArray(new ComponentRef[0]);
 	}
 
 	@Override

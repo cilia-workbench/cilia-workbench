@@ -20,7 +20,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryViewHandler;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile;
@@ -65,7 +65,7 @@ public abstract class ChainRepositoryHandler<ChainType extends XMLChain> extends
 
 	public Object deleteChain(ExecutionEvent event) throws ExecutionException {
 		Object object = getFirstSelectedElementInRepositoryView(event);
-		if (object != null && object instanceof IChain) {
+		if (object != null && object instanceof Chain) {
 			@SuppressWarnings("unchecked")
 			ChainType chain = (ChainType) object;
 			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required", "Do you want to delete " + chain.getId() + "?");

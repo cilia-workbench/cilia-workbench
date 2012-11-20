@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
 
-import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 
 /**
  * 
@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
  */
 public class DeleteMediatorDialog extends ListDialog {
 
-	public DeleteMediatorDialog(Shell parent, IChain chain) {
+	public DeleteMediatorDialog(Shell parent, Chain chain) {
 		super(parent);
 
 		setTitle("Remove mediator");

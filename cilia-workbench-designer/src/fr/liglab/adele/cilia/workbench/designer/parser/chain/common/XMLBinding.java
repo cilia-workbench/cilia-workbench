@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.IChain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Component;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
@@ -52,7 +52,7 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 		this.chainId = chainId;
 	}
 
-	protected abstract IChain getChain();
+	protected abstract Chain getChain();
 
 	public ComponentRef getSourceComponent() {
 		return getChain().getComponent(getSourceId());
