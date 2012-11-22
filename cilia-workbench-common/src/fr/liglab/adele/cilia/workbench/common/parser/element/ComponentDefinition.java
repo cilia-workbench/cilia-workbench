@@ -18,9 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Port.PortNature;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
@@ -30,10 +34,36 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
  */
 public abstract class ComponentDefinition implements Identifiable, ComponentNatureAskable, DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
+	private final NameNamespaceID id;
+
+	private final List<Port> ports;
+
+	public ComponentDefinition(NameNamespaceID id, List<Port> ports) {
+		this.id = id;
+		this.ports = ports;
+	}
+
+	// ID AND VALUES
+	// =============
+
+	public NameNamespaceID getId() {
+		return id;
+	}
+
+	public String getName() {
+		return id.getName();
+	}
+
+	public String getNamespace() {
+		return id.getNamespace();
+	}
+
 	// PORTS
 	// =====
 
-	public abstract List<? extends Port> getPorts();
+	public List<Port> getPorts() {
+		return ports;
+	}
 
 	public List<InPort> getInPorts() {
 		List<InPort> retval = new ArrayList<InPort>();
@@ -67,6 +97,14 @@ public abstract class ComponentDefinition implements Identifiable, ComponentNatu
 		return false;
 	}
 
+	// MISC
+	// ====
+
+	@Override
+	public String toString() {
+		return Strings.nullToEmpty(id.getName());
+	}
+
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		List<CiliaFlag> flagsTab = new ArrayList<CiliaFlag>();
@@ -74,6 +112,9 @@ public abstract class ComponentDefinition implements Identifiable, ComponentNatu
 		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getInPorts()));
 		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getOutPorts()));
 
-		return CiliaFlag.generateTab(flagsTab);
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, getName(), "name");
+		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, getNamespace(), "namespace");
+
+		return CiliaFlag.generateTab(flagsTab, e1, e2);
 	}
 }

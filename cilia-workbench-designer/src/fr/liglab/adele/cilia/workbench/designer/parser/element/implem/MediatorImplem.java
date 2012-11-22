@@ -33,7 +33,6 @@ import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentPart;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
@@ -48,13 +47,12 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  */
 public class MediatorImplem extends Mediator {
 
-	private PortsList ports;
-
 	public static final String XML_NODE_NAME = "mediator-component";
 
-	private final RefMediatorSpec spec;
+	public static final String XML_ATTR_NAME = "name";
+	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	private NameNamespaceID id = new NameNamespaceID();
+	private final RefMediatorSpec spec;
 
 	private NameNamespaceID schedulerId = new NameNamespaceID();
 	private NameNamespaceID processorId = new NameNamespaceID();
@@ -63,9 +61,7 @@ public class MediatorImplem extends Mediator {
 	private List<PropertyImplem> properties = new ArrayList<PropertyImplem>();
 
 	public MediatorImplem(Node node) throws CiliaException {
-
-		ReflectionUtil.setAttribute(node, "name", id, "name");
-		ReflectionUtil.setAttribute(node, "namespace", id, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
+		super(computeID(node), XMLPortsUtil.getPorts(node));
 
 		String defNs = CiliaConstants.CILIA_DEFAULT_NAMESPACE;
 		String specName = null;
@@ -103,41 +99,12 @@ public class MediatorImplem extends Mediator {
 			ReflectionUtil.setAttribute(dispatcherNode, "name", dispatcherId, "name");
 			ReflectionUtil.setAttribute(dispatcherNode, "namespace", dispatcherId, "namespace", defNs);
 		}
-
-		ports = new PortsList(node);
 	}
 
-	@Override
-	public List<? extends Port> getPorts() {
-		return ports.getPorts();
-	}
-
-	@Override
-	public NameNamespaceID getId() {
-		return id;
-	}
-
-	public String getName() {
-		return id.getName();
-	}
-
-	public String getNamespace() {
-		return id.getNamespace();
-	}
-
-	/**
-	 * The qualified name is composed by the namespace and the name. If the
-	 * namespace is unavailable, this function returns the name.
-	 * 
-	 * @return the qualified name
-	 */
-	public String getQualifiedName() {
-		return id.getQualifiedName();
-	}
-
-	@Override
-	public String toString() {
-		return id.getName();
+	private static NameNamespaceID computeID(Node node) {
+		String name = XMLHelpers.findAttributeValue(node, XML_ATTR_NAME, "");
+		String namespace = XMLHelpers.findAttributeValue(node, XML_ATTR_NAMESPACE, CiliaConstants.CILIA_DEFAULT_NAMESPACE);
+		return new NameNamespaceID(name, namespace);
 	}
 
 	public RefMediatorSpec getSpec() {
@@ -189,16 +156,12 @@ public class MediatorImplem extends Mediator {
 		CiliaFlag e5 = null;
 		CiliaFlag e6 = null;
 		CiliaFlag e7 = null;
-		CiliaFlag e8 = CiliaError.checkStringNotNullOrEmpty(this, id.getName(), "name");
-		CiliaFlag e9 = CiliaWarning.checkStringNotNullOrEmpty(this, id.getNamespace(), "namespace");
 
 		// ports
 		if (getInPorts().size() == 0)
 			e4 = new CiliaError("Mediator doesn't have an in port", this);
 		if (getOutPorts().size() == 0)
 			e5 = new CiliaError("Mediator doesn't have an out port", this);
-		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getInPorts()));
-		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getOutPorts()));
 
 		// properties
 		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, properties));
@@ -227,7 +190,7 @@ public class MediatorImplem extends Mediator {
 			flagsTab.addAll(checkMediatorParameters(this));
 		}
 
-		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4, e5, e6, e7, e8, e9);
+		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4, e5, e6, e7);
 	}
 
 	public static List<CiliaFlag> checkMediatorParameters(MediatorImplem mediator) {
@@ -314,7 +277,7 @@ public class MediatorImplem extends Mediator {
 			CiliaFlag e3 = null;
 
 			if (getMediatorSpec() == null)
-				e3 = new CiliaError("Can't find mediator spec " + getQualifiedName(), this);
+				e3 = new CiliaError("Can't find mediator spec " + id.getName(), this);
 
 			return CiliaFlag.generateTab(e1, e2, e3);
 		}

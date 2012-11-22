@@ -3,62 +3,57 @@
 
 	<!-- Sandbox -->
 
-	<mediator-specification id="filter" namespace="fr.imag.adele.cilia.workbench.spec">
+	<mediator-specification name="filter"
+		namespace="fr.imag.adele.cilia.workbench.spec">
 		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
+			<in-port name="in" />
+			<out-port name="out" />
 		</ports>
 	</mediator-specification>
 
-	<mediator-specification id="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+	<mediator-specification name="average-mediator"
+		namespace="fr.imag.adele.cilia.workbench.spec">
 		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
+			<in-port name="in" />
+			<out-port name="out" />
 		</ports>
 		<properties>
-			<property name="category"/>
+			<property name="category" />
 		</properties>
 	</mediator-specification>
 
-	<mediator-specification id="increment-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+	<mediator-specification name="increment-mediator"
+		namespace="fr.imag.adele.cilia.workbench.spec">
 		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
+			<in-port name="in" />
+			<out-port name="out" />
 		</ports>
 		<properties>
-			<property name="category"/>
+			<property name="category" />
 		</properties>
 		<processor>
 			<parameters>
-				<parameter name="increment"/>
+				<parameter name="increment" />
 			</parameters>
 		</processor>
 	</mediator-specification>
 
-	
 
-    <!--
-	<mediator-specification id="regression" namespace="fr.liglab.cube">
+
+	<!-- <mediator-specification name="regression" namespace="fr.liglab.cube"> 
+		<ports> <in-port name="in"/> <out-port name="out"/> </ports> <properties> 
+		<property name="vitesse"/> <property name="memoire"/> </properties> </mediator-specification> -->
+
+
+
+	<mediator-specification name="sum-mediator"
+		namespace="fr.imag.adele.cilia.workbench.spec">
 		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
+			<in-port name="in" />
+			<out-port name="out" />
 		</ports>
 		<properties>
-			<property name="vitesse"/>
-			<property name="memoire"/>
+			<property name="category" />
 		</properties>
 	</mediator-specification>
-    -->
-
-
-
-<mediator-specification id="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
-<ports>
-<in-port name="in"/>
-<out-port name="out"/>
-</ports>
-<properties>
-<property name="category"/>
-</properties>
-</mediator-specification>
 </cilia-specifications>

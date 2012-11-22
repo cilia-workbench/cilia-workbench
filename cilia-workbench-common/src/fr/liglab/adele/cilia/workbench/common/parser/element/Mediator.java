@@ -16,6 +16,8 @@ package fr.liglab.adele.cilia.workbench.common.parser.element;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+
 /**
  * Represents a spec or an implementation of a Mediator.
  * 
@@ -24,6 +26,10 @@ import java.util.List;
 public abstract class Mediator extends ComponentDefinition {
 
 	public abstract List<? extends Property> getProperties();
+
+	public Mediator(NameNamespaceID id, List<Port> ports) {
+		super(id, ports);
+	}
 
 	public Property getProperty(String key) {
 		for (Property p : getProperties())

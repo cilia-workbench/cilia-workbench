@@ -21,14 +21,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
@@ -45,30 +45,16 @@ public class MediatorSpec extends Mediator implements Mergeable {
 	public static final String XML_NODE_PROPERTIES_CONTAINER = "properties";
 	public static final String XML_NODE_PORTS_CONTAINER = "ports";
 
-	public static final String XML_ATTR_ID = "id";
+	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	private NameNamespaceID id = new NameNamespaceID();
-
-	private List<Port> ports = new ArrayList<Port>();
 	private List<PropertySpec> properties = new ArrayList<PropertySpec>();
 	private ProcessorSpec processor = null;
 	private SchedulerSpec scheduler = null;
 	private DispatcherSpec dispatcher = null;
 
 	public MediatorSpec(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_ID, id, "name");
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, id, "namespace");
-
-		Node rootPorts = XMLHelpers.findChild(node, XML_NODE_PORTS_CONTAINER);
-		if (rootPorts != null) {
-			Node[] ips = XMLHelpers.findChildren(rootPorts, InPortSpec.getXMLtag());
-			for (Node ip : ips)
-				ports.add(new InPortSpec(ip));
-			Node[] ops = XMLHelpers.findChildren(rootPorts, OutPortSpec.getXMLtag());
-			for (Node op : ops)
-				ports.add(new OutPortSpec(op));
-		}
+		super(computeID(node), computePorts(node));
 
 		Node rootProperties = XMLHelpers.findChild(node, XML_NODE_PROPERTIES_CONTAINER);
 		if (rootProperties != null) {
@@ -93,8 +79,36 @@ public class MediatorSpec extends Mediator implements Mergeable {
 		}
 	}
 
-	public NameNamespaceID getId() {
-		return id;
+	private static NameNamespaceID computeID(Node node) {
+		String name = XMLHelpers.findAttributeValue(node, XML_ATTR_NAME, "");
+		String namespace = XMLHelpers.findAttributeValue(node, XML_ATTR_NAMESPACE, CiliaConstants.CILIA_DEFAULT_NAMESPACE);
+		return new NameNamespaceID(name, namespace);
+	}
+
+	private static List<Port> computePorts(Node node) {
+		List<Port> ports = new ArrayList<Port>();
+
+		Node rootPorts = XMLHelpers.findChild(node, XML_NODE_PORTS_CONTAINER);
+		if (rootPorts != null) {
+			Node[] ips = XMLHelpers.findChildren(rootPorts, InPortSpec.getXMLtag());
+			for (Node ip : ips) {
+				try {
+					ports.add(new InPortSpec(ip));
+				} catch (CiliaException e) {
+					e.printStackTrace();
+				}
+			}
+			Node[] ops = XMLHelpers.findChildren(rootPorts, OutPortSpec.getXMLtag());
+			for (Node op : ops) {
+				try {
+					ports.add(new OutPortSpec(op));
+				} catch (CiliaException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return ports;
 	}
 
 	public ProcessorSpec getProcessor() {
@@ -120,17 +134,13 @@ public class MediatorSpec extends Mediator implements Mergeable {
 		return null;
 	}
 
-	public List<Port> getPorts() {
-		return ports;
-	}
-
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 
 		List<Changeset> retval = new ArrayList<Changeset>();
 		MediatorSpec newInstance = (MediatorSpec) other;
 
-		retval.addAll(MergeUtil.mergeLists(newInstance.getPorts(), ports));
+		retval.addAll(MergeUtil.mergeLists(newInstance.getPorts(), getPorts()));
 		retval.addAll(MergeUtil.mergeLists(newInstance.getProperties(), properties));
 		retval.addAll(MergeUtil.mergeObjectsFields(newInstance, this, "processor"));
 		retval.addAll(MergeUtil.mergeObjectsFields(newInstance, this, "scheduler"));
@@ -142,14 +152,9 @@ public class MediatorSpec extends Mediator implements Mergeable {
 		return retval;
 	}
 
-	@Override
-	public String toString() {
-		return id.getName();
-	}
-
 	public static Element createXMLSpec(Document document, Node parent, NameNamespaceID id) {
 		Element child = document.createElement(MediatorSpec.XML_NODE_NAME);
-		child.setAttribute(MediatorSpec.XML_ATTR_ID, id.getName());
+		child.setAttribute(MediatorSpec.XML_ATTR_NAME, id.getName());
 		child.setAttribute(MediatorSpec.XML_ATTR_NAMESPACE, id.getNamespace());
 		parent.appendChild(child);
 
@@ -196,22 +201,18 @@ public class MediatorSpec extends Mediator implements Mergeable {
 		for (CiliaFlag f : tab)
 			flagsTab.add(f);
 
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id.getName(), "id:name");
-		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, id.getNamespace(), "id:namespace");
-		CiliaFlag e3 = null;
-		CiliaFlag e4 = null;
+		CiliaFlag e1 = null;
+		CiliaFlag e2 = null;
 
 		// ports
 		if (getInPorts().size() == 0)
-			e3 = new CiliaError("Mediator doesn't have an in port", this);
+			e1 = new CiliaError("Mediator doesn't have an in port", this);
 		if (getOutPorts().size() == 0)
-			e4 = new CiliaError("Mediator doesn't have an out port", this);
-		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getInPorts()));
-		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, getOutPorts()));
+			e2 = new CiliaError("Mediator doesn't have an out port", this);
 
 		// properties
 		flagsTab.addAll(IdentifiableUtils.getErrorsNonUniqueId(this, properties));
 
-		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4);
+		return CiliaFlag.generateTab(flagsTab, e1, e2);
 	}
 }

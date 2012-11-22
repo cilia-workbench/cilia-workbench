@@ -27,15 +27,9 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
  * 
  * @author Etienne Gandrille
  */
-public class PortsList {
+public class XMLPortsUtil {
 
-	private final List<Port> ports;
-
-	public PortsList(Node node) throws CiliaException {
-		ports = getPorts(node);
-	}
-
-	private static List<Port> getPorts(Node node) throws CiliaException {
+	public static List<Port> getPorts(Node node) throws CiliaException {
 		List<Port> ports = new ArrayList<Port>();
 
 		Node portsNode = XMLHelpers.findChild(node, "ports");
@@ -51,7 +45,4 @@ public class PortsList {
 		return ports;
 	}
 
-	public List<Port> getPorts() {
-		return ports;
-	}
 }

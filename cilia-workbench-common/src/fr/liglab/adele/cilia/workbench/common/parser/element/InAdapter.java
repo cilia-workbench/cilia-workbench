@@ -14,11 +14,19 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser.element;
 
+import java.util.List;
+
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+
 /**
  * 
  * @author Etienne Gandrille
  */
 public abstract class InAdapter extends Adapter {
+
+	public InAdapter(NameNamespaceID id, List<Port> ports) {
+		super(id, ports);
+	}
 
 	@Override
 	public AdapterType getType() {

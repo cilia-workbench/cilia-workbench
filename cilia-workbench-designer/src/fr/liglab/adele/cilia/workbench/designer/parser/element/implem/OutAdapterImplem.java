@@ -14,8 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
-import java.util.List;
-
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
@@ -23,9 +21,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.parser.element.OutAdapter;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 
@@ -35,35 +31,23 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.C
  */
 public class OutAdapterImplem extends OutAdapter {
 
-	private final NameNamespaceID id;
+	public static final String XML_ATTR_NAME = "name";
+	public static final String XML_ATTR_NAMESPACE = "namespace";
 
 	String sender;
 
-	private PortsList ports;
-
 	public OutAdapterImplem(Node node) throws CiliaException {
-		String name = XMLHelpers.findAttributeValue(node, "name", null);
-		String namespace = XMLHelpers.findAttributeValue(node, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
-		id = new NameNamespaceID(name, namespace);
+		super(computeID(node), XMLPortsUtil.getPorts(node));
 
 		Node subNode = XMLHelpers.findChild(node, "sender");
 		if (subNode != null)
 			sender = XMLHelpers.findAttributeValue(subNode, "type", null);
-
-		ports = new PortsList(node);
 	}
 
-	public String getName() {
-		return id.getName();
-	}
-
-	public String getNamespace() {
-		return id.getNamespace();
-	}
-
-	@Override
-	public NameNamespaceID getId() {
-		return id;
+	private static NameNamespaceID computeID(Node node) {
+		String name = XMLHelpers.findAttributeValue(node, XML_ATTR_NAME, "");
+		String namespace = XMLHelpers.findAttributeValue(node, XML_ATTR_NAMESPACE, CiliaConstants.CILIA_DEFAULT_NAMESPACE);
+		return new NameNamespaceID(name, namespace);
 	}
 
 	public String getSenderID() {
@@ -79,18 +63,9 @@ public class OutAdapterImplem extends OutAdapter {
 		return CiliaJarRepoService.getInstance().getSender(id);
 	}
 
-	public List<Port> getPorts() {
-		return ports.getPorts();
-	}
-
 	@Override
 	public ComponentNature getNature() {
 		return ComponentNature.IMPLEM;
-	}
-
-	@Override
-	public String toString() {
-		return id.getName();
 	}
 
 	@Override
@@ -100,9 +75,7 @@ public class OutAdapterImplem extends OutAdapter {
 		CiliaError e1 = null;
 		CiliaError e2 = null;
 
-		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, id.getName(), "name");
-		CiliaFlag e4 = CiliaWarning.checkStringNotNullOrEmpty(this, id.getNamespace(), "namespace");
-		CiliaFlag e5 = CiliaError.checkStringNotNullOrEmpty(this, sender, "sender");
+		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, sender, "sender");
 
 		if (getOutPorts().size() != 0) {
 			e1 = new CiliaError("OutAdapter has " + getOutPorts().size() + " out ports", this);
@@ -112,6 +85,6 @@ public class OutAdapterImplem extends OutAdapter {
 			e2 = new CiliaError("OutAdapter must have 1 and only 1 in port, not " + getInPorts().size(), this);
 		}
 
-		return CiliaFlag.generateTab(tab, e1, e2, e3, e4, e5);
+		return CiliaFlag.generateTab(tab, e1, e2, e3);
 	}
 }

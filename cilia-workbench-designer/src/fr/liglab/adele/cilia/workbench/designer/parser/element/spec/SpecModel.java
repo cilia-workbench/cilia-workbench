@@ -123,7 +123,7 @@ public class SpecModel extends AbstractModel implements Mergeable {
 
 	private Node findXMLMediatorNode(Document document, NameNamespaceID id) throws CiliaException {
 		Node root = getRootNode(document);
-		Node[] results = XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME, MediatorSpec.XML_ATTR_ID, id.getName(), MediatorSpec.XML_ATTR_NAMESPACE,
+		Node[] results = XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME, MediatorSpec.XML_ATTR_NAME, id.getName(), MediatorSpec.XML_ATTR_NAMESPACE,
 				id.getNamespace());
 
 		if (results.length == 0)

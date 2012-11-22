@@ -24,7 +24,7 @@ public interface ComponentNatureAskable {
 	/** Nature possibilities */
 	public enum ComponentNature {
 
-		SPEC("spec", "specification"), IMPLEM("implem", "implementation"), INSTANCE("instance", "instance");
+		SPEC("spec", "specification"), IMPLEM("implem", "implementation");
 
 		private String shortName;
 		private String longName;
