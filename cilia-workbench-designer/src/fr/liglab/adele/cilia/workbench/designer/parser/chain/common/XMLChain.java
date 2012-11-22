@@ -162,7 +162,7 @@ public abstract class XMLChain extends Chain implements GraphDrawable {
 
 	@Override
 	public String toString() {
-		return getName();
+		return Strings.nullToEmpty(getName());
 	}
 
 	@Override

@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 
 /**
@@ -113,7 +114,7 @@ public class PlatformChain extends Chain {
 
 	@Override
 	public String toString() {
-		return name;
+		return Strings.nullToEmpty(name);
 	}
 
 	public PlatformModel getPlatform() {

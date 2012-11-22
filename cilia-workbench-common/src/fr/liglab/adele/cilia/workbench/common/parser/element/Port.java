@@ -18,6 +18,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 
 /**
  * Represents a port, in or out. It can be a spec or an implementation.
@@ -38,7 +39,7 @@ public abstract class Port implements Identifiable, ErrorsAndWarningsFinder {
 
 	@Override
 	public String toString() {
-		return name;
+		return Strings.nullToEmpty(name);
 	}
 
 	/**

@@ -18,6 +18,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
@@ -40,7 +41,7 @@ public abstract class ParameterDefinition implements ErrorsAndWarningsFinder, Id
 
 	@Override
 	public String toString() {
-		return name;
+		return Strings.nullToEmpty(name);
 	}
 
 	@Override

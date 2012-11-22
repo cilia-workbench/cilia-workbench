@@ -24,6 +24,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
@@ -166,7 +167,7 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 
 	@Override
 	public String toString() {
-		return componentID;
+		return Strings.nullToEmpty(componentID);
 	}
 
 	@Override
