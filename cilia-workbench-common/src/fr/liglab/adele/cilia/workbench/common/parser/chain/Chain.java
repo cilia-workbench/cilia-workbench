@@ -19,6 +19,7 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
@@ -27,17 +28,24 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
+import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphDrawable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Chain implements DisplayedInPropertiesView, Identifiable, ErrorsAndWarningsFinder, Mergeable {
+public abstract class Chain implements DisplayedInPropertiesView, Identifiable, ErrorsAndWarningsFinder, Mergeable, GraphDrawable {
+
+	private final String name;
 
 	protected List<AdapterRef> adapters = new ArrayList<AdapterRef>();
 	protected List<MediatorRef> mediators = new ArrayList<MediatorRef>();
 	protected List<Binding> bindings = new ArrayList<Binding>();
+
+	public Chain(String name) {
+		this.name = name;
+	}
 
 	public ComponentRef getComponent(String componentId) {
 		for (AdapterRef adapter : getAdapters())
@@ -50,9 +58,9 @@ public abstract class Chain implements DisplayedInPropertiesView, Identifiable, 
 	}
 
 	/**
-	 * Finds the {@link ComponentDefinition} referenced by the chain component with id
-	 * given into parameter. If the component can't be located, throws an
-	 * exception containing an error message.
+	 * Finds the {@link ComponentDefinition} referenced by the chain component
+	 * with id given into parameter. If the component can't be located, throws
+	 * an exception containing an error message.
 	 * 
 	 * @param componentID
 	 * @return
@@ -114,6 +122,21 @@ public abstract class Chain implements DisplayedInPropertiesView, Identifiable, 
 	}
 
 	@Override
+	public Object[] getElements() {
+		return getComponents();
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String toString() {
+		return Strings.nullToEmpty(name);
+	}
+
+	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		List<Changeset> retval = new ArrayList<Changeset>();
 		Chain newInstance = (Chain) other;
@@ -131,7 +154,8 @@ public abstract class Chain implements DisplayedInPropertiesView, Identifiable, 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		List<CiliaFlag> list = IdentifiableUtils.getErrorsNonUniqueId(this, getComponents());
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
 
-		return CiliaFlag.generateTab(list);
+		return CiliaFlag.generateTab(list, e1);
 	}
 }

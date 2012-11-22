@@ -20,9 +20,6 @@ import org.json.JSONObject;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 
 /**
@@ -31,23 +28,17 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
  */
 public class PlatformChain extends Chain {
 
-	private final String name;
-
 	private final PlatformModel platform;
 
 	public PlatformChain(String name, PlatformModel platform) {
-		this.name = name;
+		super(name);
 		this.platform = platform;
 	}
 
 	public PlatformChain(JSONObject json, PlatformModel platform) throws CiliaException {
-		this.platform = platform;
+		super(getJSONname(json));
 
-		try {
-			name = json.getString("Chain");
-		} catch (JSONException e) {
-			throw new CiliaException("error while parsing name", e);
-		}
+		this.platform = platform;
 
 		try {
 			JSONArray mediatorsList = json.getJSONArray("Mediators");
@@ -103,30 +94,21 @@ public class PlatformChain extends Chain {
 		}
 	}
 
-	@Override
-	public Object getId() {
-		return name;
+	private static String getJSONname(JSONObject json) {
+		try {
+			return json.getString("Chain");
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	@Override
-	public String toString() {
-		return Strings.nullToEmpty(name);
+	public String getId() {
+		return getName();
 	}
 
 	public PlatformModel getPlatform() {
 		return platform;
-	}
-
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] tab = super.getErrorsAndWarnings();
-
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-
-		return CiliaFlag.generateTab(tab, e1);
 	}
 }

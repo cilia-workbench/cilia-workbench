@@ -24,7 +24,6 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
@@ -35,13 +34,12 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.AdapterImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.MediatorImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
-import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphDrawable;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class XMLChain extends Chain implements GraphDrawable {
+public abstract class XMLChain extends Chain {
 
 	public static final String XML_NODE_NAME = "chain";
 
@@ -52,11 +50,14 @@ public abstract class XMLChain extends Chain implements GraphDrawable {
 	public static final String XML_ROOT_ADAPTERS_NAME = "adapters";
 	public static final String XML_ROOT_BINDINGS_NAME = "bindings";
 
-	protected NameNamespaceID id = new NameNamespaceID();
+	protected final NameNamespaceID id;
 
 	public XMLChain(Node node, String mediatorXMLNodeName, String adapterXMLNodeName) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_ID, id, "name");
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, id, "namespace");
+		super(XMLHelpers.findAttributeValue(node, XML_ATTR_ID, ""));
+
+		String name = XMLHelpers.findAttributeValue(node, XML_ATTR_ID, "");
+		String namespace = XMLHelpers.findAttributeValue(node, XML_ATTR_NAMESPACE, "");
+		id = new NameNamespaceID(name, namespace);
 
 		Node rootAdapters = XMLHelpers.findChild(node, XML_ROOT_ADAPTERS_NAME);
 		if (rootAdapters != null) {
@@ -96,19 +97,9 @@ public abstract class XMLChain extends Chain implements GraphDrawable {
 		return id;
 	}
 
-	@Override
-	public String getName() {
-		return id.getName();
-	}
-
 	protected abstract ChainRepoService<?, ?, ?> getRepository();
 
 	public abstract XMLBinding createBinding(Node node, NameNamespaceID chainId) throws CiliaException;
-
-	@Override
-	public Object[] getElements() {
-		return getComponents();
-	}
 
 	public String isNewComponentAllowed(String elementId, NameNamespaceID nn) {
 
@@ -158,11 +149,6 @@ public abstract class XMLChain extends Chain implements GraphDrawable {
 			return "unknown " + dstElem + " in-port with name " + dstPort;
 
 		return null;
-	}
-
-	@Override
-	public String toString() {
-		return Strings.nullToEmpty(getName());
 	}
 
 	@Override
