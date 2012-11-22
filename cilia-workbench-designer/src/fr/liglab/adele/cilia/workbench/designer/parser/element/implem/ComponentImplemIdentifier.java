@@ -25,6 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 
 /**
  * 
@@ -52,7 +53,7 @@ public class ComponentImplemIdentifier implements ErrorsAndWarningsFinder, Ident
 
 	@Override
 	public String toString() {
-		return id.getName();
+		return Strings.nullToEmpty(id.getName());
 	}
 
 	@Override
