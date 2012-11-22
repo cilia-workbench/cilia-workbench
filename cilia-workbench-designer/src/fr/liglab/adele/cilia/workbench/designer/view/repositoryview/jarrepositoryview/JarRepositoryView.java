@@ -32,7 +32,7 @@ import org.eclipse.ui.editors.text.EditorsUI;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryView;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarModel;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 
 /**
  * 
@@ -43,7 +43,7 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile, CiliaJarMode
 	public final static String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.jarrepositoryview";
 
 	public JarRepositoryView() {
-		super(VIEW_ID, JarRepoService.getInstance());
+		super(VIEW_ID, CiliaJarRepoService.getInstance());
 	}
 
 	@Override

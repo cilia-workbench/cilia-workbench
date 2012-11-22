@@ -25,7 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 
 /**
  * 
@@ -47,7 +47,7 @@ public class MediatorInstanceRef extends MediatorRef implements Mergeable {
 
 	@Override
 	protected ComponentRepoService<?, ?> getComponentRepoService() {
-		return JarRepoService.getInstance();
+		return CiliaJarRepoService.getInstance();
 	}
 
 	@Override

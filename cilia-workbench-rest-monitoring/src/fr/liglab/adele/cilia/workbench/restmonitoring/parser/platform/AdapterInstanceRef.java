@@ -23,7 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 
 /**
  * 
@@ -45,7 +45,7 @@ public class AdapterInstanceRef extends AdapterRef {
 
 	@Override
 	protected ComponentRepoService<?, ?> getComponentRepoService() {
-		return JarRepoService.getInstance();
+		return CiliaJarRepoService.getInstance();
 	}
 
 	@Override

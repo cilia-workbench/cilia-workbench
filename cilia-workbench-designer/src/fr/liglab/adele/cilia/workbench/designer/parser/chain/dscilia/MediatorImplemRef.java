@@ -37,7 +37,7 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLComponentRefHelper;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLParameterRef;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 
 /**
  * 
@@ -153,6 +153,6 @@ public class MediatorImplemRef extends MediatorRef {
 
 	@Override
 	protected ComponentRepoService<?, ?> getComponentRepoService() {
-		return JarRepoService.getInstance();
+		return CiliaJarRepoService.getInstance();
 	}
 }

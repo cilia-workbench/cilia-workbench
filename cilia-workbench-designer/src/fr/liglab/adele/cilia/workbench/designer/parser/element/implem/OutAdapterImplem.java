@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.parser.element.OutAdapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 
 /**
  * 
@@ -76,7 +76,7 @@ public class OutAdapterImplem extends OutAdapter {
 
 	public SenderImplem getSender() {
 		String id = getSenderID();
-		return JarRepoService.getInstance().getSender(id);
+		return CiliaJarRepoService.getInstance().getSender(id);
 	}
 
 	public List<Port> getPorts() {

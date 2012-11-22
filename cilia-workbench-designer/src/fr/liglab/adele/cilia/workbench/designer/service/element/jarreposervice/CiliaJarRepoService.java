@@ -43,10 +43,10 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  * 
  * @author Etienne Gandrille
  */
-public class JarRepoService extends ComponentRepoService<CiliaJarFile, CiliaJarModel> implements ErrorsAndWarningsFinder, IRepoServiceListener {
+public class CiliaJarRepoService extends ComponentRepoService<CiliaJarFile, CiliaJarModel> implements ErrorsAndWarningsFinder, IRepoServiceListener {
 
 	/** Singleton instance */
-	private static JarRepoService INSTANCE;
+	private static CiliaJarRepoService INSTANCE;
 
 	/** The key used to search the repository path into the preferences store. */
 	private static String PREFERENCE_PATH_KEY = CiliaDesignerPreferencePage.JAR_REPOSITORY_PATH;
@@ -57,15 +57,15 @@ public class JarRepoService extends ComponentRepoService<CiliaJarFile, CiliaJarM
 	/** Repository Name */
 	private final static String repositoryName = "Jar repo service";
 
-	public static JarRepoService getInstance() {
+	public static CiliaJarRepoService getInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new JarRepoService();
+			INSTANCE = new CiliaJarRepoService();
 			INSTANCE.updateModel();
 		}
 		return INSTANCE;
 	}
 
-	private JarRepoService() {
+	private CiliaJarRepoService() {
 		super(PREFERENCE_PATH_KEY, ext, repositoryName);
 
 		SpecRepoService.getInstance().registerListener(this);

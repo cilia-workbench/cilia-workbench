@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentNatureAska
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**
@@ -47,7 +47,7 @@ public class NewMediatorDialog extends TextListDialog {
 		Map<String, Object> retval = new HashMap<String, Object>();
 
 		List<Mediator> list = new ArrayList<Mediator>();
-		list.addAll(JarRepoService.getInstance().getMediators());
+		list.addAll(CiliaJarRepoService.getInstance().getMediators());
 		list.addAll(SpecRepoService.getInstance().getMediatorSpecs());
 
 		for (Mediator m : list) {

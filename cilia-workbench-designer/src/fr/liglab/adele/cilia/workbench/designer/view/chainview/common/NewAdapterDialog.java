@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.TextListDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 
 /**
  * 
@@ -45,7 +45,7 @@ public class NewAdapterDialog extends TextListDialog {
 		Map<String, Object> retval = new HashMap<String, Object>();
 
 		List<Adapter> list = new ArrayList<Adapter>();
-		list.addAll(JarRepoService.getInstance().getAdapters());
+		list.addAll(CiliaJarRepoService.getInstance().getAdapters());
 		// list.addAll(SpecRepoService.getInstance().getAdapterSpecs());
 
 		for (Adapter a : list) {

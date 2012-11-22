@@ -19,7 +19,7 @@ import org.osgi.framework.BundleContext;
 
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**
@@ -41,7 +41,7 @@ public class Activator extends AbstractUIPlugin {
 
 		// loads repositories, for displaying markers
 		SpecRepoService.getInstance();
-		JarRepoService.getInstance();
+		CiliaJarRepoService.getInstance();
 		AbstractCompositionsRepoService.getInstance();
 		DSCiliaRepoService.getInstance();
 	}

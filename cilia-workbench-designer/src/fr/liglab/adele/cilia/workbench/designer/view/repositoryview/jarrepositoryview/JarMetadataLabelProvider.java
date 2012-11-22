@@ -19,7 +19,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CollectorImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem.RefMediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.SenderImplem;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 
 /**
  * 
@@ -29,7 +29,7 @@ public class JarMetadataLabelProvider extends CiliaLabelProvider {
 
 	@Override
 	protected GenericContentProvider getContentProvider() {
-		return JarRepoService.getInstance().getContentProvider();
+		return CiliaJarRepoService.getInstance().getContentProvider();
 	}
 
 	protected ImageDescriptorEnum personalizeImageDescriptor(Object obj) {

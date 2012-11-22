@@ -39,7 +39,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.SpecRepoService;
 
 /**
@@ -154,7 +154,7 @@ public class MediatorImplem extends Mediator {
 
 	public SchedulerImplem getScheduler() {
 		NameNamespaceID id = getSchedulerID();
-		return JarRepoService.getInstance().getScheduler(id);
+		return CiliaJarRepoService.getInstance().getScheduler(id);
 	}
 
 	public NameNamespaceID getProcessorID() {
@@ -163,7 +163,7 @@ public class MediatorImplem extends Mediator {
 
 	public ProcessorImplem getProcessor() {
 		NameNamespaceID id = getProcessorID();
-		return JarRepoService.getInstance().getProcessor(id);
+		return CiliaJarRepoService.getInstance().getProcessor(id);
 	}
 
 	public NameNamespaceID getDispatcherID() {
@@ -172,7 +172,7 @@ public class MediatorImplem extends Mediator {
 
 	public DispatcherImplem getDispatcher() {
 		NameNamespaceID id = getDispatcherID();
-		return JarRepoService.getInstance().getDispatcher(id);
+		return CiliaJarRepoService.getInstance().getDispatcher(id);
 	}
 
 	public CiliaFlag[] getErrorsAndWarnings() {

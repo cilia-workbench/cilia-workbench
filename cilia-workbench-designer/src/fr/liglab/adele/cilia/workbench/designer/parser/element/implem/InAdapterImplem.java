@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.parser.element.InAdapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 
 /**
  * 
@@ -76,7 +76,7 @@ public class InAdapterImplem extends InAdapter {
 
 	public CollectorImplem getCollector() {
 		String id = getCollectorID();
-		return JarRepoService.getInstance().getCollector(id);
+		return CiliaJarRepoService.getInstance().getCollector(id);
 	}
 
 	public List<Port> getPorts() {
