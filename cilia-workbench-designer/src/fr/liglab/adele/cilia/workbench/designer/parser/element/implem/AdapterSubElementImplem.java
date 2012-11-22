@@ -26,6 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
@@ -62,7 +63,7 @@ public abstract class AdapterSubElementImplem implements DisplayedInPropertiesVi
 
 	@Override
 	public String toString() {
-		return name;
+		return Strings.nullToEmpty(name);
 	}
 
 	@Override
