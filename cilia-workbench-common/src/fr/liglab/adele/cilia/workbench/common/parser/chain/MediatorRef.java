@@ -21,9 +21,9 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Processor;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Scheduler;
-import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 
 /**
  * 
@@ -31,11 +31,14 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition
  */
 public abstract class MediatorRef extends ComponentRef {
 
-	public MediatorRef(String id, NameNamespaceID referencedComponentID) {
-		super(id, referencedComponentID);
+	public MediatorRef(String componentID, NameNamespaceID referencedComponentID) {
+		super(componentID, referencedComponentID);
 	}
 
-	public abstract Mediator getReferencedComponent();
+	public Mediator getReferencedComponentDefinition() {
+		NameNamespaceID id = getReferencedComponentDefinitionID();
+		return componentRepo.getMediatorForChain(id);
+	}
 
 	// PARAMETERS
 	// ==========
@@ -48,11 +51,9 @@ public abstract class MediatorRef extends ComponentRef {
 
 	public abstract List<ParameterRef> getDispatcherParameters();
 
-	// Parameters definition, in referenced object
-
 	public List<? extends ParameterDefinition> getReferencedComponentSchedulerParameters() {
 
-		Mediator ro = getReferencedComponent();
+		Mediator ro = getReferencedComponentDefinition();
 		if (ro == null)
 			return null;
 
@@ -65,7 +66,7 @@ public abstract class MediatorRef extends ComponentRef {
 
 	public List<? extends ParameterDefinition> getReferencedComponentProcessorParameters() {
 
-		Mediator ro = getReferencedComponent();
+		Mediator ro = getReferencedComponentDefinition();
 		if (ro == null)
 			return null;
 
@@ -78,7 +79,7 @@ public abstract class MediatorRef extends ComponentRef {
 
 	public List<? extends ParameterDefinition> getReferencedComponentDispatcherParameters() {
 
-		Mediator ro = getReferencedComponent();
+		Mediator ro = getReferencedComponentDefinition();
 		if (ro == null)
 			return null;
 

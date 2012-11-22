@@ -14,17 +14,22 @@
  */
 package fr.liglab.adele.cilia.workbench.common.service;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
-
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class GenericRepoService<FileType extends AbstractFile<ModelType>, ModelType> extends AbstractRepoService<FileType, ModelType> {
+public abstract class ComponentRepoService<FileType extends AbstractFile<ModelType>, ModelType> extends AbstractRepoService<FileType, ModelType> {
 
-	protected GenericRepoService(String preferenceKey, String ext, String repoName) {
+	protected ComponentRepoService(String preferenceKey, String ext, String repoName) {
 		super(preferenceKey, ext, repoName);
 	}
 
+	public abstract Mediator getMediatorForChain(NameNamespaceID id);
+
+	public abstract Adapter getAdapterForChain(NameNamespaceID id);
 }

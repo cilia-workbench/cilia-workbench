@@ -32,6 +32,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLComponentRefHelper;
@@ -145,8 +146,8 @@ public class MediatorSpecRef extends MediatorRef {
 		list.addAll(checkParameters(dispatcherParameters, getReferencedComponentDispatcherParameters(), "dispatcher"));
 
 		// constraints
-		if (getReferencedComponent() != null) {
-			Mediator ro = getReferencedComponent();
+		if (getReferencedComponentDefinition() != null) {
+			Mediator ro = getReferencedComponentDefinition();
 
 			for (PropertyConstraint pc : constraints)
 				if (ro.getProperty(pc.getName()) == null)
@@ -185,7 +186,7 @@ public class MediatorSpecRef extends MediatorRef {
 
 	public List<PropertySpec> getPossibleConstraints() {
 
-		Mediator ro = getReferencedComponent();
+		Mediator ro = getReferencedComponentDefinition();
 		if (ro != null && ro instanceof MediatorSpec) {
 			MediatorSpec spec = (MediatorSpec) ro;
 			return spec.getProperties();
@@ -195,8 +196,7 @@ public class MediatorSpecRef extends MediatorRef {
 	}
 
 	@Override
-	public Mediator getReferencedComponent() {
-		NameNamespaceID id = getReferencedTypeID();
-		return SpecRepoService.getInstance().getMediatorForChain(id);
+	protected ComponentRepoService<?, ?> getComponentRepoService() {
+		return SpecRepoService.getInstance();
 	}
 }

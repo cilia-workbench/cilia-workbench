@@ -123,7 +123,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 			dstElemCombo.add(item.getId());
 		}
 		for (AdapterRef item : chain.getAdapters()) {
-			Adapter adapter = item.getReferencedComponent();
+			Adapter adapter = item.getReferencedComponentDefinition();
 			if (adapter == null) {
 				srcElemCombo.add(item.getId());
 				dstElemCombo.add(item.getId());
@@ -279,7 +279,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 
 			// adapter
 			if (i instanceof AdapterRef) {
-				Adapter adapter = ((AdapterRef) i).getReferencedComponent();
+				Adapter adapter = ((AdapterRef) i).getReferencedComponentDefinition();
 
 				if (portType.equals(DST_COLUMN_KEY)) {
 					for (Port port : ((OutAdapterImplem) adapter).getInPorts())
@@ -294,7 +294,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 
 			// mediator
 			if (i instanceof MediatorRef) {
-				Mediator mediator = ((MediatorRef) i).getReferencedComponent();
+				Mediator mediator = ((MediatorRef) i).getReferencedComponentDefinition();
 				if (portType.equals(DST_COLUMN_KEY)) {
 					for (Port port : mediator.getInPorts())
 						comboPort.add(port.getName());

@@ -25,13 +25,13 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLComponentRefHelper;
@@ -152,8 +152,7 @@ public class MediatorImplemRef extends MediatorRef {
 	}
 
 	@Override
-	public Mediator getReferencedComponent() {
-		NameNamespaceID id = getReferencedTypeID();
-		return JarRepoService.getInstance().getMediatorForChain(id);
+	protected ComponentRepoService<?, ?> getComponentRepoService() {
+		return JarRepoService.getInstance();
 	}
 }

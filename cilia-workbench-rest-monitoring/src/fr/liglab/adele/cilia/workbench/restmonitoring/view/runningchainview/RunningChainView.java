@@ -67,9 +67,6 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		if (viewer.getLabelProvider() != labelProvider)
 			viewer.setLabelProvider(labelProvider);
 
-		// TODO check this
-		// if (viewer.getContentProvider() != contentProvider)
-		// viewer.setContentProvider(contentProvider);
 		viewer.setContentProvider(new PlatformChainContentProvider(chain));
 
 		viewer.setInput(chain);

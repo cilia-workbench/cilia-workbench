@@ -19,9 +19,9 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLComponentRefHelper;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
@@ -37,20 +37,19 @@ public class AdapterImplemRef extends AdapterRef {
 
 	private final ChainRepoService<?, ?, ?> repo;
 
-	public AdapterImplemRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> repo) throws CiliaException {
+	public AdapterImplemRef(Node node, NameNamespaceID chainId, ChainRepoService<?, ?, ?> chainRepo) throws CiliaException {
 		super(XMLComponentRefHelper.getId(node), new NameNamespaceID(XMLComponentRefHelper.getType(node), XMLComponentRefHelper.getNamespace(node)));
 		this.chainId = chainId;
-		this.repo = repo;
-	}
-
-	@Override
-	public Adapter getReferencedComponent() {
-		NameNamespaceID id = getReferencedTypeID();
-		return JarRepoService.getInstance().getAdapterForChain(id);
+		this.repo = chainRepo;
 	}
 
 	@Override
 	public Chain getChain() {
 		return repo.findChain(chainId);
+	}
+
+	@Override
+	protected ComponentRepoService<?, ?> getComponentRepoService() {
+		return JarRepoService.getInstance();
 	}
 }

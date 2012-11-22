@@ -16,7 +16,6 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 
 /**
@@ -28,15 +27,5 @@ public class PlatformLabelProvider extends CiliaLabelProvider {
 	@Override
 	protected GenericContentProvider getContentProvider() {
 		return PlatformRepoService.getInstance().getContentProvider();
-	}
-
-	protected ImageDescriptorEnum personalizeImageDescriptor(Object obj) {
-		ImageDescriptorEnum imageName = null;
-
-		// TODO remove this as soon as PlatformChain extends chain
-		if (isCompatible(obj, PlatformChain.class))
-			imageName = ImageDescriptorEnum.CHAIN;
-
-		return imageName;
 	}
 }

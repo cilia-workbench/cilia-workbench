@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
-import fr.liglab.adele.cilia.workbench.common.service.GenericRepoService;
+import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
@@ -43,7 +43,7 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.specreposervice.
  * 
  * @author Etienne Gandrille
  */
-public class JarRepoService extends GenericRepoService<CiliaJarFile, CiliaJarModel> implements ErrorsAndWarningsFinder, IRepoServiceListener {
+public class JarRepoService extends ComponentRepoService<CiliaJarFile, CiliaJarModel> implements ErrorsAndWarningsFinder, IRepoServiceListener {
 
 	/** Singleton instance */
 	private static JarRepoService INSTANCE;

@@ -21,7 +21,7 @@ import java.util.List;
  * 
  * @author Etienne Gandrille
  */
-public abstract class Mediator extends Component {
+public abstract class Mediator extends ComponentDefinition {
 
 	public abstract List<? extends Property> getProperties();
 

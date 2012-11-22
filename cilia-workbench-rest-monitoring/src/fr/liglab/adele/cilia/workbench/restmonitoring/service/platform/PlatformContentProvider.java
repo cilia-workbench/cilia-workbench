@@ -16,10 +16,10 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.service.platform;
 
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.BindingInstance;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.MediatorInstance;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
@@ -42,13 +42,13 @@ public class PlatformContentProvider extends GenericContentProvider {
 				for (PlatformChain pc : model.getChains()) {
 					addRelationship(true, file, pc);
 
-					for (MediatorInstance mediator : pc.getMediators())
+					for (MediatorRef mediator : pc.getMediators())
 						addRelationship(false, pc, mediator);
 
-					for (Adapter adapter : pc.getAdapters())
+					for (AdapterRef adapter : pc.getAdapters())
 						addRelationship(false, pc, adapter);
 
-					for (BindingInstance binding : pc.getBindings())
+					for (Binding binding : pc.getBindings())
 						addRelationship(false, pc, binding);
 				}
 			}

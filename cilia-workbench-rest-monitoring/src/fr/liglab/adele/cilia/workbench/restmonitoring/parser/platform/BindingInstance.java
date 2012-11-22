@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 
 /**
  * 
@@ -27,27 +27,23 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
  */
 public class BindingInstance extends Binding {
 
-	public BindingInstance(JSONObject binding) throws CiliaException {
+	private final Chain chain;
+
+	public BindingInstance(JSONObject binding, Chain chain) throws CiliaException {
 		super(getJSONField(binding, "from"), getJSONField(binding, "to"));
+		this.chain = chain;
 	}
 
 	private static String getJSONField(JSONObject binding, String name) throws CiliaException {
 		try {
 			return (String) binding.get(name);
 		} catch (JSONException e) {
-			throw new CiliaException("Error while pasing binding field " + name, e);
+			return ""; // error reported by getErrorsAndWarnings...
 		}
 	}
 
 	@Override
-	public ComponentRef getSourceComponent() {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Not yet implemented");
-	}
-
-	@Override
-	public ComponentRef getDestinationComponent() {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Not yet implemented");
+	protected Chain getChain() {
+		return chain;
 	}
 }

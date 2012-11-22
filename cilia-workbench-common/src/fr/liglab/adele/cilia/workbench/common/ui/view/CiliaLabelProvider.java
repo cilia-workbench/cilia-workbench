@@ -89,8 +89,8 @@ public abstract class CiliaLabelProvider extends LabelProvider {
 			return ImageDescriptorEnum.ADAPTER_OUT;
 		if (isCompatible(obj, AdapterRef.class)) {
 			AdapterRef adapter = (AdapterRef) obj;
-			if (adapter.getReferencedComponent() != null) {
-				if (adapter.getReferencedComponent().getType() == AdapterType.IN)
+			if (adapter.getReferencedComponentDefinition() != null) {
+				if (adapter.getReferencedComponentDefinition().getType() == AdapterType.IN)
 					return ImageDescriptorEnum.ADAPTER_IN;
 				else
 					return ImageDescriptorEnum.ADAPTER_OUT;

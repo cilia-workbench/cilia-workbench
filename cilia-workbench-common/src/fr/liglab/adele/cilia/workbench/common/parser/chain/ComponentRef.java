@@ -24,11 +24,12 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Component;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
@@ -50,14 +51,20 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
 public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFinder, Mergeable, DisplayedInPropertiesView {
 
 	/** The component id, unique in the chain */
-	protected String id;
+	protected String componentID;
 
 	/** The referenced component ID */
 	private final NameNamespaceID referencedComponentID;
 
-	public ComponentRef(String id, NameNamespaceID referencedComponentID) {
-		this.id = id;
-		this.referencedComponentID = referencedComponentID;
+	protected final ComponentRepoService<?, ?> componentRepo;
+
+	public ComponentRef(String componentID, NameNamespaceID referencedComponentID) {
+		this.componentID = componentID;
+		if (referencedComponentID != null)
+			this.referencedComponentID = referencedComponentID;
+		else
+			this.referencedComponentID = new NameNamespaceID();
+		this.componentRepo = getComponentRepoService();
 	}
 
 	// CHAIN RELATIVE
@@ -65,45 +72,16 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 
 	public abstract Chain getChain();
 
-	public abstract Component getReferencedComponent();
+	protected abstract ComponentRepoService<?, ?> getComponentRepoService();
 
-	public NameNamespaceID getReferencedTypeID() {
+	// REFERENCED COMPONENT
+	// ====================
+
+	public NameNamespaceID getReferencedComponentDefinitionID() {
 		return referencedComponentID;
 	}
 
-	// MISC
-	// ====
-
-	@Override
-	public String getId() {
-		return id;
-	}
-
-	@Override
-	public String toString() {
-		return id;
-	}
-
-	@Override
-	public List<Changeset> merge(Object other) throws CiliaException {
-		List<Changeset> retval = new ArrayList<Changeset>();
-
-		ComponentRef newRef = (ComponentRef) other;
-
-		retval.addAll(MergeUtil.computeUpdateChangeset(newRef.getReferencedTypeID(), referencedComponentID, "name"));
-		retval.addAll(MergeUtil.computeUpdateChangeset(newRef.getReferencedTypeID(), referencedComponentID, "namespace"));
-
-		return retval;
-	}
-
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id, "id");
-		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, referencedComponentID.getName(), "type");
-		CiliaFlag e3 = CiliaWarning.checkStringNotNullOrEmpty(this, referencedComponentID.getNamespace(), "namespace");
-
-		return CiliaFlag.generateTab(e1, e2, e3);
-	}
+	public abstract ComponentDefinition getReferencedComponentDefinition();
 
 	// BINDINGS
 	// ========
@@ -112,9 +90,9 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 		List<Binding> retval = new ArrayList<Binding>();
 
 		for (Binding b : getChain().getBindings()) {
-			if (b.getDestinationId().equals(id))
+			if (b.getDestinationId().equals(componentID))
 				retval.add(b);
-			else if (b.getSourceId().equals(id))
+			else if (b.getSourceId().equals(componentID))
 				retval.add(b);
 		}
 
@@ -125,7 +103,7 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 		List<Binding> retval = new ArrayList<Binding>();
 
 		for (Binding b : getBindings()) {
-			if (b.getDestinationId().equals(id))
+			if (b.getDestinationId().equals(componentID))
 				retval.add(b);
 		}
 
@@ -136,7 +114,7 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 		List<Binding> retval = new ArrayList<Binding>();
 
 		for (Binding b : getBindings()) {
-			if (b.getSourceId().equals(id))
+			if (b.getSourceId().equals(componentID))
 				retval.add(b);
 		}
 
@@ -145,14 +123,14 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 
 	public Binding getIncommingBinding(ComponentRef source) {
 		for (Binding b : getIncommingBindings())
-			if (b.getSourceComponent() != null && b.getSourceComponent().equals(source))
+			if (b.getSourceComponentRef() != null && b.getSourceComponentRef().equals(source))
 				return b;
 		return null;
 	}
 
 	public Binding getOutgoingBinding(ComponentRef destination) {
 		for (Binding b : getOutgoingBindings())
-			if (b.getDestinationComponent() != null && b.getDestinationComponent().equals(destination))
+			if (b.getDestinationComponentRef() != null && b.getDestinationComponentRef().equals(destination))
 				return b;
 		return null;
 	}
@@ -161,20 +139,54 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 	// =====
 
 	public List<? extends Port> getPorts() {
-		if (getReferencedComponent() != null)
-			return getReferencedComponent().getPorts();
+		if (getReferencedComponentDefinition() != null)
+			return getReferencedComponentDefinition().getPorts();
 		return new ArrayList<Port>();
 	}
 
 	public List<InPort> getInPorts() {
-		if (getReferencedComponent() != null)
-			return getReferencedComponent().getInPorts();
+		if (getReferencedComponentDefinition() != null)
+			return getReferencedComponentDefinition().getInPorts();
 		return new ArrayList<InPort>();
 	}
 
 	public List<OutPort> getOutPorts() {
-		if (getReferencedComponent() != null)
-			return getReferencedComponent().getOutPorts();
+		if (getReferencedComponentDefinition() != null)
+			return getReferencedComponentDefinition().getOutPorts();
 		return new ArrayList<OutPort>();
+	}
+
+	// MISC
+	// ====
+
+	@Override
+	public String getId() {
+		return componentID;
+	}
+
+	@Override
+	public String toString() {
+		return componentID;
+	}
+
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
+		List<Changeset> retval = new ArrayList<Changeset>();
+
+		ComponentRef newRef = (ComponentRef) other;
+
+		retval.addAll(MergeUtil.computeUpdateChangeset(newRef.getReferencedComponentDefinitionID(), referencedComponentID, "name"));
+		retval.addAll(MergeUtil.computeUpdateChangeset(newRef.getReferencedComponentDefinitionID(), referencedComponentID, "namespace"));
+
+		return retval;
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, componentID, "id");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, referencedComponentID.getName(), "type");
+		CiliaFlag e3 = CiliaWarning.checkStringNotNullOrEmpty(this, referencedComponentID.getNamespace(), "namespace");
+
+		return CiliaFlag.generateTab(e1, e2, e3);
 	}
 }

@@ -23,6 +23,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 
 /**
@@ -50,7 +51,7 @@ public class PropertySource implements IPropertySource {
 
 		for (Field field : ReflectionUtil.getFields(modelObject)) {
 			Class<?> type = field.getType();
-			if (type.equals(String.class) || type.equals(NameNamespaceID.class)) {
+			if (type.equals(String.class) || type.equals(NameNamespaceID.class) || type.equals(PlatformID.class)) {
 				String name = field.getName();
 
 				if (isFieldDisplayed(name)) {
@@ -73,6 +74,12 @@ public class PropertySource implements IPropertySource {
 						PropertyDescriptor descriptor2 = new PropertyDescriptor(fieldID2, name.replaceAll("_", " ") + ":namespace");
 						descriptor2.setCategory(PROPERTIES_CATEGORY);
 						retval.add(descriptor2);
+
+					} else if (type.equals(PlatformID.class)) {
+						FieldID fieldID = new FieldID(name, null, type);
+						PropertyDescriptor descriptor = new PropertyDescriptor(fieldID, name.replaceAll("_", " "));
+						descriptor.setCategory(PROPERTIES_CATEGORY);
+						retval.add(descriptor);
 					}
 				}
 			}
@@ -127,6 +134,11 @@ public class PropertySource implements IPropertySource {
 			// getting value
 			if (fieldID.getType().equals(String.class)) {
 				return field.get(modelObject);
+
+			} else if (fieldID.getType().equals(PlatformID.class)) {
+				PlatformID platform = (PlatformID) field.get(modelObject);
+				return platform.toString();
+
 			} else if (fieldID.getType().equals(NameNamespaceID.class)) {
 				NameNamespaceID value = (NameNamespaceID) field.get(modelObject);
 				if (fieldID.getSubName().equals("name"))

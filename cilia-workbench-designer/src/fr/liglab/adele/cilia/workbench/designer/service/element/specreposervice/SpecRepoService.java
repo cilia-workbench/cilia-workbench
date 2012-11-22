@@ -23,8 +23,9 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
-import fr.liglab.adele.cilia.workbench.common.service.GenericRepoService;
+import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
@@ -35,7 +36,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecModel;
  * 
  * @author Etienne Gandrille
  */
-public class SpecRepoService extends GenericRepoService<SpecFile, SpecModel> implements ErrorsAndWarningsFinder {
+public class SpecRepoService extends ComponentRepoService<SpecFile, SpecModel> implements ErrorsAndWarningsFinder {
 
 	/** Singleton instance */
 	private static SpecRepoService INSTANCE;
@@ -223,6 +224,12 @@ public class SpecRepoService extends GenericRepoService<SpecFile, SpecModel> imp
 			if (spec.getId().getName().equals(id.getName()))
 				return spec;
 
+		return null;
+	}
+
+	@Override
+	public Adapter getAdapterForChain(NameNamespaceID id) {
+		// Apdapters spec are not yet implemented...
 		return null;
 	}
 }

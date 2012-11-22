@@ -18,7 +18,7 @@ package fr.liglab.adele.cilia.workbench.common.parser.element;
  * 
  * @author Etienne Gandrille
  */
-public abstract class Adapter extends Component {
+public abstract class Adapter extends ComponentDefinition {
 
 	public enum AdapterType {
 		IN, OUT;

@@ -21,10 +21,11 @@ import java.util.List;
 import org.json.JSONObject;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
-import fr.liglab.adele.cilia.workbench.common.service.GenericRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.restmonitoring.misc.preferencepage.RestMonitoringPreferencePage;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
@@ -36,7 +37,7 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
  * 
  * @author Etienne Gandrille
  */
-public class PlatformRepoService extends GenericRepoService<PlatformFile, PlatformModel> implements ErrorsAndWarningsFinder {
+public class PlatformRepoService extends AbstractRepoService<PlatformFile, PlatformModel> implements ErrorsAndWarningsFinder {
 
 	/** Singleton instance */
 	private static PlatformRepoService INSTANCE;
@@ -148,17 +149,16 @@ public class PlatformRepoService extends GenericRepoService<PlatformFile, Platfo
 
 		if (platform == null)
 			throw new CiliaException("Can't update model: Platform is null");
-		if (platform.isValid() != null)
-			throw new CiliaException("Can't update model: Platform is not valid (" + platform.isValid() + ")");
 
-		String host = platform.getHost();
-		int port = platform.getPort();
+		PlatformID platformID = platform.getPlatformID();
+		if (platformID.isValid() != null)
+			throw new CiliaException("Can't update model: Platform is not valid (" + platform.getPlatformID().isValid() + ")");
 
 		JSONObject json = null;
 		try {
-			json = CiliaRestHelper.getChainContent(host, port, chainName);
+			json = CiliaRestHelper.getChainContent(platformID, chainName);
 		} catch (CiliaException e) {
-			throw new CiliaException("Error while asking chain content for " + chainName + " to " + host + ":" + port, e);
+			throw new CiliaException("Error while asking chain content for " + chainName + " to " + platformID.toString(), e);
 		}
 
 		PlatformChain newChain = new PlatformChain(json, platform);

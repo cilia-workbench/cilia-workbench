@@ -28,7 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
  * 
  * @author Etienne Gandrille
  */
-public abstract class Component implements Identifiable, ComponentNatureAskable, DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public abstract class ComponentDefinition implements Identifiable, ComponentNatureAskable, DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	// PORTS
 	// =====

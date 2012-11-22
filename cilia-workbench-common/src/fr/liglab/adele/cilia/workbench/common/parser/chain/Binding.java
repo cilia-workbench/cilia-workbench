@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
@@ -40,6 +41,8 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		this.from = from;
 		this.to = to;
 	}
+
+	protected abstract Chain getChain();
 
 	public String getSource() {
 		return from;
@@ -65,9 +68,27 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		return XMLStringUtil.getAfterSeparatorOrNothing(to);
 	}
 
-	public abstract ComponentRef getSourceComponent();
+	public ComponentRef getSourceComponentRef() {
+		return getChain().getComponent(getSourceId());
+	}
 
-	public abstract ComponentRef getDestinationComponent();
+	public ComponentRef getDestinationComponentRef() {
+		return getChain().getComponent(getDestinationId());
+	}
+
+	public ComponentDefinition getSourceComponentDefinition() {
+		ComponentRef component = getSourceComponentRef();
+		if (component == null)
+			return null;
+		return component.getReferencedComponentDefinition();
+	}
+
+	public ComponentDefinition getDestinationComponentDefinition() {
+		ComponentRef component = getDestinationComponentRef();
+		if (component == null)
+			return null;
+		return component.getReferencedComponentDefinition();
+	}
 
 	@Override
 	public String toString() {

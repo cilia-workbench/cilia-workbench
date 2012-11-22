@@ -18,60 +18,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
-import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.parser.element.OutAdapter;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
-import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
+import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
+import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.JarRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class OutAdapterInstance extends OutAdapter implements Mergeable {
+public class AdapterInstanceRef extends AdapterRef {
 
-	private final String name;
+	private PlatformChain chain;
 
-	public OutAdapterInstance(String name) {
-		this.name = name;
+	public AdapterInstanceRef(String adapterID, NameNamespaceID adapterTypeID, PlatformChain chain) {
+		super(adapterID, adapterTypeID);
+		this.chain = chain;
 	}
 
 	@Override
-	public Object getId() {
-		return name;
-	}
-
-	public String getName() {
-		return name;
+	public Chain getChain() {
+		return chain;
 	}
 
 	@Override
-	public ComponentNature getNature() {
-		return ComponentNature.INSTANCE;
-	}
-
-	@Override
-	public List<? extends Port> getPorts() {
-		// TODO NOT YET IMPLEMENTED
-		return new ArrayList<Port>();
-	}
-
-	@Override
-	public String toString() {
-		return name;
+	protected ComponentRepoService<?, ?> getComponentRepoService() {
+		return JarRepoService.getInstance();
 	}
 
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
 		return new ArrayList<Changeset>();
-	}
-
-	@Override
-	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] tab = super.getErrorsAndWarnings();
-
-		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
-		return CiliaFlag.generateTab(tab, e1);
 	}
 }

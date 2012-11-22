@@ -15,4 +15,5 @@ Require-Bundle: org.eclipse.ui,
  fr.liglab.adele.cilia.workbench.common;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: fr.liglab.adele.cilia.workbench.designer.view.chainview.common
+Export-Package: fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice,
+ fr.liglab.adele.cilia.workbench.designer.view.chainview.common

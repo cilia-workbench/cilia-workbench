@@ -22,11 +22,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
@@ -42,8 +42,7 @@ public class PlatformModel extends AbstractModel implements Mergeable, ErrorsAnd
 
 	public static final String ROOT_NODE_NAME = "cilia-platform";
 
-	private String host;
-	private String port;
+	private PlatformID platformID;
 
 	private List<PlatformChain> chains = new ArrayList<PlatformChain>();
 
@@ -56,17 +55,11 @@ public class PlatformModel extends AbstractModel implements Mergeable, ErrorsAnd
 
 		Document document = XMLHelpers.getDocument(file);
 		Node root = getRootNode(document);
-
-		ReflectionUtil.setAttribute(root, "host", this, "host");
-		ReflectionUtil.setAttribute(root, "port", this, "port");
+		platformID = new PlatformID(root);
 	}
 
-	public String getHost() {
-		return host;
-	}
-
-	public int getPort() {
-		return Integer.valueOf(port);
+	public PlatformID getPlatformID() {
+		return platformID;
 	}
 
 	public PlatformFile getPlatformFile() {
@@ -78,9 +71,10 @@ public class PlatformModel extends AbstractModel implements Mergeable, ErrorsAnd
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		PlatformModel newInstance = (PlatformModel) other;
 
-		retval.addAll(MergeUtil.computeUpdateChangeset(newInstance, this, "host", "port"));
+		// ON UPDATE : be careful with next line...
+		retval.addAll(MergeUtil.computeUpdateChangeset(newInstance.getPlatformID(), platformID, "host", "port"));
 		// if host or port change, we need to remove all chains (because
-		// platform target changed...)
+		// target platform changed...)
 		if (retval.size() != 0) {
 			for (PlatformChain chain : chains)
 				retval.add(new Changeset(Operation.REMOVE, chain));
@@ -132,48 +126,15 @@ public class PlatformModel extends AbstractModel implements Mergeable, ErrorsAnd
 		return null;
 	}
 
-	public static String hostValidator(String host) {
-		if (host.isEmpty())
-			return "Host can't be empty";
-		return null;
-	}
-
-	public static String portValidator(String port) {
-		if (port.isEmpty())
-			return "Port can't be empty";
-
-		try {
-			Integer portValue = Integer.valueOf(port);
-			if (portValue < 10 || portValue > 65535)
-				return "Wrong port number";
-		} catch (NumberFormatException e) {
-			return "Wrong port format";
-		}
-
-		return null;
-	}
-
-	public String isValid() {
-		if (hostValidator(host) != null)
-			return hostValidator(host);
-		if (portValidator(port) != null)
-			return portValidator(port);
-		return null;
-	}
-
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-
 		CiliaFlag e1 = null;
-		CiliaFlag e2 = null;
-
-		if (hostValidator(host) != null)
-			e1 = new CiliaError(hostValidator(host), this);
-		if (portValidator(port) != null)
-			e1 = new CiliaError(portValidator(port), this);
 
 		List<CiliaFlag> list = IdentifiableUtils.getErrorsNonUniqueId(this, chains);
 
-		return CiliaFlag.generateTab(list, e1, e2);
+		if (platformID.isValid() != null)
+			e1 = new CiliaError(platformID.isValid(), this);
+
+		return CiliaFlag.generateTab(list, e1);
 	}
 }

@@ -19,30 +19,25 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Component;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
+import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
+import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class Chain implements Identifiable {
+public abstract class Chain implements DisplayedInPropertiesView, Identifiable, ErrorsAndWarningsFinder, Mergeable {
 
-	public abstract List<? extends AdapterRef> getAdapters();
-
-	public abstract List<? extends MediatorRef> getMediators();
-
-	public abstract List<? extends Binding> getBindings();
-
-	/**
-	 * Finds the {@link Component} referenced by the chain component with id
-	 * given into parameter. If the component can't be located, throws an
-	 * exception containing an error message.
-	 * 
-	 * @param componentID
-	 * @return
-	 * @throws CiliaException
-	 */
-	public abstract Component getReferencedComponent(String componentID) throws CiliaException;
+	protected List<AdapterRef> adapters = new ArrayList<AdapterRef>();
+	protected List<MediatorRef> mediators = new ArrayList<MediatorRef>();
+	protected List<Binding> bindings = new ArrayList<Binding>();
 
 	public ComponentRef getComponent(String componentId) {
 		for (AdapterRef adapter : getAdapters())
@@ -54,6 +49,39 @@ public abstract class Chain implements Identifiable {
 		return null;
 	}
 
+	/**
+	 * Finds the {@link ComponentDefinition} referenced by the chain component with id
+	 * given into parameter. If the component can't be located, throws an
+	 * exception containing an error message.
+	 * 
+	 * @param componentID
+	 * @return
+	 * @throws CiliaException
+	 */
+	public ComponentDefinition getReferencedComponent(String componentID) throws CiliaException {
+
+		if (Strings.isNullOrEmpty(componentID))
+			throw new CiliaException("id is null or empty");
+
+		ComponentRef component = getComponent(componentID);
+		if (component == null)
+			throw new CiliaException("can't find component with id " + componentID);
+
+		return component.getReferencedComponentDefinition();
+	}
+
+	public List<AdapterRef> getAdapters() {
+		return adapters;
+	}
+
+	public List<MediatorRef> getMediators() {
+		return mediators;
+	}
+
+	public List<Binding> getBindings() {
+		return bindings;
+	}
+
 	public ComponentRef[] getComponents() {
 		List<ComponentRef> retval = new ArrayList<ComponentRef>();
 		for (AdapterRef adapter : getAdapters())
@@ -61,5 +89,49 @@ public abstract class Chain implements Identifiable {
 		for (MediatorRef mediator : getMediators())
 			retval.add(mediator);
 		return retval.toArray(new ComponentRef[0]);
+	}
+
+	public List<Binding> getIncomingBindings(String element) {
+		List<Binding> retval = new ArrayList<Binding>();
+
+		for (Binding binding : getBindings()) {
+			if (binding.getDestinationId().equals(element))
+				retval.add(binding);
+		}
+
+		return retval;
+	}
+
+	public List<Binding> getOutgoingBindings(String element) {
+		List<Binding> retval = new ArrayList<Binding>();
+
+		for (Binding binding : getBindings()) {
+			if (binding.getSourceId().equals(element))
+				retval.add(binding);
+		}
+
+		return retval;
+	}
+
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
+		List<Changeset> retval = new ArrayList<Changeset>();
+		Chain newInstance = (Chain) other;
+
+		retval.addAll(MergeUtil.mergeLists(newInstance.getAdapters(), adapters));
+		retval.addAll(MergeUtil.mergeLists(newInstance.getMediators(), mediators));
+		retval.addAll(MergeUtil.mergeLists(newInstance.getBindings(), bindings));
+
+		for (Changeset c : retval)
+			c.pushPathElement(this);
+
+		return retval;
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		List<CiliaFlag> list = IdentifiableUtils.getErrorsNonUniqueId(this, getComponents());
+
+		return CiliaFlag.generateTab(list);
 	}
 }

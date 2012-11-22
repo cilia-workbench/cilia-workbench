@@ -19,6 +19,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
@@ -51,19 +52,18 @@ public class FetchChainListHandler extends PlatformViewHandler {
 			return null;
 		}
 
-		if (model.isValid() != null) {
-			MessageDialog.openError(ViewUtil.getShell(event), "Error", model.isValid());
+		PlatformID platformID = model.getPlatformID();
+
+		if (platformID.isValid() != null) {
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", platformID.isValid());
 			return null;
 		}
-
-		String host = model.getHost();
-		int port = model.getPort();
 
 		// REST
 		// ====
 		String[] chains;
 		try {
-			chains = CiliaRestHelper.getChainsList(host, Integer.valueOf(port));
+			chains = CiliaRestHelper.getChainsList(platformID);
 		} catch (CiliaException e) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", e.getMessage());
 			return null;

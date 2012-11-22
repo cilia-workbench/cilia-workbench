@@ -20,26 +20,17 @@ import java.util.List;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
-import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Component;
-import fr.liglab.adele.cilia.workbench.common.service.Changeset;
-import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
-import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.AdapterImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.MediatorImplemRef;
@@ -50,7 +41,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.chainview.common.GraphDrawa
  * 
  * @author Etienne Gandrille
  */
-public abstract class XMLChain extends Chain implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Mergeable, GraphDrawable, Identifiable {
+public abstract class XMLChain extends Chain implements GraphDrawable {
 
 	public static final String XML_NODE_NAME = "chain";
 
@@ -62,10 +53,6 @@ public abstract class XMLChain extends Chain implements DisplayedInPropertiesVie
 	public static final String XML_ROOT_BINDINGS_NAME = "bindings";
 
 	protected NameNamespaceID id = new NameNamespaceID();
-
-	protected List<AdapterRef> adapters = new ArrayList<AdapterRef>();
-	protected List<MediatorRef> mediators = new ArrayList<MediatorRef>();
-	protected List<XMLBinding> bindings = new ArrayList<XMLBinding>();
 
 	public XMLChain(Node node, String mediatorXMLNodeName, String adapterXMLNodeName) throws CiliaException {
 		ReflectionUtil.setAttribute(node, XML_ATTR_ID, id, "name");
@@ -116,19 +103,7 @@ public abstract class XMLChain extends Chain implements DisplayedInPropertiesVie
 
 	protected abstract ChainRepoService<?, ?, ?> getRepository();
 
-	public List<AdapterRef> getAdapters() {
-		return adapters;
-	}
-
-	public List<MediatorRef> getMediators() {
-		return mediators;
-	}
-
 	public abstract XMLBinding createBinding(Node node, NameNamespaceID chainId) throws CiliaException;
-
-	public List<XMLBinding> getBindings() {
-		return bindings;
-	}
 
 	@Override
 	public Object[] getElements() {
@@ -150,31 +125,10 @@ public abstract class XMLChain extends Chain implements DisplayedInPropertiesVie
 		return message;
 	}
 
-	/**
-	 * Finds the {@link Component} referenced by the chain component with id
-	 * given into parameter. If the component can't be located, throws an
-	 * exception containing an error message.
-	 * 
-	 * @param componentID
-	 * @return
-	 * @throws CiliaException
-	 */
-	public Component getReferencedComponent(String componentID) throws CiliaException {
-
-		if (Strings.isNullOrEmpty(componentID))
-			throw new CiliaException("id is null or empty");
-
-		ComponentRef component = getComponent(componentID);
-		if (component == null)
-			throw new CiliaException("can't find component with id " + componentID);
-
-		return component.getReferencedComponent();
-	}
-
 	public String isNewBindingAllowed(String srcElem, String srcPort, String dstElem, String dstPort) {
 
-		Component src;
-		Component dst;
+		ComponentDefinition src;
+		ComponentDefinition dst;
 		if (srcElem.equalsIgnoreCase(dstElem))
 			return "Source and destination can't be the same";
 
@@ -207,32 +161,19 @@ public abstract class XMLChain extends Chain implements DisplayedInPropertiesVie
 	}
 
 	@Override
-	public List<Changeset> merge(Object other) throws CiliaException {
-		List<Changeset> retval = new ArrayList<Changeset>();
-		XMLChain newInstance = (XMLChain) other;
-
-		retval.addAll(MergeUtil.mergeLists(newInstance.getAdapters(), adapters));
-		retval.addAll(MergeUtil.mergeLists(newInstance.getMediators(), mediators));
-		retval.addAll(MergeUtil.mergeLists(newInstance.getBindings(), bindings));
-
-		for (Changeset c : retval)
-			c.pushPathElement(this);
-
-		return retval;
-	}
-
-	@Override
 	public String toString() {
 		return getName();
 	}
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		List<CiliaFlag> list = IdentifiableUtils.getErrorsNonUniqueId(this, getComponents());
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
 
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id.getName(), "name");
 		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, id.getNamespace(), "namespace");
 
+		// In the future, move this to chain Class ?
+		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
 		for (ComponentRef c : getComponents()) {
 			try {
 				getReferencedComponent(c.getId());
@@ -241,6 +182,6 @@ public abstract class XMLChain extends Chain implements DisplayedInPropertiesVie
 			}
 		}
 
-		return CiliaFlag.generateTab(list, e1, e2);
+		return CiliaFlag.generateTab(tab, list.toArray(new CiliaFlag[0]), e1, e2);
 	}
 }

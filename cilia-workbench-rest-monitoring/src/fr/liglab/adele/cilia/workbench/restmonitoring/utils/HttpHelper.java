@@ -23,6 +23,7 @@ import org.apache.http.impl.DefaultHttpClientConnection;
 import org.apache.http.protocol.HttpRequestExecutor;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 
 /**
  * 
@@ -35,19 +36,18 @@ public class HttpHelper {
 	HttpRequestExecutor httpexecutor = new HttpRequestExecutor();
 	DefaultHttpClientConnection conn = new DefaultHttpClientConnection();
 	ConnectionReuseStrategy connStrategy = new DefaultConnectionReuseStrategy();
-	
-	public HttpHelper(String host, int port) {
-		this.host = new HttpHost(host, port);
+
+	public HttpHelper(PlatformID platformID) {
+		this.host = new HttpHost(platformID.getHost(), platformID.getPort());
 	}
-	
+
 	public HttpResquestResult get(String target) throws CiliaException {
 		if (conn != null)
 			return HttpSimpleAPI.getInstance().httpRequest(conn, host, httpexecutor, connStrategy, "GET", target);
 		else
 			throw new CiliaException("Connexion is closed!");
 	}
-	
-	
+
 	public void close() throws CiliaException {
 		try {
 			conn.close();
@@ -55,6 +55,6 @@ public class HttpHelper {
 		} catch (IOException e) {
 			conn = null;
 			throw new CiliaException("Error while closing connexion!");
-		}		
+		}
 	}
 }

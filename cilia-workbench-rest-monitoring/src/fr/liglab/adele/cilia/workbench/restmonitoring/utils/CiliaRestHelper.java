@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 
 /**
  * 
@@ -29,9 +30,9 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
  */
 public class CiliaRestHelper {
 
-	public static String[] getChainsList(String hostname, int port) throws CiliaException {
+	public static String[] getChainsList(PlatformID platformID) throws CiliaException {
 
-		HttpResquestResult response = get(hostname, port, "/cilia");
+		HttpResquestResult response = get(platformID, "/cilia");
 
 		String json = response.getMessage();
 		List<String> retval = new ArrayList<String>();
@@ -50,9 +51,9 @@ public class CiliaRestHelper {
 		return retval.toArray(new String[0]);
 	}
 
-	public static JSONObject getChainContent(String hostname, int port, String chainName) throws CiliaException {
+	public static JSONObject getChainContent(PlatformID platformID, String chainName) throws CiliaException {
 
-		HttpResquestResult response = get(hostname, port, "/cilia" + "/" + chainName);
+		HttpResquestResult response = get(platformID, "/cilia" + "/" + chainName);
 
 		String json = response.getMessage();
 
@@ -64,14 +65,14 @@ public class CiliaRestHelper {
 		}
 	}
 
-	private static HttpResquestResult get(String hostname, int port, String url) throws CiliaException {
-		HttpHelper http = new HttpHelper(hostname, port);
+	private static HttpResquestResult get(PlatformID platformID, String url) throws CiliaException {
+		HttpHelper http = new HttpHelper(platformID);
 		HttpResquestResult result = null;
 
 		try {
 			result = http.get(url);
 		} catch (CiliaException e) {
-			String message = "Can't join " + hostname + ":" + port;
+			String message = "Can't join " + platformID.toString();
 			throw new CiliaException(message, e);
 		}
 

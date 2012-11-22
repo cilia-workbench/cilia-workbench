@@ -18,6 +18,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 
 /**
  * 
@@ -25,11 +26,21 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
  */
 public abstract class AdapterRef extends ComponentRef {
 
-	public AdapterRef(String id, NameNamespaceID referencedComponentID) {
-		super(id, referencedComponentID);
+	public AdapterRef(String componentID, NameNamespaceID referencedComponentID) {
+		super(componentID, referencedComponentID);
 	}
 
-	public abstract Adapter getReferencedComponent();
+	public Adapter getReferencedComponentDefinition() {
+		NameNamespaceID id = getReferencedComponentDefinitionID();
+		return componentRepo.getAdapterForChain(id);
+	}
+
+	public AdapterType getType() {
+		if (getReferencedComponentDefinition() != null)
+			return getReferencedComponentDefinition().getType();
+		else
+			return null;
+	}
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
@@ -38,10 +49,9 @@ public abstract class AdapterRef extends ComponentRef {
 		CiliaError e1 = null;
 		CiliaError e2 = null;
 
-		if (getReferencedComponent() != null) {
-			Adapter target = getReferencedComponent();
+		if (getType() != null) {
 
-			switch (target.getType()) {
+			switch (getType()) {
 			case IN:
 				if (getIncommingBindings().length != 0)
 					e1 = new CiliaError(this + " shouldn't have an incomming binding", this);

@@ -50,7 +50,7 @@ public class AbstractChainContentProvider implements IStructuredContentProvider,
 			ComponentRef component = (ComponentRef) entity;
 			Binding[] bindings = component.getOutgoingBindings();
 			for (Binding binding : bindings) {
-				ComponentRef ro = binding.getDestinationComponent();
+				ComponentRef ro = binding.getDestinationComponentRef();
 				if (ro != null)
 					retval.add(ro);
 			}
