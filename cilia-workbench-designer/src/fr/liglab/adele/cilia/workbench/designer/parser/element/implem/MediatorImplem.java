@@ -30,6 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentPart;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
@@ -266,7 +267,7 @@ public class MediatorImplem extends Mediator {
 
 		@Override
 		public String toString() {
-			return id.getName();
+			return Strings.nullToEmpty(id.getName());
 		}
 
 		@Override
