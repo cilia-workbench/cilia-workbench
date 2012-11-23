@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.Viewer;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 
 /**
  * Base abstract class for implementing content providers. A ContentProvider
@@ -196,7 +197,7 @@ public abstract class GenericContentProvider implements ITreeContentProvider {
 
 		@Override
 		public String toString() {
-			return displayName;
+			return Strings.nullToEmpty(displayName);
 		}
 
 		public Class<?> getFakeClass() {

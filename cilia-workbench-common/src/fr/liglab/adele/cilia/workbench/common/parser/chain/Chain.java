@@ -32,6 +32,10 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphDrawable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
+ * Base class for implementing chains (DSCilia, abstract, running,...)
+ * 
+ * A chain has a name, and contains {@link MediatorRef}, {@link AdapterRef} and
+ * {@link Binding}.
  * 
  * @author Etienne Gandrille
  */
@@ -47,15 +51,40 @@ public abstract class Chain implements DisplayedInPropertiesView, Identifiable, 
 		this.name = name;
 	}
 
-	public ComponentRef getComponent(String componentId) {
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	// COMPONENT REF
+	// =============
+
+	public List<AdapterRef> getAdapters() {
+		return adapters;
+	}
+
+	public List<MediatorRef> getMediators() {
+		return mediators;
+	}
+
+	public ComponentRef[] getComponents() {
+		List<ComponentRef> retval = new ArrayList<ComponentRef>();
 		for (AdapterRef adapter : getAdapters())
-			if (adapter.getId().equals(componentId))
-				return adapter;
+			retval.add(adapter);
 		for (MediatorRef mediator : getMediators())
-			if (mediator.getId().equals(componentId))
-				return mediator;
+			retval.add(mediator);
+		return retval.toArray(new ComponentRef[0]);
+	}
+
+	public ComponentRef getComponent(String componentId) {
+		for (ComponentRef component : getComponents())
+			if (component.getId().equals(componentId))
+				return component;
 		return null;
 	}
+
+	// COMPONENT REFERENCED BY A COMPONENT REF
+	// =======================================
 
 	/**
 	 * Finds the {@link ComponentDefinition} referenced by the chain component
@@ -78,25 +107,11 @@ public abstract class Chain implements DisplayedInPropertiesView, Identifiable, 
 		return component.getReferencedComponentDefinition();
 	}
 
-	public List<AdapterRef> getAdapters() {
-		return adapters;
-	}
-
-	public List<MediatorRef> getMediators() {
-		return mediators;
-	}
+	// BINDINGS
+	// ========
 
 	public List<Binding> getBindings() {
 		return bindings;
-	}
-
-	public ComponentRef[] getComponents() {
-		List<ComponentRef> retval = new ArrayList<ComponentRef>();
-		for (AdapterRef adapter : getAdapters())
-			retval.add(adapter);
-		for (MediatorRef mediator : getMediators())
-			retval.add(mediator);
-		return retval.toArray(new ComponentRef[0]);
 	}
 
 	public List<Binding> getIncomingBindings(String element) {
@@ -121,14 +136,13 @@ public abstract class Chain implements DisplayedInPropertiesView, Identifiable, 
 		return retval;
 	}
 
+	// MISC
+	// ====
+
+	// used by GraphDrawable interface
 	@Override
 	public Object[] getElements() {
 		return getComponents();
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	@Override

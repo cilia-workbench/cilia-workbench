@@ -21,15 +21,12 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 
 /**
- * Represents a port, in or out. It can be a spec or an implementation.
+ * Represents a port, in or out. It can be relative to a spec or an
+ * implementation.
  * 
  * @author Etienne Gandrille
  */
 public abstract class Port implements Identifiable, ErrorsAndWarningsFinder {
-
-	public enum PortNature {
-		IN, OUT;
-	}
 
 	private String name;
 
@@ -37,9 +34,11 @@ public abstract class Port implements Identifiable, ErrorsAndWarningsFinder {
 		return name;
 	}
 
-	@Override
-	public String toString() {
-		return Strings.nullToEmpty(name);
+	// PORT NATURE
+	// ===========
+
+	public enum PortNature {
+		IN, OUT;
 	}
 
 	/**
@@ -48,6 +47,14 @@ public abstract class Port implements Identifiable, ErrorsAndWarningsFinder {
 	 * @return the {@link PortNature}
 	 */
 	public abstract PortNature getNature();
+
+	// MISC
+	// ====
+
+	@Override
+	public String toString() {
+		return Strings.nullToEmpty(name);
+	}
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {

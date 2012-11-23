@@ -29,10 +29,12 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.Port.PortNature;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
+ * Describes component a type, which can be a specification or an
+ * implementation.
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentDefinition implements Identifiable, ComponentNatureAskable, DisplayedInPropertiesView, ErrorsAndWarningsFinder {
+public abstract class ComponentDefinition implements Identifiable, DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	private final NameNamespaceID id;
 
@@ -95,6 +97,37 @@ public abstract class ComponentDefinition implements Identifiable, ComponentNatu
 				return true;
 
 		return false;
+	}
+
+	// COMPONENT NATURE
+	// ================
+
+	/**
+	 * Ask the object nature : specification or implementation.
+	 * 
+	 * @return the object nature.
+	 */
+	public abstract ComponentNature getNature();
+
+	public enum ComponentNature {
+
+		SPEC("spec", "specification"), IMPLEM("implem", "implementation");
+
+		private String shortName;
+		private String longName;
+
+		ComponentNature(String shortName, String longName) {
+			this.shortName = shortName;
+			this.longName = longName;
+		}
+
+		public String getShortName() {
+			return shortName;
+		}
+
+		public String getLongName() {
+			return longName;
+		}
 	}
 
 	// MISC

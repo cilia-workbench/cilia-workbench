@@ -69,7 +69,7 @@ public final class NameNamespaceID {
 
 	@Override
 	public String toString() {
-		return name;
+		return Strings.nullToEmpty(name);
 	}
 
 	/**

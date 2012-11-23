@@ -31,10 +31,12 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
+ * Represents an adapter content. Because in and out adapters have different
+ * internal structures, this class is intented to be subclassed.
  * 
  * @author Etienne Gandrille
  */
-public abstract class AdapterSubElementImplem implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
+public abstract class AdapterPartImplem implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
 	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_CLASSNAME = "classname";
@@ -43,7 +45,7 @@ public abstract class AdapterSubElementImplem implements DisplayedInPropertiesVi
 	private String classname;
 	private ParameterListImplem parameters;
 
-	public AdapterSubElementImplem(Node node) throws CiliaException {
+	public AdapterPartImplem(Node node) throws CiliaException {
 		parameters = new ParameterListImplem(node);
 		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
 		ReflectionUtil.setAttribute(node, XML_ATTR_CLASSNAME, this, "classname");

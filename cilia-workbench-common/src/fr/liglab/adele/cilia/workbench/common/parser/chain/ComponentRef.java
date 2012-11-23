@@ -40,7 +40,8 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
  * node (Adapter) or an in-chain node (mediator). The component can be an
  * implementation or a specification.
  * 
- * There is an IMPORTANT distinction between Component and ComponentRef
+ * There is an IMPORTANT distinction between ComponentDefinition and
+ * ComponentRef
  * <ul>
  * <li>A component is a specification or an implementation.</li>
  * <li>A component ref reference a specification or an implementation. It's NOT
@@ -57,7 +58,11 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 	/** The referenced component ID */
 	private final NameNamespaceID referencedComponentID;
 
+	/** Repository used to find the component from this componentRef */
 	protected final ComponentRepoService<?, ?> componentRepo;
+
+	// CONSTRUCTOR
+	// ===========
 
 	public ComponentRef(String componentID, NameNamespaceID referencedComponentID) {
 		this.componentID = componentID;
@@ -68,7 +73,7 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 		this.componentRepo = getComponentRepoService();
 	}
 
-	// CHAIN RELATIVE
+	// RELATIVE CHAIN
 	// ==============
 
 	public abstract Chain getChain();

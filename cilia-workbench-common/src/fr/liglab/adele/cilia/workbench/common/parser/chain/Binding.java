@@ -44,6 +44,9 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 
 	protected abstract Chain getChain();
 
+	// BASE LEVEL INFORMATION
+	// ======================
+
 	public String getSource() {
 		return from;
 	}
@@ -68,6 +71,9 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		return XMLStringUtil.getAfterSeparatorOrNothing(to);
 	}
 
+	// COMPONENTREF, POINTED BY THIS BINDING, IN THE CHAIN
+	// ===================================================
+
 	public ComponentRef getSourceComponentRef() {
 		return getChain().getComponent(getSourceId());
 	}
@@ -75,6 +81,9 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 	public ComponentRef getDestinationComponentRef() {
 		return getChain().getComponent(getDestinationId());
 	}
+
+	// COMPONENTDEFINITION, POINTED BY COMPONENTREF
+	// ============================================
 
 	public ComponentDefinition getSourceComponentDefinition() {
 		ComponentRef component = getSourceComponentRef();
@@ -90,13 +99,16 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 		return component.getReferencedComponentDefinition();
 	}
 
+	// MISC
+	// ====
+
 	@Override
-	public String toString() {
+	public Object getId() {
 		return from + " - " + to;
 	}
 
 	@Override
-	public Object getId() {
+	public String toString() {
 		return from + " - " + to;
 	}
 

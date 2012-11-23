@@ -22,7 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
  * 
  * @author Etienne Gandrille
  */
-public class SenderImplem extends AdapterSubElementImplem {
+public class SenderImplem extends AdapterPartImplem {
 
 	public static final String XML_NODE_NAME = "sender";
 

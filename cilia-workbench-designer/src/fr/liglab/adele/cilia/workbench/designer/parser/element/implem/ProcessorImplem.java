@@ -18,6 +18,7 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Processor;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesViewWithForward;
 
@@ -43,7 +44,7 @@ public class ProcessorImplem extends Processor implements DisplayedInPropertiesV
 
 	@Override
 	public String toString() {
-		return id.toString();
+		return Strings.nullToEmpty(id.toString());
 	}
 
 	@Override

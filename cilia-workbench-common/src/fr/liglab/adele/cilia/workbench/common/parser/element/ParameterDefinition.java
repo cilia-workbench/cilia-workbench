@@ -30,12 +30,12 @@ public abstract class ParameterDefinition implements ErrorsAndWarningsFinder, Id
 
 	private String name;
 
-	@Override
-	public Object getId() {
+	public String getName() {
 		return name;
 	}
 
-	public String getName() {
+	@Override
+	public Object getId() {
 		return name;
 	}
 

@@ -31,7 +31,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
-import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentPart;
+import fr.liglab.adele.cilia.workbench.common.parser.element.MediatorPart;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
@@ -215,7 +215,7 @@ public class MediatorImplem extends Mediator {
 		return flagsTab;
 	}
 
-	private static List<CiliaFlag> checkParameters(String specName, ComponentPart spec, ComponentPart implem, String elementTypeName) {
+	private static List<CiliaFlag> checkParameters(String specName, MediatorPart spec, MediatorPart implem, String elementTypeName) {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
 		if (spec != null) {
@@ -246,7 +246,7 @@ public class MediatorImplem extends Mediator {
 
 	/**
 	 * An object, which can give a pointer (which can be null...) to a
-	 * Specification. Used for display purpose using a label provider.
+	 * Specification.
 	 */
 	public class RefMediatorSpec implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 

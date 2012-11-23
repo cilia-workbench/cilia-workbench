@@ -25,15 +25,15 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 
 /**
- * Base interface for implementing IScheduler, IProcessor, IDispatcher.
+ * Base class for implementing mediator internal structures.
  * 
  * @author Etienne Gandrille
  */
-public abstract class ComponentPart implements ErrorsAndWarningsFinder, DisplayedInPropertiesView, Mergeable {
+public abstract class MediatorPart implements ErrorsAndWarningsFinder, DisplayedInPropertiesView, Mergeable {
 
 	protected final ParameterList parameters;
 
-	public ComponentPart(ParameterList parameters) {
+	public MediatorPart(ParameterList parameters) {
 		this.parameters = parameters;
 	}
 
@@ -46,7 +46,7 @@ public abstract class ComponentPart implements ErrorsAndWarningsFinder, Displaye
 	}
 
 	public List<Changeset> merge(Object newInstance) throws CiliaException {
-		List<ParameterDefinition> newList = ((ComponentPart) newInstance).getParameters();
+		List<ParameterDefinition> newList = ((MediatorPart) newInstance).getParameters();
 		return MergeUtil.mergeLists(newList, parameters.getParameters());
 	}
 

@@ -19,7 +19,7 @@ package fr.liglab.adele.cilia.workbench.common.parser.element;
  * 
  * @author Etienne Gandrille
  */
-public abstract class Processor extends ComponentPart {
+public abstract class Processor extends MediatorPart {
 
 	public Processor(ParameterList parameters) {
 		super(parameters);

@@ -19,7 +19,7 @@ package fr.liglab.adele.cilia.workbench.common.parser.element;
  * 
  * @author Etienne Gandrille
  */
-public abstract class Scheduler extends ComponentPart {
+public abstract class Scheduler extends MediatorPart {
 
 	public Scheduler(ParameterList parameters) {
 		super(parameters);
