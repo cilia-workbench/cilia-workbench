@@ -80,7 +80,7 @@ public class MediatorSpec extends Mediator implements Mergeable {
 	}
 
 	private static NameNamespaceID computeID(Node node) {
-		String name = XMLHelpers.findAttributeValue(node, XML_ATTR_NAME, "");
+		String name = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_NAME);
 		String namespace = XMLHelpers.findAttributeValue(node, XML_ATTR_NAMESPACE, CiliaConstants.CILIA_DEFAULT_NAMESPACE);
 		return new NameNamespaceID(name, namespace);
 	}

@@ -29,7 +29,11 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
  */
 public abstract class Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
-	protected String name;
+	private final String name;
+
+	public Property(String name) {
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;

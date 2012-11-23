@@ -243,8 +243,8 @@ public abstract class XMLChainModel<ChainType extends XMLChain> extends Abstract
 		List<Node> nodes = new ArrayList<Node>();
 		Node bindings[] = XMLHelpers.findChildren(subNode, XMLBinding.XML_NODE_NAME);
 		for (Node binding : bindings) {
-			String from = XMLHelpers.findAttributeValue(binding, XMLBinding.XML_FROM_ATTR);
-			String to = XMLHelpers.findAttributeValue(binding, XMLBinding.XML_TO_ATTR);
+			String from = XMLHelpers.findAttributeValueOrEmpty(binding, XMLBinding.XML_FROM_ATTR);
+			String to = XMLHelpers.findAttributeValueOrEmpty(binding, XMLBinding.XML_TO_ATTR);
 
 			String fromID = XMLStringUtil.getBeforeSeparatorOrAll(from);
 			String toID = XMLStringUtil.getBeforeSeparatorOrAll(to);

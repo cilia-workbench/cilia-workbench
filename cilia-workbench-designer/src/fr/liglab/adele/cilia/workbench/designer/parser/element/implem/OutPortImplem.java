@@ -17,9 +17,9 @@ package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * 
@@ -30,6 +30,6 @@ public class OutPortImplem extends OutPort implements DisplayedInPropertiesView 
 	public static final String XML_NODE_NAME = "out-port";
 
 	public OutPortImplem(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, "name", this, "name");
+		super(XMLHelpers.findAttributeValueOrEmpty(node, "name"));
 	}
 }

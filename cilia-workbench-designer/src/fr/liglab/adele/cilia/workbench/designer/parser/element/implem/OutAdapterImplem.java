@@ -41,11 +41,11 @@ public class OutAdapterImplem extends OutAdapter {
 
 		Node subNode = XMLHelpers.findChild(node, "sender");
 		if (subNode != null)
-			sender = XMLHelpers.findAttributeValue(subNode, "type", null);
+			sender = XMLHelpers.findAttributeValueOrEmpty(subNode, "type");
 	}
 
 	private static NameNamespaceID computeID(Node node) {
-		String name = XMLHelpers.findAttributeValue(node, XML_ATTR_NAME, "");
+		String name = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_NAME);
 		String namespace = XMLHelpers.findAttributeValue(node, XML_ATTR_NAMESPACE, CiliaConstants.CILIA_DEFAULT_NAMESPACE);
 		return new NameNamespaceID(name, namespace);
 	}

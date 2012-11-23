@@ -47,7 +47,7 @@ public abstract class AdapterImplemUtil {
 		Adapter retval = null;
 
 		try {
-			String pattern = XMLHelpers.findAttributeValue(node, XML_ATTR_PATTERN);
+			String pattern = XMLHelpers.findAttributeValueOrException(node, XML_ATTR_PATTERN);
 			if (pattern.equalsIgnoreCase(IN_PATTERN))
 				retval = new InAdapterImplem(node);
 			else if (pattern.equalsIgnoreCase(OUT_PATTERN))

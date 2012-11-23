@@ -20,7 +20,6 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
@@ -29,14 +28,13 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
  * 
  * @author Etienne Gandrille
  */
-public class PropertySpec extends Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder,
-		Identifiable {
+public class PropertySpec extends Property implements DisplayedInPropertiesView, ErrorsAndWarningsFinder, Identifiable {
 
 	public static final String XML_NODE_NAME = "property";
 	public static final String XML_ATTR_NAME = "name";
 
 	public PropertySpec(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
+		super(XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_NAME));
 	}
 
 	public static Node createXMLProperty(Document document, Node parent, String name) {

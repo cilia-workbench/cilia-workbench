@@ -42,9 +42,9 @@ public class AbstractBinding extends XMLBinding {
 	public AbstractBinding(Node node, NameNamespaceID chainId) throws CiliaException {
 		super(node, chainId);
 
-		String fc = XMLHelpers.findAttributeValue(node, XML_FROM_CARD_ATTR);
+		String fc = XMLHelpers.findAttributeValueOrException(node, XML_FROM_CARD_ATTR);
 		fromCardinality = Cardinality.getCardinality(fc);
-		String tc = XMLHelpers.findAttributeValue(node, XML_TO_CARD_ATTR);
+		String tc = XMLHelpers.findAttributeValueOrException(node, XML_TO_CARD_ATTR);
 		toCardinality = Cardinality.getCardinality(tc);
 	}
 

@@ -19,7 +19,6 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
@@ -34,7 +33,7 @@ public class OutPortSpec extends OutPort implements DisplayedInPropertiesView, I
 	public static final String XML_ATTR_NAME = "name";
 
 	public OutPortSpec(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
+		super(XMLHelpers.findAttributeValueOrEmpty(node, "name"));
 	}
 
 	public static String getXMLtag() {

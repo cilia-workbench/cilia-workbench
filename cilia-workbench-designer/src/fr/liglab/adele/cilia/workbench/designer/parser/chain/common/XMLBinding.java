@@ -46,7 +46,7 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 	protected final NameNamespaceID chainId;
 
 	public XMLBinding(Node node, NameNamespaceID chainId) throws CiliaException {
-		super(XMLHelpers.findAttributeValue(node, XML_FROM_ATTR), XMLHelpers.findAttributeValue(node, XML_TO_ATTR));
+		super(XMLHelpers.findAttributeValueOrEmpty(node, XML_FROM_ATTR), XMLHelpers.findAttributeValueOrEmpty(node, XML_TO_ATTR));
 		this.chainId = chainId;
 	}
 

@@ -53,10 +53,10 @@ public abstract class XMLChain extends Chain {
 	protected final NameNamespaceID id;
 
 	public XMLChain(Node node, String mediatorXMLNodeName, String adapterXMLNodeName) throws CiliaException {
-		super(XMLHelpers.findAttributeValue(node, XML_ATTR_ID, ""));
+		super(XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_ID));
 
-		String name = XMLHelpers.findAttributeValue(node, XML_ATTR_ID, "");
-		String namespace = XMLHelpers.findAttributeValue(node, XML_ATTR_NAMESPACE, "");
+		String name = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_ID);
+		String namespace = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_NAMESPACE);
 		id = new NameNamespaceID(name, namespace);
 
 		Node rootAdapters = XMLHelpers.findChild(node, XML_ROOT_ADAPTERS_NAME);

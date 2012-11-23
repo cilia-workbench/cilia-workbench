@@ -29,10 +29,9 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
-import fr.liglab.adele.cilia.workbench.common.parser.element.MediatorPart;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.MediatorPart;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
@@ -55,16 +54,15 @@ public class MediatorImplem extends Mediator {
 
 	private final RefMediatorSpec spec;
 
-	private NameNamespaceID schedulerId = new NameNamespaceID();
-	private NameNamespaceID processorId = new NameNamespaceID();
-	private NameNamespaceID dispatcherId = new NameNamespaceID();
+	private final NameNamespaceID schedulerId;
+	private final NameNamespaceID processorId;
+	private final NameNamespaceID dispatcherId;
 
 	private List<PropertyImplem> properties = new ArrayList<PropertyImplem>();
 
 	public MediatorImplem(Node node) throws CiliaException {
 		super(computeID(node), XMLPortsUtil.getPorts(node));
 
-		String defNs = CiliaConstants.CILIA_DEFAULT_NAMESPACE;
 		String specName = null;
 		String specNamespace = null;
 
@@ -85,25 +83,31 @@ public class MediatorImplem extends Mediator {
 
 		Node schedulerNode = XMLHelpers.findChild(node, "scheduler");
 		if (schedulerNode != null) {
-			ReflectionUtil.setAttribute(schedulerNode, "name", schedulerId, "name");
-			ReflectionUtil.setAttribute(schedulerNode, "namespace", schedulerId, "namespace", defNs);
-		}
+			String name = XMLHelpers.findAttributeValueOrEmpty(schedulerNode, "name");
+			String namespace = XMLHelpers.findAttributeValue(schedulerNode, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
+			schedulerId = new NameNamespaceID(name, namespace);
+		} else
+			schedulerId = new NameNamespaceID();
 
 		Node processorNode = XMLHelpers.findChild(node, "processor");
 		if (processorNode != null) {
-			ReflectionUtil.setAttribute(processorNode, "name", processorId, "name");
-			ReflectionUtil.setAttribute(processorNode, "namespace", processorId, "namespace", defNs);
-		}
+			String name = XMLHelpers.findAttributeValueOrEmpty(processorNode, "name");
+			String namespace = XMLHelpers.findAttributeValue(processorNode, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
+			processorId = new NameNamespaceID(name, namespace);
+		} else
+			processorId = new NameNamespaceID();
 
 		Node dispatcherNode = XMLHelpers.findChild(node, "dispatcher");
 		if (dispatcherNode != null) {
-			ReflectionUtil.setAttribute(dispatcherNode, "name", dispatcherId, "name");
-			ReflectionUtil.setAttribute(dispatcherNode, "namespace", dispatcherId, "namespace", defNs);
-		}
+			String name = XMLHelpers.findAttributeValueOrEmpty(dispatcherNode, "name");
+			String namespace = XMLHelpers.findAttributeValue(dispatcherNode, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
+			dispatcherId = new NameNamespaceID(name, namespace);
+		} else
+			dispatcherId = new NameNamespaceID();
 	}
 
 	private static NameNamespaceID computeID(Node node) {
-		String name = XMLHelpers.findAttributeValue(node, XML_ATTR_NAME, "");
+		String name = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_NAME);
 		String namespace = XMLHelpers.findAttributeValue(node, XML_ATTR_NAMESPACE, CiliaConstants.CILIA_DEFAULT_NAMESPACE);
 		return new NameNamespaceID(name, namespace);
 	}

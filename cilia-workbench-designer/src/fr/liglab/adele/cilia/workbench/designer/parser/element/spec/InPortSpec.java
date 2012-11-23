@@ -18,7 +18,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
@@ -33,7 +32,7 @@ public class InPortSpec extends InPort implements DisplayedInPropertiesView {
 	private static String XML_TAG = "in-port";
 
 	public InPortSpec(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
+		super(XMLHelpers.findAttributeValueOrEmpty(node, "name"));
 	}
 
 	public static String getXMLtag() {

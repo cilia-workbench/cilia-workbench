@@ -46,8 +46,8 @@ public class PropertyConstraint implements DisplayedInPropertiesView, ErrorsAndW
 	private String value;
 
 	public PropertyConstraint(Node n) throws CiliaException {
-		name = XMLHelpers.findAttributeValue(n, XML_ATTR_NAME);
-		value = XMLHelpers.findAttributeValue(n, XML_ATTR_VALUE);
+		name = XMLHelpers.findAttributeValueOrEmpty(n, XML_ATTR_NAME);
+		value = XMLHelpers.findAttributeValueOrEmpty(n, XML_ATTR_VALUE);
 	}
 
 	@Override

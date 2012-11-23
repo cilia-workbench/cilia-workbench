@@ -29,14 +29,14 @@ public class XMLComponentRefHelper {
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
 	public static String getId(Node node) {
-		return XMLHelpers.findAttributeValue(node, XMLComponentRefHelper.XML_ATTR_ID, null);
+		return XMLHelpers.findAttributeValueOrEmpty(node, XMLComponentRefHelper.XML_ATTR_ID);
 	}
 
 	public static String getType(Node node) {
-		return XMLHelpers.findAttributeValue(node, XMLComponentRefHelper.XML_ATTR_TYPE, null);
+		return XMLHelpers.findAttributeValueOrEmpty(node, XMLComponentRefHelper.XML_ATTR_TYPE);
 	}
 
 	public static String getNamespace(Node node) {
-		return XMLHelpers.findAttributeValue(node, XMLComponentRefHelper.XML_ATTR_NAMESPACE, null);
+		return XMLHelpers.findAttributeValueOrEmpty(node, XMLComponentRefHelper.XML_ATTR_NAMESPACE);
 	}
 }

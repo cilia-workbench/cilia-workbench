@@ -24,7 +24,12 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
  */
 public class PropertyImplem extends Property {
 
-	protected String value;
+	private final String value;
+
+	public PropertyImplem(String name, String value) {
+		super(name);
+		this.value = value;
+	}
 
 	public String getValue() {
 		return value;
@@ -32,32 +37,27 @@ public class PropertyImplem extends Property {
 
 	@Override
 	public String toString() {
-		if (name == null || name.length() == 0)
+		if (getName() == null || getName().length() == 0)
 			return "<undefined> = " + value;
 		if (value == null || value.length() == 0)
-			return name + " = <undefined>";
+			return getName() + " = <undefined>";
 
-		return name + " = " + value;
+		return getName() + " = " + value;
 	}
 
 	@Override
 	public boolean equals(Object arg0) {
 		if (arg0 == null)
 			return false;
-		if (!(arg0 instanceof Property))
+		if (!(arg0 instanceof PropertyImplem))
 			return false;
 
 		PropertyImplem prop = (PropertyImplem) arg0;
 
-		if (prop.getName() != name || prop.getValue() != value)
+		if (prop.getName() != getName() || prop.getValue() != value)
 			return false;
 
 		return true;
-	}
-
-	public PropertyImplem(String name, String value) {
-		this.name = name;
-		this.value = value;
 	}
 
 	@Override

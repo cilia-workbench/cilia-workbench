@@ -29,8 +29,8 @@ public class PlatformID {
 	private final String port;
 
 	public PlatformID(Node root) {
-		host = XMLHelpers.findAttributeValue(root, "host", "");
-		port = XMLHelpers.findAttributeValue(root, "port", "");
+		host = XMLHelpers.findAttributeValueOrEmpty(root, "host");
+		port = XMLHelpers.findAttributeValueOrEmpty(root, "port");
 	}
 
 	public PlatformID(String host, String port) {

@@ -237,23 +237,6 @@ public class XMLHelpers {
 		return newNode;
 	}
 
-	public static String findAttributeValue(Node node, String attrName) throws CiliaException {
-
-		Map<String, String> attrMap = findAttributesValues(node);
-
-		for (String attr : attrMap.keySet()) {
-			String fullname = attr.toLowerCase();
-			String name = computeName(fullname);
-			// String namespace = computeNamespace(fullname);
-			String value = attrMap.get(attr);
-
-			if (attrName.equals(name))
-				return value;
-		}
-
-		throw new CiliaException("Attribute " + attrName + " not found");
-	}
-
 	public static Map<String, String> findAttributesValues(Node node) {
 
 		Map<String, String> retval = new HashMap<String, String>();
@@ -271,9 +254,26 @@ public class XMLHelpers {
 		return retval;
 	}
 
+	public static String findAttributeValueOrException(Node node, String attrName) throws CiliaException {
+
+		Map<String, String> attrMap = findAttributesValues(node);
+
+		for (String name : attrMap.keySet()) {
+			String value = attrMap.get(name);
+			if (attrName.equalsIgnoreCase(name))
+				return value;
+		}
+
+		throw new CiliaException("Attribute " + attrName + " not found");
+	}
+
+	public static String findAttributeValueOrEmpty(Node node, String attrName) {
+		return findAttributeValue(node, attrName, "");
+	}
+
 	public static String findAttributeValue(Node node, String attrName, String defaultValue) {
 		try {
-			return findAttributeValue(node, attrName);
+			return findAttributeValueOrException(node, attrName);
 		} catch (Exception e) {
 			return defaultValue;
 		}

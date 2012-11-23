@@ -19,9 +19,9 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * 
@@ -31,18 +31,19 @@ public class ParameterImplem extends ParameterDefinition {
 
 	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_METHOD = "method";
-	public static final String XML_ATTR_VALUE = "value";
 	public static final String XML_ATTR_FIELD = "field";
+	public static final String XML_ATTR_VALUE = "value";
 
-	private String method;
-	private String field;
-	private String default_value;
+	private final String method;
+	private final String field;
+	private final String default_value;
 
 	public ParameterImplem(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
-		ReflectionUtil.setAttribute(node, XML_ATTR_METHOD, this, "method");
-		ReflectionUtil.setAttribute(node, XML_ATTR_VALUE, this, "default_value");
-		ReflectionUtil.setAttribute(node, XML_ATTR_FIELD, this, "field");
+		super(XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_NAME));
+
+		method = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_METHOD);
+		field = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_FIELD);
+		default_value = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_VALUE);
 	}
 
 	public boolean hasDefaultValue() {
@@ -53,12 +54,12 @@ public class ParameterImplem extends ParameterDefinition {
 	public String toString() {
 		String retval = super.toString();
 
-		if (default_value != null)
+		if (!Strings.isNullOrEmpty(default_value))
 			retval = retval + " = " + default_value;
 
-		if (method != null)
+		if (!Strings.isNullOrEmpty(method))
 			retval = retval + " [" + method + "]";
-		if (field != null)
+		if (!Strings.isNullOrEmpty(field))
 			retval = retval + " [" + field + "]";
 
 		return retval;
@@ -69,7 +70,7 @@ public class ParameterImplem extends ParameterDefinition {
 		CiliaFlag[] tab = super.getErrorsAndWarnings();
 		CiliaFlag e = null;
 
-		if (method != null && field != null)
+		if (!Strings.isNullOrEmpty(method) && !Strings.isNullOrEmpty(field))
 			e = new CiliaError("method and field parameters are excusive", this);
 
 		return CiliaFlag.generateTab(tab, e);

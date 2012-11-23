@@ -23,6 +23,10 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
  */
 public abstract class InPort extends Port implements Identifiable {
 
+	public InPort(String name) {
+		super(name);
+	}
+
 	@Override
 	public Object getId() {
 		return "in:" + getName();

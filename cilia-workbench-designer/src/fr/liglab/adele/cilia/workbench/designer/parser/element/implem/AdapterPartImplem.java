@@ -25,10 +25,10 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * Represents an adapter content. Because in and out adapters have different
@@ -41,14 +41,14 @@ public abstract class AdapterPartImplem implements DisplayedInPropertiesView, Er
 	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_CLASSNAME = "classname";
 
-	private String name;
-	private String classname;
-	private ParameterListImplem parameters;
+	private final String name;
+	private final String classname;
+	private final ParameterListImplem parameters;
 
 	public AdapterPartImplem(Node node) throws CiliaException {
 		parameters = new ParameterListImplem(node);
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, this, "name");
-		ReflectionUtil.setAttribute(node, XML_ATTR_CLASSNAME, this, "classname");
+		name = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_NAME);
+		classname = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_CLASSNAME);
 	}
 
 	public List<ParameterImplem> getParameters() {

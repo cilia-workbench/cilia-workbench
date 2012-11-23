@@ -28,7 +28,11 @@ import fr.liglab.adele.cilia.workbench.common.misc.Strings;
  */
 public abstract class Port implements Identifiable, ErrorsAndWarningsFinder {
 
-	private String name;
+	private final String name;
+
+	public Port(String name) {
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;

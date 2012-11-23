@@ -24,8 +24,8 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
-import fr.liglab.adele.cilia.workbench.common.misc.ReflectionUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * 
@@ -37,13 +37,15 @@ public class ComponentImplemIdentifier implements ErrorsAndWarningsFinder, Ident
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 	public static final String XML_ATTR_CLASSNAME = "classname";
 
-	protected NameNamespaceID id = new NameNamespaceID();
-	private String classname;
+	protected final NameNamespaceID id;
+	private final String classname;
 
 	public ComponentImplemIdentifier(Node node) throws CiliaException {
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAME, id, "name");
-		ReflectionUtil.setAttribute(node, XML_ATTR_NAMESPACE, id, "namespace", CiliaConstants.CILIA_DEFAULT_NAMESPACE);
-		ReflectionUtil.setAttribute(node, XML_ATTR_CLASSNAME, this, "classname");
+		String name = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_NAME);
+		String namespace = XMLHelpers.findAttributeValue(node, XML_ATTR_NAMESPACE, CiliaConstants.CILIA_DEFAULT_NAMESPACE);
+		id = new NameNamespaceID(name, namespace);
+
+		classname = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_CLASSNAME);
 	}
 
 	@Override

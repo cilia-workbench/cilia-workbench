@@ -31,6 +31,6 @@ public class XMLParameterRef extends ParameterRef {
 	public static String XML_ATTR_VALUE = "value";
 
 	public XMLParameterRef(Node n) throws CiliaException {
-		super(XMLHelpers.findAttributeValue(n, XML_ATTR_NAME), XMLHelpers.findAttributeValue(n, XML_ATTR_VALUE));
+		super(XMLHelpers.findAttributeValueOrEmpty(n, XML_ATTR_NAME), XMLHelpers.findAttributeValueOrEmpty(n, XML_ATTR_VALUE));
 	}
 }
