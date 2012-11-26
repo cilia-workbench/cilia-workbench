@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Cilia-workbench-rest-monitoring
-Bundle-SymbolicName: cilia-workbench-rest-monitoring;singleton:=true
+Bundle-Name: Cilia Workbench REST Monitoring
+Bundle-SymbolicName: fr.liglab.adele.cilia.workbench.rest-monitoring;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.liglab.adele.cilia.workbench.restmonitoring.Activator
 Require-Bundle: org.eclipse.ui,

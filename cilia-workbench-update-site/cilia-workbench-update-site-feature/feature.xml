@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="fr.liglab.adele.cilia.workbench.update_site.feature"
+      label="Cilia Workbench"
+      version="1.0.0.qualifier">
+
+   <description url="http://wikiadele.imag.fr/index.php">
+      Full Cilia Workbench
+   </description>
+
+   <license url="http://www.apache.org/licenses/LICENSE-2.0">
+      Copyright Universite Joseph Fourier (www.ujf-grenoble.fr) 
+Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); 
+you may not use this file except in compliance with the License. 
+You may obtain a copy of the License at 
+
+     http://www.apache.org/licenses/LICENSE-2.0 
+
+Unless required by applicable law or agreed to in writing, software 
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS, 
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+See the License for the specific language governing permissions and 
+limitations under the License.
+   </license>
+
+   <plugin
+         id="fr.liglab.adele.cilia.workbench.common"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.liglab.adele.cilia.workbench.designer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.liglab.adele.cilia.workbench.rest-monitoring"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.zest.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.zest.layouts"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.felix.ipojo"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.httpcomponents.httpclient"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.httpcomponents.httpcore"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.chameleon.json.json.org-implementation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
