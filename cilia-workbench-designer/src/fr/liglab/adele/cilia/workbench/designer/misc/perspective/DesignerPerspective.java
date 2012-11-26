@@ -34,7 +34,6 @@ public class DesignerPerspective implements IPerspectiveFactory {
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 
-		// Editors are placed for free.
 		String editorArea = layout.getEditorArea();
 
 		// Left folder

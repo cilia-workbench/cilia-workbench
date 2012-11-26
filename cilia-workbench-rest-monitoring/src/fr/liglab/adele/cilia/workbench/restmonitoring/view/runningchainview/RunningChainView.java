@@ -42,7 +42,7 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.Platform
  */
 public class RunningChainView extends GraphView implements IRepoServiceListener, SelectionListener {
 
-	public static final String viewId = "fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview";
+	public static final String VIEW_ID = "fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview";
 
 	private IBaseLabelProvider labelProvider = new PlatformChainLabelProvider();
 
@@ -50,7 +50,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 	@Override
 	public void createPartControl(Composite parent) {
-		super.createPartControl(parent, viewId);
+		super.createPartControl(parent, VIEW_ID);
 
 		PlatformRepoService.getInstance().registerListener(this);
 		SelectionService.getInstance().addSelectionListener(PlatformView.VIEW_ID, this);

@@ -16,4 +16,10 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice,
- fr.liglab.adele.cilia.workbench.designer.view.chainview.common
+ fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain,
+ fr.liglab.adele.cilia.workbench.designer.view.chainview.common,
+ fr.liglab.adele.cilia.workbench.designer.view.chainview.dsciliachain,
+ fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcompositionsview,
+ fr.liglab.adele.cilia.workbench.designer.view.repositoryview.dsciliaview,
+ fr.liglab.adele.cilia.workbench.designer.view.repositoryview.jarrepositoryview,
+ fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specrepositoryview

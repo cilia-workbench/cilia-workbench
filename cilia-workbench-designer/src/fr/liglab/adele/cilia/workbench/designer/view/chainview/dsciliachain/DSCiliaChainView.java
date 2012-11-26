@@ -43,7 +43,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.dsciliaview.
  * @author Etienne Gandrille
  */
 public class DSCiliaChainView extends GraphView implements IRepoServiceListener, SelectionListener {
-	public static final String viewId = "fr.liglab.adele.cilia.workbench.designer.view.dsciliachainview";
+	public static final String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.dsciliachainview";
 
 	private IBaseLabelProvider labelProvider = new DSCiliaChainLabelProvider();
 	private IContentProvider contentProvider = new DSCiliaChainContentProvider();
@@ -52,7 +52,7 @@ public class DSCiliaChainView extends GraphView implements IRepoServiceListener,
 
 	@Override
 	public void createPartControl(Composite parent) {
-		super.createPartControl(parent, viewId);
+		super.createPartControl(parent, VIEW_ID);
 
 		DSCiliaRepoService.getInstance().registerListener(this);
 		SelectionService.getInstance().addSelectionListener(DSCiliaRepositoryView.VIEW_ID, this);

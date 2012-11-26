@@ -103,5 +103,13 @@
 			commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.deleteFile">
 		</handler>
 	</extension>
+ <extension
+       point="org.eclipse.ui.perspectives">
+    <perspective
+          class="fr.liglab.adele.cilia.workbench.restmonitoring.misc.perspective.RestMonitoringPerspective"
+          id="fr.liglab.adele.cilia.workbench.restmonitoring.perspective.restmonitoringperspective"
+          name="Cilia Monitoring">
+    </perspective>
+ </extension>
 	
 </plugin>

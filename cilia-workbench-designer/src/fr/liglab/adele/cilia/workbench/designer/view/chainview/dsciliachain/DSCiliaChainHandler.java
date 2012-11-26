@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChai
 public abstract class DSCiliaChainHandler extends AbstractHandler {
 
 	public static DSCiliaChainView getDSCiliaChainView(ExecutionEvent event) {
-		return (DSCiliaChainView) ViewUtil.findViewWithId(event, DSCiliaChainView.viewId);
+		return (DSCiliaChainView) ViewUtil.findViewWithId(event, DSCiliaChainView.VIEW_ID);
 	}
 
 	public static DSCiliaChain getDisplayedModel(ExecutionEvent event) {
