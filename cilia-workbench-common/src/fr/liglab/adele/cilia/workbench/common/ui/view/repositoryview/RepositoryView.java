@@ -22,15 +22,19 @@ import java.util.List;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -63,7 +67,7 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 	private List<ModelType> model = new ArrayList<ModelType>();
 
 	/** Message area used to display last model reload date. */
-	protected Label messageArea;
+	protected Link messageArea;
 
 	/** The message area prefix. */
 	protected final String messageAreaPrefix = "Repository directory: ";
@@ -88,8 +92,24 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		viewer.setAutoExpandLevel(2);
 
 		// Label
-		messageArea = new Label(parent, SWT.WRAP);
+		messageArea = new Link(parent, SWT.WRAP);
 		messageArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		messageArea.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				onMessageAreaClick();
+			}
+
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// do nothing
+			}
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// do nothing
+			}
+		});
 
 		// Register repository listener
 		repoService.registerListener(this);
@@ -136,12 +156,24 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		return repoService.getRepositoryLocation();
 	}
 
-	protected String computeMessageAreaText() {
+	private String computeMessageAreaText() {
 		File dir = getRepositoryDirectory();
 		if (dir == null)
-			return messageAreaPrefix + "not available";
+			return "<a>" + messageAreaPrefix + "not available</a>";
 		else
 			return messageAreaPrefix + dir.getAbsolutePath();
+	}
+
+	private void onMessageAreaClick() {
+		Shell shell = getSite().getShell();
+		String title = "Repository location";
+		String strNothing = "Before you start using this repository, you need to set its location.";
+		String common = "To provide a repository location, go to Window/Preferences/Cilia Workbench";
+
+		if (getRepositoryDirectory() == null)
+			MessageDialog.openInformation(shell, title, strNothing + "\n" + common);
+		else
+			MessageDialog.openInformation(shell, title, common);
 	}
 
 	/**
