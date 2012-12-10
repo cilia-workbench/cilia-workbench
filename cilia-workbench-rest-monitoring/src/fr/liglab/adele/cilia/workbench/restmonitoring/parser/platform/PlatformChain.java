@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
 
 /**
  * 
@@ -44,8 +45,7 @@ public class PlatformChain extends Chain {
 			JSONArray mediatorsList = json.getJSONArray("Mediators");
 			for (int i = 0; i < mediatorsList.length(); i++) {
 				String mediatorName = (String) mediatorsList.get(i);
-				// TODO compute component type
-				NameNamespaceID mediatorTypeID = null; // here !
+				NameNamespaceID mediatorTypeID = getMediatorTypeID(platform, getName(), mediatorName);
 				mediators.add(new MediatorInstanceRef(mediatorName, mediatorTypeID, this));
 			}
 		} catch (JSONException e) {
@@ -58,24 +58,21 @@ public class PlatformChain extends Chain {
 			JSONArray inAdaptersList = adaptersRoot.getJSONArray("in-only");
 			for (int i = 0; i < inAdaptersList.length(); i++) {
 				String adapterName = (String) inAdaptersList.get(i);
-				// TODO compute component type
-				NameNamespaceID adapterTypeID = null; // here !
+				NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
 				adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
 			}
 
 			JSONArray outAdaptersList = adaptersRoot.getJSONArray("out-only");
 			for (int i = 0; i < outAdaptersList.length(); i++) {
 				String adapterName = (String) outAdaptersList.get(i);
-				// TODO compute component type
-				NameNamespaceID adapterTypeID = null; // here !
+				NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
 				adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
 			}
 
 			JSONArray inOutAdaptersList = adaptersRoot.getJSONArray("in-out");
 			for (int i = 0; i < inOutAdaptersList.length(); i++) {
 				String adapterName = (String) outAdaptersList.get(i);
-				// TODO compute component type
-				NameNamespaceID adapterTypeID = null; // here !
+				NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
 				adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
 			}
 
@@ -96,10 +93,32 @@ public class PlatformChain extends Chain {
 
 	private static String getJSONname(JSONObject json) {
 		try {
-			return json.getString("Chain");
+			return json.getString("ID");
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return "";
+		}
+	}
+
+	private static NameNamespaceID getAdapterTypeID(PlatformModel platform, String chainName, String adapterName) throws CiliaException {
+		try {
+			JSONObject adapter = CiliaRestHelper.getAdapterContent(platform.getPlatformID(), chainName, adapterName);
+			String type = adapter.getString("Type");
+			String namespace = adapter.getString("Namespace");
+			return new NameNamespaceID(type, namespace);
+		} catch (JSONException e) {
+			throw new CiliaException(e);
+		}
+	}
+
+	private static NameNamespaceID getMediatorTypeID(PlatformModel platform, String chainName, String mediatorName) throws CiliaException {
+		try {
+			JSONObject adapter = CiliaRestHelper.getMediatorContent(platform.getPlatformID(), chainName, mediatorName);
+			String type = adapter.getString("Type");
+			String namespace = adapter.getString("Namespace");
+			return new NameNamespaceID(type, namespace);
+		} catch (JSONException e) {
+			throw new CiliaException(e);
 		}
 	}
 

@@ -65,6 +65,34 @@ public class CiliaRestHelper {
 		}
 	}
 
+	public static JSONObject getMediatorContent(PlatformID platformID, String chainName, String mediatorName) throws CiliaException {
+
+		HttpResquestResult response = get(platformID, "/cilia" + "/" + chainName + "/mediators/" + mediatorName);
+
+		String json = response.getMessage();
+
+		try {
+			return new JSONObject(json);
+		} catch (JSONException e) {
+			String message = "Error while parsing JSON message";
+			throw new CiliaException(message, e);
+		}
+	}
+
+	public static JSONObject getAdapterContent(PlatformID platformID, String chainName, String adapterName) throws CiliaException {
+
+		HttpResquestResult response = get(platformID, "/cilia" + "/" + chainName + "/adapters/" + adapterName);
+
+		String json = response.getMessage();
+
+		try {
+			return new JSONObject(json);
+		} catch (JSONException e) {
+			String message = "Error while parsing JSON message";
+			throw new CiliaException(message, e);
+		}
+	}
+
 	private static HttpResquestResult get(PlatformID platformID, String url) throws CiliaException {
 		HttpHelper http = new HttpHelper(platformID);
 		HttpResquestResult result = null;
