@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
+import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Cardinality;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
@@ -50,7 +50,7 @@ public abstract class XMLChainModel<ChainType extends XMLChain> extends Abstract
 	protected List<ChainType> model = new ArrayList<ChainType>();
 	protected final ChainRepoService<?, ?, ChainType> repository;
 
-	public XMLChainModel(File file, String rootNodeName, ChainRepoService<?, ?, ChainType> repository) {
+	public XMLChainModel(PhysicalResource file, String rootNodeName, ChainRepoService<?, ?, ChainType> repository) {
 		super(file, rootNodeName);
 		this.repository = repository;
 	}

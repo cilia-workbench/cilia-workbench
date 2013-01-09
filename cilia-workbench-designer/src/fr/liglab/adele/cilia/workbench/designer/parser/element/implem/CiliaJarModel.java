@@ -14,8 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +23,7 @@ import org.w3c.dom.NodeList;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
+import fr.liglab.adele.cilia.workbench.common.parser.MetadataInJar;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
@@ -46,11 +45,10 @@ public class CiliaJarModel extends AbstractModel {
 	private List<SenderImplem> senders = new ArrayList<SenderImplem>();
 	private List<Adapter> adapters = new ArrayList<Adapter>();
 
-	public CiliaJarModel(File file) throws CiliaException {
+	public CiliaJarModel(MetadataInJar file) throws CiliaException {
 		super(file, ROOT_NODE_NAME);
 
-		InputStream is = XMLHelpers.inputStreamFromFileInJarArchive(file, "metadata.xml");
-		Document document = XMLHelpers.getDocument(is);
+		Document document = XMLHelpers.getDocument(file.getContentAsStream());
 		Node root = getRootNode(document);
 
 		NodeList childs = root.getChildNodes();

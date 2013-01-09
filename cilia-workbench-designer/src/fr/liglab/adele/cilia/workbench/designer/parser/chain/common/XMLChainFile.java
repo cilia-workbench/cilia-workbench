@@ -14,12 +14,12 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
  */
 public abstract class XMLChainFile<ModelType extends XMLChainModel<? extends XMLChain>> extends AbstractFile<ModelType> implements Mergeable {
 
-	public XMLChainFile(File file) {
+	public XMLChainFile(PhysicalResource file) {
 		super(file);
 	}
 

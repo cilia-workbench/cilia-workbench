@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.parser.PlainFile;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
@@ -67,7 +68,7 @@ public class DSCiliaRepoService extends ChainRepoService<DSCiliaFile, DSCiliaMod
 		File[] list = getFiles();
 		List<DSCiliaFile> elements = new ArrayList<DSCiliaFile>();
 		for (File file : list) {
-			elements.add(new DSCiliaFile(file));
+			elements.add(new DSCiliaFile(new PlainFile(file)));
 		}
 
 		// Updates existing model with computed model

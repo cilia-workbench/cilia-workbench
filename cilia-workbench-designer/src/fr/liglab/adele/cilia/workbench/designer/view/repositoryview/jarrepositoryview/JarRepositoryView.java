@@ -91,7 +91,7 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile, CiliaJarMode
 				}
 			}
 
-			IStorage storage = new StreamFromFileStorage(bundle.getFile());
+			IStorage storage = new StreamFromFileStorage(bundle.getResource());
 			IStorageEditorInput input = new StringInput(storage);
 			try {
 				IEditorRegistry registry = PlatformUI.getWorkbench().getEditorRegistry();

@@ -14,37 +14,56 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class AbstractModel implements DisplayedInPropertiesView {
+public class PlainFile extends PhysicalResource {
 
-	private PhysicalResource file;
+	private final File file;
 
-	private final String rootNodeName;
-
-	public AbstractModel(PhysicalResource file, String rootNodeName) {
+	public PlainFile(File file) {
 		this.file = file;
-		this.rootNodeName = rootNodeName;
 	}
 
-	protected Node getRootNode(Document document) throws CiliaException {
-		return XMLHelpers.getRootNode(document, rootNodeName);
+	@Override
+	public Object getId() {
+		return file.getPath();
 	}
 
-	protected Document getDocument() throws CiliaException {
-		return XMLHelpers.getDocument(file.getContentAsStream());
+	@Override
+	public String getFilename() {
+		return file.getName();
 	}
 
-	protected void writeToFile(Document document) throws CiliaException {
-		XMLHelpers.writeDOM(document, file.getJavaFile());
+	@Override
+	public File getJavaFile() {
+		return file;
+	}
+
+	@Override
+	public InputStream getContentAsStream() throws CiliaException {
+		// TODO tester ByteInputStream ?
+		try {
+			return new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			throw new CiliaException("Error while reading file", e);
+		}
+	}
+
+	@Override
+	public boolean delete() {
+		try {
+			return file.delete();
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

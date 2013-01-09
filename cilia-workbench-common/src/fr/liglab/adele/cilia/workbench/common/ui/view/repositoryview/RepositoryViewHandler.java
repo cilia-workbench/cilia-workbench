@@ -62,8 +62,7 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 
 		if (object != null && object instanceof AbstractFile<?>) {
 			AbstractFile<?> file = (AbstractFile<?>) object;
-			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required",
-					"Do you want to delete " + file.getFile() + "?");
+			boolean result = MessageDialog.openConfirm(ViewUtil.getShell(event), "Confirmation required", "Do you want to delete " + file.getResource() + "?");
 			if (result == true) {
 				AbstractRepoService<?, ?> repoService = view.getRepoService();
 				repoService.deleteRepoElement(file);
@@ -97,8 +96,8 @@ public abstract class RepositoryViewHandler extends AbstractHandler {
 		};
 
 		// Dialog creation
-		InputDialog dialog = new InputDialog(ViewUtil.getShell(event), "File creation",
-				"Please give a name for the new file.", getRepoService(event).ext, validator);
+		InputDialog dialog = new InputDialog(ViewUtil.getShell(event), "File creation", "Please give a name for the new file.", getRepoService(event).ext,
+				validator);
 
 		if (dialog.open() == Window.OK) {
 			String fileName = dialog.getValue();

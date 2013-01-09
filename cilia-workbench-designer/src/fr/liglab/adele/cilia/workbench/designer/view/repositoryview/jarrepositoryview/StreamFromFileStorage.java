@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.jarrepositoryview;
 
-import java.io.File;
 import java.io.InputStream;
 
 import org.eclipse.core.resources.IStorage;
@@ -22,7 +21,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
+import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 
 /**
  * 
@@ -30,15 +29,15 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
  */
 class StreamFromFileStorage implements IStorage {
 
-	private File file;
+	private PhysicalResource resource;
 
-	StreamFromFileStorage(File file) {
-		this.file = file;
+	StreamFromFileStorage(PhysicalResource resource) {
+		this.resource = resource;
 	}
 
 	public InputStream getContents() throws CoreException {
 		try {
-			return XMLHelpers.inputStreamFromFileInJarArchive(file, "metadata.xml");
+			return resource.getContentAsStream();
 		} catch (CiliaException e) {
 			e.printStackTrace();
 			return null;
@@ -55,7 +54,7 @@ class StreamFromFileStorage implements IStorage {
 	}
 
 	public String getName() {
-		return file.getName();
+		return resource.getFilename();
 	}
 
 	public boolean isReadOnly() {

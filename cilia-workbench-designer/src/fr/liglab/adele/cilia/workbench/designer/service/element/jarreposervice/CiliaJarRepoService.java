@@ -22,6 +22,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.parser.MetadataInJar;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
@@ -75,7 +76,7 @@ public class CiliaJarRepoService extends ComponentRepoService<CiliaJarFile, Cili
 		File[] list = getFiles();
 		List<CiliaJarFile> bundles = new ArrayList<CiliaJarFile>();
 		for (File jar : list) {
-			bundles.add(new CiliaJarFile(jar));
+			bundles.add(new CiliaJarFile(new MetadataInJar(jar)));
 		}
 
 		// Updates model with computed one

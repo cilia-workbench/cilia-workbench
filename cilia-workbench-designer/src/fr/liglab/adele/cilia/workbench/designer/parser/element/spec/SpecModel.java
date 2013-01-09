@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +24,7 @@ import org.w3c.dom.Node;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
+import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
@@ -42,7 +42,7 @@ public class SpecModel extends AbstractModel implements Mergeable {
 
 	private List<MediatorSpec> mediatorSpecs = new ArrayList<MediatorSpec>();
 
-	public SpecModel(File file) throws CiliaException {
+	public SpecModel(PhysicalResource file) throws CiliaException {
 		super(file, ROOT_NODE_NAME);
 
 		Node root = getRootNode(getDocument());

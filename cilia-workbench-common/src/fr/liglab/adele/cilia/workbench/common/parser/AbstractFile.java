@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,27 +36,26 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
  */
 public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, DisplayedInPropertiesView, Identifiable {
 
-	/** File on the file system. */
-	private File file;
+	private PhysicalResource resource;
 
 	/** The model object, which represents the file. */
 	protected ModelType model;
 
-	public AbstractFile(File file) {
-		this.file = file;
+	public AbstractFile(PhysicalResource resource) {
+		this.resource = resource;
 	}
 
 	@Override
 	public Object getId() {
-		return file.getPath();
+		return resource.getId();
 	}
 
 	public String getFilename() {
-		return file.getName();
+		return resource.getFilename();
 	}
 
-	public File getFile() {
-		return file;
+	public PhysicalResource getResource() {
+		return resource;
 	}
 
 	public ModelType getModel() {
@@ -66,7 +64,7 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 
 	@Override
 	public String toString() {
-		return Strings.nullToEmpty(file.getName());
+		return Strings.nullToEmpty(resource.getFilename());
 	}
 
 	@Override

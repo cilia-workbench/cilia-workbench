@@ -157,12 +157,16 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 	 */
 	protected File[] getFiles() {
 		File dir = getRepositoryLocation();
+		return getFiles(dir, ext);
+	}
+
+	protected static File[] getFiles(File dir, final String extension) {
 		if (dir == null)
 			return new File[0];
 		File[] list = dir.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(ext);
+				return name.toLowerCase().endsWith(extension);
 			}
 		});
 
@@ -323,7 +327,7 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 	}
 
 	public boolean deleteRepoElement(AbstractFile<?> element) {
-		boolean retval = element.getFile().delete();
+		boolean retval = element.getResource().delete();
 		updateModel();
 		return retval;
 	}

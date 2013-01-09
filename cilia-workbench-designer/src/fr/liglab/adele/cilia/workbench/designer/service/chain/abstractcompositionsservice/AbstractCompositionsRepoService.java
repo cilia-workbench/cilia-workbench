@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.parser.PlainFile;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Cardinality;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
@@ -70,8 +71,8 @@ public class AbstractCompositionsRepoService extends ChainRepoService<AbstractCo
 
 		File[] list = getFiles();
 		List<AbstractCompositionFile> elements = new ArrayList<AbstractCompositionFile>();
-		for (File jar : list) {
-			elements.add(new AbstractCompositionFile(jar));
+		for (File compoFile : list) {
+			elements.add(new AbstractCompositionFile(new PlainFile(compoFile)));
 		}
 
 		// Updates existing model with computed model

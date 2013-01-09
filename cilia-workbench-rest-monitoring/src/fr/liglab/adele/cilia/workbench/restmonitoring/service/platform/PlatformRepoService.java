@@ -24,6 +24,7 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.parser.PlainFile;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
@@ -67,7 +68,7 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 		File[] list = getFiles();
 		List<PlatformFile> elements = new ArrayList<PlatformFile>();
 		for (File file : list) {
-			elements.add(new PlatformFile(file));
+			elements.add(new PlatformFile(new PlainFile(file)));
 		}
 
 		// Updates existing model with computed model

@@ -3,37 +3,26 @@
 
 	<!-- Sandbox -->
 
-	<mediator-specification name="filter"
-		namespace="fr.imag.adele.cilia.workbench.spec">
+	<mediator-specification name="filter" namespace="fr.imag.adele.cilia.workbench.spec">
 		<ports>
-			<in-port name="in" />
-			<out-port name="out" />
+			<in-port name="in"/>
+			<out-port name="out"/>
 		</ports>
 	</mediator-specification>
 
-	<mediator-specification name="average-mediator"
-		namespace="fr.imag.adele.cilia.workbench.spec">
-		<ports>
-			<in-port name="in" />
-			<out-port name="out" />
-		</ports>
-		<properties>
-			<property name="category" />
-		</properties>
-	</mediator-specification>
+	
 
-	<mediator-specification name="increment-mediator"
-		namespace="fr.imag.adele.cilia.workbench.spec">
+	<mediator-specification name="increment-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
 		<ports>
-			<in-port name="in" />
-			<out-port name="out" />
+			<in-port name="in"/>
+			<out-port name="out"/>
 		</ports>
 		<properties>
-			<property name="category" />
+			<property name="category"/>
 		</properties>
 		<processor>
 			<parameters>
-				<parameter name="increment" />
+				<parameter name="increment"/>
 			</parameters>
 		</processor>
 	</mediator-specification>
@@ -46,14 +35,22 @@
 
 
 
-	<mediator-specification name="sum-mediator"
-		namespace="fr.imag.adele.cilia.workbench.spec">
+	<mediator-specification name="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
 		<ports>
-			<in-port name="in" />
-			<out-port name="out" />
+			<in-port name="in"/>
+			<out-port name="out"/>
 		</ports>
 		<properties>
-			<property name="category" />
+			<property name="category"/>
 		</properties>
 	</mediator-specification>
+<mediator-specification name="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
+<properties>
+<property name="category"/>
+</properties>
+</mediator-specification>
 </cilia-specifications>

@@ -12,28 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
+package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
 
-import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
-import fr.liglab.adele.cilia.workbench.common.parser.MetadataInJar;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Represents a file, from a "physical" point of view. This file, which must
- * exists on the file system, can be well formed or not. If it is "well formed",
- * the model field is not null, and represents a model of the file.
  * 
  * @author Etienne Gandrille
  */
-public class CiliaJarFile extends AbstractFile<CiliaJarModel> {
+public enum ModelProvider {
+	INSTANCE;
 
-	public CiliaJarFile(MetadataInJar file) {
-		super(file);
+	private List<StateVar> stateVars;
 
-		try {
-			model = new CiliaJarModel(file);
-		} catch (Exception e) {
-			e.printStackTrace();
-			model = null;
-		}
+	private ModelProvider() {
+		stateVars = new ArrayList<StateVar>();
+
+		stateVars.add(new StateVar("msgCounter", true, "30"));
+		stateVars.add(new StateVar("enabledVar", true, "17"));
+		stateVars.add(new StateVar("disabledVar", false, ""));
+	}
+
+	public List<StateVar> getStateVar() {
+		return stateVars;
 	}
 }

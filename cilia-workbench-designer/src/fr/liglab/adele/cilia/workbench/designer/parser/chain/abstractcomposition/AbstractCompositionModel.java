@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
 
-import java.io.File;
 import java.util.Map;
 
 import org.w3c.dom.Document;
@@ -22,6 +21,7 @@ import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
@@ -48,7 +48,7 @@ public class AbstractCompositionModel extends XMLChainModel<AbstractChain> {
 	public static final String XML_ADAPTER_NODE_NAME = "adapter-implem";
 	public static final String XML_MEDIATOR_NODE_NAME = "mediator-implem";
 
-	public AbstractCompositionModel(File file) throws CiliaException {
+	public AbstractCompositionModel(PhysicalResource file) throws CiliaException {
 		super(file, ROOT_NODE_NAME, AbstractCompositionsRepoService.getInstance());
 
 		Node root = getRootNode(getDocument());

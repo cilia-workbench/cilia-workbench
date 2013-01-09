@@ -14,12 +14,12 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.parser.PlainFile;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
@@ -34,7 +34,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
  */
 public class SpecFile extends AbstractFile<SpecModel> implements Mergeable {
 
-	public SpecFile(File file) {
+	public SpecFile(PlainFile file) {
 		super(file);
 
 		try {

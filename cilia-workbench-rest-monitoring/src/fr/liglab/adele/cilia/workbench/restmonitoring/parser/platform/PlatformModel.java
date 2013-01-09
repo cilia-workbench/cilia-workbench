@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
+import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
@@ -48,12 +48,12 @@ public class PlatformModel extends AbstractModel implements Mergeable, ErrorsAnd
 
 	private final PlatformFile platformFile;
 
-	public PlatformModel(File file, PlatformFile platformFile) throws CiliaException {
+	public PlatformModel(PhysicalResource file, PlatformFile platformFile) throws CiliaException {
 		super(file, ROOT_NODE_NAME);
 
 		this.platformFile = platformFile;
 
-		Document document = XMLHelpers.getDocument(file);
+		Document document = XMLHelpers.getDocument(file.getContentAsStream());
 		Node root = getRootNode(document);
 		platformID = new PlatformID(root);
 	}

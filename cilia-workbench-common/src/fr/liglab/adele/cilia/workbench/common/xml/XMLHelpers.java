@@ -14,15 +14,12 @@
  */
 package fr.liglab.adele.cilia.workbench.common.xml;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -73,24 +70,25 @@ public class XMLHelpers {
 		return XMLStringUtil.getAfterSeparatorOrAll(name);
 	}
 
-	/**
+	// TODO remove this !
+
+	/*
 	 * Gets a {@link Document} from a file.
 	 * 
-	 * @param file
-	 *            the file
+	 * @param file the file
+	 * 
 	 * @return the dom document
-	 * @throws CiliaException
-	 *             if any error during parsing.
+	 * 
+	 * @throws CiliaException if any error during parsing.
 	 */
-	public static Document getDocument(File file) throws CiliaException {
-		try {
-			return getDocumentBuilder().parse(file);
-		} catch (SAXException e) {
-			throw new CiliaException("Can't parse document from file " + file.getAbsolutePath(), e);
-		} catch (IOException e) {
-			throw new CiliaException("Can't parse document from file " + file.getAbsolutePath(), e);
-		}
-	}
+	/*
+	 * public static Document getDocument(File file) throws CiliaException { try
+	 * { return getDocumentBuilder().parse(file); } catch (SAXException e) {
+	 * throw new CiliaException("Can't parse document from file " +
+	 * file.getAbsolutePath(), e); } catch (IOException e) { throw new
+	 * CiliaException("Can't parse document from file " +
+	 * file.getAbsolutePath(), e); } }
+	 */
 
 	/**
 	 * Gets a {@link Document} from an {@link InputStream}.
@@ -121,42 +119,6 @@ public class XMLHelpers {
 		}
 
 		return builder;
-	}
-
-	/**
-	 * Gets an Input stream from a file embedded in a jar archive.
-	 * 
-	 * @param jarFile
-	 *            the jar archive file, on the hard disk.
-	 * @param fileName
-	 *            the file name, in the archive. The file must be located at the
-	 *            archive root.
-	 * @return the input stream
-	 * @throws CiliaException
-	 *             if any error.
-	 */
-	public static InputStream inputStreamFromFileInJarArchive(File jarFile, String fileName) throws CiliaException {
-		// Jar file
-		JarFile file;
-		try {
-			file = new JarFile(jarFile);
-		} catch (IOException e) {
-			throw new CiliaException("Can't open jar file " + jarFile.getAbsolutePath(), e);
-		}
-
-		// File
-		ZipEntry entry = file.getEntry(fileName);
-		if (entry == null)
-			throw new CiliaException("File " + fileName + " not found in " + jarFile.getAbsolutePath());
-
-		BufferedInputStream is;
-		try {
-			is = new BufferedInputStream(file.getInputStream(entry));
-		} catch (IOException e) {
-			throw new CiliaException("Can't access file " + fileName + " in jar file " + jarFile.getAbsolutePath(), e);
-		}
-
-		return is;
 	}
 
 	/**

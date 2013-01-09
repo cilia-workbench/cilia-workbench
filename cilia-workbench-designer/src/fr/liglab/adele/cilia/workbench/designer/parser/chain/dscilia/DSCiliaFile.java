@@ -14,8 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia;
 
-import java.io.File;
-
+import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile;
 
 /**
@@ -27,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile
  */
 public class DSCiliaFile extends XMLChainFile<DSCiliaModel> {
 
-	public DSCiliaFile(File file) {
+	public DSCiliaFile(PhysicalResource file) {
 		super(file);
 
 		try {

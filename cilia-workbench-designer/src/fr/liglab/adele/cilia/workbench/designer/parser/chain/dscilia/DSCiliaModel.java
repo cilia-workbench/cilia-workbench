@@ -14,12 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia;
 
-import java.io.File;
-
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
@@ -44,7 +43,7 @@ public class DSCiliaModel extends XMLChainModel<DSCiliaChain> {
 	public static final String XML_ADAPTER_NODE_NAME = "adapter-instance";
 	public static final String XML_MEDIATOR_NODE_NAME = "mediator-instance";
 
-	public DSCiliaModel(File file) throws Exception {
+	public DSCiliaModel(PhysicalResource file) throws Exception {
 		super(file, ROOT_NODE_NAME, DSCiliaRepoService.getInstance());
 
 		Node root = getRootNode(getDocument());

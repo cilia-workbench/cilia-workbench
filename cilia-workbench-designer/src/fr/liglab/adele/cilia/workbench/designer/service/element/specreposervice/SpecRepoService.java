@@ -23,6 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
+import fr.liglab.adele.cilia.workbench.common.parser.PlainFile;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
@@ -86,7 +87,7 @@ public class SpecRepoService extends ComponentRepoService<SpecFile, SpecModel> i
 		File[] list = getFiles();
 		List<SpecFile> elements = new ArrayList<SpecFile>();
 		for (File file : list) {
-			elements.add(new SpecFile(file));
+			elements.add(new SpecFile(new PlainFile(file)));
 		}
 
 		// Updates existing model with computed model

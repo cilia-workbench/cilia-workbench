@@ -14,10 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition;
 
-import java.io.File;
-
+import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile;
-
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must
@@ -28,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile
  */
 public class AbstractCompositionFile extends XMLChainFile<AbstractCompositionModel> {
 
-	public AbstractCompositionFile(File file) {
+	public AbstractCompositionFile(PhysicalResource file) {
 		super(file);
 
 		try {

@@ -285,7 +285,7 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 				@SuppressWarnings("unchecked")
 				AbstractFile<ModelType> repoElement = (AbstractFile<ModelType>) element;
 				// Even files with an invalid model can be open.
-				openFileEditor(repoElement.getFile());
+				openFileEditor(repoElement.getResource().getJavaFile());
 
 			} catch (Exception e) {
 				// do nothing

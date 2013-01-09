@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * Base class for implementing dialogs. A basic configuration is performed by
- * this base class: two buttons (OK and CANCEL),...
+ * this base class: size, buttons (OK and CANCEL),...
  * 
  * @author Etienne Gandrille
  */
@@ -32,12 +32,18 @@ public abstract class WorkbenchDialog extends Dialog {
 	private final Point initialSize;
 	private final String title;
 	private final boolean isOkButtonEnable;
+	private final boolean hasCancelButton;
 
 	protected WorkbenchDialog(Shell parentShell, String title, Point initialSize, boolean isOkButtonEnable) {
+		this(parentShell, title, initialSize, isOkButtonEnable, true);
+	}
+
+	protected WorkbenchDialog(Shell parentShell, String title, Point initialSize, boolean isOkButtonEnable, boolean hasCancelButton) {
 		super(parentShell);
 		this.initialSize = initialSize;
 		this.title = title;
 		this.isOkButtonEnable = isOkButtonEnable;
+		this.hasCancelButton = hasCancelButton;
 	}
 
 	@Override
@@ -49,7 +55,8 @@ public abstract class WorkbenchDialog extends Dialog {
 
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+		if (hasCancelButton)
+			createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 	}
 
 	protected boolean isResizable() {
