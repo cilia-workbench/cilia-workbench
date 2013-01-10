@@ -1,0 +1,20 @@
+#!/bin/bash
+
+dirName=`dirname $0`
+relativeDir=..
+
+license="Licensed under the Apache License, Version 2.0 (the \"License\")"
+ext="java"
+
+
+function rechercher() {
+	while read line; do
+		nb=`cat $line | grep "$license" | wc -l`
+		if [ $nb -eq 0 ]; then
+			echo $line
+		fi
+	done
+}
+
+find $dirName/$relativeDir -type f -name \*.$ext | rechercher
+
