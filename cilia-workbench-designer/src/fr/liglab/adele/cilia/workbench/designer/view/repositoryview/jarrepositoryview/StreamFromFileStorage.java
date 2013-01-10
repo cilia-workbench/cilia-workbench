@@ -54,7 +54,7 @@ class StreamFromFileStorage implements IStorage {
 	}
 
 	public String getName() {
-		return resource.getFilename();
+		return resource.getNameWithPath();
 	}
 
 	public boolean isReadOnly() {

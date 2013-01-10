@@ -70,26 +70,6 @@ public class XMLHelpers {
 		return XMLStringUtil.getAfterSeparatorOrAll(name);
 	}
 
-	// TODO remove this !
-
-	/*
-	 * Gets a {@link Document} from a file.
-	 * 
-	 * @param file the file
-	 * 
-	 * @return the dom document
-	 * 
-	 * @throws CiliaException if any error during parsing.
-	 */
-	/*
-	 * public static Document getDocument(File file) throws CiliaException { try
-	 * { return getDocumentBuilder().parse(file); } catch (SAXException e) {
-	 * throw new CiliaException("Can't parse document from file " +
-	 * file.getAbsolutePath(), e); } catch (IOException e) { throw new
-	 * CiliaException("Can't parse document from file " +
-	 * file.getAbsolutePath(), e); } }
-	 */
-
 	/**
 	 * Gets a {@link Document} from an {@link InputStream}.
 	 * 

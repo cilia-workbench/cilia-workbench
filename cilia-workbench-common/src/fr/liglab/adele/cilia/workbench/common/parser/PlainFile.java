@@ -34,12 +34,12 @@ public class PlainFile extends PhysicalResource {
 	}
 
 	@Override
-	public Object getId() {
+	public String getNameWithPath() {
 		return file.getPath();
 	}
 
 	@Override
-	public String getFilename() {
+	public String getName() {
 		return file.getName();
 	}
 
@@ -50,7 +50,6 @@ public class PlainFile extends PhysicalResource {
 
 	@Override
 	public InputStream getContentAsStream() throws CiliaException {
-		// TODO tester ByteInputStream ?
 		try {
 			return new FileInputStream(file);
 		} catch (FileNotFoundException e) {

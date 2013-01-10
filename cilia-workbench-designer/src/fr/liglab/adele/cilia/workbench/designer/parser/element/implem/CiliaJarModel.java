@@ -23,7 +23,7 @@ import org.w3c.dom.NodeList;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
-import fr.liglab.adele.cilia.workbench.common.parser.MetadataInJar;
+import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
@@ -45,7 +45,7 @@ public class CiliaJarModel extends AbstractModel {
 	private List<SenderImplem> senders = new ArrayList<SenderImplem>();
 	private List<Adapter> adapters = new ArrayList<Adapter>();
 
-	public CiliaJarModel(MetadataInJar file) throws CiliaException {
+	public CiliaJarModel(PhysicalResource file) throws CiliaException {
 		super(file, ROOT_NODE_NAME);
 
 		Document document = XMLHelpers.getDocument(file.getContentAsStream());

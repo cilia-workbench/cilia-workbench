@@ -15,7 +15,7 @@
 package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
-import fr.liglab.adele.cilia.workbench.common.parser.MetadataInJar;
+import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 
 /**
  * Represents a file, from a "physical" point of view. This file, which must
@@ -26,7 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.MetadataInJar;
  */
 public class CiliaJarFile extends AbstractFile<CiliaJarModel> {
 
-	public CiliaJarFile(MetadataInJar file) {
+	public CiliaJarFile(PhysicalResource file) {
 		super(file);
 
 		try {

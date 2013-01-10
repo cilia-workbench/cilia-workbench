@@ -22,6 +22,7 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
 
 /**
  * 
@@ -30,19 +31,19 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 public class MetadataInJar extends PhysicalResource {
 
 	private final File file;
-	private final String embeddedFileName = "metadata.xml";
+	public final static String embeddedFileName = "metadata.xml";
 
 	public MetadataInJar(File file) {
 		this.file = file;
 	}
 
 	@Override
-	public Object getId() {
+	public String getNameWithPath() {
 		return file.getPath();
 	}
 
 	@Override
-	public String getFilename() {
+	public String getName() {
 		return file.getName();
 	}
 
@@ -68,19 +69,14 @@ public class MetadataInJar extends PhysicalResource {
 	 *             if any error.
 	 */
 	public static InputStream inputStreamFromFileInJarArchive(File jarFile, String fileName) throws CiliaException {
+
 		// Jar file
-		JarFile file;
-		try {
-			file = new JarFile(jarFile);
-		} catch (IOException e) {
-			throw new CiliaException("Can't open jar file " + jarFile.getAbsolutePath(), e);
-		}
+		JarFile file = FileUtil.getJarFile(jarFile);
 
-		// File
-		ZipEntry entry = file.getEntry(fileName);
-		if (entry == null)
-			throw new CiliaException("File " + fileName + " not found in " + jarFile.getAbsolutePath());
+		// Entry
+		ZipEntry entry = FileUtil.getJarEntry(file, fileName);
 
+		// Stream
 		BufferedInputStream is;
 		try {
 			is = new BufferedInputStream(file.getInputStream(entry));

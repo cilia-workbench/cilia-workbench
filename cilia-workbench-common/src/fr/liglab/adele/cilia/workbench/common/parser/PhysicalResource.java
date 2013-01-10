@@ -28,9 +28,13 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
  */
 public abstract class PhysicalResource implements Identifiable {
 
-	public abstract Object getId();
+	public Object getId() {
+		return getNameWithPath();
+	}
 
-	public abstract String getFilename();
+	public abstract String getNameWithPath();
+
+	public abstract String getName();
 
 	public abstract File getJavaFile();
 

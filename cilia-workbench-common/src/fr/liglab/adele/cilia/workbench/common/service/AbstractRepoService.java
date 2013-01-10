@@ -32,6 +32,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import fr.liglab.adele.cilia.workbench.common.Activator;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
+import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
@@ -157,23 +158,7 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 	 */
 	protected File[] getFiles() {
 		File dir = getRepositoryLocation();
-		return getFiles(dir, ext);
-	}
-
-	protected static File[] getFiles(File dir, final String extension) {
-		if (dir == null)
-			return new File[0];
-		File[] list = dir.listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(extension);
-			}
-		});
-
-		if (list == null)
-			return new File[0];
-		else
-			return list;
+		return FileUtil.getFiles(dir, ext);
 	}
 
 	public List<FileType> getRepoContent() {
