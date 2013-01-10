@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/fr.liglab.adele.cilia.workbench.update_site.feature_1.0.0.201212181800.jar" id="fr.liglab.adele.cilia.workbench.update_site.feature" version="1.0.0.201212181800"/>
+   <feature url="features/fr.liglab.adele.cilia.workbench.update_site.feature_1.0.0.201301101507.jar" id="fr.liglab.adele.cilia.workbench.update_site.feature" version="1.0.0.201301101507"/>
 </site>
