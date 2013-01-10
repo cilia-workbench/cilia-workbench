@@ -14,12 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
@@ -53,38 +49,7 @@ public class MetadataInJar extends PhysicalResource {
 	}
 
 	public InputStream getContentAsStream() throws CiliaException {
-		return inputStreamFromFileInJarArchive(file, embeddedFileName);
-	}
-
-	/**
-	 * Gets an Input stream from a file embedded in a jar archive.
-	 * 
-	 * @param jarFile
-	 *            the jar archive file, on the hard disk.
-	 * @param fileName
-	 *            the file name, in the archive. The file must be located at the
-	 *            archive root.
-	 * @return the input stream
-	 * @throws CiliaException
-	 *             if any error.
-	 */
-	public static InputStream inputStreamFromFileInJarArchive(File jarFile, String fileName) throws CiliaException {
-
-		// Jar file
-		JarFile file = FileUtil.getJarFile(jarFile);
-
-		// Entry
-		ZipEntry entry = FileUtil.getJarEntry(file, fileName);
-
-		// Stream
-		BufferedInputStream is;
-		try {
-			is = new BufferedInputStream(file.getInputStream(entry));
-		} catch (IOException e) {
-			throw new CiliaException("Can't access file " + fileName + " in jar file " + jarFile.getAbsolutePath(), e);
-		}
-
-		return is;
+		return FileUtil.inputStreamFromFileInJarArchive(file, embeddedFileName);
 	}
 
 	@Override

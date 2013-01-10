@@ -17,7 +17,6 @@ package fr.liglab.adele.cilia.workbench.designer.parser.element.implem;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -26,7 +25,6 @@ import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
 import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
  * Represents the content of a <strong>well formed<strong> {@link CiliaJarFile}.
@@ -48,8 +46,7 @@ public class CiliaJarModel extends AbstractModel {
 	public CiliaJarModel(PhysicalResource file) throws CiliaException {
 		super(file, ROOT_NODE_NAME);
 
-		Document document = XMLHelpers.getDocument(file.getContentAsStream());
-		Node root = getRootNode(document);
+		Node root = getRootNode(getDocument());
 
 		NodeList childs = root.getChildNodes();
 		if (childs != null) {

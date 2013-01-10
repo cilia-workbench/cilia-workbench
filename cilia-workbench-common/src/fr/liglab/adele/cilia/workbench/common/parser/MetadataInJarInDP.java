@@ -15,13 +15,7 @@
 package fr.liglab.adele.cilia.workbench.common.parser;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
@@ -57,32 +51,7 @@ public class MetadataInJarInDP extends PhysicalResource {
 
 	@Override
 	public InputStream getContentAsStream() throws CiliaException {
-
-		File tempFile = null;
-		FileOutputStream tempOut = null;
-		InputStream retval = null;
-
-		// Jar file
-		JarFile outerJarFile = FileUtil.getJarFile(jarFile);
-		ZipEntry outerZipEntry = FileUtil.getJarEntry(outerJarFile, entry);
-
-		JarEntry outerJarEntry = new JarEntry(outerZipEntry);
-		try {
-			InputStream in = outerJarFile.getInputStream(outerJarEntry);
-
-			tempFile = File.createTempFile("tempFile", "jar");
-			tempOut = new FileOutputStream(tempFile);
-
-			copyStream(in, tempOut, outerJarEntry);
-
-			retval = MetadataInJar.inputStreamFromFileInJarArchive(tempFile, MetadataInJar.embeddedFileName);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return retval;
+		return FileUtil.inputStreamFromFileInJarInDP(jarFile, entry, MetadataInJar.embeddedFileName);
 	}
 
 	@Override
@@ -91,16 +60,5 @@ public class MetadataInJarInDP extends PhysicalResource {
 		// If delete needs to be implemented, don't forget a single dp file can
 		// contain multiples sub jars...
 		return false;
-	}
-
-	private void copyStream(InputStream in, OutputStream out, JarEntry entry) throws IOException {
-		byte[] buffer = new byte[1024 * 4];
-		long count = 0;
-		int n = 0;
-		long size = entry.getSize();
-		while (-1 != (n = in.read(buffer)) && count < size) {
-			out.write(buffer, 0, n);
-			count += n;
-		}
 	}
 }

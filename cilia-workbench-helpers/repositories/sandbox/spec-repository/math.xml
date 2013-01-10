@@ -3,12 +3,7 @@
 
 	<!-- Sandbox -->
 
-	<mediator-specification name="filter" namespace="fr.imag.adele.cilia.workbench.spec">
-		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
-		</ports>
-	</mediator-specification>
+	
 
 	
 
@@ -52,5 +47,11 @@
 <properties>
 <property name="category"/>
 </properties>
+</mediator-specification>
+<mediator-specification name="filter" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in"/>
+<out-port name="out"/>
+</ports>
 </mediator-specification>
 </cilia-specifications>

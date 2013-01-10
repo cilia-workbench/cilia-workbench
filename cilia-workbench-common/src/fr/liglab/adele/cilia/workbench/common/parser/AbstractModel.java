@@ -14,6 +14,9 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -27,12 +30,12 @@ import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
  */
 public abstract class AbstractModel implements DisplayedInPropertiesView {
 
-	private PhysicalResource file;
+	private PhysicalResource resource;
 
 	private final String rootNodeName;
 
-	public AbstractModel(PhysicalResource file, String rootNodeName) {
-		this.file = file;
+	public AbstractModel(PhysicalResource resource, String rootNodeName) {
+		this.resource = resource;
 		this.rootNodeName = rootNodeName;
 	}
 
@@ -41,10 +44,17 @@ public abstract class AbstractModel implements DisplayedInPropertiesView {
 	}
 
 	protected Document getDocument() throws CiliaException {
-		return XMLHelpers.getDocument(file.getContentAsStream());
+		InputStream stream = resource.getContentAsStream();
+		Document retval = XMLHelpers.getDocument(stream);
+		try {
+			stream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return retval;
 	}
 
 	protected void writeToFile(Document document) throws CiliaException {
-		XMLHelpers.writeDOM(document, file.getJavaFile());
+		XMLHelpers.writeDOM(document, resource.getJavaFile());
 	}
 }
