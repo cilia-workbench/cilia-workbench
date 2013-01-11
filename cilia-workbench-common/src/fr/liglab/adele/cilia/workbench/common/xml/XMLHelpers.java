@@ -40,6 +40,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 
 /**
  * Static methods, for managing XML files.
@@ -135,16 +136,17 @@ public class XMLHelpers {
 	 * @throws CiliaException
 	 *             if the root node doesn't match nodeName.
 	 */
-	public static Node getRootNode(Document document, String nodeName) throws CiliaException {
+	public static Node getRootNode(Document document, String... nodeNames) throws CiliaException {
 		NodeList nodes = document.getChildNodes();
 
 		if (nodes != null) {
 			for (int i = 0; i < nodes.getLength(); i++)
-				if (nodes.item(i).getNodeName().equalsIgnoreCase(nodeName))
-					return nodes.item(i);
+				for (String nodeName : nodeNames)
+					if (nodes.item(i).getNodeName().equalsIgnoreCase(nodeName))
+						return nodes.item(i);
 		}
 
-		throw new CiliaException("Can't find root node " + nodeName);
+		throw new CiliaException("Can't find root node " + Strings.arrayToString(nodeNames));
 	}
 
 	public static Node getOrCreateChild(Document document, Node parent, String childNodeName) {

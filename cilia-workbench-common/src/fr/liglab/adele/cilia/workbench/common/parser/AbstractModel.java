@@ -32,15 +32,15 @@ public abstract class AbstractModel implements DisplayedInPropertiesView {
 
 	private PhysicalResource resource;
 
-	private final String rootNodeName;
+	private final String[] allowedRootNodeName;
 
-	public AbstractModel(PhysicalResource resource, String rootNodeName) {
+	public AbstractModel(PhysicalResource resource, String... rootNodeName) {
 		this.resource = resource;
-		this.rootNodeName = rootNodeName;
+		this.allowedRootNodeName = rootNodeName;
 	}
 
 	protected Node getRootNode(Document document) throws CiliaException {
-		return XMLHelpers.getRootNode(document, rootNodeName);
+		return XMLHelpers.getRootNode(document, allowedRootNodeName);
 	}
 
 	protected Document getDocument() throws CiliaException {

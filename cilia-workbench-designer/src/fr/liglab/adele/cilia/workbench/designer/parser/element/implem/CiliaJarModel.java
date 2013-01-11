@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType
  */
 public class CiliaJarModel extends AbstractModel {
 
-	public static final String ROOT_NODE_NAME = "ipojo";
+	public static final String[] ROOT_NODE_NAME = { "ipojo", "cilia" };
 
 	private List<MediatorImplem> mediatorComponents = new ArrayList<MediatorImplem>();
 	private List<ProcessorImplem> processors = new ArrayList<ProcessorImplem>();
