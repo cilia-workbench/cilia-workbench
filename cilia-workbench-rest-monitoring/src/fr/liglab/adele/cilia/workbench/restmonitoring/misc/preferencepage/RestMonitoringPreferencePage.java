@@ -31,13 +31,14 @@ public class RestMonitoringPreferencePage extends FieldEditorPreferencePage impl
 
 	public static final String DESCRIPTION = "Preferences for Cilia Workbench Designer.";
 
+	public static final String pageID = "fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaRestMonitoringPreferencePage";
+
 	public RestMonitoringPreferencePage() {
 		super(GRID);
 	}
 
 	public void createFieldEditors() {
-		addField(new DirectoryFieldEditor(REST_PLATFORM_REPOSITORY_PATH, "&Rest platform repository path:",
-				getFieldEditorParent()));
+		addField(new DirectoryFieldEditor(REST_PLATFORM_REPOSITORY_PATH, "&Rest platform repository path:", getFieldEditorParent()));
 	}
 
 	public void init(IWorkbench workbench) {

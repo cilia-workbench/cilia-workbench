@@ -32,6 +32,8 @@ public class CiliaRootPreferencePage extends PreferencePage implements IWorkbenc
 	/** Message displayed on the top of the page. */
 	private static final String PAGE_DESCRIPTION = "CILIA workbench preferences.";
 
+	public static final String pageID = "fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage";
+
 	public CiliaRootPreferencePage() {
 	}
 

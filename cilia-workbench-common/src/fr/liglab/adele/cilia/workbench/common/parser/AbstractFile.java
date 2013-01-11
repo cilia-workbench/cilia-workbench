@@ -41,6 +41,8 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 	/** The model object, which represents the file. */
 	protected ModelType model;
 
+	protected String XMLerrorMessage = null;
+
 	public AbstractFile(PhysicalResource resource) {
 		this.resource = resource;
 	}
@@ -71,7 +73,17 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 	public CiliaFlag[] getErrorsAndWarnings() {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
-		CiliaFlag e1 = CiliaError.checkNotNull(this, model, "XML file");
+		CiliaFlag e1 = null;
+		if (model == null) {
+			String message;
+			if (XMLerrorMessage == null)
+				message = "XML file can't be null";
+			else
+				message = XMLerrorMessage;
+			e1 = new CiliaError(message, this);
+		}
+
+		CiliaError.checkNotNull(this, model, "XML file");
 
 		if (model != null && model instanceof ErrorsAndWarningsFinder) {
 			for (CiliaFlag flag : ((ErrorsAndWarningsFinder) model).getErrorsAndWarnings()) {

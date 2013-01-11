@@ -25,6 +25,7 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaModel;
@@ -82,5 +83,10 @@ public class DSCiliaRepositoryView extends RepositoryView<DSCiliaFile, DSCiliaMo
 		// updates labels and icons
 		refreshMessageArea();
 		viewer.refresh(true);
+	}
+
+	@Override
+	protected String getPreferencePageID() {
+		return CiliaDesignerPreferencePage.pageID;
 	}
 }

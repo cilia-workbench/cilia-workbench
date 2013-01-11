@@ -22,7 +22,7 @@ import java.util.List;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
@@ -43,6 +43,7 @@ import org.eclipse.ui.IURIEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
@@ -166,15 +167,11 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 
 	private void onMessageAreaClick() {
 		Shell shell = getSite().getShell();
-		String title = "Repository location";
-		String strNothing = "Before you start using this repository, you need to set its location.";
-		String common = "To provide a repository location, go to Window/Preferences/Cilia Workbench";
-
-		if (getRepositoryDirectory() == null)
-			MessageDialog.openInformation(shell, title, strNothing + "\n" + common);
-		else
-			MessageDialog.openInformation(shell, title, common);
+		PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(shell, getPreferencePageID(), null, null);
+		dialog.open();
 	}
+
+	protected abstract String getPreferencePageID();
 
 	/**
 	 * Gets the first element selected in the viewer.

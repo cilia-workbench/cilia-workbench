@@ -9,7 +9,7 @@
    </description>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0">
-Copyright 2012-2013 France Télécom  
+      Copyright 2012-2013 France Télécom  
 Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); 
 you may not use this file except in compliance with the License. 
 You may obtain a copy of the License at 
@@ -22,13 +22,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and 
 limitations under the License.
    </license>
-
-   <plugin
-         id="fr.liglab.adele.cilia.workbench.common"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="fr.liglab.adele.cilia.workbench.designer"
@@ -81,6 +74,13 @@ limitations under the License.
 
    <plugin
          id="org.ow2.chameleon.json.json.org-implementation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.liglab.adele.cilia.workbench.common"
          download-size="0"
          install-size="0"
          version="0.0.0"

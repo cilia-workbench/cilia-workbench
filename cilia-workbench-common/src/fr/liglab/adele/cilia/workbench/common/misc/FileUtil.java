@@ -125,6 +125,40 @@ public class FileUtil {
 		return is;
 	}
 
+	/**
+	 * Tests if a file exists in a jar file archive
+	 * 
+	 * @param jarFile
+	 *            the jar archive file, on the hard disk.
+	 * @param fileName
+	 *            the file name, in the archive.
+	 * @return true if the file exists
+	 * @throws CiliaException
+	 *             if the jar file can't be opened.
+	 */
+	public static boolean hasFile(File jarFile, String fileName) throws CiliaException {
+		JarFile file = getJarFile(jarFile);
+		ZipEntry entry = file.getEntry(fileName);
+		boolean retval = (entry != null);
+		closeFile(file);
+
+		return retval;
+	}
+
+	public static boolean hasFile(File jarFile, String subJar, String fileInSubJar) {
+		try {
+			InputStream is = inputStreamFromFileInJarInDP(jarFile, subJar, fileInSubJar);
+			if (is != null) {
+				closeStream(is);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	public static InputStream inputStreamFromFileInJarInDP(File jarFile, String subJar, String fileInSubJar) throws CiliaException {
 		JarFile outerJarFile = null;
 		InputStream in = null;

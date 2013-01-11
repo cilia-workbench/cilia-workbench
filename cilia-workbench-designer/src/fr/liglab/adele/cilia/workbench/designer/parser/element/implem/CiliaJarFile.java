@@ -31,9 +31,11 @@ public class CiliaJarFile extends AbstractFile<CiliaJarModel> {
 
 		try {
 			model = new CiliaJarModel(file);
+			XMLerrorMessage = null;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model = null;
+			XMLerrorMessage = e.getMessage();
 		}
 	}
 }

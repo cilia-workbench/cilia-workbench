@@ -21,7 +21,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import fr.liglab.adele.cilia.workbench.common.Activator;
 
-
 /**
  * Preferences class for Cilia workbench designer.
  * 
@@ -35,19 +34,17 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage imple
 	public static final String CONCRETE_COMPO_REPOSITORY_PATH = "concreteCompoRepositoryPath";
 
 	public static final String DESCRIPTION = "Preferences for Cilia Workbench Designer.";
+	public static final String pageID = "fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage";
 
 	public CiliaDesignerPreferencePage() {
 		super(GRID);
 	}
 
 	public void createFieldEditors() {
-		addField(new DirectoryFieldEditor(SPEC_REPOSITORY_PATH, "&Specification repository path:",
-				getFieldEditorParent()));
+		addField(new DirectoryFieldEditor(SPEC_REPOSITORY_PATH, "&Specification repository path:", getFieldEditorParent()));
 		addField(new DirectoryFieldEditor(JAR_REPOSITORY_PATH, "&Jar repository path:", getFieldEditorParent()));
-		addField(new DirectoryFieldEditor(ABSTRACT_COMPO_REPOSITORY_PATH, "&Abstract compositions repository path:",
-				getFieldEditorParent()));
-		addField(new DirectoryFieldEditor(CONCRETE_COMPO_REPOSITORY_PATH,
-				"&Concrete compositions (DSCilia) repository path:", getFieldEditorParent()));
+		addField(new DirectoryFieldEditor(ABSTRACT_COMPO_REPOSITORY_PATH, "&Abstract compositions repository path:", getFieldEditorParent()));
+		addField(new DirectoryFieldEditor(CONCRETE_COMPO_REPOSITORY_PATH, "&Concrete compositions (DSCilia) repository path:", getFieldEditorParent()));
 	}
 
 	public void init(IWorkbench workbench) {

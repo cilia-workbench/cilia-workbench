@@ -30,6 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarModel;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
@@ -101,5 +102,10 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile, CiliaJarMode
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	protected String getPreferencePageID() {
+		return CiliaDesignerPreferencePage.pageID;
 	}
 }

@@ -54,6 +54,10 @@ public class MetadataInJarInDP extends PhysicalResource {
 		return FileUtil.inputStreamFromFileInJarInDP(jarFile, entry, MetadataInJar.embeddedFileName);
 	}
 
+	public boolean hasMetadata() {
+		return FileUtil.hasFile(jarFile, entry, MetadataInJar.embeddedFileName);
+	}
+
 	@Override
 	public boolean delete() {
 		// Warning !

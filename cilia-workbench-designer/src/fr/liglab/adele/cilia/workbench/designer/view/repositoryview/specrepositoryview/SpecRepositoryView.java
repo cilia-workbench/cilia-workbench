@@ -26,6 +26,7 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryView;
+import fr.liglab.adele.cilia.workbench.designer.misc.preferencePage.CiliaDesignerPreferencePage;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.SpecModel;
@@ -90,5 +91,10 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 			SpecRepoService.getInstance().updateMediatorSpec(element, dialog.getInPorts(), dialog.getOutPorts(), dialog.getMediatorProperties(),
 					dialog.getSchedulerParam(), dialog.getProcessorParam(), dialog.getDispatcherParam());
 		}
+	}
+
+	@Override
+	protected String getPreferencePageID() {
+		return CiliaDesignerPreferencePage.pageID;
 	}
 }

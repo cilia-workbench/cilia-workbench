@@ -28,6 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryView;
+import fr.liglab.adele.cilia.workbench.restmonitoring.misc.preferencepage.RestMonitoringPreferencePage;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
@@ -97,5 +98,10 @@ public class PlatformView extends RepositoryView<PlatformFile, PlatformModel> im
 				}
 			}
 		}
+	}
+
+	@Override
+	protected String getPreferencePageID() {
+		return RestMonitoringPreferencePage.pageID;
 	}
 }

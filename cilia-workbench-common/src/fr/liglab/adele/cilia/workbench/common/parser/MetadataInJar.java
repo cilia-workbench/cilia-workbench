@@ -52,6 +52,14 @@ public class MetadataInJar extends PhysicalResource {
 		return FileUtil.inputStreamFromFileInJarArchive(file, embeddedFileName);
 	}
 
+	public boolean hasMetadata() {
+		try {
+			return FileUtil.hasFile(file, embeddedFileName);
+		} catch (CiliaException e) {
+			return false;
+		}
+	}
+
 	@Override
 	public boolean delete() {
 		try {

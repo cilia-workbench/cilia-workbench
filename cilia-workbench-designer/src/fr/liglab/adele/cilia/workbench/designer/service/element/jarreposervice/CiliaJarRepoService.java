@@ -102,13 +102,17 @@ public class CiliaJarRepoService extends ComponentRepoService<CiliaJarFile, Cili
 		File[] list = getFiles();
 		List<CiliaJarFile> bundles = new ArrayList<CiliaJarFile>();
 		for (File jar : list) {
-			bundles.add(new CiliaJarFile(new MetadataInJar(jar)));
+			MetadataInJar mij = new MetadataInJar(jar);
+			if (mij.hasMetadata())
+				bundles.add(new CiliaJarFile(mij));
 		}
 
 		// Deployment packages management
 		for (File jarFile : FileUtil.getFiles(getRepositoryLocation(), "dp")) {
 			for (JarEntry entry : findJarInDP(jarFile)) {
-				bundles.add(new CiliaJarFile(new MetadataInJarInDP(jarFile, entry.getName())));
+				MetadataInJarInDP mij = new MetadataInJarInDP(jarFile, entry.getName());
+				if (mij.hasMetadata())
+					bundles.add(new CiliaJarFile(mij));
 			}
 		}
 
