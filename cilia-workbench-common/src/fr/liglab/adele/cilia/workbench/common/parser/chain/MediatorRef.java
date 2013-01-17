@@ -99,6 +99,7 @@ public abstract class MediatorRef extends ComponentRef {
 
 		CiliaError e1 = null;
 		CiliaError e2 = null;
+		CiliaError e3 = null;
 
 		if (getIncommingBindings().length == 0)
 			e1 = new CiliaError(this + " doesn't have an incomming binding", this);
@@ -106,6 +107,6 @@ public abstract class MediatorRef extends ComponentRef {
 		if (getOutgoingBindings().length == 0)
 			e2 = new CiliaError(this + " doesn't have an outgoing binding", this);
 
-		return CiliaFlag.generateTab(tab, e1, e2);
+		return CiliaFlag.generateTab(tab, e1, e2, e3);
 	}
 }

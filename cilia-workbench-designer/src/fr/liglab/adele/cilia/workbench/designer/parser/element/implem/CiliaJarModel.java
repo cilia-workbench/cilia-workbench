@@ -71,6 +71,8 @@ public class CiliaJarModel extends AbstractModel {
 						Adapter a = AdapterImplemUtil.createAdapter(child);
 						if (a != null)
 							adapters.add(a);
+					} else if (nodeName.equals(InOutAdapterImplem.XML_NODE_NAME)) {
+						adapters.add(new InOutAdapterImplem(child));
 					} else if (nodeName.equals(MediatorImplem.XML_NODE_NAME))
 						mediatorComponents.add(new MediatorImplem(child));
 				}
@@ -112,6 +114,10 @@ public class CiliaJarModel extends AbstractModel {
 
 	public List<Adapter> getOutAdapters() {
 		return getAdapters(AdapterType.OUT);
+	}
+
+	public List<Adapter> getInOutAdapters() {
+		return getAdapters(AdapterType.INOUT);
 	}
 
 	private List<Adapter> getAdapters(AdapterType type) {

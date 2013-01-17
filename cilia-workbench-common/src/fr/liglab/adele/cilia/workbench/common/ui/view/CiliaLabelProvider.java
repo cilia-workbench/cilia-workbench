@@ -37,6 +37,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Dispatcher;
 import fr.liglab.adele.cilia.workbench.common.parser.element.InAdapter;
+import fr.liglab.adele.cilia.workbench.common.parser.element.InOutAdapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.OutAdapter;
@@ -79,21 +80,25 @@ public abstract class CiliaLabelProvider extends LabelProvider {
 		// Mediator
 		if (isCompatible(obj, MediatorRef.class))
 			return ImageDescriptorEnum.MEDIATOR;
-		else if (isCompatible(obj, Mediator.class))
+		if (isCompatible(obj, Mediator.class))
 			return ImageDescriptorEnum.MEDIATOR;
 
 		// Adapter
 		if (isCompatible(obj, InAdapter.class))
 			return ImageDescriptorEnum.ADAPTER_IN;
-		else if (isCompatible(obj, OutAdapter.class))
+		if (isCompatible(obj, OutAdapter.class))
 			return ImageDescriptorEnum.ADAPTER_OUT;
+		if (isCompatible(obj, InOutAdapter.class))
+			return ImageDescriptorEnum.ADAPTER_IN_OUT;
 		if (isCompatible(obj, AdapterRef.class)) {
 			AdapterRef adapter = (AdapterRef) obj;
 			if (adapter.getReferencedComponentDefinition() != null) {
 				if (adapter.getReferencedComponentDefinition().getType() == AdapterType.IN)
 					return ImageDescriptorEnum.ADAPTER_IN;
-				else
+				else if (adapter.getReferencedComponentDefinition().getType() == AdapterType.OUT)
 					return ImageDescriptorEnum.ADAPTER_OUT;
+				else
+					return ImageDescriptorEnum.ADAPTER_IN_OUT;
 			} else
 				return ImageDescriptorEnum.ADAPTER_IN;
 		}
@@ -146,9 +151,10 @@ public abstract class CiliaLabelProvider extends LabelProvider {
 	 * @author Etienne Gandrille
 	 */
 	public enum ImageDescriptorEnum {
-		NOTHING(null), ONLY_TEXT(null), FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT("adapterOut.png"), REPOSITORY("repo.png"), MEDIATOR(
-				"mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR("processor.png"), DISPATCHER("dispatcher.png"), COLLECTOR("collector.png"), SENDER(
-				"sender.png"), PORT_IN("portIn.png"), PORT_OUT("portOut.png"), PROPERTY("property.png"), BINDING("binding.png"), SUPER_TYPE("super-type.png");
+		NOTHING(null), ONLY_TEXT(null), FILE("file.png"), CHAIN("chain.png"), ADAPTER_IN("adapterIn.png"), ADAPTER_OUT("adapterOut.png"), ADAPTER_IN_OUT(
+				"adapterInOut.png"), REPOSITORY("repo.png"), MEDIATOR("mediator.png"), SCHEDULER("scheduler.png"), PROCESSOR("processor.png"), DISPATCHER(
+				"dispatcher.png"), COLLECTOR("collector.png"), SENDER("sender.png"), PORT_IN("portIn.png"), PORT_OUT("portOut.png"), PROPERTY("property.png"), BINDING(
+				"binding.png"), SUPER_TYPE("super-type.png");
 
 		private String fileName;
 		private Image imageOK;

@@ -189,10 +189,15 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
+
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, componentID, "id");
 		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, referencedComponentID.getName(), "type");
 		CiliaFlag e3 = CiliaWarning.checkStringNotNullOrEmpty(this, referencedComponentID.getNamespace(), "namespace");
+		CiliaFlag e4 = null;
 
-		return CiliaFlag.generateTab(e1, e2, e3);
+		if (getReferencedComponentDefinition() == null)
+			e4 = new CiliaError("Can't find mediator definition for " + this, this);
+
+		return CiliaFlag.generateTab(e1, e2, e3, e4);
 	}
 }

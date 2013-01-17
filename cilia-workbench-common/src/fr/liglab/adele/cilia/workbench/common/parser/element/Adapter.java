@@ -29,7 +29,7 @@ public abstract class Adapter extends ComponentDefinition {
 	}
 
 	public enum AdapterType {
-		IN, OUT;
+		IN, OUT, INOUT;
 	}
 
 	public abstract AdapterType getType();

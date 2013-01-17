@@ -14,9 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
@@ -26,7 +23,6 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
@@ -158,16 +154,6 @@ public abstract class XMLChain extends Chain {
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, id.getName(), "name");
 		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, id.getNamespace(), "namespace");
 
-		// In the future, move this to chain Class ?
-		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
-		for (ComponentRef c : getComponents()) {
-			try {
-				getReferencedComponent(c.getId());
-			} catch (CiliaException e) {
-				list.add(new CiliaError(e.getMessage(), this));
-			}
-		}
-
-		return CiliaFlag.generateTab(tab, list.toArray(new CiliaFlag[0]), e1, e2);
+		return CiliaFlag.generateTab(tab, e1, e2);
 	}
 }

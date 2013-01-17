@@ -120,12 +120,15 @@ public abstract class Binding implements DisplayedInPropertiesView, ErrorsAndWar
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
+		CiliaFlag e5 = null;
 
 		CiliaFlag e1 = CiliaError.checkNotNull(this, getSourceId(), "binding source");
 		CiliaFlag e2 = CiliaError.checkNotNull(this, getDestinationId(), "binding destination");
 		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, getSourcePort(), "binding source port");
 		CiliaFlag e4 = CiliaError.checkStringNotNullOrEmpty(this, getDestinationPort(), "binding destination port");
+		if (getSourceId() != null && getSourceId().equals(getDestinationId()))
+			e5 = new CiliaError("binding source and destination can't be the same", this);
 
-		return CiliaFlag.generateTab(list, e1, e2, e3, e4);
+		return CiliaFlag.generateTab(list, e1, e2, e3, e4, e5);
 	}
 }

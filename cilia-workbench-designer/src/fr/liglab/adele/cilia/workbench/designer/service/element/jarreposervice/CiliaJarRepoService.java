@@ -165,6 +165,15 @@ public class CiliaJarRepoService extends ComponentRepoService<CiliaJarFile, Cili
 		return retval;
 	}
 
+	public List<Adapter> getInOutAdapters() {
+		List<Adapter> retval = new ArrayList<Adapter>();
+		for (Adapter a : getAdapters())
+			if (a.getType() == AdapterType.INOUT)
+				retval.add(a);
+
+		return retval;
+	}
+
 	public static List<SchedulerImplem> getSchedulers(List<CiliaJarFile> model) {
 		List<SchedulerImplem> retval = new ArrayList<SchedulerImplem>();
 		for (CiliaJarFile bundle : model)

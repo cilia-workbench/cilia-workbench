@@ -64,8 +64,12 @@ public abstract class AdapterRef extends ComponentRef {
 				if (getOutgoingBindings().length != 0)
 					e2 = new CiliaError(this + " shouldn't have an outgoing binding", this);
 				break;
-			default:
-				throw new RuntimeException("To be implemented as soon as API changes with IN-OUT adapters");
+			case INOUT:
+				if (getIncommingBindings().length == 0)
+					e1 = new CiliaError(this + " doesn't have an incomming binding", this);
+				if (getOutgoingBindings().length == 0)
+					e2 = new CiliaError(this + " doesn't have an outgoing binding", this);
+				break;
 			}
 		}
 

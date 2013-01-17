@@ -33,12 +33,10 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.InAdapterImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.OutAdapterImplem;
 
 /**
  * 
@@ -124,7 +122,7 @@ public class NewBindingDialog extends WorkbenchDialog {
 		}
 		for (AdapterRef item : chain.getAdapters()) {
 			Adapter adapter = item.getReferencedComponentDefinition();
-			if (adapter == null) {
+			if (adapter == null || adapter.getType() == AdapterType.INOUT) {
 				srcElemCombo.add(item.getId());
 				dstElemCombo.add(item.getId());
 			} else if (adapter.getType() == AdapterType.IN) {
@@ -274,37 +272,18 @@ public class NewBindingDialog extends WorkbenchDialog {
 			comboPort.removeAll();
 
 			ComponentRef i = chain.getComponent(comboElem.getText());
-
+			ComponentDefinition compoDef = i.getReferencedComponentDefinition();
 			comboPort.setEnabled(true);
 
-			// adapter
-			if (i instanceof AdapterRef) {
-				Adapter adapter = ((AdapterRef) i).getReferencedComponentDefinition();
-
-				if (portType.equals(DST_COLUMN_KEY)) {
-					for (Port port : ((OutAdapterImplem) adapter).getInPorts())
-						comboPort.add(port.getName());
-				} else {
-					for (Port port : ((InAdapterImplem) adapter).getOutPorts())
-						comboPort.add(port.getName());
-				}
-
-				comboPort.select(0);
+			if (portType.equals(DST_COLUMN_KEY)) {
+				for (Port port : compoDef.getInPorts())
+					comboPort.add(port.getName());
+			} else {
+				for (Port port : compoDef.getOutPorts())
+					comboPort.add(port.getName());
 			}
 
-			// mediator
-			if (i instanceof MediatorRef) {
-				Mediator mediator = ((MediatorRef) i).getReferencedComponentDefinition();
-				if (portType.equals(DST_COLUMN_KEY)) {
-					for (Port port : mediator.getInPorts())
-						comboPort.add(port.getName());
-				} else {
-					for (Port port : mediator.getOutPorts())
-						comboPort.add(port.getName());
-				}
-
-				comboPort.select(0);
-			}
+			comboPort.select(0);
 
 			updateResult();
 			return;
