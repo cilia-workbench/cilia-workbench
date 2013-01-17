@@ -14,11 +14,14 @@
  */
 package fr.liglab.adele.cilia.workbench.common.ui.view.graphview;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
@@ -27,9 +30,10 @@ import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
 import org.eclipse.zest.core.viewers.ZoomContributionViewItem;
+import org.eclipse.zest.core.widgets.GraphItem;
+import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
-import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
@@ -42,6 +46,8 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPart {
 
 	private Shell parentShell;
+
+	private ObjectLocatorService olc = ObjectLocatorService.getInstance();
 
 	protected GraphViewer viewer;
 
@@ -62,6 +68,29 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 				Object element = getFirstSelectedElement();
 				if (element != null)
 					onDoubleClick(parentShell, element);
+			}
+		});
+
+		viewer.getGraphControl().addMouseListener(new MouseListener() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+
+				for (Object element : viewer.getNodeElements()) {
+					GraphItem item = viewer.findGraphItem(element);
+					if (item instanceof GraphNode) {
+						GraphNode node = (GraphNode) item;
+						Point location = node.getLocation();
+						olc.updateLocation(element, location);
+					}
+				}
+			}
+
+			@Override
+			public void mouseDown(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
 			}
 		});
 	}
@@ -86,8 +115,10 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 		// HorizontalTreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
 		// layout = new
 		// RadialLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+		// layout = new
+		// SpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
 
-		layout = new SpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+		layout = new MemoryAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
 
 		return layout;
 
