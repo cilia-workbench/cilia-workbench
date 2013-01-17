@@ -37,7 +37,7 @@ public abstract class MediatorRef extends ComponentRef {
 
 	public Mediator getReferencedComponentDefinition() {
 		NameNamespaceID id = getReferencedComponentDefinitionID();
-		return componentRepo.getMediatorForChain(id);
+		return componentRepo.getMediator(id);
 	}
 
 	// PARAMETERS

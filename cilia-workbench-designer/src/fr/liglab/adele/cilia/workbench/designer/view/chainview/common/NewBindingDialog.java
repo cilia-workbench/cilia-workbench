@@ -273,18 +273,22 @@ public class NewBindingDialog extends WorkbenchDialog {
 
 			ComponentRef i = chain.getComponent(comboElem.getText());
 			ComponentDefinition compoDef = i.getReferencedComponentDefinition();
-			comboPort.setEnabled(true);
 
-			if (portType.equals(DST_COLUMN_KEY)) {
-				for (Port port : compoDef.getInPorts())
-					comboPort.add(port.getName());
+			if (compoDef != null) {
+				comboPort.setEnabled(true);
+
+				if (portType.equals(DST_COLUMN_KEY)) {
+					for (Port port : compoDef.getInPorts())
+						comboPort.add(port.getName());
+				} else {
+					for (Port port : compoDef.getOutPorts())
+						comboPort.add(port.getName());
+				}
+
+				comboPort.select(0);
 			} else {
-				for (Port port : compoDef.getOutPorts())
-					comboPort.add(port.getName());
+				comboPort.setEnabled(false);
 			}
-
-			comboPort.select(0);
-
 			updateResult();
 			return;
 		}

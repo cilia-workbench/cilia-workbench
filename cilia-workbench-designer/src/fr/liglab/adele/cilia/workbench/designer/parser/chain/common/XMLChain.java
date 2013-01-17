@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
@@ -52,7 +53,7 @@ public abstract class XMLChain extends Chain {
 		super(XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_ID));
 
 		String name = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_ID);
-		String namespace = XMLHelpers.findAttributeValueOrEmpty(node, XML_ATTR_NAMESPACE);
+		String namespace = XMLHelpers.findAttributeValue(node, XML_ATTR_NAMESPACE, CiliaConstants.CILIA_DEFAULT_NAMESPACE);
 		id = new NameNamespaceID(name, namespace);
 
 		Node rootAdapters = XMLHelpers.findChild(node, XML_ROOT_ADAPTERS_NAME);
@@ -114,17 +115,33 @@ public abstract class XMLChain extends Chain {
 
 	public String isNewBindingAllowed(String srcElem, String srcPort, String dstElem, String dstPort) {
 
-		ComponentDefinition src;
-		ComponentDefinition dst;
+		ComponentDefinition src = null;
+		ComponentDefinition dst = null;
+
+		if (Strings.isNullOrEmpty(srcElem))
+			return "Source is not provided";
+
+		if (Strings.isNullOrEmpty(dstElem))
+			return "Destination is not provided";
+
 		if (srcElem.equalsIgnoreCase(dstElem))
 			return "Source and destination can't be the same";
 
 		try {
 			src = getReferencedComponent(srcElem);
+		} catch (CiliaException e) {
+			// do nothing
+		}
+		if (src == null)
+			return "Can't find definition for binding source";
+
+		try {
 			dst = getReferencedComponent(dstElem);
 		} catch (CiliaException e) {
-			return e.getMessage();
+			// do nothing
 		}
+		if (dst == null)
+			return "Can't find definition for binding destination";
 
 		if (src instanceof Adapter) {
 			Adapter adapter = (Adapter) src;

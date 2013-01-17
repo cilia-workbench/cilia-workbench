@@ -8,13 +8,15 @@
 		<adapters>
 			<adapter-instance id="random-generator" namespace="fr.liglab.adele.cilia" type="random-generator"/>
 			<adapter-instance id="console" namespace="fr.liglab.adele.cilia" type="console-adapter"/>
-		</adapters>
+		<adapter-instance id="aa" namespace="fr.liglab.adele.cilia" type="HL7-REST-MessageAdapter"/>
+</adapters>
 		<bindings>
 			<binding from="random-generator:out" to="average:in"/>
 			<binding from="random-generator:out" to="sum:in"/>
 			
 			<binding from="sum:out" to="console:unique"/>
 		<binding from="average:out" to="console:unique"/>
+<binding from="aa:out" to="console:unique"/>
 </bindings>
 	</chain>
 </cilia>

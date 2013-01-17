@@ -2,18 +2,19 @@
 <cilia>
 	<chain id="chain1" namespace="fr.liglab.adele.cilia.workbench.test">
 		<adapters>
-			<adapter-instance id="console" namespace="fr.liglab.adele.cilia"
-				type="console-adapter" />
-			<adapter-instance id="counter" namespace="fr.liglab.adele.cilia"
-				type="counter-generator" />
-		</adapters>
+			<adapter-instance id="console" namespace="fr.liglab.adele.cilia" type="console-adapter"/>
+			
+		<adapter-instance id="rest-connector" namespace="fr.liglab.adele.cilia" type="HL7-REST-MessageAdapter"/>
+<adapter-instance id="generator" namespace="fr.liglab.adele.cilia" type="number-generator-adapter"/>
+</adapters>
 		<mediators>
-			<mediator-instance id="groovy" namespace="fr.liglab.adele.cilia"
-				type="groovy-mediator" />
+			
 		</mediators>
 		<bindings>
-			<binding from="counter:out" to="groovy:in" />
-			<binding from="groovy:out" to="console:unique" />
-		</bindings>
+			
+			
+		<binding from="generator:unique" to="rest-connector:in"/>
+<binding from="rest-connector:out" to="console:unique"/>
+</bindings>
 	</chain>
 </cilia>

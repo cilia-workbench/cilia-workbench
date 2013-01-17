@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.chain.common;
 
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 
 /**
@@ -37,6 +38,6 @@ public class XMLComponentRefHelper {
 	}
 
 	public static String getNamespace(Node node) {
-		return XMLHelpers.findAttributeValueOrEmpty(node, XMLComponentRefHelper.XML_ATTR_NAMESPACE);
+		return XMLHelpers.findAttributeValue(node, XMLComponentRefHelper.XML_ATTR_NAMESPACE, CiliaConstants.CILIA_DEFAULT_NAMESPACE);
 	}
 }

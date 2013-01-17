@@ -309,27 +309,6 @@ public class CiliaJarRepoService extends ComponentRepoService<CiliaJarFile, Cili
 	}
 
 	/**
-	 * Gets a mediator, by its id, using the chain criteria. If the id given in
-	 * parameter has its namespace defined, the functions calls
-	 * {@link #getMediator(NameNamespaceID)}. If the namespace is undefined
-	 * (null or empty), the comparison is ONLY based on the name, and the
-	 * namespace is IGNORED.
-	 * 
-	 * @param id
-	 * @return the mediator, or null if not found
-	 */
-	public MediatorImplem getMediatorForChain(NameNamespaceID id) {
-		if (id.getNamespace() != null && id.getNamespace().length() != 0)
-			return getMediator(id);
-
-		for (MediatorImplem m : getMediators())
-			if (((NameNamespaceID) m.getId()).getName().equals(id.getName()))
-				return m;
-
-		return null;
-	}
-
-	/**
 	 * Gets an adapter with the exact id.
 	 * 
 	 * @param id
@@ -338,27 +317,6 @@ public class CiliaJarRepoService extends ComponentRepoService<CiliaJarFile, Cili
 	public Adapter getAdapter(NameNamespaceID id) {
 		for (Adapter a : getAdapters())
 			if (a.getId().equals(id))
-				return a;
-
-		return null;
-	}
-
-	/**
-	 * Gets a adapter, by its id, using the chain criteria. If the id given in
-	 * parameter has its namespace defined, the functions calls
-	 * {@link #getAdapter(NameNamespaceID)}. If the namespace is undefined (null
-	 * or empty), the comparison is ONLY based on the name, and the namespace is
-	 * IGNORED.
-	 * 
-	 * @param id
-	 * @return the adapter, or null if not found
-	 */
-	public Adapter getAdapterForChain(NameNamespaceID id) {
-		if (id.getNamespace() != null && id.getNamespace().length() != 0)
-			return getAdapter(id);
-
-		for (Adapter a : getAdapters())
-			if (((NameNamespaceID) a.getId()).getName().equals(id.getName()))
 				return a;
 
 		return null;

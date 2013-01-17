@@ -29,7 +29,7 @@ public abstract class ComponentRepoService<FileType extends AbstractFile<ModelTy
 		super(preferenceKey, ext, repoName);
 	}
 
-	public abstract Mediator getMediatorForChain(NameNamespaceID id);
+	public abstract Adapter getAdapter(NameNamespaceID id);
 
-	public abstract Adapter getAdapterForChain(NameNamespaceID id);
+	public abstract Mediator getMediator(NameNamespaceID id);
 }

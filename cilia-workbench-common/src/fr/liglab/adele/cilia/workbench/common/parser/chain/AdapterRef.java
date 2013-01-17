@@ -32,7 +32,7 @@ public abstract class AdapterRef extends ComponentRef {
 
 	public Adapter getReferencedComponentDefinition() {
 		NameNamespaceID id = getReferencedComponentDefinitionID();
-		return componentRepo.getAdapterForChain(id);
+		return componentRepo.getAdapter(id);
 	}
 
 	public AdapterType getType() {
