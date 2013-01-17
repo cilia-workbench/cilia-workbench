@@ -71,7 +71,14 @@ public class PlatformChain extends Chain {
 
 			JSONArray inOutAdaptersList = adaptersRoot.getJSONArray("in-out");
 			for (int i = 0; i < inOutAdaptersList.length(); i++) {
-				String adapterName = (String) outAdaptersList.get(i);
+				String adapterName = (String) inOutAdaptersList.get(i);
+				NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
+				adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+			}
+
+			JSONArray unknownAdaptersList = adaptersRoot.getJSONArray("unknown");
+			for (int i = 0; i < unknownAdaptersList.length(); i++) {
+				String adapterName = (String) unknownAdaptersList.get(i);
 				NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
 				adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
 			}
