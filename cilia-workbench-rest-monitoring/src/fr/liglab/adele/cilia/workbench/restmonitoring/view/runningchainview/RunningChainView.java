@@ -22,13 +22,13 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
-import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
@@ -99,7 +99,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 				if (change.getObject() instanceof PlatformFile && change.getOperation() == Operation.REMOVE) {
 					PlatformModel removedModel = ((PlatformFile) (change.getObject())).getModel();
 					if (removedModel != null) {
-						// This code is defferent from DSCiliaChainView because
+						// This code is different from DSCiliaChainView because
 						// two platforms can host a
 						// chain with the same name !
 						if (model.getPlatform() == removedModel) {
@@ -132,6 +132,6 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 	@Override
 	protected void onDoubleClick(Shell parentShell, Object element) {
-		ViewUtil.notYetImplementedHandler(parentShell);
+		new StateVarDialog(parentShell, model, (ComponentRef) element).open();
 	}
 }

@@ -21,8 +21,8 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
 public class StateVar {
 
 	private final String name;
-	private final boolean enabled;
-	private final String value;
+	private boolean enabled;
+	private String value;
 
 	public StateVar(String name, boolean enabled, String value) {
 		this.name = name;
@@ -40,5 +40,10 @@ public class StateVar {
 
 	public String getValue() {
 		return value;
+	}
+
+	public void setEnable(boolean value) {
+		this.enabled = value;
+		// TODO Auto-generated method stub
 	}
 }

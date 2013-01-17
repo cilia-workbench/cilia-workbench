@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 
@@ -29,8 +30,10 @@ public enum ModelProvider {
 	private ModelProvider() {
 		stateVars = new ArrayList<StateVar>();
 
-		stateVars.add(new StateVar("msgCounter", true, "30"));
-		stateVars.add(new StateVar("enabledVar", true, "17"));
+		Random random = new Random();
+
+		stateVars.add(new StateVar("msgCounter", true, Integer.toString(random.nextInt(30))));
+		stateVars.add(new StateVar("enabledVar", true, Integer.toString(random.nextInt(17))));
 		stateVars.add(new StateVar("disabledVar", false, ""));
 	}
 

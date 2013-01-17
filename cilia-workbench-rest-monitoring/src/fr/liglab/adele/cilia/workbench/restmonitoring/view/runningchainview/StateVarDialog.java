@@ -14,10 +14,17 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -25,9 +32,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 
+import fr.liglab.adele.cilia.workbench.common.misc.ImageBuilder;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 
 /**
  * 
@@ -36,12 +47,20 @@ import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 public class StateVarDialog extends WorkbenchDialog {
 
 	private final static String title = "State Variables";
+	private final static String introText = "Available state variables:";
 	private final static Point initialSize = new Point(300, 400);
 
-	private TableViewer viewer;
+	private static final Image imageChecked = ImageBuilder.getINSTANCE().getImage("icons/misc/checked.gif");
+	private static final Image imageUnchecked = ImageBuilder.getINSTANCE().getImage("icons/misc/unchecked.gif");
 
-	protected StateVarDialog(Shell parentShell) {
+	private TableViewer viewer = null;
+	private final PlatformChain chain;
+	private final ComponentRef compoRef;
+
+	protected StateVarDialog(Shell parentShell, PlatformChain chain, ComponentRef compoRef) {
 		super(parentShell, title, initialSize, true, false);
+		this.chain = chain;
+		this.compoRef = compoRef;
 	}
 
 	public Control createDialogArea(Composite parent) {
@@ -49,9 +68,9 @@ public class StateVarDialog extends WorkbenchDialog {
 
 		container.setLayout(new GridLayout(1, false));
 
-		// Empty element
+		// Intro
 		Label label = new Label(container, SWT.WRAP);
-		label.setText("Available state variables:");
+		label.setText(introText);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// viewer
@@ -60,85 +79,124 @@ public class StateVarDialog extends WorkbenchDialog {
 		return container;
 	}
 
+	private List<StateVar> getStateVariables() {
+		return ModelProvider.INSTANCE.getStateVar();
+	}
+
+	private void updateViewer() {
+		viewer.setInput(getStateVariables());
+		viewer.refresh();
+	}
+
+	private void updateEnableVariable(StateVar stateVar, boolean isEnabled) {
+		// TODO send message to platform
+	}
+
 	private TableViewer createViewer(Composite parent) {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
 
 		createColumns(parent, viewer);
-		/*
-		 * final Table table = viewer.getTable(); table.setHeaderVisible(true);
-		 * table.setLinesVisible(true);
-		 * 
-		 * viewer.setContentProvider(new ArrayContentProvider()); // Get the
-		 * content for the viewer, setInput will call getElements in the //
-		 * contentProvider viewer.setInput(ModelProvider.INSTANCE.getPersons());
-		 * // Make the selection available to other views
-		 * getSite().setSelectionProvider(viewer); // Set the sorter for the
-		 * table
-		 * 
-		 * // Layout the viewer GridData gridData = new GridData();
-		 * gridData.verticalAlignment = GridData.FILL; gridData.horizontalSpan =
-		 * 2; gridData.grabExcessHorizontalSpace = true;
-		 * gridData.grabExcessVerticalSpace = true; gridData.horizontalAlignment
-		 * = GridData.FILL; viewer.getControl().setLayoutData(gridData);
-		 */
+		final Table table = viewer.getTable();
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+
+		viewer.setContentProvider(new ArrayContentProvider());
+		viewer.setInput(getStateVariables());
+
+		GridData gridData = new GridData();
+		gridData.verticalAlignment = GridData.FILL;
+		gridData.horizontalSpan = 2;
+		gridData.grabExcessHorizontalSpace = true;
+		gridData.grabExcessVerticalSpace = true;
+		gridData.horizontalAlignment = GridData.FILL;
+		viewer.getControl().setLayoutData(gridData);
+
 		return viewer;
 	}
 
-	public TableViewer getViewer() {
-		return viewer;
-	}
-
-	// This will create the columns for the table
 	private void createColumns(final Composite parent, final TableViewer viewer) {
-		String[] titles = { "name", "enabled", "value" };
-		int[] bounds = { 100, 100, 100 };
+		String[] titles = { "", "name", "value" };
+		int[] bounds = { 16, 100, 100 };
 
-		// / TODO Continue here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		/*
-		 * // First column is for the first name TableViewerColumn col =
-		 * createTableViewerColumn(titles[0], bounds[0], 0);
-		 * col.setLabelProvider(new ColumnLabelProvider() {
-		 * 
-		 * @Override public String getText(Object element) { Person p = (Person)
-		 * element; return p.getFirstName(); } });
-		 * 
-		 * // Second column is for the last name col =
-		 * createTableViewerColumn(titles[1], bounds[1], 1);
-		 * col.setLabelProvider(new ColumnLabelProvider() {
-		 * 
-		 * @Override public String getText(Object element) { Person p = (Person)
-		 * element; return p.getLastName(); } });
-		 * 
-		 * // Now the gender col = createTableViewerColumn(titles[2], bounds[2],
-		 * 2); col.setLabelProvider(new ColumnLabelProvider() {
-		 * 
-		 * @Override public String getText(Object element) { Person p = (Person)
-		 * element; return p.getGender(); } });
-		 * 
-		 * // // Now the status married col = createTableViewerColumn(titles[3],
-		 * bounds[3], 3); col.setLabelProvider(new ColumnLabelProvider() {
-		 * 
-		 * @Override public String getText(Object element) { return null; }
-		 * 
-		 * @Override public Image getImage(Object element) { if (((Person)
-		 * element).isMarried()) { return CHECKED; } else { return UNCHECKED; }
-		 * } });
-		 * 
-		 * }
-		 * 
-		 * private TableViewerColumn createTableViewerColumn(String title, int
-		 * bound, final int colNumber) { final TableViewerColumn viewerColumn =
-		 * new TableViewerColumn(viewer, SWT.NONE); final TableColumn column =
-		 * viewerColumn.getColumn(); column.setText(title);
-		 * column.setWidth(bound); column.setResizable(true);
-		 * column.setMoveable(true); return viewerColumn;
-		 */
+		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return "";
+			}
+
+			@Override
+			public Image getImage(Object element) {
+				StateVar stateVar = (StateVar) element;
+				if (stateVar.isEnabled())
+					return imageChecked;
+				else
+					return imageUnchecked;
+			}
+		});
+		col.setEditingSupport(new ActivatedEditingSupport(viewer));
+
+		col = createTableViewerColumn(titles[1], bounds[1], 1);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				StateVar stateVar = (StateVar) element;
+				return stateVar.getName();
+			}
+		});
+
+		col = createTableViewerColumn(titles[2], bounds[2], 2);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				StateVar stateVar = (StateVar) element;
+				return stateVar.getValue();
+			}
+		});
 	}
 
-	/** * Passing the focus request to the viewer's control. */
+	private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber) {
+		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer, SWT.NONE);
+		final TableColumn column = viewerColumn.getColumn();
+		column.setText(title);
+		column.setWidth(bound);
+		column.setResizable(true);
+		column.setMoveable(false);
+		return viewerColumn;
+	}
 
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
 
+	public class ActivatedEditingSupport extends EditingSupport {
+
+		public ActivatedEditingSupport(TableViewer viewer) {
+			super(viewer);
+		}
+
+		@Override
+		protected CellEditor getCellEditor(Object element) {
+			return new CheckboxCellEditor(null, SWT.CHECK | SWT.READ_ONLY);
+		}
+
+		@Override
+		protected boolean canEdit(Object element) {
+			return true;
+		}
+
+		@Override
+		protected Object getValue(Object element) {
+			StateVar stateVar = (StateVar) element;
+			return stateVar.isEnabled();
+		}
+
+		@Override
+		protected void setValue(Object element, Object value) {
+			StateVar stateVar = (StateVar) element;
+			updateEnableVariable(stateVar, (Boolean) value);
+			// viewer.update(element, null);
+			updateViewer();
+		}
+	}
 }

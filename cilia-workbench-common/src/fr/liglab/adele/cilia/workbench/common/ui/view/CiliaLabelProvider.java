@@ -14,21 +14,16 @@
  */
 package fr.liglab.adele.cilia.workbench.common.ui.view;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
-import fr.liglab.adele.cilia.workbench.common.Activator;
+import fr.liglab.adele.cilia.workbench.common.misc.ImageBuilder;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
@@ -172,7 +167,7 @@ public abstract class CiliaLabelProvider extends LabelProvider {
 			if (fileName == null)
 				return null;
 			if (imageOK == null)
-				imageOK = createImageFromPath("icons/16/" + fileName);
+				imageOK = ImageBuilder.getINSTANCE().getImage("icons/16/" + fileName);
 
 			return imageOK;
 		}
@@ -181,7 +176,7 @@ public abstract class CiliaLabelProvider extends LabelProvider {
 			if (fileName == null)
 				return null;
 			if (imageError == null)
-				imageError = createImageFromPath("icons/16-error/" + fileName);
+				imageError = ImageBuilder.getINSTANCE().getImage("icons/16-error/" + fileName);
 
 			return imageError;
 		}
@@ -190,22 +185,9 @@ public abstract class CiliaLabelProvider extends LabelProvider {
 			if (fileName == null)
 				return null;
 			if (imageWarning == null)
-				imageWarning = createImageFromPath("icons/16-warning/" + fileName);
+				imageWarning = ImageBuilder.getINSTANCE().getImage("icons/16-warning/" + fileName);
 
 			return imageWarning;
-		}
-
-		private static Image createImageFromPath(String imagePath) {
-			org.osgi.framework.Bundle bundle = Activator.getInstance().getBundle();
-			URL url = FileLocator.find(bundle, new Path(imagePath), null);
-			try {
-				url = new URL("platform:/plugin/fr.liglab.adele.cilia.workbench.common/" + imagePath);
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-			ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
-
-			return imageDesc.createImage();
 		}
 	}
 
