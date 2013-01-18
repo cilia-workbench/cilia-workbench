@@ -15,19 +15,10 @@
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.dialog;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.CheckboxCellEditor;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -35,10 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 
-import fr.liglab.adele.cilia.workbench.common.misc.ImageBuilder;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
@@ -75,14 +63,18 @@ public class PropertiesDialog extends WorkbenchDialog {
 		folder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		folder.setLayout(new GridLayout(1, false));
 
-		// Tab
-		new StateVarTab(folder, "State Variables").getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
+		// For test purpose
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("un", "1");
 		map.put("deux", "2");
 
-		KeyValueTab tab = new KeyValueTab(folder, "tab", "welcome", map, "key", "value");
+		// Tab
+		StateVarTab svTab = new StateVarTab(folder, "State Variables");
+		svTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		KeyValueTab infoTab = new KeyValueTab(folder, "Information", "welcome", map, "key", "value");
+		infoTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		KeyValueTab propertiesTab = new KeyValueTab(folder, "Properties", "welcome", map, "key", "value");
+		propertiesTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		folder.setSelection(0);
 

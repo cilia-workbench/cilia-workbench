@@ -59,6 +59,10 @@ public class StateVarTab {
 		return composite;
 	}
 
+	public void setLayoutData(Object layoutData) {
+		composite.setLayoutData(layoutData);
+	}
+
 	private void updateViewer() {
 		viewer.setInput(getStateVariables());
 		viewer.refresh();

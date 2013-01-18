@@ -14,29 +14,17 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.dialog;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
+
+import fr.liglab.adele.cilia.workbench.common.ui.widget.KeyValueWidget;
 
 /**
  * 
@@ -44,7 +32,6 @@ import org.eclipse.swt.widgets.TableColumn;
  */
 public class KeyValueTab {
 
-	private ControlListener resizeListener;
 	private final Composite composite;
 
 	public KeyValueTab(CTabFolder folder, String tabTitle, String introMessage, Map<String, String> input, String keyLabel, String valueLabel) {
@@ -58,10 +45,13 @@ public class KeyValueTab {
 		return composite;
 	}
 
+	public void setLayoutData(Object layoutData) {
+		composite.setLayoutData(layoutData);
+	}
+
 	private Composite createComposite(Composite parent, String introMessage, Map<String, String> input, String keyLabel, String valueLabel) {
 
 		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		composite.setLayout(new GridLayout(1, false));
 
 		// Label
@@ -70,116 +60,9 @@ public class KeyValueTab {
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// JFace Table Viewer
-		StructuredViewer jFaceViewer = new TableViewer(composite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		jFaceViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		final TableViewerColumn col1 = createTableViewerColumn(jFaceViewer, 0, keyLabel);
-		final TableViewerColumn col2 = createTableViewerColumn(jFaceViewer, 1, valueLabel);
-		jFaceViewer.setContentProvider(new TableContentProvider());
-		jFaceViewer.setInput(input);
-		jFaceViewer.setComparator(getDefaultComparator());
-
-		// SWT Table widget configuration
-		Table swtTable = ((TableViewer) jFaceViewer).getTable();
-		swtTable.setHeaderVisible(true);
-		swtTable.setLinesVisible(true);
-
-		// Listener
-		resizeListener = new ResizeListener(col1, col2, jFaceViewer);
-		jFaceViewer.getControl().addControlListener(resizeListener);
+		KeyValueWidget kvw = new KeyValueWidget(composite, input, keyLabel, valueLabel);
+		kvw.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		return composite;
-	}
-
-	private static class TableContentProvider implements IStructuredContentProvider {
-
-		@Override
-		public Object[] getElements(Object inputElement) {
-
-			@SuppressWarnings("unchecked")
-			Map<String, String> items = (Map<String, String>) inputElement;
-
-			List<String[]> retval = new ArrayList<String[]>();
-
-			for (String key : items.keySet()) {
-				String value = items.get(key);
-				String[] keyValue = new String[2];
-				keyValue[0] = key;
-				keyValue[1] = value;
-				retval.add(keyValue);
-			}
-
-			return retval.toArray();
-		}
-
-		@Override
-		public void dispose() {
-			// do nothing
-		}
-
-		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			// do nothing
-		}
-	}
-
-	private static TableViewerColumn createTableViewerColumn(StructuredViewer viewer, final int index, String title) {
-		final TableViewerColumn viewerColumn = new TableViewerColumn(((TableViewer) viewer), SWT.NONE);
-		final TableColumn column = viewerColumn.getColumn();
-		column.setText(title);
-		column.setResizable(false);
-		column.setMoveable(false);
-		column.setAlignment(SWT.CENTER);
-
-		viewerColumn.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				String[] keyValue = (String[]) element;
-				return keyValue[index];
-			}
-		});
-
-		return viewerColumn;
-	}
-
-	/**
-	 * Resize the table column as soon as a composite is resized.
-	 * 
-	 * @see ResizeEvent
-	 */
-	private static class ResizeListener implements ControlListener {
-
-		final TableViewerColumn col1;
-		final TableViewerColumn col2;
-		final StructuredViewer table;
-
-		public ResizeListener(TableViewerColumn col1, TableViewerColumn col2, StructuredViewer table) {
-			this.col1 = col1;
-			this.col2 = col2;
-			this.table = table;
-		}
-
-		@Override
-		public void controlResized(ControlEvent e) {
-			Control control = table.getControl();
-			int width = control.getBounds().width / 2 - 2;
-			col1.getColumn().setWidth(width);
-			col2.getColumn().setWidth(width);
-		}
-
-		@Override
-		public void controlMoved(ControlEvent e) {
-			// do nothing
-		}
-	}
-
-	private static ViewerComparator getDefaultComparator() {
-		return new ViewerComparator() {
-			@Override
-			public int compare(Viewer viewer, Object e1, Object e2) {
-				String str1 = ((String[]) e1)[0];
-				String str2 = ((String[]) e2)[0];
-				return (str1.toUpperCase()).compareTo(str2.toUpperCase());
-			}
-		};
 	}
 }
