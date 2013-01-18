@@ -14,6 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.common.ui.view.graphview;
 
+import java.util.Random;
+
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.layouts.algorithms.AbstractLayoutAlgorithm;
@@ -42,8 +44,12 @@ public class MemoryAlgorithm extends AbstractLayoutAlgorithm {
 
 			if (location != null)
 				node.setLocation(location.x, location.y);
-			else
-				node.setLocation(boundsX, boundsY);
+			else {
+				Random random = new Random();
+				int x = random.nextInt((int) boundsWidth);
+				int y = random.nextInt((int) boundsHeight);
+				node.setLocation(x, y);
+			}
 		}
 	}
 
