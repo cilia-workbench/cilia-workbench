@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
-import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
+import fr.liglab.adele.cilia.workbench.common.ui.widget.ComboKeyValueEditor;
 
 /**
  * 

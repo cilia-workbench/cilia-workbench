@@ -35,7 +35,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.element.Port.PortNature;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.TextValidatorListener;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
-import fr.liglab.adele.cilia.workbench.common.ui.editors.ListEditor;
+import fr.liglab.adele.cilia.workbench.common.ui.widget.ListEditor;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
 

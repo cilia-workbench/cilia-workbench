@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.ui.editors;
+package fr.liglab.adele.cilia.workbench.common.ui.widget;
 
 import java.util.Comparator;
 import java.util.List;

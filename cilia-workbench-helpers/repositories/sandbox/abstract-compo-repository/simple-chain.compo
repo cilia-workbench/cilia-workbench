@@ -16,4 +16,13 @@
 			<binding from="generator:unique" from-cardinality="1..1" to="average:in" to-cardinality="0..1"/>
 		</bindings>
 	</chain>
+<chain id="aa" namespace="aa">
+<mediators>
+<mediator-implem id="a" namespace="medical" type="ContinuaValidationMediator"/>
+<mediator-implem id="zz" namespace="medical" type="ContinuaValidationMediator"/>
+</mediators>
+<bindings>
+<binding from="a:out" from-cardinality="1..1" to="zz:in" to-cardinality="1..1"/>
+</bindings>
+</chain>
 </cilia-composition-specifications>

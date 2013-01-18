@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import fr.liglab.adele.cilia.workbench.common.ui.editors.ComboKeyValueEditor;
+import fr.liglab.adele.cilia.workbench.common.ui.widget.ComboKeyValueEditor;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.PropertyConstraint;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;

@@ -12,22 +12,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
+package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.dialog;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
 /**
  * 
  * @author Etienne Gandrille
  */
-public enum ModelProvider {
+public enum StateVarModelProvider {
 	INSTANCE;
 
 	private List<StateVar> stateVars;
 
-	private ModelProvider() {
+	private StateVarModelProvider() {
 		stateVars = new ArrayList<StateVar>();
 
 		Random random = new Random();

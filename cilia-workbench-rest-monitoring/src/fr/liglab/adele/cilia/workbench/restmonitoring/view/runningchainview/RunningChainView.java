@@ -35,6 +35,7 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFi
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.PlatformView;
+import fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.dialog.PropertiesDialog;
 
 /**
  * 
@@ -132,6 +133,6 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 	@Override
 	protected void onDoubleClick(Shell parentShell, Object element) {
-		new StateVarDialog(parentShell, model, (ComponentRef) element).open();
+		new PropertiesDialog(parentShell, model, (ComponentRef) element).open();
 	}
 }
