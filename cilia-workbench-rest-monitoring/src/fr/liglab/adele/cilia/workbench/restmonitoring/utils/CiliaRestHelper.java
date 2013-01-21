@@ -34,6 +34,9 @@ public class CiliaRestHelper {
 
 		HttpResquestResult response = get(platformID, "/cilia");
 
+		// TODO try and update this with Jersey !
+		// String rep = JerseyHttpHelper.get(platformID, "/cilia");
+
 		String json = response.getMessage();
 		List<String> retval = new ArrayList<String>();
 

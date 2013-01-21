@@ -22,7 +22,6 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
 
@@ -37,27 +36,10 @@ public class FetchChainListHandler extends PlatformViewHandler {
 
 		// Validity checking
 		// =================
-
-		Object element = getFirstSelectedElementInRepositoryView(event);
-
-		if (element == null || !(element instanceof PlatformFile)) {
-			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Please select a platform first");
+		PlatformFile file = getPlatformFileOrDisplayErrorDialog(event);
+		if (file == null)
 			return null;
-		}
-
-		PlatformFile file = (PlatformFile) element;
-		PlatformModel model = file.getModel();
-		if (model == null) {
-			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Model is in a non valid state");
-			return null;
-		}
-
-		PlatformID platformID = model.getPlatformID();
-
-		if (platformID.isValid() != null) {
-			MessageDialog.openError(ViewUtil.getShell(event), "Error", platformID.isValid());
-			return null;
-		}
+		PlatformID platformID = file.getModel().getPlatformID();
 
 		// REST
 		// ====

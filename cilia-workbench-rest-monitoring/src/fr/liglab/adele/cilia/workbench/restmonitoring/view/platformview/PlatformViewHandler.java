@@ -14,7 +14,14 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview;
 
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.jface.dialogs.MessageDialog;
+
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
+import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryViewHandler;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
 
 /**
  * 
@@ -24,5 +31,31 @@ public abstract class PlatformViewHandler extends RepositoryViewHandler {
 
 	public PlatformViewHandler() {
 		super(PlatformView.VIEW_ID);
+	}
+
+	protected PlatformFile getPlatformFileOrDisplayErrorDialog(ExecutionEvent event) {
+
+		Object element = getFirstSelectedElementInRepositoryView(event);
+
+		if (element == null || !(element instanceof PlatformFile)) {
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Please select a platform first");
+			return null;
+		}
+
+		PlatformFile file = (PlatformFile) element;
+		PlatformModel model = file.getModel();
+		if (model == null) {
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Model is in a non valid state");
+			return null;
+		}
+
+		PlatformID platformID = model.getPlatformID();
+
+		if (platformID.isValid() != null) {
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", platformID.isValid());
+			return null;
+		}
+
+		return file;
 	}
 }

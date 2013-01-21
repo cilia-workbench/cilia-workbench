@@ -41,6 +41,10 @@
 			name="Fetch chain list from platform">
 		</command>
 		<command
+			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.deploy"
+			name="Deploy to platform">
+		</command>		
+		<command
 			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.createFile"
 			name="Create platform description">
 		</command>
@@ -57,6 +61,14 @@
 				commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.reload"
 				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
 				label="Reload repository" style="push">
+			</command>
+		</menuContribution>
+		<menuContribution allPopups="false"
+			locationURI="toolbar:fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview">
+			<command
+				commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.deploy"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/deploy.png"
+				label="Deploy to platform" style="push">
 			</command>
 		</menuContribution>
 		<menuContribution allPopups="false"
@@ -93,6 +105,10 @@
 		<handler
 			class="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.FetchChainListHandler"
 			commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.fechchainlist">
+		</handler>
+        <handler
+			class="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.DeployHandler"
+			commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.deploy">
 		</handler>
 		<handler
 			class="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.CreateFileHandler"

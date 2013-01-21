@@ -69,12 +69,12 @@ public class PropertiesDialog extends WorkbenchDialog {
 		map.put("deux", "2");
 
 		// Tab
-		StateVarTab svTab = new StateVarTab(folder, "State Variables");
-		svTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		KeyValueTab infoTab = new KeyValueTab(folder, "Information", "welcome", map, "key", "value");
 		infoTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		KeyValueTab propertiesTab = new KeyValueTab(folder, "Properties", "welcome", map, "key", "value");
 		propertiesTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		StateVarTab svTab = new StateVarTab(folder, "State Variables");
+		svTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		folder.setSelection(0);
 
