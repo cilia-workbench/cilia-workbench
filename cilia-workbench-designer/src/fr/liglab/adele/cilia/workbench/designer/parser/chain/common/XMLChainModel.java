@@ -21,6 +21,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
@@ -175,7 +176,7 @@ public abstract class XMLChainModel<ChainType extends XMLChain> extends Abstract
 		Node root = getRootNode(document);
 		Node[] results;
 
-		if (Strings.isNullOrEmpty(id.getNamespace()))
+		if (Strings.isNullOrEmpty(id.getNamespace()) || id.getNamespace().equals(CiliaConstants.CILIA_DEFAULT_NAMESPACE))
 			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID, id.getName());
 		else
 			results = XMLHelpers.findChildren(root, AbstractChain.XML_NODE_NAME, AbstractChain.XML_ATTR_ID, id.getName(), AbstractChain.XML_ATTR_NAMESPACE,
