@@ -1,35 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia>
 	<chain id="continua-mediation" type="continua-mediation">
-		<adapters>			
-			<!-- Adapter exported as a REST WebService Using ROSE/JERSEY-->
-			<adapter-instance type="HL7-REST-MessageAdapter" id="hl7-rest-adapter" />
+		<adapters>
+			<!-- Adapter exported as a REST WebService Using ROSE/JERSEY -->
+			<adapter-instance id="hl7-rest-adapter" type="HL7-REST-MessageAdapter" />
 			<!-- Adapter Indivo -->
-			<adapter-instance id="indivo-integration"
-				type="MockIndivoIntegrationAdapter">
+			<adapter-instance id="indivo-integration" type="MockIndivoIntegrationAdapter">
 			</adapter-instance>
-			
+
 			<!-- Unused adapters -->
-			<!-- Adapter using File Install-->
-			<!-- <adapter-instance id="HL7MessageCollector" type="HL7MessageAdapter" />-->
-			<!-- Adapter exported as a WebService Using ROSE/CXF-->
-			<!-- <adapter-instance type="HL7-WS-MessageAdapter" id="hl7-adapter" />-->
+			<!-- Adapter using File Install -->
+			<!-- <adapter-instance id="HL7MessageCollector" type="HL7MessageAdapter" 
+				/> -->
+			<!-- Adapter exported as a WebService Using ROSE/CXF -->
+			<!-- <adapter-instance type="HL7-WS-MessageAdapter" id="hl7-adapter" /> -->
 		</adapters>
 
 		<mediators>
 			<!-- Validation HL7 -->
-			<mediator-instance id="hapi-filter"
-				type="HapiValidationMediator" namespace="medical"/>
+			<mediator-instance id="hapi-filter" namespace="medical"
+				type="HapiValidationMediator" />
 			<!-- Validation Continua -->
-			<mediator-instance id="continua-filter"
-				type="ContinuaValidationMediator" namespace="medical"/>
-			<!-- Continua Translator-->
-			<mediator-instance id="translation"
-				type="ContinuaTranslationMediator" namespace="medical"/>
-			<!-- ACK generator-->
-			<mediator-instance id="acknowledgement"
-				type="ContinuaAcknowledgementMediator" namespace="medical">
-				<!-- Generator specific properties-->
+			<mediator-instance id="continua-filter" namespace="medical"
+				type="ContinuaValidationMediator" />
+			<!-- Continua Translator -->
+			<mediator-instance id="translation" namespace="medical"
+				type="ContinuaTranslationMediator" />
+			<!-- ACK generator -->
+			<mediator-instance id="acknowledgement" namespace="medical"
+				type="ContinuaAcknowledgementMediator">
+				<!-- Generator specific properties -->
 				<property name="fill_err_segment_in_ack" value="true" />
 				<property name="application_namespace_id" value="ContinuaConnector" />
 				<property name="application_universal_id" value="1234567890ABCDEF" />
@@ -43,23 +43,25 @@
 				<property name="messageProfileIdentifier_universalIdType"
 					value="HL7" />
 			</mediator-instance>
-			<!-- Error Manager-->
-			<mediator-instance type="ErrorManagerMediator" id="error-manager" namespace="medical"/>
+			<!-- Error Manager -->
+			<mediator-instance id="error-manager" namespace="medical"
+				type="ErrorManagerMediator" />
 		</mediators>
 		<bindings>
 			<!-- Application Bindings -->
-			<binding from="hl7-rest-adapter:out" to="hapi-filter:in"/>
+			<binding from="hl7-rest-adapter:out" to="hapi-filter:in" />
 			<binding from="hapi-filter:out" to="continua-filter:in" />
 			<binding from="continua-filter:out" to="translation:in" />
 			<binding from="translation:out" to="indivo-integration:in" />
 			<binding from="indivo-integration:out" to="acknowledgement:in" />
 			<binding from="acknowledgement:out" to="hl7-rest-adapter:in" />
-			<!-- Error Bindings-->
-			<binding from="hapi-filter:error" to="error-manager:in"/>
-			<binding from="continua-filter:error" to="error-manager:in"/>
-			<binding from="translation:error" to="error-manager:in"/>
-			<binding from="indivo-integration:error" to="error-manager:in"/>
-			<binding from="error-manager:out" to="acknowledgement:in"/>
+			
+			<!-- Error Bindings -->
+			<binding from="hapi-filter:error" to="error-manager:in" />
+			<binding from="continua-filter:error" to="error-manager:in" />
+			<binding from="translation:error" to="error-manager:in" />
+			<binding from="indivo-integration:error" to="error-manager:in" />
+			<binding from="error-manager:out" to="acknowledgement:in" />
 		</bindings>
 	</chain>
 </cilia>

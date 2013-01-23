@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-specifications>
 	
-	<mediator-specification name="HL7router" namespace="com.orange">
-		<ports>
-			<in-port name="in"/>
-			<out-port name="HL7_2_5"/>
-			<out-port name="HL7_2_6"/>
-		</ports>
-	</mediator-specification>
+	
 
 	<mediator-specification name="continuaValidator" namespace="com.orange">
 		<ports>
