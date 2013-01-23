@@ -55,32 +55,40 @@ public class PlatformChain extends Chain {
 		try {
 			JSONObject adaptersRoot = json.getJSONObject("Adapters");
 
-			JSONArray inAdaptersList = adaptersRoot.getJSONArray("in-only");
-			for (int i = 0; i < inAdaptersList.length(); i++) {
-				String adapterName = (String) inAdaptersList.get(i);
-				NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
-				adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+			if (adaptersRoot.has("in-only")) {
+				JSONArray inAdaptersList = adaptersRoot.getJSONArray("in-only");
+				for (int i = 0; i < inAdaptersList.length(); i++) {
+					String adapterName = (String) inAdaptersList.get(i);
+					NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
+					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+				}
 			}
 
-			JSONArray outAdaptersList = adaptersRoot.getJSONArray("out-only");
-			for (int i = 0; i < outAdaptersList.length(); i++) {
-				String adapterName = (String) outAdaptersList.get(i);
-				NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
-				adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+			if (adaptersRoot.has("out-only")) {
+				JSONArray outAdaptersList = adaptersRoot.getJSONArray("out-only");
+				for (int i = 0; i < outAdaptersList.length(); i++) {
+					String adapterName = (String) outAdaptersList.get(i);
+					NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
+					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+				}
 			}
 
-			JSONArray inOutAdaptersList = adaptersRoot.getJSONArray("in-out");
-			for (int i = 0; i < inOutAdaptersList.length(); i++) {
-				String adapterName = (String) inOutAdaptersList.get(i);
-				NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
-				adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+			if (adaptersRoot.has("in-out")) {
+				JSONArray inOutAdaptersList = adaptersRoot.getJSONArray("in-out");
+				for (int i = 0; i < inOutAdaptersList.length(); i++) {
+					String adapterName = (String) inOutAdaptersList.get(i);
+					NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
+					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+				}
 			}
 
-			JSONArray unknownAdaptersList = adaptersRoot.getJSONArray("unknown");
-			for (int i = 0; i < unknownAdaptersList.length(); i++) {
-				String adapterName = (String) unknownAdaptersList.get(i);
-				NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
-				adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+			if (adaptersRoot.has("unknown")) {
+				JSONArray unknownAdaptersList = adaptersRoot.getJSONArray("unknown");
+				for (int i = 0; i < unknownAdaptersList.length(); i++) {
+					String adapterName = (String) unknownAdaptersList.get(i);
+					NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
+					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+				}
 			}
 
 		} catch (JSONException e) {

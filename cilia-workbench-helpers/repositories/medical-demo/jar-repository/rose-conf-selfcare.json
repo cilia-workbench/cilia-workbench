@@ -1,0 +1,22 @@
+{
+	"machine" : {
+		"id" : "server3",
+		"host" : "localhost",
+		
+		"connection" : [
+				{
+				"out" : {
+					"service_filter" : "(objectClass=ihe.pcd.dec._2010.DeviceObservationConsumerPortType)"
+					}
+				}
+		],
+
+		"component" : [
+			{ 
+			  "factory" : "RoSe_exporter.cxf",
+			  "properties" : { "cxf.servlet.name" : "/ws" }
+			}
+		],
+	}
+}
+
