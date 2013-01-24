@@ -67,6 +67,12 @@ public class PlatformView extends RepositoryView<PlatformFile, PlatformModel> im
 	}
 
 	@Override
+	public void dispose() {
+		super.dispose();
+		SelectionService.getInstance().removeSelectionListener(VIEW_ID, this);
+	}
+
+	@Override
 	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes) {
 		for (Changeset change : changes) {
 			Object object = change.getObject();

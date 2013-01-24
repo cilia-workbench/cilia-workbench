@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
@@ -113,8 +114,9 @@ public class SelectionService {
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			if (event != null && event.getSelection() != null) {
+				ISelection sel = event.getSelection();
 				for (SelectionListener listener : listeners)
-					listener.selectionChanged(partId, event.getSelection());
+					listener.selectionChanged(partId, sel);
 			}
 		}
 	}

@@ -60,6 +60,13 @@ public class DSCiliaChainView extends GraphView implements IRepoServiceListener,
 		updateConfigAndModel(null);
 	}
 
+	@Override
+	public void dispose() {
+		super.dispose();
+		DSCiliaRepoService.getInstance().unregisterListener(this);
+		SelectionService.getInstance().removeSelectionListener(DSCiliaRepositoryView.VIEW_ID, this);
+	}
+
 	public DSCiliaChain getModel() {
 		return model;
 	}

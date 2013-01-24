@@ -67,6 +67,13 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 		updateConfigAndModel(null);
 	}
 
+	@Override
+	public void dispose() {
+		super.dispose();
+		AbstractCompositionsRepoService.getInstance().unregisterListener(this);
+		SelectionService.getInstance().removeSelectionListener(AbstractCompositionsView.VIEW_ID, this);
+	}
+
 	public AbstractChain getModel() {
 		return model;
 	}

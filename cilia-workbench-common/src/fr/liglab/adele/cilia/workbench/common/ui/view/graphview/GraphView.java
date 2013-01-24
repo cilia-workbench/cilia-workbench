@@ -49,9 +49,12 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 
 	private ObjectLocatorService olc = ObjectLocatorService.getInstance();
 
-	protected GraphViewer viewer;
+	protected GraphViewer viewer = null;
+
+	private String viewId = null;
 
 	public void createPartControl(Composite parent, String viewId) {
+		this.viewId = viewId;
 		viewer = new GraphViewer(parent, SWT.BORDER);
 		viewer.setLayoutAlgorithm(getLayout(), true);
 		viewer.applyLayout();
@@ -139,6 +142,13 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 	@Override
 	public AbstractZoomableViewer getZoomableViewer() {
 		return viewer;
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		SelectionService.getInstance().removeSelectionProvider(viewId);
+		viewer = null;
 	}
 
 	public Object getFirstSelectedElement() {

@@ -59,6 +59,13 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		updateConfigAndModel(null);
 	}
 
+	@Override
+	public void dispose() {
+		super.dispose();
+		PlatformRepoService.getInstance().unregisterListener(this);
+		SelectionService.getInstance().removeSelectionListener(PlatformView.VIEW_ID, this);
+	}
+
 	public PlatformChain getModel() {
 		return model;
 	}
