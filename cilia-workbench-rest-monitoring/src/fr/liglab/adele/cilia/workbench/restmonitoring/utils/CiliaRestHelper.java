@@ -15,7 +15,9 @@
 package fr.liglab.adele.cilia.workbench.restmonitoring.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,9 +67,9 @@ public class CiliaRestHelper {
 		}
 	}
 
-	public static JSONObject getMediatorContent(PlatformID platformID, String chainName, String mediatorName) throws CiliaException {
-
-		HttpResquestResult response = get(platformID, "/cilia" + "/" + chainName + "/mediators/" + mediatorName);
+	private static JSONObject getComponentContent(PlatformID platformID, String chainName, String componentTypeName, String componentName)
+			throws CiliaException {
+		HttpResquestResult response = get(platformID, "/cilia" + "/" + chainName + "/" + componentTypeName + "/" + componentName);
 
 		String json = response.getMessage();
 
@@ -79,18 +81,67 @@ public class CiliaRestHelper {
 		}
 	}
 
+	public static JSONObject getMediatorContent(PlatformID platformID, String chainName, String mediatorName) throws CiliaException {
+		return getComponentContent(platformID, chainName, "mediators", mediatorName);
+	}
+
 	public static JSONObject getAdapterContent(PlatformID platformID, String chainName, String adapterName) throws CiliaException {
+		return getComponentContent(platformID, chainName, "adapters", adapterName);
+	}
 
-		HttpResquestResult response = get(platformID, "/cilia" + "/" + chainName + "/adapters/" + adapterName);
-
-		String json = response.getMessage();
-
+	private static Map<String, String> getComponentPropertiesFromJSON(JSONObject json) throws CiliaException {
+		Map<String, String> retval = new HashMap<String, String>();
 		try {
-			return new JSONObject(json);
+			JSONObject prop = (JSONObject) json.get("Properties");
+			String[] keys = JSONObject.getNames(prop);
+			for (String key : keys) {
+				String value = (String) prop.get(key);
+				retval.put(key, value);
+			}
 		} catch (JSONException e) {
 			String message = "Error while parsing JSON message";
 			throw new CiliaException(message, e);
 		}
+
+		return retval;
+	}
+
+	public static Map<String, String> getAdapterProperties(PlatformID platformID, String chainName, String adapterName) throws CiliaException {
+		JSONObject json = getAdapterContent(platformID, chainName, adapterName);
+		return getComponentPropertiesFromJSON(json);
+	}
+
+	public static Map<String, String> getMediatorProperties(PlatformID platformID, String chainName, String adapterName) throws CiliaException {
+		JSONObject json = getMediatorContent(platformID, chainName, adapterName);
+		return getComponentPropertiesFromJSON(json);
+	}
+
+	private static Map<String, String> getComponentInformationFromJSON(JSONObject json) throws CiliaException {
+		Map<String, String> retval = new HashMap<String, String>();
+		try {
+			String[] keys = JSONObject.getNames(json);
+			for (String key : keys) {
+				if (!key.equalsIgnoreCase("Properties")) {
+					String value = json.getString(key);
+					retval.put(key, value);
+				}
+			}
+		} catch (JSONException e) {
+			String message = "Error while parsing JSON message";
+			throw new CiliaException(message, e);
+		}
+
+		return retval;
+	}
+
+	public static Map<String, String> getAdapterInformation(PlatformID platformID, String chainName, String adapterName) throws CiliaException {
+		JSONObject json = getAdapterContent(platformID, chainName, adapterName);
+		return getComponentInformationFromJSON(json);
+	}
+
+	public static Map<String, String> getMediatorInformation(PlatformID platformID, String chainName, String mediatorName) throws CiliaException {
+		JSONObject json = getMediatorContent(platformID, chainName, mediatorName);
+		return getComponentInformationFromJSON(json);
 	}
 
 	private static HttpResquestResult get(PlatformID platformID, String url) throws CiliaException {

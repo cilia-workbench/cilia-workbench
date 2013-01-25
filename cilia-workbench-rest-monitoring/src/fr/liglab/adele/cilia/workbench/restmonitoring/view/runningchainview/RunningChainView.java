@@ -16,12 +16,14 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
 
 import java.util.List;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
@@ -140,6 +142,10 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 	@Override
 	protected void onDoubleClick(Shell parentShell, Object element) {
-		new PropertiesDialog(parentShell, model, (ComponentRef) element).open();
+		try {
+			new PropertiesDialog(parentShell, model, (ComponentRef) element).open();
+		} catch (CiliaException e) {
+			MessageDialog.openError(parentShell, "Can't obtain information", e.toString());
+		}
 	}
 }

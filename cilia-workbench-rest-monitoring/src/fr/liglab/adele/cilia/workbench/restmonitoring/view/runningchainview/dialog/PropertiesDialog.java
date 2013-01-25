@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.dialog;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
@@ -27,9 +26,14 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.AdapterInstanceRef;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.MediatorInstanceRef;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
+import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
 
 /**
  * 
@@ -38,15 +42,41 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformCh
 public class PropertiesDialog extends WorkbenchDialog {
 
 	private final static String introText = "Available state variables:";
-	private final static Point initialSize = new Point(300, 400);
+	private final static Point initialSize = new Point(600, 400);
 
 	private final PlatformChain chain;
 	private final ComponentRef compoRef;
+	private final Map<String, String> properties;
+	private final Map<String, String> information;
 
-	public PropertiesDialog(Shell parentShell, PlatformChain chain, ComponentRef compoRef) {
+	public PropertiesDialog(Shell parentShell, PlatformChain chain, ComponentRef compoRef) throws CiliaException {
 		super(parentShell, compoRef.getId(), initialSize, true, false);
 		this.chain = chain;
 		this.compoRef = compoRef;
+
+		PlatformID platformID = chain.getPlatform().getPlatformID();
+		String chainName = chain.getName();
+		String instanceID = compoRef.getId();
+
+		// Information
+		if (compoRef instanceof AdapterInstanceRef) {
+			information = CiliaRestHelper.getAdapterInformation(platformID, chainName, instanceID);
+		} else if (compoRef instanceof MediatorInstanceRef) {
+			information = CiliaRestHelper.getMediatorInformation(platformID, chainName, instanceID);
+		} else {
+			String message = "Unknown component type (" + compoRef.getClass().toString() + ")";
+			throw new CiliaException(message);
+		}
+
+		// Properties
+		if (compoRef instanceof AdapterInstanceRef) {
+			properties = CiliaRestHelper.getAdapterProperties(platformID, chainName, instanceID);
+		} else if (compoRef instanceof MediatorInstanceRef) {
+			properties = CiliaRestHelper.getMediatorProperties(platformID, chainName, instanceID);
+		} else {
+			String message = "Unknown component type (" + compoRef.getClass().toString() + ")";
+			throw new CiliaException(message);
+		}
 	}
 
 	public Control createDialogArea(Composite parent) {
@@ -63,15 +93,10 @@ public class PropertiesDialog extends WorkbenchDialog {
 		folder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		folder.setLayout(new GridLayout(1, false));
 
-		// For test purpose
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("un", "1");
-		map.put("deux", "2");
-
 		// Tab
-		KeyValueTab infoTab = new KeyValueTab(folder, "Information", "welcome", map, "key", "value");
+		KeyValueTab infoTab = new KeyValueTab(folder, "Information", "welcome", information, "key", "value");
 		infoTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		KeyValueTab propertiesTab = new KeyValueTab(folder, "Properties", "welcome", map, "key", "value");
+		KeyValueTab propertiesTab = new KeyValueTab(folder, "Properties", "welcome", properties, "key", "value");
 		propertiesTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		StateVarTab svTab = new StateVarTab(folder, "State Variables");
 		svTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
