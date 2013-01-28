@@ -1,88 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-composition-specifications>
 
-	<!-- 
-	<chain id="continua-mediation" type="continua-mediation">
+	<!-- <chain id="continua-mediation" type="continua-mediation"> <adapters> 
+		<adapter-implem id="HL7MessageCollector" type="HL7MessageAdapter"/> <adapter-implem 
+		id="hl7-adapter" type="HL7-WS-MessageAdapter"/> <adapter-implem id="integration" 
+		type="PHRintegrationAdapter"> <property name="db_driver" value="org.postgresql.Driver"/> 
+		<property name="db_url" value="jdbc:postgresql://indivo-fred1:5432/continuaconnector"/> 
+		<property name="db_user" value="indivo"/> <property name="db_password" value="indivo"/> 
+		<property name="pha_consumer_key" value="mydevices"/> <property name="pha_consumer_secret" 
+		value="secret"/> <property name="pha_app_id" value="mydevices@apps.indivo.org"/> 
+		<property name="indivo_server_url" value="http://indivo-fred1:8000/"/> <property 
+		name="indivo_ui_serdver_url" value="http://indivo-fred1:8001/"/> </adapter-implem> 
+		</adapters> <mediators> <mediator-implem id="hapifilter" type="HapiValidationMediator"/> 
+		<mediator-implem id="continuafilter" type="ContinuaValidationMediator"/> 
+		<mediator-implem id="translation" type="ContinuaTranslationMediator"/> <mediator-implem 
+		id="acknowledgement" type="ContinuaAcknowledgementMediator"> <property name="fill_err_segment_in_ack" 
+		value="true"/> <property name="application_namespace_id" value="ContinuaConnector"/> 
+		<property name="application_universal_id" value="1234567890ABCDEF"/> <property 
+		name="application_universal_id_type" value="EUI-64"/> <property name="messageProfileIdentifier_entityIdentifier" 
+		value="IHE PCD ORU-R012006"/> <property name="messageProfileIdentifier_namespaceId" 
+		value="HL7"/> <property name="messageProfileIdentifier_universalId" value="2.16.840.1.113883.9.n.m"/> 
+		<property name="messageProfileIdentifier_universalIdType" value="HL7"/> </mediator-implem> 
+		<mediator-implem id="error-manager" type="ErrorManagerMediator"/> </mediators> 
+		<bindings> <binding from="hl7-adapter:out" from-cardinality="1..1" to="hapifilter:in" 
+		to-cardinality="1..1"/> <binding from="hapifilter:out" from-cardinality="1..1" 
+		to="continuafilter:in" to-cardinality="1..1"/> <binding from="continuafilter:out" 
+		from-cardinality="1..1" to="translation:in" to-cardinality="1..1"/> <binding 
+		from="translation:out" from-cardinality="1..1" to="integration:in" to-cardinality="1..1"/> 
+		<binding from="integration:out" from-cardinality="1..1" to="acknowledgement:in" 
+		to-cardinality="1..1"/> <binding from="acknowledgement:out" from-cardinality="1..1" 
+		to="hl7-adapter:in" to-cardinality="1..1"/> <binding from="hapifilter:error" 
+		from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/> <binding 
+		from="continuafilter:error" from-cardinality="1..1" to="error-manager:in" 
+		to-cardinality="1..1"/> <binding from="translation:error" from-cardinality="1..1" 
+		to="error-manager:in" to-cardinality="1..1"/> <binding from="integration:error" 
+		from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/> <binding 
+		from="error-manager:out" from-cardinality="1..1" to="acknowledgement:in" 
+		to-cardinality="1..1"/> </bindings> </chain> -->
+
+	<chain id="continua-ref" namespace="com.orange.medical">
 		<adapters>
-			<adapter-implem id="HL7MessageCollector" type="HL7MessageAdapter"/>
-			<adapter-implem id="hl7-adapter" type="HL7-WS-MessageAdapter"/>
-			<adapter-implem id="integration" type="PHRintegrationAdapter">
-				<property name="db_driver" value="org.postgresql.Driver"/>
-				<property name="db_url" value="jdbc:postgresql://indivo-fred1:5432/continuaconnector"/>
-				<property name="db_user" value="indivo"/>
-				<property name="db_password" value="indivo"/>
-				<property name="pha_consumer_key" value="mydevices"/>
-				<property name="pha_consumer_secret" value="secret"/>
-				<property name="pha_app_id" value="mydevices@apps.indivo.org"/>
-				<property name="indivo_server_url" value="http://indivo-fred1:8000/"/>
-				<property name="indivo_ui_serdver_url" value="http://indivo-fred1:8001/"/>
-			</adapter-implem>
+			<adapter-implem id="hl7-rest-adapter" namespace="fr.liglab.adele.cilia" type="HL7-REST-MessageAdapter"/>
+			<adapter-implem id="phr-integration" namespace="fr.liglab.adele.cilia" type="MockIndivoIntegrationAdapter"/>
 		</adapters>
-
 		<mediators>
-			<mediator-implem id="hapifilter" type="HapiValidationMediator"/>
-			<mediator-implem id="continuafilter" type="ContinuaValidationMediator"/>
-			<mediator-implem id="translation" type="ContinuaTranslationMediator"/>
-			<mediator-implem id="acknowledgement" type="ContinuaAcknowledgementMediator">
-				<property name="fill_err_segment_in_ack" value="true"/>
-				<property name="application_namespace_id" value="ContinuaConnector"/>
-				<property name="application_universal_id" value="1234567890ABCDEF"/>
-				<property name="application_universal_id_type" value="EUI-64"/>
-				<property name="messageProfileIdentifier_entityIdentifier" value="IHE PCD ORU-R012006"/>
-				<property name="messageProfileIdentifier_namespaceId" value="HL7"/>
-				<property name="messageProfileIdentifier_universalId" value="2.16.840.1.113883.9.n.m"/>
-				<property name="messageProfileIdentifier_universalIdType" value="HL7"/>
-			</mediator-implem>
-			<mediator-implem id="error-manager" type="ErrorManagerMediator"/>
+			<mediator-implem id="hl7-filter" namespace="medical" type="HapiValidationMediator"/>
+			<mediator-implem id="continua-filter" namespace="medical" type="ContinuaValidationMediator"/>
+			<mediator-implem id="phr-translation" namespace="medical" type="ContinuaTranslationMediator"/>
+			<mediator-implem id="error-manager" namespace="medical" type="ErrorManagerMediator"/>
+			<mediator-implem id="acknowledgement" namespace="medical" type="ContinuaAcknowledgementMediator"/>
 		</mediators>
-
 		<bindings>
-			<binding from="hl7-adapter:out" from-cardinality="1..1" to="hapifilter:in" to-cardinality="1..1"/>
-			<binding from="hapifilter:out" from-cardinality="1..1" to="continuafilter:in" to-cardinality="1..1"/>
-			<binding from="continuafilter:out" from-cardinality="1..1" to="translation:in" to-cardinality="1..1"/>
-			<binding from="translation:out" from-cardinality="1..1" to="integration:in" to-cardinality="1..1"/>
-			<binding from="integration:out" from-cardinality="1..1" to="acknowledgement:in" to-cardinality="1..1"/>
-			<binding from="acknowledgement:out" from-cardinality="1..1" to="hl7-adapter:in" to-cardinality="1..1"/>
-			<binding from="hapifilter:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
-			<binding from="continuafilter:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
-			<binding from="translation:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
-			<binding from="integration:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
-			<binding from="error-manager:out" from-cardinality="1..1" to="acknowledgement:in" to-cardinality="1..1"/>
+			<binding from="hl7-rest-adapter:out" from-cardinality="1..1" to="hl7-filter:in" to-cardinality="1..1"/>
+			<binding from="hl7-filter:out" from-cardinality="1..1" to="continua-filter:in" to-cardinality="1..1"/>
+			<binding from="continua-filter:out" from-cardinality="1..1" to="phr-translation:in" to-cardinality="1..1"/>
+			<binding from="phr-translation:out" from-cardinality="1..1" to="phr-integration:in" to-cardinality="1..1"/>
+			<binding from="phr-integration:out" from-cardinality="1..1" to="acknowledgement:in" to-cardinality="1..1"/>
+			<binding from="acknowledgement:out" from-cardinality="1..1" to="hl7-rest-adapter:in" to-cardinality="1..1"/>
+			<binding from="error-manager:out" from-cardinality="0..1" to="acknowledgement:in" to-cardinality="1..1"/>
+			<binding from="hl7-filter:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="0..1"/>
+			<binding from="phr-translation:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="0..1"/>
+			<binding from="phr-integration:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="0..1"/>
+			<binding from="continua-filter:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="0..1"/>
 		</bindings>
 	</chain>
- 	-->
- 
-	
-
-	
-
-	
-
-<chain id="continua-ref" namespace="com.orange.medical">
-<adapters>
-<adapter-implem id="hl7-rest-adapter" namespace="fr.liglab.adele.cilia" type="HL7-REST-MessageAdapter"/>
-<adapter-implem id="phr-integration" namespace="fr.liglab.adele.cilia" type="MockIndivoIntegrationAdapter"/>
-</adapters>
-<mediators>
-<mediator-implem id="hl7-filter" namespace="medical" type="HapiValidationMediator"/>
-<mediator-specification id="continua-filter" namespace="com.orange" type="continuaValidator"/>
-<mediator-implem id="phr-translation" namespace="medical" type="ContinuaTranslationMediator"/>
-<mediator-implem id="error-manager" namespace="medical" type="ErrorManagerMediator"/>
-<mediator-implem id="acknowledgement" namespace="medical" type="ContinuaAcknowledgementMediator"/>
-</mediators>
-<bindings>
-<binding from="hl7-rest-adapter:out" from-cardinality="1..1" to="hl7-filter:in" to-cardinality="1..1"/>
-<binding from="hl7-filter:out" from-cardinality="1..1" to="continua-filter:in" to-cardinality="1..1"/>
-
-<binding from="continua-filter:out" from-cardinality="1..1" to="phr-translation:in" to-cardinality="1..1"/>
-<binding from="phr-translation:out" from-cardinality="1..1" to="phr-integration:in" to-cardinality="1..1"/>
-<binding from="phr-integration:out" from-cardinality="1..1" to="acknowledgement:in" to-cardinality="1..1"/>
-<binding from="acknowledgement:out" from-cardinality="1..1" to="hl7-rest-adapter:in" to-cardinality="1..1"/>
-<binding from="hl7-filter:out" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
-<binding from="continua-filter:out" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
-<binding from="phr-translation:out" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
-<binding from="phr-integration:out" from-cardinality="1..1" to="error-manager:in" to-cardinality="1..1"/>
-<binding from="error-manager:out" from-cardinality="1..1" to="acknowledgement:in" to-cardinality="1..1"/>
-</bindings>
-</chain>
 </cilia-composition-specifications>
