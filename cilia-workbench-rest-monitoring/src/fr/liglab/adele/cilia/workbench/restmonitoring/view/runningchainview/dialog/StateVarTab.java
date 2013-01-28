@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.dialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -26,15 +27,21 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.misc.ImageBuilder;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 
 /**
  * 
@@ -48,31 +55,32 @@ public class StateVarTab {
 
 	private final Composite composite;
 
-	public StateVarTab(CTabFolder folder, String tabTitle) {
+	private final PlatformChain chain;
+	private final ComponentRef compoRef;
+
+	private List<StateVar> model = new ArrayList<StateVar>();
+
+	public StateVarTab(CTabFolder folder, String tabTitle, PlatformChain chain, ComponentRef compoRef) {
+		this.chain = chain;
+		this.compoRef = compoRef;
 		CTabItem item = new CTabItem(folder, SWT.NONE);
 		item.setText(tabTitle);
 		composite = createComposite(folder);
 		item.setControl(composite);
 	}
 
-	public Composite getComposite() {
-		return composite;
-	}
+	private void onRefreshButton() {
+		PlatformID platformID = chain.getPlatform().getPlatformID();
+		String chainName = chain.getName();
+		String compoName = compoRef.getId();
 
-	public void setLayoutData(Object layoutData) {
-		composite.setLayoutData(layoutData);
-	}
-
-	private void updateViewer() {
-		viewer.setInput(getStateVariables());
+		// TODO updateStateVar
+		System.out.println("Refresh " + compoName + " from chain " + chainName + " on platform " + platformID);
+		model.add(new StateVar(Long.toString(System.nanoTime()), System.nanoTime() % 2 == 1, Long.toString(System.nanoTime() % 1000)));
 		viewer.refresh();
 	}
 
-	private List<StateVar> getStateVariables() {
-		return StateVarModelProvider.INSTANCE.getStateVar();
-	}
-
-	private void updateEnableVariable(StateVar stateVar, boolean isEnabled) {
+	private void onToggleEnableStateVariable(StateVar stateVar, boolean isEnabled) {
 		// TODO send message to platform
 	}
 
@@ -83,7 +91,7 @@ public class StateVarTab {
 
 		// Label
 		final Label label = new Label(composite, SWT.WRAP);
-		label.setText("message in composite");
+		label.setText("Press press refresh button to view/update properties");
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// editor
@@ -96,7 +104,36 @@ public class StateVarTab {
 		gridData.horizontalAlignment = GridData.FILL;
 		viewer.getControl().setLayoutData(gridData);
 
+		// button
+		final Button button = new Button(composite, SWT.NONE);
+		button.setText("Refresh state variables");
+		button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		button.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				onRefreshButton();
+			}
+
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// do nothing
+			}
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// do nothing
+			}
+		});
+
 		return composite;
+	}
+
+	public Composite getComposite() {
+		return composite;
+	}
+
+	public void setLayoutData(Object layoutData) {
+		composite.setLayoutData(layoutData);
 	}
 
 	private TableViewer createViewer(Composite parent) {
@@ -108,8 +145,7 @@ public class StateVarTab {
 		table.setLinesVisible(true);
 
 		viewer.setContentProvider(new ArrayContentProvider());
-		viewer.setInput(getStateVariables());
-
+		viewer.setInput(model);
 		return viewer;
 	}
 
@@ -189,9 +225,11 @@ public class StateVarTab {
 		@Override
 		protected void setValue(Object element, Object value) {
 			StateVar stateVar = (StateVar) element;
-			updateEnableVariable(stateVar, (Boolean) value);
+			boolean newValue = !stateVar.isEnabled();
+			stateVar.setEnable(newValue);
+			onToggleEnableStateVariable(stateVar, newValue);
 			// viewer.update(element, null);
-			updateViewer();
+			viewer.refresh();
 		}
 	}
 }

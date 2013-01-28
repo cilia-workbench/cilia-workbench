@@ -116,7 +116,7 @@ public class KeyValueWidget {
 		column.setText(title);
 		column.setResizable(false);
 		column.setMoveable(false);
-		column.setAlignment(SWT.CENTER);
+		column.setAlignment(SWT.LEFT);
 
 		viewerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
