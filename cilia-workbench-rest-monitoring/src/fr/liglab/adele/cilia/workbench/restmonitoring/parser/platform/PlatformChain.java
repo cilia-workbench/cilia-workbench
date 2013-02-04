@@ -21,7 +21,7 @@ import org.json.JSONObject;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
-import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
+import fr.liglab.adele.cilia.workbench.restmonitoring.utils.http.CiliaRestHelper;
 
 /**
  * 

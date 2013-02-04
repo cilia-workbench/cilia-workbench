@@ -32,7 +32,7 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.misc.preferencepage.RestMo
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
-import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
+import fr.liglab.adele.cilia.workbench.restmonitoring.utils.http.CiliaRestHelper;
 
 /**
  * 

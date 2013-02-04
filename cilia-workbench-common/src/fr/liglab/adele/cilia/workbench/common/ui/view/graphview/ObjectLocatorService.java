@@ -67,7 +67,7 @@ public class ObjectLocatorService {
 			return new Point(22, 15);
 		if (name.equals("hl7-filter") || name.equals("hapifilter"))
 			return new Point(188, 15);
-		if (name.equals("continua-filter"))
+		if (name.equals("continua-filter") || name.equals("continuafilter"))
 			return new Point(306, 15);
 		if (name.equals("phr-translation") || name.equals("translation"))
 			return new Point(476, 15);

@@ -23,7 +23,7 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
-import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
+import fr.liglab.adele.cilia.workbench.restmonitoring.utils.http.CiliaRestHelper;
 
 /**
  * 

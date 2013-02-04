@@ -42,7 +42,9 @@
 				<property name="messageProfileIdentifier_universalId" value="2.16.840.1.113883.9.n.m"/>
 				<property name="messageProfileIdentifier_universalIdType" value="HL7"/>
 			</mediator-instance>
-		</mediators>
+		
+<mediator-instance id="error-manager" namespace="medical" type="ErrorManagerMediator"/>
+</mediators>
 		<bindings>
 			<!-- Application Bindings -->
 			<binding from="hl7-rest-adapter:out" to="hapifilter:in"/>
@@ -51,6 +53,16 @@
 			<binding from="translation:out" to="integration:in"/>
 			<binding from="integration:out" to="acknowledgement:in"/>
 			<binding from="acknowledgement:out" to="hl7-rest-adapter:in"/>
-		</bindings>
+		
+
+
+
+
+<binding from="hapifilter:error" to="error-manager:in"/>
+<binding from="continua-filter:error" to="error-manager:in"/>
+<binding from="translation:error" to="error-manager:in"/>
+<binding from="integration:out" to="error-manager:in"/>
+<binding from="error-manager:out" to="acknowledgement:in"/>
+</bindings>
 	</chain>
 </cilia>

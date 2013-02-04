@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.restmonitoring.utils;
+package fr.liglab.adele.cilia.workbench.restmonitoring.utils.http;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +34,7 @@ public class CiliaRestHelper {
 
 	public static String[] getChainsList(PlatformID platformID) throws CiliaException {
 
-		HttpResquestResult response = get(platformID, "/cilia");
-
-		String json = response.getMessage();
+		String json = HttpHelper.get(platformID, "/cilia");
 		List<String> retval = new ArrayList<String>();
 
 		try {
@@ -55,9 +53,7 @@ public class CiliaRestHelper {
 
 	public static JSONObject getChainContent(PlatformID platformID, String chainName) throws CiliaException {
 
-		HttpResquestResult response = get(platformID, "/cilia" + "/" + chainName);
-
-		String json = response.getMessage();
+		String json = HttpHelper.get(platformID, "/cilia" + "/" + chainName);
 
 		try {
 			return new JSONObject(json);
@@ -69,9 +65,7 @@ public class CiliaRestHelper {
 
 	private static JSONObject getComponentContent(PlatformID platformID, String chainName, String componentTypeName, String componentName)
 			throws CiliaException {
-		HttpResquestResult response = get(platformID, "/cilia" + "/" + chainName + "/" + componentTypeName + "/" + componentName);
-
-		String json = response.getMessage();
+		String json = HttpHelper.get(platformID, "/cilia" + "/" + chainName + "/" + componentTypeName + "/" + componentName);
 
 		try {
 			return new JSONObject(json);
@@ -142,30 +136,5 @@ public class CiliaRestHelper {
 	public static Map<String, String> getMediatorInformation(PlatformID platformID, String chainName, String mediatorName) throws CiliaException {
 		JSONObject json = getMediatorContent(platformID, chainName, mediatorName);
 		return getComponentInformationFromJSON(json);
-	}
-
-	private static HttpResquestResult get(PlatformID platformID, String url) throws CiliaException {
-		HttpHelper http = new HttpHelper(platformID);
-		HttpResquestResult result = null;
-
-		try {
-			result = http.get(url);
-		} catch (CiliaException e) {
-			String message = "Can't join " + platformID.toString();
-			throw new CiliaException(message, e);
-		}
-
-		try {
-			http.close();
-		} catch (CiliaException e) {
-			e.printStackTrace();
-		}
-
-		if (result.getStatus().getStatusCode() != 200) {
-			String message = "HTTP GET fail (" + result.getStatus().getStatusCode() + ") on resource " + url;
-			throw new CiliaException(message);
-		}
-
-		return result;
 	}
 }

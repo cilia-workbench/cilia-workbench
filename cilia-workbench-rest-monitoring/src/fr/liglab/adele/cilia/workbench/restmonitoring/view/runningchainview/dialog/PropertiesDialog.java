@@ -33,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.AdapterInstanceRef;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.MediatorInstanceRef;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
-import fr.liglab.adele.cilia.workbench.restmonitoring.utils.CiliaRestHelper;
+import fr.liglab.adele.cilia.workbench.restmonitoring.utils.http.CiliaRestHelper;
 
 /**
  * 
