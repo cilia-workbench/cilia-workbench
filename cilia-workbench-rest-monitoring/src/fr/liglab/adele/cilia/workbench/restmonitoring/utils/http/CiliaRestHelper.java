@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
+import fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.dialog.StateVar;
 
 /**
  * 
@@ -34,13 +35,11 @@ public class CiliaRestHelper {
 
 	public static String[] getChainsList(PlatformID platformID) throws CiliaException {
 
-		String json = HttpHelper.get(platformID, "/cilia");
 		List<String> retval = new ArrayList<String>();
+		JSONObject js = string2json(HttpHelper.get(platformID, "/cilia"));
 
 		try {
-			JSONObject js = new JSONObject(json);
 			JSONArray chains = js.getJSONArray("chains");
-
 			for (int i = 0; i < chains.length(); i++)
 				retval.add(chains.getString(i));
 		} catch (JSONException e) {
@@ -52,27 +51,12 @@ public class CiliaRestHelper {
 	}
 
 	public static JSONObject getChainContent(PlatformID platformID, String chainName) throws CiliaException {
-
-		String json = HttpHelper.get(platformID, "/cilia" + "/" + chainName);
-
-		try {
-			return new JSONObject(json);
-		} catch (JSONException e) {
-			String message = "Error while parsing JSON message";
-			throw new CiliaException(message, e);
-		}
+		return string2json(HttpHelper.get(platformID, "/cilia" + "/" + chainName));
 	}
 
 	private static JSONObject getComponentContent(PlatformID platformID, String chainName, String componentTypeName, String componentName)
 			throws CiliaException {
-		String json = HttpHelper.get(platformID, "/cilia" + "/" + chainName + "/" + componentTypeName + "/" + componentName);
-
-		try {
-			return new JSONObject(json);
-		} catch (JSONException e) {
-			String message = "Error while parsing JSON message";
-			throw new CiliaException(message, e);
-		}
+		return string2json(HttpHelper.get(platformID, "/cilia" + "/" + chainName + "/" + componentTypeName + "/" + componentName));
 	}
 
 	public static JSONObject getMediatorContent(PlatformID platformID, String chainName, String mediatorName) throws CiliaException {
@@ -136,5 +120,79 @@ public class CiliaRestHelper {
 	public static Map<String, String> getMediatorInformation(PlatformID platformID, String chainName, String mediatorName) throws CiliaException {
 		JSONObject json = getMediatorContent(platformID, chainName, mediatorName);
 		return getComponentInformationFromJSON(json);
+	}
+
+	/**
+	 * Gets the list of available statevar, and the enable status for each one.
+	 */
+	public static Map<String, Boolean> getStateVarList(PlatformID platformID, String chainName, String compoName) throws CiliaException {
+		String target = "/cilia/runtime/" + chainName + "/components/" + compoName + "/setup";
+		String message = HttpHelper.get(platformID, target);
+		Map<String, Boolean> stateVarList = new HashMap<String, Boolean>();
+
+		JSONObject json = string2json(message);
+
+		for (String name : JSONObject.getNames(json)) {
+			try {
+				String enabled = json.getJSONObject(name).getString("Enabled");
+				stateVarList.put(name, enabled.equals("true"));
+			} catch (JSONException e) {
+				throw new CiliaException("Can't parse message", e);
+			}
+		}
+
+		return stateVarList;
+	}
+
+	public static List<StateVar> getStateVar(PlatformID platformID, String chainName, String compoName) throws CiliaException {
+		List<StateVar> retval = new ArrayList<StateVar>();
+		Map<String, Boolean> list = getStateVarList(platformID, chainName, compoName);
+
+		for (String name : list.keySet()) {
+			boolean enabled = list.get(name);
+			String value = null;
+			try {
+				value = getStateVarValue(platformID, chainName, compoName, name);
+			} catch (Exception e) {
+				value = "<<not available>>";
+			}
+			retval.add(new StateVar(name, enabled, value));
+		}
+
+		return retval;
+	}
+
+	public static String getStateVarValue(PlatformID platformID, String chainName, String compoName, String stateVarName) throws CiliaException {
+
+		String target = "/cilia/runtime/" + chainName + "/components/" + compoName + "/rawdata/" + stateVarName;
+		String message = HttpHelper.get(platformID, target);
+		JSONObject json = string2json(message);
+
+		try {
+			return (String) json.get("Measures");
+		} catch (JSONException e) {
+			throw new CiliaException("Can't get measure", e);
+		}
+	}
+
+	public static String setStateVarEnable(PlatformID platformID, String chainName, String compoName, String stateVarName, boolean isEnabled)
+			throws CiliaException {
+
+		String target = "/cilia/runtime/" + chainName + "/components/" + compoName + "/setup/" + stateVarName + "/enable";
+		String data = "value=";
+		if (isEnabled)
+			data += "true";
+		else
+			data += "false";
+
+		return HttpHelper.put(platformID, target, data);
+	}
+
+	private static JSONObject string2json(String message) throws CiliaException {
+		try {
+			return new JSONObject(message);
+		} catch (JSONException e) {
+			throw new CiliaException("Can't parse message", e);
+		}
 	}
 }

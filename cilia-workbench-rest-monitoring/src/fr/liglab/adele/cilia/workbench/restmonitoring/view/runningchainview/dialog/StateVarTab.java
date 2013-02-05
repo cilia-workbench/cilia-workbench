@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.dia
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
@@ -35,13 +36,16 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.misc.ImageBuilder;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
+import fr.liglab.adele.cilia.workbench.restmonitoring.utils.http.CiliaRestHelper;
 
 /**
  * 
@@ -57,12 +61,14 @@ public class StateVarTab {
 
 	private final PlatformChain chain;
 	private final ComponentRef compoRef;
+	private final Shell shell;
 
 	private List<StateVar> model = new ArrayList<StateVar>();
 
-	public StateVarTab(CTabFolder folder, String tabTitle, PlatformChain chain, ComponentRef compoRef) {
+	public StateVarTab(Shell shell, CTabFolder folder, String tabTitle, PlatformChain chain, ComponentRef compoRef) {
 		this.chain = chain;
 		this.compoRef = compoRef;
+		this.shell = shell;
 		CTabItem item = new CTabItem(folder, SWT.NONE);
 		item.setText(tabTitle);
 		composite = createComposite(folder);
@@ -74,14 +80,31 @@ public class StateVarTab {
 		String chainName = chain.getName();
 		String compoName = compoRef.getId();
 
-		// TODO updateStateVar
-		System.out.println("Refresh " + compoName + " from chain " + chainName + " on platform " + platformID);
-		model.add(new StateVar(Long.toString(System.nanoTime()), System.nanoTime() % 2 == 1, Long.toString(System.nanoTime() % 1000)));
+		try {
+			List<StateVar> list = CiliaRestHelper.getStateVar(platformID, chainName, compoName);
+			model.clear();
+			model.addAll(list);
+		} catch (CiliaException e) {
+			MessageDialog.openError(shell, "Error", e.getMessage());
+			e.printStackTrace();
+			return;
+		}
+
 		viewer.refresh();
 	}
 
 	private void onToggleEnableStateVariable(StateVar stateVar, boolean isEnabled) {
-		// TODO send message to platform
+		PlatformID platformID = chain.getPlatform().getPlatformID();
+		String chainName = chain.getName();
+		String compoName = compoRef.getId();
+
+		try {
+			CiliaRestHelper.setStateVarEnable(platformID, chainName, compoName, stateVar.getName(), isEnabled);
+		} catch (CiliaException e) {
+			MessageDialog.openError(shell, "Error", e.getMessage());
+			e.printStackTrace();
+			return;
+		}
 	}
 
 	private Composite createComposite(Composite parent) {
@@ -228,8 +251,7 @@ public class StateVarTab {
 			boolean newValue = !stateVar.isEnabled();
 			stateVar.setEnable(newValue);
 			onToggleEnableStateVariable(stateVar, newValue);
-			// viewer.update(element, null);
-			viewer.refresh();
+			onRefreshButton();
 		}
 	}
 }

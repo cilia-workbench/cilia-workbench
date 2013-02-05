@@ -98,7 +98,7 @@ public class PropertiesDialog extends WorkbenchDialog {
 		infoTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		KeyValueTab propertiesTab = new KeyValueTab(folder, "Properties", "Properties for " + compoRef.getId(), properties, "key", "value");
 		propertiesTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		StateVarTab svTab = new StateVarTab(folder, "State Variables", chain, compoRef);
+		StateVarTab svTab = new StateVarTab(this.getShell(), folder, "State Variables", chain, compoRef);
 		svTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		folder.setSelection(0);
