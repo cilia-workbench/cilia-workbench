@@ -73,7 +73,7 @@ public class CiliaRestHelper {
 			JSONObject prop = (JSONObject) json.get("Properties");
 			String[] keys = JSONObject.getNames(prop);
 			for (String key : keys) {
-				String value = (String) prop.get(key);
+				String value = prop.get(key).toString();
 				retval.put(key, value);
 			}
 		} catch (JSONException e) {
@@ -169,13 +169,14 @@ public class CiliaRestHelper {
 		JSONObject json = string2json(message);
 
 		try {
-			return (String) json.get("Measures");
+			Object value = json.get("Measures");
+			return value.toString();
 		} catch (JSONException e) {
 			throw new CiliaException("Can't get measure", e);
 		}
 	}
 
-	public static String setStateVarEnable(PlatformID platformID, String chainName, String compoName, String stateVarName, boolean isEnabled)
+	public static void setStateVarEnable(PlatformID platformID, String chainName, String compoName, String stateVarName, boolean isEnabled)
 			throws CiliaException {
 
 		String target = "/cilia/runtime/" + chainName + "/components/" + compoName + "/setup/" + stateVarName + "/enable";
@@ -185,7 +186,7 @@ public class CiliaRestHelper {
 		else
 			data += "false";
 
-		return HttpHelper.put(platformID, target, data);
+		HttpHelper.put(platformID, target, data);
 	}
 
 	private static JSONObject string2json(String message) throws CiliaException {

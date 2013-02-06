@@ -25,6 +25,8 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -73,6 +75,7 @@ public class StateVarTab {
 		item.setText(tabTitle);
 		composite = createComposite(folder);
 		item.setControl(composite);
+		onRefreshButton();
 	}
 
 	private void onRefreshButton() {
@@ -105,6 +108,8 @@ public class StateVarTab {
 			e.printStackTrace();
 			return;
 		}
+
+		onRefreshButton();
 	}
 
 	private Composite createComposite(Composite parent) {
@@ -126,6 +131,7 @@ public class StateVarTab {
 		gridData.grabExcessVerticalSpace = true;
 		gridData.horizontalAlignment = GridData.FILL;
 		viewer.getControl().setLayoutData(gridData);
+		viewer.setComparator(getDefaultComparator());
 
 		// button
 		final Button button = new Button(composite, SWT.NONE);
@@ -174,7 +180,7 @@ public class StateVarTab {
 
 	private void createColumns(final Composite parent, final TableViewer viewer) {
 		String[] titles = { "", "name", "value" };
-		int[] bounds = { 16, 100, 100 };
+		int[] bounds = { 16, 200, 200 };
 
 		TableViewerColumn col = createTableViewerColumn(viewer, titles[0], bounds[0], 0);
 		col.setLabelProvider(new ColumnLabelProvider() {
@@ -251,7 +257,17 @@ public class StateVarTab {
 			boolean newValue = !stateVar.isEnabled();
 			stateVar.setEnable(newValue);
 			onToggleEnableStateVariable(stateVar, newValue);
-			onRefreshButton();
 		}
+	}
+
+	private static ViewerComparator getDefaultComparator() {
+		return new ViewerComparator() {
+			@Override
+			public int compare(Viewer viewer, Object e1, Object e2) {
+				StateVar sv1 = (StateVar) e1;
+				StateVar sv2 = (StateVar) e2;
+				return sv1.getName().compareToIgnoreCase(sv2.getName());
+			}
+		};
 	}
 }

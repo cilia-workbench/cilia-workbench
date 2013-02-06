@@ -15,7 +15,6 @@
 package fr.liglab.adele.cilia.workbench.restmonitoring.utils.http;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -24,6 +23,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -80,23 +80,19 @@ public class HttpHelper {
 		return "http://" + platformID.getHost() + ":" + platformID.getPort() + target;
 	}
 
-	public static String put(PlatformID platformID, String target, String data) throws CiliaException {
+	public static void put(PlatformID platformID, String target, String data) throws CiliaException {
 		String url = getURL(platformID, target);
 		HttpPut httpRequest = new HttpPut(url);
 
-		// entity management
-		try {
-			httpRequest.setEntity(new StringEntity(data));
-		} catch (UnsupportedEncodingException e) {
-			throw new CiliaException("can't add entity to HTTP PUT request", e);
-		}
+		// entity
+		StringEntity entity = new StringEntity(data, ContentType.create("text/plain", "UTF-8"));
+		httpRequest.setEntity(entity);
 
 		// HTTP request
 		HttpClient httpClient = getClient();
 		try {
-			String retval = httpClient.execute(httpRequest, new BasicResponseHandler());
+			httpClient.execute(httpRequest, new BasicResponseHandler());
 			httpClient.getConnectionManager().shutdown();
-			return retval;
 		} catch (Exception e) {
 			httpClient.getConnectionManager().shutdown();
 			throw new CiliaException("can't perform HTTP PUT request", e);

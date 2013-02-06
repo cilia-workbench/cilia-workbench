@@ -119,10 +119,19 @@ public class KeyValueWidget {
 		column.setAlignment(SWT.LEFT);
 
 		viewerColumn.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
+			private String getTextFromObject(Object element) {
 				String[] keyValue = (String[]) element;
 				return keyValue[index];
+			}
+
+			@Override
+			public String getText(Object element) {
+				return getTextFromObject(element);
+			}
+
+			@Override
+			public String getToolTipText(Object element) {
+				return getTextFromObject(element);
 			}
 		});
 
