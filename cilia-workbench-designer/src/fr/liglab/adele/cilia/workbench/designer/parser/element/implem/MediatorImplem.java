@@ -33,6 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.parser.element.MediatorPart;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
+import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Property;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
@@ -175,13 +176,9 @@ public class MediatorImplem extends Mediator {
 		if (getSpec() != null && getSpec().getMediatorSpec() != null) {
 			MediatorSpec mediatorSpec = getSpec().getMediatorSpec();
 
-			// In ports
-			if (!IdentifiableUtils.isSameListId(mediatorSpec.getInPorts(), getInPorts()))
-				e6 = new CiliaError("In ports list doesn't respect the specification", getSpec());
-
-			// Out ports
-			if (!IdentifiableUtils.isSameListId(mediatorSpec.getOutPorts(), getOutPorts()))
-				e7 = new CiliaError("Out ports list doesn't respect the specification", getSpec());
+			// ports checking
+			flagsTab.addAll(checkPorts(this, "in", mediatorSpec.getInPorts(), getInPorts()));
+			flagsTab.addAll(checkPorts(this, "out", mediatorSpec.getOutPorts(), getOutPorts()));
 
 			// Spec properties must exists in instance
 			for (PropertySpec mediaProp : mediatorSpec.getProperties()) {
@@ -196,6 +193,35 @@ public class MediatorImplem extends Mediator {
 		}
 
 		return CiliaFlag.generateTab(flagsTab, e1, e2, e3, e4, e5, e6, e7);
+	}
+
+	public static List<CiliaFlag> checkPorts(Object curentObject, String portDirection, List<? extends Port> specPorts, List<? extends Port> objectPorts) {
+
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
+
+		// ports identifiers checking
+		if (!IdentifiableUtils.isSameListId(specPorts, objectPorts))
+			retval.add(new CiliaError(portDirection + " ports list doesn't respect the specification", curentObject));
+
+		// port type checking
+		for (Port specPort : specPorts) {
+			String portName = Strings.nullToEmpty(specPort.getName());
+			String specPortType = Strings.nullToEmpty(specPort.getType());
+
+			if (!specPortType.isEmpty()) {
+				for (Port port : objectPorts) {
+					if (port.getName().equalsIgnoreCase(portName)) {
+						String curentPortType = Strings.nullToEmpty(port.getType());
+						if (!curentPortType.equalsIgnoreCase(specPortType) && !curentPortType.isEmpty()) {
+							retval.add(new CiliaError(portDirection + " port " + port.getName() + " must be of type " + specPortType
+									+ " to respect its specification", curentObject));
+						}
+					}
+				}
+			}
+		}
+
+		return retval;
 	}
 
 	public static List<CiliaFlag> checkMediatorParameters(MediatorImplem mediator) {

@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Shell;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
+import fr.liglab.adele.cilia.workbench.common.ui.dialog.IInputValidatorBuilder;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.widget.ComboKeyValueEditor;
 
@@ -43,7 +44,7 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 
 	private final static String windowTitle = "Mediator configuration";
 
-	protected final static IInputValidator defaultValidator = getNonNullOrEmptyValidator();
+	protected final static IInputValidator defaultValidator = IInputValidatorBuilder.getNonNullOrEmptyValidator();
 
 	// Parameters editor
 	private ComboKeyValueEditor paramEditor = null;
@@ -118,17 +119,6 @@ public abstract class UpdateMediatorRefDialog extends WorkbenchDialog {
 	protected void initializeBounds() {
 		super.initializeBounds();
 		paramEditor.refresh();
-	}
-
-	private static IInputValidator getNonNullOrEmptyValidator() {
-		return new IInputValidator() {
-			@Override
-			public String isValid(String newText) {
-				if (newText == null || newText.trim().length() != 0)
-					return null;
-				return "text cant't be empty";
-			}
-		};
 	}
 
 	public Map<String, String> getSchedulerParameters() {

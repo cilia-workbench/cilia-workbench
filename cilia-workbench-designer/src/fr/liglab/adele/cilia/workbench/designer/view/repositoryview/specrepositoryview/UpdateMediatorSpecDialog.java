@@ -15,7 +15,9 @@
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.specrepositoryview;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -30,12 +32,14 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Port;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Port.PortNature;
-import fr.liglab.adele.cilia.workbench.common.parser.element.ParameterDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.TextValidatorListener;
+import fr.liglab.adele.cilia.workbench.common.ui.dialog.IInputValidatorBuilder;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.WorkbenchDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.widget.ListEditor;
+import fr.liglab.adele.cilia.workbench.common.ui.widget.StandardKeyValueEditor;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.PropertySpec;
 
@@ -60,12 +64,14 @@ public class UpdateMediatorSpecDialog extends WorkbenchDialog {
 	private Text namespaceControl;
 
 	// IN ports
-	private List<String> synchroPortsValue = new ArrayList<String>();
+	private Map<String, String> synchroPortsValue = new HashMap<String, String>();
 	private final String synchroPortsMessage = "In ports:";
+	private StandardKeyValueEditor inPortsEditor = null;
 
 	// OUT ports
-	private List<String> dispatchPortsValue = new ArrayList<String>();
+	private Map<String, String> dispatchPortsValue = new HashMap<String, String>();
 	private final String dispatchPortsMessage = "Out ports:";
+	private StandardKeyValueEditor outPortsEditor = null;
 
 	// Mediator properties
 	private final String propertiesMessage = "Properties list";
@@ -102,9 +108,9 @@ public class UpdateMediatorSpecDialog extends WorkbenchDialog {
 		// Ports
 		for (Port port : mediatorSpec.getPorts())
 			if (port.getNature() == PortNature.IN)
-				synchroPortsValue.add(port.getName());
+				synchroPortsValue.put(port.getName(), port.getType());
 			else
-				dispatchPortsValue.add(port.getName());
+				dispatchPortsValue.put(port.getName(), port.getType());
 
 		// Mediator
 		for (PropertySpec property : mediatorSpec.getProperties())
@@ -174,11 +180,13 @@ public class UpdateMediatorSpecDialog extends WorkbenchDialog {
 		createLabel(portsComposite, dispatchPortsMessage, false);
 
 		// In ports
-		ListEditor inPortsEditor = new ListEditor(portsComposite, synchroPortsValue);
+		inPortsEditor = new StandardKeyValueEditor(portsComposite, synchroPortsValue, "name", "type");
+		initPortEditor(inPortsEditor);
 		inPortsEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		// Out Ports
-		ListEditor outPortsEditor = new ListEditor(portsComposite, dispatchPortsValue);
+		outPortsEditor = new StandardKeyValueEditor(portsComposite, dispatchPortsValue, "name", "type");
+		initPortEditor(outPortsEditor);
 		outPortsEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		// Properties
@@ -205,6 +213,18 @@ public class UpdateMediatorSpecDialog extends WorkbenchDialog {
 		folder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		return container;
+	}
+
+	@Override
+	protected void initializeBounds() {
+		super.initializeBounds();
+		inPortsEditor.refresh();
+		outPortsEditor.refresh();
+	}
+
+	private static void initPortEditor(StandardKeyValueEditor portsEditor) {
+		portsEditor.setKeyValidator(IInputValidatorBuilder.getNonNullEmptySpaceValidator());
+		portsEditor.setValueValidator(IInputValidatorBuilder.getNonNullEmptySpaceValidator());
 	}
 
 	private static Composite createComposite(Composite parent, String message, List<String> elements) {
@@ -250,11 +270,11 @@ public class UpdateMediatorSpecDialog extends WorkbenchDialog {
 		return label;
 	}
 
-	public List<String> getInPorts() {
+	public Map<String, String> getInPorts() {
 		return synchroPortsValue;
 	}
 
-	public List<String> getOutPorts() {
+	public Map<String, String> getOutPorts() {
 		return dispatchPortsValue;
 	}
 

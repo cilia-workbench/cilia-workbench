@@ -276,6 +276,8 @@ public abstract class KeyValueEditor extends AbstractEditor {
 			int width = control.getBounds().width / 2 - 2;
 			col1.getColumn().setWidth(width);
 			col2.getColumn().setWidth(width);
+			table.refresh();
+			table.getControl().redraw();
 		}
 
 		@Override

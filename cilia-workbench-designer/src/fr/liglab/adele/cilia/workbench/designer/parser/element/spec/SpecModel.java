@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.designer.parser.element.spec;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -81,7 +82,7 @@ public class SpecModel extends AbstractModel implements Mergeable {
 		}
 	}
 
-	public void updateMediatorSpec(NameNamespaceID id, List<String> inPorts, List<String> outPorts, List<String> mediatorProperties,
+	public void updateMediatorSpec(NameNamespaceID id, Map<String, String> inPorts, Map<String, String> outPorts, List<String> mediatorProperties,
 			List<String> schedulerParam, List<String> processorParam, List<String> dispatcherParam) throws CiliaException {
 
 		// Finding target node
@@ -96,10 +97,10 @@ public class SpecModel extends AbstractModel implements Mergeable {
 		Element spec = MediatorSpec.createXMLSpec(document, parent, id);
 
 		// ports
-		for (String inPort : inPorts)
-			MediatorSpec.createXMLInPort(document, spec, inPort);
-		for (String outPort : outPorts)
-			MediatorSpec.createXMLOutPort(document, spec, outPort);
+		for (String inPort : inPorts.keySet())
+			MediatorSpec.createXMLInPort(document, spec, inPort, inPorts.get(inPort));
+		for (String outPort : outPorts.keySet())
+			MediatorSpec.createXMLOutPort(document, spec, outPort, outPorts.get(outPort));
 
 		// mediatorProperties
 		for (String key : mediatorProperties)

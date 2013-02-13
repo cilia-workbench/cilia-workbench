@@ -83,20 +83,28 @@ public abstract class ComponentDefinition implements Identifiable, DisplayedInPr
 		return retval;
 	}
 
-	public boolean hasInPort(String name) {
-		for (Port port : getInPorts())
+	public InPort getInPort(String name) {
+		for (InPort port : getInPorts())
 			if (port.getName().equalsIgnoreCase(name))
-				return true;
+				return port;
 
-		return false;
+		return null;
+	}
+
+	public OutPort getOutPort(String name) {
+		for (OutPort port : getOutPorts())
+			if (port.getName().equalsIgnoreCase(name))
+				return port;
+
+		return null;
+	}
+
+	public boolean hasInPort(String name) {
+		return getInPort(name) != null;
 	}
 
 	public boolean hasOutPort(String name) {
-		for (Port port : getOutPorts())
-			if (port.getName().equalsIgnoreCase(name))
-				return true;
-
-		return false;
+		return getOutPort(name) != null;
 	}
 
 	// COMPONENT NATURE

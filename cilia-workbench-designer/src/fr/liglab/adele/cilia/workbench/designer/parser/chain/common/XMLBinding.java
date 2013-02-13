@@ -62,13 +62,27 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 		ComponentRef src = getSourceComponentRef();
 		ComponentRef dst = getDestinationComponentRef();
 
-		if (!Strings.isNullOrEmpty(getSourcePort()) && getSourceComponentDefinition() != null)
+		boolean hasSource;
+		if (!Strings.isNullOrEmpty(getSourcePort()) && getSourceComponentDefinition() != null) {
+			hasSource = true;
 			if (!getSourceComponentDefinition().hasOutPort(getSourcePort()))
 				e1 = new CiliaError("Binding " + this + " source port is undefined in " + getSourceComponentDefinition(), this);
+		} else {
+			hasSource = false;
+		}
 
-		if (!Strings.isNullOrEmpty(getDestinationPort()) && getDestinationComponentDefinition() != null)
+		boolean hasDestination;
+		if (!Strings.isNullOrEmpty(getDestinationPort()) && getDestinationComponentDefinition() != null) {
+			hasDestination = true;
 			if (!getDestinationComponentDefinition().hasInPort(getDestinationPort()))
 				e2 = new CiliaError("Binding " + this + " destination port is undefined in " + getDestinationComponentDefinition(), this);
+		} else {
+			hasDestination = false;
+		}
+
+		if (hasSource && hasDestination) {
+			// todo
+		}
 
 		if (src != null && src instanceof AdapterRef) {
 			Adapter ro = ((AdapterRef) src).getReferencedComponentDefinition();

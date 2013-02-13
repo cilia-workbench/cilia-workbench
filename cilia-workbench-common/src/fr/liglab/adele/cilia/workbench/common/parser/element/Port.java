@@ -14,11 +14,18 @@
  */
 package fr.liglab.adele.cilia.workbench.common.parser.element;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
+import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 
 /**
  * Represents a port, in or out. It can be relative to a spec or an
@@ -26,7 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.misc.Strings;
  * 
  * @author Etienne Gandrille
  */
-public abstract class Port implements Identifiable, ErrorsAndWarningsFinder {
+public abstract class Port implements Identifiable, ErrorsAndWarningsFinder, Mergeable {
 
 	private final String name;
 	private final String type;
@@ -42,6 +49,15 @@ public abstract class Port implements Identifiable, ErrorsAndWarningsFinder {
 
 	public String getType() {
 		return type;
+	}
+
+	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
+		List<Changeset> retval = new ArrayList<Changeset>();
+
+		retval.addAll(MergeUtil.computeUpdateChangeset(other, this, "type"));
+
+		return retval;
 	}
 
 	// PORT NATURE

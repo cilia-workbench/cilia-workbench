@@ -2,24 +2,51 @@
 <cilia-specifications>
 	
 	
+	
 
-	<mediator-specification name="continuaValidator" namespace="com.orange">
-		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
-		</ports>
-	</mediator-specification>
 
-	<mediator-specification name="ContinuaTranslationMediator" namespace="com.orange">
-		<ports>
-			<in-port name="in"/>
-			<out-port name="out"/>
-		</ports>
-	</mediator-specification>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<mediator-specification name="ContinuaTranslationMediator" namespace="com.orange">
+<ports>
+<in-port name="in" type="*"/>
+<out-port name="out" type="*"/>
+</ports>
+</mediator-specification>
+
+
+
+<mediator-specification name="continuaValidator" namespace="com.orange">
+<ports>
+<in-port name="in" type="*"/>
+<out-port name="out" type="*"/>
+</ports>
+</mediator-specification>
+
+
+
+
+
+
 <mediator-specification name="HL7validator" namespace="com.orange">
 <ports>
-<in-port name="in"/>
-<out-port name="out"/>
+<in-port name="in" type="*"/>
+<out-port name="out" type="*"/>
 </ports>
 <scheduler>
 <parameters>
@@ -38,4 +65,12 @@
 </dispatcher>
 </mediator-specification>
 
+
+
+<mediator-specification name="sum-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in" type="*"/>
+<out-port name="out" type="*"/>
+</ports>
+</mediator-specification>
 </cilia-specifications>

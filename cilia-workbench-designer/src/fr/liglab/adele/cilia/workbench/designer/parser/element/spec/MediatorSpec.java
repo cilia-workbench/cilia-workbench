@@ -161,14 +161,14 @@ public class MediatorSpec extends Mediator implements Mergeable {
 		return child;
 	}
 
-	public static Node createXMLInPort(Document document, Element spec, String portName) {
+	public static Node createXMLInPort(Document document, Element spec, String portName, String portType) {
 		Node ports = XMLHelpers.getOrCreateChild(document, spec, XML_NODE_PORTS_CONTAINER);
-		return InPortSpec.createXMLPort(document, ports, portName);
+		return InPortSpec.createXMLPort(document, ports, portName, portType);
 	}
 
-	public static Node createXMLOutPort(Document document, Element spec, String portName) {
+	public static Node createXMLOutPort(Document document, Element spec, String portName, String portType) {
 		Node ports = XMLHelpers.getOrCreateChild(document, spec, XML_NODE_PORTS_CONTAINER);
-		return OutPortSpec.createXMLPort(document, ports, portName);
+		return OutPortSpec.createXMLPort(document, ports, portName, portType);
 	}
 
 	public static Node createMediatorProperty(Document document, Element spec, String key) {
