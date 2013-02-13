@@ -12,7 +12,8 @@
 			<mediator-implem id="phr-translation" namespace="medical" type="ContinuaTranslationMediator"/>
 			<mediator-implem id="error-manager" namespace="medical" type="ErrorManagerMediator"/>
 			<mediator-implem id="acknowledgement" namespace="medical" type="ContinuaAcknowledgementMediator"/>
-		</mediators>
+		
+</mediators>
 		<bindings>
 			<binding from="hl7-adapter:out" from-cardinality="1..1" to="hl7-filter:in" to-cardinality="1..1"/>
 			<binding from="hl7-filter:out" from-cardinality="1..1" to="continua-filter:in" to-cardinality="1..1"/>
@@ -25,6 +26,8 @@
 			<binding from="phr-translation:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="0..1"/>
 			<binding from="phr-integration:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="0..1"/>
 			<binding from="continua-filter:error" from-cardinality="1..1" to="error-manager:in" to-cardinality="0..1"/>
-		</bindings>
+		
+
+</bindings>
 	</chain>
 </cilia-composition-specifications>

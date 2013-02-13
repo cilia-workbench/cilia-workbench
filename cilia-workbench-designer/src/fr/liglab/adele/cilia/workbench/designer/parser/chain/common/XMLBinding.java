@@ -28,6 +28,8 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter.AdapterType;
+import fr.liglab.adele.cilia.workbench.common.parser.element.InPort;
+import fr.liglab.adele.cilia.workbench.common.parser.element.OutPort;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedInPropertiesView;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
@@ -58,37 +60,38 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 		CiliaFlag e2 = null;
 		CiliaFlag e3 = null;
 		CiliaFlag e4 = null;
+		CiliaFlag e5 = null;
 
 		ComponentRef src = getSourceComponentRef();
 		ComponentRef dst = getDestinationComponentRef();
 
-		boolean hasSource;
+		OutPort srcPort = null;
 		if (!Strings.isNullOrEmpty(getSourcePort()) && getSourceComponentDefinition() != null) {
-			hasSource = true;
-			if (!getSourceComponentDefinition().hasOutPort(getSourcePort()))
+			srcPort = getSourceComponentDefinition().getOutPort(getSourcePort());
+			if (srcPort == null)
 				e1 = new CiliaError("Binding " + this + " source port is undefined in " + getSourceComponentDefinition(), this);
-		} else {
-			hasSource = false;
 		}
 
-		boolean hasDestination;
+		InPort dstPort = null;
 		if (!Strings.isNullOrEmpty(getDestinationPort()) && getDestinationComponentDefinition() != null) {
-			hasDestination = true;
-			if (!getDestinationComponentDefinition().hasInPort(getDestinationPort()))
+			dstPort = getDestinationComponentDefinition().getInPort(getDestinationPort());
+			if (dstPort == null)
 				e2 = new CiliaError("Binding " + this + " destination port is undefined in " + getDestinationComponentDefinition(), this);
-		} else {
-			hasDestination = false;
 		}
 
-		if (hasSource && hasDestination) {
-			// todo
+		if (srcPort != null && dstPort != null) {
+			String srcType = Strings.nullToEmpty(srcPort.getType());
+			String dstType = Strings.nullToEmpty(dstPort.getType());
+
+			if (!srcType.isEmpty() && !dstType.isEmpty() && !srcType.equalsIgnoreCase(dstType))
+				e3 = new CiliaError("Binding " + this + " can't link " + srcType + " type to " + dstType + " type", this);
 		}
 
 		if (src != null && src instanceof AdapterRef) {
 			Adapter ro = ((AdapterRef) src).getReferencedComponentDefinition();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.OUT) {
-					e3 = new CiliaError("Binding " + this + " has its source connected to an out adapter", this);
+					e4 = new CiliaError("Binding " + this + " has its source connected to an out adapter", this);
 				}
 			}
 		}
@@ -97,11 +100,11 @@ public abstract class XMLBinding extends Binding implements DisplayedInPropertie
 			Adapter ro = ((AdapterRef) dst).getReferencedComponentDefinition();
 			if (ro != null) {
 				if (ro.getType() == AdapterType.IN) {
-					e4 = new CiliaError("Binding " + this + " has its destination connected to an in adapter", this);
+					e5 = new CiliaError("Binding " + this + " has its destination connected to an in adapter", this);
 				}
 			}
 		}
 
-		return CiliaFlag.generateTab(tab, e1, e2, e3, e4);
+		return CiliaFlag.generateTab(tab, e1, e2, e3, e4, e5);
 	}
 }
