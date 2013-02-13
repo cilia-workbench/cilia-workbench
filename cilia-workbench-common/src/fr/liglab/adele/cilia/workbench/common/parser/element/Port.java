@@ -29,13 +29,19 @@ import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 public abstract class Port implements Identifiable, ErrorsAndWarningsFinder {
 
 	private final String name;
+	private final String type;
 
-	public Port(String name) {
+	public Port(String name, String type) {
 		this.name = name;
+		this.type = type;
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public String getType() {
+		return type;
 	}
 
 	// PORT NATURE
@@ -63,7 +69,8 @@ public abstract class Port implements Identifiable, ErrorsAndWarningsFinder {
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, name, "name");
+		CiliaFlag e2 = CiliaError.checkStringNotNullOrEmpty(this, type, "type");
 
-		return CiliaFlag.generateTab(e1);
+		return CiliaFlag.generateTab(e1, e2);
 	}
 }

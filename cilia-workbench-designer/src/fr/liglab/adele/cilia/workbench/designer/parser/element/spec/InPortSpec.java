@@ -32,7 +32,7 @@ public class InPortSpec extends InPort implements DisplayedInPropertiesView {
 	private static String XML_TAG = "in-port";
 
 	public InPortSpec(Node node) throws CiliaException {
-		super(XMLHelpers.findAttributeValueOrEmpty(node, "name"));
+		super(XMLHelpers.findAttributeValueOrEmpty(node, "name"), XMLHelpers.findAttributeValueOrEmpty(node, "type"));
 	}
 
 	public static String getXMLtag() {
@@ -40,6 +40,7 @@ public class InPortSpec extends InPort implements DisplayedInPropertiesView {
 	}
 
 	public static Node createXMLPort(Document document, Node parent, String portName) {
+		// TODO update port creation
 		return XMLHelpers.createChild(document, parent, XML_TAG, XML_ATTR_NAME, portName);
 	}
 }

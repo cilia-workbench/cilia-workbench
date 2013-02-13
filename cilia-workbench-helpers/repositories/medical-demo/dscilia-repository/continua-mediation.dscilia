@@ -7,7 +7,7 @@
 			<!-- Adapter exported as a WebService Using ROSE/CXF-->
 			<!--adapter-instance type="HL7-WS-MessageAdapter" id="hl7-adapter" /-->
 			<!-- Adapter exported as a REST WebService Using ROSE/JERSEY-->
-			<adapter-instance id="hl7-rest-adapter" type="HL7-REST-MessageAdapter"/>
+			
 			<!-- Adapter Indivo -->
 			<adapter-instance id="integration" type="IndivoIntegrationAdapter">
 				<!-- Properties to assure indivo connectivity-->
@@ -21,7 +21,10 @@
 				<property name="indivo_server_url" value="http://indivo-etienne:8000/"/>
 				<property name="indivo_ui_serdver_url" value="http://indivo-etienne:8001/"/>
 			</adapter-instance>
-		</adapters>
+		
+
+<adapter-instance id="hl7-rest-adapter" namespace="fr.liglab.adele.cilia" type="HL7-REST-MessageAdapter"/>
+</adapters>
 
 		<mediators>
 			<!-- Validation HL7 -->
@@ -47,12 +50,12 @@
 </mediators>
 		<bindings>
 			<!-- Application Bindings -->
-			<binding from="hl7-rest-adapter:out" to="hapifilter:in"/>
+			
 			<binding from="hapifilter:out" to="continua-filter:in"/>
 			<binding from="continua-filter:out" to="translation:in"/>
 			<binding from="translation:out" to="integration:in"/>
 			<binding from="integration:out" to="acknowledgement:in"/>
-			<binding from="acknowledgement:out" to="hl7-rest-adapter:in"/>
+			
 		
 
 
@@ -63,6 +66,10 @@
 <binding from="translation:error" to="error-manager:in"/>
 <binding from="integration:out" to="error-manager:in"/>
 <binding from="error-manager:out" to="acknowledgement:in"/>
+
+
+<binding from="hl7-rest-adapter:out" to="hapifilter:in"/>
+<binding from="acknowledgement:out" to="hl7-rest-adapter:in"/>
 </bindings>
 	</chain>
 </cilia>

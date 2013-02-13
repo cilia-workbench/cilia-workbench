@@ -33,7 +33,7 @@ public class OutPortSpec extends OutPort implements DisplayedInPropertiesView, I
 	public static final String XML_ATTR_NAME = "name";
 
 	public OutPortSpec(Node node) throws CiliaException {
-		super(XMLHelpers.findAttributeValueOrEmpty(node, "name"));
+		super(XMLHelpers.findAttributeValueOrEmpty(node, "name"), XMLHelpers.findAttributeValueOrEmpty(node, "type"));
 	}
 
 	public static String getXMLtag() {
@@ -41,6 +41,7 @@ public class OutPortSpec extends OutPort implements DisplayedInPropertiesView, I
 	}
 
 	public static Node createXMLPort(Document document, Node parent, String portName) {
+		// TODO update port creation
 		return XMLHelpers.createChild(document, parent, XML_TAG, XML_ATTR_NAME, portName);
 	}
 }

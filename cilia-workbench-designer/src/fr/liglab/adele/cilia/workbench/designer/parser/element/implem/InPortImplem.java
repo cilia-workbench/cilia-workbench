@@ -30,6 +30,6 @@ public class InPortImplem extends InPort implements DisplayedInPropertiesView {
 	public static final String XML_NODE_NAME = "in-port";
 
 	public InPortImplem(Node node) throws CiliaException {
-		super(XMLHelpers.findAttributeValueOrEmpty(node, "name"));
+		super(XMLHelpers.findAttributeValueOrEmpty(node, "name"), XMLHelpers.findAttributeValueOrEmpty(node, "type"));
 	}
 }

@@ -30,6 +30,6 @@ public class OutPortImplem extends OutPort implements DisplayedInPropertiesView 
 	public static final String XML_NODE_NAME = "out-port";
 
 	public OutPortImplem(Node node) throws CiliaException {
-		super(XMLHelpers.findAttributeValueOrEmpty(node, "name"));
+		super(XMLHelpers.findAttributeValueOrEmpty(node, "name"), XMLHelpers.findAttributeValueOrEmpty(node, "type"));
 	}
 }

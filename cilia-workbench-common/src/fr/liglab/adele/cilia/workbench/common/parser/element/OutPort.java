@@ -23,8 +23,8 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
  */
 public abstract class OutPort extends Port implements Identifiable {
 
-	public OutPort(String name) {
-		super(name);
+	public OutPort(String name, String type) {
+		super(name, type);
 	}
 
 	@Override

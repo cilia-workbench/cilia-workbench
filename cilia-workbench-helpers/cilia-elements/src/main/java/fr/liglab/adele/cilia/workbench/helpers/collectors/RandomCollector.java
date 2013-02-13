@@ -32,6 +32,9 @@ public class RandomCollector extends PeriodicCollector {
 	public void run() {
 		int value = generator.nextInt(max - min + 1) + min;
 		Data data = new Data(new Integer(value));
+
+		System.out.println("Data envoyée ! ");
+
 		notifyDataArrival(data);
 	}
 }

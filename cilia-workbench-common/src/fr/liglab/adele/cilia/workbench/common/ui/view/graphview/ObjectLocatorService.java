@@ -63,7 +63,7 @@ public class ObjectLocatorService {
 		// Lookup by name
 		// ==============
 
-		if (name.equals("hl7-rest-adapter"))
+		if (name.equals("hl7-rest-adapter") || name.equals("hl7-adapter") || name.equals("hl7-WS-adapter"))
 			return new Point(22, 15);
 		if (name.equals("hl7-filter") || name.equals("hapifilter"))
 			return new Point(188, 15);

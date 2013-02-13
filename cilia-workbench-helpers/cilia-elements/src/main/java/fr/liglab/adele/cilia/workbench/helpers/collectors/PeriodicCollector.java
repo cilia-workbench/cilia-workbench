@@ -31,7 +31,7 @@ public abstract class PeriodicCollector extends AbstractCollector implements Run
 	 */
 	public void start() {
 		ScheduledThreadPoolExecutor se = new ScheduledThreadPoolExecutor(1);
-		se.scheduleAtFixedRate(this, 0, getPeriodInMillis(), TimeUnit.MILLISECONDS);
+		se.scheduleAtFixedRate(this, getPeriodInMillis(), getPeriodInMillis(), TimeUnit.MILLISECONDS);
 	}
 
 	/**
