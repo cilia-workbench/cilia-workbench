@@ -161,6 +161,16 @@ public abstract class XMLChain extends Chain {
 		if (!dst.hasInPort(dstPort))
 			return "unknown " + dstElem + " in-port with name " + dstPort;
 
+		String srcType = Strings.nullToEmpty(src.getOutPort(srcPort).getType());
+		String dstType = Strings.nullToEmpty(dst.getInPort(dstPort).getType());
+
+		if (srcType.isEmpty())
+			return "unknown source port type";
+		if (dstType.isEmpty())
+			return "unknown destination port type";
+		if (!srcType.equalsIgnoreCase(dstType))
+			return "source type is " + srcType + " but destination type is " + dstType;
+
 		return null;
 	}
 

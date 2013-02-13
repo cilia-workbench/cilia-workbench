@@ -13,6 +13,7 @@
 			<mediator-implem id="error-manager" namespace="medical" type="ErrorManagerMediator"/>
 			<mediator-implem id="acknowledgement" namespace="medical" type="ContinuaAcknowledgementMediator"/>
 		
+
 </mediators>
 		<bindings>
 			<binding from="hl7-adapter:out" from-cardinality="1..1" to="hl7-filter:in" to-cardinality="1..1"/>

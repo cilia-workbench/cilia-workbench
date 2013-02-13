@@ -74,10 +74,5 @@
 </ports>
 </mediator-specification>
 
-<mediator-specification name="test" namespace="test">
-<ports>
-<in-port name="in" type="toto"/>
-<out-port name="out" type="titi"/>
-</ports>
-</mediator-specification>
+
 </cilia-specifications>
