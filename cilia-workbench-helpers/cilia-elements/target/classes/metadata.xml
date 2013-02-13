@@ -87,21 +87,6 @@
 	</mediator-component>
 
 
-	<!-- Random generator adapter -->
-
-	<collector name="random-collector"
-		classname="fr.liglab.adele.cilia.workbench.helpers.collectors.RandomCollector">
-		<callback transition="validate" method="start" />
-	</collector>
-
-	<adapter name="random-generator" pattern="in-only">
-		<collector type="random-collector" />
-		<ports>
-			<out-port name="out" type="*"/>
-		</ports>
-	</adapter>
-
-
 	<!-- Counter adapter -->
 
 	<collector name="counter-collector"
@@ -113,20 +98,6 @@
 		<collector type="counter-collector" />
 		<ports>
 			<out-port name="out" type="*"/>
-		</ports>
-	</adapter>
-
-
-	<!-- Console writer adapter -->
-
-	<sender name="console-writer-sender"
-		classname="fr.liglab.adele.cilia.workbench.helpers.senders.ConsoleWriter">
-	</sender>
-
-	<adapter name="console-writer" pattern="out-only">
-		<sender type="console-writer-sender" />
-		<ports>
-			<in-port name="in" type="*"/>
 		</ports>
 	</adapter>
 

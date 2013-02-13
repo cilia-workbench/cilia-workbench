@@ -25,12 +25,23 @@ import fr.liglab.adele.cilia.Data;
 public class GroovyProcessor {
 
 	public Data sayHello(Data data) {
+		return sayHelloV1(data);
+		// return sayHelloV2(data);
+	}
 
-		System.out.println("Data reçue dans le processor de Groovy ! ");
-
+	public Data sayHelloV1(Data data) {
 		if (data != null) {
 			data.setContent("Groovy !, " + data.getContent().toString());
 		}
 		return data;
+	}
+
+	public Data sayHelloV2(Data data) {
+		Data ndata = null;
+		if (data != null) {
+			ndata = new Data(data);
+			ndata.setContent("Groovy !, " + data.getContent().toString());
+		}
+		return ndata;
 	}
 }

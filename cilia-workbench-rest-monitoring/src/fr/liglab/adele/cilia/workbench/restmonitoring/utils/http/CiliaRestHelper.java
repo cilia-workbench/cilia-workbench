@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.draw2d.PrintFigureOperation;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -163,7 +164,6 @@ public class CiliaRestHelper {
 	}
 
 	public static String getStateVarValue(PlatformID platformID, String chainName, String compoName, String stateVarName) throws CiliaException {
-
 		String target = "/cilia/runtime/" + chainName + "/components/" + compoName + "/rawdata/" + stateVarName;
 		String message = HttpHelper.get(platformID, target);
 		JSONObject json = string2json(message);

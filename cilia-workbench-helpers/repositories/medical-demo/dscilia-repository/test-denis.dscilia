@@ -3,7 +3,7 @@
 	<chain id="test" namespace="">
 		<adapters>
 			<adapter-instance id="generator" namespace="fr.liglab.adele.cilia"
-				type="random-generator" />
+				type="number-generator-adapter" />
 			<adapter-instance id="console" namespace="fr.liglab.adele.cilia"
 				type="console-adapter" />
 		</adapters>
@@ -12,7 +12,7 @@
 				type="groovy-mediator" />
 		</mediators>
 		<bindings>
-			<binding from="generator:out" to="groovy:in" />
+			<binding from="generator:unique" to="groovy:in" />
 			<binding from="groovy:out" to="console:unique" />
 		</bindings>
 	</chain>
