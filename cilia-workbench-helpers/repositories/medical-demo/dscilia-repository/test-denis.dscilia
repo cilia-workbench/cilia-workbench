@@ -2,18 +2,19 @@
 <cilia>
 	<chain id="test" namespace="">
 		<adapters>
-			<adapter-instance id="generator" namespace="fr.liglab.adele.cilia"
-				type="number-generator-adapter" />
-			<adapter-instance id="console" namespace="fr.liglab.adele.cilia"
-				type="console-adapter" />
+			<adapter-instance id="generator" namespace="fr.liglab.adele.cilia" type="number-generator-adapter"/>
+			<adapter-instance id="console" namespace="fr.liglab.adele.cilia" type="console-adapter"/>
 		</adapters>
 		<mediators>
-			<mediator-instance id="groovy" namespace="fr.liglab.adele.cilia"
-				type="groovy-mediator" />
-		</mediators>
+			<mediator-instance id="groovy" namespace="fr.liglab.adele.cilia" type="groovy-mediator"/>
+		
+		
+</mediators>
 		<bindings>
-			<binding from="generator:unique" to="groovy:in" />
-			<binding from="groovy:out" to="console:unique" />
-		</bindings>
+			<binding from="generator:unique" to="groovy:in"/>
+			<binding from="groovy:out" to="console:unique"/>
+		
+
+</bindings>
 	</chain>
 </cilia>

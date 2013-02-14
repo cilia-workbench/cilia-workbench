@@ -14,13 +14,13 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.jarrepositoryview;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 
 /**
@@ -38,7 +38,7 @@ class StreamFromFileStorage implements IStorage {
 	public InputStream getContents() throws CoreException {
 		try {
 			return resource.getContentAsStream();
-		} catch (CiliaException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}

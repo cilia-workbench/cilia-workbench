@@ -15,9 +15,9 @@
 package fr.liglab.adele.cilia.workbench.common.parser;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 
 /**
@@ -38,7 +38,7 @@ public abstract class PhysicalResource implements Identifiable {
 
 	public abstract File getJavaFile();
 
-	public abstract InputStream getContentAsStream() throws CiliaException;
+	public abstract InputStream getContentAsStream() throws IOException;
 
 	public abstract boolean delete();
 }

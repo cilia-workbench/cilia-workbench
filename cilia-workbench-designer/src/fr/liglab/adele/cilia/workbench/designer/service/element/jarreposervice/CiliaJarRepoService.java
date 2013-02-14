@@ -15,18 +15,16 @@
 package fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
+import fr.liglab.adele.cilia.workbench.common.files.FileUtil;
+import fr.liglab.adele.cilia.workbench.common.files.JarReader;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.MetadataInJar;
 import fr.liglab.adele.cilia.workbench.common.parser.MetadataInJarInDP;
 import fr.liglab.adele.cilia.workbench.common.parser.element.Adapter;
@@ -78,26 +76,6 @@ public class CiliaJarRepoService extends ComponentRepoService<CiliaJarFile, Cili
 		SpecRepoService.getInstance().registerListener(this);
 	}
 
-	private List<JarEntry> findJarInDP(File jarFile) {
-		List<JarEntry> retval = new ArrayList<JarEntry>();
-
-		JarFile file;
-		try {
-			file = new JarFile(jarFile);
-			Enumeration<JarEntry> entries = file.entries();
-			while (entries.hasMoreElements()) {
-				JarEntry entry = entries.nextElement();
-				if (entry.getName().startsWith("bundles/") && entry.getName().endsWith(".jar")) {
-					retval.add(entry);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return retval;
-	}
-
 	public void updateModel() {
 		File[] list = getFiles();
 		List<CiliaJarFile> bundles = new ArrayList<CiliaJarFile>();
@@ -109,7 +87,7 @@ public class CiliaJarRepoService extends ComponentRepoService<CiliaJarFile, Cili
 
 		// Deployment packages management
 		for (File jarFile : FileUtil.getFiles(getRepositoryLocation(), "dp")) {
-			for (JarEntry entry : findJarInDP(jarFile)) {
+			for (JarEntry entry : JarReader.findJarInDP(jarFile)) {
 				MetadataInJarInDP mij = new MetadataInJarInDP(jarFile, entry.getName());
 				if (mij.hasMetadata())
 					bundles.add(new CiliaJarFile(mij));

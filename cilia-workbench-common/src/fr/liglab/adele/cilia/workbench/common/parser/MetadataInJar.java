@@ -15,10 +15,10 @@
 package fr.liglab.adele.cilia.workbench.common.parser;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
+import fr.liglab.adele.cilia.workbench.common.files.JarReader;
 
 /**
  * 
@@ -48,14 +48,14 @@ public class MetadataInJar extends PhysicalResource {
 		throw new IllegalArgumentException("Can't get Java File from a zip file");
 	}
 
-	public InputStream getContentAsStream() throws CiliaException {
-		return FileUtil.inputStreamFromFileInJarArchive(file, embeddedFileName);
+	public InputStream getContentAsStream() throws IOException {
+		return JarReader.inputStreamFromFileInJarArchive(file, embeddedFileName);
 	}
 
 	public boolean hasMetadata() {
 		try {
-			return FileUtil.hasFile(file, embeddedFileName);
-		} catch (CiliaException e) {
+			return JarReader.hasFile(file, embeddedFileName);
+		} catch (IOException e) {
 			return false;
 		}
 	}

@@ -15,10 +15,10 @@
 package fr.liglab.adele.cilia.workbench.common.parser;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.misc.FileUtil;
+import fr.liglab.adele.cilia.workbench.common.files.JarReader;
 
 /**
  * 
@@ -50,12 +50,12 @@ public class MetadataInJarInDP extends PhysicalResource {
 	}
 
 	@Override
-	public InputStream getContentAsStream() throws CiliaException {
-		return FileUtil.inputStreamFromFileInJarInDP(jarFile, entry, MetadataInJar.embeddedFileName);
+	public InputStream getContentAsStream() throws IOException {
+		return JarReader.inputStreamFromFileInJarInDP(jarFile, entry, MetadataInJar.embeddedFileName);
 	}
 
 	public boolean hasMetadata() {
-		return FileUtil.hasFile(jarFile, entry, MetadataInJar.embeddedFileName);
+		return JarReader.hasFile(jarFile, entry, MetadataInJar.embeddedFileName);
 	}
 
 	@Override

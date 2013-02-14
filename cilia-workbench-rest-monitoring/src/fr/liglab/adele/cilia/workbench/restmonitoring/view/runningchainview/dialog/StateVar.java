@@ -44,6 +44,5 @@ public class StateVar {
 
 	public void setEnable(boolean value) {
 		this.enabled = value;
-		// TODO Auto-generated method stub
 	}
 }

@@ -16,10 +16,8 @@ package fr.liglab.adele.cilia.workbench.common.parser;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
-
-import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 
 /**
  * 
@@ -49,12 +47,8 @@ public class PlainFile extends PhysicalResource {
 	}
 
 	@Override
-	public InputStream getContentAsStream() throws CiliaException {
-		try {
-			return new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			throw new CiliaException("Error while reading file", e);
-		}
+	public InputStream getContentAsStream() throws IOException {
+		return new FileInputStream(file);
 	}
 
 	@Override

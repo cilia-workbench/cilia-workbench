@@ -44,7 +44,12 @@ public abstract class AbstractModel implements DisplayedInPropertiesView {
 	}
 
 	protected Document getDocument() throws CiliaException {
-		InputStream stream = resource.getContentAsStream();
+		InputStream stream;
+		try {
+			stream = resource.getContentAsStream();
+		} catch (IOException e) {
+			throw new CiliaException(e);
+		}
 		Document retval = XMLHelpers.getDocument(stream);
 		try {
 			stream.close();
