@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.common.files;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 
@@ -25,7 +26,7 @@ import java.security.MessageDigest;
  */
 public class Sha1Util {
 
-	public static String sha1sum(File file) {
+	public static String sha1sum(File file) throws FileNotFoundException {
 		String localSha1Sum = null;
 		if (file.exists() && file.isFile() && file.canRead()) {
 			try {
@@ -42,7 +43,7 @@ public class Sha1Util {
 				ex.printStackTrace();
 			}
 		} else {
-			throw new RuntimeException("file not found " + file.getName());
+			throw new FileNotFoundException("file not found " + file.getName());
 		}
 		return localSha1Sum;
 	}
