@@ -53,8 +53,8 @@ public class MediatorSpec extends Mediator implements Mergeable {
 	private SchedulerSpec scheduler = null;
 	private DispatcherSpec dispatcher = null;
 
-	public MediatorSpec(Node node) throws CiliaException {
-		super(computeID(node), computePorts(node));
+	public MediatorSpec(Node node, String physicalResourcePath) throws CiliaException {
+		super(computeID(node), computePorts(node), physicalResourcePath);
 
 		Node rootProperties = XMLHelpers.findChild(node, XML_NODE_PROPERTIES_CONTAINER);
 		if (rootProperties != null) {

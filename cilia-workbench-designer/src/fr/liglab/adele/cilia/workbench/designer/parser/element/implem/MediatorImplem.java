@@ -61,8 +61,8 @@ public class MediatorImplem extends Mediator {
 
 	private List<PropertyImplem> properties = new ArrayList<PropertyImplem>();
 
-	public MediatorImplem(Node node) throws CiliaException {
-		super(computeID(node), XMLPortsUtil.getPorts(node));
+	public MediatorImplem(Node node, String physicalResourcePath) throws CiliaException {
+		super(computeID(node), XMLPortsUtil.getPorts(node), physicalResourcePath);
 
 		String specName = null;
 		String specNamespace = null;

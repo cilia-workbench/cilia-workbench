@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.common.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidObjectException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -60,6 +61,10 @@ public abstract class AbstractModel implements DisplayedInPropertiesView {
 	}
 
 	protected void writeToFile(Document document) throws CiliaException {
-		XMLHelpers.writeDOM(document, resource.getJavaFile());
+		try {
+			XMLHelpers.writeDOM(document, resource.getExactResourceFile());
+		} catch (InvalidObjectException e) {
+			throw new CiliaException("XML writing error", e);
+		}
 	}
 }

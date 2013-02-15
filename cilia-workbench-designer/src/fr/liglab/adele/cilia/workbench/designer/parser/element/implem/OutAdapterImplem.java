@@ -36,8 +36,8 @@ public class OutAdapterImplem extends OutAdapter {
 
 	String sender;
 
-	public OutAdapterImplem(Node node) throws CiliaException {
-		super(computeID(node), XMLPortsUtil.getPorts(node));
+	public OutAdapterImplem(Node node, String physicalResourcePath) throws CiliaException {
+		super(computeID(node), XMLPortsUtil.getPorts(node), physicalResourcePath);
 
 		Node subNode = XMLHelpers.findChild(node, "sender");
 		if (subNode != null)

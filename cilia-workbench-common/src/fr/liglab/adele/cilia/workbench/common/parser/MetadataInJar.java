@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.common.parser;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidObjectException;
 
 import fr.liglab.adele.cilia.workbench.common.files.JarReader;
 
@@ -34,18 +35,23 @@ public class MetadataInJar extends PhysicalResource {
 	}
 
 	@Override
-	public String getNameWithPath() {
+	public String getId() {
 		return file.getPath();
 	}
 
 	@Override
-	public String getName() {
+	public String getDisplayName() {
 		return file.getName();
 	}
 
 	@Override
-	public File getJavaFile() {
-		throw new IllegalArgumentException("Can't get Java File from a zip file");
+	public File getExactResourceFile() throws InvalidObjectException {
+		throw new InvalidObjectException("Can't get Java File from a zip file");
+	}
+
+	@Override
+	public File getAssociatedResourceFile() {
+		return file;
 	}
 
 	public InputStream getContentAsStream() throws IOException {
@@ -56,15 +62,6 @@ public class MetadataInJar extends PhysicalResource {
 		try {
 			return JarReader.hasFile(file, embeddedFileName);
 		} catch (IOException e) {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean delete() {
-		try {
-			return file.delete();
-		} catch (Exception e) {
 			return false;
 		}
 	}

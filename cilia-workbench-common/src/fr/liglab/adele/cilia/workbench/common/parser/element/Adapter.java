@@ -24,8 +24,8 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
  */
 public abstract class Adapter extends ComponentDefinition {
 
-	public Adapter(NameNamespaceID id, List<Port> ports) {
-		super(id, ports);
+	public Adapter(NameNamespaceID id, List<Port> ports, String physicalResourcePath) {
+		super(id, ports, physicalResourcePath);
 	}
 
 	public enum AdapterType {

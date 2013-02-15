@@ -14,15 +14,24 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Shell;
 
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
+import fr.liglab.adele.cilia.workbench.common.ui.dialog.SimpleListDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.CiliaJarFile;
-import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaModel;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 
 /**
@@ -33,34 +42,55 @@ public class DeployHandler extends PlatformViewHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		Shell parentShell = ViewUtil.getShell(event);
 
 		// Validity checking
-		// =================
-		PlatformFile file = getPlatformFileOrDisplayErrorDialog(event);
-		if (file == null)
+		PlatformFile pfFile = getPlatformFileOrDisplayErrorDialog(event);
+		if (pfFile == null)
 			return null;
 
-		// Display mock
-		// ============
+		// DSCilia file
+		List<DSCiliaFile> values = DSCiliaRepoService.getInstance().getRepoContent();
+		SimpleListDialog fileChooser = new SimpleListDialog(parentShell, "Cilia File chooser", "Please select a cilia file", values);
+		if (fileChooser.open() != Window.OK)
+			return null;
+		DSCiliaFile file = (DSCiliaFile) (fileChooser.getResult()[0]);
 
-		StringBuilder sb = new StringBuilder();
-
-		sb.append("The following artifacts will be deployed to\n");
-		sb.append(file.getModel().getPlatformID());
-		sb.append("\n\n");
-
-		List<CiliaJarFile> list = CiliaJarRepoService.getInstance().getRepoContent();
-		for (CiliaJarFile jar : list) {
-			sb.append("  * ");
-			sb.append(jar.toString());
-			sb.append("\n");
+		// DSCilia model
+		DSCiliaModel model = file.getModel();
+		if (model == null) {
+			MessageDialog.openError(parentShell, "Error", "Cilia Model is in an INVALID state");
+			return null;
 		}
 
-		boolean result = (boolean) MessageDialog.openConfirm(ViewUtil.getShell(event), "Deploy artifacts to platform", sb.toString());
-
-		if (result) {
-			MessageDialog.openInformation(ViewUtil.getShell(event), "Success", "Artifacts deployed !");
+		// Finding resources
+		List<String> resources = new ArrayList<String>();
+		resources.add(file.getResource().getAssociatedResourcePath());
+		for (DSCiliaChain chain : model.getChains()) {
+			if (chain != null) {
+				for (ComponentRef compoRef : chain.getComponents()) {
+					ComponentDefinition def = compoRef.getReferencedComponentDefinition();
+					if (def != null) {
+						String resource = def.getPhysicalResourcePath();
+						if (!resources.contains(resource))
+							resources.add(resource);
+					} else {
+						MessageDialog.openError(parentShell, "Error", "A component definition is missing for " + compoRef.getId());
+						return null;
+					}
+				}
+			} else {
+				MessageDialog.openError(parentShell, "Error", "A cilia Chain is in an INVALID state (null)");
+				return null;
+			}
 		}
+
+		// For tests
+		String msg = "Liste des ressources à inclure dans le deployment package :\n";
+		msg += Strings.arrayToString(resources.toArray(), "\n");
+		MessageDialog.openInformation(parentShell, "DEBUG", msg);
+
+		// TODO continue here !
 
 		return null;
 	}

@@ -14,28 +14,18 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chainview.common;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.dialogs.ListDialog;
 
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.common.ui.dialog.SimpleListDialog;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DeleteBindingDialog extends ListDialog {
+public class DeleteBindingDialog extends SimpleListDialog {
 
 	public DeleteBindingDialog(Shell parent, Chain chain) {
-		super(parent);
-
-		setTitle("Remove binding");
-		setMessage("Select the binding to be removed");
-		setInput(chain.getBindings());
-
-		setContentProvider(new ArrayContentProvider());
-		setLabelProvider(new LabelProvider());
-		setHelpAvailable(false);
+		super(parent, "Remove binding", "Select the binding to be removed", chain.getBindings());
 	}
 }

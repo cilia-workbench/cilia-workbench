@@ -12,24 +12,30 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.common.parser.element;
+package fr.liglab.adele.cilia.workbench.common.ui.dialog;
 
 import java.util.List;
 
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.ListDialog;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class InOutAdapter extends Adapter {
+public class SimpleListDialog extends ListDialog {
 
-	public InOutAdapter(NameNamespaceID id, List<Port> ports, String physicalResourcePath) {
-		super(id, ports, physicalResourcePath);
-	}
+	public SimpleListDialog(Shell parent, String title, String message, List<?> input) {
+		super(parent);
 
-	@Override
-	public AdapterType getType() {
-		return AdapterType.INOUT;
+		setTitle(title);
+		setMessage(message);
+		setInput(input);
+
+		setContentProvider(new ArrayContentProvider());
+		setLabelProvider(new LabelProvider());
+		setHelpAvailable(false);
 	}
 }

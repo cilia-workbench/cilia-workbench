@@ -49,6 +49,7 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
@@ -280,9 +281,9 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 		if (element != null) {
 			try {
 				@SuppressWarnings("unchecked")
-				AbstractFile<ModelType> repoElement = (AbstractFile<ModelType>) element;
+				AbstractFile<AbstractModel> repoElement = (AbstractFile<AbstractModel>) element;
 				// Even files with an invalid model can be open.
-				openFileEditor(repoElement.getResource().getJavaFile());
+				openFileEditor(repoElement.getResource().getExactResourceFile());
 
 			} catch (Exception e) {
 				// do nothing

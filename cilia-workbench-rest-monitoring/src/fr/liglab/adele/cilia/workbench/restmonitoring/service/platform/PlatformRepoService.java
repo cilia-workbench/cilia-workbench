@@ -124,10 +124,10 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 		return CiliaFlag.generateTab(errorList);
 	}
 
-	public void updateChains(String filename, String[] chains) {
+	public void updateChains(String platformFileId, String[] chains) {
 
 		// merge and compute changes
-		PlatformFile pfFile = getFileFromName(filename);
+		PlatformFile pfFile = getFileFromId(platformFileId);
 		List<Changeset> changes = pfFile.getModel().mergeChains(chains);
 
 		// path update

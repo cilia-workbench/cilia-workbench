@@ -32,31 +32,27 @@ public class PlainFile extends PhysicalResource {
 	}
 
 	@Override
-	public String getNameWithPath() {
+	public String getId() {
 		return file.getPath();
 	}
 
 	@Override
-	public String getName() {
+	public String getDisplayName() {
 		return file.getName();
 	}
 
 	@Override
-	public File getJavaFile() {
+	public File getExactResourceFile() {
+		return file;
+	}
+
+	@Override
+	public File getAssociatedResourceFile() {
 		return file;
 	}
 
 	@Override
 	public InputStream getContentAsStream() throws IOException {
 		return new FileInputStream(file);
-	}
-
-	@Override
-	public boolean delete() {
-		try {
-			return file.delete();
-		} catch (Exception e) {
-			return false;
-		}
 	}
 }

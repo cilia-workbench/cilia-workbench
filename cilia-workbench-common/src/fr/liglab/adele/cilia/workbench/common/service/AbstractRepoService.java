@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -91,13 +92,6 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 		listeners = new ArrayList<IRepoServiceListener>();
 	}
 
-	public FileType getFileFromName(String fileName) {
-		for (FileType element : repoContent)
-			if (element.getFilename().equals(fileName))
-				return element;
-		return null;
-	}
-
 	/**
 	 * Callback method used as soon as the model should be updated.
 	 */
@@ -159,6 +153,13 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 	protected File[] getFiles() {
 		File dir = getRepositoryLocation();
 		return FileUtil.getFiles(dir, ext);
+	}
+
+	public FileType getFileFromId(String fileId) {
+		for (FileType element : repoContent)
+			if (element.getId().equals(fileId))
+				return element;
+		return null;
 	}
 
 	public List<FileType> getRepoContent() {
@@ -312,7 +313,13 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 	}
 
 	public boolean deleteRepoElement(AbstractFile<?> element) {
-		boolean retval = element.getResource().delete();
+		boolean retval;
+		try {
+			retval = element.getResource().delete();
+		} catch (InvalidObjectException e) {
+			e.printStackTrace();
+			retval = false;
+		}
 		updateModel();
 		return retval;
 	}

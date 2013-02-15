@@ -14,28 +14,18 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chainview.common;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.dialogs.ListDialog;
 
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.common.ui.dialog.SimpleListDialog;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DeleteAdapterDialog extends ListDialog {
+public class DeleteAdapterDialog extends SimpleListDialog {
 
 	public DeleteAdapterDialog(Shell parent, Chain chain) {
-		super(parent);
-
-		setTitle("Remove adapter");
-		setMessage("Select the adapter to be removed");
-		setInput(chain.getAdapters());
-
-		setContentProvider(new ArrayContentProvider());
-		setLabelProvider(new LabelProvider());
-		setHelpAvailable(false);
+		super(parent, "Remove adapter", "Select the adapter to be removed", chain.getAdapters());
 	}
 }

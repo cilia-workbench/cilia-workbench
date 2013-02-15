@@ -37,12 +37,14 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.propertiesview.DisplayedIn
 public abstract class ComponentDefinition implements Identifiable, DisplayedInPropertiesView, ErrorsAndWarningsFinder {
 
 	private final NameNamespaceID id;
+	private final String physicalResourcePath;
 
 	private final List<Port> ports;
 
-	public ComponentDefinition(NameNamespaceID id, List<Port> ports) {
+	public ComponentDefinition(NameNamespaceID id, List<Port> ports, String physicalResourcePath) {
 		this.id = id;
 		this.ports = ports;
+		this.physicalResourcePath = physicalResourcePath;
 	}
 
 	// ID AND VALUES
@@ -58,6 +60,10 @@ public abstract class ComponentDefinition implements Identifiable, DisplayedInPr
 
 	public String getNamespace() {
 		return id.getNamespace();
+	}
+
+	public String getPhysicalResourcePath() {
+		return physicalResourcePath;
 	}
 
 	// PORTS
@@ -155,7 +161,8 @@ public abstract class ComponentDefinition implements Identifiable, DisplayedInPr
 
 		CiliaFlag e1 = CiliaError.checkStringNotNullOrEmpty(this, getName(), "name");
 		CiliaFlag e2 = CiliaWarning.checkStringNotNullOrEmpty(this, getNamespace(), "namespace");
+		CiliaFlag e3 = CiliaError.checkStringNotNullOrEmpty(this, getPhysicalResourcePath(), "physical resource path");
 
-		return CiliaFlag.generateTab(flagsTab, e1, e2);
+		return CiliaFlag.generateTab(flagsTab, e1, e2, e3);
 	}
 }

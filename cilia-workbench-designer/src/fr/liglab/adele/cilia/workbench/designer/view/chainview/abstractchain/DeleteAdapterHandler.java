@@ -35,7 +35,9 @@ public class DeleteAdapterHandler extends AbstractChainHandler {
 		AbstractChain model = getDisplayedModel(event);
 
 		if (model != null) {
+
 			DeleteAdapterDialog window = new DeleteAdapterDialog(ViewUtil.getShell(event), model);
+
 			if (window.open() == Window.OK) {
 				Object[] objects = window.getResult();
 				if (objects.length != 0) {

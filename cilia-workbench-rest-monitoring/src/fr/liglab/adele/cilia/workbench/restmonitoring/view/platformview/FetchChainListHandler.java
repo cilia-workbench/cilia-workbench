@@ -54,7 +54,7 @@ public class FetchChainListHandler extends PlatformViewHandler {
 		// Model Update
 		// ============
 
-		PlatformRepoService.getInstance().updateChains(file.getFilename(), chains);
+		PlatformRepoService.getInstance().updateChains(file.getId(), chains);
 
 		return null;
 	}

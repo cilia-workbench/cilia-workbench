@@ -24,8 +24,8 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
  */
 public abstract class InAdapter extends Adapter {
 
-	public InAdapter(NameNamespaceID id, List<Port> ports) {
-		super(id, ports);
+	public InAdapter(NameNamespaceID id, List<Port> ports, String physicalResourcePath) {
+		super(id, ports, physicalResourcePath);
 	}
 
 	@Override

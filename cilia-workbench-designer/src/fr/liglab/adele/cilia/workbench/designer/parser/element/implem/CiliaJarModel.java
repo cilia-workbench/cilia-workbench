@@ -68,13 +68,13 @@ public class CiliaJarModel extends AbstractModel {
 					else if (nodeName.equals(SenderImplem.XML_NODE_NAME))
 						senders.add(new SenderImplem(child));
 					else if (nodeName.equals(AdapterImplemUtil.XML_NODE_NAME)) {
-						Adapter a = AdapterImplemUtil.createAdapter(child);
+						Adapter a = AdapterImplemUtil.createAdapter(child, file.getAssociatedResourcePath());
 						if (a != null)
 							adapters.add(a);
 					} else if (nodeName.equals(InOutAdapterImplem.XML_NODE_NAME)) {
-						adapters.add(new InOutAdapterImplem(child));
+						adapters.add(new InOutAdapterImplem(child, file.getAssociatedResourcePath()));
 					} else if (nodeName.equals(MediatorImplem.XML_NODE_NAME))
-						mediatorComponents.add(new MediatorImplem(child));
+						mediatorComponents.add(new MediatorImplem(child, file.getAssociatedResourcePath()));
 				}
 			}
 		}

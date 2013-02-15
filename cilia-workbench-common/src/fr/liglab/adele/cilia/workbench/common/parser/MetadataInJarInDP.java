@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.common.parser;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidObjectException;
 
 import fr.liglab.adele.cilia.workbench.common.files.JarReader;
 
@@ -35,18 +36,23 @@ public class MetadataInJarInDP extends PhysicalResource {
 	}
 
 	@Override
-	public String getNameWithPath() {
+	public String getId() {
 		return jarFile.getPath() + ":" + entry;
 	}
 
 	@Override
-	public String getName() {
+	public String getDisplayName() {
 		return jarFile.getName() + ":" + entry;
 	}
 
 	@Override
-	public File getJavaFile() {
-		throw new IllegalArgumentException("Can't get Java File from a zip file");
+	public File getExactResourceFile() throws InvalidObjectException {
+		throw new InvalidObjectException("Can't get Java File from a zip file");
+	}
+
+	@Override
+	public File getAssociatedResourceFile() {
+		return jarFile;
 	}
 
 	@Override
@@ -56,13 +62,5 @@ public class MetadataInJarInDP extends PhysicalResource {
 
 	public boolean hasMetadata() {
 		return JarReader.hasFile(jarFile, entry, MetadataInJar.embeddedFileName);
-	}
-
-	@Override
-	public boolean delete() {
-		// Warning !
-		// If delete needs to be implemented, don't forget a single dp file can
-		// contain multiples sub jars...
-		return false;
 	}
 }

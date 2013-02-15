@@ -17,6 +17,7 @@ package fr.liglab.adele.cilia.workbench.common.parser;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidObjectException;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
 
@@ -28,17 +29,61 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.Identifiable;
  */
 public abstract class PhysicalResource implements Identifiable {
 
-	public Object getId() {
-		return getNameWithPath();
+	/**
+	 * Returns an id, which MUST be computed using the underlying physical
+	 * resource. This id MUST be human readable.
+	 * 
+	 * @return an id
+	 */
+	public abstract String getId();
+
+	/**
+	 * A human readable name, for display purpose. This name must NOT be used as
+	 * an id because it may NOT be unique.
+	 * 
+	 * @return A human readable name, for display purpose.
+	 */
+	public abstract String getDisplayName();
+
+	/**
+	 * The file FULLY represented by the resource. This method MUST throw an
+	 * exception if the file can be linked to more than one resource.
+	 * 
+	 * @see #getAssociatedResourceFile()
+	 * @return
+	 * @throws InvalidObjectException
+	 */
+	public abstract File getExactResourceFile() throws InvalidObjectException;
+
+	/**
+	 * The underlying file which contains the resource. This {@link File} ALWAYS
+	 * exists, and can be used by one or more resources.
+	 * 
+	 * @see #getExactResourceFile()
+	 * @return
+	 */
+	public abstract File getAssociatedResourceFile();
+
+	public String getAssociatedResourcePath() {
+		return getAssociatedResourceFile().getAbsolutePath();
 	}
-
-	public abstract String getNameWithPath();
-
-	public abstract String getName();
-
-	public abstract File getJavaFile();
 
 	public abstract InputStream getContentAsStream() throws IOException;
 
-	public abstract boolean delete();
+	/**
+	 * Deletes the underlying resource.
+	 * 
+	 * @return
+	 * @see #getExactResourceFile()
+	 * @throws InvalidObjectException
+	 *             if the resource MUSTN'T be destroyed.
+	 */
+	public boolean delete() throws InvalidObjectException {
+		return getExactResourceFile().delete();
+	}
+
+	@Override
+	public String toString() {
+		return getDisplayName();
+	}
 }

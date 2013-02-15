@@ -48,12 +48,8 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 	}
 
 	@Override
-	public Object getId() {
+	public String getId() {
 		return resource.getId();
-	}
-
-	public String getFilename() {
-		return resource.getNameWithPath();
 	}
 
 	public PhysicalResource getResource() {
@@ -66,7 +62,7 @@ public class AbstractFile<ModelType> implements ErrorsAndWarningsFinder, Display
 
 	@Override
 	public String toString() {
-		return Strings.nullToEmpty(resource.getName());
+		return Strings.nullToEmpty(resource.toString());
 	}
 
 	@Override

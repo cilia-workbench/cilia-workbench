@@ -27,8 +27,8 @@ public abstract class Mediator extends ComponentDefinition {
 
 	public abstract List<? extends Property> getProperties();
 
-	public Mediator(NameNamespaceID id, List<Port> ports) {
-		super(id, ports);
+	public Mediator(NameNamespaceID id, List<Port> ports, String physicalResourcePath) {
+		super(id, ports, physicalResourcePath);
 	}
 
 	public Property getProperty(String key) {

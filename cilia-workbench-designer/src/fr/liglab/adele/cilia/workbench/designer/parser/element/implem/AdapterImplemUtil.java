@@ -43,15 +43,15 @@ public abstract class AdapterImplemUtil {
 	 * @return {@link InAdapter}, an {@link OutAdapter} or <code>null</code> in
 	 *         case of error.
 	 */
-	public static Adapter createAdapter(Node node) {
+	public static Adapter createAdapter(Node node, String physicalResourcePath) {
 		Adapter retval = null;
 
 		try {
 			String pattern = XMLHelpers.findAttributeValueOrException(node, XML_ATTR_PATTERN);
 			if (pattern.equalsIgnoreCase(IN_PATTERN))
-				retval = new InAdapterImplem(node);
+				retval = new InAdapterImplem(node, physicalResourcePath);
 			else if (pattern.equalsIgnoreCase(OUT_PATTERN))
-				retval = new OutAdapterImplem(node);
+				retval = new OutAdapterImplem(node, physicalResourcePath);
 			else
 				throw new CiliaException("Unknown pattern : addapter can't be created");
 		} catch (CiliaException e) {

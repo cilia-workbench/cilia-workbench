@@ -35,8 +35,8 @@ public class InAdapterImplem extends InAdapter {
 	public static final String XML_ATTR_NAME = "name";
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 
-	public InAdapterImplem(Node node) throws CiliaException {
-		super(computeID(node), XMLPortsUtil.getPorts(node));
+	public InAdapterImplem(Node node, String physicalResourcePath) throws CiliaException {
+		super(computeID(node), XMLPortsUtil.getPorts(node), physicalResourcePath);
 
 		Node subNode = XMLHelpers.findChild(node, "collector");
 		if (subNode != null)

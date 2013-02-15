@@ -34,8 +34,8 @@ public class InOutAdapterImplem extends InOutAdapter {
 	public static final String XML_ATTR_NAMESPACE = "namespace";
 	public static Object XML_NODE_NAME = "io-adapter";
 
-	public InOutAdapterImplem(Node node) throws CiliaException {
-		super(computeID(node), XMLPortsUtil.getPorts(node));
+	public InOutAdapterImplem(Node node, String physicalResourcePath) throws CiliaException {
+		super(computeID(node), XMLPortsUtil.getPorts(node), physicalResourcePath);
 	}
 
 	private static NameNamespaceID computeID(Node node) {

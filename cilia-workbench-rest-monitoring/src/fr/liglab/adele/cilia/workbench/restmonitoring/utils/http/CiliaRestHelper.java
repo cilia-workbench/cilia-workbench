@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.draw2d.PrintFigureOperation;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

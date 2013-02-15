@@ -48,7 +48,7 @@ public class SpecModel extends AbstractModel implements Mergeable {
 
 		Node root = getRootNode(getDocument());
 		for (Node node : XMLHelpers.findChildren(root, MediatorSpec.XML_NODE_NAME))
-			mediatorSpecs.add(new MediatorSpec(node));
+			mediatorSpecs.add(new MediatorSpec(node, file.getAssociatedResourcePath()));
 	}
 
 	public List<MediatorSpec> getMediatorSpecs() {
