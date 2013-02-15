@@ -2,74 +2,79 @@
 <cilia>
 	<chain id="continua-mediation" type="continua-mediation">
 		<adapters>
-			<!-- Adapter using File Install-->
-			<!--adapter-instance id="HL7MessageCollector" type="HL7MessageAdapter" /-->
-			<!-- Adapter exported as a WebService Using ROSE/CXF-->
-			<!--adapter-instance type="HL7-WS-MessageAdapter" id="hl7-adapter" /-->
-			<!-- Adapter exported as a REST WebService Using ROSE/JERSEY-->
-			
+			<!-- Adapter using File Install -->
+			<!--adapter-instance id="HL7MessageCollector" type="HL7MessageAdapter" 
+				/ -->
+			<!-- Adapter exported as a WebService Using ROSE/CXF -->
+			<!--adapter-instance type="HL7-WS-MessageAdapter" id="hl7-adapter" / -->
+			<!-- Adapter exported as a REST WebService Using ROSE/JERSEY -->
+
 			<!-- Adapter Indivo -->
 			<adapter-instance id="integration" type="IndivoIntegrationAdapter">
-				<!-- Properties to assure indivo connectivity-->
-				<property name="db_driver" value="org.postgresql.Driver"/>
-				<property name="db_url" value="jdbc:postgresql://indivo-etienne:5432/continuaconnector"/>
-				<property name="db_user" value="indivo"/>
-				<property name="db_password" value="indivo"/>
-				<property name="pha_consumer_key" value="mydevices"/>
-				<property name="pha_consumer_secret" value="secret"/>
-				<property name="pha_app_id" value="mydevices@apps.indivo.org"/>
-				<property name="indivo_server_url" value="http://indivo-etienne:8000/"/>
-				<property name="indivo_ui_serdver_url" value="http://indivo-etienne:8001/"/>
+				<!-- Properties to assure indivo connectivity -->
+				<property name="db_driver" value="org.postgresql.Driver" />
+				<property name="db_url"
+					value="jdbc:postgresql://indivo-etienne:5432/continuaconnector" />
+				<property name="db_user" value="indivo" />
+				<property name="db_password" value="indivo" />
+				<property name="pha_consumer_key" value="mydevices" />
+				<property name="pha_consumer_secret" value="secret" />
+				<property name="pha_app_id" value="mydevices@apps.indivo.org" />
+				<property name="indivo_server_url" value="http://indivo-etienne:8000/" />
+				<property name="indivo_ui_serdver_url" value="http://indivo-etienne:8001/" />
 			</adapter-instance>
-		
 
-<adapter-instance id="hl7-rest-adapter" namespace="fr.liglab.adele.cilia" type="HL7-REST-MessageAdapter"/>
-</adapters>
+
+			<adapter-instance id="hl7-rest-adapter" namespace="fr.liglab.adele.cilia"
+				type="HL7-REST-MessageAdapter" />
+		</adapters>
 
 		<mediators>
 			<!-- Validation HL7 -->
-			<mediator-instance id="hapifilter" namespace="medical" type="HapiValidationMediator"/>
+			<mediator-instance id="hapifilter" namespace="medical"
+				type="HapiValidationMediator" />
 			<!-- Validation Continua -->
-			<mediator-instance id="continua-filter" namespace="medical" type="ContinuaValidationMediator"/>
-			<!-- Continua Translator-->
-			<mediator-instance id="translation" namespace="medical" type="ContinuaTranslationMediator"/>
-			<!-- ACK generator-->
-			<mediator-instance id="acknowledgement" namespace="medical" type="ContinuaAcknowledgementMediator">
-				<!-- Generator specific properties-->
-				<property name="fill_err_segment_in_ack" value="true"/>
-				<property name="application_namespace_id" value="ContinuaConnector"/>
-				<property name="application_universal_id" value="1234567890ABCDEF"/>
-				<property name="application_universal_id_type" value="EUI-64"/>
-				<property name="messageProfileIdentifier_entityIdentifier" value="IHE PCD ORU-R012006"/>
-				<property name="messageProfileIdentifier_namespaceId" value="HL7"/>
-				<property name="messageProfileIdentifier_universalId" value="2.16.840.1.113883.9.n.m"/>
-				<property name="messageProfileIdentifier_universalIdType" value="HL7"/>
+			<mediator-instance id="continua-filter" namespace="medical"
+				type="ContinuaValidationMediator" />
+			<!-- Continua Translator -->
+			<mediator-instance id="translation" namespace="medical"
+				type="ContinuaTranslationMediator" />
+			<!-- ACK generator -->
+			<mediator-instance id="acknowledgement" namespace="medical"
+				type="ContinuaAcknowledgementMediator">
+				<!-- Generator specific properties -->
+				<property name="fill_err_segment_in_ack" value="true" />
+				<property name="application_namespace_id" value="ContinuaConnector" />
+				<property name="application_universal_id" value="1234567890ABCDEF" />
+				<property name="application_universal_id_type" value="EUI-64" />
+				<property name="messageProfileIdentifier_entityIdentifier"
+					value="IHE PCD ORU-R012006" />
+				<property name="messageProfileIdentifier_namespaceId"
+					value="HL7" />
+				<property name="messageProfileIdentifier_universalId"
+					value="2.16.840.1.113883.9.n.m" />
+				<property name="messageProfileIdentifier_universalIdType"
+					value="HL7" />
 			</mediator-instance>
-		
-<mediator-instance id="error-manager" namespace="medical" type="ErrorManagerMediator"/>
-</mediators>
+
+			<mediator-instance id="error-manager" namespace="medical"
+				type="ErrorManagerMediator" />
+		</mediators>
 		<bindings>
 			<!-- Application Bindings -->
-			
-			<binding from="hapifilter:out" to="continua-filter:in"/>
-			<binding from="continua-filter:out" to="translation:in"/>
-			<binding from="translation:out" to="integration:in"/>
-			<binding from="integration:out" to="acknowledgement:in"/>
-			
-		
+			<binding from="hapifilter:out" to="continua-filter:in" />
+			<binding from="continua-filter:out" to="translation:in" />
+			<binding from="translation:out" to="integration:in" />
+			<binding from="integration:out" to="acknowledgement:in" />
+			<binding from="hapifilter:error" to="error-manager:in" />
+			<binding from="continua-filter:error" to="error-manager:in" />
+			<binding from="translation:error" to="error-manager:in" />
+			<binding from="integration:out" to="error-manager:in" />
+			<binding from="error-manager:out" to="acknowledgement:in" />
 
 
-
-
-<binding from="hapifilter:error" to="error-manager:in"/>
-<binding from="continua-filter:error" to="error-manager:in"/>
-<binding from="translation:error" to="error-manager:in"/>
-<binding from="integration:out" to="error-manager:in"/>
-<binding from="error-manager:out" to="acknowledgement:in"/>
-
-
-<binding from="hl7-rest-adapter:out" to="hapifilter:in"/>
-<binding from="acknowledgement:out" to="hl7-rest-adapter:in"/>
-</bindings>
+			<binding from="hl7-rest-adapter:out" to="hapifilter:in" />
+			<binding from="acknowledgement:out" to="hl7-rest-adapter:in" />
+		</bindings>
 	</chain>
 </cilia>
