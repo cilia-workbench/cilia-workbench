@@ -26,6 +26,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+
 /**
  * 
  * @author Etienne Gandrille

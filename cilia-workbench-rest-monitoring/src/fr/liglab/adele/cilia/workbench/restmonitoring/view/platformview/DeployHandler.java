@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.JarOutputStream;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -23,7 +24,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
-import fr.liglab.adele.cilia.workbench.common.misc.Strings;
+import fr.liglab.adele.cilia.workbench.common.files.DPWriter;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.SimpleListDialog;
@@ -85,12 +86,23 @@ public class DeployHandler extends PlatformViewHandler {
 			}
 		}
 
-		// For tests
-		String msg = "Liste des ressources à inclure dans le deployment package :\n";
-		msg += Strings.arrayToString(resources.toArray(), "\n");
-		MessageDialog.openInformation(parentShell, "DEBUG", msg);
+		// TODO remove this as soon as dp can be included in dp
+		List<String> filterResources = new ArrayList<String>();
+		for (String resource : resources)
+			if (!resource.endsWith(".dp"))
+				filterResources.add(resource);
 
-		// TODO continue here !
+		// Jar creation
+		// TODO update this
+		String jarName = "myJarFile";
+		String jarVersion = "v1.0.0";
+		try {
+			JarOutputStream stream = DPWriter.createJar(jarName, jarVersion, filterResources);
+		} catch (Exception e) {
+			MessageDialog.openError(parentShell, "Error", "Error while creating jar file : \n" + e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
 
 		return null;
 	}

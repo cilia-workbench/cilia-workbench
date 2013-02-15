@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
@@ -33,24 +32,6 @@ import java.util.jar.Manifest;
  * @author Etienne Gandrille
  */
 public class DPWriter {
-
-	// TODO remove this (for test purpose)
-	public static void main(String[] args) {
-		try {
-
-			String path = "/home/etienne/Bureau/bundles/";
-			List<String> jarPath = new ArrayList<String>();
-			jarPath.add(path + "cilia-core-1.6.1-SNAPSHOT.jar");
-			jarPath.add(path + "cilia-runtime-1.6.1-SNAPSHOT.jar");
-
-			JarOutputStream stream = createJar("myJar", "v0.0.1", jarPath);
-
-			System.out.println("end");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static JarOutputStream createJar(String name, String version, List<String> filesPath) throws IOException {
 		Manifest manifest = new Manifest();
