@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cilia-specifications>
+
+<mediator-specification name="average-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in" type="*"/>
+<out-port name="out" type="*"/>
+</ports>
+</mediator-specification>
+
+<mediator-specification name="increment-mediator" namespace="fr.imag.adele.cilia.workbench.spec">
+<ports>
+<in-port name="in" type="*"/>
+<out-port name="out" type="*"/>
+</ports>
+<processor>
+<parameters>
+<parameter name="increment"/>
+</parameters>
+</processor>
+</mediator-specification>
+</cilia-specifications>
