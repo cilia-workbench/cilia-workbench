@@ -30,7 +30,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class CiliaRootPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	/** Message displayed on the top of the page. */
-	private static final String PAGE_DESCRIPTION = "CILIA workbench preferences.";
+	private static final String PAGE_DESCRIPTION = "Cilia IDE preferences.";
 
 	public static final String pageID = "fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage";
 

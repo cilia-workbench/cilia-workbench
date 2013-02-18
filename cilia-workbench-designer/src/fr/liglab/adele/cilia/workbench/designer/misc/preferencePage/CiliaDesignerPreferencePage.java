@@ -33,7 +33,7 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage imple
 	public static final String ABSTRACT_COMPO_REPOSITORY_PATH = "abstractCompoRepositoryPath";
 	public static final String CONCRETE_COMPO_REPOSITORY_PATH = "concreteCompoRepositoryPath";
 
-	public static final String DESCRIPTION = "Preferences for Cilia Workbench Designer.";
+	public static final String DESCRIPTION = "Preferences for Cilia IDE Designer.";
 	public static final String pageID = "fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage";
 
 	public CiliaDesignerPreferencePage() {

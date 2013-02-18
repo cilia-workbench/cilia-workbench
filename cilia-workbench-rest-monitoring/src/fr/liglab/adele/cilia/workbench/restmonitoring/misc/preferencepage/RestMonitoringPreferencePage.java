@@ -29,7 +29,7 @@ public class RestMonitoringPreferencePage extends FieldEditorPreferencePage impl
 
 	public static final String REST_PLATFORM_REPOSITORY_PATH = "restPlatformRepositoryPath";
 
-	public static final String DESCRIPTION = "Preferences for Cilia Workbench Designer.";
+	public static final String DESCRIPTION = "Preferences for Cilia IDE REST monitoring.";
 
 	public static final String pageID = "fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaRestMonitoringPreferencePage";
 

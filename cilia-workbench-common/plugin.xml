@@ -5,7 +5,7 @@
       <page
             class="fr.liglab.adele.cilia.workbench.common.ui.preferencePage.CiliaRootPreferencePage"
             id="fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage"
-            name="CILIA workbench">
+            name="Cilia IDE">
       </page>
    </extension>
    <extension point="org.eclipse.ui.views">
