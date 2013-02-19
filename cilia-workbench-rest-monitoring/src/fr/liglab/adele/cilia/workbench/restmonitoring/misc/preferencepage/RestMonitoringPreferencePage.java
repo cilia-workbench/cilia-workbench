@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.misc.preferencepage;
 
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -38,7 +39,11 @@ public class RestMonitoringPreferencePage extends FieldEditorPreferencePage impl
 	}
 
 	public void createFieldEditors() {
-		addField(new DirectoryFieldEditor(REST_PLATFORM_REPOSITORY_PATH, "&Rest platform repository path:", getFieldEditorParent()));
+		// TODO layout to be updated here !!!!!!!!!
+		DirectoryFieldEditor field = new DirectoryFieldEditor(REST_PLATFORM_REPOSITORY_PATH, "&Rest platform repository path:", getFieldEditorParent());
+		Composite compo = getFieldEditorParent();
+
+		addField(field);
 	}
 
 	public void init(IWorkbench workbench) {

@@ -15,5 +15,6 @@ Require-Bundle: org.eclipse.ui,
  fr.liglab.adele.cilia.workbench.designer;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ lib/deployment-package-api-1.0.1-SNAPSHOT.jar
 Import-Package: fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice

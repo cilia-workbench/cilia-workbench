@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InvalidObjectException;
 
-import fr.liglab.adele.cilia.workbench.common.files.JarReader;
+import fr.liglab.adele.cilia.workbench.common.files.jar.JarReader;
 
 /**
  * 

@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InvalidObjectException;
 
-import fr.liglab.adele.cilia.workbench.common.files.JarReader;
+import fr.liglab.adele.cilia.workbench.common.files.dp.DPReader;
 
 /**
  * 
@@ -57,10 +57,10 @@ public class MetadataInJarInDP extends PhysicalResource {
 
 	@Override
 	public InputStream getContentAsStream() throws IOException {
-		return JarReader.inputStreamFromFileInJarInDP(jarFile, entry, MetadataInJar.embeddedFileName);
+		return DPReader.inputStreamFromFileInJarInDP(jarFile, entry, MetadataInJar.embeddedFileName);
 	}
 
 	public boolean hasMetadata() {
-		return JarReader.hasFile(jarFile, entry, MetadataInJar.embeddedFileName);
+		return DPReader.hasFile(jarFile, entry, MetadataInJar.embeddedFileName);
 	}
 }

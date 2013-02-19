@@ -14,6 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarOutputStream;
@@ -24,7 +29,12 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
-import fr.liglab.adele.cilia.workbench.common.files.DPWriter;
+import de.akquinet.gomobile.deployment.api.CheckingException;
+import de.akquinet.gomobile.deployment.api.DeploymentPackage;
+import de.akquinet.gomobile.deployment.api.Resource;
+import de.akquinet.gomobile.deployment.api.internals.Store;
+
+import fr.liglab.adele.cilia.workbench.common.files.dp.DPWriterDEPRECATED;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.SimpleListDialog;
@@ -86,24 +96,57 @@ public class DeployHandler extends PlatformViewHandler {
 			}
 		}
 
-		// TODO remove this as soon as dp can be included in dp
-		List<String> filterResources = new ArrayList<String>();
+		// remove dp files from dp
+		List<File> fileResources = new ArrayList<File>();
 		for (String resource : resources)
 			if (!resource.endsWith(".dp"))
-				filterResources.add(resource);
+				fileResources.add(new File(resource));
 
-		// Jar creation
-		// TODO update this
-		String jarName = "myJarFile";
-		String jarVersion = "v1.0.0";
+		// dp creation
+		DeploymentPackage dp = null;
 		try {
-			JarOutputStream stream = DPWriter.createJar(jarName, jarVersion, filterResources);
-		} catch (Exception e) {
-			MessageDialog.openError(parentShell, "Error", "Error while creating jar file : \n" + e.getMessage());
+			dp = createDP("myJarFile", "1.0.0", fileResources);
+		} catch (IOException e) {
+			MessageDialog.openError(parentShell, "Error", "Error while creating deployment package");
 			e.printStackTrace();
 			return null;
 		}
 
+		// building dp
+		InputStream is = null;
+		try {
+			is = dp.build();
+		} catch (Exception e) {
+			MessageDialog.openError(parentShell, "Error", "Error while building deployment package");
+			e.printStackTrace();
+		}
+
+		// TODO Sending dp using rest API
+
 		return null;
+	}
+
+	private DeploymentPackage createDP(String name, String version, List<File> resources) throws IOException {
+		DeploymentPackage dp = new DeploymentPackage();
+		dp.setName(name);
+		dp.setVersion(version);
+		dp.setSymbolicName(name);
+
+		for (File resource : resources) {
+			URL url = new URL("file:" + resource);
+			String resourceName = resource.getName();
+
+			if (resourceName.endsWith(".jar")) {
+				dp.addBundle(url, "bundles/" + resourceName);
+			} else {
+				Resource res = new Resource();
+				res.setPath(resourceName);
+				res.setURL(url);
+				res.setProcessor("org.osgi.deployment.rp.autoload");
+				dp.addResource(res);
+			}
+		}
+
+		return dp;
 	}
 }

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.jar.JarEntry;
 
 import fr.liglab.adele.cilia.workbench.common.files.FileUtil;
-import fr.liglab.adele.cilia.workbench.common.files.JarReader;
+import fr.liglab.adele.cilia.workbench.common.files.dp.DPReader;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
@@ -87,7 +87,7 @@ public class CiliaJarRepoService extends ComponentRepoService<CiliaJarFile, Cili
 
 		// Deployment packages management
 		for (File jarFile : FileUtil.getFiles(getRepositoryLocation(), "dp")) {
-			for (JarEntry entry : JarReader.findJarInDP(jarFile)) {
+			for (JarEntry entry : DPReader.findJarInDP(jarFile)) {
 				MetadataInJarInDP mij = new MetadataInJarInDP(jarFile, entry.getName());
 				if (mij.hasMetadata())
 					bundles.add(new CiliaJarFile(mij));
