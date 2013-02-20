@@ -17,11 +17,9 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarOutputStream;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -29,12 +27,10 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
-import de.akquinet.gomobile.deployment.api.CheckingException;
 import de.akquinet.gomobile.deployment.api.DeploymentPackage;
 import de.akquinet.gomobile.deployment.api.Resource;
-import de.akquinet.gomobile.deployment.api.internals.Store;
-
-import fr.liglab.adele.cilia.workbench.common.files.dp.DPWriterDEPRECATED;
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.files.StreamUtil;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.SimpleListDialog;
@@ -44,6 +40,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaModel;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
+import fr.liglab.adele.cilia.workbench.restmonitoring.utils.http.CiliaRestHelper;
 
 /**
  * 
@@ -105,7 +102,7 @@ public class DeployHandler extends PlatformViewHandler {
 		// dp creation
 		DeploymentPackage dp = null;
 		try {
-			dp = createDP("myJarFile", "1.0.0", fileResources);
+			dp = createDP("dp-" + System.currentTimeMillis(), "1.0.0", fileResources);
 		} catch (IOException e) {
 			MessageDialog.openError(parentShell, "Error", "Error while creating deployment package");
 			e.printStackTrace();
@@ -115,13 +112,36 @@ public class DeployHandler extends PlatformViewHandler {
 		// building dp
 		InputStream is = null;
 		try {
+			// dp.build(new File("/home/etienne/test.dp"));
 			is = dp.build();
 		} catch (Exception e) {
 			MessageDialog.openError(parentShell, "Error", "Error while building deployment package");
 			e.printStackTrace();
+			return null;
 		}
 
-		// TODO Sending dp using rest API
+		// Sending dp using rest API
+		try {
+			CiliaRestHelper.sendDPtoPlatform(pfFile.getModel().getPlatformID(), is);
+		} catch (CiliaException e) {
+			MessageDialog.openError(parentShell, "Error", "Error while sending HTTP request to platform:\n" + e.getMessage());
+			e.printStackTrace();
+			StreamUtil.closeStream(is);
+			return null;
+		}
+
+		// Success message
+		String pfName = pfFile.getModel().getPlatformID().toString();
+		StringBuilder sb = new StringBuilder();
+		for (File res : fileResources) {
+			sb.append(" * ");
+			sb.append(res.getName());
+			sb.append("\n");
+		}
+		String msg = "Artifacts deployed to " + pfName + "\n" + sb.toString();
+		MessageDialog.openInformation(parentShell, "Success", msg);
+
+		StreamUtil.closeStream(is);
 
 		return null;
 	}

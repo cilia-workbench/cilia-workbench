@@ -15,16 +15,21 @@
 package fr.liglab.adele.cilia.workbench.restmonitoring.utils.http;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -92,6 +97,30 @@ public class HttpHelper {
 		HttpClient httpClient = getClient();
 		try {
 			httpClient.execute(httpRequest, new BasicResponseHandler());
+			httpClient.getConnectionManager().shutdown();
+		} catch (Exception e) {
+			httpClient.getConnectionManager().shutdown();
+			throw new CiliaException("can't perform HTTP PUT request", e);
+		}
+	}
+
+	public static void post(PlatformID platformID, String path, String paramName, InputStream data) throws CiliaException {
+
+		String url = getURL(platformID, path);
+
+		HttpPost httppost = new HttpPost(url);
+
+		MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+		InputStreamBody bin = new InputStreamBody(data, paramName);
+		reqEntity.addPart(paramName, bin);
+
+		httppost.setEntity(reqEntity);
+
+		// HTTP request
+		HttpClient httpClient = getClient();
+		try {
+			httpClient.execute(httppost, new BasicResponseHandler());
 			httpClient.getConnectionManager().shutdown();
 		} catch (Exception e) {
 			httpClient.getConnectionManager().shutdown();

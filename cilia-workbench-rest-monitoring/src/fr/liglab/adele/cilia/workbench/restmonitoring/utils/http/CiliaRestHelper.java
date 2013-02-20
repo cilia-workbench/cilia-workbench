@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.utils.http;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -186,6 +187,10 @@ public class CiliaRestHelper {
 			data += "false";
 
 		HttpHelper.put(platformID, target, data);
+	}
+
+	public static void sendDPtoPlatform(PlatformID platformID, InputStream data) throws CiliaException {
+		HttpHelper.post(platformID, "/appstore/applications/stream", "file", data);
 	}
 
 	private static JSONObject string2json(String message) throws CiliaException {
