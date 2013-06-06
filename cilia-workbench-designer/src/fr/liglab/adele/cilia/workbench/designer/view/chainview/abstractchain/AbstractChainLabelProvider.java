@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain;
 
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;

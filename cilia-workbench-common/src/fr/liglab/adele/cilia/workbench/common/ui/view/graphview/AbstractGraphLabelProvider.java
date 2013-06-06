@@ -15,24 +15,21 @@
 package fr.liglab.adele.cilia.workbench.common.ui.view.graphview;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
+import org.eclipse.zest.core.viewers.IEntityStyleProvider;
 import org.eclipse.zest.core.widgets.ZestStyles;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
-
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class AbstractGraphLabelProvider extends CiliaLabelProvider implements IConnectionStyleProvider {
+public abstract class AbstractGraphLabelProvider extends CiliaLabelProvider implements IConnectionStyleProvider, IEntityStyleProvider {
 
 	public static GraphConfig defaultConfig = new GraphConfig(null, null, -1);
-	public static GraphConfig videoConfig = new GraphConfig(Display.getDefault().getSystemColor(SWT.COLOR_BLACK),
-			Display.getDefault().getSystemColor(SWT.COLOR_BLUE), 2);
+	public static GraphConfig videoConfig = new GraphConfig(COLOR.BLACK.getColor(), COLOR.BLUE.getColor(), 2);
 
 	private final GraphConfig config;
 
@@ -43,6 +40,49 @@ public abstract class AbstractGraphLabelProvider extends CiliaLabelProvider impl
 	public AbstractGraphLabelProvider(GraphConfig config) {
 		this.config = config;
 	}
+
+	// ====================
+	// IEntityStyleProvider
+	// ====================
+
+	@Override
+	public Color getNodeHighlightColor(Object entity) {
+		return null;
+	}
+
+	@Override
+	public Color getBorderColor(Object entity) {
+		return null;
+	}
+
+	@Override
+	public Color getBorderHighlightColor(Object entity) {
+		return null;
+	}
+
+	@Override
+	public int getBorderWidth(Object entity) {
+		return 0;
+	}
+
+	@Override
+	public Color getBackgroundColour(Object entity) {
+		return null;
+	}
+
+	@Override
+	public Color getForegroundColour(Object entity) {
+		return null;
+	}
+
+	@Override
+	public boolean fisheyeNode(Object entity) {
+		return false;
+	}
+
+	// ========================
+	// IConnectionStyleProvider
+	// ========================
 
 	@Override
 	public int getConnectionStyle(Object rel) {
