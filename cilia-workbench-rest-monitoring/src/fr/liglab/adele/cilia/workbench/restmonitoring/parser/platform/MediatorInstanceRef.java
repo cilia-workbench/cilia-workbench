@@ -14,16 +14,18 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
+import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 
@@ -33,11 +35,14 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.C
  */
 public class MediatorInstanceRef extends MediatorRef implements Mergeable {
 
+	private final String MEDIATOR_VALID_STATE = "VALID";
 	private final PlatformChain chain;
+	private final String state;
 
-	public MediatorInstanceRef(String mediatorID, NameNamespaceID mediatorTypeID, PlatformChain chain) {
+	public MediatorInstanceRef(String mediatorID, NameNamespaceID mediatorTypeID, String state, PlatformChain chain) {
 		super(mediatorID, mediatorTypeID);
 		this.chain = chain;
+		this.state = state;
 	}
 
 	@Override
@@ -70,6 +75,19 @@ public class MediatorInstanceRef extends MediatorRef implements Mergeable {
 
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
-		return new ArrayList<Changeset>();
+		List<Changeset> retval = super.merge(other);
+		MediatorInstanceRef newRef = (MediatorInstanceRef) other;
+		retval.addAll(MergeUtil.computeUpdateChangeset(newRef, this, "state"));
+		return retval;
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
+		CiliaError e1 = null;
+		if (!MEDIATOR_VALID_STATE.equals(state)) {
+			e1 = new CiliaError("Invalid state for mediator " + getId() + " (" + state + ")", this);
+		}
+		return CiliaFlag.generateTab(tab, e1);
 	}
 }

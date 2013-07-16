@@ -15,9 +15,11 @@ Require-Bundle: org.eclipse.ui,
  fr.liglab.adele.cilia.workbench.common;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: fr.liglab.adele.cilia.workbench.designer.parser.chain.common,
+Export-Package: fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition,
+ fr.liglab.adele.cilia.workbench.designer.parser.chain.common,
  fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia,
  fr.liglab.adele.cilia.workbench.designer.parser.element.implem,
+ fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice,
  fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice,
  fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice,
  fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain,

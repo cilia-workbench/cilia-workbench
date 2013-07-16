@@ -20,6 +20,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryViewHandler;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
 
@@ -31,6 +32,17 @@ public abstract class PlatformViewHandler extends RepositoryViewHandler {
 
 	public PlatformViewHandler() {
 		super(PlatformView.VIEW_ID);
+	}
+
+	protected PlatformChain getPlatformChainOrDisplayErrorDialog(ExecutionEvent event) {
+		Object element = getFirstSelectedElementInRepositoryView(event);
+
+		if (element == null || !(element instanceof PlatformChain)) {
+			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Please select a platform chain first");
+			return null;
+		}
+
+		return (PlatformChain) element;
 	}
 
 	protected PlatformFile getPlatformFileOrDisplayErrorDialog(ExecutionEvent event) {

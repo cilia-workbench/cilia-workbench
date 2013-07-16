@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
@@ -85,6 +86,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 			setPartName("Platform Chain Viewer");
 		else
 			setPartName("Platform Chain: " + model.getName());
+		ToggleSourceProvider.setToggleVariable(RunningChainToolbarEnabler.VARIABLE_NAME, model != null);
 
 		viewer.refresh();
 	}
@@ -129,8 +131,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 				// Chain content modified
 				if (change.getPath().contains(model) && model != change.getObject()) {
-					if (change.getOperation() == Operation.REMOVE || change.getOperation() == Operation.ADD)
-						needUpdate = true;
+					needUpdate = true;
 				}
 			}
 

@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension point="org.eclipse.ui.preferencePages">
+	<extension point="org.eclipse.ui.services">
+		<sourceProvider
+			provider="fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.RunningChainToolbarEnabler">
+			<variable
+				name="fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.RunningChainToolbarEnabler"
+				priorityLevel="workbench">
+			</variable>
+		</sourceProvider>
+    </extension>
+    <extension point="org.eclipse.ui.preferencePages">
       <page
             category="fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage"
             class="fr.liglab.adele.cilia.workbench.restmonitoring.misc.preferencepage.RestMonitoringPreferencePage"
@@ -30,7 +39,6 @@
 		<file-association content-type="org.eclipse.core.runtime.xml"
 			file-extensions="pf" />
 	</extension>
-	
 	<extension point="org.eclipse.ui.commands">
 		<command
 			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.reload"
@@ -43,7 +51,11 @@
 		<command
 			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.deploy"
 			name="Deploy to platform">
-		</command>		
+		</command>
+		<command
+			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.linktorefarch"
+			name="Link to reference architecture">
+		</command>
 		<command
 			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.createFile"
 			name="Create platform description">
@@ -51,6 +63,10 @@
 		<command
 			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.deleteFile"
 			name="Delete platform description">
+		</command>
+		<command
+			id="fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.reload"
+			name="Reload view">
 		</command>
 	</extension>
 	
@@ -69,6 +85,14 @@
 				commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.deploy"
 				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/deploy.png"
 				label="Deploy to platform" style="push">
+			</command>
+		</menuContribution>
+		<menuContribution allPopups="false"
+			locationURI="toolbar:fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview">
+			<command
+				commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.linktorefarch"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/link-to-ref-arch.png"
+				label="Link to reference architecture" style="push">
 			</command>
 		</menuContribution>
 		<menuContribution allPopups="false"
@@ -95,6 +119,14 @@
 				label="Delete platform description" style="push">
 			</command>
 		</menuContribution>
+		<menuContribution allPopups="false"
+			locationURI="toolbar:fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview">
+			<command
+				commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.reload"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
+				label="Reload view" style="push">
+			</command>
+		</menuContribution>
 	</extension>
 
 	<extension point="org.eclipse.ui.handlers">		
@@ -111,12 +143,27 @@
 			commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.deploy">
 		</handler>
 		<handler
+			class="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.LinkToRefArchHandler"
+			commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.linktorefarch">
+		</handler>
+		<handler
 			class="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.CreateFileHandler"
 			commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.createFile">
 		</handler>
 		<handler
 			class="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.DeleteFileHandler"
 			commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview.deleteFile">
+		</handler>
+		<handler
+			class="fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.ReloadHandler"
+			commandId="fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.reload">
+			<enabledWhen>
+				<with
+					variable="fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview.RunningChainToolbarEnabler">
+					<equals value="enable">
+					</equals>
+				</with>
+			</enabledWhen>
 		</handler>
 	</extension>
  <extension

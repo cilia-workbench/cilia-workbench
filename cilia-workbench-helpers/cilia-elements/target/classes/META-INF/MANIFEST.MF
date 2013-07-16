@@ -2,11 +2,11 @@ Manifest-Version: 1.0
 Private-Package: fr.liglab.adele.cilia.workbench.helpers.collectors,fr
  .liglab.adele.cilia.workbench.helpers.mediators
 Built-By: etienne
-Build-Jdk: 1.6.0_24
+Build-Jdk: 1.6.0_27
 Bundle-Version: 1.0.0.SNAPSHOT
 Tool: Bnd-0.0.255
 Bundle-Name: Cilia elements
-Bnd-LastModified: 1360770126220
+Bnd-LastModified: 1373963258581
 Created-By: Apache Maven Bundle Plugin
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: cilia-elements

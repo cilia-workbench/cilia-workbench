@@ -45,8 +45,14 @@ public class PlatformChain extends Chain {
 			JSONArray mediatorsList = json.getJSONArray("Mediators");
 			for (int i = 0; i < mediatorsList.length(); i++) {
 				String mediatorName = (String) mediatorsList.get(i);
-				NameNamespaceID mediatorTypeID = getMediatorTypeID(platform, getName(), mediatorName);
-				mediators.add(new MediatorInstanceRef(mediatorName, mediatorTypeID, this));
+
+				JSONObject jsonNode = CiliaRestHelper.getMediatorContent(platform.getPlatformID(), getName(), mediatorName);
+				String state = jsonNode.getString("State");
+				String type = jsonNode.getString("Type");
+				String namespace = jsonNode.getString("Namespace");
+				NameNamespaceID mediatorTypeID = new NameNamespaceID(type, namespace);
+
+				mediators.add(new MediatorInstanceRef(mediatorName, mediatorTypeID, state, this));
 			}
 		} catch (JSONException e) {
 			throw new CiliaException("error while parsing mediators list", e);
@@ -118,17 +124,6 @@ public class PlatformChain extends Chain {
 	private static NameNamespaceID getAdapterTypeID(PlatformModel platform, String chainName, String adapterName) throws CiliaException {
 		try {
 			JSONObject adapter = CiliaRestHelper.getAdapterContent(platform.getPlatformID(), chainName, adapterName);
-			String type = adapter.getString("Type");
-			String namespace = adapter.getString("Namespace");
-			return new NameNamespaceID(type, namespace);
-		} catch (JSONException e) {
-			throw new CiliaException(e);
-		}
-	}
-
-	private static NameNamespaceID getMediatorTypeID(PlatformModel platform, String chainName, String mediatorName) throws CiliaException {
-		try {
-			JSONObject adapter = CiliaRestHelper.getMediatorContent(platform.getPlatformID(), chainName, mediatorName);
 			String type = adapter.getString("Type");
 			String namespace = adapter.getString("Namespace");
 			return new NameNamespaceID(type, namespace);
