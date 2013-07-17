@@ -19,11 +19,13 @@ import java.util.List;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener;
@@ -33,6 +35,8 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainView;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
@@ -58,6 +62,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 		PlatformRepoService.getInstance().registerListener(this);
 		SelectionService.getInstance().addSelectionListener(PlatformView.VIEW_ID, this);
+		SelectionService.getInstance().addSelectionListener(AbstractChainView.viewId, this);
 
 		updateConfigAndModel(null);
 	}
@@ -97,6 +102,20 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 			TreeSelection sel = (TreeSelection) selection;
 			if (sel.getFirstElement() != null && sel.getFirstElement() instanceof PlatformChain)
 				updateConfigAndModel((PlatformChain) sel.getFirstElement());
+		}
+
+		// selection in the reference architecture view
+		if (partId.equals(AbstractChainView.viewId)) {
+			StructuredSelection sel = (StructuredSelection) selection;
+			Object element = sel.getFirstElement();
+			if (element instanceof ComponentRef) {
+				ComponentRef component = (ComponentRef) element;
+				String componentId = component.getId();
+				NameNamespaceID chainId = ((AbstractChain) component.getChain()).getId();
+
+				// TODO continue implementation here !
+				System.out.println(componentId + " " + chainId);
+			}
 		}
 	}
 

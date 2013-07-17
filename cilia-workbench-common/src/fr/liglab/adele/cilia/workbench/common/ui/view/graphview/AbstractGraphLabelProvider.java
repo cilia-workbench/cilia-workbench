@@ -28,51 +28,38 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
  */
 public abstract class AbstractGraphLabelProvider extends CiliaLabelProvider implements IConnectionStyleProvider, IEntityStyleProvider {
 
-	public static GraphConfig defaultConfig = new GraphConfig(null, null, -1);
-	public static GraphConfig videoConfig = new GraphConfig(COLOR.BLACK.getColor(), COLOR.BLUE.getColor(), 2);
-
-	private final GraphConfig config;
-
-	public AbstractGraphLabelProvider() {
-		this.config = defaultConfig;
-	}
-
-	public AbstractGraphLabelProvider(GraphConfig config) {
-		this.config = config;
-	}
-
 	// ====================
 	// IEntityStyleProvider
 	// ====================
 
 	@Override
 	public Color getNodeHighlightColor(Object entity) {
-		return null;
+		return getConfig().getNodeHighlightColor();
 	}
 
 	@Override
 	public Color getBorderColor(Object entity) {
-		return null;
+		return getConfig().getNodeBorderColor();
 	}
 
 	@Override
 	public Color getBorderHighlightColor(Object entity) {
-		return null;
+		return getConfig().getNodeBorderHighlightColor();
 	}
 
 	@Override
 	public int getBorderWidth(Object entity) {
-		return 0;
+		return getConfig().getNodeBorderWidth();
 	}
 
 	@Override
 	public Color getBackgroundColour(Object entity) {
-		return null;
+		return getConfig().getNodeColor();
 	}
 
 	@Override
 	public Color getForegroundColour(Object entity) {
-		return null;
+		return getConfig().getNodeTextColor();
 	}
 
 	@Override
@@ -91,17 +78,17 @@ public abstract class AbstractGraphLabelProvider extends CiliaLabelProvider impl
 
 	@Override
 	public Color getColor(Object rel) {
-		return config.getBaseColor();
+		return getConfig().getLineColor();
 	}
 
 	@Override
 	public Color getHighlightColor(Object rel) {
-		return config.getHighightColor();
+		return getConfig().getLineHighightColor();
 	}
 
 	@Override
 	public int getLineWidth(Object rel) {
-		return config.getLineWidth();
+		return getConfig().getLineWidth();
 	}
 
 	@Override
@@ -109,28 +96,7 @@ public abstract class AbstractGraphLabelProvider extends CiliaLabelProvider impl
 		return null;
 	}
 
-	public static class GraphConfig {
-
-		private final Color baseColor;
-		private final Color highightColor;
-		private final int lineWidth;
-
-		public GraphConfig(Color baseColor, Color highightColor, int lineWidth) {
-			this.baseColor = baseColor;
-			this.highightColor = highightColor;
-			this.lineWidth = lineWidth;
-		}
-
-		public Color getBaseColor() {
-			return baseColor;
-		}
-
-		public Color getHighightColor() {
-			return highightColor;
-		}
-
-		public int getLineWidth() {
-			return lineWidth;
-		}
+	protected GraphConfig getConfig() {
+		return GraphColorService.getInstance().getConfig();
 	}
 }
