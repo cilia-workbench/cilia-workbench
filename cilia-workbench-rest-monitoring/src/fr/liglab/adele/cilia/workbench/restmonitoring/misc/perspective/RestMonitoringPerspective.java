@@ -52,7 +52,7 @@ public class RestMonitoringPerspective implements IPerspectiveFactory {
 
 		// Top Right part
 		layout.addView(AbstractCompositionsView.VIEW_ID, IPageLayout.TOP, (float) 0.25, editorArea);
-		layout.addView(AbstractChainView.viewId, IPageLayout.RIGHT, (float) 0.50, AbstractCompositionsView.VIEW_ID);
+		layout.addView(AbstractChainView.VIEW_ID, IPageLayout.RIGHT, (float) 0.50, AbstractCompositionsView.VIEW_ID);
 
 		layout.addView(DSCiliaRepositoryView.VIEW_ID, IPageLayout.TOP, (float) 0.33, editorArea);
 		layout.addView(DSCiliaChainView.VIEW_ID, IPageLayout.RIGHT, (float) 0.50, DSCiliaRepositoryView.VIEW_ID);

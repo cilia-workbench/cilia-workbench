@@ -52,9 +52,9 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 	public static final String VIEW_ID = "fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview";
 
-	private IBaseLabelProvider labelProvider = new PlatformChainLabelProvider();
-
 	private PlatformChain model = null;
+
+	private final IBaseLabelProvider defaultLabelProvider = new PlatformChainLabelProvider();
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -62,9 +62,15 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 		PlatformRepoService.getInstance().registerListener(this);
 		SelectionService.getInstance().addSelectionListener(PlatformView.VIEW_ID, this);
-		SelectionService.getInstance().addSelectionListener(AbstractChainView.viewId, this);
+		SelectionService.getInstance().addSelectionListener(AbstractChainView.VIEW_ID, this);
+		SelectionService.getInstance().addSelectionListener(RunningChainView.VIEW_ID, this);
 
 		updateConfigAndModel(null);
+	}
+
+	private void setLabelProvider(IBaseLabelProvider labelProvider) {
+		if (viewer.getLabelProvider() != labelProvider)
+			viewer.setLabelProvider(labelProvider);
 	}
 
 	@Override
@@ -72,6 +78,8 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		super.dispose();
 		PlatformRepoService.getInstance().unregisterListener(this);
 		SelectionService.getInstance().removeSelectionListener(PlatformView.VIEW_ID, this);
+		SelectionService.getInstance().removeSelectionListener(AbstractChainView.VIEW_ID, this);
+		SelectionService.getInstance().removeSelectionListener(RunningChainView.VIEW_ID, this);
 	}
 
 	public PlatformChain getModel() {
@@ -79,42 +87,52 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 	}
 
 	private void updateConfigAndModel(PlatformChain chain) {
-		this.model = chain;
-		if (viewer.getLabelProvider() != labelProvider)
-			viewer.setLabelProvider(labelProvider);
-
+		model = chain;
+		setLabelProvider(defaultLabelProvider);
 		viewer.setContentProvider(new PlatformChainContentProvider(chain));
-
 		viewer.setInput(chain);
+		updatePartName();
+		viewer.refresh();
+	}
 
+	private void updatePartName() {
 		if (model == null)
 			setPartName("Platform Chain Viewer");
 		else
 			setPartName("Platform Chain: " + model.getName());
 		ToggleSourceProvider.setToggleVariable(RunningChainToolbarEnabler.VARIABLE_NAME, model != null);
-
-		viewer.refresh();
 	}
 
 	@Override
 	public void selectionChanged(String partId, ISelection selection) {
-		if (selection != null && selection instanceof TreeSelection) {
-			TreeSelection sel = (TreeSelection) selection;
-			if (sel.getFirstElement() != null && sel.getFirstElement() instanceof PlatformChain)
-				updateConfigAndModel((PlatformChain) sel.getFirstElement());
-		}
+		if (selection != null) {
 
-		// selection in the reference architecture view
-		if (partId.equals(AbstractChainView.viewId)) {
-			StructuredSelection sel = (StructuredSelection) selection;
-			Object element = sel.getFirstElement();
-			if (element instanceof ComponentRef) {
-				ComponentRef component = (ComponentRef) element;
-				String componentId = component.getId();
-				NameNamespaceID chainId = ((AbstractChain) component.getChain()).getId();
+			if (selection instanceof TreeSelection) {
+				TreeSelection sel = (TreeSelection) selection;
+				if (sel.getFirstElement() != null && sel.getFirstElement() instanceof PlatformChain)
+					updateConfigAndModel((PlatformChain) sel.getFirstElement());
+			}
 
-				// TODO continue implementation here !
-				System.out.println(componentId + " " + chainId);
+			// selection in the reference architecture view
+			if (partId.equals(AbstractChainView.VIEW_ID)) {
+				StructuredSelection sel = (StructuredSelection) selection;
+				Object element = sel.getFirstElement();
+				if (element instanceof ComponentRef) {
+					ComponentRef component = (ComponentRef) element;
+					String componentId = component.getId();
+					NameNamespaceID chainId = ((AbstractChain) component.getChain()).getId();
+
+					// TODO continue here!
+					setLabelProvider(new TestChainLabelProvider());
+					viewer.refresh();
+				}
+			}
+
+			// when a new selection is made in this view, reset the label
+			// provider to default !
+			if (partId.equals(VIEW_ID)) {
+				setLabelProvider(defaultLabelProvider);
+				viewer.refresh();
 			}
 		}
 	}

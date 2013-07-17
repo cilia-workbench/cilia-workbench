@@ -50,7 +50,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.abstractcomp
  */
 public class AbstractChainView extends GraphView implements IRepoServiceListener, SelectionListener {
 
-	public static final String viewId = "fr.liglab.adele.cilia.workbench.designer.view.abstractchainview";
+	public static final String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.abstractchainview";
 
 	private IBaseLabelProvider labelProvider = new AbstractChainLabelProvider();
 	private IContentProvider contentProvider = new AbstractChainContentProvider();
@@ -59,7 +59,7 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 
 	@Override
 	public void createPartControl(Composite parent) {
-		super.createPartControl(parent, viewId);
+		super.createPartControl(parent, VIEW_ID);
 
 		AbstractCompositionsRepoService.getInstance().registerListener(this);
 		SelectionService.getInstance().addSelectionListener(AbstractCompositionsView.VIEW_ID, this);

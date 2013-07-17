@@ -38,7 +38,7 @@ public enum COLOR {
 		_color = new Color(Display.getDefault(), red, green, blue);
 	}
 
-	Color getColor() {
+	public Color getColor() {
 		return _color;
 	}
 }

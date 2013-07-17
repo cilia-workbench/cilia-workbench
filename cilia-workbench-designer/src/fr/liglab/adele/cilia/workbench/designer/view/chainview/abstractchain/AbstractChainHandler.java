@@ -27,7 +27,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
 public abstract class AbstractChainHandler extends AbstractHandler {
 
 	public static AbstractChainView getAbstractChainView(ExecutionEvent event) {
-		return (AbstractChainView) ViewUtil.findViewWithId(event, AbstractChainView.viewId);
+		return (AbstractChainView) ViewUtil.findViewWithId(event, AbstractChainView.VIEW_ID);
 	}
 
 	public static AbstractChain getDisplayedModel(ExecutionEvent event) {

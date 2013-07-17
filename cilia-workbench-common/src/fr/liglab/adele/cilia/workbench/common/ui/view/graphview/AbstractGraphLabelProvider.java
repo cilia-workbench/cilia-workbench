@@ -33,6 +33,11 @@ public abstract class AbstractGraphLabelProvider extends CiliaLabelProvider impl
 	// ====================
 
 	@Override
+	public Color getBackgroundColour(Object entity) {
+		return getConfig().getNodeColor();
+	}
+
+	@Override
 	public Color getNodeHighlightColor(Object entity) {
 		return getConfig().getNodeHighlightColor();
 	}
@@ -50,11 +55,6 @@ public abstract class AbstractGraphLabelProvider extends CiliaLabelProvider impl
 	@Override
 	public int getBorderWidth(Object entity) {
 		return getConfig().getNodeBorderWidth();
-	}
-
-	@Override
-	public Color getBackgroundColour(Object entity) {
-		return getConfig().getNodeColor();
 	}
 
 	@Override
