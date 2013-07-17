@@ -103,7 +103,7 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 	 * IMPORTANT : Only the elements managed by the content provider are tested
 	 * to see if it implements {@link ErrorsAndWarningsFinder} interface.
 	 */
-	protected void updateMarkers() {
+	public void updateMarkers() {
 
 		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
 

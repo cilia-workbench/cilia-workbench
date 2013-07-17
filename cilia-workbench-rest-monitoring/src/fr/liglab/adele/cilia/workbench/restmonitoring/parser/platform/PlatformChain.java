@@ -14,13 +14,21 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
 
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.utils.http.CiliaRestHelper;
 
 /**
@@ -31,15 +39,20 @@ public class PlatformChain extends Chain {
 
 	private final PlatformModel platform;
 
-	public PlatformChain(String name, PlatformModel platform) {
+	/* null if not linked to a reference architecture */
+	private NameNamespaceID refArchitectureID = null;
+
+	public PlatformChain(String name, PlatformModel platform, NameNamespaceID refArchitectureID) {
 		super(name);
 		this.platform = platform;
+		this.refArchitectureID = refArchitectureID;
 	}
 
 	public PlatformChain(JSONObject json, PlatformModel platform) throws CiliaException {
 		super(getJSONname(json));
 
 		this.platform = platform;
+		this.refArchitectureID = null;
 
 		try {
 			JSONArray mediatorsList = json.getJSONArray("Mediators");
@@ -112,6 +125,22 @@ public class PlatformChain extends Chain {
 		}
 	}
 
+	@Override
+	public String toString() {
+		if (refArchitectureID == null)
+			return Strings.nullToEmpty(getName());
+		else
+			return Strings.nullToEmpty(getName() + " --> " + refArchitectureID.toString());
+	}
+
+	public NameNamespaceID getRefArchitectureID() {
+		return refArchitectureID;
+	}
+
+	public void setRefArchitectureID(NameNamespaceID refArchitectureID) {
+		this.refArchitectureID = refArchitectureID;
+	}
+
 	private static String getJSONname(JSONObject json) {
 		try {
 			return json.getString("ID");
@@ -133,11 +162,43 @@ public class PlatformChain extends Chain {
 	}
 
 	@Override
+	public List<Changeset> merge(Object other) throws CiliaException {
+		List<Changeset> retval = super.merge(other);
+
+		/* DON'T MERGE refArchitectureID ! */
+
+		/*
+		 * PlatformChain newRef = (PlatformChain) other;
+		 * retval.addAll(MergeUtil.
+		 * computeUpdateChangeset(newRef.getRefArchitectureID(),
+		 * refArchitectureID, "name"));
+		 * retval.addAll(MergeUtil.computeUpdateChangeset
+		 * (newRef.getRefArchitectureID(), refArchitectureID, "namespace"));
+		 */
+
+		return retval;
+	}
+
+	@Override
 	public String getId() {
 		return getName();
 	}
 
 	public PlatformModel getPlatform() {
 		return platform;
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
+		CiliaError e1 = null;
+
+		if (refArchitectureID != null) {
+			AbstractChain refChain = AbstractCompositionsRepoService.getInstance().findChain(refArchitectureID);
+			if (refChain == null)
+				e1 = new CiliaError("Can't find reference architecture " + refArchitectureID.toString(), this);
+		}
+
+		return CiliaFlag.generateTab(tab, e1);
 	}
 }

@@ -87,7 +87,7 @@ public class PlatformModel extends AbstractModel implements Mergeable, ErrorsAnd
 		// ADD
 		for (String chain : chainsList) {
 			if (getChain(chain) == null) {
-				PlatformChain pc = new PlatformChain(chain, this);
+				PlatformChain pc = new PlatformChain(chain, this, null);
 				chains.add(pc);
 				retval.add(new Changeset(Operation.ADD, pc));
 			}

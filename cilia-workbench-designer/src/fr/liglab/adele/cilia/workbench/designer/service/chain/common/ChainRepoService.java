@@ -54,7 +54,7 @@ public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>,
 		return (FileType) getContentProvider().getParent(chain);
 	}
 
-	protected List<ChainType> getChains() {
+	public List<ChainType> getChains() {
 		List<ChainType> retval = new ArrayList<ChainType>();
 		for (ModelType model : findAbstractElements())
 			retval.addAll(model.getChains());

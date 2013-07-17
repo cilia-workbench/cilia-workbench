@@ -21,45 +21,66 @@ import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.SimpleListDialog;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
-import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryViewHandler;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class LinkToRefArchHandler extends RepositoryViewHandler {
-
-	public LinkToRefArchHandler() {
-		super(PlatformView.VIEW_ID);
-	}
+public class LinkToRefArchHandler extends PlatformViewHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
-		Map<String, AbstractChain> chainNamesMap = new HashMap<String, AbstractChain>();
+		PlatformChain platformChain = getPlatformChainOrDisplayErrorDialog(event);
+		if (platformChain == null)
+			return null;
 
-		List<AbstractCompositionFile> files = AbstractCompositionsRepoService.getInstance().getRepoContent();
-		for (AbstractCompositionFile file : files) {
-			if (file.getModel() != null) {
-				for (AbstractChain chain : file.getModel().getChains()) {
-					NameNamespaceID chainId = chain.getId();
-					if (chainId != null)
-						chainNamesMap.put(chainId.getName() + " (" + file.toString() + ")", chain);
-				}
-			}
+		Map<String, AbstractChain> chainNamesMap = new HashMap<String, AbstractChain>();
+		chainNamesMap.put("<< NONE >>", null);
+
+		List<AbstractChain> chains = AbstractCompositionsRepoService.getInstance().getChains();
+		for (AbstractChain chain : chains) {
+			NameNamespaceID chainId = chain.getId();
+			if (chainId != null)
+				chainNamesMap.put(chainId.getName() + " (" + chainId.getNamespace() + ")", chain);
 		}
 
 		Set<String> chainNames = chainNamesMap.keySet();
 
-		SimpleListDialog dialog = new SimpleListDialog(ViewUtil.getShell(event), "title", "message", chainNames);
-		dialog.open();
+		String title = "Link to reference architecture";
+		String msg = "Please select a reference architecture";
+		SimpleListDialog dialog = new SimpleListDialog(ViewUtil.getShell(event), title, msg, chainNames);
+		if (dialog.open() == Window.OK) {
+			Object[] result = dialog.getResult();
+			AbstractChain selection;
+			if (result.length == 0)
+				selection = null;
+			else {
+				String selectedLine = (String) result[0];
+				if (Strings.isNullOrEmpty(selectedLine))
+					selection = null;
+				else {
+					selection = chainNamesMap.get(selectedLine);
+				}
+			}
+
+			if (selection != null)
+				platformChain.setRefArchitectureID(selection.getId());
+			else
+				platformChain.setRefArchitectureID(null);
+
+			getRepoService(event).updateMarkers();
+			getRepositoryView(event).refresh();
+		}
 
 		return null;
 	}

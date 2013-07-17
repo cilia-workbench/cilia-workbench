@@ -27,7 +27,9 @@ import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.parser.PlainFile;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
+import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.misc.preferencepage.RestMonitoringPreferencePage;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
@@ -38,7 +40,7 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.utils.http.CiliaRestHelper
  * 
  * @author Etienne Gandrille
  */
-public class PlatformRepoService extends AbstractRepoService<PlatformFile, PlatformModel> implements ErrorsAndWarningsFinder {
+public class PlatformRepoService extends AbstractRepoService<PlatformFile, PlatformModel> implements ErrorsAndWarningsFinder, IRepoServiceListener {
 
 	/** Singleton instance */
 	private static PlatformRepoService INSTANCE;
@@ -62,6 +64,7 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 
 	private PlatformRepoService() {
 		super(PREFERENCE_PATH_KEY, ext, repositoryName);
+		AbstractCompositionsRepoService.getInstance().registerListener(this);
 	}
 
 	public void updateModel() {
@@ -178,5 +181,10 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 
 		// Sends notifications
 		notifyListeners(changes);
+	}
+
+	@Override
+	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes) {
+		updateModel();
 	}
 }
