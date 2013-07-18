@@ -31,6 +31,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
@@ -45,7 +46,7 @@ import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.dsciliaview.
 public class DSCiliaChainView extends GraphView implements IRepoServiceListener, SelectionListener {
 	public static final String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.dsciliachainview";
 
-	private IBaseLabelProvider labelProvider = new DSCiliaChainLabelProvider();
+	private IBaseLabelProvider labelProvider = new GraphLabelProvider(DSCiliaRepoService.getInstance().getContentProvider());
 	private IContentProvider contentProvider = new DSCiliaChainContentProvider();
 
 	private DSCiliaChain model = null;

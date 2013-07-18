@@ -252,7 +252,7 @@ public abstract class CiliaLabelProvider extends LabelProvider {
 			return def;
 	}
 
-	protected static boolean isCompatible(Object obj, Class<?> theClass) {
+	public static boolean isCompatible(Object obj, Class<?> theClass) {
 
 		if (obj instanceof FakeElement) {
 			FakeElement fe = (FakeElement) obj;

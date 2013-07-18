@@ -14,47 +14,31 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
 
-import org.eclipse.swt.graphics.Color;
-
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.NodeSelector;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class CrossSelectionChainLabelProvider extends PlatformChainLabelProvider {
+public class StrongHighlightNodeSelectorForRunningGraph implements NodeSelector {
 
 	private final String componentId;
 
-	public CrossSelectionChainLabelProvider(String componentId) {
+	public StrongHighlightNodeSelectorForRunningGraph(String componentId) {
 		this.componentId = componentId;
 	}
 
 	@Override
-	public Color getBackgroundColour(Object entity) {
-		return getPaintingColor(entity);
-	}
-
-	@Override
-	public Color getNodeHighlightColor(Object entity) {
-		return getPaintingColor(entity);
-	}
-
-	private Color getPaintingColor(Object entity) {
-		if (entity != null && entity instanceof ComponentRef) {
-			ComponentRef compoRef = (ComponentRef) entity;
+	public boolean isSelectedNode(Object nodeObject) {
+		if (nodeObject != null && nodeObject instanceof ComponentRef) {
+			ComponentRef compoRef = (ComponentRef) nodeObject;
 			String compoId = compoRef.getId();
-			if (needStrongHighlight(compoId))
-				return getConfig().getNodeStrongHighlightColor();
+			if (compoId != null && compoId.startsWith(componentId))
+				return true;
 			else
-				return getConfig().getNodeColor();
+				return false;
 		} else
-			return getConfig().getNodeColor();
-	}
-
-	private boolean needStrongHighlight(String compoId) {
-		if (compoId != null && compoId.startsWith(componentId))
-			return true;
-		return false;
+			return false;
 	}
 }

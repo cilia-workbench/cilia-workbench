@@ -33,6 +33,7 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
+import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
@@ -52,7 +53,8 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 
 	public static final String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.abstractchainview";
 
-	private IBaseLabelProvider labelProvider = new AbstractChainLabelProvider();
+	public static final IBaseLabelProvider defaultLabelProvider = new GraphLabelProvider(AbstractCompositionsRepoService.getInstance().getContentProvider(),
+			new AbstractChainGraphTextLabelProvider());
 	private IContentProvider contentProvider = new AbstractChainContentProvider();
 
 	private AbstractChain model = null;
@@ -80,8 +82,8 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 
 	private void updateConfigAndModel(AbstractChain chain) {
 		this.model = chain;
-		if (viewer.getLabelProvider() != labelProvider)
-			viewer.setLabelProvider(labelProvider);
+		if (viewer.getLabelProvider() != defaultLabelProvider)
+			viewer.setLabelProvider(defaultLabelProvider);
 
 		if (viewer.getContentProvider() != contentProvider)
 			viewer.setContentProvider(contentProvider);
@@ -100,10 +102,12 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 
 	@Override
 	public void selectionChanged(String partId, ISelection selection) {
-		if (selection != null && selection instanceof TreeSelection) {
-			TreeSelection sel = (TreeSelection) selection;
-			if (sel.getFirstElement() != null && sel.getFirstElement() instanceof AbstractChain)
-				updateConfigAndModel((AbstractChain) sel.getFirstElement());
+		if (selection != null) {
+			if (partId.equals(AbstractCompositionsView.VIEW_ID) && selection instanceof TreeSelection) {
+				TreeSelection sel = (TreeSelection) selection;
+				if (sel.getFirstElement() != null && sel.getFirstElement() instanceof AbstractChain)
+					updateConfigAndModel((AbstractChain) sel.getFirstElement());
+			}
 		}
 	}
 

@@ -34,8 +34,15 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
+import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
+import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
+import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.StrongHighlightGraphLabelProvider;
+import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.NodeSelector;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
+import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainGraphTextLabelProvider;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainView;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformFile;
@@ -54,8 +61,6 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 	private PlatformChain model = null;
 
-	private final IBaseLabelProvider defaultLabelProvider = new PlatformChainLabelProvider();
-
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent, VIEW_ID);
@@ -63,14 +68,9 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		PlatformRepoService.getInstance().registerListener(this);
 		SelectionService.getInstance().addSelectionListener(PlatformView.VIEW_ID, this);
 		SelectionService.getInstance().addSelectionListener(AbstractChainView.VIEW_ID, this);
-		SelectionService.getInstance().addSelectionListener(RunningChainView.VIEW_ID, this);
+		SelectionService.getInstance().addSelectionListener(VIEW_ID, this);
 
 		updateConfigAndModel(null);
-	}
-
-	private void setLabelProvider(IBaseLabelProvider labelProvider) {
-		if (viewer.getLabelProvider() != labelProvider)
-			viewer.setLabelProvider(labelProvider);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		PlatformRepoService.getInstance().unregisterListener(this);
 		SelectionService.getInstance().removeSelectionListener(PlatformView.VIEW_ID, this);
 		SelectionService.getInstance().removeSelectionListener(AbstractChainView.VIEW_ID, this);
-		SelectionService.getInstance().removeSelectionListener(RunningChainView.VIEW_ID, this);
+		SelectionService.getInstance().removeSelectionListener(VIEW_ID, this);
 	}
 
 	public PlatformChain getModel() {
@@ -88,7 +88,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 	private void updateConfigAndModel(PlatformChain chain) {
 		model = chain;
-		setLabelProvider(defaultLabelProvider);
+		setLabelProvider(getRunningChainViewDefaultLP());
 		viewer.setContentProvider(new PlatformChainContentProvider(chain));
 		viewer.setInput(chain);
 		updatePartName();
@@ -107,40 +107,83 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 	public void selectionChanged(String partId, ISelection selection) {
 		if (selection != null) {
 
-			if (selection instanceof TreeSelection) {
+			// selection in the platform view tree
+			if (partId.equals(PlatformView.VIEW_ID) && selection instanceof TreeSelection) {
 				TreeSelection sel = (TreeSelection) selection;
 				if (sel.getFirstElement() != null && sel.getFirstElement() instanceof PlatformChain)
 					updateConfigAndModel((PlatformChain) sel.getFirstElement());
 			}
 
-			// selection in the reference architecture view
+			// selection in the reference architecture view graph
 			if (partId.equals(AbstractChainView.VIEW_ID)) {
-				StructuredSelection sel = (StructuredSelection) selection;
-				Object element = sel.getFirstElement();
-				if (element instanceof ComponentRef) {
-					ComponentRef component = (ComponentRef) element;
-					String componentId = component.getId();
-					NameNamespaceID chainId = ((AbstractChain) component.getChain()).getId();
+				boolean linkExists = false;
 
-					if (model != null) {
-						if (model.getRefArchitectureID() != null && model.getRefArchitectureID().equals(chainId)) {
-							setLabelProvider(new CrossSelectionChainLabelProvider(componentId));
-							viewer.refresh();
-						}
-					}
-				} else if (element == null) {
-					setLabelProvider(defaultLabelProvider);
-					viewer.refresh();
+				// check if link exists between what is displayed in Reference
+				// archi view and running view
+				ComponentRef component = getComponentRefFromSelection(selection);
+				if (component != null && model != null) {
+					NameNamespaceID chainId = ((AbstractChain) component.getChain()).getId();
+					if (chainId != null && model.getRefArchitectureID() != null && model.getRefArchitectureID().equals(chainId))
+						linkExists = true;
+				}
+
+				// updates running chain view
+				if (linkExists) {
+					setLabelProvider(getRunningChainViewCrossLP(component.getId()));
+					refresh();
+				} else {
+					setLabelProvider(getRunningChainViewDefaultLP());
+					refresh();
+				}
+
+				// updates abstract chain view
+				AbstractChainView abstractChainView = (AbstractChainView) ViewUtil.findViewWithId(this, AbstractChainView.VIEW_ID);
+				if (abstractChainView != null) {
+					abstractChainView.setLabelProvider(getAbstractChainViewDefaultLP());
+					abstractChainView.refresh();
 				}
 			}
 
-			// when a new selection is made in this view, reset the label
-			// provider to default !
+			// when a new selection is performed in this view
 			if (partId.equals(VIEW_ID)) {
-				setLabelProvider(defaultLabelProvider);
-				viewer.refresh();
+				boolean linkExists = false;
+				AbstractChainView abstractChainView = (AbstractChainView) ViewUtil.findViewWithId(this, AbstractChainView.VIEW_ID);
+
+				// check if link exists between what is displayed in Reference
+				// archi view and running view
+				ComponentRef selectedComponent = getComponentRefFromSelection(selection);
+				if (selectedComponent != null && model != null && model.getRefArchitectureID() != null) {
+					if (abstractChainView != null && abstractChainView.getModel() != null) {
+						if (model.getRefArchitectureID().equals(abstractChainView.getModel().getId()))
+							linkExists = true;
+					}
+				}
+
+				// updates abstract chain view
+				if (linkExists) {
+					abstractChainView.setLabelProvider(getAbstractChainViewCrossLP(selectedComponent.getId()));
+					abstractChainView.refresh();
+				} else {
+					abstractChainView.setLabelProvider(getAbstractChainViewDefaultLP());
+					abstractChainView.refresh();
+				}
+
+				// updates running chain view
+				setLabelProvider(getRunningChainViewDefaultLP());
+				refresh();
 			}
 		}
+	}
+
+	private static ComponentRef getComponentRefFromSelection(ISelection selection) {
+		if (selection != null && selection instanceof StructuredSelection) {
+			StructuredSelection sel = (StructuredSelection) selection;
+			Object element = sel.getFirstElement();
+			if (element != null && element instanceof ComponentRef) {
+				return (ComponentRef) element;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -191,5 +234,31 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		} catch (CiliaException e) {
 			MessageDialog.openError(parentShell, "Can't obtain information", e.toString());
 		}
+	}
+
+	// =========================
+	// LABEL PROVIDERS FACTORIES
+	// =========================
+
+	private IBaseLabelProvider getRunningChainViewDefaultLP() {
+		GenericContentProvider cp = PlatformRepoService.getInstance().getContentProvider();
+		return new GraphLabelProvider(cp);
+	}
+
+	private IBaseLabelProvider getRunningChainViewCrossLP(String componentId) {
+		GenericContentProvider cp = PlatformRepoService.getInstance().getContentProvider();
+		NodeSelector checker = new StrongHighlightNodeSelectorForRunningGraph(componentId);
+		return new StrongHighlightGraphLabelProvider(cp, checker);
+	}
+
+	private IBaseLabelProvider getAbstractChainViewDefaultLP() {
+		return AbstractChainView.defaultLabelProvider;
+	}
+
+	private IBaseLabelProvider getAbstractChainViewCrossLP(String componentId) {
+		GenericContentProvider cp = AbstractCompositionsRepoService.getInstance().getContentProvider();
+		AbstractChainGraphTextLabelProvider tlp = new AbstractChainGraphTextLabelProvider();
+		NodeSelector checker = new StrongHighlightNodeSelectorForAbstractGraph(componentId);
+		return new StrongHighlightGraphLabelProvider(cp, tlp, checker);
 	}
 }

@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.common.ui.view.graphview;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -129,6 +130,11 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 
 	public void setFocus() {
 		viewer.getControl().setFocus();
+	}
+
+	public void setLabelProvider(IBaseLabelProvider labelProvider) {
+		if (viewer.getLabelProvider() != labelProvider)
+			viewer.setLabelProvider(labelProvider);
 	}
 
 	public void setViewName(String name) {

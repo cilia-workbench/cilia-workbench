@@ -16,17 +16,55 @@ package fr.liglab.adele.cilia.workbench.common.ui.view.graphview;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.zest.core.viewers.EntityConnectionData;
 import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
 import org.eclipse.zest.core.viewers.IEntityStyleProvider;
 import org.eclipse.zest.core.widgets.ZestStyles;
 
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
+import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class AbstractGraphLabelProvider extends CiliaLabelProvider implements IConnectionStyleProvider, IEntityStyleProvider {
+public class GraphLabelProvider extends CiliaLabelProvider implements IConnectionStyleProvider, IEntityStyleProvider {
+
+	private final GenericContentProvider contentProvider;
+	private final GraphTextLabelProvider graphTextLabelProvider;
+
+	public GraphLabelProvider(GenericContentProvider contentProvider) {
+		this.contentProvider = contentProvider;
+		graphTextLabelProvider = new DefaultGraphTextLabelProvider();
+	}
+
+	public GraphLabelProvider(GenericContentProvider contentProvider, GraphTextLabelProvider graphTextLabelProvider) {
+		this.contentProvider = contentProvider;
+		this.graphTextLabelProvider = graphTextLabelProvider;
+	}
+
+	// ===============
+	// ContentProvider
+	// ===============
+
+	@Override
+	protected GenericContentProvider getContentProvider() {
+		return contentProvider;
+	}
+
+	// ==============
+	// Label Provider
+	// ==============
+
+	@Override
+	public String getText(Object element) {
+		String defaultValue = super.getText(element);
+
+		if (isCompatible(element, EntityConnectionData.class))
+			return graphTextLabelProvider.getBindingText((EntityConnectionData) element, defaultValue);
+		else
+			return graphTextLabelProvider.getNodeText(element, defaultValue);
+	}
 
 	// ====================
 	// IEntityStyleProvider
