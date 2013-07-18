@@ -27,11 +27,12 @@ import org.eclipse.swt.graphics.Color;
  */
 public enum GraphConfig {
 
-	DEFAULT(COLOR.LIGHT_BLUE, COLOR.YELLOW, COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.GRAY, COLOR.DARK_BLUE, 1), VIDEO(COLOR.LIGHT_BLUE, COLOR.YELLOW,
-			COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.BLACK, COLOR.BLUE, 2);
+	DEFAULT(COLOR.LIGHT_BLUE, COLOR.YELLOW, COLOR.CUSTOM_BLUE, COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.GRAY, COLOR.DARK_BLUE, 1), VIDEO(
+			COLOR.LIGHT_BLUE, COLOR.YELLOW, COLOR.CUSTOM_BLUE, COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.BLACK, COLOR.BLUE, 2);
 
 	private final Color nodeColor;
 	private final Color nodeHighlightColor;
+	private final Color nodeStrongHighlightColor;
 	private final Color nodeTextColor;
 	private final int nodeBorderWidth;
 	private final Color nodeBorderColor;
@@ -40,11 +41,12 @@ public enum GraphConfig {
 	private final Color lineHighightColor;
 	private final int lineWidth;
 
-	private GraphConfig(COLOR nodeColor, COLOR nodeHighlightColor, COLOR nodeTextColor, int nodeBorderWidth, COLOR nodeBorderColor,
-			COLOR nodeBorderHighlightColor, COLOR lineColor, COLOR lineHighightColor, int lineWidth) {
+	private GraphConfig(COLOR nodeColor, COLOR nodeHighlightColor, COLOR nodeStrongHighlightColor, COLOR nodeTextColor, int nodeBorderWidth,
+			COLOR nodeBorderColor, COLOR nodeBorderHighlightColor, COLOR lineColor, COLOR lineHighightColor, int lineWidth) {
 
 		this.nodeColor = nodeColor.getColor();
 		this.nodeHighlightColor = nodeHighlightColor.getColor();
+		this.nodeStrongHighlightColor = nodeStrongHighlightColor.getColor();
 		this.nodeTextColor = nodeTextColor.getColor();
 		this.nodeBorderWidth = nodeBorderWidth;
 		this.nodeBorderColor = nodeBorderColor.getColor();
@@ -65,6 +67,10 @@ public enum GraphConfig {
 
 	public Color getNodeHighlightColor() {
 		return nodeHighlightColor;
+	}
+
+	public Color getNodeStrongHighlightColor() {
+		return nodeStrongHighlightColor;
 	}
 
 	public Color getNodeTextColor() {

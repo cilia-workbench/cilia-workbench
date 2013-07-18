@@ -122,8 +122,14 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 					String componentId = component.getId();
 					NameNamespaceID chainId = ((AbstractChain) component.getChain()).getId();
 
-					// TODO continue here!
-					setLabelProvider(new TestChainLabelProvider());
+					if (model != null) {
+						if (model.getRefArchitectureID() != null && model.getRefArchitectureID().equals(chainId)) {
+							setLabelProvider(new CrossSelectionChainLabelProvider(componentId));
+							viewer.refresh();
+						}
+					}
+				} else if (element == null) {
+					setLabelProvider(defaultLabelProvider);
 					viewer.refresh();
 				}
 			}

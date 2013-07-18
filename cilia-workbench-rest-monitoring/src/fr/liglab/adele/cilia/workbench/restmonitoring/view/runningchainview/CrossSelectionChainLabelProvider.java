@@ -16,21 +16,45 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
 
 import org.eclipse.swt.graphics.Color;
 
-import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.COLOR;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class TestChainLabelProvider extends PlatformChainLabelProvider {
+public class CrossSelectionChainLabelProvider extends PlatformChainLabelProvider {
+
+	private final String componentId;
+
+	public CrossSelectionChainLabelProvider(String componentId) {
+		this.componentId = componentId;
+	}
 
 	@Override
 	public Color getBackgroundColour(Object entity) {
-		return COLOR.RED.getColor();
+		return getPaintingColor(entity);
 	}
 
 	@Override
 	public Color getNodeHighlightColor(Object entity) {
-		return COLOR.RED.getColor();
+		return getPaintingColor(entity);
+	}
+
+	private Color getPaintingColor(Object entity) {
+		if (entity != null && entity instanceof ComponentRef) {
+			ComponentRef compoRef = (ComponentRef) entity;
+			String compoId = compoRef.getId();
+			if (needStrongHighlight(compoId))
+				return getConfig().getNodeStrongHighlightColor();
+			else
+				return getConfig().getNodeColor();
+		} else
+			return getConfig().getNodeColor();
+	}
+
+	private boolean needStrongHighlight(String compoId) {
+		if (compoId != null && compoId.startsWith(componentId))
+			return true;
+		return false;
 	}
 }
