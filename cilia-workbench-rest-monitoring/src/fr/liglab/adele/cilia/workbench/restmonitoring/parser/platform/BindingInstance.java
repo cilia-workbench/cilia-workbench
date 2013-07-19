@@ -18,8 +18,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 
 /**
  * 
@@ -27,11 +28,13 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
  */
 public class BindingInstance extends Binding {
 
-	private final Chain chain;
+	private final PlatformID platformId;
+	private final String chainId;
 
-	public BindingInstance(JSONObject binding, Chain chain) throws CiliaException {
+	public BindingInstance(JSONObject binding, PlatformID platformId, String chainId) throws CiliaException {
 		super(getJSONField(binding, "from"), getJSONField(binding, "to"));
-		this.chain = chain;
+		this.platformId = platformId;
+		this.chainId = chainId;
 	}
 
 	private static String getJSONField(JSONObject binding, String name) throws CiliaException {
@@ -43,7 +46,7 @@ public class BindingInstance extends Binding {
 	}
 
 	@Override
-	protected Chain getChain() {
-		return chain;
+	public PlatformChain getChain() {
+		return PlatformRepoService.getInstance().getPlatformChain(platformId, chainId);
 	}
 }

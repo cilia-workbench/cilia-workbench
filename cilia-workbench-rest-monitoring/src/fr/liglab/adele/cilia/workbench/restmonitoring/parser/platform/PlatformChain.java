@@ -134,7 +134,7 @@ public class PlatformChain extends Chain {
 			JSONArray bindingsList = json.getJSONArray("Bindings");
 			for (int i = 0; i < bindingsList.length(); i++) {
 				JSONObject binding = (JSONObject) bindingsList.get(i);
-				bindings.add(new BindingInstance(binding, this));
+				bindings.add(new BindingInstance(binding, platformId, chainId));
 			}
 		} catch (JSONException e) {
 			throw new CiliaException("error while parsing adapters list", e);
@@ -155,6 +155,12 @@ public class PlatformChain extends Chain {
 
 	public void setRefArchitectureID(NameNamespaceID refArchitectureID) {
 		this.refArchitectureID = refArchitectureID;
+	}
+
+	public AbstractChain getRefArchitecture() {
+		if (refArchitectureID == null)
+			return null;
+		return AbstractCompositionsRepoService.getInstance().findChain(refArchitectureID);
 	}
 
 	private static String getJSONname(JSONObject json) {
@@ -209,11 +215,8 @@ public class PlatformChain extends Chain {
 		CiliaFlag[] tab = super.getErrorsAndWarnings();
 		CiliaError e1 = null;
 
-		if (refArchitectureID != null) {
-			AbstractChain refChain = AbstractCompositionsRepoService.getInstance().findChain(refArchitectureID);
-			if (refChain == null)
-				e1 = new CiliaError("Can't find reference architecture " + refArchitectureID.toString(), this);
-		}
+		if (refArchitectureID != null && getRefArchitecture() == null)
+			e1 = new CiliaError("Can't find reference architecture " + refArchitectureID.toString(), this);
 
 		return CiliaFlag.generateTab(tab, e1);
 	}

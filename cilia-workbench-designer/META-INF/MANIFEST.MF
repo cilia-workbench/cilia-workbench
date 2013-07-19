@@ -19,6 +19,7 @@ Export-Package: fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractco
  fr.liglab.adele.cilia.workbench.designer.parser.chain.common,
  fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia,
  fr.liglab.adele.cilia.workbench.designer.parser.element.implem,
+ fr.liglab.adele.cilia.workbench.designer.parser.element.spec,
  fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice,
  fr.liglab.adele.cilia.workbench.designer.service.chain.common,
  fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice,

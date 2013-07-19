@@ -16,6 +16,7 @@ package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
 
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.NodeSelector;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.LinkToRefArchHelper;
 
 /**
  * 
@@ -34,7 +35,7 @@ public class StrongHighlightNodeSelectorForRunningGraph implements NodeSelector 
 		if (nodeObject != null && nodeObject instanceof ComponentRef) {
 			ComponentRef compoRef = (ComponentRef) nodeObject;
 			String compoId = compoRef.getId();
-			if (compoId != null && compoId.startsWith(componentId))
+			if (compoId != null && LinkToRefArchHelper.isLinkBetweenId(componentId, compoId))
 				return true;
 			else
 				return false;

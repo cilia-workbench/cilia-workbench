@@ -141,10 +141,14 @@ public class PropertySource implements IPropertySource {
 
 			} else if (fieldID.getType().equals(NameNamespaceID.class)) {
 				NameNamespaceID value = (NameNamespaceID) field.get(modelObject);
-				if (fieldID.getSubName().equals("name"))
-					return value.getName();
-				else
-					return value.getNamespace();
+				if (value != null) {
+					if (fieldID.getSubName().equals("name"))
+						return value.getName();
+					else
+						return value.getNamespace();
+				} else
+					// field is null
+					return "";
 			}
 		} catch (SecurityException e) {
 			e.printStackTrace();

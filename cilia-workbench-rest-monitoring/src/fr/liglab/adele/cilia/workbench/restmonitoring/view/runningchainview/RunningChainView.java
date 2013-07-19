@@ -69,6 +69,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		SelectionService.getInstance().addSelectionListener(PlatformView.VIEW_ID, this);
 		SelectionService.getInstance().addSelectionListener(AbstractChainView.VIEW_ID, this);
 		SelectionService.getInstance().addSelectionListener(VIEW_ID, this);
+		AbstractCompositionsRepoService.getInstance().registerListener(this);
 
 		updateConfigAndModel(null);
 	}
@@ -80,6 +81,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		SelectionService.getInstance().removeSelectionListener(PlatformView.VIEW_ID, this);
 		SelectionService.getInstance().removeSelectionListener(AbstractChainView.VIEW_ID, this);
 		SelectionService.getInstance().removeSelectionListener(VIEW_ID, this);
+		AbstractCompositionsRepoService.getInstance().unregisterListener(this);
 	}
 
 	public PlatformChain getModel() {
@@ -190,38 +192,46 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 	public void repositoryContentUpdated(AbstractRepoService<?, ?> abstractRepoService, List<Changeset> changes) {
 		// if model = null, no need to check anything...
 		if (model != null) {
-			boolean needUpdate = false;
-			for (Changeset change : changes) {
+			if (abstractRepoService instanceof PlatformRepoService) {
 
-				// Platform removed
-				if (change.getObject() instanceof PlatformFile && change.getOperation() == Operation.REMOVE) {
-					PlatformModel removedModel = ((PlatformFile) (change.getObject())).getModel();
-					if (removedModel != null) {
-						// This code is different from DSCiliaChainView because
-						// two platforms can host a
-						// chain with the same name !
-						if (model.getPlatform() == removedModel) {
+				boolean needUpdate = false;
+				for (Changeset change : changes) {
+
+					// Platform removed
+					if (change.getObject() instanceof PlatformFile && change.getOperation() == Operation.REMOVE) {
+						PlatformModel removedModel = ((PlatformFile) (change.getObject())).getModel();
+						if (removedModel != null) {
+							// This code is different from DSCiliaChainView
+							// because
+							// two platforms can host a
+							// chain with the same name !
+							if (model.getPlatform() == removedModel) {
+								updateConfigAndModel(null);
+								return;
+							}
+						}
+					}
+
+					// Chain removed
+					if (change.getObject() instanceof PlatformChain && change.getOperation() == Operation.REMOVE) {
+						if (model == change.getObject()) { // pointer equality
 							updateConfigAndModel(null);
 							return;
 						}
 					}
-				}
 
-				// Chain removed
-				if (change.getObject() instanceof PlatformChain && change.getOperation() == Operation.REMOVE) {
-					if (model == change.getObject()) { // pointer equality
-						updateConfigAndModel(null);
-						return;
+					// Chain content modified
+					if (change.getPath().contains(model) && model != change.getObject()) {
+						needUpdate = true;
 					}
 				}
 
-				// Chain content modified
-				if (change.getPath().contains(model) && model != change.getObject()) {
-					needUpdate = true;
+				if (needUpdate == true) {
+					updateConfigAndModel(model);
 				}
 			}
 
-			if (needUpdate == true) {
+			else if (abstractRepoService instanceof AbstractCompositionsRepoService) {
 				updateConfigAndModel(model);
 			}
 		}
