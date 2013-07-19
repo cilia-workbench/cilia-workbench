@@ -105,8 +105,6 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 	 */
 	public void updateMarkers() {
 
-		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
-
 		// removes markers
 		try {
 			CiliaMarkerUtil.deleteMarkers(this);
@@ -114,7 +112,14 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 			e.printStackTrace();
 		}
 
-		// finds errors and warnings
+		// creates markers
+		for (CiliaFlag flag : findErrorsAndWarnings())
+			CiliaMarkerUtil.createMarker(flag.getSeverity(), flag.getMessage(), this, flag.getSourceProvider());
+	}
+
+	protected List<CiliaFlag> findErrorsAndWarnings() {
+		List<CiliaFlag> list = new ArrayList<CiliaFlag>();
+
 		if (this instanceof ErrorsAndWarningsFinder)
 			for (CiliaFlag flag : ((ErrorsAndWarningsFinder) this).getErrorsAndWarnings())
 				list.add(flag);
@@ -125,9 +130,7 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 				for (CiliaFlag flag : ((ErrorsAndWarningsFinder) element).getErrorsAndWarnings())
 					list.add(flag);
 
-		// creates markers
-		for (CiliaFlag flag : list)
-			CiliaMarkerUtil.createMarker(flag.getSeverity(), flag.getMessage(), this, flag.getSourceProvider());
+		return list;
 	}
 
 	/**

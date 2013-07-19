@@ -14,10 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.platformview;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -45,8 +46,6 @@ public class LinkToRefArchHandler extends PlatformViewHandler {
 			return null;
 
 		Map<String, AbstractChain> chainNamesMap = new HashMap<String, AbstractChain>();
-		chainNamesMap.put("<< NONE >>", null);
-
 		List<AbstractChain> chains = AbstractCompositionsRepoService.getInstance().getChains();
 		for (AbstractChain chain : chains) {
 			NameNamespaceID chainId = chain.getId();
@@ -54,7 +53,10 @@ public class LinkToRefArchHandler extends PlatformViewHandler {
 				chainNamesMap.put(chainId.getName() + " (" + chainId.getNamespace() + ")", chain);
 		}
 
-		Set<String> chainNames = chainNamesMap.keySet();
+		List<String> chainNames = new ArrayList<String>(chainNamesMap.keySet());
+		Collections.sort(chainNames);
+		chainNames.add(0, "<< NONE >>");
+		chainNamesMap.put("<< NONE >>", null);
 
 		String title = "Link to reference architecture";
 		String msg = "Please select a reference architecture";
