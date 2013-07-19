@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
@@ -54,6 +55,9 @@ public class PlatformChain extends Chain {
 		this.platform = platform;
 		this.refArchitectureID = null;
 
+		PlatformID platformId = platform.getPlatformID();
+		String chainId = getName();
+
 		try {
 			JSONArray mediatorsList = json.getJSONArray("Mediators");
 			for (int i = 0; i < mediatorsList.length(); i++) {
@@ -65,7 +69,7 @@ public class PlatformChain extends Chain {
 				String namespace = jsonNode.getString("Namespace");
 				NameNamespaceID mediatorTypeID = new NameNamespaceID(type, namespace);
 
-				mediators.add(new MediatorInstanceRef(mediatorName, mediatorTypeID, state, this));
+				mediators.add(new MediatorInstanceRef(mediatorName, mediatorTypeID, state, platformId, chainId));
 			}
 		} catch (JSONException e) {
 			throw new CiliaException("error while parsing mediators list", e);
@@ -79,7 +83,10 @@ public class PlatformChain extends Chain {
 				for (int i = 0; i < inAdaptersList.length(); i++) {
 					String adapterName = (String) inAdaptersList.get(i);
 					NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
-					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+
+					JSONObject jsonNode = CiliaRestHelper.getAdapterContent(platform.getPlatformID(), getName(), adapterName);
+					String state = jsonNode.getString("State");
+					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, state, platformId, chainId));
 				}
 			}
 
@@ -88,7 +95,10 @@ public class PlatformChain extends Chain {
 				for (int i = 0; i < outAdaptersList.length(); i++) {
 					String adapterName = (String) outAdaptersList.get(i);
 					NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
-					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+
+					JSONObject jsonNode = CiliaRestHelper.getAdapterContent(platform.getPlatformID(), getName(), adapterName);
+					String state = jsonNode.getString("State");
+					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, state, platformId, chainId));
 				}
 			}
 
@@ -97,7 +107,10 @@ public class PlatformChain extends Chain {
 				for (int i = 0; i < inOutAdaptersList.length(); i++) {
 					String adapterName = (String) inOutAdaptersList.get(i);
 					NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
-					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+
+					JSONObject jsonNode = CiliaRestHelper.getAdapterContent(platform.getPlatformID(), getName(), adapterName);
+					String state = jsonNode.getString("State");
+					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, state, platformId, chainId));
 				}
 			}
 
@@ -106,7 +119,10 @@ public class PlatformChain extends Chain {
 				for (int i = 0; i < unknownAdaptersList.length(); i++) {
 					String adapterName = (String) unknownAdaptersList.get(i);
 					NameNamespaceID adapterTypeID = getAdapterTypeID(platform, getName(), adapterName);
-					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, this));
+
+					JSONObject jsonNode = CiliaRestHelper.getAdapterContent(platform.getPlatformID(), getName(), adapterName);
+					String state = jsonNode.getString("State");
+					adapters.add(new AdapterInstanceRef(adapterName, adapterTypeID, state, platformId, chainId));
 				}
 			}
 

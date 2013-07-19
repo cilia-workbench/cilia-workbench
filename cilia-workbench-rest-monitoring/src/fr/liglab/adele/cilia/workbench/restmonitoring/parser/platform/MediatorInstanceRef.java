@@ -18,9 +18,9 @@ import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
@@ -28,6 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
+import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 
 /**
  * 
@@ -36,18 +37,20 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.C
 public class MediatorInstanceRef extends MediatorRef implements Mergeable {
 
 	private final String MEDIATOR_VALID_STATE = "VALID";
-	private final PlatformChain chain;
 	private final String state;
+	private final PlatformID platformId;
+	private final String chainId;
 
-	public MediatorInstanceRef(String mediatorID, NameNamespaceID mediatorTypeID, String state, PlatformChain chain) {
+	public MediatorInstanceRef(String mediatorID, NameNamespaceID mediatorTypeID, String state, PlatformID platformId, String chainId) {
 		super(mediatorID, mediatorTypeID);
-		this.chain = chain;
 		this.state = state;
+		this.platformId = platformId;
+		this.chainId = chainId;
 	}
 
 	@Override
-	public Chain getChain() {
-		return chain;
+	public PlatformChain getChain() {
+		return PlatformRepoService.getInstance().getPlatformChain(platformId, chainId);
 	}
 
 	@Override

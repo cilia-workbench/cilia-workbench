@@ -14,16 +14,19 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
+import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
+import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 
 /**
  * 
@@ -31,16 +34,21 @@ import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.C
  */
 public class AdapterInstanceRef extends AdapterRef {
 
-	private PlatformChain chain;
+	private final String ADAPTER_VALID_STATE = "VALID";
+	private final String state;
+	private final PlatformID platformId;
+	private final String chainId;
 
-	public AdapterInstanceRef(String adapterID, NameNamespaceID adapterTypeID, PlatformChain chain) {
+	public AdapterInstanceRef(String adapterID, NameNamespaceID adapterTypeID, String state, PlatformID platformId, String chainId) {
 		super(adapterID, adapterTypeID);
-		this.chain = chain;
+		this.state = state;
+		this.platformId = platformId;
+		this.chainId = chainId;
 	}
 
 	@Override
-	public Chain getChain() {
-		return chain;
+	public PlatformChain getChain() {
+		return PlatformRepoService.getInstance().getPlatformChain(platformId, chainId);
 	}
 
 	@Override
@@ -50,6 +58,19 @@ public class AdapterInstanceRef extends AdapterRef {
 
 	@Override
 	public List<Changeset> merge(Object other) throws CiliaException {
-		return new ArrayList<Changeset>();
+		List<Changeset> retval = super.merge(other);
+		AdapterInstanceRef newRef = (AdapterInstanceRef) other;
+		retval.addAll(MergeUtil.computeUpdateChangeset(newRef, this, "state"));
+		return retval;
+	}
+
+	@Override
+	public CiliaFlag[] getErrorsAndWarnings() {
+		CiliaFlag[] tab = super.getErrorsAndWarnings();
+		CiliaError e1 = null;
+		if (!ADAPTER_VALID_STATE.equals(state)) {
+			e1 = new CiliaError("Invalid state for adapter " + getId() + " (" + state + ")", this);
+		}
+		return CiliaFlag.generateTab(tab, e1);
 	}
 }

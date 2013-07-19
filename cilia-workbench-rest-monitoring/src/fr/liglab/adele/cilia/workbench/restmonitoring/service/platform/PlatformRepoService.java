@@ -92,6 +92,23 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 		notifyListeners(changes);
 	}
 
+	public PlatformModel getPlatformModel(PlatformID id) {
+		for (PlatformFile file : repoContent) {
+			PlatformModel pfModel = file.getModel();
+			if (pfModel != null && pfModel.getPlatformID() != null)
+				if (pfModel.getPlatformID().equals(id))
+					return pfModel;
+		}
+		return null;
+	}
+
+	public PlatformChain getPlatformChain(PlatformID platformId, String chainId) {
+		PlatformModel pfModel = getPlatformModel(platformId);
+		if (pfModel == null)
+			return null;
+		return pfModel.getChain(chainId);
+	}
+
 	/**
 	 * Merge a list of repo element into the current model. Only differences
 	 * between the argument and the model are merge back into the model.
