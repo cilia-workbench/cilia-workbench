@@ -196,7 +196,7 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 		CiliaFlag e4 = null;
 
 		if (getReferencedComponentDefinition() == null)
-			e4 = new CiliaError("Can't find mediator definition for " + this, this);
+			e4 = new CiliaError("Can't find component definition for " + this, this);
 
 		return CiliaFlag.generateTab(e1, e2, e3, e4);
 	}
