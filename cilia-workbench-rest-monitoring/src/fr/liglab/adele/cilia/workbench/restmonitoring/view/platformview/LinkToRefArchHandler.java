@@ -38,6 +38,8 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformCh
  */
 public class LinkToRefArchHandler extends PlatformViewHandler {
 
+	private static String NOTHING = "<< NONE >>";
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
@@ -45,22 +47,27 @@ public class LinkToRefArchHandler extends PlatformViewHandler {
 		if (platformChain == null)
 			return null;
 
+		String initValue = NOTHING;
 		Map<String, AbstractChain> chainNamesMap = new HashMap<String, AbstractChain>();
 		List<AbstractChain> chains = AbstractCompositionsRepoService.getInstance().getChains();
 		for (AbstractChain chain : chains) {
 			NameNamespaceID chainId = chain.getId();
-			if (chainId != null)
-				chainNamesMap.put(chainId.getName() + " (" + chainId.getNamespace() + ")", chain);
+			if (chainId != null) {
+				String displayStr = chainId.getName() + " (" + chainId.getNamespace() + ")";
+				chainNamesMap.put(displayStr, chain);
+				if (chainId.equals(platformChain.getRefArchitectureID()))
+					initValue = displayStr;
+			}
 		}
 
 		List<String> chainNames = new ArrayList<String>(chainNamesMap.keySet());
 		Collections.sort(chainNames);
-		chainNames.add(0, "<< NONE >>");
-		chainNamesMap.put("<< NONE >>", null);
+		chainNames.add(0, NOTHING);
+		chainNamesMap.put(NOTHING, null);
 
 		String title = "Link to reference architecture";
 		String msg = "Please select a reference architecture";
-		SimpleListDialog dialog = new SimpleListDialog(ViewUtil.getShell(event), title, msg, chainNames);
+		SimpleListDialog dialog = new SimpleListDialog(ViewUtil.getShell(event), title, msg, chainNames, initValue);
 		if (dialog.open() == Window.OK) {
 			Object[] result = dialog.getResult();
 			AbstractChain selection;

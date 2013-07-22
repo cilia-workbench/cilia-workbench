@@ -14,9 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.common.ui.dialog;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -41,15 +39,8 @@ public class SimpleListDialog extends ListDialog {
 		setHelpAvailable(false);
 	}
 
-	public SimpleListDialog(Shell parent, String title, String message, Set<?> input) {
-		this(parent, title, message, setToList(input));
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static List<?> setToList(Set<?> input) {
-		List list = new ArrayList();
-		for (Object o : input)
-			list.add(o);
-		return list;
+	public SimpleListDialog(Shell parent, String title, String message, List<?> input, Object... initSelection) {
+		this(parent, title, message, input);
+		setInitialSelections(initSelection);
 	}
 }
