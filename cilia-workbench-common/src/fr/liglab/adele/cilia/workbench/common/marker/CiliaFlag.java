@@ -136,6 +136,14 @@ public abstract class CiliaFlag {
 		return retval.toArray(new CiliaFlag[0]);
 	}
 
+	public static CiliaFlag[] generateTab(CiliaFlag[] tab1, Iterable<CiliaFlag> tab2, CiliaFlag... flags) {
+		return generateTab(tab1, generateTab(tab2, flags));
+	}
+
+	public static CiliaFlag[] generateTab(Iterable<CiliaFlag> tab1, CiliaFlag[] tab2, CiliaFlag... flags) {
+		return generateTab(tab1, generateTab(tab2, flags));
+	}
+
 	/**
 	 * Gets the severity of this error, from the {@link IMarker} point of view.
 	 * 

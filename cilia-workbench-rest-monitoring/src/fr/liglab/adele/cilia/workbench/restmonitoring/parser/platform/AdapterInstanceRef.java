@@ -66,11 +66,18 @@ public class AdapterInstanceRef extends AdapterRef {
 
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] tab = super.getErrorsAndWarnings();
-		CiliaError e1 = null;
-		if (!ADAPTER_VALID_STATE.equals(state)) {
+		CiliaFlag[] tab1 = super.getErrorsAndWarnings();
+		List<CiliaFlag> tab2 = null;
+		CiliaFlag e1 = null;
+
+		// iPOJO running state checking
+		if (!ADAPTER_VALID_STATE.equals(state))
 			e1 = new CiliaError("Invalid state for adapter " + getId() + " (" + state + ")", this);
-		}
-		return CiliaFlag.generateTab(tab, e1);
+
+		// reference architecture checking
+		if (getChain().getRefArchitecture() != null)
+			tab2 = LinkToRefArchHelper.referenceArchitectureChecking(this);
+
+		return CiliaFlag.generateTab(tab1, tab2, e1);
 	}
 }

@@ -20,11 +20,16 @@ import java.util.List;
 import java.util.Map;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Cardinality;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractBinding;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.InAdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.InOutAdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem;
@@ -96,6 +101,57 @@ public class LinkToRefArchHelper {
 		if (refArchiId == null || runningId == null)
 			return false;
 		return runningId.startsWith(refArchiId);
+	}
+
+	public static MediatorRef getComponentInReferenceArchitecture(MediatorInstanceRef mediator) {
+		AbstractChain abstractChain = mediator.getChain().getRefArchitecture();
+		if (abstractChain != null)
+			for (MediatorRef refMediator : abstractChain.getMediators())
+				if (LinkToRefArchHelper.isLinkBetweenId(refMediator.getId(), mediator.getId()))
+					return refMediator;
+		return null;
+	}
+
+	public static AdapterRef getComponentInReferenceArchitecture(AdapterInstanceRef adapter) {
+		AbstractChain abstractChain = adapter.getChain().getRefArchitecture();
+		if (abstractChain != null)
+			for (AdapterRef refAdapter : abstractChain.getAdapters())
+				if (LinkToRefArchHelper.isLinkBetweenId(refAdapter.getId(), adapter.getId()))
+					return refAdapter;
+		return null;
+	}
+
+	public static List<CiliaFlag> referenceArchitectureChecking(MediatorInstanceRef mediator) {
+		return referenceArchitectureCheckingInternal(mediator, getComponentInReferenceArchitecture(mediator));
+	}
+
+	public static List<CiliaFlag> referenceArchitectureChecking(AdapterInstanceRef adapter) {
+		return referenceArchitectureCheckingInternal(adapter, getComponentInReferenceArchitecture(adapter));
+	}
+
+	private static List<CiliaFlag> referenceArchitectureCheckingInternal(ComponentRef componentInRunning, ComponentRef componentInRefArch) {
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
+
+		if (componentInRefArch == null) {
+			retval.add(new CiliaError("Can't find element in reference architecture for " + componentInRunning.getId(), componentInRunning));
+			return retval;
+		} else {
+			ComponentDefinition referenceDefinition = componentInRefArch.getReferencedComponentDefinition();
+			ComponentDefinition runningDefinition = componentInRunning.getReferencedComponentDefinition();
+			// null values are checked out of this method
+			if (referenceDefinition != null && runningDefinition != null) {
+				String msg = LinkToRefArchHelper.checkCompatible(referenceDefinition, runningDefinition);
+				if (msg != null) {
+					retval.add(new CiliaError(msg, componentInRunning));
+					return retval;
+				} else {
+					for (String error : LinkToRefArchHelper.checkBindings(componentInRefArch, componentInRunning))
+						retval.add(new CiliaError(error, componentInRunning));
+					return retval;
+				}
+			}
+		}
+		return retval;
 	}
 
 	public static List<String> checkBindings(ComponentRef reference, ComponentRef current) {

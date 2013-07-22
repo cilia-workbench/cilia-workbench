@@ -14,7 +14,6 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
@@ -24,13 +23,10 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
-import fr.liglab.adele.cilia.workbench.common.parser.element.Mediator;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 
@@ -88,50 +84,20 @@ public class MediatorInstanceRef extends MediatorRef implements Mergeable {
 		return retval;
 	}
 
-	private MediatorRef getMediatorInReferenceArchitecture() {
-		AbstractChain abstractChain = getChain().getRefArchitecture();
-		if (abstractChain != null)
-			for (MediatorRef refMediator : abstractChain.getMediators())
-				if (LinkToRefArchHelper.isLinkBetweenId(refMediator.getId(), getId()))
-					return refMediator;
-		return null;
-	}
-
 	@Override
 	public CiliaFlag[] getErrorsAndWarnings() {
-		CiliaFlag[] tab = super.getErrorsAndWarnings();
+		CiliaFlag[] tab1 = super.getErrorsAndWarnings();
+		List<CiliaFlag> tab2 = null;
+		CiliaFlag e1 = null;
 
-		List<CiliaFlag> flagList = new ArrayList<CiliaFlag>();
-		for (CiliaFlag flag : tab) {
-			flagList.add(flag);
-		}
+		// iPOJO running state checking
+		if (!MEDIATOR_VALID_STATE.equals(state))
+			e1 = new CiliaError("Invalid state for mediator " + getId() + " (" + state + ")", this);
 
-		if (!MEDIATOR_VALID_STATE.equals(state)) {
-			flagList.add(new CiliaError("Invalid state for mediator " + getId() + " (" + state + ")", this));
-		}
+		// reference architecture checking
+		if (getChain().getRefArchitecture() != null)
+			tab2 = LinkToRefArchHelper.referenceArchitectureChecking(this);
 
-		// Reference architecture checking
-		AbstractChain abstractChain = getChain().getRefArchitecture();
-		if (abstractChain != null) {
-			MediatorRef mira = getMediatorInReferenceArchitecture();
-			if (mira == null) {
-				flagList.add(new CiliaError("Can't find element in reference architecture for " + getId(), this));
-			} else {
-				Mediator referenceDefinition = mira.getReferencedComponentDefinition();
-				Mediator curDefinition = getReferencedComponentDefinition();
-				// null values are checked out of this method
-				if (referenceDefinition != null && curDefinition != null) {
-					String msg = LinkToRefArchHelper.checkCompatible(referenceDefinition, (MediatorImplem) curDefinition);
-					if (msg != null)
-						flagList.add(new CiliaError(msg, this));
-					else {
-						for (String error : LinkToRefArchHelper.checkBindings(mira, this))
-							flagList.add(new CiliaError(error, this));
-					}
-				}
-			}
-		}
-
-		return CiliaFlag.generateTab(flagList);
+		return CiliaFlag.generateTab(tab1, tab2, e1);
 	}
 }
