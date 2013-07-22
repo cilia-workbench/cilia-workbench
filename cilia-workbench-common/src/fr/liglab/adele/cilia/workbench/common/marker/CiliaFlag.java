@@ -83,13 +83,15 @@ public abstract class CiliaFlag {
 	public static CiliaFlag[] generateTab(Iterable<CiliaFlag> tab, CiliaFlag... flags) {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
-		for (CiliaFlag flag : tab)
-			if (flag != null)
-				retval.add(flag);
+		if (tab != null)
+			for (CiliaFlag flag : tab)
+				if (flag != null)
+					retval.add(flag);
 
-		for (CiliaFlag flag : flags)
-			if (flag != null)
-				retval.add(flag);
+		if (flags != null)
+			for (CiliaFlag flag : flags)
+				if (flag != null)
+					retval.add(flag);
 
 		return retval.toArray(new CiliaFlag[0]);
 	}
@@ -107,13 +109,15 @@ public abstract class CiliaFlag {
 	public static CiliaFlag[] generateTab(CiliaFlag[] tab, CiliaFlag... flags) {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
-		for (CiliaFlag flag : tab)
-			if (flag != null)
-				retval.add(flag);
+		if (tab != null)
+			for (CiliaFlag flag : tab)
+				if (flag != null)
+					retval.add(flag);
 
-		for (CiliaFlag flag : flags)
-			if (flag != null)
-				retval.add(flag);
+		if (flags != null)
+			for (CiliaFlag flag : flags)
+				if (flag != null)
+					retval.add(flag);
 
 		return retval.toArray(new CiliaFlag[0]);
 	}
@@ -121,17 +125,20 @@ public abstract class CiliaFlag {
 	public static CiliaFlag[] generateTab(CiliaFlag[] tab1, CiliaFlag[] tab2, CiliaFlag... flags) {
 		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
-		for (CiliaFlag flag : tab1)
-			if (flag != null)
-				retval.add(flag);
+		if (tab1 != null)
+			for (CiliaFlag flag : tab1)
+				if (flag != null)
+					retval.add(flag);
 
-		for (CiliaFlag flag : tab2)
-			if (flag != null)
-				retval.add(flag);
+		if (tab2 != null)
+			for (CiliaFlag flag : tab2)
+				if (flag != null)
+					retval.add(flag);
 
-		for (CiliaFlag flag : flags)
-			if (flag != null)
-				retval.add(flag);
+		if (flags != null)
+			for (CiliaFlag flag : flags)
+				if (flag != null)
+					retval.add(flag);
 
 		return retval.toArray(new CiliaFlag[0]);
 	}

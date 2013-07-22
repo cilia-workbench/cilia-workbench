@@ -30,6 +30,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.utils.http.CiliaRestHelper;
 
 /**
@@ -155,6 +156,11 @@ public class PlatformChain extends Chain {
 
 	public void setRefArchitectureID(NameNamespaceID refArchitectureID) {
 		this.refArchitectureID = refArchitectureID;
+		try {
+			PlatformRepoService.getInstance().updateChain(getPlatform(), getId());
+		} catch (CiliaException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public AbstractChain getRefArchitecture() {

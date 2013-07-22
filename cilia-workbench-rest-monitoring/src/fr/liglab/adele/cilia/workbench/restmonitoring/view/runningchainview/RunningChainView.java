@@ -194,7 +194,6 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		if (model != null) {
 			if (abstractRepoService instanceof PlatformRepoService) {
 
-				boolean needUpdate = false;
 				for (Changeset change : changes) {
 
 					// Platform removed
@@ -219,16 +218,9 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 							return;
 						}
 					}
-
-					// Chain content modified
-					if (change.getPath().contains(model) && model != change.getObject()) {
-						needUpdate = true;
-					}
 				}
 
-				if (needUpdate == true) {
-					updateConfigAndModel(model);
-				}
+				updateConfigAndModel(model);
 			}
 
 			else if (abstractRepoService instanceof AbstractCompositionsRepoService) {

@@ -79,9 +79,6 @@ public class LinkToRefArchHandler extends PlatformViewHandler {
 				platformChain.setRefArchitectureID(selection.getId());
 			else
 				platformChain.setRefArchitectureID(null);
-
-			getRepoService(event).updateMarkers();
-			getRepositoryView(event).refresh();
 		}
 
 		return null;
