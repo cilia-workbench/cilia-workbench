@@ -145,8 +145,8 @@ public class LinkToRefArchHelper {
 					retval.add(new CiliaError(msg, componentInRunning));
 					return retval;
 				} else {
-					for (String error : LinkToRefArchHelper.checkBindings(componentInRefArch, componentInRunning))
-						retval.add(new CiliaError(error, componentInRunning));
+					for (CiliaFlag error : LinkToRefArchHelper.checkBindings(componentInRefArch, componentInRunning))
+						retval.add(error);
 					return retval;
 				}
 			}
@@ -154,14 +154,14 @@ public class LinkToRefArchHelper {
 		return retval;
 	}
 
-	public static List<String> checkBindings(ComponentRef reference, ComponentRef current) {
-		List<String> retval = checkOutgoingBindings(reference, current);
+	public static List<CiliaFlag> checkBindings(ComponentRef reference, ComponentRef current) {
+		List<CiliaFlag> retval = checkOutgoingBindings(reference, current);
 		retval.addAll(checkIncommingBindings(reference, current));
 		return retval;
 	}
 
-	private static List<String> checkOutgoingBindings(ComponentRef reference, ComponentRef current) {
-		List<String> retval = new ArrayList<String>();
+	private static List<CiliaFlag> checkOutgoingBindings(ComponentRef reference, ComponentRef current) {
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
 		Binding[] refBindings = reference.getOutgoingBindings();
 		Binding[] curBindings = current.getOutgoingBindings();
@@ -203,7 +203,7 @@ public class LinkToRefArchHelper {
 			}
 
 			if (found == false) {
-				retval.add("The binding " + curBinding + " is not allowed");
+				retval.add(new CiliaError("The binding " + curBinding + " is not allowed", curBinding));
 			}
 		}
 
@@ -212,16 +212,18 @@ public class LinkToRefArchHelper {
 			int nb = bindingCpt.get(b);
 			Cardinality card = ((AbstractBinding) b).getDestinationCardinality();
 			if (card.getMinValue() > nb)
-				retval.add("The outgoing binding " + b + " is instanciated " + nb + " time(s) instead of a minimum of " + card.getMinValue() + " time(s)");
+				retval.add(new CiliaError("The outgoing binding " + b + " is instanciated " + nb + " time(s) instead of a minimum of " + card.getMinValue()
+						+ " time(s)", b));
 			if (!card.isInfiniteBoundary() && card.getMaxValue() < nb)
-				retval.add("The outgoing binding " + b + " is instanciated " + nb + " time(s) instead of a maximum of " + card.getMaxValue() + " time(s)");
+				retval.add(new CiliaError("The outgoing binding " + b + " is instanciated " + nb + " time(s) instead of a maximum of " + card.getMaxValue()
+						+ " time(s)", b));
 		}
 
 		return retval;
 	}
 
-	private static List<String> checkIncommingBindings(ComponentRef reference, ComponentRef current) {
-		List<String> retval = new ArrayList<String>();
+	private static List<CiliaFlag> checkIncommingBindings(ComponentRef reference, ComponentRef current) {
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
 
 		Binding[] refBindings = reference.getIncommingBindings();
 		Binding[] curBindings = current.getIncommingBindings();
@@ -263,7 +265,7 @@ public class LinkToRefArchHelper {
 			}
 
 			if (found == false) {
-				retval.add("The binding " + curBinding + " is not allowed");
+				retval.add(new CiliaError("The binding " + curBinding + " is not allowed", curBinding));
 			}
 		}
 
@@ -272,9 +274,11 @@ public class LinkToRefArchHelper {
 			int nb = bindingCpt.get(b);
 			Cardinality card = ((AbstractBinding) b).getSourceCardinality();
 			if (card.getMinValue() > nb)
-				retval.add("The incomming binding " + b + " is instanciated " + nb + " time(s) instead of a minimum of " + card.getMinValue() + " time(s)");
+				retval.add(new CiliaError("The incomming binding " + b + " is instanciated " + nb + " time(s) instead of a minimum of " + card.getMinValue()
+						+ " time(s)", b));
 			if (!card.isInfiniteBoundary() && card.getMaxValue() < nb)
-				retval.add("The incomming binding " + b + " is instanciated " + nb + " time(s) instead of a maximum of " + card.getMaxValue() + " time(s)");
+				retval.add(new CiliaError("The incomming binding " + b + " is instanciated " + nb + " time(s) instead of a maximum of " + card.getMaxValue()
+						+ " time(s)", b));
 		}
 
 		return retval;

@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.common.ui.view.graphview;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
@@ -21,6 +22,7 @@ import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
 import org.eclipse.zest.core.viewers.IEntityStyleProvider;
 import org.eclipse.zest.core.widgets.ZestStyles;
 
+import fr.liglab.adele.cilia.workbench.common.service.chain.ChainContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 
@@ -30,15 +32,15 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
  */
 public class GraphLabelProvider extends CiliaLabelProvider implements IConnectionStyleProvider, IEntityStyleProvider {
 
-	private final GenericContentProvider contentProvider;
+	private final ChainContentProvider contentProvider;
 	private final GraphTextLabelProvider graphTextLabelProvider;
 
-	public GraphLabelProvider(GenericContentProvider contentProvider) {
+	public GraphLabelProvider(ChainContentProvider contentProvider) {
 		this.contentProvider = contentProvider;
-		graphTextLabelProvider = new DefaultGraphTextLabelProvider();
+		this.graphTextLabelProvider = new DefaultGraphTextLabelProvider();
 	}
 
-	public GraphLabelProvider(GenericContentProvider contentProvider, GraphTextLabelProvider graphTextLabelProvider) {
+	public GraphLabelProvider(ChainContentProvider contentProvider, GraphTextLabelProvider graphTextLabelProvider) {
 		this.contentProvider = contentProvider;
 		this.graphTextLabelProvider = graphTextLabelProvider;
 	}
@@ -116,7 +118,24 @@ public class GraphLabelProvider extends CiliaLabelProvider implements IConnectio
 
 	@Override
 	public Color getColor(Object rel) {
-		return getConfig().getLineColor();
+		EntityConnectionData link = (EntityConnectionData) rel;
+		Object src = link.source;
+		Object dst = link.dest;
+
+		Object binding = contentProvider.getBinding(src, dst);
+		if (binding == null)
+			return getConfig().getDefaultLineColor();
+
+		switch (hasErrorOrWarning(binding)) {
+		case IMarker.SEVERITY_INFO:
+			return getConfig().getDefaultLineColor();
+		case IMarker.SEVERITY_WARNING:
+			return COLOR.YELLOW.getColor();
+		case IMarker.SEVERITY_ERROR:
+			return COLOR.RED.getColor();
+		default:
+			throw new RuntimeException("Unknown IMarker severity");
+		}
 	}
 
 	@Override

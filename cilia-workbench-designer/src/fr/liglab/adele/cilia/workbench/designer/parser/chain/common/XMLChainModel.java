@@ -25,14 +25,15 @@ import fr.liglab.adele.cilia.workbench.common.cilia.CiliaConstants;
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
-import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
 import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Cardinality;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ChainModel;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
+import fr.liglab.adele.cilia.workbench.common.service.chain.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLHelpers;
 import fr.liglab.adele.cilia.workbench.common.xml.XMLStringUtil;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractBinding;
@@ -40,13 +41,12 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.AdapterImplemRef;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.MediatorImplemRef;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class XMLChainModel<ChainType extends XMLChain> extends AbstractModel implements Mergeable {
+public abstract class XMLChainModel<ChainType extends XMLChain> extends ChainModel<ChainType> implements Mergeable {
 
 	protected List<ChainType> model = new ArrayList<ChainType>();
 	protected final ChainRepoService<?, ?, ChainType> repository;

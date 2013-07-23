@@ -12,32 +12,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.chain.common;
+package fr.liglab.adele.cilia.workbench.common.service.chain;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.parser.ChainFile;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ChainModel;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.MediatorSpecRef;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.PropertyConstraint;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainModel;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainContentProvider<ChainType extends XMLChain> extends GenericContentProvider {
+public abstract class ChainContentProvider<FileType extends ChainFile<ModelType, ChainType>, ModelType extends ChainModel<ChainType>, ChainType extends Chain>
+		extends GenericContentProvider {
 
-	public ChainContentProvider(List<? extends XMLChainFile<? extends XMLChainModel<ChainType>>> repo) {
+	public ChainContentProvider(List<? extends FileType> repo) {
 
 		addRoot(repo);
 
-		for (XMLChainFile<? extends XMLChainModel<ChainType>> re : repo) {
+		for (FileType re : repo) {
 			addRelationship(true, repo, re);
 
 			if (re.getModel() != null) {
@@ -57,18 +56,29 @@ public abstract class ChainContentProvider<ChainType extends XMLChain> extends G
 						for (ParameterRef p : m.getDispatcherParameters())
 							addRelationship(false, m, p);
 
-						// Specification specific part. Ignored by
-						// implementations...
-						if (m instanceof MediatorSpecRef) {
-							for (PropertyConstraint p : ((MediatorSpecRef) m).getConstraints())
-								addRelationship(false, m, p);
-						}
+						// TODO update this later
+
+						/*
+						 * // Specification specific part. Ignored by //
+						 * implementations... if (m instanceof MediatorSpecRef)
+						 * { for (PropertyConstraint p : ((MediatorSpecRef)
+						 * m).getConstraints()) addRelationship(false, m, p); }
+						 */
 					}
 
-					for (Binding b : c.getBindings())
+					for (Binding b : c.getBindings()) {
 						addRelationship(false, c, b);
+
+						// TODO here... mecanique pour les bindings...
+					}
 				}
 			}
 		}
+	}
+
+	public Object getBinding(Object src, Object dst) {
+		// TODO Auto-generated method stub
+		// TODO here... mecanique pour les bindings...
+		return null;
 	}
 }

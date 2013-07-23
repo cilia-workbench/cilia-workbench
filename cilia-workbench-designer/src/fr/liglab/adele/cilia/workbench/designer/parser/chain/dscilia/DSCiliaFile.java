@@ -24,7 +24,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaFile extends XMLChainFile<DSCiliaModel> {
+public class DSCiliaFile extends XMLChainFile<DSCiliaModel, DSCiliaChain> {
 
 	public DSCiliaFile(PhysicalResource file) {
 		super(file);

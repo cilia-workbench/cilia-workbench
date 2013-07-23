@@ -29,6 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
+import fr.liglab.adele.cilia.workbench.common.service.chain.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.misc.preferencepage.RestMonitoringPreferencePage;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
@@ -40,7 +41,7 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.utils.http.CiliaRestHelper
  * 
  * @author Etienne Gandrille
  */
-public class PlatformRepoService extends AbstractRepoService<PlatformFile, PlatformModel> implements ErrorsAndWarningsFinder, IRepoServiceListener {
+public class PlatformRepoService extends ChainRepoService<PlatformFile, PlatformModel, PlatformChain> implements ErrorsAndWarningsFinder, IRepoServiceListener {
 
 	/** Singleton instance */
 	private static PlatformRepoService INSTANCE;
@@ -63,7 +64,7 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 	}
 
 	private PlatformRepoService() {
-		super(PREFERENCE_PATH_KEY, ext, repositoryName);
+		super(PREFERENCE_PATH_KEY, ext, repositoryName, PlatformModel.ROOT_NODE_NAME);
 		AbstractCompositionsRepoService.getInstance().registerListener(this);
 	}
 
@@ -117,7 +118,7 @@ public class PlatformRepoService extends AbstractRepoService<PlatformFile, Platf
 	 *            a new model
 	 * @return a list of changesets, which can be empty.
 	 */
-	private List<Changeset> merge(List<PlatformFile> repoElements) throws CiliaException {
+	protected List<Changeset> merge(List<PlatformFile> repoElements) throws CiliaException {
 
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 

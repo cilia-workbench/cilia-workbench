@@ -16,15 +16,16 @@ package fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice;
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.service.chain.ChainContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaFile;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaModel;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class DSCiliaContentProvider extends ChainContentProvider<DSCiliaChain> {
+public class DSCiliaContentProvider extends ChainContentProvider<DSCiliaFile, DSCiliaModel, DSCiliaChain> {
 
 	public DSCiliaContentProvider(List<DSCiliaFile> repo) {
 		super(repo);

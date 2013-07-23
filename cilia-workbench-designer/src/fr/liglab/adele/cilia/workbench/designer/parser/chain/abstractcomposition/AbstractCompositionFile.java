@@ -24,7 +24,7 @@ import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompositionFile extends XMLChainFile<AbstractCompositionModel> {
+public class AbstractCompositionFile extends XMLChainFile<AbstractCompositionModel, AbstractChain> {
 
 	public AbstractCompositionFile(PhysicalResource file) {
 		super(file);

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.designer.service.chain.common;
+package fr.liglab.adele.cilia.workbench.common.service.chain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,20 +22,20 @@ import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.parser.ChainFile;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ChainModel;
 import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainModel;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>, ModelType extends XMLChainModel<ChainType>, ChainType extends XMLChain>
-		extends AbstractRepoService<FileType, ModelType> implements ErrorsAndWarningsFinder {
+public abstract class ChainRepoService<FileType extends ChainFile<ModelType, ChainType>, ModelType extends ChainModel<ChainType>, ChainType extends Chain>
+
+extends AbstractRepoService<FileType, ModelType> implements ErrorsAndWarningsFinder {
 
 	private final String rootNodeName;
 
@@ -59,6 +59,10 @@ public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>,
 		for (ModelType model : findAbstractElements())
 			retval.addAll(model.getChains());
 		return retval;
+	}
+
+	public ChainContentProvider getContentProvider() {
+		return (ChainContentProvider) super.getContentProvider();
 	}
 
 	@Override
@@ -107,7 +111,7 @@ public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>,
 		return null;
 	}
 
-	public void createChain(XMLChainFile<?> repo, NameNamespaceID id) {
+	public void createChain(ChainFile<ModelType, ?> repo, NameNamespaceID id) {
 		if (repo.getModel() == null)
 			return;
 		if (isNewChainNameAllowed(id) != null)
@@ -130,7 +134,7 @@ public abstract class ChainRepoService<FileType extends AbstractFile<ModelType>,
 			return;
 
 		try {
-			fileModel.deleteChain(chain.getId());
+			fileModel.deleteChain((NameNamespaceID) chain.getId());
 		} catch (CiliaException e) {
 			e.printStackTrace();
 		}

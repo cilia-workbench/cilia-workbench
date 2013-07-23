@@ -17,8 +17,8 @@ package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.service.chain.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.common.ui.dialog.NewNameNamespaceDialog;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
  * 

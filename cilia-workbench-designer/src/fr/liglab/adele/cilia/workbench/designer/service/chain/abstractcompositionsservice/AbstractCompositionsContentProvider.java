@@ -16,15 +16,16 @@ package fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositi
 
 import java.util.List;
 
+import fr.liglab.adele.cilia.workbench.common.service.chain.ChainContentProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionFile;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainContentProvider;
+import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractCompositionModel;
 
 /**
  * 
  * @author Etienne Gandrille
  */
-public class AbstractCompositionsContentProvider extends ChainContentProvider<AbstractChain> {
+public class AbstractCompositionsContentProvider extends ChainContentProvider<AbstractCompositionFile, AbstractCompositionModel, AbstractChain> {
 
 	public AbstractCompositionsContentProvider(List<AbstractCompositionFile> repo) {
 		super(repo);

@@ -20,12 +20,12 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
+import fr.liglab.adele.cilia.workbench.common.parser.ChainFile;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.common.service.chain.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.repositoryview.RepositoryViewHandler;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChainFile;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.common.XMLChain;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 
 /**
  * 
@@ -43,11 +43,11 @@ public abstract class ChainRepositoryHandler<ChainType extends XMLChain> extends
 
 		// Gets the file
 		Object object = getFirstSelectedElementInRepositoryView(event);
-		if (!(object instanceof XMLChainFile<?>)) {
+		if (!(object instanceof ChainFile)) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", "Please select a file.");
 			return null;
 		}
-		final XMLChainFile<?> repo = (XMLChainFile<?>) object;
+		final ChainFile repo = (ChainFile) object;
 		if (repo.getModel() == null) {
 			MessageDialog.openError(ViewUtil.getShell(event), "Error", "File must be in a valid state. Please check xml.");
 			return null;

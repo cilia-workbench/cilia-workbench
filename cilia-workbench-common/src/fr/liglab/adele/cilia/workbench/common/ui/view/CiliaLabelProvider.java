@@ -195,7 +195,7 @@ public abstract class CiliaLabelProvider extends LabelProvider {
 
 		ImageDescriptorEnum descriptor = getImageDescriptor(obj);
 
-		switch (getImageModifier(obj)) {
+		switch (hasErrorOrWarning(obj)) {
 		case IMarker.SEVERITY_INFO:
 			return descriptor.getImageOK();
 		case IMarker.SEVERITY_WARNING:
@@ -208,7 +208,7 @@ public abstract class CiliaLabelProvider extends LabelProvider {
 		return null;
 	}
 
-	private int getImageModifier(Object obj) {
+	protected int hasErrorOrWarning(Object obj) {
 
 		List<Object> list = new ArrayList<Object>();
 		list.add(obj);

@@ -34,12 +34,12 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
-import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.common.service.chain.ChainContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
-import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.StrongHighlightGraphLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.NodeSelector;
+import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.StrongHighlightGraphLabelProvider;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainGraphTextLabelProvider;
@@ -243,12 +243,12 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 	// =========================
 
 	private IBaseLabelProvider getRunningChainViewDefaultLP() {
-		GenericContentProvider cp = PlatformRepoService.getInstance().getContentProvider();
+		ChainContentProvider cp = PlatformRepoService.getInstance().getContentProvider();
 		return new GraphLabelProvider(cp);
 	}
 
 	private IBaseLabelProvider getRunningChainViewCrossLP(String componentId) {
-		GenericContentProvider cp = PlatformRepoService.getInstance().getContentProvider();
+		ChainContentProvider cp = PlatformRepoService.getInstance().getContentProvider();
 		NodeSelector checker = new StrongHighlightNodeSelectorForRunningGraph(componentId);
 		return new StrongHighlightGraphLabelProvider(cp, checker);
 	}
@@ -258,7 +258,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 	}
 
 	private IBaseLabelProvider getAbstractChainViewCrossLP(String componentId) {
-		GenericContentProvider cp = AbstractCompositionsRepoService.getInstance().getContentProvider();
+		ChainContentProvider cp = AbstractCompositionsRepoService.getInstance().getContentProvider();
 		AbstractChainGraphTextLabelProvider tlp = new AbstractChainGraphTextLabelProvider();
 		NodeSelector checker = new StrongHighlightNodeSelectorForAbstractGraph(componentId);
 		return new StrongHighlightGraphLabelProvider(cp, tlp, checker);

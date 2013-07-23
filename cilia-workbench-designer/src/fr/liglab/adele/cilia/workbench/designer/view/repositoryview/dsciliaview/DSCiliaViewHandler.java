@@ -14,8 +14,8 @@
  */
 package fr.liglab.adele.cilia.workbench.designer.view.repositoryview.dsciliaview;
 
+import fr.liglab.adele.cilia.workbench.common.service.chain.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.dscilia.DSCiliaChain;
-import fr.liglab.adele.cilia.workbench.designer.service.chain.common.ChainRepoService;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.dsciliaservice.DSCiliaRepoService;
 import fr.liglab.adele.cilia.workbench.designer.view.repositoryview.common.ChainRepositoryHandler;
 

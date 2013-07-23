@@ -16,7 +16,10 @@ package fr.liglab.adele.cilia.workbench.common.ui.view.graphview;
 
 import org.eclipse.swt.graphics.Color;
 
-import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
+import fr.liglab.adele.cilia.workbench.common.parser.ChainFile;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ChainModel;
+import fr.liglab.adele.cilia.workbench.common.service.chain.ChainContentProvider;
 
 /**
  * GraphLabelProvider used to highlight specific nodes in the graph. Only nodes
@@ -29,12 +32,14 @@ public class StrongHighlightGraphLabelProvider extends GraphLabelProvider {
 
 	private final NodeSelector nodeSelector;
 
-	public StrongHighlightGraphLabelProvider(GenericContentProvider contentProvider, NodeSelector nodeSelector) {
+	public StrongHighlightGraphLabelProvider(ChainContentProvider<? extends ChainFile<?, ?>, ? extends ChainModel<?>, ? extends Chain> contentProvider,
+			NodeSelector nodeSelector) {
 		super(contentProvider);
 		this.nodeSelector = nodeSelector;
 	}
 
-	public StrongHighlightGraphLabelProvider(GenericContentProvider contentProvider, GraphTextLabelProvider graphTextLabelProvider, NodeSelector nodeSelector) {
+	public StrongHighlightGraphLabelProvider(ChainContentProvider<? extends ChainFile<?, ?>, ? extends ChainModel<?>, ? extends Chain> contentProvider,
+			GraphTextLabelProvider graphTextLabelProvider, NodeSelector nodeSelector) {
 		super(contentProvider, graphTextLabelProvider);
 		this.nodeSelector = nodeSelector;
 	}

@@ -14,6 +14,7 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
@@ -61,19 +62,19 @@ public class MediatorInstanceRef extends MediatorRef implements Mergeable {
 	@Override
 	public List<ParameterRef> getSchedulerParameters() {
 		// TODO getSchedulerParameters in MediatorInstanceRef
-		return null;
+		return new ArrayList<ParameterRef>();
 	}
 
 	@Override
 	public List<ParameterRef> getProcessorParameters() {
 		// TODO getProcessorParameters in MediatorInstanceRef
-		return null;
+		return new ArrayList<ParameterRef>();
 	}
 
 	@Override
 	public List<ParameterRef> getDispatcherParameters() {
 		// TODO getDispatcherParameters in MediatorInstanceRef
-		return null;
+		return new ArrayList<ParameterRef>();
 	}
 
 	@Override

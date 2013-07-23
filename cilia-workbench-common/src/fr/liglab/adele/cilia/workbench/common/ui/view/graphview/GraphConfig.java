@@ -93,7 +93,7 @@ public enum GraphConfig {
 	// LINE
 	// ====
 
-	public Color getLineColor() {
+	public Color getDefaultLineColor() {
 		return lineColor;
 	}
 

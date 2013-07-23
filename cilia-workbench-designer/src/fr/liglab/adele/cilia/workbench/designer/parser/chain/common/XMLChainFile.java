@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.parser.ChainFile;
 import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
@@ -30,7 +30,8 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public abstract class XMLChainFile<ModelType extends XMLChainModel<? extends XMLChain>> extends AbstractFile<ModelType> implements Mergeable {
+public abstract class XMLChainFile<ModelType extends XMLChainModel<ChainType>, ChainType extends XMLChain> extends ChainFile<ModelType, ChainType> implements
+		Mergeable {
 
 	public XMLChainFile(PhysicalResource file) {
 		super(file);
@@ -40,7 +41,7 @@ public abstract class XMLChainFile<ModelType extends XMLChainModel<? extends XML
 	public List<Changeset> merge(Object other) throws CiliaException {
 		ArrayList<Changeset> retval = new ArrayList<Changeset>();
 		@SuppressWarnings("unchecked")
-		XMLChainFile<XMLChainModel<XMLChain>> newInstance = (XMLChainFile<XMLChainModel<XMLChain>>) other;
+		XMLChainFile<ModelType, ChainType> newInstance = (XMLChainFile<ModelType, ChainType>) other;
 
 		ModelType oldModel = getModel();
 		List<Changeset> result = MergeUtil.mergeObjectsFields(newInstance, this, "model");

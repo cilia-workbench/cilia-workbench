@@ -20,13 +20,14 @@ import java.util.List;
 import org.w3c.dom.Node;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.marker.IdentifiableUtils;
-import fr.liglab.adele.cilia.workbench.common.parser.AbstractModel;
 import fr.liglab.adele.cilia.workbench.common.parser.PhysicalResource;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ChainModel;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
@@ -36,7 +37,7 @@ import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
  * 
  * @author Etienne Gandrille
  */
-public class PlatformModel extends AbstractModel implements Mergeable, ErrorsAndWarningsFinder {
+public class PlatformModel extends ChainModel<PlatformChain> implements Mergeable, ErrorsAndWarningsFinder {
 
 	public static final String ROOT_NODE_NAME = "cilia-platform";
 
@@ -132,5 +133,15 @@ public class PlatformModel extends AbstractModel implements Mergeable, ErrorsAnd
 			e1 = new CiliaError(platformID.isValid(), this);
 
 		return CiliaFlag.generateTab(list, e1);
+	}
+
+	@Override
+	public void createChain(NameNamespaceID id) throws CiliaException {
+		throw new CiliaException("Feature not available with remote platform");
+	}
+
+	@Override
+	public void deleteChain(NameNamespaceID id) throws CiliaException {
+		throw new CiliaException("Feature not available with remote platform");
 	}
 }

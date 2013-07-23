@@ -26,6 +26,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.misc.ToggleSourceProvider;
+import fr.liglab.adele.cilia.workbench.common.parser.ChainFile;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ChainModel;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
@@ -33,6 +36,7 @@ import fr.liglab.adele.cilia.workbench.common.service.AbstractRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.service.IRepoServiceListener;
+import fr.liglab.adele.cilia.workbench.common.service.chain.ChainContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.GraphView;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
@@ -53,8 +57,9 @@ public class AbstractChainView extends GraphView implements IRepoServiceListener
 
 	public static final String VIEW_ID = "fr.liglab.adele.cilia.workbench.designer.view.abstractchainview";
 
-	public static final IBaseLabelProvider defaultLabelProvider = new GraphLabelProvider(AbstractCompositionsRepoService.getInstance().getContentProvider(),
-			new AbstractChainGraphTextLabelProvider());
+	public static final IBaseLabelProvider defaultLabelProvider = new GraphLabelProvider(
+			(ChainContentProvider<? extends ChainFile<? extends ChainModel<? extends Chain>, ? extends Chain>, ? extends ChainModel<? extends Chain>, ? extends Chain>) AbstractCompositionsRepoService
+					.getInstance().getContentProvider(), new AbstractChainGraphTextLabelProvider());
 	private IContentProvider contentProvider = new AbstractChainContentProvider();
 
 	private AbstractChain model = null;
