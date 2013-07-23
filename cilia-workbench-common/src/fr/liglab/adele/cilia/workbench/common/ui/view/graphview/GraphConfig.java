@@ -27,8 +27,9 @@ import org.eclipse.swt.graphics.Color;
  */
 public enum GraphConfig {
 
-	DEFAULT(COLOR.LIGHT_BLUE, COLOR.YELLOW, COLOR.CUSTOM_BLUE, COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.GRAY, COLOR.DARK_BLUE, 1), VIDEO(
-			COLOR.LIGHT_BLUE, COLOR.YELLOW, COLOR.CUSTOM_BLUE, COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.BLACK, COLOR.BLUE, 2);
+	DEFAULT(COLOR.LIGHT_BLUE, COLOR.YELLOW, COLOR.CUSTOM_BLUE, COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.GRAY, COLOR.YELLOW, COLOR.RED,
+			COLOR.DARK_BLUE, 1), VIDEO(COLOR.LIGHT_BLUE, COLOR.YELLOW, COLOR.CUSTOM_BLUE, COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.BLACK,
+			COLOR.YELLOW, COLOR.RED, COLOR.BLUE, 2);
 
 	private final Color nodeColor;
 	private final Color nodeHighlightColor;
@@ -38,11 +39,14 @@ public enum GraphConfig {
 	private final Color nodeBorderColor;
 	private final Color nodeBorderHighlightColor;
 	private final Color lineColor;
+	private final Color lineWarningColor;
+	private final Color lineErrorColor;
 	private final Color lineHighightColor;
 	private final int lineWidth;
 
 	private GraphConfig(COLOR nodeColor, COLOR nodeHighlightColor, COLOR nodeStrongHighlightColor, COLOR nodeTextColor, int nodeBorderWidth,
-			COLOR nodeBorderColor, COLOR nodeBorderHighlightColor, COLOR lineColor, COLOR lineHighightColor, int lineWidth) {
+			COLOR nodeBorderColor, COLOR nodeBorderHighlightColor, COLOR lineColor, COLOR lineWarningColor, COLOR lineErrorColor, COLOR lineHighightColor,
+			int lineWidth) {
 
 		this.nodeColor = nodeColor.getColor();
 		this.nodeHighlightColor = nodeHighlightColor.getColor();
@@ -53,6 +57,8 @@ public enum GraphConfig {
 		this.nodeBorderHighlightColor = nodeBorderHighlightColor.getColor();
 
 		this.lineColor = lineColor.getColor();
+		this.lineWarningColor = lineWarningColor.getColor();
+		this.lineErrorColor = lineErrorColor.getColor();
 		this.lineHighightColor = lineHighightColor.getColor();
 		this.lineWidth = lineWidth;
 	}
@@ -95,6 +101,14 @@ public enum GraphConfig {
 
 	public Color getDefaultLineColor() {
 		return lineColor;
+	}
+
+	public Color getLineWarningColor() {
+		return lineWarningColor;
+	}
+
+	public Color getLineErrorColor() {
+		return lineErrorColor;
 	}
 
 	public Color getLineHighightColor() {

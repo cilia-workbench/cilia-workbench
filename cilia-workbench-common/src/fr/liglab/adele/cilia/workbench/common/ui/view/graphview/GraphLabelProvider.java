@@ -22,6 +22,7 @@ import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
 import org.eclipse.zest.core.viewers.IEntityStyleProvider;
 import org.eclipse.zest.core.widgets.ZestStyles;
 
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.service.chain.ChainContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.CiliaLabelProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
@@ -119,8 +120,8 @@ public class GraphLabelProvider extends CiliaLabelProvider implements IConnectio
 	@Override
 	public Color getColor(Object rel) {
 		EntityConnectionData link = (EntityConnectionData) rel;
-		Object src = link.source;
-		Object dst = link.dest;
+		ComponentRef src = (ComponentRef) link.source;
+		ComponentRef dst = (ComponentRef) link.dest;
 
 		Object binding = contentProvider.getBinding(src, dst);
 		if (binding == null)
@@ -130,9 +131,9 @@ public class GraphLabelProvider extends CiliaLabelProvider implements IConnectio
 		case IMarker.SEVERITY_INFO:
 			return getConfig().getDefaultLineColor();
 		case IMarker.SEVERITY_WARNING:
-			return COLOR.YELLOW.getColor();
+			return getConfig().getLineWarningColor();
 		case IMarker.SEVERITY_ERROR:
-			return COLOR.RED.getColor();
+			return getConfig().getLineErrorColor();
 		default:
 			throw new RuntimeException("Unknown IMarker severity");
 		}

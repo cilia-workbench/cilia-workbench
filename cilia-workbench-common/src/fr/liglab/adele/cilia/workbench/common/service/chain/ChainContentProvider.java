@@ -14,13 +14,16 @@
  */
 package fr.liglab.adele.cilia.workbench.common.service.chain;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.liglab.adele.cilia.workbench.common.parser.ChainFile;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ChainModel;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ParameterRef;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
@@ -32,9 +35,12 @@ import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 public abstract class ChainContentProvider<FileType extends ChainFile<ModelType, ChainType>, ModelType extends ChainModel<ChainType>, ChainType extends Chain>
 		extends GenericContentProvider {
 
+	private Map<String, Binding> bindingMap;
+
 	public ChainContentProvider(List<? extends FileType> repo) {
 
 		addRoot(repo);
+		bindingMap = new HashMap<String, Binding>();
 
 		for (FileType re : repo) {
 			addRelationship(true, repo, re);
@@ -68,17 +74,16 @@ public abstract class ChainContentProvider<FileType extends ChainFile<ModelType,
 
 					for (Binding b : c.getBindings()) {
 						addRelationship(false, c, b);
-
-						// TODO here... mecanique pour les bindings...
+						String key = c.getName() + ":" + b.getSourceId() + "-" + b.getDestinationId();
+						bindingMap.put(key, b);
 					}
 				}
 			}
 		}
 	}
 
-	public Object getBinding(Object src, Object dst) {
-		// TODO Auto-generated method stub
-		// TODO here... mecanique pour les bindings...
-		return null;
+	public Object getBinding(ComponentRef src, ComponentRef dst) {
+		String key = src.getChain().getName() + ":" + src.getId() + "-" + dst.getId();
+		return bindingMap.get(key);
 	}
 }
