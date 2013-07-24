@@ -103,7 +103,7 @@ public class SpecRepoService extends ComponentRepoService<SpecFile, SpecModel> i
 		contentProvider = new SpecContentProvider(repoContent);
 
 		// Update markers relative to this repository
-		updateMarkers();
+		changes.addAll(updateMarkers());
 
 		// Sends notifications
 		notifyListeners(changes);

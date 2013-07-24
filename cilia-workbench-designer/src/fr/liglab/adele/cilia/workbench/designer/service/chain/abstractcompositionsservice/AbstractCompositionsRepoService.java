@@ -87,7 +87,7 @@ public class AbstractCompositionsRepoService extends ChainRepoService<AbstractCo
 		contentProvider = new AbstractCompositionsContentProvider(repoContent);
 
 		// Update markers relative to this repository
-		updateMarkers();
+		changes.addAll(updateMarkers());
 
 		// Sends notifications
 		notifyListeners(changes);

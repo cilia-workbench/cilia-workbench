@@ -83,7 +83,7 @@ public class DSCiliaRepoService extends ChainRepoService<DSCiliaFile, DSCiliaMod
 		contentProvider = new DSCiliaContentProvider(repoContent);
 
 		// Update markers relative to this repository
-		updateMarkers();
+		changes.addAll(updateMarkers());
 
 		// Sends notifications
 		notifyListeners(changes);
