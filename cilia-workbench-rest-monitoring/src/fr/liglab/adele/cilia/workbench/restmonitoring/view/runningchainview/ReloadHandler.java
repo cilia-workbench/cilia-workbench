@@ -20,6 +20,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformModel;
@@ -46,7 +47,8 @@ public class ReloadHandler extends AbstractHandler {
 
 		try {
 			PlatformRepoService.getInstance().updateChain(platform, chain.getName());
-		} catch (Exception e) {
+		} catch (CiliaException e) {
+			MessageDialog.openError(parentShell, "Error", e.getMessage());
 			e.printStackTrace();
 		}
 
