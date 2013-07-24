@@ -21,6 +21,7 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorReference;
 
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionListener;
@@ -83,8 +84,13 @@ public class PlatformView extends RepositoryView<PlatformFile, PlatformModel> im
 		}
 
 		// updates labels and icons
-		refreshMessageArea();
-		viewer.refresh(true);
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				refreshMessageArea();
+				viewer.refresh(true);
+			}
+		});
 	}
 
 	@Override

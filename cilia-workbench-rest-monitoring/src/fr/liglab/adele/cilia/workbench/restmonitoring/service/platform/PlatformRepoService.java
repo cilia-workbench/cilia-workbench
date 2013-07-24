@@ -55,6 +55,9 @@ public class PlatformRepoService extends ChainRepoService<PlatformFile, Platform
 	/** Repository Name */
 	private final static String repositoryName = "Cilia Platforms";
 
+	private static final Object keyUpdateInProgress = new Object();
+	private static List<String> chainIdInUpdate = new ArrayList<String>();
+
 	public static PlatformRepoService getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new PlatformRepoService();
@@ -87,7 +90,7 @@ public class PlatformRepoService extends ChainRepoService<PlatformFile, Platform
 		contentProvider = new PlatformContentProvider(repoContent);
 
 		// Update markers relative to this repository
-		updateMarkers();
+		changes.addAll(updateMarkers());
 
 		// Sends notifications
 		notifyListeners(changes);
@@ -161,44 +164,66 @@ public class PlatformRepoService extends ChainRepoService<PlatformFile, Platform
 		contentProvider = new PlatformContentProvider(repoContent);
 
 		// Update markers relative to this repository
-		updateMarkers();
+		changes.addAll(updateMarkers());
 
 		// Sends notifications
 		notifyListeners(changes);
 	}
 
-	public void updateChain(PlatformModel platform, String chainName) throws CiliaException {
-
+	public void updateChain(final PlatformModel platform, final String chainName) throws CiliaException {
 		if (platform == null)
 			throw new CiliaException("Can't update model: Platform is null");
 
-		PlatformID platformID = platform.getPlatformID();
+		final PlatformID platformID = platform.getPlatformID();
 		if (platformID.isValid() != null)
 			throw new CiliaException("Can't update model: Platform is not valid (" + platform.getPlatformID().isValid() + ")");
 
-		JSONObject json = null;
+		final String id = platform.getPlatformID().toString() + " - " + chainName;
+
+		synchronized (keyUpdateInProgress) {
+			if (chainIdInUpdate.contains(id)) {
+				// update already in progress
+				return;
+			} else {
+				// synchronisation needed
+				chainIdInUpdate.add(id);
+			}
+		}
+
 		try {
-			json = CiliaRestHelper.getChainContent(platformID, chainName);
+			JSONObject json = null;
+			try {
+				json = CiliaRestHelper.getChainContent(platformID, chainName);
+			} catch (CiliaException e) {
+				throw new CiliaException("Error while asking chain content for " + chainName + " to " + platformID.toString(), e);
+			}
+
+			PlatformChain newChain = new PlatformChain(json, platform);
+			List<Changeset> changes = platform.getChain(chainName).merge(newChain);
+
+			for (Changeset c : changes) {
+				c.pushPathElement(platform.getPlatformFile());
+				c.pushPathElement(this);
+			}
+
+			// Update content provider
+			contentProvider = new PlatformContentProvider(repoContent);
+
+			// Update markers relative to this repository
+			changes.addAll(updateMarkers());
+
+			// Sends notifications
+			notifyListeners(changes);
 		} catch (CiliaException e) {
-			throw new CiliaException("Error while asking chain content for " + chainName + " to " + platformID.toString(), e);
+			synchronized (keyUpdateInProgress) {
+				chainIdInUpdate.remove(id);
+			}
+			throw new CiliaException(e);
 		}
 
-		PlatformChain newChain = new PlatformChain(json, platform);
-		List<Changeset> changes = platform.getChain(chainName).merge(newChain);
-
-		for (Changeset c : changes) {
-			c.pushPathElement(platform.getPlatformFile());
-			c.pushPathElement(this);
+		synchronized (keyUpdateInProgress) {
+			chainIdInUpdate.remove(id);
 		}
-
-		// Update content provider
-		contentProvider = new PlatformContentProvider(repoContent);
-
-		// Update markers relative to this repository
-		updateMarkers();
-
-		// Sends notifications
-		notifyListeners(changes);
 	}
 
 	@Override

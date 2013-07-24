@@ -22,6 +22,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
@@ -61,6 +62,10 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 	private PlatformChain model = null;
 
+	private boolean dispose = false;
+
+	private final int AUTO_RELOAD_TIME_IN_MILLIS = 5000;
+
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent, VIEW_ID);
@@ -71,12 +76,34 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		SelectionService.getInstance().addSelectionListener(VIEW_ID, this);
 		AbstractCompositionsRepoService.getInstance().registerListener(this);
 
+		// chain auto reload
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (!dispose) {
+					try {
+						if (model != null)
+							PlatformRepoService.getInstance().updateChain(model.getPlatform(), model.getName());
+					} catch (CiliaException e) {
+						e.printStackTrace();
+					}
+
+					try {
+						Thread.sleep(AUTO_RELOAD_TIME_IN_MILLIS);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
+
 		updateConfigAndModel(null);
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
+		dispose = true;
 		PlatformRepoService.getInstance().unregisterListener(this);
 		SelectionService.getInstance().removeSelectionListener(PlatformView.VIEW_ID, this);
 		SelectionService.getInstance().removeSelectionListener(AbstractChainView.VIEW_ID, this);
@@ -88,13 +115,19 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		return model;
 	}
 
-	private void updateConfigAndModel(PlatformChain chain) {
-		model = chain;
-		setLabelProvider(getRunningChainViewDefaultLP());
-		viewer.setContentProvider(new PlatformChainContentProvider(chain));
-		viewer.setInput(chain);
-		updatePartName();
-		viewer.refresh();
+	private void updateConfigAndModel(final PlatformChain chain) {
+		Display.getDefault().asyncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				model = chain;
+				setLabelProvider(getRunningChainViewDefaultLP());
+				viewer.setContentProvider(new PlatformChainContentProvider(chain));
+				viewer.setInput(chain);
+				updatePartName();
+				viewer.refresh();
+			}
+		});
 	}
 
 	private void updatePartName() {
@@ -220,7 +253,8 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 					}
 				}
 
-				updateConfigAndModel(model);
+				if (changes.size() != 0)
+					updateConfigAndModel(model);
 			}
 
 			else if (abstractRepoService instanceof AbstractCompositionsRepoService) {
