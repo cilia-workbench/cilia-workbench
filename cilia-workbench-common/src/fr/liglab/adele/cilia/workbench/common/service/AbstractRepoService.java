@@ -31,11 +31,13 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import fr.liglab.adele.cilia.workbench.common.Activator;
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.files.FileUtil;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.marker.ErrorsAndWarningsFinder;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.AbstractFile;
+import fr.liglab.adele.cilia.workbench.common.service.Changeset.Operation;
 import fr.liglab.adele.cilia.workbench.common.ui.view.GenericContentProvider;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ciliaerrorview.CiliaMarkerUtil;
 
@@ -102,19 +104,44 @@ public abstract class AbstractRepoService<FileType extends AbstractFile<ModelTyp
 	 * 
 	 * IMPORTANT : Only the elements managed by the content provider are tested
 	 * to see if it implements {@link ErrorsAndWarningsFinder} interface.
+	 * 
+	 * @return
 	 */
-	public void updateMarkers() {
+	public List<Changeset> updateMarkers() {
+		List<CiliaFlag> oldFlags;
+		List<CiliaFlag> newFlags;
+		List<Changeset> retval = new ArrayList<Changeset>();
 
 		// removes markers
 		try {
-			CiliaMarkerUtil.deleteMarkers(this);
+			oldFlags = CiliaMarkerUtil.deleteMarkers(this);
 		} catch (CoreException e) {
 			e.printStackTrace();
+			return retval;
+		} catch (CiliaException e) {
+			e.printStackTrace();
+			return retval;
 		}
 
 		// creates markers
-		for (CiliaFlag flag : findErrorsAndWarnings())
-			CiliaMarkerUtil.createMarker(flag.getSeverity(), flag.getMessage(), this, flag.getSourceProvider());
+		newFlags = findErrorsAndWarnings();
+		for (CiliaFlag flag : newFlags)
+			CiliaMarkerUtil.createMarker(flag, this);
+
+		// markers destroyed
+		for (CiliaFlag flag : oldFlags) {
+			if (newFlags.contains(flag))
+				newFlags.remove(flag);
+			else
+				retval.add(new Changeset(Operation.UPDATE, flag.getSourceProvider()));
+		}
+
+		// new markers
+		for (CiliaFlag flag : newFlags) {
+			retval.add(new Changeset(Operation.UPDATE, flag.getSourceProvider()));
+		}
+
+		return retval;
 	}
 
 	protected List<CiliaFlag> findErrorsAndWarnings() {

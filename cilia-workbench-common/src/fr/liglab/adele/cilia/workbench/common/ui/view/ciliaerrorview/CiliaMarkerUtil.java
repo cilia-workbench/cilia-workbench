@@ -22,6 +22,10 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
+import fr.liglab.adele.cilia.workbench.common.marker.CiliaWarning;
 
 /**
  * Static methods for creating and finding Cilia markers. An {@link IMarker} is
@@ -35,38 +39,6 @@ public class CiliaMarkerUtil {
 
 	/** The Cilia marker Type ID */
 	public static String MARKER_TYPE = "fr.liglab.adele.cilia.workbench.common.marker";
-
-	/**
-	 * Creates an error Cilia marker.
-	 * 
-	 * @param description
-	 *            the marker description
-	 * @param rootSourceProvider
-	 *            the root source provider, which should be a repository.
-	 * @param sourceProvider
-	 *            the source provider. Object responsible of this marker
-	 *            creation.
-	 * @return the marker
-	 */
-	public static IMarker createErrorMarker(String description, Object rootSourceProvider, Object sourceProvider) {
-		return createMarker(IMarker.SEVERITY_ERROR, description, rootSourceProvider, sourceProvider);
-	}
-
-	/**
-	 * Creates a warning Cilia marker.
-	 * 
-	 * @param description
-	 *            the marker description
-	 * @param rootSourceProvider
-	 *            the root source provider, which should be a repository.
-	 * @param sourceProvider
-	 *            the source provider. Object responsible of this marker
-	 *            creation.
-	 * @return the marker
-	 */
-	public static IMarker createWarningMarker(String description, Object rootSourceProvider, Object sourceProvider) {
-		return createMarker(IMarker.SEVERITY_WARNING, description, rootSourceProvider, sourceProvider);
-	}
 
 	/**
 	 * Creates a Cilia marker.
@@ -83,20 +55,19 @@ public class CiliaMarkerUtil {
 	 *            creation.
 	 * @return the marker
 	 */
-	public static IMarker createMarker(int severity, String description, Object rootSourceProvider,
-			Object sourceProvider) {
+	public static IMarker createMarker(CiliaFlag flag, Object rootSourceProvider) {
 
 		IMarker marker = null;
 
 		try {
 			marker = ResourcesPlugin.getWorkspace().getRoot().createMarker(MARKER_TYPE);
-			marker.setAttribute(IMarker.MESSAGE, description);
-			marker.setAttribute(IMarker.SEVERITY, severity);
+			marker.setAttribute(IMarker.MESSAGE, flag.getMessage());
+			marker.setAttribute(IMarker.SEVERITY, flag.getSeverity());
 			marker.setAttribute(IMarker.TRANSIENT, true);
 			if (rootSourceProvider != null)
 				marker.setAttribute(RootSourceProviderField.FIELD_ID, rootSourceProvider);
-			if (sourceProvider != null)
-				marker.setAttribute(SourceProviderField.FIELD_ID, sourceProvider);
+			if (flag.getSourceProvider() != null)
+				marker.setAttribute(SourceProviderField.FIELD_ID, flag.getSourceProvider());
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
@@ -113,8 +84,7 @@ public class CiliaMarkerUtil {
 	public static IMarker[] findMarkers() throws CoreException {
 
 		List<IMarker> retval = new ArrayList<IMarker>();
-		IMarker[] markers = ResourcesPlugin.getWorkspace().getRoot()
-				.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+		IMarker[] markers = ResourcesPlugin.getWorkspace().getRoot().findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
 
 		for (IMarker marker : markers)
 			if (marker.exists())
@@ -148,12 +118,31 @@ public class CiliaMarkerUtil {
 	 * 
 	 * @param sourceProvider
 	 *            the source provider
+	 * @return
 	 * @return the markers
 	 * @throws CoreException
 	 *             the core exception
+	 * @throws CiliaException
 	 */
-	public static void deleteMarkers(Object rootSourceProvider) throws CoreException {
-		for (IMarker marker : findMarkers(rootSourceProvider))
+	public static List<CiliaFlag> deleteMarkers(Object rootSourceProvider) throws CoreException, CiliaException {
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
+
+		for (IMarker marker : findMarkers(rootSourceProvider)) {
+
+			String message = (String) marker.getAttribute(IMarker.MESSAGE);
+			int severity = (Integer) marker.getAttribute(IMarker.SEVERITY);
+			Object sourceProvider = marker.getAttribute(SourceProviderField.FIELD_ID);
+
+			if (severity == IMarker.SEVERITY_ERROR) {
+				retval.add(new CiliaError(message, sourceProvider));
+			} else if (severity == IMarker.SEVERITY_WARNING) {
+				retval.add(new CiliaWarning(message, sourceProvider));
+			} else {
+				throw new CiliaException("Unknown marker severity type: " + severity);
+			}
 			marker.delete();
+		}
+
+		return retval;
 	}
 }
