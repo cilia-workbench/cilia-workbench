@@ -7,10 +7,10 @@
 			<adapter-implem id="photometer-collector" namespace="fr.liglab.adele.cilia" type="PhotometerAdapter" />
 		</adapters>
 		<mediators>
+			<mediator-specification id="loc-enricher" namespace="fr.liglab.adele.cilia" type="LocationEnricherSpec" />
 			<mediator-implem id="transformer" namespace="fr.liglab.adele.cilia" type="MeasureTransformerMediator" />
 			<mediator-implem id="ts-enricher" namespace="fr.liglab.adele.cilia" type="TimeStampEnricherMediator" />
 			<mediator-implem id="filter" namespace="fr.liglab.adele.cilia" type="MeasureFilterMediator" />
-			<mediator-implem id="loc-enricher" namespace="fr.liglab.adele.cilia" type="LocationEnricherMediator" />
 			<mediator-implem id="enricher" namespace="fr.liglab.adele.cilia" type="MeasureEnricherMediator" />
 		</mediators>
 		<bindings>
