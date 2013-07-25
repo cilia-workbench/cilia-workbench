@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ps -ef | grep "java" | grep -v "eclipse" | grep -v "play" | tr -s ' ' | cut -d ' ' -f 2 | xargs kill -9
+
