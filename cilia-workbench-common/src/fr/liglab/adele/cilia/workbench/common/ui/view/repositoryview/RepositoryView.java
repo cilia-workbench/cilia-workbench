@@ -252,23 +252,27 @@ public abstract class RepositoryView<ModelType extends AbstractFile<AbstractType
 
 		List<IEditorReference> retval = new ArrayList<IEditorReference>();
 
-		IEditorReference[] ref = getViewSite().getPage().getEditorReferences();
-		for (IEditorReference editor : ref) {
-			try {
-				IEditorInput input = editor.getEditorInput();
-				if (input instanceof IURIEditorInput) {
-					IURIEditorInput fileStore = (IURIEditorInput) input;
-					URI uri = fileStore.getURI();
-					String scheme = uri.getScheme();
-					if (scheme.equals("file")) {
-						String path = uri.getPath();
-						if (path.startsWith(getRepositoryDirectory().getAbsolutePath()))
-							if (editor.getTitle().toLowerCase().endsWith(prefix))
-								retval.add(editor);
+		// if the repository directory is valid (defined, and the directory
+		// exists in the file system)
+		if (getRepositoryDirectory() != null) {
+			IEditorReference[] ref = getViewSite().getPage().getEditorReferences();
+			for (IEditorReference editor : ref) {
+				try {
+					IEditorInput input = editor.getEditorInput();
+					if (input instanceof IURIEditorInput) {
+						IURIEditorInput fileStore = (IURIEditorInput) input;
+						URI uri = fileStore.getURI();
+						String scheme = uri.getScheme();
+						if (scheme.equals("file")) {
+							String path = uri.getPath();
+							if (path.startsWith(getRepositoryDirectory().getAbsolutePath()))
+								if (editor.getTitle().toLowerCase().endsWith(prefix))
+									retval.add(editor);
+						}
 					}
+				} catch (PartInitException e) {
+					e.printStackTrace();
 				}
-			} catch (PartInitException e) {
-				e.printStackTrace();
 			}
 		}
 
