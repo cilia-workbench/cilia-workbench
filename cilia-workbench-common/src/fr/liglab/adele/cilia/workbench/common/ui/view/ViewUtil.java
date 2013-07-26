@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.part.WorkbenchPart;
 
@@ -33,16 +34,15 @@ import org.eclipse.ui.part.WorkbenchPart;
 public class ViewUtil {
 
 	public static IViewPart findViewWithId(WorkbenchPart part, String viewId) {
-		IViewReference[] views = part.getSite().getWorkbenchWindow().getActivePage().getViewReferences();
-		for (IViewReference view : views)
-			if (view.getId().equals(viewId))
-				return view.getView(true);
-
-		throw new RuntimeException("view with id " + viewId + " not found.");
+		return findViewWithId(part.getSite().getWorkbenchWindow(), viewId);
 	}
 
 	public static IViewPart findViewWithId(ExecutionEvent event, String viewId) {
-		IViewReference[] views = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getViewReferences();
+		return findViewWithId(HandlerUtil.getActiveWorkbenchWindow(event), viewId);
+	}
+
+	public static IViewPart findViewWithId(IWorkbenchWindow workbenchWindow, String viewId) {
+		IViewReference[] views = workbenchWindow.getActivePage().getViewReferences();
 		for (IViewReference view : views)
 			if (view.getId().equals(viewId))
 				return view.getView(true);
