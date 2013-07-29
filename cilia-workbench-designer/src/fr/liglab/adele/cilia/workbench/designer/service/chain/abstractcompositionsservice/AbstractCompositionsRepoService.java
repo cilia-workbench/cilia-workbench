@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.parser.PlainFile;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Cardinality;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
@@ -135,6 +136,13 @@ public class AbstractCompositionsRepoService extends ChainRepoService<AbstractCo
 		if (getFileFromChain(chain) == null)
 			return;
 		getFileFromChain(chain).getModel().updateParameters(chain, mediator, schedulerParam, processorParam, dispatcherParam);
+	}
+
+	public AbstractChain getChain(NameNamespaceID id) {
+		for (AbstractChain chain : getChains())
+			if (chain.getId() != null && chain.getId().equals(id))
+				return chain;
+		return null;
 	}
 
 	public AbstractCompositionFile getRepoElement(Object object) {
