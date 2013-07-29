@@ -164,7 +164,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 				// updates running chain view
 				if (linkExists) {
-					setLabelProvider(getRunningChainViewCrossLP(component.getId()));
+					setLabelProvider(getRunningChainViewCrossLP(model.getRefArchitectureID(), component));
 					refresh();
 				} else {
 					setLabelProvider(getRunningChainViewDefaultLP());
@@ -196,7 +196,7 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 
 				// updates abstract chain view
 				if (linkExists) {
-					abstractChainView.setLabelProvider(getAbstractChainViewCrossLP(selectedComponent.getId()));
+					abstractChainView.setLabelProvider(getAbstractChainViewCrossLP(selectedComponent));
 					abstractChainView.refresh();
 				} else {
 					abstractChainView.setLabelProvider(getAbstractChainViewDefaultLP());
@@ -281,9 +281,9 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		return new GraphLabelProvider(cp);
 	}
 
-	private IBaseLabelProvider getRunningChainViewCrossLP(String componentId) {
+	private IBaseLabelProvider getRunningChainViewCrossLP(NameNamespaceID refArchId, ComponentRef selectedComponent) {
 		ChainContentProvider cp = PlatformRepoService.getInstance().getContentProvider();
-		NodeSelector checker = new StrongHighlightNodeSelectorForRunningGraph(componentId);
+		NodeSelector checker = new StrongHighlightNodeSelectorForRunningGraph(refArchId, selectedComponent.getId());
 		return new StrongHighlightGraphLabelProvider(cp, checker);
 	}
 
@@ -291,10 +291,10 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 		return AbstractChainView.defaultLabelProvider;
 	}
 
-	private IBaseLabelProvider getAbstractChainViewCrossLP(String componentId) {
+	private IBaseLabelProvider getAbstractChainViewCrossLP(ComponentRef selectedComponent) {
 		ChainContentProvider cp = AbstractCompositionsRepoService.getInstance().getContentProvider();
 		AbstractChainGraphTextLabelProvider tlp = new AbstractChainGraphTextLabelProvider();
-		NodeSelector checker = new StrongHighlightNodeSelectorForAbstractGraph(componentId);
+		NodeSelector checker = new StrongHighlightNodeSelectorForAbstractGraph(model.getPlatform().getPlatformID(), model.getName(), selectedComponent.getId());
 		return new StrongHighlightGraphLabelProvider(cp, tlp, checker);
 	}
 }

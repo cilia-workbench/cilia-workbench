@@ -19,17 +19,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
 import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.AdapterRef;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Cardinality;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
-import fr.liglab.adele.cilia.workbench.common.parser.chain.MediatorRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractBinding;
-import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.InAdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.InOutAdapterImplem;
 import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem;
@@ -41,9 +39,190 @@ import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec
  * 
  * @author Etienne Gandrille
  */
-public class LinkToRefArchHelper {
+public class RuntimeToRefArchChecker {
 
-	public static String checkCompatible(ComponentDefinition reference, ComponentDefinition component) {
+	public static List<CiliaFlag> checkComponent(ComponentRef rtComponent) {
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
+
+		// no reference architecture or not found
+		PlatformChain chain = (PlatformChain) rtComponent.getChain();
+		if (chain == null || chain.getRefArchitecture() == null)
+			return retval;
+
+		// finds component in reference architecture
+		ComponentRef refComponent = null;
+		try {
+			refComponent = chain.getComponentInReferenceArchitecture(rtComponent);
+		} catch (CiliaException e) {
+			String msg = e.getMessage();
+			retval.add(new CiliaError(msg, rtComponent));
+			return retval;
+		}
+
+		// types checking
+		ComponentDefinition refDefinition = refComponent.getReferencedComponentDefinition();
+		ComponentDefinition rtDefinition = rtComponent.getReferencedComponentDefinition();
+		// null values are checked out of this method
+		if (refDefinition != null && rtDefinition != null) {
+			String msg = RuntimeToRefArchChecker.checkCompatible(refDefinition, rtDefinition);
+			if (msg != null) {
+				retval.add(new CiliaError(msg, rtComponent));
+				return retval;
+			}
+		}
+
+		// bindings checking
+		for (CiliaFlag error : RuntimeToRefArchChecker.checkBindings(refComponent, rtComponent))
+			retval.add(error);
+
+		return retval;
+	}
+
+	public static List<CiliaFlag> checkBindings(ComponentRef reference, ComponentRef current) {
+		List<CiliaFlag> retval = checkOutgoingBindings(reference, current);
+		retval.addAll(checkIncommingBindings(reference, current));
+		return retval;
+	}
+
+	private static List<CiliaFlag> checkOutgoingBindings(ComponentRef reference, ComponentRef current) {
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
+
+		PlatformChain curChain = (PlatformChain) current.getChain();
+
+		Binding[] refBindings = reference.getOutgoingBindings();
+		Binding[] curBindings = current.getOutgoingBindings();
+
+		// map init
+		Map<Binding, Integer> bindingCpt = new HashMap<Binding, Integer>();
+		for (Binding b : refBindings) {
+			bindingCpt.put(b, 0);
+		}
+
+		for (Binding curBinding : curBindings) {
+			boolean found = false;
+			for (Binding refBinding : refBindings) {
+
+				// cur
+				ComponentDefinition curDstComp = curBinding.getDestinationComponentDefinition();
+				String curDstId = curBinding.getDestinationId();
+				String curDstPort = curBinding.getDestinationPort();
+				ComponentRef curDstCompoRef = curBinding.getDestinationComponentRef();
+
+				// ref
+				ComponentDefinition refDstComp = refBinding.getDestinationComponentDefinition();
+				String refDstId = refBinding.getDestinationId();
+				String refDstPort = refBinding.getDestinationPort();
+
+				// check if no information is missing
+				if (curDstComp != null && curDstId != null && curDstPort != null && refDstComp != null && refDstId != null && refDstPort != null) {
+					// ports must be the same
+					if (curDstPort.equals(refDstPort)) {
+						try {
+							String id = curChain.getComponentInReferenceArchitecture(curDstCompoRef).getId();
+							if (id.equals(refDstId)) {
+								found = true;
+								bindingCpt.put(refBinding, bindingCpt.get(refBinding) + 1);
+							}
+						} catch (CiliaException e) {
+							// no match
+						}
+					}
+				}
+			}
+
+			if (found == false) {
+				retval.add(new CiliaError("The binding " + curBinding + " is not allowed", curBinding));
+			}
+		}
+
+		// cardinality check
+		for (Binding b : refBindings) {
+			int nb = bindingCpt.get(b);
+			Cardinality card = ((AbstractBinding) b).getDestinationCardinality();
+			if (card.getMinValue() > nb)
+				retval.add(new CiliaError("The outgoing binding " + b + " is instanciated " + nb + " time(s) instead of a minimum of " + card.getMinValue()
+						+ " time(s)", b));
+			if (!card.isInfiniteBoundary() && card.getMaxValue() < nb)
+				retval.add(new CiliaError("The outgoing binding " + b + " is instanciated " + nb + " time(s) instead of a maximum of " + card.getMaxValue()
+						+ " time(s)", b));
+		}
+
+		return retval;
+	}
+
+	private static List<CiliaFlag> checkIncommingBindings(ComponentRef reference, ComponentRef current) {
+		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
+
+		PlatformChain curChain = (PlatformChain) current.getChain();
+
+		Binding[] refBindings = reference.getIncommingBindings();
+		Binding[] curBindings = current.getIncommingBindings();
+
+		// map init
+		Map<Binding, Integer> bindingCpt = new HashMap<Binding, Integer>();
+		for (Binding b : refBindings) {
+			bindingCpt.put(b, 0);
+		}
+
+		for (Binding curBinding : curBindings) {
+			boolean found = false;
+			for (Binding refBinding : refBindings) {
+
+				// cur
+				ComponentDefinition curSrcComp = curBinding.getSourceComponentDefinition();
+				String curSrcId = curBinding.getSourceId();
+				String curSrcPort = curBinding.getSourcePort();
+				ComponentRef curSrcCompoRef = curBinding.getSourceComponentRef();
+
+				// ref
+				ComponentDefinition refSrcComp = refBinding.getSourceComponentDefinition();
+				String refSrcId = refBinding.getSourceId();
+				String refSrcPort = refBinding.getSourcePort();
+
+				// check if no information is missing
+				if (curSrcComp != null && curSrcId != null && curSrcPort != null && refSrcComp != null && refSrcId != null && refSrcPort != null) {
+					// ports must be the same
+					if (curSrcPort.equals(refSrcPort)) {
+						try {
+							String id = curChain.getComponentInReferenceArchitecture(curSrcCompoRef).getId();
+							if (id.equals(refSrcId)) {
+								found = true;
+								bindingCpt.put(refBinding, bindingCpt.get(refBinding) + 1);
+							}
+						} catch (CiliaException e) {
+							// no match
+						}
+					}
+				}
+			}
+
+			if (found == false) {
+				retval.add(new CiliaError("The binding " + curBinding + " is not allowed", curBinding));
+			}
+		}
+
+		// cardinality check
+		for (Binding b : refBindings) {
+			int nb = bindingCpt.get(b);
+			Cardinality card = ((AbstractBinding) b).getSourceCardinality();
+			if (card.getMinValue() > nb)
+				retval.add(new CiliaError("The incomming binding " + b + " is instanciated " + nb + " time(s) instead of a minimum of " + card.getMinValue()
+						+ " time(s)", b));
+			if (!card.isInfiniteBoundary() && card.getMaxValue() < nb)
+				retval.add(new CiliaError("The incomming binding " + b + " is instanciated " + nb + " time(s) instead of a maximum of " + card.getMaxValue()
+						+ " time(s)", b));
+		}
+
+		return retval;
+	}
+
+	static String checkCompatible(ComponentDefinition reference, ComponentDefinition component) {
+
+		// null values checking
+		if (reference == null)
+			return "reference is null";
+		if (component == null)
+			return "component is null";
 
 		// Both are MediatorImplem
 		if (reference instanceof MediatorImplem && component instanceof MediatorImplem) {
@@ -95,192 +274,5 @@ public class LinkToRefArchHelper {
 		else {
 			return component.getName() + " is not compatible with " + reference.getName();
 		}
-	}
-
-	public static boolean isLinkBetweenId(String refArchiId, String runningId) {
-		if (refArchiId == null || runningId == null)
-			return false;
-		return runningId.startsWith(refArchiId);
-	}
-
-	public static MediatorRef getComponentInReferenceArchitecture(MediatorInstanceRef mediator) {
-		AbstractChain abstractChain = mediator.getChain().getRefArchitecture();
-		if (abstractChain != null)
-			for (MediatorRef refMediator : abstractChain.getMediators())
-				if (LinkToRefArchHelper.isLinkBetweenId(refMediator.getId(), mediator.getId()))
-					return refMediator;
-		return null;
-	}
-
-	public static AdapterRef getComponentInReferenceArchitecture(AdapterInstanceRef adapter) {
-		AbstractChain abstractChain = adapter.getChain().getRefArchitecture();
-		if (abstractChain != null)
-			for (AdapterRef refAdapter : abstractChain.getAdapters())
-				if (LinkToRefArchHelper.isLinkBetweenId(refAdapter.getId(), adapter.getId()))
-					return refAdapter;
-		return null;
-	}
-
-	public static List<CiliaFlag> referenceArchitectureChecking(MediatorInstanceRef mediator) {
-		return referenceArchitectureCheckingInternal(mediator, getComponentInReferenceArchitecture(mediator));
-	}
-
-	public static List<CiliaFlag> referenceArchitectureChecking(AdapterInstanceRef adapter) {
-		return referenceArchitectureCheckingInternal(adapter, getComponentInReferenceArchitecture(adapter));
-	}
-
-	private static List<CiliaFlag> referenceArchitectureCheckingInternal(ComponentRef componentInRunning, ComponentRef componentInRefArch) {
-		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
-
-		if (componentInRefArch == null) {
-			retval.add(new CiliaError("Can't find element in reference architecture for " + componentInRunning.getId(), componentInRunning));
-			return retval;
-		} else {
-			ComponentDefinition referenceDefinition = componentInRefArch.getReferencedComponentDefinition();
-			ComponentDefinition runningDefinition = componentInRunning.getReferencedComponentDefinition();
-			// null values are checked out of this method
-			if (referenceDefinition != null && runningDefinition != null) {
-				String msg = LinkToRefArchHelper.checkCompatible(referenceDefinition, runningDefinition);
-				if (msg != null) {
-					retval.add(new CiliaError(msg, componentInRunning));
-					return retval;
-				} else {
-					for (CiliaFlag error : LinkToRefArchHelper.checkBindings(componentInRefArch, componentInRunning))
-						retval.add(error);
-					return retval;
-				}
-			}
-		}
-		return retval;
-	}
-
-	public static List<CiliaFlag> checkBindings(ComponentRef reference, ComponentRef current) {
-		List<CiliaFlag> retval = checkOutgoingBindings(reference, current);
-		retval.addAll(checkIncommingBindings(reference, current));
-		return retval;
-	}
-
-	private static List<CiliaFlag> checkOutgoingBindings(ComponentRef reference, ComponentRef current) {
-		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
-
-		Binding[] refBindings = reference.getOutgoingBindings();
-		Binding[] curBindings = current.getOutgoingBindings();
-
-		// map init
-		Map<Binding, Integer> bindingCpt = new HashMap<Binding, Integer>();
-		for (Binding b : refBindings) {
-			bindingCpt.put(b, 0);
-		}
-
-		for (Binding curBinding : curBindings) {
-			boolean found = false;
-			for (Binding refBinding : refBindings) {
-
-				// cur
-				ComponentDefinition curDstComp = curBinding.getDestinationComponentDefinition();
-				String curDstId = curBinding.getDestinationId();
-				String curDstPort = curBinding.getDestinationPort();
-
-				// ref
-				ComponentDefinition refDstComp = refBinding.getDestinationComponentDefinition();
-				String refDstId = refBinding.getDestinationId();
-				String refDstPort = curBinding.getDestinationPort();
-
-				// check if no information is missing
-				if (curDstComp != null && curDstId != null && curDstPort != null && refDstComp != null && refDstId != null && refDstPort != null) {
-					// ports must be the same
-					if (curDstPort.equals(refDstPort)) {
-						// id checking
-						if (LinkToRefArchHelper.isLinkBetweenId(refDstId, curDstId)) {
-							// type checking
-							if (LinkToRefArchHelper.checkCompatible(refDstComp, curDstComp) == null) {
-								found = true;
-								bindingCpt.put(refBinding, bindingCpt.get(refBinding) + 1);
-							}
-						}
-					}
-				}
-			}
-
-			if (found == false) {
-				retval.add(new CiliaError("The binding " + curBinding + " is not allowed", curBinding));
-			}
-		}
-
-		// cardinality check
-		for (Binding b : refBindings) {
-			int nb = bindingCpt.get(b);
-			Cardinality card = ((AbstractBinding) b).getDestinationCardinality();
-			if (card.getMinValue() > nb)
-				retval.add(new CiliaError("The outgoing binding " + b + " is instanciated " + nb + " time(s) instead of a minimum of " + card.getMinValue()
-						+ " time(s)", b));
-			if (!card.isInfiniteBoundary() && card.getMaxValue() < nb)
-				retval.add(new CiliaError("The outgoing binding " + b + " is instanciated " + nb + " time(s) instead of a maximum of " + card.getMaxValue()
-						+ " time(s)", b));
-		}
-
-		return retval;
-	}
-
-	private static List<CiliaFlag> checkIncommingBindings(ComponentRef reference, ComponentRef current) {
-		List<CiliaFlag> retval = new ArrayList<CiliaFlag>();
-
-		Binding[] refBindings = reference.getIncommingBindings();
-		Binding[] curBindings = current.getIncommingBindings();
-
-		// map init
-		Map<Binding, Integer> bindingCpt = new HashMap<Binding, Integer>();
-		for (Binding b : refBindings) {
-			bindingCpt.put(b, 0);
-		}
-
-		for (Binding curBinding : curBindings) {
-			boolean found = false;
-			for (Binding refBinding : refBindings) {
-
-				// cur
-				ComponentDefinition curSrcComp = curBinding.getSourceComponentDefinition();
-				String curSrcId = curBinding.getSourceId();
-				String curSrcPort = curBinding.getSourcePort();
-
-				// ref
-				ComponentDefinition refSrcComp = refBinding.getSourceComponentDefinition();
-				String refSrcId = refBinding.getSourceId();
-				String refSrcPort = curBinding.getSourcePort();
-
-				// check if no information is missing
-				if (curSrcComp != null && curSrcId != null && curSrcPort != null && refSrcComp != null && refSrcId != null && refSrcPort != null) {
-					// ports must be the same
-					if (curSrcPort.equals(refSrcPort)) {
-						// id checking
-						if (LinkToRefArchHelper.isLinkBetweenId(refSrcId, curSrcId)) {
-							// type checking
-							if (LinkToRefArchHelper.checkCompatible(refSrcComp, curSrcComp) == null) {
-								found = true;
-								bindingCpt.put(refBinding, bindingCpt.get(refBinding) + 1);
-							}
-						}
-					}
-				}
-			}
-
-			if (found == false) {
-				retval.add(new CiliaError("The binding " + curBinding + " is not allowed", curBinding));
-			}
-		}
-
-		// cardinality check
-		for (Binding b : refBindings) {
-			int nb = bindingCpt.get(b);
-			Cardinality card = ((AbstractBinding) b).getSourceCardinality();
-			if (card.getMinValue() > nb)
-				retval.add(new CiliaError("The incomming binding " + b + " is instanciated " + nb + " time(s) instead of a minimum of " + card.getMinValue()
-						+ " time(s)", b));
-			if (!card.isInfiniteBoundary() && card.getMaxValue() < nb)
-				retval.add(new CiliaError("The incomming binding " + b + " is instanciated " + nb + " time(s) instead of a maximum of " + card.getMaxValue()
-						+ " time(s)", b));
-		}
-
-		return retval;
 	}
 }

@@ -14,9 +14,11 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.PlatformID;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.NodeSelector;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.LinkToRefArchHelper;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
+import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 
 /**
  * 
@@ -24,22 +26,43 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.LinkToRefA
  */
 public class StrongHighlightNodeSelectorForAbstractGraph implements NodeSelector {
 
+	private final PlatformID platformID;
+	private final String chainName;
 	private final String componentId;
 
-	public StrongHighlightNodeSelectorForAbstractGraph(String componentId) {
+	public StrongHighlightNodeSelectorForAbstractGraph(PlatformID platformID, String chainName, String componentId) {
+		this.platformID = platformID;
+		this.chainName = chainName;
 		this.componentId = componentId;
+	}
+
+	private PlatformChain getPlatformChain() {
+		try {
+			return PlatformRepoService.getInstance().getPlatformChain(platformID, chainName);
+		} catch (NullPointerException npe) {
+			return null;
+		}
+	}
+
+	private String getIdToBeWatch() {
+		try {
+			return getPlatformChain().getComponentInReferenceArchitecture(getPlatformChain().getComponent(componentId)).getId();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
 	public boolean isSelectedNode(Object nodeObject) {
 		if (nodeObject != null && nodeObject instanceof ComponentRef) {
 			ComponentRef compoRef = (ComponentRef) nodeObject;
-			String compoId = compoRef.getId();
-			if (compoId != null && LinkToRefArchHelper.isLinkBetweenId(compoId, componentId))
-				return true;
-			else
-				return false;
-		} else
-			return false;
+			try {
+				if (getIdToBeWatch().equals(compoRef.getId()))
+					return true;
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
+		return false;
 	}
 }

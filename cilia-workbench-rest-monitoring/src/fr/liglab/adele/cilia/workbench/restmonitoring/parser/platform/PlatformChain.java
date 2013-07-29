@@ -15,6 +15,7 @@
 package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
 
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +28,7 @@ import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Chain;
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
@@ -43,6 +45,13 @@ public class PlatformChain extends Chain {
 
 	/* null if not linked to a reference architecture */
 	private NameNamespaceID refArchitectureID = null;
+
+	/**
+	 * This map gives for a component id in this {@link PlatformChain} the
+	 * corresponding component id in the reference architecture. This map must
+	 * be always up do date.
+	 */
+	private Map<String, String> componentPlatformIdToRefId = null;
 
 	public PlatformChain(String name, PlatformModel platform, NameNamespaceID refArchitectureID) {
 		super(name);
@@ -154,6 +163,34 @@ public class PlatformChain extends Chain {
 		return refArchitectureID;
 	}
 
+	public ComponentRef getComponentInReferenceArchitecture(ComponentRef platformComponent) throws CiliaException {
+		// ref chain
+		if (refArchitectureID == null)
+			throw new CiliaException("Reference architecture ID is null");
+		AbstractChain refChain = getRefArchitecture();
+		if (refChain == null)
+			throw new CiliaException("Reference architecture not found");
+
+		// platform component id
+		if (platformComponent == null)
+			throw new CiliaException("component is null");
+		String rtId = platformComponent.getId();
+		if (rtId == null)
+			throw new CiliaException("component id is null");
+
+		// ref id
+		String refId = componentPlatformIdToRefId.get(rtId);
+		if (refId == null)
+			throw new CiliaException("Can't find component id in reference architecture for " + rtId);
+
+		// component Ref
+		ComponentRef refComponent = refChain.getComponent(refId);
+		if (refComponent == null)
+			throw new CiliaException("Can't find component reference in reference architecture for " + refId);
+
+		return refComponent;
+	}
+
 	public void setRefArchitectureID(NameNamespaceID refArchitectureID) {
 		this.refArchitectureID = refArchitectureID;
 		try {
@@ -204,6 +241,11 @@ public class PlatformChain extends Chain {
 		 * (newRef.getRefArchitectureID(), refArchitectureID, "namespace"));
 		 */
 
+		if (refArchitectureID == null)
+			componentPlatformIdToRefId = null;
+		else
+			updateComponentPlatformIdToRefId();
+
 		return retval;
 	}
 
@@ -225,5 +267,12 @@ public class PlatformChain extends Chain {
 			e1 = new CiliaError("Can't find reference architecture " + refArchitectureID.toString(), this);
 
 		return CiliaFlag.generateTab(tab, e1);
+	}
+
+	/**
+	 * Updates the {@link #componentPlatformIdToRefId} map.
+	 */
+	public void updateComponentPlatformIdToRefId() {
+		componentPlatformIdToRefId = RuntimeToRefArchManager.computeComponentPlatformIdToRefId(getRefArchitecture(), this);
 	}
 }

@@ -96,8 +96,7 @@ public class MediatorInstanceRef extends MediatorRef implements Mergeable {
 			e1 = new CiliaError("Invalid state for mediator " + getId() + " (" + state + ")", this);
 
 		// reference architecture checking
-		if (getChain().getRefArchitecture() != null)
-			tab2 = LinkToRefArchHelper.referenceArchitectureChecking(this);
+		tab2 = RuntimeToRefArchChecker.checkComponent(this);
 
 		return CiliaFlag.generateTab(tab1, tab2, e1);
 	}

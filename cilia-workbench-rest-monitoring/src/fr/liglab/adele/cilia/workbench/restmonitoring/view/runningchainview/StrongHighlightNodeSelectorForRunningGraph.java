@@ -14,9 +14,10 @@
  */
 package fr.liglab.adele.cilia.workbench.restmonitoring.view.runningchainview;
 
+import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.ui.view.graphview.NodeSelector;
-import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.LinkToRefArchHelper;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 
 /**
  * 
@@ -25,8 +26,10 @@ import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.LinkToRefA
 public class StrongHighlightNodeSelectorForRunningGraph implements NodeSelector {
 
 	private final String componentId;
+	private final NameNamespaceID refArchId;
 
-	public StrongHighlightNodeSelectorForRunningGraph(String componentId) {
+	public StrongHighlightNodeSelectorForRunningGraph(NameNamespaceID refArchId, String componentId) {
+		this.refArchId = refArchId;
 		this.componentId = componentId;
 	}
 
@@ -34,12 +37,15 @@ public class StrongHighlightNodeSelectorForRunningGraph implements NodeSelector 
 	public boolean isSelectedNode(Object nodeObject) {
 		if (nodeObject != null && nodeObject instanceof ComponentRef) {
 			ComponentRef compoRef = (ComponentRef) nodeObject;
-			String compoId = compoRef.getId();
-			if (compoId != null && LinkToRefArchHelper.isLinkBetweenId(componentId, compoId))
-				return true;
-			else
-				return false;
-		} else
-			return false;
+			try {
+				PlatformChain chain = (PlatformChain) compoRef.getChain();
+				if (chain.getComponentInReferenceArchitecture(compoRef).getId().equals(componentId))
+					return true;
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
+
+		return false;
 	}
 }
