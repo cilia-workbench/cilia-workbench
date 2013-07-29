@@ -52,12 +52,12 @@ public class RuntimeToRefArchManager {
 	}
 
 	/**
-	 * Using compatibility between types in the reference architecture and in
-	 * the platform chain, computes part of {@link #componentPlatformIdToRefId}
-	 * map. The key idea in this algorithm is: if for a component in the
-	 * platform chain, there is one and only one acceptable component in the
-	 * reference architecture, here is a matching to be recorded into
-	 * {@link #componentPlatformIdToRefId} map.
+	 * The key idea in this algorithm is: if for a component in the platform
+	 * chain, there is one and only one acceptable component in the reference
+	 * architecture, here is a matching to be recorded into
+	 * {@link #componentPlatformIdToRefId} map. An acceptable element is an
+	 * element which has the same type (implementation) or is a specification of
+	 * the instance.
 	 * 
 	 * @param refChain
 	 * @param rtChain
@@ -80,7 +80,7 @@ public class RuntimeToRefArchManager {
 
 	/**
 	 * Returns the list of components id which are part of the chain and which
-	 * are compatible with the runtime component definiation.
+	 * are compatible with the runtime component definition.
 	 * 
 	 * @param chain
 	 * @param def
@@ -97,78 +97,95 @@ public class RuntimeToRefArchManager {
 	}
 
 	private static int findComponentsLinksUsingBindings(AbstractChain refChain, PlatformChain rtChain, Map<String, String> componentPlatformIdToRefId) {
-		int retval = 0;
-		while (true) {
-			int out = findComponentsLinksUsingOutgoingBindings(refChain, rtChain, componentPlatformIdToRefId);
-			int in = findComponentsLinksUsingIncommingBindings(refChain, rtChain, componentPlatformIdToRefId);
-			retval = retval + out + in;
-			if (out + in == 0)
-				return retval;
+		if (refChain != null && rtChain != null && componentPlatformIdToRefId != null) {
+			int retval = 0;
+			while (true) {
+				int out1 = findComponentsLinksUsingOutgoingBindings1(refChain, rtChain, componentPlatformIdToRefId);
+				int out2 = findComponentsLinksUsingOutgoingBindings2(refChain, rtChain, componentPlatformIdToRefId);
+				int in1 = findComponentsLinksUsingIncommingBindings1(refChain, rtChain, componentPlatformIdToRefId);
+				int in2 = findComponentsLinksUsingIncommingBindings2(refChain, rtChain, componentPlatformIdToRefId);
+				int diff = out1 + out2 + in1 + in2;
+				retval += diff;
+				if (diff == 0)
+					return retval;
+			}
 		}
+
+		return 0;
 	}
 
-	private static int findComponentsLinksUsingOutgoingBindings(AbstractChain refChain, PlatformChain rtChain, Map<String, String> componentPlatformIdToRefId) {
+	private static int addToComponentPlatformIdToRefId(Map<String, String> componentPlatformIdToRefId, Map<String, String> newValues) {
 		int retval = 0;
-		if (refChain != null && rtChain != null && componentPlatformIdToRefId != null) {
-			for (String rtId : componentPlatformIdToRefId.keySet()) {
-				if (rtChain.getComponent(rtId) != null) {
+		for (String rtId : newValues.keySet()) {
+			String refId = newValues.get(rtId);
+			if (!Strings.isNullOrEmpty(rtId) && !Strings.isNullOrEmpty(refId)) {
+				if (componentPlatformIdToRefId.get(rtId) == null) {
+					componentPlatformIdToRefId.put(rtId, refId);
+					retval++;
+				}
+			}
+		}
+		return retval;
+	}
+
+	/**
+	 * For all the elements of componentPlatformIdToRefId, if there is one and
+	 * only one outgoing binding in the reference architecture, we can be sure
+	 * all the destinations of outgoing bindings in runtime architecture can be
+	 * linked.
+	 * 
+	 * @param refChain
+	 * @param rtChain
+	 * @param componentPlatformIdToRefId
+	 * @return
+	 */
+	private static int findComponentsLinksUsingOutgoingBindings1(AbstractChain refChain, PlatformChain rtChain, Map<String, String> componentPlatformIdToRefId) {
+		// tmp is used to prevent from concurrent access (here, we read, after,
+		// we modify... not during reading!)
+		Map<String, String> tmp = new HashMap<String, String>();
+		for (String rtId : componentPlatformIdToRefId.keySet()) {
+			String refId = componentPlatformIdToRefId.get(rtId);
+			ComponentRef refCompoRef = refChain.getComponent(refId);
+			if (refCompoRef != null) {
+				Binding[] refBindings = refCompoRef.getOutgoingBindings();
+				if (refBindings.length == 1) {
+					String refDiscoverdId = refBindings[0].getDestinationId();
+
 					for (Binding rtBinding : rtChain.getComponent(rtId).getOutgoingBindings()) {
-						ComponentRef rtRefDst = rtBinding.getDestinationComponentRef();
-						String rtIdDst = rtBinding.getDestinationId();
-						if (rtRefDst != null && !Strings.isNullOrEmpty(rtIdDst) && componentPlatformIdToRefId.get(rtIdDst) == null) {
-							ComponentDefinition rtCompoDefDst = rtRefDst.getReferencedComponentDefinition();
-							if (rtCompoDefDst != null) {
-								String refId = componentPlatformIdToRefId.get(rtId);
-								ComponentRef refCompoRef = refChain.getComponent(refId);
-								if (refCompoRef != null) {
-									List<String> matches = new ArrayList<String>();
-									for (Binding refBinding : refCompoRef.getOutgoingBindings()) {
-										String refIdDst = refBinding.getDestinationId();
-										ComponentDefinition refCompoDefDst = refBinding.getDestinationComponentDefinition();
-										if (!Strings.isNullOrEmpty(refIdDst) && RuntimeToRefArchChecker.checkCompatible(refCompoDefDst, rtCompoDefDst) == null)
-											matches.add(refIdDst);
-									}
-									// Match found !
-									if (matches.size() == 1) {
-										componentPlatformIdToRefId.put(rtIdDst, matches.get(0));
-										retval++;
-									}
-								}
-							}
-						}
+						String rtDiscoverdId = rtBinding.getDestinationId();
+						if (!Strings.isNullOrEmpty(rtDiscoverdId))
+							tmp.put(rtDiscoverdId, refDiscoverdId);
 					}
 				}
 			}
 		}
-		return retval;
+
+		return addToComponentPlatformIdToRefId(componentPlatformIdToRefId, tmp);
 	}
 
-	private static int findComponentsLinksUsingIncommingBindings(AbstractChain refChain, PlatformChain rtChain, Map<String, String> componentPlatformIdToRefId) {
-		int retval = 0;
-		if (refChain != null && rtChain != null && componentPlatformIdToRefId != null) {
-			for (String rtId : componentPlatformIdToRefId.keySet()) {
-				if (rtChain.getComponent(rtId) != null) {
-					for (Binding rtBinding : rtChain.getComponent(rtId).getIncommingBindings()) {
-						ComponentRef rtRefSrc = rtBinding.getSourceComponentRef();
-						String rtIdSrc = rtBinding.getSourceId();
-						if (rtRefSrc != null && !Strings.isNullOrEmpty(rtIdSrc) && componentPlatformIdToRefId.get(rtIdSrc) == null) {
-							ComponentDefinition rtCompoDefSrc = rtRefSrc.getReferencedComponentDefinition();
-							if (rtCompoDefSrc != null) {
-								String refId = componentPlatformIdToRefId.get(rtId);
-								ComponentRef refCompoRef = refChain.getComponent(refId);
-								if (refCompoRef != null) {
-									List<String> matches = new ArrayList<String>();
-									for (Binding refBinding : refCompoRef.getIncommingBindings()) {
-										String refIdSrc = refBinding.getSourceId();
-										ComponentDefinition refCompoDefSrc = refBinding.getSourceComponentDefinition();
-										if (!Strings.isNullOrEmpty(refIdSrc) && RuntimeToRefArchChecker.checkCompatible(refCompoDefSrc, rtCompoDefSrc) == null)
-											matches.add(refIdSrc);
-									}
-									// Match found !
-									if (matches.size() == 1) {
-										componentPlatformIdToRefId.put(rtIdSrc, matches.get(0));
-										retval++;
-									}
+	private static int findComponentsLinksUsingOutgoingBindings2(AbstractChain refChain, PlatformChain rtChain, Map<String, String> componentPlatformIdToRefId) {
+		Map<String, String> tmp = new HashMap<String, String>();
+		for (String rtId : componentPlatformIdToRefId.keySet()) {
+			if (rtChain.getComponent(rtId) != null) {
+				for (Binding rtBinding : rtChain.getComponent(rtId).getOutgoingBindings()) {
+					ComponentRef rtRefDst = rtBinding.getDestinationComponentRef();
+					String rtIdDst = rtBinding.getDestinationId();
+					if (rtRefDst != null && !Strings.isNullOrEmpty(rtIdDst) && componentPlatformIdToRefId.get(rtIdDst) == null) {
+						ComponentDefinition rtCompoDefDst = rtRefDst.getReferencedComponentDefinition();
+						if (rtCompoDefDst != null) {
+							String refId = componentPlatformIdToRefId.get(rtId);
+							ComponentRef refCompoRef = refChain.getComponent(refId);
+							if (refCompoRef != null) {
+								List<String> matches = new ArrayList<String>();
+								for (Binding refBinding : refCompoRef.getOutgoingBindings()) {
+									String refIdDst = refBinding.getDestinationId();
+									ComponentDefinition refCompoDefDst = refBinding.getDestinationComponentDefinition();
+									if (!Strings.isNullOrEmpty(refIdDst) && RuntimeToRefArchChecker.checkCompatible(refCompoDefDst, rtCompoDefDst) == null)
+										matches.add(refIdDst);
+								}
+								// Match found !
+								if (matches.size() == 1) {
+									tmp.put(rtIdDst, matches.get(0));
 								}
 							}
 						}
@@ -176,7 +193,64 @@ public class RuntimeToRefArchManager {
 				}
 			}
 		}
-		return retval;
+		return addToComponentPlatformIdToRefId(componentPlatformIdToRefId, tmp);
+	}
+
+	private static int findComponentsLinksUsingIncommingBindings1(AbstractChain refChain, PlatformChain rtChain, Map<String, String> componentPlatformIdToRefId) {
+		// tmp is used to prevent from concurrent access (here, we read, after,
+		// we modify... not during reading!)
+		Map<String, String> tmp = new HashMap<String, String>();
+		for (String rtId : componentPlatformIdToRefId.keySet()) {
+			String refId = componentPlatformIdToRefId.get(rtId);
+			ComponentRef refCompoRef = refChain.getComponent(refId);
+			if (refCompoRef != null) {
+				Binding[] refBindings = refCompoRef.getIncommingBindings();
+				if (refBindings.length == 1) {
+					String refDiscoverdId = refBindings[0].getSourceId();
+
+					for (Binding rtBinding : rtChain.getComponent(rtId).getIncommingBindings()) {
+						String rtDiscoverdId = rtBinding.getSourceId();
+						if (!Strings.isNullOrEmpty(rtDiscoverdId))
+							tmp.put(rtDiscoverdId, refDiscoverdId);
+					}
+				}
+			}
+		}
+
+		return addToComponentPlatformIdToRefId(componentPlatformIdToRefId, tmp);
+	}
+
+	private static int findComponentsLinksUsingIncommingBindings2(AbstractChain refChain, PlatformChain rtChain, Map<String, String> componentPlatformIdToRefId) {
+		Map<String, String> tmp = new HashMap<String, String>();
+		for (String rtId : componentPlatformIdToRefId.keySet()) {
+			if (rtChain.getComponent(rtId) != null) {
+				for (Binding rtBinding : rtChain.getComponent(rtId).getIncommingBindings()) {
+					ComponentRef rtRefSrc = rtBinding.getSourceComponentRef();
+					String rtIdSrc = rtBinding.getSourceId();
+					if (rtRefSrc != null && !Strings.isNullOrEmpty(rtIdSrc) && componentPlatformIdToRefId.get(rtIdSrc) == null) {
+						ComponentDefinition rtCompoDefSrc = rtRefSrc.getReferencedComponentDefinition();
+						if (rtCompoDefSrc != null) {
+							String refId = componentPlatformIdToRefId.get(rtId);
+							ComponentRef refCompoRef = refChain.getComponent(refId);
+							if (refCompoRef != null) {
+								List<String> matches = new ArrayList<String>();
+								for (Binding refBinding : refCompoRef.getIncommingBindings()) {
+									String refIdSrc = refBinding.getSourceId();
+									ComponentDefinition refCompoDefSrc = refBinding.getSourceComponentDefinition();
+									if (!Strings.isNullOrEmpty(refIdSrc) && RuntimeToRefArchChecker.checkCompatible(refCompoDefSrc, rtCompoDefSrc) == null)
+										matches.add(refIdSrc);
+								}
+								// Match found !
+								if (matches.size() == 1) {
+									tmp.put(rtIdSrc, matches.get(0));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return addToComponentPlatformIdToRefId(componentPlatformIdToRefId, tmp);
 	}
 
 	private static int findComponentsLinksUsingTypesAndIds(AbstractChain refChain, PlatformChain rtChain, Map<String, String> componentPlatformIdToRefId) {

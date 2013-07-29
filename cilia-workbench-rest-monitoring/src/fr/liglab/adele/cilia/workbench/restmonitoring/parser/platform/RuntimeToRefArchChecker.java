@@ -46,7 +46,7 @@ public class RuntimeToRefArchChecker {
 
 		// no reference architecture or not found
 		PlatformChain chain = (PlatformChain) rtComponent.getChain();
-		if (chain == null || chain.getRefArchitecture() == null)
+		if (chain.getRefArchitecture() == null)
 			return retval;
 
 		// finds component in reference architecture
@@ -141,10 +141,10 @@ public class RuntimeToRefArchChecker {
 			Cardinality card = ((AbstractBinding) b).getDestinationCardinality();
 			if (card.getMinValue() > nb)
 				retval.add(new CiliaError("The outgoing binding " + b + " is instanciated " + nb + " time(s) instead of a minimum of " + card.getMinValue()
-						+ " time(s)", b));
+						+ " time(s)", curChain));
 			if (!card.isInfiniteBoundary() && card.getMaxValue() < nb)
 				retval.add(new CiliaError("The outgoing binding " + b + " is instanciated " + nb + " time(s) instead of a maximum of " + card.getMaxValue()
-						+ " time(s)", b));
+						+ " time(s)", curChain));
 		}
 
 		return retval;
@@ -207,10 +207,10 @@ public class RuntimeToRefArchChecker {
 			Cardinality card = ((AbstractBinding) b).getSourceCardinality();
 			if (card.getMinValue() > nb)
 				retval.add(new CiliaError("The incomming binding " + b + " is instanciated " + nb + " time(s) instead of a minimum of " + card.getMinValue()
-						+ " time(s)", b));
+						+ " time(s)", curChain));
 			if (!card.isInfiniteBoundary() && card.getMaxValue() < nb)
 				retval.add(new CiliaError("The incomming binding " + b + " is instanciated " + nb + " time(s) instead of a maximum of " + card.getMaxValue()
-						+ " time(s)", b));
+						+ " time(s)", curChain));
 		}
 
 		return retval;

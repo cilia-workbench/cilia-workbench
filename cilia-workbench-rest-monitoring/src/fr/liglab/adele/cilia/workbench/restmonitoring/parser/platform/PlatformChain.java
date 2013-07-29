@@ -232,15 +232,6 @@ public class PlatformChain extends Chain {
 
 		/* DON'T MERGE refArchitectureID ! */
 
-		/*
-		 * PlatformChain newRef = (PlatformChain) other;
-		 * retval.addAll(MergeUtil.
-		 * computeUpdateChangeset(newRef.getRefArchitectureID(),
-		 * refArchitectureID, "name"));
-		 * retval.addAll(MergeUtil.computeUpdateChangeset
-		 * (newRef.getRefArchitectureID(), refArchitectureID, "namespace"));
-		 */
-
 		if (refArchitectureID == null)
 			componentPlatformIdToRefId = null;
 		else
@@ -272,7 +263,7 @@ public class PlatformChain extends Chain {
 	/**
 	 * Updates the {@link #componentPlatformIdToRefId} map.
 	 */
-	public void updateComponentPlatformIdToRefId() {
+	private void updateComponentPlatformIdToRefId() {
 		componentPlatformIdToRefId = RuntimeToRefArchManager.computeComponentPlatformIdToRefId(getRefArchitecture(), this);
 	}
 }

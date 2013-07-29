@@ -81,12 +81,12 @@ public class RunningChainView extends GraphView implements IRepoServiceListener,
 			@Override
 			public void run() {
 				while (!dispose) {
-					try {
-						if (model != null)
-							PlatformRepoService.getInstance().updateChain(model.getPlatform(), model.getName());
-					} catch (CiliaException e) {
-						e.printStackTrace();
-					}
+					/*
+					 * try { if (model != null)
+					 * PlatformRepoService.getInstance()
+					 * .updateChain(model.getPlatform(), model.getName()); }
+					 * catch (CiliaException e) { e.printStackTrace(); }
+					 */
 
 					try {
 						Thread.sleep(AUTO_RELOAD_TIME_IN_MILLIS);

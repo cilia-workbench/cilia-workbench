@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cilia-specifications>
 
+
+
 <mediator-specification name="LocationEnricherSpec" namespace="fr.liglab.adele.cilia">
 <ports>
 <in-port name="in" type="*"/>
