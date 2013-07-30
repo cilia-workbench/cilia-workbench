@@ -89,6 +89,11 @@ public class PlatformRepoService extends ChainRepoService<PlatformFile, Platform
 		// Update content provider
 		contentProvider = new PlatformContentProvider(repoContent);
 
+		// UPDATE links to reference architectures !
+		for (PlatformChain chain : getChains()) {
+			chain.updateComponentPlatformIdToRefId();
+		}
+
 		// Update markers relative to this repository
 		changes.addAll(updateMarkers());
 

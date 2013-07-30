@@ -241,10 +241,7 @@ public class PlatformChain extends Chain {
 
 		/* DON'T MERGE refArchitectureID ! */
 
-		if (refArchitectureID == null)
-			componentPlatformIdToRefId = null;
-		else
-			updateComponentPlatformIdToRefId();
+		updateComponentPlatformIdToRefId();
 
 		return retval;
 	}
@@ -272,7 +269,10 @@ public class PlatformChain extends Chain {
 	/**
 	 * Updates the {@link #componentPlatformIdToRefId} map.
 	 */
-	private void updateComponentPlatformIdToRefId() {
-		componentPlatformIdToRefId = RuntimeToRefArchManager.computeComponentPlatformIdToRefId(getRefArchitecture(), this);
+	public void updateComponentPlatformIdToRefId() {
+		if (refArchitectureID == null)
+			componentPlatformIdToRefId = null;
+		else
+			componentPlatformIdToRefId = RuntimeToRefArchManager.computeComponentPlatformIdToRefId(getRefArchitecture(), this);
 	}
 }
