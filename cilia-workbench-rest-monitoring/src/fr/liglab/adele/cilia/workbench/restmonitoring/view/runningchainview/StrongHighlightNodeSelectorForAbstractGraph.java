@@ -36,17 +36,10 @@ public class StrongHighlightNodeSelectorForAbstractGraph implements NodeSelector
 		this.componentId = componentId;
 	}
 
-	private PlatformChain getPlatformChain() {
-		try {
-			return PlatformRepoService.getInstance().getPlatformChain(platformID, chainName);
-		} catch (NullPointerException npe) {
-			return null;
-		}
-	}
-
 	private String getIdToBeWatch() {
 		try {
-			return getPlatformChain().getComponentInReferenceArchitecture(getPlatformChain().getComponent(componentId)).getId();
+			PlatformChain pfChain = PlatformRepoService.getInstance().getPlatformChain(platformID, chainName);
+			return pfChain.getIdInReferenceArchitecture(componentId);
 		} catch (Exception e) {
 			return null;
 		}
@@ -56,12 +49,8 @@ public class StrongHighlightNodeSelectorForAbstractGraph implements NodeSelector
 	public boolean isSelectedNode(Object nodeObject) {
 		if (nodeObject != null && nodeObject instanceof ComponentRef) {
 			ComponentRef compoRef = (ComponentRef) nodeObject;
-			try {
-				if (getIdToBeWatch().equals(compoRef.getId()))
-					return true;
-			} catch (Exception e) {
-				// do nothing
-			}
+			if (getIdToBeWatch() != null && getIdToBeWatch().equals(compoRef.getId()))
+				return true;
 		}
 		return false;
 	}

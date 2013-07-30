@@ -2,7 +2,7 @@
 <cilia-composition-specifications>
 	<chain id="actimetrics" namespace="fr.liglab.adele.cilia">
 		<adapters>
-			<adapter-implem id="rest-webservice" namespace="fr.liglab.adele.cilia" type="EventPServiceAdapter"/>
+			<adapter-implem id="rest-webservice" namespace="fr.liglab.adele.cilia" type="EventServiceAdapter"/>
 			<adapter-implem id="presence-sensor" namespace="fr.liglab.adele.cilia" type="PresenceDetectorAdapter"/>
 			<adapter-implem id="photometer-sensor" namespace="fr.liglab.adele.cilia" type="PhotometerAdapter"/>
 		</adapters>

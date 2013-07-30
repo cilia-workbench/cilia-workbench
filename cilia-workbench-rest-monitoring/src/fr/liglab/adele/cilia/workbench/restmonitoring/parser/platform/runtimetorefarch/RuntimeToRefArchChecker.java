@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
+package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.runtimetorefarch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import fr.liglab.adele.cilia.workbench.common.cilia.CiliaException;
-import fr.liglab.adele.cilia.workbench.common.identifiable.NameNamespaceID;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaError;
 import fr.liglab.adele.cilia.workbench.common.marker.CiliaFlag;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
@@ -28,12 +27,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.Cardinality;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractBinding;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.InAdapterImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.InOutAdapterImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.MediatorImplem.RefMediatorSpec;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.implem.OutAdapterImplem;
-import fr.liglab.adele.cilia.workbench.designer.parser.element.spec.MediatorSpec;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 
 /**
  * 
@@ -64,7 +58,7 @@ public class RuntimeToRefArchChecker {
 		ComponentDefinition rtDefinition = rtComponent.getReferencedComponentDefinition();
 		// null values are checked out of this method
 		if (refDefinition != null && rtDefinition != null) {
-			String msg = RuntimeToRefArchChecker.checkCompatible(refDefinition, rtDefinition);
+			String msg = RuntimeToRefArchCommon.checkCompatible(refDefinition, rtDefinition);
 			if (msg != null) {
 				retval.add(new CiliaError(msg, rtComponent));
 				return retval;
@@ -78,7 +72,7 @@ public class RuntimeToRefArchChecker {
 		return retval;
 	}
 
-	public static List<CiliaFlag> checkBindings(ComponentRef reference, ComponentRef current) {
+	private static List<CiliaFlag> checkBindings(ComponentRef reference, ComponentRef current) {
 		List<CiliaFlag> retval = checkOutgoingBindings(reference, current);
 		retval.addAll(checkIncommingBindings(reference, current));
 		return retval;
@@ -103,22 +97,19 @@ public class RuntimeToRefArchChecker {
 			for (Binding refBinding : refBindings) {
 
 				// cur
-				ComponentDefinition curDstComp = curBinding.getDestinationComponentDefinition();
 				String curDstId = curBinding.getDestinationId();
 				String curDstPort = curBinding.getDestinationPort();
-				ComponentRef curDstCompoRef = curBinding.getDestinationComponentRef();
 
 				// ref
-				ComponentDefinition refDstComp = refBinding.getDestinationComponentDefinition();
 				String refDstId = refBinding.getDestinationId();
 				String refDstPort = refBinding.getDestinationPort();
 
 				// check if no information is missing
-				if (curDstComp != null && curDstId != null && curDstPort != null && refDstComp != null && refDstId != null && refDstPort != null) {
+				if (curDstId != null && curDstPort != null && refDstId != null && refDstPort != null) {
 					// ports must be the same
 					if (curDstPort.equals(refDstPort)) {
 						try {
-							String id = curChain.getComponentInReferenceArchitecture(curDstCompoRef).getId();
+							String id = curChain.getIdInReferenceArchitecture(curDstId);
 							if (id.equals(refDstId)) {
 								found = true;
 								bindingCpt.put(refBinding, bindingCpt.get(refBinding) + 1);
@@ -169,22 +160,20 @@ public class RuntimeToRefArchChecker {
 			for (Binding refBinding : refBindings) {
 
 				// cur
-				ComponentDefinition curSrcComp = curBinding.getSourceComponentDefinition();
 				String curSrcId = curBinding.getSourceId();
 				String curSrcPort = curBinding.getSourcePort();
-				ComponentRef curSrcCompoRef = curBinding.getSourceComponentRef();
 
 				// ref
-				ComponentDefinition refSrcComp = refBinding.getSourceComponentDefinition();
 				String refSrcId = refBinding.getSourceId();
 				String refSrcPort = refBinding.getSourcePort();
 
 				// check if no information is missing
-				if (curSrcComp != null && curSrcId != null && curSrcPort != null && refSrcComp != null && refSrcId != null && refSrcPort != null) {
+				if (curSrcId != null && curSrcPort != null && refSrcId != null && refSrcPort != null) {
 					// ports must be the same
 					if (curSrcPort.equals(refSrcPort)) {
 						try {
-							String id = curChain.getComponentInReferenceArchitecture(curSrcCompoRef).getId();
+
+							String id = curChain.getIdInReferenceArchitecture(curSrcId);
 							if (id.equals(refSrcId)) {
 								found = true;
 								bindingCpt.put(refBinding, bindingCpt.get(refBinding) + 1);
@@ -214,65 +203,5 @@ public class RuntimeToRefArchChecker {
 		}
 
 		return retval;
-	}
-
-	static String checkCompatible(ComponentDefinition reference, ComponentDefinition component) {
-
-		// null values checking
-		if (reference == null)
-			return "reference is null";
-		if (component == null)
-			return "component is null";
-
-		// Both are MediatorImplem
-		if (reference instanceof MediatorImplem && component instanceof MediatorImplem) {
-			if (reference != component) { // strong equality
-				return "Mediator is of type " + component.getName() + " but should be " + reference.getName();
-			}
-			return null;
-		}
-
-		// MediatorSpec and MediatorImplem
-		if (reference instanceof MediatorSpec && component instanceof MediatorImplem) {
-			RefMediatorSpec runningMediatorSpec = ((MediatorImplem) component).getSpec();
-			NameNamespaceID expectedSpecId = ((MediatorSpec) reference).getId();
-
-			if (runningMediatorSpec == null)
-				return "Mediator should implement " + expectedSpecId;
-
-			NameNamespaceID curSpecId = runningMediatorSpec.getId();
-			if (curSpecId.equals(expectedSpecId))
-				return null;
-			return "Mediator should implement " + expectedSpecId + " instead of " + curSpecId;
-		}
-
-		// Both are InAdapterImplem
-		if (reference instanceof InAdapterImplem && component instanceof InAdapterImplem) {
-			if (reference != component) { // strong equality
-				return "InAdapter is of type " + component.getName() + " but should be " + reference.getName();
-			}
-			return null;
-		}
-
-		// Both are OutAdapterImplem
-		if (reference instanceof OutAdapterImplem && component instanceof OutAdapterImplem) {
-			if (reference != component) { // strong equality
-				return "OutAdapter is of type " + component.getName() + " but should be " + reference.getName();
-			}
-			return null;
-		}
-
-		// Both are InOutAdapterImplem
-		if (reference instanceof InOutAdapterImplem && component instanceof InOutAdapterImplem) {
-			if (reference != component) { // strong equality
-				return "InOutAdapter is of type " + component.getName() + " but should be " + reference.getName();
-			}
-			return null;
-		}
-
-		// Unknown types
-		else {
-			return component.getName() + " is not compatible with " + reference.getName();
-		}
 	}
 }

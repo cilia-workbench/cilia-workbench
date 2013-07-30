@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform;
+package fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.runtimetorefarch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,13 +25,25 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.Binding;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.parser.element.ComponentDefinition;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.PlatformChain;
 
 /**
+ * The only important method in this file is
+ * {@link #computeComponentPlatformIdToRefId(AbstractChain, PlatformChain)}. All
+ * other methods must be kept private.
  * 
  * @author Etienne Gandrille
  */
 public class RuntimeToRefArchManager {
 
+	/**
+	 * Computes a map which gives for each component id in a pfChain (running
+	 * chain) the corresponding component id in the reference architecture.
+	 * 
+	 * @param refChain
+	 * @param pfChain
+	 * @return
+	 */
 	public static Map<String, String> computeComponentPlatformIdToRefId(AbstractChain refChain, PlatformChain pfChain) {
 		Map<String, String> retval = new HashMap<String, String>();
 		if (refChain != null && pfChain != null) {
@@ -53,7 +65,7 @@ public class RuntimeToRefArchManager {
 
 	/**
 	 * The key idea in this algorithm is: if for a component in the platform
-	 * chain, there is one and only one acceptable component in the reference
+	 * chain, if there is one and only one acceptable component in the reference
 	 * architecture, here is a matching to be recorded into
 	 * {@link #componentPlatformIdToRefId} map. An acceptable element is an
 	 * element which has the same type (implementation) or is a specification of
@@ -89,7 +101,7 @@ public class RuntimeToRefArchManager {
 	private static List<String> getComponentsIdInAbstractChain(AbstractChain chain, ComponentDefinition def) {
 		List<String> retval = new ArrayList<String>();
 		for (ComponentRef component : chain.getComponents()) {
-			if (RuntimeToRefArchChecker.checkCompatible(component.getReferencedComponentDefinition(), def) == null)
+			if (RuntimeToRefArchCommon.checkCompatible(component.getReferencedComponentDefinition(), def) == null)
 				if (!Strings.isNullOrEmpty(component.getId()))
 					retval.add(component.getId());
 		}
@@ -180,7 +192,7 @@ public class RuntimeToRefArchManager {
 								for (Binding refBinding : refCompoRef.getOutgoingBindings()) {
 									String refIdDst = refBinding.getDestinationId();
 									ComponentDefinition refCompoDefDst = refBinding.getDestinationComponentDefinition();
-									if (!Strings.isNullOrEmpty(refIdDst) && RuntimeToRefArchChecker.checkCompatible(refCompoDefDst, rtCompoDefDst) == null)
+									if (!Strings.isNullOrEmpty(refIdDst) && RuntimeToRefArchCommon.checkCompatible(refCompoDefDst, rtCompoDefDst) == null)
 										matches.add(refIdDst);
 								}
 								// Match found !
@@ -237,7 +249,7 @@ public class RuntimeToRefArchManager {
 								for (Binding refBinding : refCompoRef.getIncommingBindings()) {
 									String refIdSrc = refBinding.getSourceId();
 									ComponentDefinition refCompoDefSrc = refBinding.getSourceComponentDefinition();
-									if (!Strings.isNullOrEmpty(refIdSrc) && RuntimeToRefArchChecker.checkCompatible(refCompoDefSrc, rtCompoDefSrc) == null)
+									if (!Strings.isNullOrEmpty(refIdSrc) && RuntimeToRefArchCommon.checkCompatible(refCompoDefSrc, rtCompoDefSrc) == null)
 										matches.add(refIdSrc);
 								}
 								// Match found !

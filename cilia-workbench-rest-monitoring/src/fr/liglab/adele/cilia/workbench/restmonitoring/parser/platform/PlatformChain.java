@@ -32,6 +32,7 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.service.Changeset;
 import fr.liglab.adele.cilia.workbench.designer.parser.chain.abstractcomposition.AbstractChain;
 import fr.liglab.adele.cilia.workbench.designer.service.chain.abstractcompositionsservice.AbstractCompositionsRepoService;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.runtimetorefarch.RuntimeToRefArchManager;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 import fr.liglab.adele.cilia.workbench.restmonitoring.utils.http.CiliaRestHelper;
 
@@ -163,13 +164,23 @@ public class PlatformChain extends Chain {
 		return refArchitectureID;
 	}
 
-	public ComponentRef getComponentInReferenceArchitecture(ComponentRef platformComponent) throws CiliaException {
+	public String getIdInReferenceArchitecture(String platformId) throws CiliaException {
 		// ref chain
 		if (refArchitectureID == null)
 			throw new CiliaException("Reference architecture ID is null");
 		AbstractChain refChain = getRefArchitecture();
 		if (refChain == null)
 			throw new CiliaException("Reference architecture not found");
+
+		// ref id
+		String refId = componentPlatformIdToRefId.get(platformId);
+		if (refId == null)
+			throw new CiliaException("Can't find component id in reference architecture for " + platformId);
+
+		return refId;
+	}
+
+	public ComponentRef getComponentInReferenceArchitecture(ComponentRef platformComponent) throws CiliaException {
 
 		// platform component id
 		if (platformComponent == null)
@@ -178,13 +189,11 @@ public class PlatformChain extends Chain {
 		if (rtId == null)
 			throw new CiliaException("component id is null");
 
-		// ref id
-		String refId = componentPlatformIdToRefId.get(rtId);
-		if (refId == null)
-			throw new CiliaException("Can't find component id in reference architecture for " + rtId);
+		// id in reference architecture
+		String refId = getIdInReferenceArchitecture(rtId);
 
 		// component Ref
-		ComponentRef refComponent = refChain.getComponent(refId);
+		ComponentRef refComponent = getRefArchitecture().getComponent(refId);
 		if (refComponent == null)
 			throw new CiliaException("Can't find component reference in reference architecture for " + refId);
 

@@ -29,6 +29,7 @@ import fr.liglab.adele.cilia.workbench.common.service.ComponentRepoService;
 import fr.liglab.adele.cilia.workbench.common.service.MergeUtil;
 import fr.liglab.adele.cilia.workbench.common.service.Mergeable;
 import fr.liglab.adele.cilia.workbench.designer.service.element.jarreposervice.CiliaJarRepoService;
+import fr.liglab.adele.cilia.workbench.restmonitoring.parser.platform.runtimetorefarch.RuntimeToRefArchChecker;
 import fr.liglab.adele.cilia.workbench.restmonitoring.service.platform.PlatformRepoService;
 
 /**
