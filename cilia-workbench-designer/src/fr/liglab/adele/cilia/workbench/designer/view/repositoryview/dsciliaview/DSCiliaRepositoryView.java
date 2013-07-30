@@ -87,6 +87,6 @@ public class DSCiliaRepositoryView extends RepositoryView<DSCiliaFile, DSCiliaMo
 
 	@Override
 	protected String getPreferencePageID() {
-		return CiliaDesignerPreferencePage.pageID;
+		return CiliaDesignerPreferencePage.PAGE_ID;
 	}
 }

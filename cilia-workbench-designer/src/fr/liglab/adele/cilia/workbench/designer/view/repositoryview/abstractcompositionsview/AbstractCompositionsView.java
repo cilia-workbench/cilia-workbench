@@ -87,6 +87,6 @@ public class AbstractCompositionsView extends RepositoryView<AbstractComposition
 
 	@Override
 	protected String getPreferencePageID() {
-		return CiliaDesignerPreferencePage.pageID;
+		return CiliaDesignerPreferencePage.PAGE_ID;
 	}
 }

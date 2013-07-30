@@ -106,6 +106,6 @@ public class JarRepositoryView extends RepositoryView<CiliaJarFile, CiliaJarMode
 
 	@Override
 	protected String getPreferencePageID() {
-		return CiliaDesignerPreferencePage.pageID;
+		return CiliaDesignerPreferencePage.PAGE_ID;
 	}
 }

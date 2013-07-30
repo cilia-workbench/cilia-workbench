@@ -95,6 +95,6 @@ public class SpecRepositoryView extends RepositoryView<SpecFile, SpecModel> {
 
 	@Override
 	protected String getPreferencePageID() {
-		return CiliaDesignerPreferencePage.pageID;
+		return CiliaDesignerPreferencePage.PAGE_ID;
 	}
 }

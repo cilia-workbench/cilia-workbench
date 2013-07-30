@@ -22,6 +22,8 @@ import org.eclipse.zest.layouts.algorithms.AbstractLayoutAlgorithm;
 import org.eclipse.zest.layouts.dataStructures.InternalNode;
 import org.eclipse.zest.layouts.dataStructures.InternalRelationship;
 
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+
 /**
  * 
  * @author Etienne Gandrille
@@ -40,8 +42,9 @@ public class MemoryAlgorithm extends AbstractLayoutAlgorithm {
 		for (InternalNode node : entitiesToLayout) {
 			GraphNode gn = (GraphNode) node.getLayoutEntity().getGraphData();
 			Object modelObject = gn.getData();
-			Point location = olc.getLocation(modelObject);
-
+			Point location = null;
+			if (modelObject instanceof ComponentRef)
+				location = olc.getLocation((ComponentRef) modelObject);
 			if (location != null)
 				node.setLocation(location.x, location.y);
 			else {

@@ -14,12 +14,23 @@
  */
 package fr.liglab.adele.cilia.workbench.common.ui.view.graphview;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 
+import fr.liglab.adele.cilia.workbench.common.Activator;
+import fr.liglab.adele.cilia.workbench.common.misc.Strings;
 import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
+import fr.liglab.adele.cilia.workbench.common.ui.preferencePage.CiliaRootPreferencePage;
 
 /**
  * 
@@ -28,71 +39,122 @@ import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 public class ObjectLocatorService {
 
 	private static ObjectLocatorService INSTANCE = new ObjectLocatorService();
-	Map<Object, Point> location = new HashMap<Object, Point>();
+	private Map<String, Point> location = null;
 
 	private ObjectLocatorService() {
+		Activator.getInstance().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if (event.getProperty().equals(CiliaRootPreferencePage.PREFERENCES_FILE_PATH)) {
+					location = loadPreferencesContent(CiliaRootPreferencePage.PREFERENCES_FILE_PATH);
+				}
+			}
+		});
+		location = loadPreferencesContent(CiliaRootPreferencePage.PREFERENCES_FILE_PATH);
 	}
 
 	public static ObjectLocatorService getInstance() {
 		return INSTANCE;
 	}
 
-	public void updateLocation(Object object, Point point) {
-		location.put(object, point);
+	public void updateLocation(ComponentRef component, Point point) {
+		String key = component.getKey();
+		location.put(key, point);
+		writePreferencesContent(CiliaRootPreferencePage.PREFERENCES_FILE_PATH, location);
 	}
 
-	private Point getLocationByMemory(Object object) {
-		return location.get(object);
+	public Point getLocation(ComponentRef component) {
+		String key = component.getKey();
+		return location.get(key);
 	}
 
-	// TODO For demo purpose... to be removed later
-	private Point getLocationByName(Object object) {
-		String name = null;
+	// =======================
+	// FILE SYSTEM INTERACTION
+	// =======================
 
-		// Find name
-		// =========
+	private static File getRepositoryLocation(String preferencesStoreName) {
+		IPreferenceStore store = Activator.getInstance().getPreferenceStore();
+		File file = new File(store.getString(preferencesStoreName));
+		if (!file.isFile())
+			return null;
+		return file;
+	}
 
-		if (object instanceof ComponentRef) {
-			ComponentRef component = (ComponentRef) object;
-			name = component.getId();
+	private static Map<String, Point> loadPreferencesContent(String preferencesStoreName) {
+		Map<String, Point> retval = new HashMap<String, Point>();
+		Scanner scanner = null;
+		try {
+			File file = getRepositoryLocation(preferencesStoreName);
+			if (file != null) {
+				scanner = new Scanner(file);
+				while (scanner.hasNextLine()) {
+					String line = scanner.nextLine();
+					String[] fields = line.split(" ", 3);
+					if (fields.length == 3) {
+						try {
+							int x = Integer.parseInt(fields[0]);
+							int y = Integer.parseInt(fields[1]);
+							String key = fields[2];
+							if (!Strings.isNullOrEmpty(key)) {
+								retval.put(key, new Point(x, y));
+							}
+						} catch (Exception e) {
+							// parse error : just ignore this line
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			// scanner error
+			e.printStackTrace();
 		}
 
-		if (name == null)
-			return null;
+		if (scanner != null) {
+			scanner.close();
+		}
 
-		// Lookup by name
-		// ==============
-
-		if (name.equals("hl7-rest-adapter") || name.equals("hl7-adapter") || name.equals("hl7-WS-adapter"))
-			return new Point(22, 15);
-		if (name.equals("hl7-filter") || name.equals("hapifilter"))
-			return new Point(188, 15);
-		if (name.equals("continua-filter") || name.equals("continuafilter"))
-			return new Point(306, 15);
-		if (name.equals("phr-translation") || name.equals("translation"))
-			return new Point(476, 15);
-		if (name.equals("phr-integration") || name.equals("integration"))
-			return new Point(687, 15);
-
-		if (name.equals("error-manager"))
-			return new Point(377, 110);
-		if (name.equals("acknowledgement"))
-			return new Point(369, 173);
-
-		return null;
+		return retval;
 	}
 
-	public Point getLocation(Object object) {
+	private static boolean writePreferencesContent(String preferencesStoreName, Map<String, Point> content) {
 
-		Point locByMem = getLocationByMemory(object);
-		if (locByMem != null)
-			return locByMem;
+		File file = getRepositoryLocation(preferencesStoreName);
+		if (file != null) {
 
-		Point locByName = getLocationByName(object);
-		if (locByName != null)
-			return locByName;
-
-		return null;
+			StringBuilder sb = new StringBuilder();
+			for (String key : content.keySet()) {
+				Point point = content.get(key);
+				sb.append(point.x);
+				sb.append(" ");
+				sb.append(point.y);
+				sb.append(" ");
+				sb.append(key);
+				sb.append("\n");
+			}
+			String text = sb.toString();
+			return writeFile(text, file);
+		}
+		return false;
 	}
 
+	private static boolean writeFile(String fileContent, File file) {
+		boolean retval = true;
+		BufferedWriter bufferedWriter = null;
+		try {
+			bufferedWriter = new BufferedWriter(new FileWriter(file, false));
+			bufferedWriter.write(fileContent);
+			bufferedWriter.flush();
+		} catch (IOException ioe) {
+			retval = false;
+		} finally {
+			if (bufferedWriter != null) {
+				try {
+					bufferedWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return retval;
+	}
 }

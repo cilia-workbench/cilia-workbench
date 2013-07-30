@@ -60,6 +60,10 @@ public class PlatformChain extends Chain {
 		this.refArchitectureID = refArchitectureID;
 	}
 
+	public String getChainTypeName() {
+		return "Platform Chain";
+	}
+
 	public PlatformChain(JSONObject json, PlatformModel platform) throws CiliaException {
 		super(getJSONname(json));
 

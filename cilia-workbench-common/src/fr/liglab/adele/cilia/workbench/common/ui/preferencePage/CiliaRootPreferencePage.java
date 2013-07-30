@@ -14,12 +14,12 @@
  */
 package fr.liglab.adele.cilia.workbench.common.ui.preferencePage;
 
-import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import fr.liglab.adele.cilia.workbench.common.Activator;
 
 /**
  * A root page in the preference menu. Should be used by all Cilia Designer sub
@@ -27,31 +27,24 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * 
  * @author Etienne Gandrille
  */
-public class CiliaRootPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
+public class CiliaRootPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	/** Message displayed on the top of the page. */
-	private static final String PAGE_DESCRIPTION = "Cilia IDE preferences.";
+	private static final String PAGE_DESCRITION = "Cilia IDE preferences.";
+	public static final String PREFERENCES_FILE_PATH = "preferencesFilePath";
 
 	public static final String pageID = "fr.liglab.adele.cilia.workbench.common.preferencePage.CiliaRootPreferencePage";
 
 	public CiliaRootPreferencePage() {
+		super(GRID);
 	}
 
-	public CiliaRootPreferencePage(String title) {
-		super(title);
+	public void createFieldEditors() {
+		addField(new FileFieldEditor(PREFERENCES_FILE_PATH, "&Preferences file:", getFieldEditorParent()));
 	}
 
-	public CiliaRootPreferencePage(String title, ImageDescriptor image) {
-		super(title, image);
-	}
-
-	@Override
 	public void init(IWorkbench workbench) {
-		setDescription(PAGE_DESCRIPTION);
-	}
-
-	@Override
-	protected Control createContents(Composite parent) {
-		return null;
+		setPreferenceStore(Activator.getInstance().getPreferenceStore());
+		setDescription(PAGE_DESCRITION);
 	}
 }

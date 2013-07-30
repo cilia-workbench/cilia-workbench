@@ -48,6 +48,10 @@ public class AbstractChain extends XMLChain {
 		}
 	}
 
+	public String getChainTypeName() {
+		return "Abstract Chain";
+	}
+
 	@Override
 	protected ChainRepoService<?, ?, AbstractChain> getRepository() {
 		return AbstractCompositionsRepoService.getInstance();

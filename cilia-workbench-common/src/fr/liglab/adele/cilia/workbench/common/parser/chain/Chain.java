@@ -56,6 +56,8 @@ public abstract class Chain implements DisplayedInPropertiesView, Identifiable, 
 		return name;
 	}
 
+	public abstract String getChainTypeName();
+
 	// COMPONENT REF
 	// =============
 

@@ -170,6 +170,18 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 		return componentID;
 	}
 
+	/**
+	 * Returns a key which can be used to identify the component. This key is
+	 * computed thanks to the chainID an the componentID. IT'S NOT AS SAFE AS AN
+	 * ID AND MUST NOT BE SUED FOR CRITICAL TASKS !
+	 * 
+	 * @return
+	 */
+	public String getKey() {
+		Chain chain = getChain();
+		return chain.getChainTypeName() + "-" + getChain().getId().toString() + "-" + componentID;
+	}
+
 	@Override
 	public String toString() {
 		return Strings.nullToEmpty(componentID);

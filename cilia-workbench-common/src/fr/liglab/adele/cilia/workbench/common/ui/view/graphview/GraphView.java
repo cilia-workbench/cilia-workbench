@@ -36,6 +36,7 @@ import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 
+import fr.liglab.adele.cilia.workbench.common.parser.chain.ComponentRef;
 import fr.liglab.adele.cilia.workbench.common.selectionservice.SelectionService;
 import fr.liglab.adele.cilia.workbench.common.ui.view.ViewUtil;
 
@@ -81,10 +82,10 @@ public abstract class GraphView extends ViewPart implements IZoomableWorkbenchPa
 
 				for (Object element : viewer.getNodeElements()) {
 					GraphItem item = viewer.findGraphItem(element);
-					if (item instanceof GraphNode) {
-						GraphNode node = (GraphNode) item;
-						Point location = node.getLocation();
-						olc.updateLocation(element, location);
+					if (item instanceof GraphNode && element instanceof ComponentRef) {
+						ComponentRef component = (ComponentRef) element;
+						Point location = ((GraphNode) item).getLocation();
+						olc.updateLocation(component, location);
 					}
 				}
 			}

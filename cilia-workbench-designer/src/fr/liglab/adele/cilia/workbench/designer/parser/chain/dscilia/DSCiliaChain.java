@@ -33,6 +33,10 @@ public class DSCiliaChain extends XMLChain {
 		super(node, DSCiliaModel.XML_MEDIATOR_NODE_NAME, DSCiliaModel.XML_ADAPTER_NODE_NAME);
 	}
 
+	public String getChainTypeName() {
+		return "DSCilia Chain";
+	}
+
 	@Override
 	public XMLBinding createBinding(Node node, NameNamespaceID chainId) throws CiliaException {
 		return new DSCiliaBinding(node, chainId);

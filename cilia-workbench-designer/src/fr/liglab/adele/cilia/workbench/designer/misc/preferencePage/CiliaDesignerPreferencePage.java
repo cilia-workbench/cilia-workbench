@@ -33,8 +33,8 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage imple
 	public static final String ABSTRACT_COMPO_REPOSITORY_PATH = "abstractCompoRepositoryPath";
 	public static final String CONCRETE_COMPO_REPOSITORY_PATH = "concreteCompoRepositoryPath";
 
-	public static final String DESCRIPTION = "Preferences for Cilia IDE Designer.";
-	public static final String pageID = "fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage";
+	public static final String PAGE_DESCRITION = "Preferences for Cilia IDE Designer.";
+	public static final String PAGE_ID = "fr.liglab.adele.cilia.workbench.designer.preferencePage.CiliaDesignerPreferencePage";
 
 	public CiliaDesignerPreferencePage() {
 		super(GRID);
@@ -49,6 +49,6 @@ public class CiliaDesignerPreferencePage extends FieldEditorPreferencePage imple
 
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getInstance().getPreferenceStore());
-		setDescription(DESCRIPTION);
+		setDescription(PAGE_DESCRITION);
 	}
 }

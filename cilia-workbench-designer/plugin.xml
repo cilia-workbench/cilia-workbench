@@ -163,6 +163,10 @@
 		
 		<!-- Abstract Chain viewer -->
 		<command
+			id="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.reloadChain"
+			name="Reload chain">
+		</command>
+		<command
 			id="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.createMediator"
 			name="Create mediator">
 		</command>
@@ -356,6 +360,14 @@
 		<menuContribution allPopups="false"
 			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.abstractchainview">
 			<command
+				commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.reloadChain"
+				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16/reload.png"
+				label="Reload chain" style="push">
+			</command>
+		</menuContribution>
+		<menuContribution allPopups="false"
+			locationURI="toolbar:fr.liglab.adele.cilia.workbench.designer.view.abstractchainview">
+			<command
 				commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.createMediator"
 				icon="platform:/plugin/fr.liglab.adele.cilia.workbench.common/icons/16-create/mediator.png"
 				label="Create mediator" style="push">
@@ -529,6 +541,17 @@
 		</handler>
 				
 		<!-- Abstract Chain viewer -->
+		<handler
+			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.ReloadChainHandler"
+			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.reloadChain">
+			<enabledWhen>
+				<with
+					variable="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.AbstractChainToolbarEnabler">
+					<equals value="enable">
+					</equals>
+				</with>
+			</enabledWhen>
+		</handler>
 		<handler
 			class="fr.liglab.adele.cilia.workbench.designer.view.chainview.abstractchain.CreateMediatorHandler"
 			commandId="fr.liglab.adele.cilia.workbench.designer.view.abstractchainview.createMediator">
