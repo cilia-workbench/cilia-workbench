@@ -61,6 +61,10 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 	/** Repository used to find the component from this componentRef */
 	protected final ComponentRepoService<?, ?> componentRepo;
 
+	public enum ComponentRefType {
+		SPEC, IMPLEM, INSTANCE
+	}
+
 	// CONSTRUCTOR
 	// ===========
 
@@ -86,6 +90,8 @@ public abstract class ComponentRef implements Identifiable, ErrorsAndWarningsFin
 	public NameNamespaceID getReferencedComponentDefinitionID() {
 		return referencedComponentID;
 	}
+
+	public abstract ComponentRefType getComponentRefType();
 
 	public abstract ComponentDefinition getReferencedComponentDefinition();
 

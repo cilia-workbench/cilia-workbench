@@ -27,11 +27,13 @@ import org.eclipse.swt.graphics.Color;
  */
 public enum GraphConfig {
 
-	DEFAULT(COLOR.LIGHT_BLUE, COLOR.YELLOW, COLOR.CUSTOM_BLUE, COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.GRAY, COLOR.YELLOW, COLOR.RED,
-			COLOR.DARK_BLUE, 1), VIDEO(COLOR.LIGHT_BLUE, COLOR.YELLOW, COLOR.CUSTOM_BLUE, COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.BLACK,
-			COLOR.YELLOW, COLOR.RED, COLOR.BLUE, 2);
+	DEFAULT(COLOR.CUSTOM_BLUE, COLOR.LIGHT_BLUE, COLOR.LIGHT_BLUE, COLOR.YELLOW, COLOR.LIGHT_GRAY, COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.GRAY,
+			COLOR.YELLOW, COLOR.RED, COLOR.DARK_BLUE, 1), VIDEO(COLOR.CUSTOM_BLUE, COLOR.LIGHT_BLUE, COLOR.LIGHT_BLUE, COLOR.YELLOW, COLOR.CUSTOM_BLUE,
+			COLOR.DARK_BLUE, 1, COLOR.GRAY, COLOR.BLUE, COLOR.BLACK, COLOR.YELLOW, COLOR.RED, COLOR.BLUE, 2);
 
-	private final Color nodeColor;
+	private final Color nodeSpecColor;
+	private final Color nodeImplemColor;
+	private final Color nodeInstanceColor;
 	private final Color nodeHighlightColor;
 	private final Color nodeStrongHighlightColor;
 	private final Color nodeTextColor;
@@ -44,11 +46,13 @@ public enum GraphConfig {
 	private final Color lineHighightColor;
 	private final int lineWidth;
 
-	private GraphConfig(COLOR nodeColor, COLOR nodeHighlightColor, COLOR nodeStrongHighlightColor, COLOR nodeTextColor, int nodeBorderWidth,
-			COLOR nodeBorderColor, COLOR nodeBorderHighlightColor, COLOR lineColor, COLOR lineWarningColor, COLOR lineErrorColor, COLOR lineHighightColor,
-			int lineWidth) {
+	private GraphConfig(COLOR nodeSpecColor, COLOR nodeImplemColor, COLOR nodeInstanceColor, COLOR nodeHighlightColor, COLOR nodeStrongHighlightColor,
+			COLOR nodeTextColor, int nodeBorderWidth, COLOR nodeBorderColor, COLOR nodeBorderHighlightColor, COLOR lineColor, COLOR lineWarningColor,
+			COLOR lineErrorColor, COLOR lineHighightColor, int lineWidth) {
 
-		this.nodeColor = nodeColor.getColor();
+		this.nodeSpecColor = nodeSpecColor.getColor();
+		this.nodeImplemColor = nodeImplemColor.getColor();
+		this.nodeInstanceColor = nodeInstanceColor.getColor();
 		this.nodeHighlightColor = nodeHighlightColor.getColor();
 		this.nodeStrongHighlightColor = nodeStrongHighlightColor.getColor();
 		this.nodeTextColor = nodeTextColor.getColor();
@@ -67,8 +71,16 @@ public enum GraphConfig {
 	// NODE
 	// ====
 
-	public Color getNodeColor() {
-		return nodeColor;
+	public Color getNodeSpecColor() {
+		return nodeSpecColor;
+	}
+
+	public Color getNodeImplemColor() {
+		return nodeImplemColor;
+	}
+
+	public Color getNodeInstanceColor() {
+		return nodeInstanceColor;
 	}
 
 	public Color getNodeHighlightColor() {

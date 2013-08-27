@@ -44,6 +44,11 @@ public class AdapterImplemRef extends AdapterRef {
 	}
 
 	@Override
+	public ComponentRefType getComponentRefType() {
+		return ComponentRefType.IMPLEM;
+	}
+
+	@Override
 	public Chain getChain() {
 		return repo.findChain(chainId);
 	}

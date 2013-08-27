@@ -85,6 +85,11 @@ public class MediatorSpecRef extends MediatorRef {
 		}
 	}
 
+	@Override
+	public ComponentRefType getComponentRefType() {
+		return ComponentRefType.SPEC;
+	}
+
 	public Chain getChain() {
 		return repo.findChain(chainId);
 	}

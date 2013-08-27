@@ -73,9 +73,23 @@ public class GraphLabelProvider extends CiliaLabelProvider implements IConnectio
 	// IEntityStyleProvider
 	// ====================
 
+	protected Color getBackgroundColourForComponentRef(Object entity) {
+		if (entity instanceof ComponentRef) {
+			switch (((ComponentRef) entity).getComponentRefType()) {
+			case SPEC:
+				return getConfig().getNodeSpecColor();
+			case IMPLEM:
+				return getConfig().getNodeImplemColor();
+			case INSTANCE:
+				return getConfig().getNodeInstanceColor();
+			}
+		}
+		return getConfig().getNodeImplemColor();
+	}
+
 	@Override
 	public Color getBackgroundColour(Object entity) {
-		return getConfig().getNodeColor();
+		return getBackgroundColourForComponentRef(entity);
 	}
 
 	@Override

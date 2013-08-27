@@ -69,6 +69,11 @@ public class MediatorImplemRef extends MediatorRef {
 		initSPDparameters(node, XML_DISPATCHER_NODE, dispatcherParameters);
 	}
 
+	@Override
+	public ComponentRefType getComponentRefType() {
+		return ComponentRefType.IMPLEM;
+	}
+
 	public Chain getChain() {
 		return repo.findChain(chainId);
 	}

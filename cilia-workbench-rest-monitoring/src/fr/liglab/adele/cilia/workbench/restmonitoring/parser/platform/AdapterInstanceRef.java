@@ -48,6 +48,11 @@ public class AdapterInstanceRef extends AdapterRef {
 	}
 
 	@Override
+	public ComponentRefType getComponentRefType() {
+		return ComponentRefType.INSTANCE;
+	}
+
+	@Override
 	public PlatformChain getChain() {
 		return PlatformRepoService.getInstance().getPlatformChain(platformId, chainId);
 	}

@@ -68,7 +68,7 @@ public class StrongHighlightGraphLabelProvider extends GraphLabelProvider {
 		if (nodeSelector.isSelectedNode(entity))
 			return getConfig().getNodeStrongHighlightColor();
 		else
-			return getConfig().getNodeColor();
+			return getBackgroundColourForComponentRef(entity);
 	}
 
 	private Color getBorderColorInternal(Object entity) {
