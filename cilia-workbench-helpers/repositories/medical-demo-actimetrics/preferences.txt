@@ -1,6 +1,6 @@
 183 264 Abstract Chain-actimetrics-presence-sensor
 527 12 Platform Chain-generator-mesures-event-webservice
-486 53 Abstract Chain-actimetrics-transformer
+485 53 Abstract Chain-actimetrics-transformer
 510 53 Platform Chain-generator-mesures-transformer
 336 192 Abstract Chain-actimetrics-filter
 390 148 Abstract Chain-actimetrics-enricher
